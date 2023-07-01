@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Threading.Tasks;
 using ParrelSync;
 using UnityEditor;
 using UnityEditor.SceneManagement;

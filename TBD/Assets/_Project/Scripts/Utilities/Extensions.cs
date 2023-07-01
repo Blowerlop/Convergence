@@ -36,27 +36,14 @@ namespace Project
             return children;
         }
 
-        public static List<T> GetComponentsInChildrenFirstDepthWithoutTheParent<T>(this RectTransform rectTransform)
-            where T : Object
+        public static List<T> GetComponentsInChildrenRecursivelyWithoutTheParent<T>(this Transform transform) where T : Object
         {
-            List<T> children = new List<T>();
-
-            for (int i = 0; i < rectTransform.childCount; i++)
-            {
-                if (rectTransform.GetChild(i).TryGetComponent(out T component))
-                {
-                    children.Add(component);
-                }
-            }
-
-            return children;
+            return GetComponentsInChildrenRecursivelyWithoutTheParent(transform, new List<T>());
         }
-
-        public static List<T> GetComponentsInChildrenRecursivelyWithoutTheParent<T>(this Transform transform,
-            List<T> children = null) where T : Object
+        
+        private static List<T> GetComponentsInChildrenRecursivelyWithoutTheParent<T>(this Transform transform,
+            List<T> children) where T : Object
         {
-            if (children == null) children = new List<T>();
-
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
@@ -173,7 +160,7 @@ namespace Project
             if (match.Success)
                 return (match.Groups[1].Value);
 
-            return "";
+            return string.Empty;
         }
 
         public static bool IsNullOrEmpty(this string @string) => string.IsNullOrEmpty(@string);
