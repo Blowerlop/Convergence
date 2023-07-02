@@ -45,6 +45,7 @@ jobs:
           path: ${{ steps.tests.outputs.coveragePath }}
   
   buildForAllSupportedPlatforms:
+    needs: testRunner
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
