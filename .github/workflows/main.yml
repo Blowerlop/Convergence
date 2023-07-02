@@ -108,6 +108,14 @@ jobs:
     name: Release Project
     runs-on: ubuntu-latest
     steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: static-site
+      - name: Archive site content
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: site.zip
       - name: Create GitHub release
         id: create-new-release
         uses: actions/create-release@v1
