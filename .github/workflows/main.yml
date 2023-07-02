@@ -111,7 +111,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: static-site
+          name: build-StandaloneWindows64
       - name: Archive site content
         uses: thedoctor0/zip-release@master
         with:
