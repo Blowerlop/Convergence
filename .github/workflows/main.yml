@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -57,6 +60,7 @@ jobs:
           customParameters: -nographics
 
       - uses: actions/upload-artifact@v2
+        #if: ${{ github.event_name == 'push' }}
         with:
           name: Test results (${{ matrix.testMode }})
           path: ${{ steps.testRunner.outputs.artifactsPath }}
@@ -103,6 +107,7 @@ jobs:
           targetPlatform: StandaloneWindows64
 
       - uses: actions/upload-artifact@v2
+        #if: ${{ github.event_name == 'push' }}
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
@@ -111,6 +116,7 @@ jobs:
     needs: buildWindows
     name: Release Project
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
