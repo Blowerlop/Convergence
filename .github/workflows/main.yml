@@ -121,20 +121,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Json Reader
         id: VersionFile
-        uses: juliangruber/read-file-action@v1
+        uses: notiz-dev/github-action-json-property@release
         with:
           path: 'Version.json'
           prop_path: 'version'
+
       - name: Echo package.json
         run: echo "${{ steps.VersionFile.outputs.prop }}"
       - name: Read Latest release tag
+
         id: ReleaseTag
         uses: oprypin/find-latest-tag@v1
         with:
           repository: Blowerlop/TBD
           releases-only: true 
+
+      - name: Echo latest tag
+        run: echo "${{ steps.ReleaseTag.outputs.tag }}"
+
       - name: Compare File Version with Github Last Release Tag
         if: ${{ steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag }} 
         run:
