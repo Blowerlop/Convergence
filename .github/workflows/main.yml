@@ -112,8 +112,33 @@ jobs:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
 
-  releaseProject:
+  compareVersions:
     needs: buildWindows
+    name: Compare Versions
+    runs-on: ubuntu-latest
+    outputs:
+      versionFile: ${{ steps.VersionFile.outputs.contents }}
+    steps:
+      - name: File Reader
+        id: VersionFile
+        uses: andstor/file-reader-action@v1.0.0
+        with:
+          path: "Version.txt"
+        
+      - name: Read Latest release tag
+        id: ReleaseTag
+        uses: oprypin/find-latest-tag@v1
+        with:
+          repository: Blowerlop/TBD  # The repository to scan.
+          releases-only: true  # We know that all relevant tags have a GitHub release for them.
+      - name: Compare File Version vs Github Last Release Tag:
+        if: ${{ steps.VersionFile.outputs.contents == steps.ReleaseTag.outputs.tag }} 
+        run:
+          echo "Versions are equal"
+          exit 1
+          
+  releaseProject:
+    needs: compareVersion
     name: Release Project
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
@@ -132,8 +157,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
-          tag_name: vX.X.X
-          release_name: vX.X.X
+          tag_name: ${{ needs.compareVersions.outputs.versionFile}}
+          release_name: v${{ needs.compareVersions.outputs.versionFile}}
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
@@ -143,6 +168,10 @@ jobs:
           asset_path: ./TBD.zip
           asset_name: TBD.zip
           asset_content_type: application/zip
+
+
+          
+
 
 
 
