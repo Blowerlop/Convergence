@@ -161,6 +161,8 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: TBD.zip
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Json Reader
         id: VersionFile
         uses: notiz-dev/github-action-json-property@release
@@ -173,8 +175,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
-          tag_name: v${{ steps.VersionFile.outputs.prop }}
-          release_name: v${{ steps.VersionFile.outputs.prop }}
+          tag_name: "v${{ steps.VersionFile.outputs.prop }}"
+          release_name: "v${{ steps.VersionFile.outputs.prop }}"
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
