@@ -127,7 +127,7 @@ jobs:
         with:
           path: ./Version.json
       - name: Echo package.json
-        run: echo "${{ steps.VersionFile.outputs.content }}"
+        run: echo "${{ steps.VersionFile.outputs.content.version }}"
       - name: Read Latest release tag
         id: ReleaseTag
         uses: oprypin/find-latest-tag@v1
