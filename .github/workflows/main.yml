@@ -161,14 +161,20 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: TBD.zip
+      - name: Json Reader
+        id: VersionFile
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: 'Version.json'
+          prop_path: 'version'
       - name: Create GitHub release
         id: create-new-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
-          tag_name: v${{ needs.compareVersions.outputs.versionFile}}
-          release_name: v${{ needs.compareVersions.outputs.versionFile}}
+          tag_name: v${{ steps.VersionFile.outputs.prop }}
+          release_name: v${{ steps.VersionFile.outputs.prop }}
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
