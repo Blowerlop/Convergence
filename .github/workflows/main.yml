@@ -113,7 +113,7 @@ jobs:
           path: build/StandaloneWindows64
 
   compareVersions:
-    #needs: buildWindows
+    needs: buildWindows
     name: Compare Versions
     runs-on: ubuntu-latest
     outputs:
