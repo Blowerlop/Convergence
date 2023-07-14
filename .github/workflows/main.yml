@@ -113,7 +113,7 @@ jobs:
           path: build/StandaloneWindows64
 
   compareVersions:
-    needs: buildWindows
+    #needs: buildWindows
     name: Compare Versions
     runs-on: ubuntu-latest
     outputs:
@@ -123,7 +123,8 @@ jobs:
         id: VersionFile
         uses: andstor/file-reader-action@v1.0.0
         with:
-          path: "./Version.txt"
+          path: "Version.json"
+        run: echo "${{ steps.VersionFile.outputs.contents }}"
         
       - name: Read Latest release tag
         id: ReleaseTag
