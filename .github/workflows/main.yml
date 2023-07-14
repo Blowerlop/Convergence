@@ -119,6 +119,8 @@ jobs:
     outputs:
       versionFile: ${{ steps.VersionFile.outputs.contents }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: File Reader
         id: VersionFile
         uses: juliangruber/read-file-action@v1
