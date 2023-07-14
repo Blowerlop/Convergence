@@ -144,9 +144,8 @@ jobs:
 
       - name: Compare File Version with Github Last Release Tag
         if: ${{ steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag }} 
-        run:
-          echo "Versions are equal"
-          exit 1
+        run: exit 1
+          
           
   releaseProject:
     needs: compareVersions
