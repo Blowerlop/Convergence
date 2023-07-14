@@ -138,7 +138,7 @@ jobs:
           exit 1
           
   releaseProject:
-    needs: compareVersion
+    needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
