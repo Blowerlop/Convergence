@@ -131,7 +131,7 @@ jobs:
         with:
           repository: Blowerlop/TBD  # The repository to scan.
           releases-only: true  # We know that all relevant tags have a GitHub release for them.
-      - name: Compare File Version vs Github Last Release Tag:
+      - name: Compare File Version with Github Last Release Tag
         if: ${{ steps.VersionFile.outputs.contents == steps.ReleaseTag.outputs.tag }} 
         run:
           echo "Versions are equal"
