@@ -121,10 +121,11 @@ jobs:
     steps:
       - name: File Reader
         id: VersionFile
-        uses: andstor/file-reader-action@v1.0.0
+        uses: juliangruber/read-file-action@v1
         with:
-          path: "Version.json"
-        
+          path: ./Version.json
+      - name: Echo package.json
+        run: echo "${{ steps.VersionFile.outputs.content }}"
       - name: Read Latest release tag
         id: ReleaseTag
         uses: oprypin/find-latest-tag@v1
