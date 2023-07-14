@@ -117,25 +117,26 @@ jobs:
     name: Compare Versions
     runs-on: ubuntu-latest
     outputs:
-      versionFile: ${{ steps.VersionFile.outputs.contents }}
+      versionFile: ${{ steps.VersionFile.outputs.prop }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: File Reader
+      - name: Json Reader
         id: VersionFile
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./Version.json
+          path: 'Version.json'
+          prop_path: 'version'
       - name: Echo package.json
-        run: echo "${{ steps.VersionFile.outputs.content.version }}"
+        run: echo "${{ steps.VersionFile.outputs.prop }}"
       - name: Read Latest release tag
         id: ReleaseTag
         uses: oprypin/find-latest-tag@v1
         with:
-          repository: Blowerlop/TBD  # The repository to scan.
-          releases-only: true  # We know that all relevant tags have a GitHub release for them.
+          repository: Blowerlop/TBD
+          releases-only: true 
       - name: Compare File Version with Github Last Release Tag
-        if: ${{ steps.VersionFile.outputs.contents.version == steps.ReleaseTag.outputs.tag }} 
+        if: ${{ steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag }} 
         run:
           echo "Versions are equal"
           exit 1
