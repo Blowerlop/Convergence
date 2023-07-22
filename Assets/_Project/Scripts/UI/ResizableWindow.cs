@@ -49,8 +49,8 @@ namespace Project
         // [SerializeField] private UnityEvent _onPointerEnterEvent = new UnityEvent();
         // [SerializeField] private UnityEvent _onPointerExitEvent = new UnityEvent();
         // [SerializeField] private Event _onPointerExitEventergergerg = new Event(nameof(_onPointerExitEventergergerg));
-        private Event _onPointerEnterEvent = new Event(nameof(_onPointerEnterEvent), true);
-        private Event _onPointerExitEvent = new Event(nameof(_onPointerExitEvent), true);
+        private Event _onPointerEnterEvent = new Event(nameof(_onPointerEnterEvent), false);
+        private Event _onPointerExitEvent = new Event(nameof(_onPointerExitEvent), false);
 
 
         [ClearOnReload] private static bool _dragged = false;

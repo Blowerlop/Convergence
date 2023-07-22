@@ -21,13 +21,13 @@ namespace Project
         private readonly Dictionary<Action, object> _actionTrackListExpend = new Dictionary<Action, object>();
         #endif
 
-        private bool noInvokingLog = false;
+        private bool sendLog = false;
         
         
-        public Event(string eventName, bool noInvokingLog = false)
+        public Event(string eventName, bool sendLog = true)
         {
             _eventName = eventName;
-            this.noInvokingLog = noInvokingLog;
+            this.sendLog = sendLog;
         }
 
         // public void Init()
@@ -52,7 +52,7 @@ namespace Project
         
         public void Invoke(object sender, bool debugCallback = true) 
         {
-            if (noInvokingLog == false) Debug.Log($"<color=#00FF00>{sender} invoked {_eventName}</color>");
+            if (sendLog) Debug.Log($"<color=#00FF00>{sender} invoked {_eventName}</color>");
             _action.Invoke();
             
             #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -85,7 +85,7 @@ namespace Project
                 _actionTrackListExpend.Add(action, subscriber);
 #endif
                 
-                Debug.Log($"Method - {action.Method.Name} - has subscribed");
+                if (sendLog) Debug.Log($"Method - {action.Method.Name} - has subscribed");
             }
         }
 
@@ -103,7 +103,7 @@ namespace Project
                 _actionTrackListExpend.Remove(action);
 #endif
                 
-                Debug.Log($"Method - {action.Method.Name} - has unsubscribed");
+                if (sendLog) Debug.Log($"Method - {action.Method.Name} - has unsubscribed");
             }
         }
 
