@@ -10,6 +10,7 @@ using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
 
@@ -63,7 +64,8 @@ namespace Project
         private void Start()
         {
             Application.logMessageReceived += LogConsole;
-
+            
+            
             _commandsName = new string[_commands.Count];
             int index = 0;
             foreach (var kvp in _commands)
@@ -537,6 +539,8 @@ namespace Project
             // https://github.com/yasirkula/UnityIngameDebugConsole/blob/master/Plugins/IngameDebugConsole/Scripts/DebugLogConsole.cs
             // Implementation of finding attributes sourced from yasirkula's code
 
+            Profiler.BeginSample("ConsoleAttributeRetrieving");
+
 #if UNITY_EDITOR || !NETFX_CORE
             string[] ignoredAssemblies = new string[]
             {
@@ -609,6 +613,8 @@ namespace Project
                     Debug.LogError("Error whilst searching for developer console attributes in assembly(" + assemblyName + "): " + e.Message + ".");
                 }
             }
+            
+            Profiler.EndSample();
         }
 
         #endregion
