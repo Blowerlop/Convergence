@@ -12,14 +12,14 @@ namespace Project
         [InitializeOnLoadMethod]
         private static void Subscribe()
         {
-            EditorApplication.playModeStateChanged += OnEnteredEditMode;
+            EditorApplication.playModeStateChanged += OnExitingEditMode;
             EditorApplication.quitting += OnEditorQuitting;
         }
 
-        private static void OnEnteredEditMode(PlayModeStateChange state)
+        private static void OnExitingEditMode(PlayModeStateChange state)
         {
             if (ClonesManager.IsClone()) return;
-            if (state == PlayModeStateChange.EnteredEditMode)
+            if (state == PlayModeStateChange.ExitingEditMode)
             {
                 EditorSceneManager.SaveOpenScenes();
                 AssetDatabase.SaveAssets();
@@ -29,7 +29,7 @@ namespace Project
 
         private static void OnEditorQuitting()
         {
-            EditorApplication.playModeStateChanged -= OnEnteredEditMode;
+            EditorApplication.playModeStateChanged -= OnExitingEditMode;
             EditorApplication.quitting -= OnEditorQuitting;
         }
     }
