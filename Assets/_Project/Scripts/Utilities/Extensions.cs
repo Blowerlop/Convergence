@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
@@ -71,8 +72,6 @@ namespace Project
                     Object.Destroy(transform.GetChild(i).gameObject);
                 }
             }
-
-            List<Transform> a = new List<Transform>();
         }
 
         public static void ResetVelocities(this Rigidbody rigidbody)
@@ -163,6 +162,49 @@ namespace Project
             return string.Empty;
         }
 
-        public static bool IsNullOrEmpty(this string @string) => string.IsNullOrEmpty(@string);
+        public static string RemoveFirstLine(this string text)
+        {
+            // string newText = text;
+            //
+            // int counter = 0;
+            // for (int i = startIndex; i < text.Length; i++)
+            // {
+            //     if (text[i] == '\n')
+            //     {
+            //         newText = text.Remove(startIndex, i);
+            //         startIndex = i - startIndex;
+            //         counter++;
+            //     }
+            //
+            //     if (counter >= count) break;
+            // }
+            //
+            // return newText;
+            
+            // return text.Substring(text.IndexOf(Environment.NewLine)+1); ----> Environment.NewLine return an empty string / Idk why
+            return text.Substring(text.IndexOf("\n", StringComparison.Ordinal)+1);
+        }
+
+        public static string FollowCasePattern(this string text, string target)
+        {
+            int textLength = text.Length;
+            if (textLength < target.Length) throw new ArgumentOutOfRangeException();
+            
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            for (int i = 0; i < textLength; i++)
+            {
+                if (char.IsUpper(target[i]))
+                {
+                    stringBuilder.Append(char.ToUpper(text[i]));
+                }
+                else
+                {
+                    stringBuilder.Append(char.ToLower(text[i]));
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
     }
 }
