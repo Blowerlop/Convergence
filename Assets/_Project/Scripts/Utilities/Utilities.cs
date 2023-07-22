@@ -37,8 +37,7 @@ namespace Project
         
         public static IEnumerator WaitForEndOfFrameAndDoActionCoroutine(Action action)
         {
-            yield return new WaitForEndOfFrame()
-                ;            
+            yield return new WaitForEndOfFrame();            
             action.Invoke();
         }
 
