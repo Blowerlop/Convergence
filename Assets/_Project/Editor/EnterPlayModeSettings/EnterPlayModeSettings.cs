@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project
 {
-    public class FastEnterPlayModeOptions
+    public class EnterPlayModeOptions
     {
         [MenuItem("Tools/EnterPlayModeOptions/ToggleEnterPlayModeOptions")]
         public static void ToggleEnterPlayModeOptions()

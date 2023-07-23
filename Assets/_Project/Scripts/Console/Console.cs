@@ -16,6 +16,7 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 namespace Project
 {
+    [DefaultExecutionOrder(-1)]
     public class Console : Singleton<Console>
     {
         #region Variables
@@ -43,7 +44,7 @@ namespace Project
         [SerializeField] private Color _logErrorColor;
         
         [Title("Events")]
-        private Event _onConsoleCommandExecutedEvent = new Event(nameof(_onConsoleCommandExecutedEvent));
+        private Event _onConsoleCommandExecutedEvent = new Event(nameof(_onConsoleCommandExecutedEvent), false);
 
         [TitleGroup("References")]
         [SerializeField, ChildGameObjectsOnly] private ScrollRect _logScrollRect;
@@ -58,14 +59,13 @@ namespace Project
 
         protected override void Awake()
         {
+            ClearConsoleLogs();
+            Application.logMessageReceived += LogConsole;
             RetrieveCommandAttribute();
         }
 
         private void Start()
         {
-            Application.logMessageReceived += LogConsole;
-            
-            
             _commandsName = new string[_commands.Count];
             int index = 0;
             foreach (var kvp in _commands)
@@ -79,7 +79,6 @@ namespace Project
             
             DisableConsoleForced();
             ClearInputField();
-            ClearConsoleLogs();
         }
 
         private void OnEnable()
@@ -114,7 +113,9 @@ namespace Project
             
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if (EventSystem.current.currentSelectedGameObject == _logScrollRect.gameObject)
+                GameObject currentCurrentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+                if (currentCurrentSelectedGameObject == _logScrollRect.gameObject ||
+                    currentCurrentSelectedGameObject == _logInputField.gameObject)
                 {
                     IncreaseOrDecreaseLogTextSize();
                 }
@@ -227,6 +228,7 @@ namespace Project
             end:
             ClearInputField();
             FocusOnInputField();
+            // ClearCommandPrediction();
             _onConsoleCommandExecutedEvent.Invoke(this, false);
             
 
@@ -410,7 +412,7 @@ namespace Project
             _inputInputField.caretPosition = position;
         }
         
-        private void ClearInputField() => _inputInputField.SetTextWithoutNotify(string.Empty);
+        private void ClearInputField() => _inputInputField.text = (string.Empty);
         
         private void FocusOnInputField()
         {
