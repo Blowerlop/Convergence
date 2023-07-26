@@ -1,6 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 using UnityEngine;
 
 namespace Project
@@ -40,16 +41,25 @@ namespace Project
 
         public static void CreateFile(string filePath, bool overwriteExistingFile = false)
         {
-            if (System.IO.File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 if (overwriteExistingFile)
                 {
-                    System.IO.File.Delete(filePath);
+                    File.Delete(filePath);
                 }
                 else return;
-            } 
+            }
+
+            List<string> splitPath = filePath.Split(@"/").ToList();
+            string onlyPath = "";
+            for (int i = 0; i < splitPath.Count - 1; i++)
+            {
+                onlyPath += splitPath[i] + "/";
+            }
+
+            Directory.CreateDirectory(onlyPath);
             
-            FileStream file = System.IO.File.Create(filePath);
+            FileStream file = File.Create(filePath);
             file.Dispose();
             Debug.Log("New file created at : " + filePath);
         }

@@ -110,7 +110,7 @@ namespace Project
 
             private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary)
             {
-                Stream formDataStream = new System.IO.MemoryStream();
+                Stream formDataStream = new MemoryStream();
                 bool needsClrf = false;
 
                 foreach (var param in postParameters)

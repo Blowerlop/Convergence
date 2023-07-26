@@ -3,9 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
-
 
 namespace Project
 {
@@ -23,6 +21,7 @@ namespace Project
         #region Updates
         private void Awake()
         {
+            CreateLogFile();
             ClearLogFile();
             
             Application.logMessageReceived += WriteLogToFile;
@@ -36,10 +35,9 @@ namespace Project
 
         
         #region Methods
-        [InitializeOnLoadMethod]
         private static void CreateLogFile()
         {
-            TxtFile.CreateFile(LogSaverFilePath, false);
+            TxtFile.CreateFile(LogSaverFilePath);
         }
 
         private static void ClearLogFile()
@@ -52,7 +50,7 @@ namespace Project
             _stringBuilder.AppendLine($"[{StripMilliseconds(DateTime.Now.TimeOfDay).ToString()}] {type.ToString()}");
             _stringBuilder.AppendLine($"{condition} \n");
             _stringBuilder.AppendLine($"{trace}");
-            TxtFile.Write(LogSaverFilePath, _stringBuilder.ToString(), false);
+            TxtFile.Write(LogSaverFilePath, _stringBuilder.ToString());
             
             _stringBuilder.Clear();
         }

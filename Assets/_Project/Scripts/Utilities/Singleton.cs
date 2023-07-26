@@ -46,9 +46,7 @@ namespace Project
             isBeingDestroyed = false;
         }
 
-        public static bool IsInstanceAlive{
-            get { return _instance != null; }
-        }
+        public static bool IsInstanceAlive() => _instance != null;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Reset()
