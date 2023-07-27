@@ -37,7 +37,7 @@ namespace Project
         private List<string> _commandHistory;
         private int _commandHistoryIndex = 0;
         private int _currentIndex = -1;
-
+        
         [Title("Log Colors")]
         [SerializeField] private Color _logColor;
         [SerializeField] private Color _logWarningColor;
@@ -51,7 +51,7 @@ namespace Project
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _logInputField;
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _inputInputField;
         [SerializeField, ChildGameObjectsOnly] private TMP_Text _inputFieldPredictionPlaceHolder;
-        
+
         #endregion
         
         
@@ -182,8 +182,9 @@ namespace Project
             {
                 // Check if the command have the same number of parameters that the player input
                 object[] parameters = new object[command.parametersInfo.Length];
-                
-                if (splitInput.Length - 1 > command.parametersInfo.Length || (splitInput.Length - 1 < command.parametersInfo.Length && splitInput.Length - 1 < command.parametersInfo.Length - command.parametersWithDefaultValue))
+
+                int commandsSplitInputLength = splitInput.Length - 1;
+                if (commandsSplitInputLength > command.parametersInfo.Length || (commandsSplitInputLength < command.parametersInfo.Length && commandsSplitInputLength < command.parametersInfo.Length - command.parametersWithDefaultValue))
                 {
                     int commandParametersLength = command.parametersInfo.Length;
 
@@ -271,7 +272,7 @@ namespace Project
                 }
                 catch
                 {
-                    Debug.LogError($"Unknown parameter '{inputParameter}'");
+                    Debug.LogError($"Unknown parameter '{inputParameter}'. Parameter need to be a {parameterType.Name}");
                     parameterResult = null;
                     return false;
                 }
@@ -323,8 +324,18 @@ namespace Project
                 
                     for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length; j++)
                     {
-                        Type parameterType = _commands[_currentPrediction].parametersInfo[j].ParameterType;
-                        _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>";
+                        ParameterInfo parameterInfo = _commands[_currentPrediction].parametersInfo[j];
+                        
+                        if (parameterInfo.HasDefaultValue)
+                        {
+                            // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>(Optional)";
+                            _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}(Optional)";
+                        }
+                        else
+                        {
+                            // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>";
+                            _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}";
+                        }
                     }
                     return;
                 }
