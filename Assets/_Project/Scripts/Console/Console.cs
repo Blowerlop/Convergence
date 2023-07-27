@@ -25,7 +25,7 @@ namespace Project
         [ShowInInspector, ReadOnly] public static bool isConsoleEnabled { get; private set; }
         [ShowInInspector, ReadOnly] public bool isInputFieldFocus => _inputInputField != null && _inputInputField.isFocused;
         [ShowInInspector, ReadOnly] private int _currentNumberOfMessages;
-        [CanBeNull, ShowInInspector, ReadOnly] private string _currentPrediction;
+        [CanBeNull] [ShowInInspector, ReadOnly] private string _currentPrediction;
 
         [Title("Parameters")]
         [SerializeField] private Vector2 _fontSizeRange = new Vector2(20, 60);
@@ -181,8 +181,9 @@ namespace Project
             if (_commands.TryGetValue(splitInput[0], out Command command))
             {
                 // Check if the command have the same number of parameters that the player input
-                object[] parameters = new object[splitInput.Length - 1];
-                if (parameters.Length != command.parametersInfo.Length)
+                object[] parameters = new object[command.parametersInfo.Length];
+                
+                if (splitInput.Length - 1 > command.parametersInfo.Length || (splitInput.Length - 1 < command.parametersInfo.Length && splitInput.Length - 1 < command.parametersInfo.Length - command.parametersWithDefaultValue))
                 {
                     int commandParametersLength = command.parametersInfo.Length;
 
@@ -206,7 +207,7 @@ namespace Project
                 // Loop through the player input and try parse the parameters
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    if (TryParseParameter(i, out var parameterResult) == false) goto end;
+                    if (TryParseParameter(i, out object parameterResult) == false) goto end;
 
                     parameters[i] = parameterResult;
                 }
@@ -237,11 +238,18 @@ namespace Project
             bool TryParseParameter(int i, out object parameterResult)
             {
                 Type parameterType = command.parametersInfo[i].ParameterType;
+                
+                if (i + 1 >= splitInput.Length)
+                {
+                    parameterResult = command.parametersInfo[i].DefaultValue;
+                    return true;
+                }
+
                 string inputParameter = splitInput[i + 1];
 
                 try
                 {
-                    // The is the only parameter type that if force check because C# does not Parse 0 and 1 as boolean
+                    // The is the only parameter type that is force check because C# does not Parse 0 and 1 as boolean
                     if (parameterType == typeof(bool))
                     {
                         if (bool.TryParse(inputParameter, out bool boolValue))
