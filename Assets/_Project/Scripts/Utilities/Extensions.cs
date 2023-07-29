@@ -59,6 +59,29 @@ namespace Project
             return children;
         }
 
+        public static bool TryGetComponentInChildren<T>(this Transform transform, out T component)
+        {
+            Queue<Transform> queue = new Queue<Transform>();
+            queue.Enqueue(transform);
+            while (queue.Count != 0)
+            {
+                Transform tempNode = queue.Dequeue();
+                if (tempNode.TryGetComponent(out T TChild))
+                {
+                    component = TChild;
+                    return true;
+                }
+
+                for (int i = 0; i < tempNode.childCount; i++)
+                {
+                    queue.Enqueue(tempNode.GetChild(i));
+                }
+            }
+
+            component = default;
+            return false;
+        }
+        
         public static void DestroyChildren(this Transform transform)
         {
             for (int i = transform.childCount - 1; i >= 0; i--)

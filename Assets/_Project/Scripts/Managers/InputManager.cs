@@ -59,10 +59,11 @@ namespace Project
         private PlayerInputAction _inputAction;
         
         [HideInInspector] public string _defaultInputActionMap;
-        public InputActionMap currentActionMap { get; private set; } = null;
-        #if UNITY_EDITOR
+        public InputActionMap currentActionMap { get; private set; }
+        
         [Title("Parameters")]
         [ShowInInspector, PropertyOrder(1), LabelText("Current Action Map")]
+        #if UNITY_EDITOR
         private string _currentActionMapEditor
         {
             get
@@ -190,13 +191,13 @@ namespace Project
             if (t == null) return;
 
 
-            PlayerInputAction _inputAction = new PlayerInputAction();
+            PlayerInputAction inputAction = new PlayerInputAction();
 
             SerializedProperty actionMapProperty = serializedObject.FindProperty("_defaultInputActionMap");
             if (actionMapProperty == null) return;
             // EditorGUILayout.PropertyField(actionMapProperty);
 
-            ReadOnlyArray<InputActionMap> actionMaps = _inputAction.asset.actionMaps;
+            ReadOnlyArray<InputActionMap> actionMaps = inputAction.asset.actionMaps;
             string[] array = new string[actionMaps.Count];
             for (int i = 0; i < array.Length; i++)
             {
