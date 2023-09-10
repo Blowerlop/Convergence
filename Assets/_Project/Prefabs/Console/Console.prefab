@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8308518741543163511}
   m_HandleRect: {fileID: 315226782474433884}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1770,6 +1770,7 @@ MonoBehaviour:
   _fontSizeRange: {x: 10, y: 60}
   _maxMessages: 200
   _maxCommandHistory: 50
+  _useCustomLogColor: 0
   _logColor: {r: 1, g: 1, b: 1, a: 1}
   _logWarningColor: {r: 1, g: 0.9955864, b: 0, a: 1}
   _logErrorColor: {r: 1, g: 0.06700325, b: 0, a: 1}
@@ -2033,7 +2034,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1878688575947049525}
   m_HandleRect: {fileID: 3297409159773014393}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

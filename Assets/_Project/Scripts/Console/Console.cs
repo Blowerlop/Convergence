@@ -37,11 +37,11 @@ namespace Project
         private List<string> _commandHistory;
         private int _commandHistoryIndex = 0;
         private int _currentIndex = -1;
-        
-        [Title("Log Colors")]
-        [SerializeField] private Color _logColor;
-        [SerializeField] private Color _logWarningColor;
-        [SerializeField] private Color _logErrorColor;
+
+        // [Title("Log Colors")] 
+        // [SerializeField] private Color _logColor;
+        // [SerializeField] private Color _logWarningColor;
+        // [SerializeField] private Color _logErrorColor;
         
         [Title("Events")]
         private Event _onConsoleCommandExecutedEvent = new Event(nameof(_onConsoleCommandExecutedEvent), false);
@@ -509,16 +509,16 @@ namespace Project
             switch (logType)
             {
                 case LogType.Log:
-                    logColor = _logColor;
+                    logColor = CustomLogger.logColor;
                     break;
                 
                 case LogType.Warning:
-                    logColor = _logWarningColor;
+                    logColor = CustomLogger.logWarningColor;
                     break;
                 
                 // All the other LogType
                 default:
-                    logColor = _logErrorColor;
+                    logColor = CustomLogger.logErrorColor;
                     break;
             }
             _logInputField.text += $"<color=#{ColorUtility.ToHtmlStringRGB(logColor)}>{condition}</color>\n";

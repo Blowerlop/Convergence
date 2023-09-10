@@ -7,34 +7,44 @@ using UnityEngine;
 
 namespace Project
 {
-    [DefaultExecutionOrder(-1)]
-    public class CustomLogger : MonoBehaviour
+    public static class CustomLogger
     {
         #region Variables
-        private const string LogSaverDefaultFilePath = "/_Project/Data/Log.txt";
-        private static readonly string LogSaverFilePath = $"{Application.dataPath}{LogSaverDefaultFilePath}";
+        [Title("Log Colors")] 
+        public static readonly Color logColor = new Color(1f, 1f, 1f, 1f);
+        public static readonly Color logWarningColor = new Color(1f, 0.996f, 0f, 1f);
+        public static readonly Color logErrorColor = new Color(1f, 0.067f, 0f, 1f);
+        
+        private const string _LOG_SAVER_DEFAULT_FILE_PATH = "/_Project/Data/Log.txt";
+        private static readonly string LogSaverFilePath = $"{Application.dataPath}{_LOG_SAVER_DEFAULT_FILE_PATH}";
 
-        private readonly StringBuilder _stringBuilder = new StringBuilder();
+        private static readonly StringBuilder _stringBuilder = new StringBuilder();
         #endregion
         
         
-        #region Updates
-        private void Awake()
+        #region Methods
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void InitCustomLogger()
         {
             CreateLogFile();
             ClearLogFile();
-            
-            Application.logMessageReceived += WriteLogToFile;
-        }
-        
-        private void OnDestroy()
-        { 
-            Application.logMessageReceived -= WriteLogToFile;
-        }
-        #endregion
 
+            RegisterEvents();
+        }
+
+        private static void RegisterEvents()
+        {
+            Application.logMessageReceived += WriteLogToFile;
+            Application.quitting += UnregisterEvents;
+        }
         
-        #region Methods
+        private static void UnregisterEvents()
+        {
+            Application.logMessageReceived -= WriteLogToFile;
+            Application.quitting -= UnregisterEvents;
+        }
+        
         private static void CreateLogFile()
         {
             TxtFile.CreateFile(LogSaverFilePath);
@@ -45,7 +55,7 @@ namespace Project
             TxtFile.Clear(LogSaverFilePath);
         }
          
-        private void WriteLogToFile(string condition, string trace, LogType type)
+        private static void WriteLogToFile(string condition, string trace, LogType type)
         {
             _stringBuilder.AppendLine($"[{StripMilliseconds(DateTime.Now.TimeOfDay).ToString()}] {type.ToString()}");
             _stringBuilder.AppendLine($"{condition} \n");
@@ -69,7 +79,7 @@ namespace Project
                 LogSaverFilePath, Discord.TxtFileFormat);
         }
         
-        private TimeSpan StripMilliseconds(TimeSpan time)
+        private static TimeSpan StripMilliseconds(TimeSpan time)
         {
             return new TimeSpan(time.Days, time.Hours, time.Minutes, time.Seconds);
         }

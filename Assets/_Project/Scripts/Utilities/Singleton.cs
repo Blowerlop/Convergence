@@ -6,7 +6,7 @@ namespace Project
 
     public class Singleton<T> : MonoBehaviour where T: MonoBehaviour
     {
-        protected static bool keepAlive = true;
+        protected static bool dontDestroyOnLoad = true;
         protected static bool isBeingDestroyed = false;
         
         private static T _instance = null;
@@ -35,7 +35,7 @@ namespace Project
 
             _instance = GetComponent<T>();
         
-            if(keepAlive)
+            if(dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(gameObject);
             }

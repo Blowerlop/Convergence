@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Project
 {
-    public class Discord : MonoBehaviour
+    public sealed class Discord
     {
         private const string WebhookUrl =
             "https://discord.com/api/webhooks/1123928889442435202/fr-7zu1c7Oc-ybOTyG87F9D69vvi984RZ2A_KUk-lGgm8SKbsljWM3hOqF_ou7G9LV-I";

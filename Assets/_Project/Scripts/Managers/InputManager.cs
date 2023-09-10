@@ -89,7 +89,7 @@ namespace Project
         #region Updates
         protected override void Awake()
         {
-            keepAlive = false;
+            dontDestroyOnLoad = false;
             base.Awake();
             if (isBeingDestroyed) return;
             
@@ -97,7 +97,6 @@ namespace Project
             
             InitInputAction();
             
-            // SwitchActionMap(_defaultInputActionMap.ToString());
             SwitchActionMap(_defaultInputActionMap);
         }
         
