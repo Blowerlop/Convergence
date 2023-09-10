@@ -84,6 +84,7 @@ namespace TestServer.Services
             //Console.WriteLine("Send positions: " + clientPositionStreams.Count);
 
             PositionGet msg = new PositionGet();
+            
             msg.Positions.AddRange(playersPosition);
 
             foreach(var stream in clientPositionStreams)
@@ -92,5 +93,21 @@ namespace TestServer.Services
             }
         } 
         #endregion
+        
+        public override Task<PingGet> Ping(PingPost request, ServerCallContext context)
+        {
+            Console.WriteLine(request.Time);
+
+            double s = DateTime.Now.Ticks;
+            
+            TimeSpan span = TimeSpan.FromTicks((long)s) - TimeSpan.FromTicks((long)request.Time);
+            Console.WriteLine("Your ping is: " + span.TotalMilliseconds);
+            
+            return Task.FromResult(new PingGet
+            {
+                Time = s
+            });
+        }
+        
     }
 }
