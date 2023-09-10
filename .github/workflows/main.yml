@@ -21,6 +21,8 @@ jobs:
         testMode:
           - EditMode
           - PlayMode
+        projectPath:
+          - ./Unity/
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -58,6 +60,7 @@ jobs:
           checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           customParameters: -nographics
+          projectPath: ${{ matrix.projectPath }}
 
       - uses: actions/upload-artifact@v2
         #if: ${{ github.event_name == 'push' }}
@@ -73,6 +76,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        projectPath:
+          - ./Unity/
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -105,12 +111,14 @@ jobs:
       - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
+          projectPath: ${{ matrix.projectPath }}
 
       - uses: actions/upload-artifact@v2
         #if: ${{ github.event_name == 'push' }}
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
+          projectPath: ${{ matrix.projectPath }}
 
   compareVersions:
     needs: buildWindows
