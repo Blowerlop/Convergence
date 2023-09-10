@@ -21,6 +21,8 @@ jobs:
         testMode:
           - EditMode
           - PlayMode
+        projectPath:
+          - ./
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -58,6 +60,7 @@ jobs:
           checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           customParameters: -nographics
+          projectPath: ${{ matrix.projectPath }}
 
       - uses: actions/upload-artifact@v2
         #if: ${{ github.event_name == 'push' }}
