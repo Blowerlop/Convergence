@@ -22,7 +22,7 @@ jobs:
           - EditMode
           - PlayMode
         projectPath:
-          - ./
+          - ./Unity/
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
