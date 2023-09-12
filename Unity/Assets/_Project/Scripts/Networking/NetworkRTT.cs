@@ -47,8 +47,9 @@ namespace Project
         {
             if (Time.realtimeSinceStartup - start > 0.5f)
             {
-                _currentRTT = Mathf.Round(end - start);
+                _currentRTT = Mathf.Round((end - start) * 1000);
                 start = Time.realtimeSinceStartup;
+                Debug.Log("Ping : " + start);
                 PingServerRpc(networkCurrentRTT);
             }
             
@@ -57,7 +58,6 @@ namespace Project
         [ServerRpc]
         private void PingServerRpc(float currentRTT)
         {
-            Debug.Log("Ping : " + start);
             networkCurrentRTT = currentRTT;
             PongClientRpc(_clientRpcParams);
         }
