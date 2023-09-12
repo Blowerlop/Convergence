@@ -31,13 +31,15 @@ namespace TestServer {
             "CgZoZWFsdGgYAiABKAUiKgoHVmVjdG9yMxIJCgF4GAEgASgCEgkKAXkYAiAB",
             "KAISCQoBehgDIAEoAiJECgxQb3NpdGlvblBvc3QSEwoLcGxheWVySW5kZXgY",
             "ASABKAUSHwoIcG9zaXRpb24YAiABKAsyDS50ZXN0LlZlY3RvcjMiLwoLUG9z",
-            "aXRpb25HZXQSIAoJcG9zaXRpb25zGAEgAygLMg0udGVzdC5WZWN0b3IzMvEB",
-            "CgtUZXN0U2VydmljZRIwCghTYXlIZWxsbxISLnRlc3QuSGVsbG9SZXF1ZXN0",
-            "GhAudGVzdC5IZWxsb1JlcGx5EjQKEFNlbmRQbGF5ZXJIZWFsdGgSEC50ZXN0",
-            "LkhlYWx0aFBvc3QaDi50ZXN0LkVtcHR5TXNnEj0KGFN1YnNjcmliZVRvUGxh",
-            "eWVyc0hlYWx0aBIOLnRlc3QuRW1wdHlNc2caDy50ZXN0LkhlYWx0aEdldDAB",
-            "EjsKDlBsYXllclBvc2l0aW9uEhIudGVzdC5Qb3NpdGlvblBvc3QaES50ZXN0",
-            "LlBvc2l0aW9uR2V0KAEwAUINqgIKVGVzdFNlcnZlcmIGcHJvdG8z"));
+            "aXRpb25HZXQSIAoJcG9zaXRpb25zGAEgAygLMg0udGVzdC5WZWN0b3IzIhgK",
+            "CFBpbmdQb3N0EgwKBHRpbWUYASABKAEiFwoHUGluZ0dldBIMCgR0aW1lGAEg",
+            "ASgBMpgCCgtUZXN0U2VydmljZRIwCghTYXlIZWxsbxISLnRlc3QuSGVsbG9S",
+            "ZXF1ZXN0GhAudGVzdC5IZWxsb1JlcGx5EjQKEFNlbmRQbGF5ZXJIZWFsdGgS",
+            "EC50ZXN0LkhlYWx0aFBvc3QaDi50ZXN0LkVtcHR5TXNnEj0KGFN1YnNjcmli",
+            "ZVRvUGxheWVyc0hlYWx0aBIOLnRlc3QuRW1wdHlNc2caDy50ZXN0LkhlYWx0",
+            "aEdldDABEjsKDlBsYXllclBvc2l0aW9uEhIudGVzdC5Qb3NpdGlvblBvc3Qa",
+            "ES50ZXN0LlBvc2l0aW9uR2V0KAEwARIlCgRQaW5nEg4udGVzdC5QaW5nUG9z",
+            "dBoNLnRlc3QuUGluZ0dldEINqgIKVGVzdFNlcnZlcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -48,7 +50,9 @@ namespace TestServer {
             new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.HealthGet), global::TestServer.HealthGet.Parser, new[]{ "PlayerIndex", "Health" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.Vector3), global::TestServer.Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.PositionPost), global::TestServer.PositionPost.Parser, new[]{ "PlayerIndex", "Position" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.PositionGet), global::TestServer.PositionGet.Parser, new[]{ "Positions" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.PositionGet), global::TestServer.PositionGet.Parser, new[]{ "Positions" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.PingPost), global::TestServer.PingPost.Parser, new[]{ "Time" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::TestServer.PingGet), global::TestServer.PingGet.Parser, new[]{ "Time" }, null, null, null, null)
           }));
     }
     #endregion
@@ -1573,6 +1577,350 @@ namespace TestServer {
             break;
           case 10: {
             positions_.AddEntriesFrom(ref input, _repeated_positions_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class PingPost : pb::IMessage<PingPost>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<PingPost> _parser = new pb::MessageParser<PingPost>(() => new PingPost());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<PingPost> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::TestServer.TestReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PingPost() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PingPost(PingPost other) : this() {
+      time_ = other.time_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PingPost Clone() {
+      return new PingPost(this);
+    }
+
+    /// <summary>Field number for the "time" field.</summary>
+    public const int TimeFieldNumber = 1;
+    private double time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Time {
+      get { return time_; }
+      set {
+        time_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as PingPost);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(PingPost other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Time, other.Time)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Time != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Time);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Time != 0D) {
+        output.WriteRawTag(9);
+        output.WriteDouble(Time);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Time != 0D) {
+        output.WriteRawTag(9);
+        output.WriteDouble(Time);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Time != 0D) {
+        size += 1 + 8;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(PingPost other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Time != 0D) {
+        Time = other.Time;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 9: {
+            Time = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 9: {
+            Time = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class PingGet : pb::IMessage<PingGet>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<PingGet> _parser = new pb::MessageParser<PingGet>(() => new PingGet());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<PingGet> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::TestServer.TestReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PingGet() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PingGet(PingGet other) : this() {
+      time_ = other.time_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PingGet Clone() {
+      return new PingGet(this);
+    }
+
+    /// <summary>Field number for the "time" field.</summary>
+    public const int TimeFieldNumber = 1;
+    private double time_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Time {
+      get { return time_; }
+      set {
+        time_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as PingGet);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(PingGet other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Time, other.Time)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Time != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Time);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Time != 0D) {
+        output.WriteRawTag(9);
+        output.WriteDouble(Time);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Time != 0D) {
+        output.WriteRawTag(9);
+        output.WriteDouble(Time);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Time != 0D) {
+        size += 1 + 8;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(PingGet other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Time != 0D) {
+        Time = other.Time;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 9: {
+            Time = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 9: {
+            Time = input.ReadDouble();
             break;
           }
         }

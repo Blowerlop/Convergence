@@ -96,16 +96,9 @@ namespace TestServer.Services
         
         public override Task<PingGet> Ping(PingPost request, ServerCallContext context)
         {
-            Console.WriteLine(request.Time);
-
-            double s = DateTime.Now.Ticks;
-            
-            TimeSpan span = TimeSpan.FromTicks((long)s) - TimeSpan.FromTicks((long)request.Time);
-            Console.WriteLine("Your ping is: " + span.TotalMilliseconds);
-            
             return Task.FromResult(new PingGet
             {
-                Time = s
+                Time = -1
             });
         }
         

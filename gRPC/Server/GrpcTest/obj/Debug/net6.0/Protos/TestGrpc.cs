@@ -59,6 +59,10 @@ namespace TestServer {
     static readonly grpc::Marshaller<global::TestServer.PositionPost> __Marshaller_test_PositionPost = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::TestServer.PositionPost.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::TestServer.PositionGet> __Marshaller_test_PositionGet = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::TestServer.PositionGet.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::TestServer.PingPost> __Marshaller_test_PingPost = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::TestServer.PingPost.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::TestServer.PingGet> __Marshaller_test_PingGet = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::TestServer.PingGet.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::TestServer.HelloRequest, global::TestServer.HelloReply> __Method_SayHello = new grpc::Method<global::TestServer.HelloRequest, global::TestServer.HelloReply>(
@@ -91,6 +95,14 @@ namespace TestServer {
         "PlayerPosition",
         __Marshaller_test_PositionPost,
         __Marshaller_test_PositionGet);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::TestServer.PingPost, global::TestServer.PingGet> __Method_Ping = new grpc::Method<global::TestServer.PingPost, global::TestServer.PingGet>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Ping",
+        __Marshaller_test_PingPost,
+        __Marshaller_test_PingGet);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -153,6 +165,12 @@ namespace TestServer {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::TestServer.PingGet> Ping(global::TestServer.PingPost request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
     }
 
     /// <summary>Creates service definition that can be registered with a server</summary>
@@ -164,7 +182,8 @@ namespace TestServer {
           .AddMethod(__Method_SayHello, serviceImpl.SayHello)
           .AddMethod(__Method_SendPlayerHealth, serviceImpl.SendPlayerHealth)
           .AddMethod(__Method_SubscribeToPlayersHealth, serviceImpl.SubscribeToPlayersHealth)
-          .AddMethod(__Method_PlayerPosition, serviceImpl.PlayerPosition).Build();
+          .AddMethod(__Method_PlayerPosition, serviceImpl.PlayerPosition)
+          .AddMethod(__Method_Ping, serviceImpl.Ping).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -178,6 +197,7 @@ namespace TestServer {
       serviceBinder.AddMethod(__Method_SendPlayerHealth, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::TestServer.HealthPost, global::TestServer.EmptyMsg>(serviceImpl.SendPlayerHealth));
       serviceBinder.AddMethod(__Method_SubscribeToPlayersHealth, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::TestServer.EmptyMsg, global::TestServer.HealthGet>(serviceImpl.SubscribeToPlayersHealth));
       serviceBinder.AddMethod(__Method_PlayerPosition, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::TestServer.PositionPost, global::TestServer.PositionGet>(serviceImpl.PlayerPosition));
+      serviceBinder.AddMethod(__Method_Ping, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::TestServer.PingPost, global::TestServer.PingGet>(serviceImpl.Ping));
     }
 
   }

@@ -21,19 +21,19 @@ namespace Utils
 
             while (true)
             {
-                deltaTime = (int)watch.ElapsedMilliseconds;            
+                deltaTime = (int)watch.ElapsedMilliseconds;
                 watch.Restart();
 
                 timer += deltaTime;
 
-                while(timer >= timePerFrame)
+                while (timer >= timePerFrame)
                 {
                     timer -= timePerFrame;
 
                     onTickCall?.Invoke();
                 }
 
-                while((int)watch.ElapsedMilliseconds < timePerFrame) { }
+                while ((int)watch.ElapsedMilliseconds < timePerFrame) { }
             }
         }
     }
