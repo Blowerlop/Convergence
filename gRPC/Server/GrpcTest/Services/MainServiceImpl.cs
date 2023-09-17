@@ -19,7 +19,34 @@ namespace GRPCServer.Services
         #region Refs
 
         //0 will always be NetcodeServer
-        private List<GRPCClient> _clients = new();
+        private static List<GRPCClient> _clients = new();
+
+        public static NetcodeServer NetcodeServer 
+        { 
+            get 
+            { 
+                if (_clients.Count == 0)
+                {
+                    Console.WriteLine("Trying to get NetcodeServer but it's not registered yet.");
+                    return null!;
+                }
+
+                return (_clients[0] as NetcodeServer)!;
+            }
+        }
+
+        public static void DisconnectClient(int clientId)
+        {
+            if(clientId < 1 ||  clientId >= _clients.Count) { return; }
+
+            DisconnectClient(_clients[clientId]);
+        }
+
+        public static void DisconnectClient(GRPCClient client)
+        {
+            client.Disconnect();
+            _clients.Remove(client);
+        }
 
         #endregion
 
@@ -28,35 +55,42 @@ namespace GRPCServer.Services
         public override Task<HandshakeGet> Handshake(HandshakePost request, ServerCallContext context)
         {
             if (_clients.Count > 0)
-                _clients.Add(new UnrealClient(id: _clients.Count));
+            {
+                int clientId = _clients.Count;
+                _clients.Add(new UnrealClient(id: clientId));
+
+                return Task.FromResult(new HandshakeGet
+                {
+                    Result = 0, //0 = good!
+                    ClientId = clientId
+                    //Send netobjects
+                });
+            }
             else
             {
                 _logger.LogCritical("Getting Handshake, but there is no NetcodeServer. " +
                     "Connect UnrealClients after NetcodeServer!");
 
-                return Task.FromResult(new HandshakeGet
-                {
-                    Result = 1 //1 = error, client will stop connecting
-                });
+                //Result != 0 => error
+                return Task.FromResult(new HandshakeGet { Result = 1 });
             }
 
-
-            return Task.FromResult(new HandshakeGet
-            {
-            });
         }
 
         public override Task<NHandshakeGet> NetcodeHandshake(NHandshakePost request, ServerCallContext context)
         {
             if (_clients.Count == 0)
+            {
                 _clients.Add(new NetcodeServer());
+                return Task.FromResult(new NHandshakeGet { Result = 0 });
+            }
             else if (_clients[0] is NetcodeServer)
                 _logger.LogCritical("Getting NetcodeHandshake, but there is already an active NetcodeServer!");
             else
                 _logger.LogCritical("Getting NetcodeHandshake, but there are already UnrealClients. " +
                     "This should not happen! Connect NetcodeServer first.");
 
-            return Task.FromResult(new NHandshakeGet());
+            return Task.FromResult(new NHandshakeGet { Result = 1 });
         }
 
         #endregion

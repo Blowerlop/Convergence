@@ -16,7 +16,14 @@ service MainService {
 	//(Used to disconnect safely from game if no response)
 	rpc Ping (stream PingPost) returns (stream PingGet);
 	
-	rpc NetObjUpdate (EmptyMsg) returns (stream NetObjUpdateGet);
+
+	//Srv prefix => comming from NetcodeServer
+
+	rpc SrvNetObjUpdate (stream NetObjUpdate) returns (EmptyMsg);
+
+	//Cli prefix => comming from UnrealClients
+	
+	rpc CliNetObjUpdate (EmptyMsg) returns (stream NetObjUpdate);
 }
 
 //Handshake
@@ -27,8 +34,8 @@ message HandshakeGet {
 	int32 result = 1;
 
 	int32 clientId = 2;
-	repeated NetObjUpdateGet netObjects = 3;
-	repeated NetVarUpdateGet netVars = 4;
+	repeated NetObjUpdate netObjects = 3;
+	repeated NetVarUpdate netVars = 4;
 }
 
 message NHandshakePost { /*Init data*/ }
@@ -49,7 +56,7 @@ message NetworkObject {
 	string prefabId = 2;
 }
 
-message NetObjUpdateGet {
+message NetObjUpdate {
 	NetObjUpdateType type = 1;
 	NetworkObject obj = 2;
 }
@@ -63,7 +70,7 @@ enum NetObjUpdateType {
 //Data structures
 
 
-message NetVarUpdateGet {
+message NetVarUpdate {
 	int32 associatedNetId = 1;
 	string netVarId = 2;
 	GenericValue newValue = 3;
