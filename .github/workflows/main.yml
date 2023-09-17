@@ -25,13 +25,13 @@ jobs:
           - ./Unity/
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
       - name: Restore LFS cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: lfs-cache
         with:
           path: .git/lfs
@@ -44,7 +44,7 @@ jobs:
           git reset --hard
 
       - name: Restore Library cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: Library
           key: Library-test-project-${{ matrix.targetPlatform }}
@@ -53,7 +53,7 @@ jobs:
             Library-
 
       - name: Run tests
-        uses: game-ci/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v3
         id: testRunner
         with:
           testMode: ${{ matrix.testMode }}
@@ -62,7 +62,7 @@ jobs:
           customParameters: -nographics
           projectPath: ${{ matrix.projectPath }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         #if: ${{ github.event_name == 'push' }}
         with:
           name: Test results (${{ matrix.testMode }})
@@ -81,13 +81,13 @@ jobs:
           - ./Unity/
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
       - name: Restore LFS cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: lfs-cache
         with:
           path: .git/lfs
@@ -100,20 +100,20 @@ jobs:
           git reset --hard
 
       - name: Restore Library cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: Library
+          path: ./Unity/Library
           key: Library-build-StandaloneWindows64
           restore-keys: |
             Library-build-
             Library-
 
-      - uses: game-ci/unity-builder@v2
+      - uses: game-ci/unity-builder@v3
         with:
           targetPlatform: StandaloneWindows64
           projectPath: ${{ matrix.projectPath }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         #if: ${{ github.event_name == 'push' }}
         with:
           name: build-StandaloneWindows64
@@ -128,13 +128,13 @@ jobs:
       versionFile: ${{ steps.VersionFile.outputs.prop }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Json Reader
         id: VersionFile
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: 'Version.json'
+          path: './Unity/Version.json'
           prop_path: 'version'
 
       - name: Echo package.json
@@ -162,13 +162,13 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Json Reader
         id: VersionFile
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: 'Version.json'
+          path: './Unity/Version.json'
           prop_path: 'version'
 
       - name: Download Artifact
