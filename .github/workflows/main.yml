@@ -76,9 +76,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      #matrix:
-        #projectPath:
-          #- ./Unity/
+      matrix:
+        projectPath:
+          - ./Unity/
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -111,7 +111,7 @@ jobs:
       - uses: game-ci/unity-builder@v3
         with:
           targetPlatform: StandaloneWindows64
-          #projectPath: ${{ matrix.projectPath }}
+          projectPath: ${{ matrix.projectPath }}
 
       - uses: actions/upload-artifact@v3
         #if: ${{ github.event_name == 'push' }}
