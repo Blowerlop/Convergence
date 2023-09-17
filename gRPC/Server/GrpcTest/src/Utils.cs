@@ -12,7 +12,7 @@ namespace Utils
             }
             catch (IOException)
             {
-                //Disconnect client
+                //TODO: Disconnect client
             }
         }
     }

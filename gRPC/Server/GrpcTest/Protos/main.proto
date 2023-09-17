@@ -15,31 +15,55 @@ service MainService {
 	//Ping stream checks regularly for client connections 
 	//(Used to disconnect safely from game if no response)
 	rpc Ping (stream PingPost) returns (stream PingGet);
+	
+	rpc NetObjUpdate (EmptyMsg) returns (stream NetObjUpdateGet);
 }
 
 //Handshake
 message HandshakePost { }
 
 message HandshakeGet {
-	repeated NetworkObject netObjects = 1;
-	repeated NetVarUpdate netVars = 2;
+
+	int32 result = 1;
+
+	int32 clientId = 2;
+	repeated NetObjUpdateGet netObjects = 3;
+	repeated NetVarUpdateGet netVars = 4;
 }
 
 message NHandshakePost { /*Init data*/ }
-message NHandshakeGet { }
+message NHandshakeGet { 
+	int32 result = 1;
+}
 
 //Used by PingStream.
 //Not using EmptyMsg => easier to send infos when pinging, if we want to
-message PingPost { bool isNetcodeServer = 1; }
-message PingGet {}
+message PingPost { 
+	int32 clientId = 1;
+}
+message PingGet { }
 
-//Data structures
+//NetworkObjects
 message NetworkObject {
 	int32 netId = 1;
 	string prefabId = 2;
 }
 
-message NetVarUpdate {
+message NetObjUpdateGet {
+	NetObjUpdateType type = 1;
+	NetworkObject obj = 2;
+}
+
+enum NetObjUpdateType {
+	NET_OBJ_UPDATE_TYPE_NEW = 0;
+	NET_OBJ_UPDATE_TYPE_DESTROY = 1;
+}
+
+
+//Data structures
+
+
+message NetVarUpdateGet {
 	int32 associatedNetId = 1;
 	string netVarId = 2;
 	GenericValue newValue = 3;
