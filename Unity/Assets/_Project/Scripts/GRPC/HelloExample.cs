@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Grpc.Core;
 using GRPC.NET;
 using Grpc.Net.Client;
 using TestServer;
@@ -23,7 +20,7 @@ namespace Project
             BestHTTP.HTTPManager.Setup();
             GRPCBestHttpHandler httpHandler = new GRPCBestHttpHandler();
             
-            _channel  = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions
+            _channel  = GrpcChannel.ForAddress("https://31.37.51.202:51820", new GrpcChannelOptions
             {
                 HttpHandler = httpHandler
             });
