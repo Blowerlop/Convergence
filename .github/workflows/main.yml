@@ -155,7 +155,7 @@ jobs:
     needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }} && ${{needs.compareVersions.outputs.versionFile.outputs.prop != needs.compareVersions.outputs.ReleaseTag.outputs.tag }} 
+    if: ${{needs.compareVersions.outputs.versionFile.outputs.prop != needs.compareVersions.outputs.ReleaseTag.outputs.tag }} 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -179,7 +179,7 @@ jobs:
 
       - name: Create GitHub release
         id: create-new-release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
