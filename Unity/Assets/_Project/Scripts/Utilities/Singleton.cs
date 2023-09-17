@@ -4,7 +4,7 @@ namespace Project
 {
     using UnityEngine;
 
-    public class Singleton<T> : MonoBehaviour where T: MonoBehaviour
+    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         protected static bool dontDestroyOnLoad = true;
         protected static bool isBeingDestroyed = false;
