@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+option csharp_namespace = "GRPCServer";
+
+package main;
+
+service MainService {
+	//Establish first connection with client
+	//Sync all NetworkBehaviour + SyncVars
+	rpc Handshake (HandshakePost) returns (HandshakeGet);
+
+	rpc NetcodeHandshake (NHandshakePost) returns (NHandshakeGet);
+
+	//Ping stream checks regularly for client connections 
+	//(Used to disconnect safely from game if no response)
+	rpc Ping (stream PingPost) returns (stream PingGet);
+}
+
+//Handshake
+message HandshakePost { }
+
+message HandshakeGet {
+	repeated NetworkObject netObjects = 1;
+	repeated NetVarUpdate netVars = 2;
+}
+
+message NHandshakePost { /*Init data*/ }
+message NHandshakeGet { }
+
+//Used by PingStream.
+//Not using EmptyMsg => easier to send infos when pinging, if we want to
+message PingPost { bool isNetcodeServer = 1; }
+message PingGet {}
+
+//Data structures
+message NetworkObject {
+	int32 netId = 1;
+	string prefabId = 2;
+}
+
+message NetVarUpdate {
+	int32 associatedNetId = 1;
+	string netVarId = 2;
+	GenericValue newValue = 3;
+}
+
+//New value type
+message EmptyMsg {}
+
+message GRPCVector3 {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}
+
+//Generics
+message GenericValue {
+	GenericType type = 1;
+	google.protobuf.Any value = 2;
+}
+
+enum GenericType {
+	GENERIC_TYPE_INT = 0;
+	GENERIC_TYPE_STRING = 1;
+	GENERIC_TYPE_BOOL = 2;
+	GENERIC_TYPE_VECTOR3 = 3;
+}
