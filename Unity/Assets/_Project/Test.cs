@@ -1,21 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project
 {
     public class Test : MonoBehaviour
     {
-        [ConsoleCommand("nonOptional", "")]
-        public static void NonOptional(string a)
+        public NetworkRTT networkRTT;
+        public TMP_Text _textPing;
+        
+        private void FixedUpdate()
         {
-            Debug.Log(a);
-        }
-
-        [ConsoleCommand("optional", "")]
-        public static void Optional(int a, string b = "string optional")
-        {
-            Debug.Log(b);
+            if (networkRTT == null)
+            {
+                networkRTT = FindObjectOfType<NetworkRTT>();
+                return;
+            }
+            
+            _textPing.text = $"Ping: {networkRTT.networkCurrentRTT}ms" ;
         }
     }
 }

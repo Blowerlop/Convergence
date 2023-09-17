@@ -1,5 +1,5 @@
 using Utils;
-using TestServer.Services;
+using GRPCServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +12,11 @@ builder.Services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<TestServiceImpl>();
+app.MapGrpcService<MainServiceImpl>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 
-Console.WriteLine("Start count!");
+Console.WriteLine("Start count! 1");
 Task.Run(MTime.CountTickRate).ConfigureAwait(false);
 
 app.Run();
