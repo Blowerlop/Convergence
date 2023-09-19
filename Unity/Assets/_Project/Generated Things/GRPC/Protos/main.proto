@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+option csharp_namespace = "GRPCClient";
+
+package main;
+
+service MainService {
+	//Establish first connection with client
+	//Sync all NetworkBehaviour + SyncVars
+	rpc Handshake (HandshakePost) returns (HandshakeGet);
+
+	rpc NetcodeHandshake (NHandshakePost) returns (NHandshakeGet);
+
+	//Ping stream checks regularly for client connections 
+	//(Used to disconnect safely from game if no response)
+	rpc Ping (stream PingPost) returns (stream PingGet);
+	
+
+	//Srv prefix => comming from NetcodeServer
+
+	rpc SrvNetObjUpdate (stream NetObjUpdate) returns (EmptyMsg);
+
+	//Cli prefix => comming from UnrealClients
+	
+	rpc CliNetObjUpdate (EmptyMsg) returns (stream NetObjUpdate);
+}
+
+//Handshake
+message HandshakePost { }
+
+message HandshakeGet {
+
+	int32 result = 1;
+
+	int32 clientId = 2;
+	repeated NetObjUpdate netObjects = 3;
+	repeated NetVarUpdate netVars = 4;
+}
+
+message NHandshakePost { /*Init data*/ }
+message NHandshakeGet { 
+	int32 result = 1;
+}
+
+//Used by PingStream.
+//Not using EmptyMsg => easier to send infos when pinging, if we want to
+message PingPost { 
+	int32 clientId = 1;
+}
+message PingGet { }
+
+//NetworkObjects
+message NetworkObject {
+	int32 netId = 1;
+	string prefabId = 2;
+}
+
+message NetObjUpdate {
+	NetObjUpdateType type = 1;
+	NetworkObject obj = 2;
+}
+
+enum NetObjUpdateType {
+	NET_OBJ_UPDATE_TYPE_NEW = 0;
+	NET_OBJ_UPDATE_TYPE_DESTROY = 1;
+}
+
+
+//Data structures
+
+
+message NetVarUpdate {
+	int32 associatedNetId = 1;
+	string netVarId = 2;
+	GenericValue newValue = 3;
+}
+
+//New value type
+message EmptyMsg {}
+
+message GRPCVector3 {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}
+
+//Generics
+message GenericValue {
+	GenericType type = 1;
+	google.protobuf.Any value = 2;
+}
+
+enum GenericType {
+	GENERIC_TYPE_INT = 0;
+	GENERIC_TYPE_STRING = 1;
+	GENERIC_TYPE_BOOL = 2;
+	GENERIC_TYPE_VECTOR3 = 3;
+}

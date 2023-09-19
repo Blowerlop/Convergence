@@ -107,12 +107,24 @@ namespace GRPCServer.Services
 
                 int clientId = int.Parse(clientIdStr);
 
-                await Streaming.SafeStream(clientId, async () => {
+                try
+                {
                     while (await requestStream.MoveNext())
                     {
                         await responseStream.WriteAsync(empty);
                     }
-                });
+                }
+                catch
+                {
+                    DisconnectClient(clientId);
+                }
+
+                //await Streaming.SafeStream(clientId, async () => {
+                //    while (await requestStream.MoveNext())
+                //    {
+                //        await responseStream.WriteAsync(empty);
+                //    }
+                //});
             } 
         }
 
