@@ -2,11 +2,11 @@ namespace Networking
 {
     public class UnrealClient : GRPCClient
     {
-        public int ID = default;
-        
-        public UnrealClient(int id)
+        public UnrealClient(int id) : base(id) { }
+
+        public override void Disconnect()
         {
-            ID = id;
+            base.Disconnect();
         }
     }
 }

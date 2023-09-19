@@ -1,10 +1,12 @@
+using GRPCServer.Services;
+using Networking;
 using System.Reactive.Linq;
 
 namespace Utils
 {
-    public class Streaming
+    public static class Streaming
     {
-        public static async Task SafeStream(Action streamAction)
+        public static async Task SafeStream(int clientId, Action streamAction)
         {
             try
             {
@@ -12,7 +14,7 @@ namespace Utils
             }
             catch (IOException)
             {
-                //TODO: Disconnect client
+                MainServiceImpl.DisconnectClient(clientId);
             }
         }
     }

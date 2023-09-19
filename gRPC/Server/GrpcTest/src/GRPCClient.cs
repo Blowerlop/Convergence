@@ -1,10 +1,14 @@
 namespace Networking
 {
-    public class GRPCClient
+    public abstract class GRPCClient
     {
-        public void Disconnect()
+        public int ID = default;
+
+        public GRPCClient(int id)
         {
-            //Close all client related stream
+            ID = id;
         }
+
+        public virtual void Disconnect() { /*Close all client related stream*/ }
     }
 }

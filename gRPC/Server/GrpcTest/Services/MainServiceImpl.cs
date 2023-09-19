@@ -81,7 +81,7 @@ namespace GRPCServer.Services
         {
             if (_clients.Count == 0)
             {
-                _clients.Add(new NetcodeServer());
+                _clients.Add(new NetcodeServer(id: 0));
                 return Task.FromResult(new NHandshakeGet { Result = 0 });
             }
             else if (_clients[0] is NetcodeServer)
@@ -99,14 +99,21 @@ namespace GRPCServer.Services
 
         public override async Task Ping(IAsyncStreamReader<PingPost> requestStream, IServerStreamWriter<PingGet> responseStream, ServerCallContext context)
         {
-            PingGet empty = new();
+            var clientIdStr = context.RequestHeaders.First(x => x.Key == "client_id").Value;
 
-            await Streaming.SafeStream(async () => {
-                while (await requestStream.MoveNext())
-                {
-                    await responseStream.WriteAsync(empty);
-                }
-            });
+            if (clientIdStr != null)
+            {
+                PingGet empty = new();
+
+                int clientId = int.Parse(clientIdStr);
+
+                await Streaming.SafeStream(clientId, async () => {
+                    while (await requestStream.MoveNext())
+                    {
+                        await responseStream.WriteAsync(empty);
+                    }
+                });
+            } 
         }
 
         #endregion
