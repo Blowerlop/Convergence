@@ -490,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc2de871bf437748b412c7ad5322761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isNetcodeServer: 1
 --- !u!4 &1460156448
 Transform:
   m_ObjectHideFlags: 0

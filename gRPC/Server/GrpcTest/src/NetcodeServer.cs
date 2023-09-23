@@ -4,6 +4,6 @@ namespace Networking
     {
         public Dictionary<int, NetworkObject> NetObjs = new();
 
-        public NetcodeServer(int id) : base(id) { }
+        public NetcodeServer(string ad) : base(ad) { }
     }
 }

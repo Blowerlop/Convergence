@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Logging.AddFilter("Grpc", LogLevel.Warning);
 
 var app = builder.Build();
 
@@ -15,8 +16,6 @@ var app = builder.Build();
 app.MapGrpcService<MainServiceImpl>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
-
-Console.WriteLine("Start count! 1");
 Task.Run(MTime.CountTickRate).ConfigureAwait(false);
 
 app.Run();

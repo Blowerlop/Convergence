@@ -18,34 +18,44 @@ namespace GRPCServer.Services
 
         #region Refs
 
-        //0 will always be NetcodeServer
-        private static List<GRPCClient> _clients = new();
+        private static Dictionary<string, GRPCClient> _clients = new();
 
+        private static string netcodeServerIP = "";
         public static NetcodeServer NetcodeServer 
-        { 
-            get 
-            { 
-                if (_clients.Count == 0)
+        {
+            get
+            {
+                if (!_clients.ContainsKey(netcodeServerIP))
                 {
+                    //Can't use logger since this is static
                     Console.WriteLine("Trying to get NetcodeServer but it's not registered yet.");
                     return null!;
                 }
 
-                return (_clients[0] as NetcodeServer)!;
+                return (_clients[netcodeServerIP] as NetcodeServer)!;
             }
         }
 
-        public static void DisconnectClient(int clientId)
+        public static void DisconnectClient(string clientAdress)
         {
-            if(clientId < 1 ||  clientId >= _clients.Count) { return; }
+            if(!_clients.TryGetValue(clientAdress, out var cli)) 
+            {
+                //Can't use logger since this is static
+                Console.WriteLine("Trying to disconnect a client that is not connected. IP: " + clientAdress);
+                return; 
+            }
 
-            DisconnectClient(_clients[clientId]);
-        }
+            Console.WriteLine($"Disconnect {clientAdress}\n");
 
-        public static void DisconnectClient(GRPCClient client)
-        {
-            client.Disconnect();
-            _clients.Remove(client);
+            cli.Disconnect();
+            _clients.Remove(clientAdress);
+
+            //Debug connected clients
+            foreach (var item in _clients)
+            {
+                Console.WriteLine($"{item.Key}, {item.Value}");
+            }
+            Console.WriteLine();
         }
 
         #endregion
@@ -53,16 +63,27 @@ namespace GRPCServer.Services
         #region Handshake
 
         public override Task<HandshakeGet> Handshake(HandshakePost request, ServerCallContext context)
-        {
+        {            
+            //Debug
+            Console.WriteLine("> Handshake");
+            Console.WriteLine(context.Host);
+            Console.WriteLine(context.Peer + "\n");
+
             if (_clients.Count > 0)
             {
-                int clientId = _clients.Count;
-                _clients.Add(new UnrealClient(id: clientId));
+                _clients.Add(context.Peer, new UnrealClient(ad: context.Peer));
+
+                //Debug connected clients
+                foreach (var item in _clients)
+                {
+                    Console.WriteLine($"{item.Key}, {item.Value}");
+                }
+                Console.WriteLine();
 
                 return Task.FromResult(new HandshakeGet
                 {
                     Result = 0, //0 = good!
-                    ClientId = clientId
+                    ClientId = 0
                     //Send netobjects
                 });
             }
@@ -79,16 +100,28 @@ namespace GRPCServer.Services
 
         public override Task<NHandshakeGet> NetcodeHandshake(NHandshakePost request, ServerCallContext context)
         {
-            if (_clients.Count == 0)
+            //Debug
+            Console.WriteLine("> NetcodeHandshake");
+            Console.WriteLine(context.Host);
+            Console.WriteLine(context.Peer + "\n");
+
+            if (NetcodeServer == null)
             {
-                _clients.Add(new NetcodeServer(id: 0));
+                var adress = context.Peer;
+                netcodeServerIP = adress;
+                _clients.Add(adress, new NetcodeServer(adress));
+
+                //Debug connected clients
+                foreach (var item in _clients)
+                {
+                    Console.WriteLine($"{item.Key}, {item.Value}");
+                }
+                Console.WriteLine();
+
                 return Task.FromResult(new NHandshakeGet { Result = 0 });
             }
-            else if (_clients[0] is NetcodeServer)
-                _logger.LogCritical("Getting NetcodeHandshake, but there is already an active NetcodeServer!");
             else
-                _logger.LogCritical("Getting NetcodeHandshake, but there are already UnrealClients. " +
-                    "This should not happen! Connect NetcodeServer first.");
+                _logger.LogCritical("Getting NetcodeHandshake, but there is already an active NetcodeServer!");
 
             return Task.FromResult(new NHandshakeGet { Result = 1 });
         }
@@ -99,33 +132,20 @@ namespace GRPCServer.Services
 
         public override async Task Ping(IAsyncStreamReader<PingPost> requestStream, IServerStreamWriter<PingGet> responseStream, ServerCallContext context)
         {
-            var clientIdStr = context.RequestHeaders.First(x => x.Key == "client_id").Value;
+            PingGet empty = new();
 
-            if (clientIdStr != null)
+            try
             {
-                PingGet empty = new();
-
-                int clientId = int.Parse(clientIdStr);
-
-                try
+                while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    while (await requestStream.MoveNext())
-                    {
-                        await responseStream.WriteAsync(empty);
-                    }
+                    await responseStream.WriteAsync(empty);
                 }
-                catch
-                {
-                    DisconnectClient(clientId);
-                }
-
-                //await Streaming.SafeStream(clientId, async () => {
-                //    while (await requestStream.MoveNext())
-                //    {
-                //        await responseStream.WriteAsync(empty);
-                //    }
-                //});
-            } 
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Connection lost with client.");
+                DisconnectClient(context.Peer);
+            }
         }
 
         #endregion
