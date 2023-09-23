@@ -13,14 +13,13 @@ using Debug = UnityEngine.Debug;
 
 namespace Project
 {
-    public class GRPCMainTest : MonoBehaviour
+    public class GRPCClient : MonoBehaviour
     {
-        //Only one netcode server is allowed
-        [SerializeField] private bool isNetcodeServer;
-        
         //GRPC
         private MainService.MainServiceClient _client;
         private GrpcChannel _channel;
+        
+        public bool IsAlive => _channel != null;
         
         //Ping
         private readonly CancellationTokenSource _pingCancelSrc = new();
@@ -48,7 +47,7 @@ namespace Project
         
             _client = new MainService.MainServiceClient(_channel);
 
-            var result = isNetcodeServer ? await NHandshake() : await Handshake();
+            var result = await NHandshake();
             
             if(result)
                 StartPinging();
@@ -56,12 +55,17 @@ namespace Project
 
         private void CleanClient()
         {
+            if (!IsAlive) return;
+            
             Debug.Log("Connection shutdown. Clean client.");
             
             _pingCancelSrc?.Cancel();
+            
             _pingStream?.Dispose();
             _pingStream = null;
+            
             _channel?.ShutdownAsync().Wait();
+            _channel = null;
         }
         
         private void OnDestroy()
@@ -73,22 +77,12 @@ namespace Project
         
         async Task<bool> NHandshake()
         {
-            Debug.Log("HelloExample.cs > Sending hello...");
+            Debug.Log("GRPCClient.cs > NHandshake...");
             var response = await _client.NetcodeHandshakeAsync(new NHandshakePost());
-            Debug.Log($"HelloExample.cs > Handshake result: {response.Result}");
+            Debug.Log($"GRPCClient.cs > NHandshake result: {response.Result}");
             
             return response.Result == 0;
         }
-        
-        async Task<bool> Handshake()
-        {
-            Debug.Log("HelloExample.cs > Sending hello...");
-            var response = await _client.HandshakeAsync(new HandshakePost());
-            Debug.Log($"HelloExample.cs > Handshake result: {response.Result}");
-            
-            return response.Result == 0;
-        }
-
         #endregion
         
         #region Ping

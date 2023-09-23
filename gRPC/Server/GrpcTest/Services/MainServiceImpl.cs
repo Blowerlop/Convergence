@@ -44,11 +44,11 @@ namespace GRPCServer.Services
                 Console.WriteLine("Trying to disconnect a client that is not connected. IP: " + clientAdress);
                 return; 
             }
-
-            Console.WriteLine($"Disconnect {clientAdress}\n");
-
+            
             cli.Disconnect();
             _clients.Remove(clientAdress);
+            
+            Console.WriteLine($"Disconnect {clientAdress}\n");
 
             //Debug connected clients
             foreach (var item in _clients)
