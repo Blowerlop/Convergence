@@ -1,6 +1,9 @@
 namespace Networking
 {
-    public class NetcodeServer
+    public class NetcodeServer : GRPCClient
     {
+        public Dictionary<int, NetworkObject> NetObjs = new();
+
+
     }
 }
