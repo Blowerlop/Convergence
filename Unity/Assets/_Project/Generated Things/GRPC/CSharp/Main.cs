@@ -25,62 +25,63 @@ namespace GRPCClient {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgptYWluLnByb3RvEgRtYWluGhlnb29nbGUvcHJvdG9idWYvYW55LnByb3Rv",
-            "Ig8KDUhhbmRzaGFrZVBvc3QifQoMSGFuZHNoYWtlR2V0Eg4KBnJlc3VsdBgB",
-            "IAEoBRIQCghjbGllbnRJZBgCIAEoBRImCgpuZXRPYmplY3RzGAMgAygLMhIu",
-            "bWFpbi5OZXRPYmpVcGRhdGUSIwoHbmV0VmFycxgEIAMoCzISLm1haW4uTmV0",
-            "VmFyVXBkYXRlIhAKDk5IYW5kc2hha2VQb3N0Ih8KDU5IYW5kc2hha2VHZXQS",
-            "DgoGcmVzdWx0GAEgASgFIhwKCFBpbmdQb3N0EhAKCGNsaWVudElkGAEgASgF",
-            "IgkKB1BpbmdHZXQiMAoNTmV0d29ya09iamVjdBINCgVuZXRJZBgBIAEoBRIQ",
-            "CghwcmVmYWJJZBgCIAEoCSJWCgxOZXRPYmpVcGRhdGUSJAoEdHlwZRgBIAEo",
-            "DjIWLm1haW4uTmV0T2JqVXBkYXRlVHlwZRIgCgNvYmoYAiABKAsyEy5tYWlu",
-            "Lk5ldHdvcmtPYmplY3QiXwoMTmV0VmFyVXBkYXRlEhcKD2Fzc29jaWF0ZWRO",
-            "ZXRJZBgBIAEoBRIQCghuZXRWYXJJZBgCIAEoCRIkCghuZXdWYWx1ZRgDIAEo",
-            "CzISLm1haW4uR2VuZXJpY1ZhbHVlIgoKCEVtcHR5TXNnIi4KC0dSUENWZWN0",
-            "b3IzEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCIlQKDEdlbmVy",
-            "aWNWYWx1ZRIfCgR0eXBlGAEgASgOMhEubWFpbi5HZW5lcmljVHlwZRIjCgV2",
-            "YWx1ZRgCIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnkqUAoQTmV0T2JqVXBk",
-            "YXRlVHlwZRIbChdORVRfT0JKX1VQREFURV9UWVBFX05FVxAAEh8KG05FVF9P",
-            "QkpfVVBEQVRFX1RZUEVfREVTVFJPWRABKm0KC0dlbmVyaWNUeXBlEhQKEEdF",
-            "TkVSSUNfVFlQRV9JTlQQABIXChNHRU5FUklDX1RZUEVfU1RSSU5HEAESFQoR",
-            "R0VORVJJQ19UWVBFX0JPT0wQAhIYChRHRU5FUklDX1RZUEVfVkVDVE9SMxAD",
-            "Mp8CCgtNYWluU2VydmljZRI0CglIYW5kc2hha2USEy5tYWluLkhhbmRzaGFr",
-            "ZVBvc3QaEi5tYWluLkhhbmRzaGFrZUdldBI9ChBOZXRjb2RlSGFuZHNoYWtl",
-            "EhQubWFpbi5OSGFuZHNoYWtlUG9zdBoTLm1haW4uTkhhbmRzaGFrZUdldBIp",
-            "CgRQaW5nEg4ubWFpbi5QaW5nUG9zdBoNLm1haW4uUGluZ0dldCgBMAESNwoP",
-            "U3J2TmV0T2JqVXBkYXRlEhIubWFpbi5OZXRPYmpVcGRhdGUaDi5tYWluLkVt",
-            "cHR5TXNnKAESNwoPQ2xpTmV0T2JqVXBkYXRlEg4ubWFpbi5FbXB0eU1zZxoS",
-            "Lm1haW4uTmV0T2JqVXBkYXRlMAFCDaoCCkdSUENDbGllbnRiBnByb3RvMw=="));
+            "IhQKEkdSUENfSGFuZHNoYWtlUG9zdCJ6ChFHUlBDX0hhbmRzaGFrZUdldBIO",
+            "CgZyZXN1bHQYASABKAUSKwoKbmV0T2JqZWN0cxgCIAMoCzIXLm1haW4uR1JQ",
+            "Q19OZXRPYmpVcGRhdGUSKAoHbmV0VmFycxgDIAMoCzIXLm1haW4uR1JQQ19O",
+            "ZXRWYXJVcGRhdGUiFQoTR1JQQ19OSGFuZHNoYWtlUG9zdCIkChJHUlBDX05I",
+            "YW5kc2hha2VHZXQSDgoGcmVzdWx0GAEgASgFIiEKDUdSUENfUGluZ1Bvc3QS",
+            "EAoIY2xpZW50SWQYASABKAUiDgoMR1JQQ19QaW5nR2V0Il8KEUdSUENfTmV0",
+            "T2JqVXBkYXRlEikKBHR5cGUYASABKA4yGy5tYWluLkdSUENfTmV0T2JqVXBk",
+            "YXRlVHlwZRINCgVuZXRJZBgCIAEoBRIQCghwcmVmYWJJZBgDIAEoCSJpChFH",
+            "UlBDX05ldFZhclVwZGF0ZRIXCg9hc3NvY2lhdGVkTmV0SWQYASABKAUSEAoI",
+            "bmV0VmFySWQYAiABKAkSKQoIbmV3VmFsdWUYAyABKAsyFy5tYWluLkdSUENf",
+            "R2VuZXJpY1ZhbHVlIg8KDUdSUENfRW1wdHlNc2ciLwoMR1JQQ19WZWN0b3Iz",
+            "EgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCIl4KEUdSUENfR2Vu",
+            "ZXJpY1ZhbHVlEiQKBHR5cGUYASABKA4yFi5tYWluLkdSUENfR2VuZXJpY1R5",
+            "cGUSIwoFdmFsdWUYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55KlUKFUdS",
+            "UENfTmV0T2JqVXBkYXRlVHlwZRIbChdORVRfT0JKX1VQREFURV9UWVBFX05F",
+            "VxAAEh8KG05FVF9PQkpfVVBEQVRFX1RZUEVfREVTVFJPWRABKnIKEEdSUENf",
+            "R2VuZXJpY1R5cGUSFAoQR0VORVJJQ19UWVBFX0lOVBAAEhcKE0dFTkVSSUNf",
+            "VFlQRV9TVFJJTkcQARIVChFHRU5FUklDX1RZUEVfQk9PTBACEhgKFEdFTkVS",
+            "SUNfVFlQRV9WRUNUT1IzEAMy6gIKC01haW5TZXJ2aWNlEkMKDkdSUENfSGFu",
+            "ZHNoYWtlEhgubWFpbi5HUlBDX0hhbmRzaGFrZVBvc3QaFy5tYWluLkdSUENf",
+            "SGFuZHNoYWtlR2V0EkwKFUdSUENfTmV0Y29kZUhhbmRzaGFrZRIZLm1haW4u",
+            "R1JQQ19OSGFuZHNoYWtlUG9zdBoYLm1haW4uR1JQQ19OSGFuZHNoYWtlR2V0",
+            "EjgKCUdSUENfUGluZxITLm1haW4uR1JQQ19QaW5nUG9zdBoSLm1haW4uR1JQ",
+            "Q19QaW5nR2V0KAEwARJGChRHUlBDX1Nydk5ldE9ialVwZGF0ZRIXLm1haW4u",
+            "R1JQQ19OZXRPYmpVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJGChRH",
+            "UlBDX0NsaU5ldE9ialVwZGF0ZRITLm1haW4uR1JQQ19FbXB0eU1zZxoXLm1h",
+            "aW4uR1JQQ19OZXRPYmpVcGRhdGUwAUINqgIKR1JQQ0NsaWVudGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.NetObjUpdateType), typeof(global::GRPCClient.GenericType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.HandshakePost), global::GRPCClient.HandshakePost.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.HandshakeGet), global::GRPCClient.HandshakeGet.Parser, new[]{ "Result", "ClientId", "NetObjects", "NetVars" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.NHandshakePost), global::GRPCClient.NHandshakePost.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.NHandshakeGet), global::GRPCClient.NHandshakeGet.Parser, new[]{ "Result" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.PingPost), global::GRPCClient.PingPost.Parser, new[]{ "ClientId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.PingGet), global::GRPCClient.PingGet.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.NetworkObject), global::GRPCClient.NetworkObject.Parser, new[]{ "NetId", "PrefabId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.NetObjUpdate), global::GRPCClient.NetObjUpdate.Parser, new[]{ "Type", "Obj" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.NetVarUpdate), global::GRPCClient.NetVarUpdate.Parser, new[]{ "AssociatedNetId", "NetVarId", "NewValue" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.EmptyMsg), global::GRPCClient.EmptyMsg.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPCVector3), global::GRPCClient.GRPCVector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GenericValue), global::GRPCClient.GenericValue.Parser, new[]{ "Type", "Value" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_HandshakePost), global::GRPCClient.GRPC_HandshakePost.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_HandshakeGet), global::GRPCClient.GRPC_HandshakeGet.Parser, new[]{ "Result", "NetObjects", "NetVars" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NHandshakePost), global::GRPCClient.GRPC_NHandshakePost.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NHandshakeGet), global::GRPCClient.GRPC_NHandshakeGet.Parser, new[]{ "Result" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_PingPost), global::GRPCClient.GRPC_PingPost.Parser, new[]{ "ClientId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_PingGet), global::GRPCClient.GRPC_PingGet.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NetObjUpdate), global::GRPCClient.GRPC_NetObjUpdate.Parser, new[]{ "Type", "NetId", "PrefabId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NetVarUpdate), global::GRPCClient.GRPC_NetVarUpdate.Parser, new[]{ "AssociatedNetId", "NetVarId", "NewValue" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_EmptyMsg), global::GRPCClient.GRPC_EmptyMsg.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_Vector3), global::GRPCClient.GRPC_Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_GenericValue), global::GRPCClient.GRPC_GenericValue.Parser, new[]{ "Type", "Value" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Enums
-  public enum NetObjUpdateType {
-    [pbr::OriginalName("NET_OBJ_UPDATE_TYPE_NEW")] New = 0,
-    [pbr::OriginalName("NET_OBJ_UPDATE_TYPE_DESTROY")] Destroy = 1,
+  public enum GRPC_NetObjUpdateType {
+    [pbr::OriginalName("NET_OBJ_UPDATE_TYPE_NEW")] NetObjUpdateTypeNew = 0,
+    [pbr::OriginalName("NET_OBJ_UPDATE_TYPE_DESTROY")] NetObjUpdateTypeDestroy = 1,
   }
 
-  public enum GenericType {
-    [pbr::OriginalName("GENERIC_TYPE_INT")] Int = 0,
-    [pbr::OriginalName("GENERIC_TYPE_STRING")] String = 1,
-    [pbr::OriginalName("GENERIC_TYPE_BOOL")] Bool = 2,
-    [pbr::OriginalName("GENERIC_TYPE_VECTOR3")] Vector3 = 3,
+  public enum GRPC_GenericType {
+    [pbr::OriginalName("GENERIC_TYPE_INT")] GenericTypeInt = 0,
+    [pbr::OriginalName("GENERIC_TYPE_STRING")] GenericTypeString = 1,
+    [pbr::OriginalName("GENERIC_TYPE_BOOL")] GenericTypeBool = 2,
+    [pbr::OriginalName("GENERIC_TYPE_VECTOR3")] GenericTypeVector3 = 3,
   }
 
   #endregion
@@ -89,16 +90,16 @@ namespace GRPCClient {
   /// <summary>
   ///Handshake
   /// </summary>
-  public sealed partial class HandshakePost : pb::IMessage<HandshakePost>
+  public sealed partial class GRPC_HandshakePost : pb::IMessage<GRPC_HandshakePost>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<HandshakePost> _parser = new pb::MessageParser<HandshakePost>(() => new HandshakePost());
+    private static readonly pb::MessageParser<GRPC_HandshakePost> _parser = new pb::MessageParser<GRPC_HandshakePost>(() => new GRPC_HandshakePost());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<HandshakePost> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_HandshakePost> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -114,7 +115,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandshakePost() {
+    public GRPC_HandshakePost() {
       OnConstruction();
     }
 
@@ -122,25 +123,25 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandshakePost(HandshakePost other) : this() {
+    public GRPC_HandshakePost(GRPC_HandshakePost other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandshakePost Clone() {
-      return new HandshakePost(this);
+    public GRPC_HandshakePost Clone() {
+      return new GRPC_HandshakePost(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as HandshakePost);
+      return Equals(other as GRPC_HandshakePost);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(HandshakePost other) {
+    public bool Equals(GRPC_HandshakePost other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -200,7 +201,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(HandshakePost other) {
+    public void MergeFrom(GRPC_HandshakePost other) {
       if (other == null) {
         return;
       }
@@ -241,16 +242,16 @@ namespace GRPCClient {
 
   }
 
-  public sealed partial class HandshakeGet : pb::IMessage<HandshakeGet>
+  public sealed partial class GRPC_HandshakeGet : pb::IMessage<GRPC_HandshakeGet>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<HandshakeGet> _parser = new pb::MessageParser<HandshakeGet>(() => new HandshakeGet());
+    private static readonly pb::MessageParser<GRPC_HandshakeGet> _parser = new pb::MessageParser<GRPC_HandshakeGet>(() => new GRPC_HandshakeGet());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<HandshakeGet> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_HandshakeGet> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -266,7 +267,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandshakeGet() {
+    public GRPC_HandshakeGet() {
       OnConstruction();
     }
 
@@ -274,9 +275,8 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandshakeGet(HandshakeGet other) : this() {
+    public GRPC_HandshakeGet(GRPC_HandshakeGet other) : this() {
       result_ = other.result_;
-      clientId_ = other.clientId_;
       netObjects_ = other.netObjects_.Clone();
       netVars_ = other.netVars_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -284,8 +284,8 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandshakeGet Clone() {
-      return new HandshakeGet(this);
+    public GRPC_HandshakeGet Clone() {
+      return new GRPC_HandshakeGet(this);
     }
 
     /// <summary>Field number for the "result" field.</summary>
@@ -300,49 +300,37 @@ namespace GRPCClient {
       }
     }
 
-    /// <summary>Field number for the "clientId" field.</summary>
-    public const int ClientIdFieldNumber = 2;
-    private int clientId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int ClientId {
-      get { return clientId_; }
-      set {
-        clientId_ = value;
-      }
-    }
-
     /// <summary>Field number for the "netObjects" field.</summary>
-    public const int NetObjectsFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::GRPCClient.NetObjUpdate> _repeated_netObjects_codec
-        = pb::FieldCodec.ForMessage(26, global::GRPCClient.NetObjUpdate.Parser);
-    private readonly pbc::RepeatedField<global::GRPCClient.NetObjUpdate> netObjects_ = new pbc::RepeatedField<global::GRPCClient.NetObjUpdate>();
+    public const int NetObjectsFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::GRPCClient.GRPC_NetObjUpdate> _repeated_netObjects_codec
+        = pb::FieldCodec.ForMessage(18, global::GRPCClient.GRPC_NetObjUpdate.Parser);
+    private readonly pbc::RepeatedField<global::GRPCClient.GRPC_NetObjUpdate> netObjects_ = new pbc::RepeatedField<global::GRPCClient.GRPC_NetObjUpdate>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::GRPCClient.NetObjUpdate> NetObjects {
+    public pbc::RepeatedField<global::GRPCClient.GRPC_NetObjUpdate> NetObjects {
       get { return netObjects_; }
     }
 
     /// <summary>Field number for the "netVars" field.</summary>
-    public const int NetVarsFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::GRPCClient.NetVarUpdate> _repeated_netVars_codec
-        = pb::FieldCodec.ForMessage(34, global::GRPCClient.NetVarUpdate.Parser);
-    private readonly pbc::RepeatedField<global::GRPCClient.NetVarUpdate> netVars_ = new pbc::RepeatedField<global::GRPCClient.NetVarUpdate>();
+    public const int NetVarsFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::GRPCClient.GRPC_NetVarUpdate> _repeated_netVars_codec
+        = pb::FieldCodec.ForMessage(26, global::GRPCClient.GRPC_NetVarUpdate.Parser);
+    private readonly pbc::RepeatedField<global::GRPCClient.GRPC_NetVarUpdate> netVars_ = new pbc::RepeatedField<global::GRPCClient.GRPC_NetVarUpdate>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::GRPCClient.NetVarUpdate> NetVars {
+    public pbc::RepeatedField<global::GRPCClient.GRPC_NetVarUpdate> NetVars {
       get { return netVars_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as HandshakeGet);
+      return Equals(other as GRPC_HandshakeGet);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(HandshakeGet other) {
+    public bool Equals(GRPC_HandshakeGet other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -350,7 +338,6 @@ namespace GRPCClient {
         return true;
       }
       if (Result != other.Result) return false;
-      if (ClientId != other.ClientId) return false;
       if(!netObjects_.Equals(other.netObjects_)) return false;
       if(!netVars_.Equals(other.netVars_)) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -361,7 +348,6 @@ namespace GRPCClient {
     public override int GetHashCode() {
       int hash = 1;
       if (Result != 0) hash ^= Result.GetHashCode();
-      if (ClientId != 0) hash ^= ClientId.GetHashCode();
       hash ^= netObjects_.GetHashCode();
       hash ^= netVars_.GetHashCode();
       if (_unknownFields != null) {
@@ -386,10 +372,6 @@ namespace GRPCClient {
         output.WriteRawTag(8);
         output.WriteInt32(Result);
       }
-      if (ClientId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(ClientId);
-      }
       netObjects_.WriteTo(output, _repeated_netObjects_codec);
       netVars_.WriteTo(output, _repeated_netVars_codec);
       if (_unknownFields != null) {
@@ -406,10 +388,6 @@ namespace GRPCClient {
         output.WriteRawTag(8);
         output.WriteInt32(Result);
       }
-      if (ClientId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(ClientId);
-      }
       netObjects_.WriteTo(ref output, _repeated_netObjects_codec);
       netVars_.WriteTo(ref output, _repeated_netVars_codec);
       if (_unknownFields != null) {
@@ -425,9 +403,6 @@ namespace GRPCClient {
       if (Result != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Result);
       }
-      if (ClientId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ClientId);
-      }
       size += netObjects_.CalculateSize(_repeated_netObjects_codec);
       size += netVars_.CalculateSize(_repeated_netVars_codec);
       if (_unknownFields != null) {
@@ -438,15 +413,12 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(HandshakeGet other) {
+    public void MergeFrom(GRPC_HandshakeGet other) {
       if (other == null) {
         return;
       }
       if (other.Result != 0) {
         Result = other.Result;
-      }
-      if (other.ClientId != 0) {
-        ClientId = other.ClientId;
       }
       netObjects_.Add(other.netObjects_);
       netVars_.Add(other.netVars_);
@@ -469,15 +441,11 @@ namespace GRPCClient {
             Result = input.ReadInt32();
             break;
           }
-          case 16: {
-            ClientId = input.ReadInt32();
-            break;
-          }
-          case 26: {
+          case 18: {
             netObjects_.AddEntriesFrom(input, _repeated_netObjects_codec);
             break;
           }
-          case 34: {
+          case 26: {
             netVars_.AddEntriesFrom(input, _repeated_netVars_codec);
             break;
           }
@@ -500,15 +468,11 @@ namespace GRPCClient {
             Result = input.ReadInt32();
             break;
           }
-          case 16: {
-            ClientId = input.ReadInt32();
-            break;
-          }
-          case 26: {
+          case 18: {
             netObjects_.AddEntriesFrom(ref input, _repeated_netObjects_codec);
             break;
           }
-          case 34: {
+          case 26: {
             netVars_.AddEntriesFrom(ref input, _repeated_netVars_codec);
             break;
           }
@@ -519,16 +483,16 @@ namespace GRPCClient {
 
   }
 
-  public sealed partial class NHandshakePost : pb::IMessage<NHandshakePost>
+  public sealed partial class GRPC_NHandshakePost : pb::IMessage<GRPC_NHandshakePost>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<NHandshakePost> _parser = new pb::MessageParser<NHandshakePost>(() => new NHandshakePost());
+    private static readonly pb::MessageParser<GRPC_NHandshakePost> _parser = new pb::MessageParser<GRPC_NHandshakePost>(() => new GRPC_NHandshakePost());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<NHandshakePost> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_NHandshakePost> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -544,7 +508,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NHandshakePost() {
+    public GRPC_NHandshakePost() {
       OnConstruction();
     }
 
@@ -552,25 +516,25 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NHandshakePost(NHandshakePost other) : this() {
+    public GRPC_NHandshakePost(GRPC_NHandshakePost other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NHandshakePost Clone() {
-      return new NHandshakePost(this);
+    public GRPC_NHandshakePost Clone() {
+      return new GRPC_NHandshakePost(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as NHandshakePost);
+      return Equals(other as GRPC_NHandshakePost);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(NHandshakePost other) {
+    public bool Equals(GRPC_NHandshakePost other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -630,7 +594,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(NHandshakePost other) {
+    public void MergeFrom(GRPC_NHandshakePost other) {
       if (other == null) {
         return;
       }
@@ -671,16 +635,16 @@ namespace GRPCClient {
 
   }
 
-  public sealed partial class NHandshakeGet : pb::IMessage<NHandshakeGet>
+  public sealed partial class GRPC_NHandshakeGet : pb::IMessage<GRPC_NHandshakeGet>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<NHandshakeGet> _parser = new pb::MessageParser<NHandshakeGet>(() => new NHandshakeGet());
+    private static readonly pb::MessageParser<GRPC_NHandshakeGet> _parser = new pb::MessageParser<GRPC_NHandshakeGet>(() => new GRPC_NHandshakeGet());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<NHandshakeGet> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_NHandshakeGet> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -696,7 +660,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NHandshakeGet() {
+    public GRPC_NHandshakeGet() {
       OnConstruction();
     }
 
@@ -704,15 +668,15 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NHandshakeGet(NHandshakeGet other) : this() {
+    public GRPC_NHandshakeGet(GRPC_NHandshakeGet other) : this() {
       result_ = other.result_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NHandshakeGet Clone() {
-      return new NHandshakeGet(this);
+    public GRPC_NHandshakeGet Clone() {
+      return new GRPC_NHandshakeGet(this);
     }
 
     /// <summary>Field number for the "result" field.</summary>
@@ -730,12 +694,12 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as NHandshakeGet);
+      return Equals(other as GRPC_NHandshakeGet);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(NHandshakeGet other) {
+    public bool Equals(GRPC_NHandshakeGet other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -808,7 +772,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(NHandshakeGet other) {
+    public void MergeFrom(GRPC_NHandshakeGet other) {
       if (other == null) {
         return;
       }
@@ -864,16 +828,16 @@ namespace GRPCClient {
   ///Used by PingStream.
   ///Not using EmptyMsg => easier to send infos when pinging, if we want to
   /// </summary>
-  public sealed partial class PingPost : pb::IMessage<PingPost>
+  public sealed partial class GRPC_PingPost : pb::IMessage<GRPC_PingPost>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<PingPost> _parser = new pb::MessageParser<PingPost>(() => new PingPost());
+    private static readonly pb::MessageParser<GRPC_PingPost> _parser = new pb::MessageParser<GRPC_PingPost>(() => new GRPC_PingPost());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<PingPost> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_PingPost> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -889,7 +853,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PingPost() {
+    public GRPC_PingPost() {
       OnConstruction();
     }
 
@@ -897,15 +861,15 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PingPost(PingPost other) : this() {
+    public GRPC_PingPost(GRPC_PingPost other) : this() {
       clientId_ = other.clientId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PingPost Clone() {
-      return new PingPost(this);
+    public GRPC_PingPost Clone() {
+      return new GRPC_PingPost(this);
     }
 
     /// <summary>Field number for the "clientId" field.</summary>
@@ -923,12 +887,12 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as PingPost);
+      return Equals(other as GRPC_PingPost);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PingPost other) {
+    public bool Equals(GRPC_PingPost other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1001,7 +965,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PingPost other) {
+    public void MergeFrom(GRPC_PingPost other) {
       if (other == null) {
         return;
       }
@@ -1053,16 +1017,16 @@ namespace GRPCClient {
 
   }
 
-  public sealed partial class PingGet : pb::IMessage<PingGet>
+  public sealed partial class GRPC_PingGet : pb::IMessage<GRPC_PingGet>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<PingGet> _parser = new pb::MessageParser<PingGet>(() => new PingGet());
+    private static readonly pb::MessageParser<GRPC_PingGet> _parser = new pb::MessageParser<GRPC_PingGet>(() => new GRPC_PingGet());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<PingGet> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_PingGet> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1078,7 +1042,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PingGet() {
+    public GRPC_PingGet() {
       OnConstruction();
     }
 
@@ -1086,25 +1050,25 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PingGet(PingGet other) : this() {
+    public GRPC_PingGet(GRPC_PingGet other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PingGet Clone() {
-      return new PingGet(this);
+    public GRPC_PingGet Clone() {
+      return new GRPC_PingGet(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as PingGet);
+      return Equals(other as GRPC_PingGet);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PingGet other) {
+    public bool Equals(GRPC_PingGet other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1164,7 +1128,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PingGet other) {
+    public void MergeFrom(GRPC_PingGet other) {
       if (other == null) {
         return;
       }
@@ -1208,16 +1172,16 @@ namespace GRPCClient {
   /// <summary>
   ///NetworkObjects
   /// </summary>
-  public sealed partial class NetworkObject : pb::IMessage<NetworkObject>
+  public sealed partial class GRPC_NetObjUpdate : pb::IMessage<GRPC_NetObjUpdate>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<NetworkObject> _parser = new pb::MessageParser<NetworkObject>(() => new NetworkObject());
+    private static readonly pb::MessageParser<GRPC_NetObjUpdate> _parser = new pb::MessageParser<GRPC_NetObjUpdate>(() => new GRPC_NetObjUpdate());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<NetworkObject> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_NetObjUpdate> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1233,7 +1197,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetworkObject() {
+    public GRPC_NetObjUpdate() {
       OnConstruction();
     }
 
@@ -1241,7 +1205,8 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetworkObject(NetworkObject other) : this() {
+    public GRPC_NetObjUpdate(GRPC_NetObjUpdate other) : this() {
+      type_ = other.type_;
       netId_ = other.netId_;
       prefabId_ = other.prefabId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -1249,12 +1214,24 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetworkObject Clone() {
-      return new NetworkObject(this);
+    public GRPC_NetObjUpdate Clone() {
+      return new GRPC_NetObjUpdate(this);
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 1;
+    private global::GRPCClient.GRPC_NetObjUpdateType type_ = global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GRPCClient.GRPC_NetObjUpdateType Type {
+      get { return type_; }
+      set {
+        type_ = value;
+      }
     }
 
     /// <summary>Field number for the "netId" field.</summary>
-    public const int NetIdFieldNumber = 1;
+    public const int NetIdFieldNumber = 2;
     private int netId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1266,7 +1243,7 @@ namespace GRPCClient {
     }
 
     /// <summary>Field number for the "prefabId" field.</summary>
-    public const int PrefabIdFieldNumber = 2;
+    public const int PrefabIdFieldNumber = 3;
     private string prefabId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1280,18 +1257,19 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as NetworkObject);
+      return Equals(other as GRPC_NetObjUpdate);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(NetworkObject other) {
+    public bool Equals(GRPC_NetObjUpdate other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Type != other.Type) return false;
       if (NetId != other.NetId) return false;
       if (PrefabId != other.PrefabId) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -1301,6 +1279,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) hash ^= Type.GetHashCode();
       if (NetId != 0) hash ^= NetId.GetHashCode();
       if (PrefabId.Length != 0) hash ^= PrefabId.GetHashCode();
       if (_unknownFields != null) {
@@ -1321,12 +1300,16 @@ namespace GRPCClient {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (NetId != 0) {
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
         output.WriteRawTag(8);
+        output.WriteEnum((int) Type);
+      }
+      if (NetId != 0) {
+        output.WriteRawTag(16);
         output.WriteInt32(NetId);
       }
       if (PrefabId.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteString(PrefabId);
       }
       if (_unknownFields != null) {
@@ -1339,12 +1322,16 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (NetId != 0) {
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
         output.WriteRawTag(8);
+        output.WriteEnum((int) Type);
+      }
+      if (NetId != 0) {
+        output.WriteRawTag(16);
         output.WriteInt32(NetId);
       }
       if (PrefabId.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteString(PrefabId);
       }
       if (_unknownFields != null) {
@@ -1357,6 +1344,9 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+      }
       if (NetId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NetId);
       }
@@ -1371,9 +1361,12 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(NetworkObject other) {
+    public void MergeFrom(GRPC_NetObjUpdate other) {
       if (other == null) {
         return;
+      }
+      if (other.Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
+        Type = other.Type;
       }
       if (other.NetId != 0) {
         NetId = other.NetId;
@@ -1397,10 +1390,14 @@ namespace GRPCClient {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
+            Type = (global::GRPCClient.GRPC_NetObjUpdateType) input.ReadEnum();
+            break;
+          }
+          case 16: {
             NetId = input.ReadInt32();
             break;
           }
-          case 18: {
+          case 26: {
             PrefabId = input.ReadString();
             break;
           }
@@ -1420,10 +1417,14 @@ namespace GRPCClient {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
+            Type = (global::GRPCClient.GRPC_NetObjUpdateType) input.ReadEnum();
+            break;
+          }
+          case 16: {
             NetId = input.ReadInt32();
             break;
           }
-          case 18: {
+          case 26: {
             PrefabId = input.ReadString();
             break;
           }
@@ -1434,16 +1435,16 @@ namespace GRPCClient {
 
   }
 
-  public sealed partial class NetObjUpdate : pb::IMessage<NetObjUpdate>
+  public sealed partial class GRPC_NetVarUpdate : pb::IMessage<GRPC_NetVarUpdate>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<NetObjUpdate> _parser = new pb::MessageParser<NetObjUpdate>(() => new NetObjUpdate());
+    private static readonly pb::MessageParser<GRPC_NetVarUpdate> _parser = new pb::MessageParser<GRPC_NetVarUpdate>(() => new GRPC_NetVarUpdate());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<NetObjUpdate> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_NetVarUpdate> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1459,7 +1460,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetObjUpdate() {
+    public GRPC_NetVarUpdate() {
       OnConstruction();
     }
 
@@ -1467,242 +1468,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetObjUpdate(NetObjUpdate other) : this() {
-      type_ = other.type_;
-      obj_ = other.obj_ != null ? other.obj_.Clone() : null;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetObjUpdate Clone() {
-      return new NetObjUpdate(this);
-    }
-
-    /// <summary>Field number for the "type" field.</summary>
-    public const int TypeFieldNumber = 1;
-    private global::GRPCClient.NetObjUpdateType type_ = global::GRPCClient.NetObjUpdateType.New;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::GRPCClient.NetObjUpdateType Type {
-      get { return type_; }
-      set {
-        type_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "obj" field.</summary>
-    public const int ObjFieldNumber = 2;
-    private global::GRPCClient.NetworkObject obj_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::GRPCClient.NetworkObject Obj {
-      get { return obj_; }
-      set {
-        obj_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as NetObjUpdate);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(NetObjUpdate other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Type != other.Type) return false;
-      if (!object.Equals(Obj, other.Obj)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Type != global::GRPCClient.NetObjUpdateType.New) hash ^= Type.GetHashCode();
-      if (obj_ != null) hash ^= Obj.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Type != global::GRPCClient.NetObjUpdateType.New) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Type);
-      }
-      if (obj_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Obj);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::GRPCClient.NetObjUpdateType.New) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Type);
-      }
-      if (obj_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Obj);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Type != global::GRPCClient.NetObjUpdateType.New) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
-      }
-      if (obj_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Obj);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(NetObjUpdate other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Type != global::GRPCClient.NetObjUpdateType.New) {
-        Type = other.Type;
-      }
-      if (other.obj_ != null) {
-        if (obj_ == null) {
-          Obj = new global::GRPCClient.NetworkObject();
-        }
-        Obj.MergeFrom(other.Obj);
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Type = (global::GRPCClient.NetObjUpdateType) input.ReadEnum();
-            break;
-          }
-          case 18: {
-            if (obj_ == null) {
-              Obj = new global::GRPCClient.NetworkObject();
-            }
-            input.ReadMessage(Obj);
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Type = (global::GRPCClient.NetObjUpdateType) input.ReadEnum();
-            break;
-          }
-          case 18: {
-            if (obj_ == null) {
-              Obj = new global::GRPCClient.NetworkObject();
-            }
-            input.ReadMessage(Obj);
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class NetVarUpdate : pb::IMessage<NetVarUpdate>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<NetVarUpdate> _parser = new pb::MessageParser<NetVarUpdate>(() => new NetVarUpdate());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<NetVarUpdate> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[8]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetVarUpdate() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetVarUpdate(NetVarUpdate other) : this() {
+    public GRPC_NetVarUpdate(GRPC_NetVarUpdate other) : this() {
       associatedNetId_ = other.associatedNetId_;
       netVarId_ = other.netVarId_;
       newValue_ = other.newValue_ != null ? other.newValue_.Clone() : null;
@@ -1711,8 +1477,8 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NetVarUpdate Clone() {
-      return new NetVarUpdate(this);
+    public GRPC_NetVarUpdate Clone() {
+      return new GRPC_NetVarUpdate(this);
     }
 
     /// <summary>Field number for the "associatedNetId" field.</summary>
@@ -1741,10 +1507,10 @@ namespace GRPCClient {
 
     /// <summary>Field number for the "newValue" field.</summary>
     public const int NewValueFieldNumber = 3;
-    private global::GRPCClient.GenericValue newValue_;
+    private global::GRPCClient.GRPC_GenericValue newValue_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::GRPCClient.GenericValue NewValue {
+    public global::GRPCClient.GRPC_GenericValue NewValue {
       get { return newValue_; }
       set {
         newValue_ = value;
@@ -1754,12 +1520,12 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as NetVarUpdate);
+      return Equals(other as GRPC_NetVarUpdate);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(NetVarUpdate other) {
+    public bool Equals(GRPC_NetVarUpdate other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1858,7 +1624,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(NetVarUpdate other) {
+    public void MergeFrom(GRPC_NetVarUpdate other) {
       if (other == null) {
         return;
       }
@@ -1870,7 +1636,7 @@ namespace GRPCClient {
       }
       if (other.newValue_ != null) {
         if (newValue_ == null) {
-          NewValue = new global::GRPCClient.GenericValue();
+          NewValue = new global::GRPCClient.GRPC_GenericValue();
         }
         NewValue.MergeFrom(other.NewValue);
       }
@@ -1899,7 +1665,7 @@ namespace GRPCClient {
           }
           case 26: {
             if (newValue_ == null) {
-              NewValue = new global::GRPCClient.GenericValue();
+              NewValue = new global::GRPCClient.GRPC_GenericValue();
             }
             input.ReadMessage(NewValue);
             break;
@@ -1929,7 +1695,7 @@ namespace GRPCClient {
           }
           case 26: {
             if (newValue_ == null) {
-              NewValue = new global::GRPCClient.GenericValue();
+              NewValue = new global::GRPCClient.GRPC_GenericValue();
             }
             input.ReadMessage(NewValue);
             break;
@@ -1944,21 +1710,21 @@ namespace GRPCClient {
   /// <summary>
   ///New value type
   /// </summary>
-  public sealed partial class EmptyMsg : pb::IMessage<EmptyMsg>
+  public sealed partial class GRPC_EmptyMsg : pb::IMessage<GRPC_EmptyMsg>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<EmptyMsg> _parser = new pb::MessageParser<EmptyMsg>(() => new EmptyMsg());
+    private static readonly pb::MessageParser<GRPC_EmptyMsg> _parser = new pb::MessageParser<GRPC_EmptyMsg>(() => new GRPC_EmptyMsg());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<EmptyMsg> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_EmptyMsg> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[9]; }
+      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1969,7 +1735,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EmptyMsg() {
+    public GRPC_EmptyMsg() {
       OnConstruction();
     }
 
@@ -1977,25 +1743,25 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EmptyMsg(EmptyMsg other) : this() {
+    public GRPC_EmptyMsg(GRPC_EmptyMsg other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EmptyMsg Clone() {
-      return new EmptyMsg(this);
+    public GRPC_EmptyMsg Clone() {
+      return new GRPC_EmptyMsg(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as EmptyMsg);
+      return Equals(other as GRPC_EmptyMsg);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(EmptyMsg other) {
+    public bool Equals(GRPC_EmptyMsg other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -2055,7 +1821,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(EmptyMsg other) {
+    public void MergeFrom(GRPC_EmptyMsg other) {
       if (other == null) {
         return;
       }
@@ -2096,21 +1862,21 @@ namespace GRPCClient {
 
   }
 
-  public sealed partial class GRPCVector3 : pb::IMessage<GRPCVector3>
+  public sealed partial class GRPC_Vector3 : pb::IMessage<GRPC_Vector3>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<GRPCVector3> _parser = new pb::MessageParser<GRPCVector3>(() => new GRPCVector3());
+    private static readonly pb::MessageParser<GRPC_Vector3> _parser = new pb::MessageParser<GRPC_Vector3>(() => new GRPC_Vector3());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GRPCVector3> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_Vector3> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[10]; }
+      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2121,7 +1887,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GRPCVector3() {
+    public GRPC_Vector3() {
       OnConstruction();
     }
 
@@ -2129,7 +1895,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GRPCVector3(GRPCVector3 other) : this() {
+    public GRPC_Vector3(GRPC_Vector3 other) : this() {
       x_ = other.x_;
       y_ = other.y_;
       z_ = other.z_;
@@ -2138,8 +1904,8 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GRPCVector3 Clone() {
-      return new GRPCVector3(this);
+    public GRPC_Vector3 Clone() {
+      return new GRPC_Vector3(this);
     }
 
     /// <summary>Field number for the "x" field.</summary>
@@ -2181,12 +1947,12 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as GRPCVector3);
+      return Equals(other as GRPC_Vector3);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GRPCVector3 other) {
+    public bool Equals(GRPC_Vector3 other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -2285,7 +2051,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GRPCVector3 other) {
+    public void MergeFrom(GRPC_Vector3 other) {
       if (other == null) {
         return;
       }
@@ -2362,21 +2128,21 @@ namespace GRPCClient {
   /// <summary>
   ///Generics
   /// </summary>
-  public sealed partial class GenericValue : pb::IMessage<GenericValue>
+  public sealed partial class GRPC_GenericValue : pb::IMessage<GRPC_GenericValue>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<GenericValue> _parser = new pb::MessageParser<GenericValue>(() => new GenericValue());
+    private static readonly pb::MessageParser<GRPC_GenericValue> _parser = new pb::MessageParser<GRPC_GenericValue>(() => new GRPC_GenericValue());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GenericValue> Parser { get { return _parser; } }
+    public static pb::MessageParser<GRPC_GenericValue> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[11]; }
+      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2387,7 +2153,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GenericValue() {
+    public GRPC_GenericValue() {
       OnConstruction();
     }
 
@@ -2395,7 +2161,7 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GenericValue(GenericValue other) : this() {
+    public GRPC_GenericValue(GRPC_GenericValue other) : this() {
       type_ = other.type_;
       value_ = other.value_ != null ? other.value_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2403,16 +2169,16 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GenericValue Clone() {
-      return new GenericValue(this);
+    public GRPC_GenericValue Clone() {
+      return new GRPC_GenericValue(this);
     }
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::GRPCClient.GenericType type_ = global::GRPCClient.GenericType.Int;
+    private global::GRPCClient.GRPC_GenericType type_ = global::GRPCClient.GRPC_GenericType.GenericTypeInt;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::GRPCClient.GenericType Type {
+    public global::GRPCClient.GRPC_GenericType Type {
       get { return type_; }
       set {
         type_ = value;
@@ -2434,12 +2200,12 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as GenericValue);
+      return Equals(other as GRPC_GenericValue);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GenericValue other) {
+    public bool Equals(GRPC_GenericValue other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -2455,7 +2221,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::GRPCClient.GenericType.Int) hash ^= Type.GetHashCode();
+      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) hash ^= Type.GetHashCode();
       if (value_ != null) hash ^= Value.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2475,7 +2241,7 @@ namespace GRPCClient {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::GRPCClient.GenericType.Int) {
+      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -2493,7 +2259,7 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::GRPCClient.GenericType.Int) {
+      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -2511,7 +2277,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::GRPCClient.GenericType.Int) {
+      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (value_ != null) {
@@ -2525,11 +2291,11 @@ namespace GRPCClient {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GenericValue other) {
+    public void MergeFrom(GRPC_GenericValue other) {
       if (other == null) {
         return;
       }
-      if (other.Type != global::GRPCClient.GenericType.Int) {
+      if (other.Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
         Type = other.Type;
       }
       if (other.value_ != null) {
@@ -2554,7 +2320,7 @@ namespace GRPCClient {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Type = (global::GRPCClient.GenericType) input.ReadEnum();
+            Type = (global::GRPCClient.GRPC_GenericType) input.ReadEnum();
             break;
           }
           case 18: {
@@ -2580,7 +2346,7 @@ namespace GRPCClient {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Type = (global::GRPCClient.GenericType) input.ReadEnum();
+            Type = (global::GRPCClient.GRPC_GenericType) input.ReadEnum();
             break;
           }
           case 18: {

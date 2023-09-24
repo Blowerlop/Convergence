@@ -62,7 +62,7 @@ namespace GRPCServer.Services
 
         #region Handshake
 
-        public override Task<HandshakeGet> Handshake(HandshakePost request, ServerCallContext context)
+        public override Task<GRPC_HandshakeGet> GRPC_Handshake(GRPC_HandshakePost request, ServerCallContext context)
         {            
             //Debug
             Console.WriteLine("> Handshake");
@@ -80,10 +80,9 @@ namespace GRPCServer.Services
                 }
                 Console.WriteLine();
 
-                return Task.FromResult(new HandshakeGet
+                return Task.FromResult(new GRPC_HandshakeGet
                 {
                     Result = 0, //0 = good!
-                    ClientId = 0
                     //Send netobjects
                 });
             }
@@ -93,12 +92,12 @@ namespace GRPCServer.Services
                     "Connect UnrealClients after NetcodeServer!");
 
                 //Result != 0 => error
-                return Task.FromResult(new HandshakeGet { Result = 1 });
+                return Task.FromResult(new GRPC_HandshakeGet { Result = 1 });
             }
 
         }
 
-        public override Task<NHandshakeGet> NetcodeHandshake(NHandshakePost request, ServerCallContext context)
+        public override Task<GRPC_NHandshakeGet> GRPC_NetcodeHandshake(GRPC_NHandshakePost request, ServerCallContext context)
         {
             //Debug
             Console.WriteLine("> NetcodeHandshake");
@@ -118,21 +117,22 @@ namespace GRPCServer.Services
                 }
                 Console.WriteLine();
 
-                return Task.FromResult(new NHandshakeGet { Result = 0 });
+                return Task.FromResult(new GRPC_NHandshakeGet { Result = 0 });
             }
-            else
-                _logger.LogCritical("Getting NetcodeHandshake, but there is already an active NetcodeServer!");
+            
+            _logger.LogCritical("Getting NetcodeHandshake, but there is already an active NetcodeServer!");
 
-            return Task.FromResult(new NHandshakeGet { Result = 1 });
+            return Task.FromResult(new GRPC_NHandshakeGet { Result = 1 });
         }
 
         #endregion
 
         #region Ping
 
-        public override async Task Ping(IAsyncStreamReader<PingPost> requestStream, IServerStreamWriter<PingGet> responseStream, ServerCallContext context)
+        public override async Task GRPC_Ping(IAsyncStreamReader<GRPC_PingPost> requestStream, 
+            IServerStreamWriter<GRPC_PingGet> responseStream, ServerCallContext context)
         {
-            PingGet empty = new();
+            GRPC_PingGet empty = new();
 
             try
             {

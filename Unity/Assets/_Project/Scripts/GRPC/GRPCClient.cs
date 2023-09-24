@@ -23,7 +23,7 @@ namespace Project
         
         //Ping
         private readonly CancellationTokenSource _pingCancelSrc = new();
-        private AsyncDuplexStreamingCall<PingPost, PingGet> _pingStream;
+        private AsyncDuplexStreamingCall<GRPC_PingPost, GRPC_PingGet> _pingStream;
         
         private readonly Stopwatch _pingSW = new();
         
@@ -78,7 +78,7 @@ namespace Project
         async Task<bool> NHandshake()
         {
             Debug.Log("GRPCClient.cs > NHandshake...");
-            var response = await _client.NetcodeHandshakeAsync(new NHandshakePost());
+            var response = await _client.GRPC_NetcodeHandshakeAsync(new GRPC_NHandshakePost());
             Debug.Log($"GRPCClient.cs > NHandshake result: {response.Result}");
             
             return response.Result == 0;
@@ -105,7 +105,7 @@ namespace Project
         
         private void StartPinging()
         {
-            _pingStream = _client.Ping();
+            _pingStream = _client.GRPC_Ping();
             PingGet();
         }
         
@@ -116,7 +116,7 @@ namespace Project
 
             try
             {
-                await _pingStream.RequestStream.WriteAsync(new PingPost(), _pingCancelSrc.Token);
+                await _pingStream.RequestStream.WriteAsync(new GRPC_PingPost(), _pingCancelSrc.Token);
             }
             catch (IOException)
             {
