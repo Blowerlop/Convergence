@@ -38,20 +38,18 @@ namespace GRPCClient {
             "R2VuZXJpY1ZhbHVlIg8KDUdSUENfRW1wdHlNc2ciLwoMR1JQQ19WZWN0b3Iz",
             "EgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCIl4KEUdSUENfR2Vu",
             "ZXJpY1ZhbHVlEiQKBHR5cGUYASABKA4yFi5tYWluLkdSUENfR2VuZXJpY1R5",
-            "cGUSIwoFdmFsdWUYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55KlUKFUdS",
-            "UENfTmV0T2JqVXBkYXRlVHlwZRIbChdORVRfT0JKX1VQREFURV9UWVBFX05F",
-            "VxAAEh8KG05FVF9PQkpfVVBEQVRFX1RZUEVfREVTVFJPWRABKnIKEEdSUENf",
-            "R2VuZXJpY1R5cGUSFAoQR0VORVJJQ19UWVBFX0lOVBAAEhcKE0dFTkVSSUNf",
-            "VFlQRV9TVFJJTkcQARIVChFHRU5FUklDX1RZUEVfQk9PTBACEhgKFEdFTkVS",
-            "SUNfVFlQRV9WRUNUT1IzEAMy6gIKC01haW5TZXJ2aWNlEkMKDkdSUENfSGFu",
-            "ZHNoYWtlEhgubWFpbi5HUlBDX0hhbmRzaGFrZVBvc3QaFy5tYWluLkdSUENf",
-            "SGFuZHNoYWtlR2V0EkwKFUdSUENfTmV0Y29kZUhhbmRzaGFrZRIZLm1haW4u",
-            "R1JQQ19OSGFuZHNoYWtlUG9zdBoYLm1haW4uR1JQQ19OSGFuZHNoYWtlR2V0",
-            "EjgKCUdSUENfUGluZxITLm1haW4uR1JQQ19QaW5nUG9zdBoSLm1haW4uR1JQ",
-            "Q19QaW5nR2V0KAEwARJGChRHUlBDX1Nydk5ldE9ialVwZGF0ZRIXLm1haW4u",
-            "R1JQQ19OZXRPYmpVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJGChRH",
-            "UlBDX0NsaU5ldE9ialVwZGF0ZRITLm1haW4uR1JQQ19FbXB0eU1zZxoXLm1h",
-            "aW4uR1JQQ19OZXRPYmpVcGRhdGUwAUINqgIKR1JQQ0NsaWVudGIGcHJvdG8z"));
+            "cGUSIwoFdmFsdWUYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55Ki0KFUdS",
+            "UENfTmV0T2JqVXBkYXRlVHlwZRIHCgNORVcQABILCgdERVNUUk9ZEAEqPgoQ",
+            "R1JQQ19HZW5lcmljVHlwZRIHCgNJTlQQABIKCgZTVFJJTkcQARIICgRCT09M",
+            "EAISCwoHVkVDVE9SMxADMuoCCgtNYWluU2VydmljZRJDCg5HUlBDX0hhbmRz",
+            "aGFrZRIYLm1haW4uR1JQQ19IYW5kc2hha2VQb3N0GhcubWFpbi5HUlBDX0hh",
+            "bmRzaGFrZUdldBJMChVHUlBDX05ldGNvZGVIYW5kc2hha2USGS5tYWluLkdS",
+            "UENfTkhhbmRzaGFrZVBvc3QaGC5tYWluLkdSUENfTkhhbmRzaGFrZUdldBI4",
+            "CglHUlBDX1BpbmcSEy5tYWluLkdSUENfUGluZ1Bvc3QaEi5tYWluLkdSUENf",
+            "UGluZ0dldCgBMAESRgoUR1JQQ19TcnZOZXRPYmpVcGRhdGUSFy5tYWluLkdS",
+            "UENfTmV0T2JqVXBkYXRlGhMubWFpbi5HUlBDX0VtcHR5TXNnKAESRgoUR1JQ",
+            "Q19DbGlOZXRPYmpVcGRhdGUSEy5tYWluLkdSUENfRW1wdHlNc2caFy5tYWlu",
+            "LkdSUENfTmV0T2JqVXBkYXRlMAFCDaoCCkdSUENDbGllbnRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -73,15 +71,15 @@ namespace GRPCClient {
   }
   #region Enums
   public enum GRPC_NetObjUpdateType {
-    [pbr::OriginalName("NET_OBJ_UPDATE_TYPE_NEW")] NetObjUpdateTypeNew = 0,
-    [pbr::OriginalName("NET_OBJ_UPDATE_TYPE_DESTROY")] NetObjUpdateTypeDestroy = 1,
+    [pbr::OriginalName("NEW")] New = 0,
+    [pbr::OriginalName("DESTROY")] Destroy = 1,
   }
 
   public enum GRPC_GenericType {
-    [pbr::OriginalName("GENERIC_TYPE_INT")] GenericTypeInt = 0,
-    [pbr::OriginalName("GENERIC_TYPE_STRING")] GenericTypeString = 1,
-    [pbr::OriginalName("GENERIC_TYPE_BOOL")] GenericTypeBool = 2,
-    [pbr::OriginalName("GENERIC_TYPE_VECTOR3")] GenericTypeVector3 = 3,
+    [pbr::OriginalName("INT")] Int = 0,
+    [pbr::OriginalName("STRING")] String = 1,
+    [pbr::OriginalName("BOOL")] Bool = 2,
+    [pbr::OriginalName("VECTOR3")] Vector3 = 3,
   }
 
   #endregion
@@ -1220,7 +1218,7 @@ namespace GRPCClient {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::GRPCClient.GRPC_NetObjUpdateType type_ = global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew;
+    private global::GRPCClient.GRPC_NetObjUpdateType type_ = global::GRPCClient.GRPC_NetObjUpdateType.New;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::GRPCClient.GRPC_NetObjUpdateType Type {
@@ -1279,7 +1277,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) hash ^= Type.GetHashCode();
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.New) hash ^= Type.GetHashCode();
       if (NetId != 0) hash ^= NetId.GetHashCode();
       if (PrefabId.Length != 0) hash ^= PrefabId.GetHashCode();
       if (_unknownFields != null) {
@@ -1300,7 +1298,7 @@ namespace GRPCClient {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.New) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -1322,7 +1320,7 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.New) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -1344,7 +1342,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
+      if (Type != global::GRPCClient.GRPC_NetObjUpdateType.New) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (NetId != 0) {
@@ -1365,7 +1363,7 @@ namespace GRPCClient {
       if (other == null) {
         return;
       }
-      if (other.Type != global::GRPCClient.GRPC_NetObjUpdateType.NetObjUpdateTypeNew) {
+      if (other.Type != global::GRPCClient.GRPC_NetObjUpdateType.New) {
         Type = other.Type;
       }
       if (other.NetId != 0) {
@@ -2175,7 +2173,7 @@ namespace GRPCClient {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::GRPCClient.GRPC_GenericType type_ = global::GRPCClient.GRPC_GenericType.GenericTypeInt;
+    private global::GRPCClient.GRPC_GenericType type_ = global::GRPCClient.GRPC_GenericType.Int;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::GRPCClient.GRPC_GenericType Type {
@@ -2221,7 +2219,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) hash ^= Type.GetHashCode();
+      if (Type != global::GRPCClient.GRPC_GenericType.Int) hash ^= Type.GetHashCode();
       if (value_ != null) hash ^= Value.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2241,7 +2239,7 @@ namespace GRPCClient {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
+      if (Type != global::GRPCClient.GRPC_GenericType.Int) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -2259,7 +2257,7 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
+      if (Type != global::GRPCClient.GRPC_GenericType.Int) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -2277,7 +2275,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
+      if (Type != global::GRPCClient.GRPC_GenericType.Int) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (value_ != null) {
@@ -2295,7 +2293,7 @@ namespace GRPCClient {
       if (other == null) {
         return;
       }
-      if (other.Type != global::GRPCClient.GRPC_GenericType.GenericTypeInt) {
+      if (other.Type != global::GRPCClient.GRPC_GenericType.Int) {
         Type = other.Type;
       }
       if (other.value_ != null) {

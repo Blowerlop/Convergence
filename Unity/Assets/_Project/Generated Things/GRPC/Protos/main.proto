@@ -56,8 +56,8 @@ message GRPC_NetObjUpdate {
 }
 
 enum GRPC_NetObjUpdateType {
-	NET_OBJ_UPDATE_TYPE_NEW = 0;
-	NET_OBJ_UPDATE_TYPE_DESTROY = 1;
+	NEW = 0;
+	DESTROY = 1;
 }
 
 //Data structures
@@ -84,8 +84,8 @@ message GRPC_GenericValue {
 }
 
 enum GRPC_GenericType {
-	GENERIC_TYPE_INT = 0;
-	GENERIC_TYPE_STRING = 1;
-	GENERIC_TYPE_BOOL = 2;
-	GENERIC_TYPE_VECTOR3 = 3;
+	INT = 0;
+	STRING = 1;
+	BOOL = 2;
+	VECTOR3 = 3;
 }
