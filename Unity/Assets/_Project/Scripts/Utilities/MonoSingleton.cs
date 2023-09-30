@@ -4,10 +4,10 @@ namespace Project
 {
     using UnityEngine;
 
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         protected static bool dontDestroyOnLoad = true;
-        protected static bool isBeingDestroyed = false;
+        public static bool isBeingDestroyed { get; private set; }
         
         private static T _instance = null;
         public static T instance {
@@ -32,9 +32,10 @@ namespace Project
                 Destroy(this);
                 return;
             }
-
+            
             _instance = GetComponent<T>();
-        
+            isBeingDestroyed = false;
+            
             if(dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(gameObject);
@@ -43,7 +44,7 @@ namespace Project
 
         protected virtual void OnDestroy()
         {
-            isBeingDestroyed = false;
+            isBeingDestroyed = true;
         }
 
         public static bool IsInstanceAlive() => _instance != null;

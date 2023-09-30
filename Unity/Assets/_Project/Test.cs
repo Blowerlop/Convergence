@@ -7,18 +7,18 @@ namespace Project
 {
     public class Test : MonoBehaviour
     {
-        public NetworkRTT networkRTT;
+        public Netcode_NetworkRTT _netcodeNetworkRTT;
         public TMP_Text _textPing;
         
         private void FixedUpdate()
         {
-            if (networkRTT == null)
+            if (_netcodeNetworkRTT == null)
             {
-                networkRTT = FindObjectOfType<NetworkRTT>();
+                _netcodeNetworkRTT = FindObjectOfType<Netcode_NetworkRTT>();
                 return;
             }
             
-            _textPing.text = $"Ping: {networkRTT.networkCurrentRTT}ms" ;
+            _textPing.text = $"Ping: {_netcodeNetworkRTT.networkCurrentRTT}ms" ;
         }
     }
 }

@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace Project
 {
-    public class NetworkRTT : NetworkBehaviour
+    public class Netcode_NetworkRTT : NetworkBehaviour
     {
         [SerializeField] private NetworkVariable<float> _networkCurrentRTT = new NetworkVariable<float>();
         public float networkCurrentRTT { get => _networkCurrentRTT.Value; private set => _networkCurrentRTT.Value = value; }
         private float _currentRTT;
         
         private ClientRpcParams _clientRpcParams;
-        private float start = 0.0f;
-        private float end = 0.0f;
+        private float _start = 0.0f;
+        private float _end = 0.0f;
 
 
         private void Start()
@@ -45,12 +45,12 @@ namespace Project
         
         private void FixedUpdate()
         {
-            if (Time.realtimeSinceStartup - start > 0.5f)
+            if (Time.realtimeSinceStartup - _start > 0.5f)
             {
-                _currentRTT = Mathf.Round((end - start) * 1000);
+                _currentRTT = Mathf.Round((_end - _start) * 1000);
                 Debug.Log("Current RTT : " + _currentRTT);
-                start = Time.realtimeSinceStartup;
-                Debug.Log("Ping : " + start);
+                _start = Time.realtimeSinceStartup;
+                Debug.Log("Ping : " + _start);
                 PingServerRpc(_currentRTT);
             }
             
@@ -66,8 +66,8 @@ namespace Project
         [ClientRpc]
         private void PongClientRpc(ClientRpcParams clientRpcParams = default)
         {
-            end = Time.realtimeSinceStartup;
-            Debug.Log("Pong : " + end);
+            _end = Time.realtimeSinceStartup;
+            Debug.Log("Pong : " + _end);
         }
     }
 }

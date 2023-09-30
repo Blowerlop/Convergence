@@ -53,7 +53,7 @@ namespace Project
     
     
     
-    public class InputManager : Singleton<InputManager>
+    public class InputManager : MonoSingleton<InputManager>
     {
         #region Variables
         private PlayerInputAction _inputAction;

@@ -8,7 +8,7 @@ namespace Project
 {
     [RequireComponent(typeof(GRPC_Transport))]
     [DisallowMultipleComponent]
-    public class GRPC_NetworkManager : Singleton<GRPC_NetworkManager>
+    public class GRPC_NetworkManager : MonoSingleton<GRPC_NetworkManager>
     {
         private MainService.MainServiceClient _client;
         [ShowInInspector] public GRPC_Transport networkTransport { get; private set; }
@@ -18,7 +18,7 @@ namespace Project
             get
             {
                 #if UNITY_EDITOR
-                if (Application.isPlaying == false && networkTransport == null)
+                if (networkTransport == null && Application.isPlaying == false)
                 {
                     networkTransport = GetComponent<GRPC_Transport>();
                 }
@@ -32,15 +32,28 @@ namespace Project
         }
 
         public Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
+        public Event onClientEndedEvent = new Event(nameof(onClientStartedEvent));
 
         protected override void Awake()
         {
             networkTransport = GetComponent<GRPC_Transport>();
         }
 
-        public void StartClient()
+        public async void StartClient()
         {
-            networkTransport.StartClient();
+            bool connectionState = await networkTransport.StartClient();
+            if (connectionState)
+            {
+                onClientStartedEvent.Invoke(this, true);
+            }
+        }
+
+        public void StopClient()
+        {
+            if (networkTransport.StopClient())
+            {
+                onClientEndedEvent.Invoke(this, true);
+            }
         }
     }
 }

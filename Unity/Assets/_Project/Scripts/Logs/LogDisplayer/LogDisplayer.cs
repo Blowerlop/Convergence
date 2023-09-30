@@ -7,7 +7,7 @@ using UnityEngine.Pool;
 
 namespace Project
 {
-    public class LogDisplayer : Singleton<LogDisplayer>
+    public class LogDisplayer : MonoSingleton<LogDisplayer>
     {
         [SerializeField] private bool _defaultEnableState = true;
         [SerializeField] private Transform parent;

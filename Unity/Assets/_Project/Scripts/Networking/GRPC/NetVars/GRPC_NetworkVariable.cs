@@ -2,9 +2,9 @@ using Unity.Netcode;
 
 namespace Project
 {
-    public class GrpcNetworkVariable<T> : NetworkVariable<T>
+    public class GRPC_NetworkVariable<T> : NetworkVariable<T>
     {
-        public GrpcNetworkVariable(T value = default,
+        public GRPC_NetworkVariable(T value = default,
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
             NetworkVariableWritePermission writePerm = DefaultWritePerm) : base(value, readPerm, writePerm)
         {

@@ -17,7 +17,7 @@ namespace Project
         // TransportFailure
     }
 
-    public class ConnectionManager : Singleton<ConnectionManager>
+    public class Netcode_ConnectionManager : MonoSingleton<Netcode_ConnectionManager>
     {
         #region Variables
         [ShowInInspector] private EConnectionState _connectionState = EConnectionState.Disconnected;

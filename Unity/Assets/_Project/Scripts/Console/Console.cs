@@ -17,7 +17,7 @@ using ColorUtility = UnityEngine.ColorUtility;
 namespace Project
 {
     [DefaultExecutionOrder(-1)]
-    public class Console : Singleton<Console>
+    public class Console : MonoSingleton<Console>
     {
         #region Variables
 
