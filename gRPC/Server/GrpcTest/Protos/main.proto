@@ -24,6 +24,10 @@ service MainService {
 	//Cli prefix => comming from UnrealClients
 	
 	rpc GRPC_CliNetObjUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetObjUpdate);
+
+	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
+
+	rpc GRPC_CliNetNetVarUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetVarUpdate);
 }
 
 //Handshake

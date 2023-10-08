@@ -71,6 +71,7 @@ namespace GRPCServer.Services
 
             if (_clients.Count > 0)
             {
+                // Catch if client is already added to the clients
                 _clients.Add(context.Peer, new UnrealClient(ad: context.Peer));
 
                 //Debug connected clients
@@ -109,6 +110,7 @@ namespace GRPCServer.Services
                 var adress = context.Peer;
                 netcodeServerIP = adress;
                 _clients.Add(adress, new NetcodeServer(adress));
+
 
                 //Debug connected clients
                 foreach (var item in _clients)
@@ -152,7 +154,21 @@ namespace GRPCServer.Services
 
         #region NetObjects Update
 
+        public override async Task<GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(IAsyncStreamReader<GRPC_NetVarUpdate> requestStream, ServerCallContext context)
+        {
+            while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
+            {
+                //await 
+            }
 
+            //return Task.FromResult(new());
+            return null;
+        }
+
+        public override Task GRPC_CliNetNetVarUpdate(GRPC_EmptyMsg request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
+        {
+            return base.GRPC_CliNetNetVarUpdate(request, responseStream, context);
+        }
 
         #endregion
     }

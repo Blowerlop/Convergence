@@ -61,6 +61,8 @@ namespace GRPCClient {
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_NetObjUpdate> __Marshaller_main_GRPC_NetObjUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_NetObjUpdate.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_EmptyMsg> __Marshaller_main_GRPC_EmptyMsg = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_EmptyMsg.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_NetVarUpdate> __Marshaller_main_GRPC_NetVarUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_NetVarUpdate.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet> __Method_GRPC_Handshake = new grpc::Method<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet>(
@@ -101,6 +103,22 @@ namespace GRPCClient {
         "GRPC_CliNetObjUpdate",
         __Marshaller_main_GRPC_EmptyMsg,
         __Marshaller_main_GRPC_NetObjUpdate);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg> __Method_GRPC_SrvNetVarUpdate = new grpc::Method<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(
+        grpc::MethodType.ClientStreaming,
+        __ServiceName,
+        "GRPC_SrvNetVarUpdate",
+        __Marshaller_main_GRPC_NetVarUpdate,
+        __Marshaller_main_GRPC_EmptyMsg);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetVarUpdate> __Method_GRPC_CliNetNetVarUpdate = new grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetVarUpdate>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GRPC_CliNetNetVarUpdate",
+        __Marshaller_main_GRPC_EmptyMsg,
+        __Marshaller_main_GRPC_NetVarUpdate);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -153,6 +171,18 @@ namespace GRPCClient {
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task GRPC_CliNetObjUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_NetObjUpdate> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::GRPCClient.GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(grpc::IAsyncStreamReader<global::GRPCClient.GRPC_NetVarUpdate> requestStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GRPC_CliNetNetVarUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_NetVarUpdate> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -302,6 +332,26 @@ namespace GRPCClient {
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_CliNetObjUpdate, null, options, request);
       }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncClientStreamingCall<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_SrvNetVarUpdate(new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncClientStreamingCall<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncClientStreamingCall(__Method_GRPC_SrvNetVarUpdate, null, options);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_NetVarUpdate> GRPC_CliNetNetVarUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_CliNetNetVarUpdate(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_NetVarUpdate> GRPC_CliNetNetVarUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_CliNetNetVarUpdate, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override MainServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -320,7 +370,9 @@ namespace GRPCClient {
           .AddMethod(__Method_GRPC_NetcodeHandshake, serviceImpl.GRPC_NetcodeHandshake)
           .AddMethod(__Method_GRPC_Ping, serviceImpl.GRPC_Ping)
           .AddMethod(__Method_GRPC_SrvNetObjUpdate, serviceImpl.GRPC_SrvNetObjUpdate)
-          .AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl.GRPC_CliNetObjUpdate).Build();
+          .AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl.GRPC_CliNetObjUpdate)
+          .AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl.GRPC_SrvNetVarUpdate)
+          .AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl.GRPC_CliNetNetVarUpdate).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -335,6 +387,8 @@ namespace GRPCClient {
       serviceBinder.AddMethod(__Method_GRPC_Ping, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_PingPost, global::GRPCClient.GRPC_PingGet>(serviceImpl.GRPC_Ping));
       serviceBinder.AddMethod(__Method_GRPC_SrvNetObjUpdate, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::GRPCClient.GRPC_NetObjUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SrvNetObjUpdate));
       serviceBinder.AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetObjUpdate>(serviceImpl.GRPC_CliNetObjUpdate));
+      serviceBinder.AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SrvNetVarUpdate));
+      serviceBinder.AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetVarUpdate>(serviceImpl.GRPC_CliNetNetVarUpdate));
     }
 
   }

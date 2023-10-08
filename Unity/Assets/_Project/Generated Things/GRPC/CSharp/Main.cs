@@ -41,7 +41,7 @@ namespace GRPCClient {
             "cGUSIwoFdmFsdWUYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55Ki0KFUdS",
             "UENfTmV0T2JqVXBkYXRlVHlwZRIHCgNORVcQABILCgdERVNUUk9ZEAEqPgoQ",
             "R1JQQ19HZW5lcmljVHlwZRIHCgNJTlQQABIKCgZTVFJJTkcQARIICgRCT09M",
-            "EAISCwoHVkVDVE9SMxADMuoCCgtNYWluU2VydmljZRJDCg5HUlBDX0hhbmRz",
+            "EAISCwoHVkVDVE9SMxADMv0DCgtNYWluU2VydmljZRJDCg5HUlBDX0hhbmRz",
             "aGFrZRIYLm1haW4uR1JQQ19IYW5kc2hha2VQb3N0GhcubWFpbi5HUlBDX0hh",
             "bmRzaGFrZUdldBJMChVHUlBDX05ldGNvZGVIYW5kc2hha2USGS5tYWluLkdS",
             "UENfTkhhbmRzaGFrZVBvc3QaGC5tYWluLkdSUENfTkhhbmRzaGFrZUdldBI4",
@@ -49,7 +49,11 @@ namespace GRPCClient {
             "UGluZ0dldCgBMAESRgoUR1JQQ19TcnZOZXRPYmpVcGRhdGUSFy5tYWluLkdS",
             "UENfTmV0T2JqVXBkYXRlGhMubWFpbi5HUlBDX0VtcHR5TXNnKAESRgoUR1JQ",
             "Q19DbGlOZXRPYmpVcGRhdGUSEy5tYWluLkdSUENfRW1wdHlNc2caFy5tYWlu",
-            "LkdSUENfTmV0T2JqVXBkYXRlMAFCDaoCCkdSUENDbGllbnRiBnByb3RvMw=="));
+            "LkdSUENfTmV0T2JqVXBkYXRlMAESRgoUR1JQQ19TcnZOZXRWYXJVcGRhdGUS",
+            "Fy5tYWluLkdSUENfTmV0VmFyVXBkYXRlGhMubWFpbi5HUlBDX0VtcHR5TXNn",
+            "KAESSQoXR1JQQ19DbGlOZXROZXRWYXJVcGRhdGUSEy5tYWluLkdSUENfRW1w",
+            "dHlNc2caFy5tYWluLkdSUENfTmV0VmFyVXBkYXRlMAFCDaoCCkdSUENDbGll",
+            "bnRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), }, null, new pbr::GeneratedClrTypeInfo[] {
