@@ -1,31 +1,22 @@
-using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project
 {
-    public class GRPC_Client : MonoBehaviour
+    public class GRPC_Client : NetworkBehaviour
     {
-        private void Start()
-        {
-            GRPC_NetworkManager.instance.StartClient();
-        }
-
-        private void OnEnable()
-        {
-            GRPC_Rtt.instance.onRttUpdateEvent.Subscribe(this, DebugRtt);
-        }
+        private readonly GRPC_NetworkVariable<int> _networkVariableTest = new GRPC_NetworkVariable<int>("test");
         
         private void OnDisable()
         {
             if (GRPC_Rtt.isBeingDestroyed) return;
-            
-            GRPC_Rtt.instance.onRttUpdateEvent.Unsubscribe(DebugRtt);
         }
-        
-        
-        private void DebugRtt(float value)
+
+
+        [ContextMenu(nameof(UpdateNetworkVariable))]
+        private void UpdateNetworkVariable()
         {
-            Debug.Log(value);
+            _networkVariableTest.Value += 1;
         }
     }
 }

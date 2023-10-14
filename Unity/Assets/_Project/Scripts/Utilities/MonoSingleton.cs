@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Project
 {
@@ -11,15 +12,17 @@ namespace Project
         
         private static T _instance = null;
         public static T instance {
-            get { 
+            get 
+            { 
                 if(_instance == null){
                     _instance = FindObjectOfType<T>();
                     if(_instance == null){
-                        var singletonObj = new GameObject();
+                        GameObject singletonObj = new GameObject();
                         singletonObj.name = typeof(T).ToString();
                         _instance = singletonObj.AddComponent<T>();
-                    }
+                    } 
                 }
+                
                 return _instance;
             }
         }

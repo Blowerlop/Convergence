@@ -35,20 +35,26 @@ namespace Project
         public Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
         public Event onClientEndedEvent = new Event(nameof(onClientEndedEvent));
 
+
+        [SerializeField] private GameObject player;
+
         protected override void Awake()
         {
             networkTransport = GetComponent<FU_GRPC_Transport>();
         }
 
+        [Button]
         public async void StartClient()
         {
             bool connectionState = await networkTransport.StartClient();
             if (connectionState)
             {
+                Instantiate(player);
                 onClientStartedEvent.Invoke(this, true);
             }
         }
 
+        [Button]
         public void StopClient()
         {
             if (networkTransport.StopClient())

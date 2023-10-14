@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Bootstrap.unity
     guid: a425e499545bd0345bd7ac4578aa2b27
+  - enabled: 1
+    path: Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity
+    guid: 0c074b091b467f14dad77e8f3beb57cf
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0f2779ed084f9934fa7e9dc8d2a6aba6,
       type: 2}

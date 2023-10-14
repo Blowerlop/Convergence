@@ -13,6 +13,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Project
 {
+    [DefaultExecutionOrder(-1)]
     [RequireComponent(typeof(GRPC_NetworkManager))]
     [DisallowMultipleComponent]
     public class GRPC_Transport : MonoSingleton<GRPC_Transport>
@@ -23,6 +24,7 @@ namespace Project
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
         
+        public readonly Event onClientPreEndedEvent = new Event(nameof(onClientPreEndedEvent));
         
         
         private void Start()
@@ -32,7 +34,7 @@ namespace Project
 
         
         /// <summary>
-        /// Do not call directly this method. Use GRPC_NetworkManager.StartClient()
+        /// Do not call directly this method. Use GRPC_NetworkManager.StartClient() instead.
         /// </summary>
         public async Task<bool> StartClient()
         {
@@ -61,7 +63,7 @@ namespace Project
         }
 
         /// <summary>
-        /// Do not call directly this method. Use GRPC_NetworkManager.StopClient()
+        /// Do not call directly this method. Use GRPC_NetworkManager.StopClient() instead.
         /// </summary>
         public bool StopClient()
         {
@@ -74,7 +76,10 @@ namespace Project
             Debug.Log("Connection shutdown ! Cleaning client...");
 
 
-
+            // To do: find a better place to put this
+            GRPC_NetworkManager.instance.ClientsCancelTokens();
+            onClientPreEndedEvent.Invoke(this, false);
+            
             _channel?.ShutdownAsync().Wait();
             _channel = null;
 

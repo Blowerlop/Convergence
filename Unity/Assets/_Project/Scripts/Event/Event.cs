@@ -133,7 +133,7 @@ namespace Project
         
         public void Invoke(object sender, bool debugCallback, T arg ) 
         {
-            Debug.Log($"<color=#00FF00>{sender} invoked {_eventName}</color>"); 
+            if (debugCallback) Debug.Log($"<color=#00FF00>{sender} invoked {_eventName}</color>"); 
             _action.Invoke(arg);
             
             #if UNITY_EDITOR || DEVELOPMENT_BUILD

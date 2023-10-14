@@ -3,8 +3,8 @@ using System.IO;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Project
 {
@@ -14,7 +14,7 @@ namespace Project
         private readonly CancellationTokenSource _pingCancelSrc = new CancellationTokenSource();
         private AsyncDuplexStreamingCall<GRPC_PingPost, GRPC_PingGet> _pingStream;
 
-        public float currentRTT { get; private set; }
+        [ShowInInspector, ReadOnly] public float currentRTT { get; private set; } = -1;
 
         private float _start = 0.0f;
         private float _end = 0.0f;
@@ -35,6 +35,7 @@ namespace Project
 
         private void OnEnable()
         {
+            GRPC_Transport.instance.onClientPreEndedEvent.Subscribe(this, TokenCancel);
             GRPC_NetworkManager.instance.onClientEndedEvent.Subscribe(this, Dispose);
         }
 
@@ -42,6 +43,7 @@ namespace Project
         {
             if (GRPC_NetworkManager.isBeingDestroyed) return;
             
+            GRPC_Transport.instance.onClientPreEndedEvent.Unsubscribe(TokenCancel);
             GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
         }
 
@@ -64,9 +66,9 @@ namespace Project
             if (Time.realtimeSinceStartup - _start > _heartBeat)
             {
                 currentRTT = Mathf.Round((_end - _start) * 1000);
-                Debug.Log("Current RTT : " + currentRTT);
+                // Debug.Log("Current RTT : " + currentRTT);
                 _start = Time.realtimeSinceStartup;
-                Debug.Log("Ping : " + _start);
+                // Debug.Log("Ping : " + _start);
                 onRttUpdateEvent.Invoke(this, false, currentRTT);
                 PingPostServerRpc();
             }
@@ -92,13 +94,21 @@ namespace Project
                 while (await _pingStream.ResponseStream.MoveNext(_pingCancelSrc.Token))
                 {
                     _end = Time.realtimeSinceStartup;
-                    Debug.Log("Pong : " + _end);
+                    // Debug.Log("Pong : " + _end);
                 }
             }
             catch (RpcException)
             {
-                GRPC_NetworkManager.instance.StopClient();
+                if (GRPC_NetworkManager.instance.isConnected)
+                {
+                    GRPC_NetworkManager.instance.StopClient();
+                }
             }
+        }
+
+        private void TokenCancel()
+        {
+            _pingCancelSrc?.Cancel();
         }
         
         public void Dispose()

@@ -27,7 +27,7 @@ service MainService {
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
 
-	rpc GRPC_CliNetNetVarUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetVarUpdate);
+	rpc GRPC_CliNetNetVarUpdate (GRPC_NetVarUpdate) returns (stream GRPC_NetVarUpdate);
 }
 
 //Handshake
@@ -35,9 +35,10 @@ message GRPC_HandshakePost { }
 
 message GRPC_HandshakeGet {
 	int32 result = 1;
-	
-	repeated GRPC_NetObjUpdate netObjects = 2;
-	repeated GRPC_NetVarUpdate netVars = 3;
+	int32 clientId = 2;
+
+	repeated GRPC_NetObjUpdate netObjects = 3;
+	repeated GRPC_NetVarUpdate netVars = 4;
 }
 
 message GRPC_NHandshakePost { /*Init data*/ }
@@ -67,9 +68,8 @@ enum GRPC_NetObjUpdateType {
 //Data structures
 
 message GRPC_NetVarUpdate {
-	int32 associatedNetId = 1;
-	string netVarId = 2;
-	GRPC_GenericValue newValue = 3;
+	int32 hashName = 1;
+	GRPC_GenericValue newValue = 2;
 }
 
 //New value type
@@ -84,7 +84,7 @@ message GRPC_Vector3 {
 //Generics
 message GRPC_GenericValue {
 	GRPC_GenericType type = 1;
-	google.protobuf.Any value = 2;
+	string value = 2;
 }
 
 enum GRPC_GenericType {
@@ -92,4 +92,9 @@ enum GRPC_GenericType {
 	STRING = 1;
 	BOOL = 2;
 	VECTOR3 = 3;
+}
+
+message GRPC_ClientId
+{
+	uint32 id = 1;
 }

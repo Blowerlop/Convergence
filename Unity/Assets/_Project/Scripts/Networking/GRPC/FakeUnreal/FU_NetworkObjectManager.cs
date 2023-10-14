@@ -28,7 +28,7 @@ namespace Project
             _networkManager = FU_GRPC_NetworkManager.instance;
             
             _networkManager.onClientEndedEvent.Subscribe(this, Dispose);
-            _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
+            // _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
         }
 
         private void OnDisable()
