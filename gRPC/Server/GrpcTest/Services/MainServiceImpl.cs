@@ -258,7 +258,7 @@ namespace GRPCServer.Services
             }
             catch (TaskCanceledException)
             {
-                unrealClients[context.Peer]._netVarStream = null;
+                unrealClients[context.Peer].netVarStream.Remove(request.HashName);
             }
             Console.WriteLine($"Response stream closed");
         }

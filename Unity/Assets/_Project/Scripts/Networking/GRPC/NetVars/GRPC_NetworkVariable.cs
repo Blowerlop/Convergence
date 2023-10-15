@@ -14,8 +14,8 @@ namespace Project
     {
         private MainService.MainServiceClient _client => GRPC_Transport.instance.client;
         
-        private AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
-        private CancellationTokenSource  _sendStreamCancellationTokenSource = new CancellationTokenSource();
+        private static AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
+        private static CancellationTokenSource _sendStreamCancellationTokenSource;
 
         private int _variableHashName;
         
@@ -27,20 +27,18 @@ namespace Project
             // #if UNITY_EDITOR
             // if (GetBehaviour() == null) return;
             // #endif
-            // if (CanClientWrite(GetBehaviour().OwnerClientId) == false) return;
+            // 
 
             _variableHashName = nameOfVariable.GetHashCode();
-            _sendStream = _client.GRPC_SrvNetVarUpdate();
+            if (_sendStream == null)
+            {
+                _sendStream = _client.GRPC_SrvNetVarUpdate();
+                _sendStreamCancellationTokenSource = new CancellationTokenSource();
+                GRPC_NetworkManager.instance.onClientEndedEvent.Subscribe(this, Dispose);
+            }
+            
             OnValueChanged += OnValueChange;
         }
-
-        ~GRPC_NetworkVariable()
-        {
-            if (CanClientWrite(GetBehaviour().OwnerClientId) == false) return;
-
-            Dispose();
-        }
-
         
         private void OnValueChange(T _, T newValue)
         {
@@ -49,6 +47,8 @@ namespace Project
 
         private async void UpdateVariableOnGrpc()
         {
+            // if (CanClientWrite(GetBehaviour().OwnerClientId) == false) return;
+            
             try
             {
                 string value = Random.Range(1, 5).ToString();
@@ -67,8 +67,21 @@ namespace Project
             
             _sendStreamCancellationTokenSource?.Cancel();
             _sendStreamCancellationTokenSource?.Dispose();
+            _sendStreamCancellationTokenSource = null;
             
             _sendStream?.Dispose();
+            _sendStream = null;
+            
+            GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
         }
+        
+        #if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ClearStaticVariables()
+        {
+            _sendStream = null;
+            _sendStreamCancellationTokenSource = null;
+        }
+        #endif
     }
 }
