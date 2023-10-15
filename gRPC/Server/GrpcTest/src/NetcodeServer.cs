@@ -1,3 +1,4 @@
+using GRPCServer;
 using GRPCServer.Services;
 
 namespace Networking
@@ -8,7 +9,6 @@ namespace Networking
 
         public NetcodeServer(string ad) : base(ad) { }
 
-
         public override void Disconnect()
         {
             base.Disconnect();
@@ -18,6 +18,45 @@ namespace Networking
         public override void Dispose()
         {
             
+        }
+
+        public void HandleNetObjUpdate(GRPC_NetObjUpdate update)
+        {
+            switch (update.Type)
+            {
+                case GRPC_NetObjUpdateType.New:
+                    NewNetObject(update);
+                    break;
+                case GRPC_NetObjUpdateType.Destroy:
+                    DestroyNetObject(update);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        private void NewNetObject(GRPC_NetObjUpdate update)
+        {
+            Console.WriteLine("New NetworkObject: NetID: " + update.NetId + ", PrefabID: " + update.PrefabId + "\n");
+            NetObjs.Add(update.NetId, new NetworkObject(update.NetId, update.PrefabId));
+        }
+        
+        private void DestroyNetObject(GRPC_NetObjUpdate update)
+        {
+            Console.WriteLine("Destroy NetworkObject: NetID: " + update.NetId + "\n");
+            NetObjs.Remove(update.NetId);
+        }
+
+        public List<GRPC_NetObjUpdate> GetNetworkObjectsAsUpdates()
+        {
+            List<GRPC_NetObjUpdate> list = new();
+            
+            foreach (var netObj in NetObjs.Values)
+            {
+                list.Add(new GRPC_NetObjUpdate { NetId = netObj.NetId, Type = GRPC_NetObjUpdateType.New, PrefabId = netObj.PrefabId });
+            }
+
+            return list;
         }
     }
 }

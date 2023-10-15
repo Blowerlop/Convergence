@@ -27,20 +27,22 @@ namespace Project
         {
             _networkManager = FU_GRPC_NetworkManager.instance;
             
+            _networkManager.networkTransport.onClientPreEndedEvent.Subscribe(this, TokenCancel);
             _networkManager.onClientEndedEvent.Subscribe(this, Dispose);
-            // _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
+            _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
         }
 
         private void OnDisable()
         {
             if (FU_GRPC_NetworkManager.isBeingDestroyed) return;
             
+            _networkManager.networkTransport.onClientPreEndedEvent.Unsubscribe(TokenCancel);
+            _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);
             _networkManager.onClientEndedEvent.Unsubscribe(Dispose);
         }
         
         #region Stream
 
-        //Can't subscribe directly to onClientStartedEvent with NetObsUpdateStream because return type is not void
         private void StartNetObjsUpdateStream()
         {
             if (_netObjUpdateStream != null)
@@ -49,10 +51,10 @@ namespace Project
                 return;
             }
             
-            NetObsUpdateStream();
+            NetObjsUpdateStream();
         }
         
-        private async Task NetObsUpdateStream()
+        private async void NetObjsUpdateStream()
         {
             _netObjUpdateStream = _client.GRPC_CliNetObjUpdate(new GRPC_EmptyMsg());
 
@@ -66,7 +68,8 @@ namespace Project
             }
             catch (RpcException)
             { 
-                _networkManager.StopClient();
+                if (_networkManager.isConnected) 
+                    _networkManager.StopClient();
             }
         }
         
@@ -74,7 +77,15 @@ namespace Project
         
         #region Handle Update
         
-        public void ComputeNetObjUpdate(GRPC_NetObjUpdate update)
+        public void ComputeNetObjUpdates(List<GRPC_NetObjUpdate> updates)
+        {
+            foreach (var grpcNetObjUpdate in updates)
+            {
+                ComputeNetObjUpdate(grpcNetObjUpdate);
+            }
+        }
+        
+        private void ComputeNetObjUpdate(GRPC_NetObjUpdate update)
         {
             switch (update.Type)
             {
@@ -138,9 +149,18 @@ namespace Project
 
         #region IDisposable
         
+        private void TokenCancel()
+        {
+            _netObjUpdateCancelSrc?.Cancel();
+        }
+        
         public void Dispose()
         {
-            //Need to cancel
+            foreach (var obj in _networkObjects.Values)
+            {
+                obj.Dispose();
+            }
+            
             _netObjUpdateCancelSrc?.Dispose();
             _netObjUpdateStream?.Dispose();
 

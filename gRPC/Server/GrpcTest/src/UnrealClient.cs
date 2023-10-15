@@ -7,10 +7,9 @@ namespace Networking
     public class UnrealClient : GRPCClient
     {
         public readonly Dictionary<int, IServerStreamWriter<GRPC_NetVarUpdate>> netVarStream = new Dictionary<int, IServerStreamWriter<GRPC_NetVarUpdate>>();
-
+        public IServerStreamWriter<GRPC_NetObjUpdate> NetObjectsStream;
 
         public UnrealClient(string ad) : base(ad) { }
-
         
         public override void Disconnect()
         {

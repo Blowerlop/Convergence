@@ -83,7 +83,8 @@ namespace Project
             }
             catch (IOException)
             {
-                GRPC_NetworkManager.instance.StopClient();
+                if (GRPC_NetworkManager.instance.isConnected)
+                    GRPC_NetworkManager.instance.StopClient();
             }
         }
         

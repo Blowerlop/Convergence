@@ -49,7 +49,7 @@ namespace Project
             bool connectionState = await networkTransport.StartClient();
             if (connectionState)
             {
-                Instantiate(player);
+                //Instantiate(player);
                 onClientStartedEvent.Invoke(this, true);
             }
         }

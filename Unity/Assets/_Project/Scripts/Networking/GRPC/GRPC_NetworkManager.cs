@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using GRPCClient;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Project
 {
@@ -42,6 +42,9 @@ namespace Project
         public Event onClientEndEvent => networkTransport.onClientEndEvent;
         public readonly Event onClientEndedEvent = new Event(nameof(onClientStartedEvent));
 
+        //Test Network Object
+        [SerializeField] private GameObject prefab;
+        
         protected override void Awake()
         {
             networkTransport = GetComponent<GRPC_Transport>();
@@ -100,6 +103,27 @@ namespace Project
             for (int i = 0; i < _networkBehaviours.Count; i++)
             {
                 _networkBehaviours[i].CleanTokens();
+            }
+        }
+
+        //Test Network Object Spawn / Despawn
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                NetworkSpawner.Spawn(prefab.transform, x =>
+                {
+                    x.position = Vector3.right * Random.Range(-5f, 5f);
+                });
+            }
+            
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                var spawnedObjects = NetworkManager.Singleton.SpawnManager.SpawnedObjects.Values.ToList();
+                
+                var rand = spawnedObjects[Random.Range(0, spawnedObjects.Count)];
+                
+                NetworkSpawner.Despawn(rand);
             }
         }
     }

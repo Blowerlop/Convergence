@@ -1,10 +1,7 @@
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using BestHTTP;
 using BestHTTP.Logger;
-using Grpc.Core;
 using GRPC.NET;
 using Grpc.Net.Client;
 using GRPCClient;
@@ -23,12 +20,12 @@ namespace Project
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
         
+        public readonly Event onClientPreEndedEvent = new Event(nameof(onClientPreEndedEvent));
+        
         private void Start()
         {
             HTTPManager.Logger.Level = Loglevels.None;
         }
-        
-        
         
         /// <summary>
         /// Do not call directly this method. Use GRPC_NetworkManager.StartClient()
@@ -71,7 +68,9 @@ namespace Project
             }
             
             Debug.Log("Connection shutdown ! Cleaning client...");
-
+            
+            onClientPreEndedEvent.Invoke(this, false);
+            
             _channel?.ShutdownAsync().Wait();
             _channel = null;
 
@@ -84,9 +83,14 @@ namespace Project
         
         async Task<bool> Handshake()
         {
-            Debug.Log("GRPCClient.cs > NHandshake...");
+            Debug.Log("GRPCClient.cs > Handshake...");
             var response = await client.GRPC_HandshakeAsync(new GRPC_HandshakePost());
-            Debug.Log($"GRPCClient.cs > NHandshake result: {response.Result}");
+            Debug.Log($"GRPCClient.cs > Handshake result: {response.Result}");
+
+            if (response.Result == 0)
+            {
+                FU_NetworkObjectManager.instance.ComputeNetObjUpdates(response.NetObjects.ToList());
+            }
             
             return response.Result == 0;
         }

@@ -33,16 +33,15 @@ namespace GRPCServer.Services
 
         public static readonly Dictionary<string, GRPCClient> clients = new();
         public static readonly Dictionary<string, UnrealClient> unrealClients = new Dictionary<string, UnrealClient>();
-        public static NetcodeServerWrapper? netcodeServer  = null;
+        public static NetcodeServerWrapper? netcodeServer = null;
 
         private void AddNetcodeServer(string ip, string ad)
         {
-            if (netcodeServer != null && netcodeServer.HasValue)
+            if (netcodeServer.HasValue)
             {
                 Console.WriteLine("Netcode server already connected. IP: " + ip);
                 return;
             }
-
 
             NetcodeServerWrapper tempNetcodeServer = new NetcodeServerWrapper(ip, new NetcodeServer(ad));
             if (clients.TryAdd(ip, tempNetcodeServer.netcodeServer) == false)
@@ -92,7 +91,7 @@ namespace GRPCServer.Services
 
             // Display NetcodeServer
             Console.WriteLine($"NetcodeServer :");
-            if (netcodeServer != null && netcodeServer.HasValue)
+            if (netcodeServer.HasValue)
             {
                 Console.WriteLine(netcodeServer.Value.adress);
             }
@@ -105,9 +104,6 @@ namespace GRPCServer.Services
             Console.WriteLine("-----------------------------------");
             Console.WriteLine();
         }
-
-
-
 
         public void DisconnectClient(string clientAdress)
         {
@@ -131,7 +127,7 @@ namespace GRPCServer.Services
         #region Handshake
 
         public override Task<GRPC_HandshakeGet> GRPC_Handshake(GRPC_HandshakePost request, ServerCallContext context)
-        {            
+        {          
             //Debug
             Console.WriteLine("> Handshake");
             Console.WriteLine(context.Host);
@@ -148,8 +144,9 @@ namespace GRPCServer.Services
                 return Task.FromResult(new GRPC_HandshakeGet
                 {
                     Result = 0, //0 = good!
-                    ClientId = clients.Keys.Count + 1
-                    //Send netobjects
+                    ClientId = clients.Keys.Count + 1,
+                    
+                    NetObjects = { netcodeServer?.netcodeServer.GetNetworkObjectsAsUpdates() }
                 });
             }
             else
@@ -160,7 +157,6 @@ namespace GRPCServer.Services
                 //Result != 0 => error
                 return Task.FromResult(new GRPC_HandshakeGet { Result = 1, ClientId = -1 });
             }
-
         }
 
         public override Task<GRPC_NHandshakeGet> GRPC_NetcodeHandshake(GRPC_NHandshakePost request, ServerCallContext context)
@@ -212,6 +208,66 @@ namespace GRPCServer.Services
 
         #region NetObjects Update
 
+        public override async Task<GRPC_EmptyMsg> GRPC_SrvNetObjUpdate(IAsyncStreamReader<GRPC_NetObjUpdate> requestStream, ServerCallContext context)
+        {
+            if (!netcodeServer.HasValue)
+            {
+                _logger.LogCritical("Trying to open NetObjUpdate stream without " +
+                                    "NetcodeServer connected. Client IP: " + context.Peer);
+                return new GRPC_EmptyMsg();
+            }
+            
+            Console.WriteLine("NetcodeServer Network Objects update stream opened.");
+            
+            try
+            {
+                while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
+                {
+                    Console.WriteLine("Got new NetworkObject update: type " + requestStream.Current.Type + ", netId " +
+                                      requestStream.Current.NetId + ", prefabId " + requestStream.Current.PrefabId +
+                                      "\n");
+                    
+                    netcodeServer.Value.netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                    
+                    foreach (var client in unrealClients)
+                    {
+                        await client.Value.NetObjectsStream.WriteAsync(requestStream.Current);
+                    }
+                    
+                    Console.WriteLine("Update sent to all unreal clients.\n");
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Connection lost with client.");
+                DisconnectClient(context.Peer);
+            }
+
+            return new GRPC_EmptyMsg();
+        }
+
+        public override async Task GRPC_CliNetObjUpdate(GRPC_EmptyMsg request, IServerStreamWriter<GRPC_NetObjUpdate> responseStream, ServerCallContext context)
+        {
+            if (!unrealClients.ContainsKey(context.Peer))
+            {
+                _logger.LogError(
+                    $"Client {context.Peer} is trying to get NetworkObjects update stream without being registered.");
+                return;
+            }
+            
+            unrealClients[context.Peer].NetObjectsStream = responseStream;
+
+            try
+            {
+                await Task.Delay(-1, context.CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                Console.WriteLine("Connection lost with client.");
+                DisconnectClient(context.Peer);
+            }
+        }
+        
         public override async Task<GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(IAsyncStreamReader<GRPC_NetVarUpdate> requestStream, ServerCallContext context)
         {
             Console.WriteLine($"Wittring stream opened");
