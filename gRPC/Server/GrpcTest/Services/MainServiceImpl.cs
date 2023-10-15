@@ -236,12 +236,10 @@ namespace GRPCServer.Services
             {
                 _logger.LogCritical("Connection lost with client.");
                 Console.WriteLine($"stream closed");
-                DisconnectClient(context.Peer);
                 return new GRPC_EmptyMsg();
             }
 
             Console.WriteLine($"Wittring stream closed");
-            DisconnectClient(context.Peer);
             return new GRPC_EmptyMsg();
         }
 

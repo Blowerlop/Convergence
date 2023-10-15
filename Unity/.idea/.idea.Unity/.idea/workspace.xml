@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Test.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Test.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_Client.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkVariableReadOnly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkVariableReadOnly.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +154,7 @@
       <workItem from="1697248016962" duration="2570000" />
       <workItem from="1697322386370" duration="7083000" />
       <workItem from="1697335233581" duration="41000" />
-      <workItem from="1697372573575" duration="2273000" />
+      <workItem from="1697372573575" duration="3292000" />
     </task>
     <servers />
   </component>
