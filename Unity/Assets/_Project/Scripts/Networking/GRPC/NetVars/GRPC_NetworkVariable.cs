@@ -34,7 +34,7 @@ namespace Project
             {
                 _sendStream = _client.GRPC_SrvNetVarUpdate();
                 _sendStreamCancellationTokenSource = new CancellationTokenSource();
-                GRPC_NetworkManager.instance.onClientEndedEvent.Subscribe(this, Dispose);
+                GRPC_NetworkManager.instance.onClientEndEvent.Subscribe(this, Dispose);
             }
             
             OnValueChanged += OnValueChange;
@@ -72,7 +72,7 @@ namespace Project
             _sendStream?.Dispose();
             _sendStream = null;
             
-            GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
+            GRPC_NetworkManager.instance.onClientEndEvent.Unsubscribe(Dispose);
         }
         
         #if UNITY_EDITOR

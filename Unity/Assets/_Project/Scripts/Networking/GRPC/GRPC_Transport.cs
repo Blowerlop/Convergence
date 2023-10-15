@@ -8,6 +8,7 @@ using Grpc.Core;
 using GRPC.NET;
 using Grpc.Net.Client;
 using GRPCClient;
+using Unity.Netcode;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -24,8 +25,8 @@ namespace Project
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
         
-        public readonly Event onClientPreEndedEvent = new Event(nameof(onClientPreEndedEvent));
-        
+        // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
+        public readonly Event onClientEndEvent = new Event(nameof(onClientEndEvent));
         
         private void Start()
         {
@@ -59,6 +60,7 @@ namespace Project
             client = new MainService.MainServiceClient(_channel);
             
             isConnected = await NHandshake();
+            
             return isConnected;
         }
 
@@ -73,14 +75,13 @@ namespace Project
                 return false;
             }
             
-            Debug.Log("Connection shutdown ! Cleaning client...");
-
-
+            Debug.Log("Connection shutting down... cleaning client");
+            onClientEndEvent.Invoke(this, true);
+            
             // To do: find a better place to put this
             GRPC_NetworkManager.instance.ClientsCancelTokens();
-            onClientPreEndedEvent.Invoke(this, false);
-            
-            _channel?.ShutdownAsync().Wait();
+
+            _channel.ShutdownAsync().Wait();
             _channel = null;
 
             isConnected = false;

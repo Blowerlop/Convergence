@@ -35,7 +35,7 @@ namespace Project
 
         private void OnEnable()
         {
-            GRPC_Transport.instance.onClientPreEndedEvent.Subscribe(this, TokenCancel);
+            GRPC_Transport.instance.onClientEndEvent.Subscribe(this, TokenCancel);
             GRPC_NetworkManager.instance.onClientEndedEvent.Subscribe(this, Dispose);
         }
 
@@ -43,7 +43,7 @@ namespace Project
         {
             if (GRPC_NetworkManager.isBeingDestroyed) return;
             
-            GRPC_Transport.instance.onClientPreEndedEvent.Unsubscribe(TokenCancel);
+            GRPC_Transport.instance.onClientEndEvent.Unsubscribe(TokenCancel);
             GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
         }
 

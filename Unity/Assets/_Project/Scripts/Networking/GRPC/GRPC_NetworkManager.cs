@@ -36,8 +36,10 @@ namespace Project
 
         private readonly List<GRPC_NetworkBehaviour> _networkBehaviours = new List<GRPC_NetworkBehaviour>();
 
+        // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
         public readonly Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
-        // public Event onClientPreEndedEvent { get; private set; }
+
+        public Event onClientEndEvent => networkTransport.onClientEndEvent;
         public readonly Event onClientEndedEvent = new Event(nameof(onClientStartedEvent));
 
         protected override void Awake()

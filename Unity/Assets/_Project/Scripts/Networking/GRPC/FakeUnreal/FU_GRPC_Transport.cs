@@ -28,6 +28,8 @@ namespace Project
             HTTPManager.Logger.Level = Loglevels.None;
         }
         
+        
+        
         /// <summary>
         /// Do not call directly this method. Use GRPC_NetworkManager.StartClient()
         /// </summary>
@@ -69,7 +71,7 @@ namespace Project
             }
             
             Debug.Log("Connection shutdown ! Cleaning client...");
-            
+
             _channel?.ShutdownAsync().Wait();
             _channel = null;
 
