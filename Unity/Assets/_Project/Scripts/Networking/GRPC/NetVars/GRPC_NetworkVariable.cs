@@ -1,10 +1,13 @@
 using System;
 using System.IO;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Threading;
+using BestHTTP.JSON;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GRPCClient;
+using Newtonsoft.Json;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,7 +17,7 @@ namespace Project
 {
     public class GRPC_NetworkVariable<T> : NetworkVariable<T>  where T : struct
     {
-        private MainService.MainServiceClient _client => GRPC_Transport.instance.client;
+        private static MainService.MainServiceClient _client => GRPC_Transport.instance.client;
         
         private static AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
         private static CancellationTokenSource _sendStreamCancellationTokenSource;
@@ -46,16 +49,18 @@ namespace Project
         
         private void OnValueChange(T _, T newValue)
         {
-            UpdateVariableOnGrpc();
+            UpdateVariableOnGrpc(newValue);
         }
 
-        private async void UpdateVariableOnGrpc()
+        private async void UpdateVariableOnGrpc(T newValue)
         {
+            // if (CanClientWrite(GetBehaviour().OwnerClientId) == false) return;
+            
             try
             {
-                string value = Random.Range(1, 5).ToString();
-                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = _genericType, Value = value}}, _sendStreamCancellationTokenSource.Token);
-                Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {value}");
+                string jsonEncode = JsonConvert.SerializeObject(newValue);
+                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = _genericType, Value = jsonEncode}}, _sendStreamCancellationTokenSource.Token);
+                Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
             catch (IOException)
             {
@@ -63,7 +68,7 @@ namespace Project
             }
         }
 
-        private GRPC_GenericType GetGrpcGenericType()
+        private static GRPC_GenericType GetGrpcGenericType()
         {
             Type type = typeof(T);
 
@@ -71,23 +76,24 @@ namespace Project
             {
                 return GRPC_GenericType.Int;
             }
-            else if (type == typeof(string))
+
+            if (type == typeof(string))
             {
                 return GRPC_GenericType.String;
             }
-            else if (type == typeof(bool))
+
+            if (type == typeof(bool))
             {
                 return GRPC_GenericType.Bool;
             }
-            else if (type == typeof(Vector3))
+
+            if (type == typeof(Vector3))
             {
                 return GRPC_GenericType.Vector3;
             }
-            else
-            {
-                Debug.LogError($"The type '{type}' is not supported");
-                return GRPC_GenericType.Null;
-            }
+
+            Debug.LogError($"The type '{type}' is not supported");
+            return GRPC_GenericType.Null;
         }
 
         public override void Dispose()
