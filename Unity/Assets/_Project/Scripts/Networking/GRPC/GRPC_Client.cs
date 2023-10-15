@@ -12,7 +12,7 @@ namespace Project
         {
             if (GRPC_Rtt.isBeingDestroyed) return;
         }
-
+ 
 
         [ContextMenu(nameof(UpdateNetworkVariable))]
         private void UpdateNetworkVariable()

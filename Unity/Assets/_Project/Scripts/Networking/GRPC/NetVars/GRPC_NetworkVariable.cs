@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection.Emit;
 using System.Threading;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -7,6 +8,7 @@ using GRPCClient;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Type = System.Type;
 
 namespace Project
 {
@@ -18,27 +20,29 @@ namespace Project
         private static CancellationTokenSource _sendStreamCancellationTokenSource;
 
         private int _variableHashName;
+        private static GRPC_GenericType _genericType;
         
         
         public GRPC_NetworkVariable(string nameOfVariable, T value = default,
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
             NetworkVariableWritePermission writePerm = DefaultWritePerm) : base(value, readPerm, writePerm)
         {
-            // #if UNITY_EDITOR
-            // if (GetBehaviour() == null) return;
-            // #endif
-            // 
-
             _variableHashName = nameOfVariable.GetHashCode();
             if (_sendStream == null)
             {
+                _genericType = GetGrpcGenericType();
+                if (_genericType == GRPC_GenericType.Null) return;
+                
                 _sendStream = _client.GRPC_SrvNetVarUpdate();
                 _sendStreamCancellationTokenSource = new CancellationTokenSource();
+
+                
                 GRPC_NetworkManager.instance.onClientEndEvent.Subscribe(this, Dispose);
             }
             
             OnValueChanged += OnValueChange;
         }
+        
         
         private void OnValueChange(T _, T newValue)
         {
@@ -47,17 +51,42 @@ namespace Project
 
         private async void UpdateVariableOnGrpc()
         {
-            // if (CanClientWrite(GetBehaviour().OwnerClientId) == false) return;
-            
             try
             {
                 string value = Random.Range(1, 5).ToString();
-                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = GRPC_GenericType.Int, Value = value}}, _sendStreamCancellationTokenSource.Token);
+                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = _genericType, Value = value}}, _sendStreamCancellationTokenSource.Token);
                 Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {value}");
             }
             catch (IOException)
             {
                 GRPC_NetworkManager.instance.StopClient();
+            }
+        }
+
+        private GRPC_GenericType GetGrpcGenericType()
+        {
+            Type type = typeof(T);
+
+            if (type == typeof(Int32))
+            {
+                return GRPC_GenericType.Int;
+            }
+            else if (type == typeof(string))
+            {
+                return GRPC_GenericType.String;
+            }
+            else if (type == typeof(bool))
+            {
+                return GRPC_GenericType.Bool;
+            }
+            else if (type == typeof(Vector3))
+            {
+                return GRPC_GenericType.Vector3;
+            }
+            else
+            {
+                Debug.LogError($"The type '{type}' is not supported");
+                return GRPC_GenericType.Null;
             }
         }
 

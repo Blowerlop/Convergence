@@ -39,21 +39,21 @@ namespace GRPCClient {
             "ASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCIkgKEUdSUENfR2VuZXJpY1Zh",
             "bHVlEiQKBHR5cGUYASABKA4yFi5tYWluLkdSUENfR2VuZXJpY1R5cGUSDQoF",
             "dmFsdWUYAiABKAkiGwoNR1JQQ19DbGllbnRJZBIKCgJpZBgBIAEoDSotChVH",
-            "UlBDX05ldE9ialVwZGF0ZVR5cGUSBwoDTkVXEAASCwoHREVTVFJPWRABKj4K",
-            "EEdSUENfR2VuZXJpY1R5cGUSBwoDSU5UEAASCgoGU1RSSU5HEAESCAoEQk9P",
-            "TBACEgsKB1ZFQ1RPUjMQAzKBBAoLTWFpblNlcnZpY2USQwoOR1JQQ19IYW5k",
-            "c2hha2USGC5tYWluLkdSUENfSGFuZHNoYWtlUG9zdBoXLm1haW4uR1JQQ19I",
-            "YW5kc2hha2VHZXQSTAoVR1JQQ19OZXRjb2RlSGFuZHNoYWtlEhkubWFpbi5H",
-            "UlBDX05IYW5kc2hha2VQb3N0GhgubWFpbi5HUlBDX05IYW5kc2hha2VHZXQS",
-            "OAoJR1JQQ19QaW5nEhMubWFpbi5HUlBDX1BpbmdQb3N0GhIubWFpbi5HUlBD",
-            "X1BpbmdHZXQoATABEkYKFEdSUENfU3J2TmV0T2JqVXBkYXRlEhcubWFpbi5H",
-            "UlBDX05ldE9ialVwZGF0ZRoTLm1haW4uR1JQQ19FbXB0eU1zZygBEkYKFEdS",
-            "UENfQ2xpTmV0T2JqVXBkYXRlEhMubWFpbi5HUlBDX0VtcHR5TXNnGhcubWFp",
-            "bi5HUlBDX05ldE9ialVwZGF0ZTABEkYKFEdSUENfU3J2TmV0VmFyVXBkYXRl",
-            "EhcubWFpbi5HUlBDX05ldFZhclVwZGF0ZRoTLm1haW4uR1JQQ19FbXB0eU1z",
-            "ZygBEk0KF0dSUENfQ2xpTmV0TmV0VmFyVXBkYXRlEhcubWFpbi5HUlBDX05l",
-            "dFZhclVwZGF0ZRoXLm1haW4uR1JQQ19OZXRWYXJVcGRhdGUwAUINqgIKR1JQ",
-            "Q0NsaWVudGIGcHJvdG8z"));
+            "UlBDX05ldE9ialVwZGF0ZVR5cGUSBwoDTkVXEAASCwoHREVTVFJPWRABKkgK",
+            "EEdSUENfR2VuZXJpY1R5cGUSCAoETlVMTBAAEgcKA0lOVBABEgoKBlNUUklO",
+            "RxACEggKBEJPT0wQAxILCgdWRUNUT1IzEAQygQQKC01haW5TZXJ2aWNlEkMK",
+            "DkdSUENfSGFuZHNoYWtlEhgubWFpbi5HUlBDX0hhbmRzaGFrZVBvc3QaFy5t",
+            "YWluLkdSUENfSGFuZHNoYWtlR2V0EkwKFUdSUENfTmV0Y29kZUhhbmRzaGFr",
+            "ZRIZLm1haW4uR1JQQ19OSGFuZHNoYWtlUG9zdBoYLm1haW4uR1JQQ19OSGFu",
+            "ZHNoYWtlR2V0EjgKCUdSUENfUGluZxITLm1haW4uR1JQQ19QaW5nUG9zdBoS",
+            "Lm1haW4uR1JQQ19QaW5nR2V0KAEwARJGChRHUlBDX1Nydk5ldE9ialVwZGF0",
+            "ZRIXLm1haW4uR1JQQ19OZXRPYmpVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlN",
+            "c2coARJGChRHUlBDX0NsaU5ldE9ialVwZGF0ZRITLm1haW4uR1JQQ19FbXB0",
+            "eU1zZxoXLm1haW4uR1JQQ19OZXRPYmpVcGRhdGUwARJGChRHUlBDX1Nydk5l",
+            "dFZhclVwZGF0ZRIXLm1haW4uR1JQQ19OZXRWYXJVcGRhdGUaEy5tYWluLkdS",
+            "UENfRW1wdHlNc2coARJNChdHUlBDX0NsaU5ldE5ldFZhclVwZGF0ZRIXLm1h",
+            "aW4uR1JQQ19OZXRWYXJVcGRhdGUaFy5tYWluLkdSUENfTmV0VmFyVXBkYXRl",
+            "MAFCDaoCCkdSUENDbGllbnRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -81,10 +81,11 @@ namespace GRPCClient {
   }
 
   public enum GRPC_GenericType {
-    [pbr::OriginalName("INT")] Int = 0,
-    [pbr::OriginalName("STRING")] String = 1,
-    [pbr::OriginalName("BOOL")] Bool = 2,
-    [pbr::OriginalName("VECTOR3")] Vector3 = 3,
+    [pbr::OriginalName("NULL")] Null = 0,
+    [pbr::OriginalName("INT")] Int = 1,
+    [pbr::OriginalName("STRING")] String = 2,
+    [pbr::OriginalName("BOOL")] Bool = 3,
+    [pbr::OriginalName("VECTOR3")] Vector3 = 4,
   }
 
   #endregion
@@ -2178,7 +2179,7 @@ namespace GRPCClient {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::GRPCClient.GRPC_GenericType type_ = global::GRPCClient.GRPC_GenericType.Int;
+    private global::GRPCClient.GRPC_GenericType type_ = global::GRPCClient.GRPC_GenericType.Null;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::GRPCClient.GRPC_GenericType Type {
@@ -2224,7 +2225,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::GRPCClient.GRPC_GenericType.Int) hash ^= Type.GetHashCode();
+      if (Type != global::GRPCClient.GRPC_GenericType.Null) hash ^= Type.GetHashCode();
       if (Value.Length != 0) hash ^= Value.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2244,7 +2245,7 @@ namespace GRPCClient {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::GRPCClient.GRPC_GenericType.Int) {
+      if (Type != global::GRPCClient.GRPC_GenericType.Null) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -2262,7 +2263,7 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::GRPCClient.GRPC_GenericType.Int) {
+      if (Type != global::GRPCClient.GRPC_GenericType.Null) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -2280,7 +2281,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::GRPCClient.GRPC_GenericType.Int) {
+      if (Type != global::GRPCClient.GRPC_GenericType.Null) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (Value.Length != 0) {
@@ -2298,7 +2299,7 @@ namespace GRPCClient {
       if (other == null) {
         return;
       }
-      if (other.Type != global::GRPCClient.GRPC_GenericType.Int) {
+      if (other.Type != global::GRPCClient.GRPC_GenericType.Null) {
         Type = other.Type;
       }
       if (other.Value.Length != 0) {

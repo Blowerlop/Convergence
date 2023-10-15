@@ -56,12 +56,12 @@ namespace GRPCServer.Services
 
         private void AddUnrealClient(string ip, string ad)
         {
-            if (unrealClients.ContainsKey(ip) == false)
+            if (unrealClients.ContainsKey(ip))
             {
                 Console.WriteLine("Unreal client already connected. IP: " + ip);
                 return;
             }
-            if (clients.ContainsKey(ip) == false)
+            if (clients.ContainsKey(ip))
             {
                 Console.WriteLine("Trying to connect a client that is already connected but not as unreal client. IP: " + ip);
                 return;
