@@ -34,13 +34,13 @@ namespace Project
             if (_sendStream == null)
             {
                 _genericType = GetGrpcGenericType();
-                if (_genericType == GRPC_GenericType.Null) return;
+                if (_genericType == GRPC_GenericType.Isnull) return;
                 
                 _sendStream = _client.GRPC_SrvNetVarUpdate();
                 _sendStreamCancellationTokenSource = new CancellationTokenSource();
 
                 
-                GRPC_NetworkManager.instance.onClientEndEvent.Subscribe(this, Dispose);
+                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, Dispose);
             }
             
             OnValueChanged += OnValueChange;
@@ -59,7 +59,8 @@ namespace Project
             try
             {
                 string jsonEncode = JsonConvert.SerializeObject(newValue);
-                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = _genericType, Value = jsonEncode}}, _sendStreamCancellationTokenSource.Token);
+                int netId = (int)GetBehaviour().GetComponentInParent<NetworkObject>().NetworkObjectId;
+                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {NetId = netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = _genericType, Value = jsonEncode}}, _sendStreamCancellationTokenSource.Token);
                 Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
             catch (IOException)
@@ -93,7 +94,7 @@ namespace Project
             }
 
             Debug.LogError($"The type '{type}' is not supported");
-            return GRPC_GenericType.Null;
+            return GRPC_GenericType.Isnull;
         }
 
         public override void Dispose()
@@ -107,7 +108,7 @@ namespace Project
             _sendStream?.Dispose();
             _sendStream = null;
             
-            GRPC_NetworkManager.instance.onClientEndEvent.Unsubscribe(Dispose);
+            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(Dispose);
         }
         
         #if UNITY_EDITOR
