@@ -35,16 +35,16 @@ namespace Project
 
         private void OnEnable()
         {
-            GRPC_Transport.instance.onClientEndEvent.Subscribe(this, TokenCancel);
-            GRPC_NetworkManager.instance.onClientEndedEvent.Subscribe(this, Dispose);
+            GRPC_Transport.instance.onClientStopEvent.Subscribe(this, TokenCancel);
+            GRPC_NetworkManager.instance.onClientStoppedEvent.Subscribe(this, Dispose);
         }
 
         private void OnDisable()
         {
             if (GRPC_NetworkManager.isBeingDestroyed) return;
             
-            GRPC_Transport.instance.onClientEndEvent.Unsubscribe(TokenCancel);
-            GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
+            GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
+            GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);
         }
 
         private void FixedUpdate()

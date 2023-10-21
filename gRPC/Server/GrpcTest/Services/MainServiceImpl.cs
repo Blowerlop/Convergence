@@ -206,7 +206,7 @@ namespace GRPCServer.Services
 
         #endregion
 
-        #region NetObjects Update
+        #region NetObjects / NetVars Update
 
         public override async Task<GRPC_EmptyMsg> GRPC_SrvNetObjUpdate(IAsyncStreamReader<GRPC_NetObjUpdate> requestStream, ServerCallContext context)
         {

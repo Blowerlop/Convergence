@@ -19,18 +19,18 @@ namespace Project
         
         private void OnEnable()
         {
-            GRPC_Transport.instance.onClientEndEvent.Subscribe(this, TokenCancel);
+            GRPC_Transport.instance.onClientStopEvent.Subscribe(this, TokenCancel);
             GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GetNetObjsUpdateStream);
-            GRPC_NetworkManager.instance.onClientEndedEvent.Subscribe(this, Dispose);
+            GRPC_NetworkManager.instance.onClientStoppedEvent.Subscribe(this, Dispose);
         }
 
         private void OnDisable()
         {
             if (GRPC_NetworkManager.isBeingDestroyed) return;
             
-            GRPC_Transport.instance.onClientEndEvent.Unsubscribe(TokenCancel);
+            GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GetNetObjsUpdateStream);
-            GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
+            GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);
         }
 
         private void GetNetObjsUpdateStream()

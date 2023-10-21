@@ -39,8 +39,9 @@ namespace Project
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
         public readonly Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
 
-        public Event onClientEndEvent => networkTransport.onClientEndEvent;
-        public readonly Event onClientEndedEvent = new Event(nameof(onClientStartedEvent));
+        public Event onClientStopEvent => networkTransport.onClientStopEvent;
+        public readonly Event onClientStoppedEvent = new Event(nameof(onClientStartedEvent));
+        
         
         protected override void Awake()
         {
@@ -69,7 +70,7 @@ namespace Project
             {
                 DisposeClients();
                 
-                onClientEndedEvent.Invoke(this, true);
+                onClientStoppedEvent.Invoke(this, true);
             }
         }
 
