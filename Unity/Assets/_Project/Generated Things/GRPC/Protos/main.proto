@@ -68,8 +68,9 @@ enum GRPC_NetObjUpdateType {
 //Data structures
 
 message GRPC_NetVarUpdate {
-	int32 hashName = 1;
-	GRPC_GenericValue newValue = 2;
+	int32 netId = 1;
+	int32 hashName = 2;
+	GRPC_GenericValue newValue = 3;
 }
 
 //New value type
@@ -88,7 +89,7 @@ message GRPC_GenericValue {
 }
 
 enum GRPC_GenericType {
-	NULL = 0;	
+	ISNULL = 0;	
 	INT = 1;
 	STRING = 2;
 	BOOL = 3;

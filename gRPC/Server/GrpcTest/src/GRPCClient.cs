@@ -7,7 +7,7 @@ namespace Networking
     public abstract class GRPCClient : IDisposable
     {
         public string Adress = "";
-        public Int32 id;
+        public int id;
 
         public GRPCClient(string ad)
         {

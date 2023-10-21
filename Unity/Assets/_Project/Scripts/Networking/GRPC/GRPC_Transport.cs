@@ -26,7 +26,7 @@ namespace Project
         public MainService.MainServiceClient client { get; private set; }
         
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
-        public readonly Event onClientEndEvent = new Event(nameof(onClientEndEvent));
+        public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
         
         private void Start()
         {
@@ -76,7 +76,7 @@ namespace Project
             }
             
             Debug.Log("Connection shutting down... cleaning client");
-            onClientEndEvent.Invoke(this, true);
+            onClientStopEvent.Invoke(this, true);
             
             // To do: find a better place to put this
             GRPC_NetworkManager.instance.ClientsCancelTokens();
