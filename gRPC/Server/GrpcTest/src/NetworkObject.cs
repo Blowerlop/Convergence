@@ -5,7 +5,7 @@ namespace Networking
         public readonly int NetId;
         public readonly string PrefabId;
         
-        public Dictionary<string, object> NetVars = new();
+        public Dictionary<int, string> NetVars = new();
 
         public NetworkObject(int netId, string prefabId)
         {

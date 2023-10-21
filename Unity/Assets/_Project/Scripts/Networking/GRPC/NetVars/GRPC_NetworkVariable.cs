@@ -23,7 +23,7 @@ namespace Project
         private static CancellationTokenSource _sendStreamCancellationTokenSource;
 
         private int _variableHashName;
-        private static GRPC_GenericType _genericType;
+        private static Type _currentType;
         
         
         public GRPC_NetworkVariable(string nameOfVariable, T value = default,
@@ -33,8 +33,8 @@ namespace Project
             _variableHashName = nameOfVariable.GetHashCode();
             if (_sendStream == null)
             {
-                _genericType = GetGrpcGenericType();
-                if (_genericType == GRPC_GenericType.Isnull) return;
+                if (_currentType != null) return;
+                _currentType = typeof(T);
                 
                 _sendStream = _client.GRPC_SrvNetVarUpdate();
                 _sendStreamCancellationTokenSource = new CancellationTokenSource();
@@ -60,7 +60,7 @@ namespace Project
             {
                 string jsonEncode = JsonConvert.SerializeObject(newValue);
                 int netId = (int)GetBehaviour().GetComponentInParent<NetworkObject>().NetworkObjectId;
-                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {NetId = netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue() {Type = _genericType, Value = jsonEncode}}, _sendStreamCancellationTokenSource.Token);
+                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {NetId = netId, HashName = _variableHashName, Value = jsonEncode}, _sendStreamCancellationTokenSource.Token);
                 Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
             catch (IOException)
@@ -115,6 +115,7 @@ namespace Project
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ClearStaticVariables()
         {
+            _currentType = null;
             _sendStream = null;
             _sendStreamCancellationTokenSource = null;
         }

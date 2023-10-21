@@ -146,7 +146,8 @@ namespace GRPCServer.Services
                     Result = 0, //0 = good!
                     ClientId = clients.Keys.Count + 1,
                     
-                    NetObjects = { netcodeServer?.netcodeServer.GetNetworkObjectsAsUpdates() }
+                    NetObjects = { netcodeServer?.netcodeServer.GetNetworkObjectsAsUpdates() },
+                    NetVars = { netcodeServer?.netcodeServer.GetNetworkVariablesAsUpdates() }
                 });
             }
             else
@@ -254,7 +255,8 @@ namespace GRPCServer.Services
                     $"Client {context.Peer} is trying to get NetworkObjects update stream without being registered.");
                 return;
             }
-            
+
+            Console.WriteLine($"Client NetObject stream opened");
             unrealClients[context.Peer].NetObjectsStream = responseStream;
 
             try
@@ -266,26 +268,32 @@ namespace GRPCServer.Services
                 Console.WriteLine("Connection lost with client.");
                 DisconnectClient(context.Peer);
             }
+            Console.WriteLine($"Client NetObject stream closed");
         }
         
         public override async Task<GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(IAsyncStreamReader<GRPC_NetVarUpdate> requestStream, ServerCallContext context)
         {
-            Console.WriteLine($"Wittring stream opened");
+            Console.WriteLine($"NetVar writting stream opened");
             try
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    Console.WriteLine($"NetVar received {requestStream.Current.HashName}");
+                    Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.Value}");
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
-                        //await unrealClient.Value._netVarStream?.WriteAsync(requestStream.Current);
-
                         if (unrealClient.Value.netVarStream.ContainsKey(requestStream.Current.HashName) == false) continue;
 
+                        Console.WriteLine($"JE TECRIS :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.Value}");
+
+                        if (netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.TryAdd(requestStream.Current.HashName, requestStream.Current.Value) == false)
+                        {
+                            netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.Value;
+                        }
+                        
                         await unrealClient.Value.netVarStream[requestStream.Current.HashName].WriteAsync(requestStream.Current);
                     }
-                    
-                    Console.WriteLine($"NetVar sync {requestStream.Current.HashName}");
+
+                    Console.WriteLine($"VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.Value}");
                 }
             }
             catch (IOException)
@@ -301,7 +309,7 @@ namespace GRPCServer.Services
 
         public override async Task GRPC_CliNetNetVarUpdate(GRPC_NetVarUpdate request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
         {
-            Console.WriteLine($"Response stream opened");
+            Console.WriteLine($"Response stream opened for {request.HashName}");
 
             //unrealClients[context.Peer]._netVarStream = responseStream;
             unrealClients[context.Peer].netVarStream.Add(request.HashName, responseStream);

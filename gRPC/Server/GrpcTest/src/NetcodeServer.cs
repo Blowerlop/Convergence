@@ -58,5 +58,20 @@ namespace Networking
 
             return list;
         }
+
+        public List<GRPC_NetVarUpdate> GetNetworkVariablesAsUpdates()
+        {
+            List<GRPC_NetVarUpdate> list = new();
+
+            foreach (var netObj in NetObjs.Values)
+            {
+                foreach (var netVar in netObj.NetVars)
+                {
+                    list.Add(new GRPC_NetVarUpdate { NetId = netObj.NetId, HashName = netVar.Key, Value = netVar.Value});
+                }
+            }
+
+            return list;
+        }
     }
 }

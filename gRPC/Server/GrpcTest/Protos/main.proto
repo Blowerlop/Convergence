@@ -70,7 +70,7 @@ enum GRPC_NetObjUpdateType {
 message GRPC_NetVarUpdate {
 	int32 netId = 1;
 	int32 hashName = 2;
-	GRPC_GenericValue newValue = 3;
+	string value = 3;
 }
 
 //New value type

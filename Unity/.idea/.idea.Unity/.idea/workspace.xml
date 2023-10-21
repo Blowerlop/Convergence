@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Rtt.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Rtt.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Transport.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/Protos/main.proto" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/Protos/main.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Menu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkVariableReadOnly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkVariableReadOnly.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Client.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Protos/main.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Protos/main.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Services/MainServiceImpl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Services/MainServiceImpl.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +61,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/Connection/NetworkConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/Core/NetworkBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/Core/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/Core/NetworkObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/NetworkVariable/NetworkVariable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/NetworkVariable/NetworkVariableBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.1/Runtime/NetworkVariable/NetworkVariableSerialization.cs" root0="SKIP_HIGHLIGHTING" />
@@ -157,6 +163,7 @@
       <workItem from="1697335233581" duration="41000" />
       <workItem from="1697372573575" duration="3292000" />
       <workItem from="1697380399108" duration="188000" />
+      <workItem from="1697895005921" duration="6200000" />
     </task>
     <servers />
   </component>
