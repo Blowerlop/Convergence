@@ -106,9 +106,24 @@ namespace Project
         #region Debug
         
         [ConsoleCommand("dbg_spawn", "Spawn a dummy network object to test sync between Unreal and Unity.")]
-        public static void TestSpawnCmd()
+        public static void TestSpawnCmd(string name)
         {
-            Spawn(GRPC_NetObjectsHandler.instance.testPrefab.transform, x =>
+            GameObject prefab = null;
+            
+            switch (name)
+            {
+                case "player":
+                    prefab = GRPC_NetObjectsHandler.instance.playerPrefab;
+                    break;
+                case "cube":
+                    prefab = GRPC_NetObjectsHandler.instance.cubePrefab;
+                    break;
+                default:
+                    prefab = GRPC_NetObjectsHandler.instance.cubePrefab;
+                    break;
+            }
+            
+            Spawn(prefab.transform, x =>
             {
                 x.position = Vector3.right * Random.Range(-5f, 5f);
             });
@@ -119,7 +134,7 @@ namespace Project
             "Spawn a dummy network object with ownership to test sync between Unreal and Unity.")]
         public static void TestSpawnWithOwnershipCmd(int clientIndex = 0)
         {
-            SpawnWithOwnership(GRPC_NetObjectsHandler.instance.testPrefab.transform,
+            SpawnWithOwnership(GRPC_NetObjectsHandler.instance.cubePrefab.transform,
                 NetworkManager.Singleton.ConnectedClientsIds[clientIndex],
                 x =>
                 {
@@ -131,7 +146,7 @@ namespace Project
             "Spawn a dummy network object as player object to test sync between Unreal and Unity.")]
         public static void TestSpawnAsPlayerObjectCmd(int clientIndex = 0)
         {
-            SpawnAsPlayerObject(GRPC_NetObjectsHandler.instance.testPrefab.transform,
+            SpawnAsPlayerObject(GRPC_NetObjectsHandler.instance.cubePrefab.transform,
                 NetworkManager.Singleton.ConnectedClientsIds[clientIndex],
                 x =>
                 {

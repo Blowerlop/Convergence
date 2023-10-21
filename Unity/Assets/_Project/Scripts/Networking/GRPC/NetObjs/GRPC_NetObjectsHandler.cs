@@ -11,7 +11,8 @@ namespace Project
 {
     public class GRPC_NetObjectsHandler : MonoSingleton<GRPC_NetObjectsHandler>, IDisposable
     {
-        public GameObject testPrefab;
+        public GameObject cubePrefab;
+        public GameObject playerPrefab;
         
         private readonly CancellationTokenSource _netObjsStreamCancelSrc = new CancellationTokenSource();
         private AsyncClientStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;

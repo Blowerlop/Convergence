@@ -1665,8 +1665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebd276f4b714c7e9872fef04aa55276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _address: 127.0.0.1
-  _port: 5001
+  _address: 31.37.51.202
+  _port: 51820
 --- !u!4 &1456521058
 Transform:
   m_ObjectHideFlags: 0
@@ -1707,7 +1707,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c8632f361a0ee458795e8afc3ac0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPrefab: {fileID: 7877531560775032868, guid: 0575151717cb6c74d94a75b86e41c2c9,
+  cubePrefab: {fileID: 7877531560775032868, guid: 0575151717cb6c74d94a75b86e41c2c9,
+    type: 3}
+  playerPrefab: {fileID: 9010580981310173421, guid: 4ac19e52d770fe347a64b8a79077aa56,
     type: 3}
 --- !u!1 &1757474929
 GameObject:
