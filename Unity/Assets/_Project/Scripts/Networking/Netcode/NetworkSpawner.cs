@@ -112,10 +112,10 @@ namespace Project
             
             switch (name)
             {
-                case "player":
+                case "Player":
                     prefab = GRPC_NetObjectsHandler.instance.playerPrefab;
                     break;
-                case "cube":
+                case "Cube":
                     prefab = GRPC_NetObjectsHandler.instance.cubePrefab;
                     break;
                 default:
