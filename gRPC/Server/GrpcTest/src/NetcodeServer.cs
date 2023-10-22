@@ -67,7 +67,7 @@ namespace Networking
             {
                 foreach (var netVar in netObj.NetVars)
                 {
-                    list.Add(new GRPC_NetVarUpdate { NetId = netObj.NetId, HashName = netVar.Key, Value = netVar.Value});
+                    list.Add(new GRPC_NetVarUpdate { NetId = netObj.NetId, HashName = netVar.Key, NewValue = { Type = netVar.Value.Type, Value = netVar.Value.Value } });
                 }
             }
 

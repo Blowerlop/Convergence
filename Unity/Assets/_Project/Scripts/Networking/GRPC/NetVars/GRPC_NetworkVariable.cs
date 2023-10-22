@@ -22,19 +22,20 @@ namespace Project
         private static AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
         private static CancellationTokenSource _sendStreamCancellationTokenSource;
 
-        private int _variableHashName;
-        private static Type _currentType;
+        private readonly int _variableHashName;
+        private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         
         
-        public GRPC_NetworkVariable(string nameOfVariable, T value = default,
+        public GRPC_NetworkVariable(string variableName, T value = default,
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
             NetworkVariableWritePermission writePerm = DefaultWritePerm) : base(value, readPerm, writePerm)
         {
-            _variableHashName = nameOfVariable.GetHashCode();
+            // _variableHashName = nameOfVariable.GetHashCode();
+            _variableHashName = StringToHash(variableName.ToLower());
+            Debug.Log($"{variableName} - {_variableHashName}");
             if (_sendStream == null)
             {
-                if (_currentType != null) return;
-                _currentType = typeof(T);
+                _currentType = GetGrpcGenericType();
                 
                 _sendStream = _client.GRPC_SrvNetVarUpdate();
                 _sendStreamCancellationTokenSource = new CancellationTokenSource();
@@ -43,6 +44,7 @@ namespace Project
                 GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, Dispose);
             }
             
+            // UpdateVariableOnGrpc(value);
             OnValueChanged += OnValueChange;
         }
         
@@ -60,7 +62,11 @@ namespace Project
             {
                 string jsonEncode = JsonConvert.SerializeObject(newValue);
                 int netId = (int)GetBehaviour().GetComponentInParent<NetworkObject>().NetworkObjectId;
-                await _sendStream.RequestStream.WriteAsync(new GRPC_NetVarUpdate() {NetId = netId, HashName = _variableHashName, Value = jsonEncode}, _sendStreamCancellationTokenSource.Token);
+                GRPC_NetVarUpdate result = new GRPC_NetVarUpdate()
+                {
+                    NetId = netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
+                };
+                await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
                 Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
             catch (IOException)
@@ -115,10 +121,24 @@ namespace Project
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ClearStaticVariables()
         {
-            _currentType = null;
+            _currentType = GRPC_GenericType.Isnull;
             _sendStream = null;
             _sendStreamCancellationTokenSource = null;
         }
         #endif
+        
+        
+        private int StringToHash(string stringToHash)
+        {
+            const int p = 31;
+            const long m = (long)1e9 + 9;
+            long hash_value = 0;
+            long p_pow = 1;
+            foreach (char c in stringToHash) {
+                hash_value = (hash_value + (c - 'a' + 1) * p_pow) % m;
+                p_pow = (p_pow * p) % m;
+            }
+            return (int)hash_value; 
+        }
     }
 }

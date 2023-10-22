@@ -1,3 +1,5 @@
+using GRPCServer;
+
 namespace Networking
 {
     public class NetworkObject
@@ -5,7 +7,7 @@ namespace Networking
         public readonly int NetId;
         public readonly string PrefabId;
         
-        public Dictionary<int, string> NetVars = new();
+        public Dictionary<int, GRPC_GenericValue> NetVars = new();
 
         public NetworkObject(int netId, string prefabId)
         {

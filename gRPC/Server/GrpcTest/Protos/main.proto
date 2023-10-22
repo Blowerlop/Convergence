@@ -27,7 +27,7 @@ service MainService {
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
 
-	rpc GRPC_CliNetNetVarUpdate (GRPC_NetVarUpdate) returns (stream GRPC_NetVarUpdate);
+	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
 }
 
 //Handshake
@@ -70,7 +70,7 @@ enum GRPC_NetObjUpdateType {
 message GRPC_NetVarUpdate {
 	int32 netId = 1;
 	int32 hashName = 2;
-	string value = 3;
+	GRPC_GenericValue newValue = 3;
 }
 
 //New value type

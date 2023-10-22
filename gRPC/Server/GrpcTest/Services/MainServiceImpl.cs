@@ -278,22 +278,26 @@ namespace GRPCServer.Services
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.Value}");
+                    Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
-                        if (unrealClient.Value.netVarStream.ContainsKey(requestStream.Current.HashName) == false) continue;
+                        if (unrealClient.Value.netVarStream.ContainsKey(requestStream.Current.NewValue.Type) == false) continue;
 
-                        Console.WriteLine($"JE TECRIS :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.Value}");
+                        Console.WriteLine($"JE TECRIS :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
 
-                        if (netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.TryAdd(requestStream.Current.HashName, requestStream.Current.Value) == false)
+                        if (netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
                         {
-                            netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.Value;
+                            netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
+                        }
+                        else
+                        {
+                            netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
                         }
                         
-                        await unrealClient.Value.netVarStream[requestStream.Current.HashName].WriteAsync(requestStream.Current);
+                        await unrealClient.Value.netVarStream[requestStream.Current.NewValue.Type].WriteAsync(requestStream.Current);
                     }
 
-                    Console.WriteLine($"VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.Value}");
+                    Console.WriteLine($"VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
                 }
             }
             catch (IOException)
@@ -307,12 +311,12 @@ namespace GRPCServer.Services
             return new GRPC_EmptyMsg();
         }
 
-        public override async Task GRPC_CliNetNetVarUpdate(GRPC_NetVarUpdate request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
+        public override async Task GRPC_CliNetNetVarUpdate(GRPC_GenericValue request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
         {
-            Console.WriteLine($"Response stream opened for {request.HashName}");
+            Console.WriteLine($"Response stream opened for {request.Type}");
 
             //unrealClients[context.Peer]._netVarStream = responseStream;
-            unrealClients[context.Peer].netVarStream.Add(request.HashName, responseStream);
+            unrealClients[context.Peer].netVarStream.Add(request.Type, responseStream);
 
             try
             {
@@ -320,7 +324,7 @@ namespace GRPCServer.Services
             }
             catch (TaskCanceledException)
             {
-                unrealClients[context.Peer].netVarStream.Remove(request.HashName);
+                unrealClients[context.Peer].netVarStream.Remove(request.Type);
             }
             Console.WriteLine($"Response stream closed");
         }

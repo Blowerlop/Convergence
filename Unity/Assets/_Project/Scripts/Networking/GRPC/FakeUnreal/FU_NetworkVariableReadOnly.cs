@@ -48,7 +48,7 @@ namespace Project
                 while (await _readStream.ResponseStream.MoveNext(_readStreamCancellationTokenSource.Token))
                 {
                     // _value = Convert(_readStream.ResponseStream.Current.NewValue);
-                    _value = int.Parse(_readStream.ResponseStream.Current.Value);
+                    _value = int.Parse(_readStream.ResponseStream.Current.NewValue.Value);
                     Debug.Log($"Network variable sync : {_value.ToString()}");
                 }
             }
