@@ -39,7 +39,6 @@ namespace Project
                 Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { OwnerClientId } }
             };
             
-            Debug.Log("a");
             enabled = true;
         }
         
@@ -48,9 +47,7 @@ namespace Project
             if (Time.realtimeSinceStartup - _start > 0.5f)
             {
                 _currentRTT = Mathf.Round((_end - _start) * 1000);
-                Debug.Log("Current RTT : " + _currentRTT);
                 _start = Time.realtimeSinceStartup;
-                Debug.Log("Ping : " + _start);
                 PingServerRpc(_currentRTT);
             }
             
@@ -67,7 +64,6 @@ namespace Project
         private void PongClientRpc(ClientRpcParams clientRpcParams = default)
         {
             _end = Time.realtimeSinceStartup;
-            Debug.Log("Pong : " + _end);
         }
     }
 }

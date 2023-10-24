@@ -278,7 +278,7 @@ namespace GRPCServer.Services
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
+                    Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value}");
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
                         if (unrealClient.Value.netVarStream.ContainsKey(requestStream.Current.NewValue.Type) == false) continue;
@@ -313,11 +313,11 @@ namespace GRPCServer.Services
 
         public override async Task GRPC_CliNetNetVarUpdate(GRPC_GenericValue request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
         {
-            Console.WriteLine($"Response stream opened for {request.Type}");
+            Console.WriteLine($"Response stream opened : {context.Peer} / {request.Type}");
 
             //unrealClients[context.Peer]._netVarStream = responseStream;
             unrealClients[context.Peer].netVarStream.Add(request.Type, responseStream);
-
+            Console.WriteLine($"Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             try
             {
                 await Task.Delay(-1, context.CancellationToken);
@@ -326,7 +326,7 @@ namespace GRPCServer.Services
             {
                 unrealClients[context.Peer].netVarStream.Remove(request.Type);
             }
-            Console.WriteLine($"Response stream closed");
+            Console.WriteLine($"Response stream closed : {context.Peer} / {request.Type}");
         }
 
         #endregion

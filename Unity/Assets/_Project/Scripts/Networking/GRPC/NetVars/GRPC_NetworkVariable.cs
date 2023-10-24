@@ -32,7 +32,6 @@ namespace Project
         {
             // _variableHashName = nameOfVariable.GetHashCode();
             _variableHashName = StringToHash(variableName.ToLower());
-            Debug.Log($"{variableName} - {_variableHashName}");
             if (_sendStream == null)
             {
                 _currentType = GetGrpcGenericType();
@@ -60,7 +59,23 @@ namespace Project
             
             try
             {
-                string jsonEncode = JsonConvert.SerializeObject(newValue);
+                object valueToEncodeInJson;
+                if (newValue is NetworkString)
+                {
+                    NetworkString networkString = (NetworkString)Convert.ChangeType(newValue, typeof(NetworkString));
+                    valueToEncodeInJson = networkString.value;
+                }
+                else
+                {
+                    valueToEncodeInJson = newValue;
+                }
+                
+                string jsonEncode = JsonConvert.SerializeObject(valueToEncodeInJson, Formatting.Indented, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+                Debug.Log("Json Encode : " + jsonEncode);
+                Debug.Log("Json Decode : " + JsonConvert.DeserializeObject<string>(jsonEncode));
                 int netId = (int)GetBehaviour().GetComponentInParent<NetworkObject>().NetworkObjectId;
                 GRPC_NetVarUpdate result = new GRPC_NetVarUpdate()
                 {
@@ -71,7 +86,7 @@ namespace Project
             }
             catch (IOException)
             {
-                GRPC_NetworkManager.instance.StopClient();
+                GRPC_NetworkManager.instance.StopClient(); 
             }
         }
 
@@ -84,7 +99,7 @@ namespace Project
                 return GRPC_GenericType.Int;
             }
 
-            if (type == typeof(string))
+            if (type == typeof(NetworkString))
             {
                 return GRPC_GenericType.String;
             }
@@ -95,6 +110,11 @@ namespace Project
             }
 
             if (type == typeof(Vector3))
+            {
+                return GRPC_GenericType.Vector3;
+            }
+            
+            if (type == typeof(Quaternion))
             {
                 return GRPC_GenericType.Vector3;
             }

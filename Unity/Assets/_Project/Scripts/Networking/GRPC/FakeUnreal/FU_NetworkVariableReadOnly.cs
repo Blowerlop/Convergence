@@ -20,7 +20,7 @@ namespace Project
         
         public FU_NetworkVariableReadOnly()
         {
-            _readStream = _client.GRPC_CliNetNetVarUpdate(new GRPC_NetVarUpdate() {HashName = "test".GetHashCode()});
+            // _readStream = _client.GRPC_CliNetNetVarUpdate(new GRPC_NetVarUpdate() {HashName = "test".GetHashCode()});
             _readStreamCancellationTokenSource = new CancellationTokenSource();
             ReadValues();
         }

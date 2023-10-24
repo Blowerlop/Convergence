@@ -45,15 +45,11 @@ namespace Project
 
         
         #region Updates
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            _transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        }
-
         private void Start()
         {
+            // GetComponent in start because sometimes the NetworkManager initialize lately
+            _transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            
             NetworkManager.Singleton.OnClientStarted += OnClientStarted;
             NetworkManager.Singleton.OnClientStopped += OnClientStopped;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
@@ -91,7 +87,7 @@ namespace Project
 
         private void OnClientStarted()
         {
-            Debug.Log($"Trying to establish a connection to {_transport.ConnectionData.Address}");
+            Debug.Log($"Trying to establish a connection to {_transport.ConnectionData.Address}:{_transport.ConnectionData.Port}");
             connectionState = EConnectionState.EstablishingConnection;
         }
 
