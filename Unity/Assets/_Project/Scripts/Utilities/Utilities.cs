@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Project
 {
@@ -12,7 +13,36 @@ namespace Project
             while (timer < timeInSeconds)
             {
                 timer += Time.deltaTime;
-                callback.Invoke(Mathf.Lerp(from, to, timer / timeInSeconds));
+                float linearValue = Mathf.Lerp(from, to, timer / timeInSeconds);
+                callback.Invoke(linearValue);
+                yield return null;
+            }
+            
+            onFinishCallback?.Invoke();
+        }
+        
+        public static IEnumerator LerpInTimeCoroutine(float timeInSeconds, Vector3 from, Vector3 to, Action<Vector3> callback, Action onFinishCallback = null)
+        {
+            float timer = 0.0f;
+            while (timer < timeInSeconds)
+            {
+                timer += Time.deltaTime;
+                Vector3 linearValue = Vector3.Lerp(from, to, timer / timeInSeconds);
+                callback.Invoke(linearValue);
+                yield return null;
+            }
+            
+            onFinishCallback?.Invoke();
+        }
+        
+        public static IEnumerator LerpInTimeCoroutine(float timeInSeconds, Quaternion from, Quaternion to, Action<Quaternion> callback, Action onFinishCallback = null)
+        {
+            float timer = 0.0f;
+            while (timer < timeInSeconds)
+            {
+                timer += Time.deltaTime;
+                Quaternion linearValue = Quaternion.Lerp(from, to, timer / timeInSeconds);
+                callback.Invoke(linearValue);
                 yield return null;
             }
             
@@ -41,24 +71,20 @@ namespace Project
             action.Invoke();
         }
 
-        /// <summary>
-        /// This script only works if there is only one layer selected
-        /// </summary>
-        /// <param name="layerMask"></param>
-        /// <returns></returns>
-        public static int LayerToInt(LayerMask layerMask)
+        public static bool GetMouseWorldPosition(Camera camera, LayerMask layerMask, out Vector3 position)
         {
-            return Mathf.RoundToInt(Mathf.Log(layerMask.value, 2));
-        }
-        
-            
-        public static void SwitchLayerInChildren(GameObject gameObject, LayerMask layerMask)
-        {
-            Transform[] children = gameObject.GetComponentsInChildren<Transform>();
-            for (int i = 0; i < children.Length; i++)
+            Vector3 mousePosition = Mouse.current.position.value;
+            mousePosition.z = camera.nearClipPlane;
+
+            Ray ray = camera.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
-                children[i].gameObject.layer = LayerToInt(layerMask);
+                position = hitInfo.point;
+                return true;
             }
+            
+            position = Vector3.zero;
+            return false;
         }
     }
 }

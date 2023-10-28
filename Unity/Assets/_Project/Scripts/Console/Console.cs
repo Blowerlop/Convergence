@@ -5,11 +5,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using JetBrains.Annotations;
+using Project.Extensions;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
@@ -83,12 +85,14 @@ namespace Project
 
         private void OnEnable()
         {
+            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.AddListener(ExecuteCommand);
             _inputInputField.onValueChanged.AddListenerExtended(CommandPrediction);
         }
 
         private void OnDisable()
         {
+            InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.RemoveListener(ExecuteCommand);
             _inputInputField.onValueChanged.RemoveListenerExtended(CommandPrediction);
         }
@@ -102,14 +106,7 @@ namespace Project
 
         private void Update()
         {
-            if (InputManager.instance.console)
-            {
-                if (isConsoleEnabled) DisableConsole();
-                else EnableConsole();
-            }
-
             if (isConsoleEnabled == false) return;
-            
             
             if (Input.GetKey(KeyCode.LeftControl))
             {
@@ -347,6 +344,12 @@ namespace Project
         #endregion
         
         #region Used by shortcut
+        private void OnConsoleKeyStarted_ToggleConsole(InputAction.CallbackContext _)
+        {
+            if (isConsoleEnabled) DisableConsole();
+            else EnableConsole();
+        }
+        
         private void GotToTheOlderInHistory()
         {
             if (_currentIndex + 1 >= _commandHistory.Count)

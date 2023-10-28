@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-namespace Project
+namespace Project.Extensions
 {
-    public static class Extensions
+    public static class TransformExtensions
     {
         public static List<Transform> GetChildrenFirstDepth(this Transform transform)
         {
@@ -50,9 +50,9 @@ namespace Project
                 Transform child = transform.GetChild(i);
 
                 child.GetComponentsInChildrenRecursivelyWithoutTheParent(children);
-                if (child.TryGetComponent(out T TChild))
+                if (child.TryGetComponent(out T tChild))
                 {
-                    children.Add(TChild);
+                    children.Add(tChild);
                 }
             }
 
@@ -66,9 +66,9 @@ namespace Project
             while (queue.Count != 0)
             {
                 Transform tempNode = queue.Dequeue();
-                if (tempNode.TryGetComponent(out T TChild))
+                if (tempNode.TryGetComponent(out T tChild))
                 {
-                    component = TChild;
+                    component = tChild;
                     return true;
                 }
 
@@ -96,13 +96,19 @@ namespace Project
                 }
             }
         }
+    }
 
+    public static class RigidbodyExtensions
+    {
         public static void ResetVelocities(this Rigidbody rigidbody)
         {
             rigidbody.velocity = Vector3.zero;
             rigidbody.angularVelocity = Vector3.zero;
         }
+    }
 
+    public static class CollectionsExtensions
+    {
         public static void ForEach<T>(this IList<T> target, Action<T> action)
         {
             for (int i = 0; i < target.Count; i++)
@@ -118,14 +124,67 @@ namespace Project
                 action.Invoke(kvp.Key, kvp.Value);
             }
         }
+    }
 
+    public static class StringExtensions
+    {
         public static string SeparateContent(this string text)
         {
             return string.Concat(text.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
         }
+        
+        public static string ExtractNumber(this string text)
+        {
+            var match = Regex.Match(text, @"([-+]?[0-9]*\.?[0-9]+)");
+            if (match.Success)
+                return (match.Groups[1].Value);
 
-        #region UnityEvent
+            return string.Empty;
+        }
+        
+        public static string RemoveFirstLine(this string text)
+        {
+            return text.Substring(text.IndexOf("\n", StringComparison.Ordinal)+1);
+        }
+        
+        public static string FollowCasePattern(this string text, string target)
+        {
+            int textLength = text.Length;
+            if (textLength < target.Length) throw new ArgumentOutOfRangeException();
+            
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            for (int i = 0; i < textLength; i++)
+            {
+                if (char.IsUpper(target[i]))
+                {
+                    stringBuilder.Append(char.ToUpper(text[i]));
+                }
+                else
+                {
+                    stringBuilder.Append(char.ToLower(text[i]));
+                }
+            }
 
+            return stringBuilder.ToString();
+        }
+        
+        public static int ToHashIsSameAlgoOnReal(this string stringToHash)
+        {
+            const int p = 31;
+            const long m = (long)1e9 + 9;
+            long hashValue = 0;
+            long pPow = 1;
+            foreach (char c in stringToHash) {
+                hashValue = (hashValue + (c - 'a' + 1) * pPow) % m;
+                pPow = (pPow * p) % m;
+            }
+            return (int)hashValue; 
+        }
+    }
+
+    public static class UnityEventExtensions
+    {
         /// <summary>
         /// This extension will permit to add automatically a persistant listener when in editor and add a non-persistant listener when non in editor
         /// </summary>
@@ -172,62 +231,6 @@ namespace Project
 #else
                     unityEvent.RemoveListener(call);
 #endif
-        }
-
-        #endregion
-
-        public static string ExtractNumber(this string text)
-        {
-            var match = Regex.Match(text, @"([-+]?[0-9]*\.?[0-9]+)");
-            if (match.Success)
-                return (match.Groups[1].Value);
-
-            return string.Empty;
-        }
-
-        public static string RemoveFirstLine(this string text)
-        {
-            // string newText = text;
-            //
-            // int counter = 0;
-            // for (int i = startIndex; i < text.Length; i++)
-            // {
-            //     if (text[i] == '\n')
-            //     {
-            //         newText = text.Remove(startIndex, i);
-            //         startIndex = i - startIndex;
-            //         counter++;
-            //     }
-            //
-            //     if (counter >= count) break;
-            // }
-            //
-            // return newText;
-            
-            // return text.Substring(text.IndexOf(Environment.NewLine)+1); ----> Environment.NewLine return an empty string / Idk why
-            return text.Substring(text.IndexOf("\n", StringComparison.Ordinal)+1);
-        }
-
-        public static string FollowCasePattern(this string text, string target)
-        {
-            int textLength = text.Length;
-            if (textLength < target.Length) throw new ArgumentOutOfRangeException();
-            
-            StringBuilder stringBuilder = new StringBuilder();
-            
-            for (int i = 0; i < textLength; i++)
-            {
-                if (char.IsUpper(target[i]))
-                {
-                    stringBuilder.Append(char.ToUpper(text[i]));
-                }
-                else
-                {
-                    stringBuilder.Append(char.ToLower(text[i]));
-                }
-            }
-
-            return stringBuilder.ToString();
         }
     }
 }

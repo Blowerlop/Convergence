@@ -1,16 +1,12 @@
 using System;
 using System.IO;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
 using System.Threading;
-using BestHTTP.JSON;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GRPCClient;
 using Newtonsoft.Json;
+using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using Type = System.Type;
 
 namespace Project
@@ -30,8 +26,7 @@ namespace Project
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
             NetworkVariableWritePermission writePerm = DefaultWritePerm) : base(value, readPerm, writePerm)
         {
-            // _variableHashName = nameOfVariable.GetHashCode();
-            _variableHashName = StringToHash(variableName.ToLower());
+            _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnReal();
             if (_sendStream == null)
             {
                 _currentType = GetGrpcGenericType();
@@ -43,7 +38,6 @@ namespace Project
                 GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, Dispose);
             }
             
-            // UpdateVariableOnGrpc(value);
             OnValueChanged += OnValueChange;
         }
         
@@ -55,27 +49,40 @@ namespace Project
 
         private async void UpdateVariableOnGrpc(T newValue)
         {
-            // if (CanClientWrite(GetBehaviour().OwnerClientId) == false) return;
-            
             try
             {
                 object valueToEncodeInJson;
+                bool autoJsonSerialization = true;
+                
                 if (newValue is NetworkString)
                 {
                     NetworkString networkString = (NetworkString)Convert.ChangeType(newValue, typeof(NetworkString));
                     valueToEncodeInJson = networkString.value;
+                }
+                else if (newValue is NetworkVector3Simplified)
+                {
+                    autoJsonSerialization = false;
+                    NetworkVector3Simplified networkString = (NetworkVector3Simplified)Convert.ChangeType(newValue, typeof(NetworkVector3Simplified));
+                    valueToEncodeInJson = $"X={networkString.x},Y={networkString.y},Z={networkString.z}";
                 }
                 else
                 {
                     valueToEncodeInJson = newValue;
                 }
                 
-                string jsonEncode = JsonConvert.SerializeObject(valueToEncodeInJson, Formatting.Indented, new JsonSerializerSettings
+                string jsonEncode;
+                if (autoJsonSerialization)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
-                Debug.Log("Json Encode : " + jsonEncode);
-                Debug.Log("Json Decode : " + JsonConvert.DeserializeObject<string>(jsonEncode));
+                    jsonEncode = JsonConvert.SerializeObject(valueToEncodeInJson, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    });
+                }
+                else
+                {
+                    jsonEncode = (string)valueToEncodeInJson;
+                }
+                
                 int netId = (int)GetBehaviour().GetComponentInParent<NetworkObject>().NetworkObjectId;
                 GRPC_NetVarUpdate result = new GRPC_NetVarUpdate()
                 {
@@ -114,6 +121,11 @@ namespace Project
                 return GRPC_GenericType.Vector3;
             }
             
+            if (type == typeof(NetworkVector3Simplified))
+            {
+                return GRPC_GenericType.Vector3;
+            }
+            
             if (type == typeof(Quaternion))
             {
                 return GRPC_GenericType.Vector3;
@@ -146,19 +158,5 @@ namespace Project
             _sendStreamCancellationTokenSource = null;
         }
         #endif
-        
-        
-        private int StringToHash(string stringToHash)
-        {
-            const int p = 31;
-            const long m = (long)1e9 + 9;
-            long hash_value = 0;
-            long p_pow = 1;
-            foreach (char c in stringToHash) {
-                hash_value = (hash_value + (c - 'a' + 1) * p_pow) % m;
-                p_pow = (p_pow * p) % m;
-            }
-            return (int)hash_value; 
-        }
     }
 }

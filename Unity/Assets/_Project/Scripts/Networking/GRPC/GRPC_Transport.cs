@@ -94,8 +94,19 @@ namespace Project
         async Task<bool> NHandshake()
         {
             Debug.Log("GRPCClient.cs > NHandshake...");
-            var response = await client.GRPC_NetcodeHandshakeAsync(new GRPC_NHandshakePost());
-            Debug.Log($"GRPCClient.cs > NHandshake result: {response.Result}");
+
+            GRPC_NHandshakeGet response;
+            try
+            {
+                response = await client.GRPC_NetcodeHandshakeAsync(new GRPC_NHandshakePost());
+                Debug.Log($"GRPCClient.cs > NHandshake result: {response.Result}");
+            }
+            catch (RpcException e)
+            {
+                response = new GRPC_NHandshakeGet(new GRPC_NHandshakeGet() { Result = -1 });
+                Debug.LogError($"GRPCClient.cs > Connection failed : {e}");
+            }
+            
             
             return response.Result == 0;
         }

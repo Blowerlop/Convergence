@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Scenes/Menu.unity
     guid: 7d128a0162b524c4b8a7968d026bb549
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Scenes/Bootstrap.unity
     guid: a425e499545bd0345bd7ac4578aa2b27
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity
     guid: 0c074b091b467f14dad77e8f3beb57cf
   - enabled: 1
