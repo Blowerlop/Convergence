@@ -200,7 +200,7 @@ namespace GRPCServer.Services
             }
             catch (IOException)
             {
-                Console.WriteLine("Connection lost with client.");
+                Console.WriteLine("GRPC_Ping > Connection lost with client.");
                 DisconnectClient(context.Peer);
             }
         }
@@ -240,7 +240,7 @@ namespace GRPCServer.Services
             }
             catch (IOException)
             {
-                Console.WriteLine("Connection lost with client.");
+                Console.WriteLine("GRPC_SrvNetObjUpdate > Connection lost with client.");
                 DisconnectClient(context.Peer);
             }
 
@@ -265,7 +265,7 @@ namespace GRPCServer.Services
             }
             catch (TaskCanceledException)
             {
-                Console.WriteLine("Connection lost with client.");
+                Console.WriteLine("GRPC_CliNetObjUpdate > Connection lost with client.");
                 DisconnectClient(context.Peer);
             }
             Console.WriteLine($"Client NetObject stream closed");
@@ -302,8 +302,8 @@ namespace GRPCServer.Services
             }
             catch (IOException)
             {
-                _logger.LogCritical("Connection lost with client.");
-                Console.WriteLine($"stream closed");
+                _logger.LogCritical("GRPC_SrvNetVarUpdate > Connection lost with client.");
+                Console.WriteLine($"GRPC_SrvNetVarUpdate > stream closed");
                 return new GRPC_EmptyMsg();
             }
 

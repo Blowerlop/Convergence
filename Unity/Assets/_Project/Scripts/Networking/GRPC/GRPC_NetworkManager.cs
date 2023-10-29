@@ -40,7 +40,7 @@ namespace Project
         public readonly Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
 
         public Event onClientStopEvent => networkTransport.onClientStopEvent;
-        public readonly Event onClientStoppedEvent = new Event(nameof(onClientStartedEvent));
+        public readonly Event onClientStoppedEvent = new Event(nameof(onClientStoppedEvent));
         
         
         protected override void Awake()

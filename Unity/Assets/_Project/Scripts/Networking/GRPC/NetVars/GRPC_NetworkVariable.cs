@@ -44,9 +44,8 @@ namespace Project
                 
                 _sendStream = _client.GRPC_SrvNetVarUpdate();
                 _sendStreamCancellationTokenSource = new CancellationTokenSource();
-
                 
-                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, Dispose);
+                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
             }
             
             OnValueChanged += OnValueChange;
@@ -146,10 +145,10 @@ namespace Project
             return GRPC_GenericType.Isnull;
         }
 
-        public override void Dispose()
+        //Can't use dispose because it is called on
+        //NetworkVariables by Netcode when a NetworkObject is despawned
+        private void OnClientStop()
         {
-            base.Dispose();
-            
             _sendStreamCancellationTokenSource?.Cancel();
             _sendStreamCancellationTokenSource?.Dispose();
             _sendStreamCancellationTokenSource = null;
@@ -157,7 +156,7 @@ namespace Project
             _sendStream?.Dispose();
             _sendStream = null;
             
-            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(Dispose);
+            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
         }
         
         #if UNITY_EDITOR
