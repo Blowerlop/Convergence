@@ -8,14 +8,23 @@ namespace Project
 {
     public class GRPC_Client : NetworkBehaviour
     {
-        private readonly GRPC_NetworkVariable<NetworkString> _name = new GRPC_NetworkVariable<NetworkString>("Name");
+        // private readonly GRPC_NetworkVariable<NetworkString> _name = new GRPC_NetworkVariable<NetworkString>("Name");
         private readonly GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
         // private readonly GRPC_NetworkVariable<Vector3> _position = new GRPC_NetworkVariable<Vector3>("Position");
         // private readonly GRPC_NetworkVariable<Quaternion> _rotation = new GRPC_NetworkVariable<Quaternion>("Rotation");
-        private readonly GRPC_NetworkVariable<NetworkString> _currentAnimation = new GRPC_NetworkVariable<NetworkString>("CurrentAnimation");
+        // private readonly GRPC_NetworkVariable<NetworkString> _currentAnimation = new GRPC_NetworkVariable<NetworkString>("CurrentAnimation");
         private readonly GRPC_NetworkVariable<int> _team = new GRPC_NetworkVariable<int>("Team");
         private readonly GRPC_NetworkVariable<int> _mesh = new GRPC_NetworkVariable<int>("Mesh");
-        
+
+
+        public override void OnNetworkSpawn()
+        {
+            _health .Initialize();
+            _team.Initialize();
+            _mesh.Initialize();
+        }
+
+
         private void OnDisable()
         {
             if (GRPC_Rtt.isBeingDestroyed) return;
@@ -24,7 +33,7 @@ namespace Project
         [Button]
         private void UpdateName(string newName)
         {
-            _name.Value = new NetworkString(newName);
+            // _name.Value = new NetworkString(newName);
         }
         
         [Button]
@@ -48,7 +57,7 @@ namespace Project
         [Button]
         private void UpdateAnimation(string animation)
         {
-            _currentAnimation.Value = new NetworkString(animation);
+            // _currentAnimation.Value = new NetworkString(animation);
         }
         
         [Button]

@@ -128,13 +128,24 @@ namespace Project
                 x.position = Vector3.right * Random.Range(-5f, 5f);
             });
         }
+
+        [ConsoleCommand("dbg_spawn_player", "Spawn the player network object")]
+        public static void TestSpawnPlayer(int clientIndex)
+        {
+            SpawnAsPlayerObject(GRPC_NetObjectsHandler.instance.playerPrefab.transform,
+                NetworkManager.Singleton.ConnectedClientsIds[clientIndex],
+                x =>
+                {
+                    x.position = Vector3.forward * Random.Range(-2f, 2f);
+                });
+        }
         
         
         [ConsoleCommand("dbg_spawn_ownership", 
             "Spawn a dummy network object with ownership to test sync between Unreal and Unity.")]
         public static void TestSpawnWithOwnershipCmd(int clientIndex = 0)
         {
-            SpawnWithOwnership(GRPC_NetObjectsHandler.instance.cubePrefab.transform,
+            SpawnWithOwnership(GRPC_NetObjectsHandler.instance.playerPrefab.transform,
                 NetworkManager.Singleton.ConnectedClientsIds[clientIndex],
                 x =>
                 {
@@ -146,7 +157,7 @@ namespace Project
             "Spawn a dummy network object as player object to test sync between Unreal and Unity.")]
         public static void TestSpawnAsPlayerObjectCmd(int clientIndex = 0)
         {
-            SpawnAsPlayerObject(GRPC_NetObjectsHandler.instance.cubePrefab.transform,
+            SpawnAsPlayerObject(GRPC_NetObjectsHandler.instance.playerPrefab.transform,
                 NetworkManager.Singleton.ConnectedClientsIds[clientIndex],
                 x =>
                 {

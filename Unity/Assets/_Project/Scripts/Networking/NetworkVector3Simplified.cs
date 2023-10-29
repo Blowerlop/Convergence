@@ -46,6 +46,8 @@ namespace Project
         {
             return (Math.Abs(other.x - x) < 0.001f && Math.Abs(other.y - y) < 0.001f && Math.Abs(other.z - z) < 0.001f);
         }
-        
+
+        public Vector3 ToVector3() => new Vector3(x, y, z);
+
     }
 }

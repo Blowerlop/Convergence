@@ -20,13 +20,24 @@ namespace Project
 
         private readonly int _variableHashName;
         private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
-        
+
+        private NetworkBehaviour _networkBehaviour;
         
         public GRPC_NetworkVariable(string variableName, T value = default,
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
             NetworkVariableWritePermission writePerm = DefaultWritePerm) : base(value, readPerm, writePerm)
         {
             _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnReal();
+        }
+
+
+        public void Initialize()
+        {
+            _networkBehaviour = GetBehaviour();
+            
+            if (_networkBehaviour.IsServer == false) return;
+            
+            
             if (_sendStream == null)
             {
                 _currentType = GetGrpcGenericType();
@@ -40,13 +51,12 @@ namespace Project
             
             OnValueChanged += OnValueChange;
         }
-        
-        
+
         private void OnValueChange(T _, T newValue)
         {
             UpdateVariableOnGrpc(newValue);
         }
-
+        
         private async void UpdateVariableOnGrpc(T newValue)
         {
             try
@@ -88,8 +98,9 @@ namespace Project
                 {
                     NetId = netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
+                
                 await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
-                Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
+                // Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
             catch (IOException)
             {

@@ -155,8 +155,6 @@ namespace Project
             }
         }
 
-        
-
         #endregion
 
 
@@ -480,6 +478,7 @@ namespace Project
             if (isConsoleEnabled) return;
 
             EnableConsoleForced();
+            instance.FocusOnInputField();
         }
 
         private static void EnableConsoleForced()
@@ -556,12 +555,11 @@ namespace Project
         
         
         
-        
-        
+        // https://github.com/yasirkula/UnityIngameDebugConsole/blob/master/Plugins/IngameDebugConsole/Scripts/DebugLogConsole.cs
+        // Implementation of finding attributes sourced from yasirkula's code
         private void RetrieveCommandAttribute()
         {
-            // https://github.com/yasirkula/UnityIngameDebugConsole/blob/master/Plugins/IngameDebugConsole/Scripts/DebugLogConsole.cs
-            // Implementation of finding attributes sourced from yasirkula's code
+            
 
             Profiler.BeginSample("ConsoleAttributeRetrieving");
 
