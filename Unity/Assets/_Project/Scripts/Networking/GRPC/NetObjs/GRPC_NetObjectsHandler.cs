@@ -1,18 +1,18 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
 using Unity.Netcode;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace Project
 {
     public class GRPC_NetObjectsHandler : MonoSingleton<GRPC_NetObjectsHandler>, IDisposable
     {
-        public GameObject cubePrefab;
-        public GameObject playerPrefab;
+        public NetworkObject cubePrefab;
+        public NetworkObject playerPrefab;
         
         private readonly CancellationTokenSource _netObjsStreamCancelSrc = new CancellationTokenSource();
         private AsyncClientStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
@@ -65,5 +65,47 @@ namespace Project
 
             _netObjsStream = null;
         }
+        
+        #region Debug
+        
+        [ConsoleCommand("debug_spawn", "Spawn a dummy network object to test sync between Unreal and Unity.")]
+        public static void DbgSpawnCmd(string name)
+        {
+            NetworkObject prefab = null;
+            
+            switch (name.ToLower())
+            {
+                case "player":
+                    prefab = instance.playerPrefab;
+                    break;
+                case "cube":
+                    prefab = instance.cubePrefab;
+                    break;
+                default:
+                    prefab = instance.cubePrefab;
+                    break;
+            }
+            
+            Instantiate(prefab).Spawn();
+        }
+        
+        [ConsoleCommand("debug_despawn", 
+            "Despawn random network object to test sync between Unreal and Unity.")]
+        public static void DbgDespawnCmd(int netId)
+        {
+            var obj =
+                NetworkManager.Singleton.SpawnManager.SpawnedObjects.Values.FirstOrDefault(
+                    x => x.NetworkObjectId == (ulong)netId);
+
+            if (obj == null)
+            {
+                Debug.LogError($"There are no spawned objects that correspond to netId: {netId}");
+                return;
+            }
+            
+            obj.Despawn();
+        }
+        
+        #endregion
     }
 }

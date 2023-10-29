@@ -2131,9 +2131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c8632f361a0ee458795e8afc3ac0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 7877531560775032868, guid: 0575151717cb6c74d94a75b86e41c2c9,
+  cubePrefab: {fileID: 3138950150260988042, guid: 0575151717cb6c74d94a75b86e41c2c9,
     type: 3}
-  playerPrefab: {fileID: 9010580981310173421, guid: 4ac19e52d770fe347a64b8a79077aa56,
+  playerPrefab: {fileID: 2751269076351150778, guid: 4ac19e52d770fe347a64b8a79077aa56,
     type: 3}
 --- !u!114 &1050495410
 MonoBehaviour:
@@ -2694,7 +2694,8 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1536259276}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 9010580981310173421, guid: 4ac19e52d770fe347a64b8a79077aa56,
+      type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 752f52d94872ac14793da1ef41b11d59, type: 2}
