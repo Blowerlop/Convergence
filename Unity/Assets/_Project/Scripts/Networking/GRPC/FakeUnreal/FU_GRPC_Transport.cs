@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BestHTTP;
 using BestHTTP.Logger;
+using Grpc.Core;
 using GRPC.NET;
 using Grpc.Net.Client;
 using GRPCClient;
@@ -83,14 +84,20 @@ namespace Project
         
         async Task<bool> Handshake()
         {
-            Debug.Log("GRPCClient.cs > Handshake...");
-            var response = await client.GRPC_HandshakeAsync(new GRPC_HandshakePost());
-            Debug.Log($"GRPCClient.cs > Handshake result: {response.Result}");
+            Debug.Log("FU GRPCClient.cs > NHandshake...");
 
-            if (response.Result == 0)
+            GRPC_HandshakeGet response;
+            try
             {
-                FU_NetworkObjectManager.instance.ComputeNetObjUpdates(response.NetObjects.ToList());
+                response = await client.GRPC_HandshakeAsync(new GRPC_HandshakePost());
+                Debug.Log($"FU GRPCClient.cs > NHandshake result: {response.Result}");
             }
+            catch (RpcException e)
+            {
+                response = new GRPC_HandshakeGet(new GRPC_HandshakeGet() { Result = -1 });
+                Debug.LogError($"FU GRPCClient.cs > Connection failed : {e}");
+            }
+            
             
             return response.Result == 0;
         }

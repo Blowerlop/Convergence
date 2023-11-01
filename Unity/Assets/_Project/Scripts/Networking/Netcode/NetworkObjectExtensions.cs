@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Project
 {
@@ -6,7 +7,14 @@ namespace Project
     {
         public static void SpawnWithUnrealOwnership(this NetworkObject obj, string address, bool destroyWithScene = false)
         {
-            GRPC_NetworkManager.instance.GetUnrealClientByAddress(address).GiveOwnership(obj);
+            UnrealClient unrealClient = GRPC_NetworkManager.instance.GetUnrealClientByAddress(address);
+            if (unrealClient == null)
+            {
+                Debug.LogError("No Unreal client connected with this address");
+                return;
+            }
+            
+            unrealClient.GiveOwnership(obj);
             obj.Spawn(destroyWithScene);
         }
         

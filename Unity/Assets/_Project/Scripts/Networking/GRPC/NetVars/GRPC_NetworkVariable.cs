@@ -38,7 +38,7 @@ namespace Project
         {
             _networkBehaviour = GetBehaviour();
             
-            if (_networkBehaviour.IsServer == false) return;
+            if (_networkBehaviour.IsServer == false || _networkBehaviour.IsHost == false) return;
             
             
             // if (_sendStream == null)
