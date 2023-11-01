@@ -57,7 +57,7 @@ namespace Project
             }));
             StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.rotation, Quaternion.LookRotation(position - _character.position), value =>
             {
-                // _character.rotation = value;
+                _character.rotation = value;
             }));
         }
     }

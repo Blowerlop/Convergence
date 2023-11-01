@@ -169,7 +169,7 @@ namespace Project.Extensions
             return stringBuilder.ToString();
         }
         
-        public static int ToHashIsSameAlgoOnReal(this string stringToHash)
+        public static int ToHashIsSameAlgoOnUnreal(this string stringToHash)
         {
             const int p = 31;
             const long m = (long)1e9 + 9;

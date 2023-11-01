@@ -19,16 +19,11 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
-            _health .Initialize();
+            _health.Initialize();
             _team.Initialize();
             _mesh.Initialize();
         }
 
-
-        private void OnDisable()
-        {
-            if (GRPC_Rtt.isBeingDestroyed) return;
-        }
 
         [Button]
         private void UpdateName(string newName)

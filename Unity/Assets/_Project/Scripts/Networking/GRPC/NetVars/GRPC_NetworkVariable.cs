@@ -15,11 +15,14 @@ namespace Project
     {
         private static MainService.MainServiceClient _client => GRPC_Transport.instance.client;
         
-        private static AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
-        private static CancellationTokenSource _sendStreamCancellationTokenSource;
+        // private static AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
+        private AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
+        // private static CancellationTokenSource _sendStreamCancellationTokenSource;
+        private CancellationTokenSource _sendStreamCancellationTokenSource;
 
         private readonly int _variableHashName;
-        private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
+        // private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
+        private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
 
         private NetworkBehaviour _networkBehaviour;
         
@@ -27,7 +30,7 @@ namespace Project
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
             NetworkVariableWritePermission writePerm = DefaultWritePerm) : base(value, readPerm, writePerm)
         {
-            _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnReal();
+            _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnUnreal();
         }
 
 
@@ -38,15 +41,23 @@ namespace Project
             if (_networkBehaviour.IsServer == false) return;
             
             
-            if (_sendStream == null)
-            {
-                _currentType = GetGrpcGenericType();
-                
-                _sendStream = _client.GRPC_SrvNetVarUpdate();
-                _sendStreamCancellationTokenSource = new CancellationTokenSource();
-                
-                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
-            }
+            // if (_sendStream == null)
+            // {
+            //     _currentType = GetGrpcGenericType();
+            //     
+            //     _sendStream = _client.GRPC_SrvNetVarUpdate();
+            //     _sendStreamCancellationTokenSource = new CancellationTokenSource();
+            //
+            //     
+            //     GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, Dispose);
+            // }
+            
+            _currentType = GetGrpcGenericType();
+            
+            _sendStream = _client.GRPC_SrvNetVarUpdate();
+            _sendStreamCancellationTokenSource = new CancellationTokenSource();
+
+            GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
             
             OnValueChanged += OnValueChange;
         }
@@ -97,7 +108,7 @@ namespace Project
                 {
                     NetId = netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
-                
+
                 await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
                 // Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
@@ -155,18 +166,21 @@ namespace Project
             
             _sendStream?.Dispose();
             _sendStream = null;
-            
-            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
+
+            if (GRPC_NetworkManager.isBeingDestroyed == false)
+            {
+                GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
+            }
         }
         
-        #if UNITY_EDITOR
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ClearStaticVariables()
-        {
-            _currentType = GRPC_GenericType.Isnull;
-            _sendStream = null;
-            _sendStreamCancellationTokenSource = null;
-        }
-        #endif
+        // #if UNITY_EDITOR
+        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        // private static void ClearStaticVariables()
+        // {
+        //     _currentType = GRPC_GenericType.Isnull;
+        //     _sendStream = null;
+        //     _sendStreamCancellationTokenSource = null;
+        // }
+        // #endif
     }
 }
