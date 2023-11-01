@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/any.proto";
 option csharp_namespace = "GRPCServer";
 
 package main;
@@ -8,85 +7,106 @@ package main;
 service MainService {
 	//Establish first connection with client
 	//Sync all NetworkBehaviour + SyncVars
-	rpc Handshake (HandshakePost) returns (HandshakeGet);
+	rpc GRPC_Handshake (GRPC_HandshakePost) returns (GRPC_HandshakeGet);
 
-	rpc NetcodeHandshake (NHandshakePost) returns (NHandshakeGet);
+	rpc GRPC_NetcodeHandshake (GRPC_NHandshakePost) returns (GRPC_NHandshakeGet);
 
 	//Ping stream checks regularly for client connections 
 	//(Used to disconnect safely from game if no response)
-	rpc Ping (stream PingPost) returns (stream PingGet);
+	rpc GRPC_Ping (stream GRPC_PingPost) returns (stream GRPC_PingGet);
 	
-	rpc NetObjUpdate (EmptyMsg) returns (stream NetObjUpdateGet);
+	//Srv prefix => from or to NetcodeServer
+	//Cli prefix => from or to UnrealClients
+	
+	//Used to send unreal clients connection / disconnection to netcode server
+	rpc GRPC_SrvClientUpdate (GRPC_EmptyMsg) returns (stream GRPC_ClientUpdate);
+
+	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (GRPC_EmptyMsg);
+	rpc GRPC_CliNetObjUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetObjUpdate);
+
+	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
+	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
 }
 
 //Handshake
-message HandshakePost { }
+message GRPC_HandshakePost { }
 
-message HandshakeGet {
-
+message GRPC_HandshakeGet {
 	int32 result = 1;
-
 	int32 clientId = 2;
-	repeated NetObjUpdateGet netObjects = 3;
-	repeated NetVarUpdateGet netVars = 4;
+
+	repeated GRPC_NetObjUpdate netObjects = 3;
+	repeated GRPC_NetVarUpdate netVars = 4;
 }
 
-message NHandshakePost { /*Init data*/ }
-message NHandshakeGet { 
+message GRPC_NHandshakePost { /*Init data*/ }
+message GRPC_NHandshakeGet { 
 	int32 result = 1;
 }
 
 //Used by PingStream.
 //Not using EmptyMsg => easier to send infos when pinging, if we want to
-message PingPost { 
+message GRPC_PingPost { 
 	int32 clientId = 1;
 }
-message PingGet { }
+message GRPC_PingGet { }
 
 //NetworkObjects
-message NetworkObject {
-	int32 netId = 1;
-	string prefabId = 2;
+message GRPC_NetObjUpdate {
+	GRPC_NetObjUpdateType type = 1;
+	int32 netId = 2;
+	string prefabId = 3;
 }
 
-message NetObjUpdateGet {
-	NetObjUpdateType type = 1;
-	NetworkObject obj = 2;
+enum GRPC_NetObjUpdateType {
+	NEW = 0;
+	DESTROY = 1;
 }
-
-enum NetObjUpdateType {
-	NET_OBJ_UPDATE_TYPE_NEW = 0;
-	NET_OBJ_UPDATE_TYPE_DESTROY = 1;
-}
-
 
 //Data structures
 
-
-message NetVarUpdateGet {
-	int32 associatedNetId = 1;
-	string netVarId = 2;
-	GenericValue newValue = 3;
+message GRPC_NetVarUpdate {
+	int32 netId = 1;
+	int32 hashName = 2;
+	GRPC_GenericValue newValue = 3;
 }
 
 //New value type
-message EmptyMsg {}
+message GRPC_EmptyMsg {}
 
-message GRPCVector3 {
+message GRPC_Vector3 {
 	float x = 1;
 	float y = 2;
 	float z = 3;
 }
 
 //Generics
-message GenericValue {
-	GenericType type = 1;
-	google.protobuf.Any value = 2;
+message GRPC_GenericValue {
+	GRPC_GenericType type = 1;
+	string value = 2;
 }
 
-enum GenericType {
-	GENERIC_TYPE_INT = 0;
-	GENERIC_TYPE_STRING = 1;
-	GENERIC_TYPE_BOOL = 2;
-	GENERIC_TYPE_VECTOR3 = 3;
+enum GRPC_GenericType {
+	ISNULL = 0;	
+	INT = 1;
+	STRING = 2;
+	BOOL = 3;
+	VECTOR3 = 4;
+}
+
+//Really useful ?
+message GRPC_ClientId
+{
+	uint32 id = 1;
+}
+
+message GRPC_ClientUpdate
+{
+	string clientIP = 1;
+	GRPC_ClientUpdateType type = 2;
+}
+
+enum GRPC_ClientUpdateType {
+	CONNECT = 0;
+	DISCONNECT = 1;
 }

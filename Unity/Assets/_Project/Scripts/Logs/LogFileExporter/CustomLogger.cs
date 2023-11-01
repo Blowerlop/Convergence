@@ -57,6 +57,10 @@ namespace Project
          
         private static void WriteLogToFile(string condition, string trace, LogType type)
         {
+            #if UNITY_EDITOR
+            if (ParrelSync.ClonesManager.IsClone()) return;
+            #endif
+            
             _stringBuilder.AppendLine($"[{StripMilliseconds(DateTime.Now.TimeOfDay).ToString()}] {type.ToString()}");
             _stringBuilder.AppendLine($"{condition} \n");
             _stringBuilder.AppendLine($"{trace}");

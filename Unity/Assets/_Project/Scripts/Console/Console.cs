@@ -5,11 +5,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using JetBrains.Annotations;
+using Project.Extensions;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
@@ -17,7 +19,7 @@ using ColorUtility = UnityEngine.ColorUtility;
 namespace Project
 {
     [DefaultExecutionOrder(-1)]
-    public class Console : Singleton<Console>
+    public class Console : MonoSingleton<Console>
     {
         #region Variables
 
@@ -83,12 +85,14 @@ namespace Project
 
         private void OnEnable()
         {
+            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.AddListener(ExecuteCommand);
             _inputInputField.onValueChanged.AddListenerExtended(CommandPrediction);
         }
 
         private void OnDisable()
         {
+            InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.RemoveListener(ExecuteCommand);
             _inputInputField.onValueChanged.RemoveListenerExtended(CommandPrediction);
         }
@@ -102,14 +106,7 @@ namespace Project
 
         private void Update()
         {
-            if (InputManager.instance.console)
-            {
-                if (isConsoleEnabled) DisableConsole();
-                else EnableConsole();
-            }
-
             if (isConsoleEnabled == false) return;
-            
             
             if (Input.GetKey(KeyCode.LeftControl))
             {
@@ -157,8 +154,6 @@ namespace Project
                 GotToTheRecentInHistory();
             }
         }
-
-        
 
         #endregion
 
@@ -347,6 +342,12 @@ namespace Project
         #endregion
         
         #region Used by shortcut
+        private void OnConsoleKeyStarted_ToggleConsole(InputAction.CallbackContext _)
+        {
+            if (isConsoleEnabled) DisableConsole();
+            else EnableConsole();
+        }
+        
         private void GotToTheOlderInHistory()
         {
             if (_currentIndex + 1 >= _commandHistory.Count)
@@ -477,6 +478,7 @@ namespace Project
             if (isConsoleEnabled) return;
 
             EnableConsoleForced();
+            instance.FocusOnInputField();
         }
 
         private static void EnableConsoleForced()
@@ -553,12 +555,11 @@ namespace Project
         
         
         
-        
-        
+        // https://github.com/yasirkula/UnityIngameDebugConsole/blob/master/Plugins/IngameDebugConsole/Scripts/DebugLogConsole.cs
+        // Implementation of finding attributes sourced from yasirkula's code
         private void RetrieveCommandAttribute()
         {
-            // https://github.com/yasirkula/UnityIngameDebugConsole/blob/master/Plugins/IngameDebugConsole/Scripts/DebugLogConsole.cs
-            // Implementation of finding attributes sourced from yasirkula's code
+            
 
             Profiler.BeginSample("ConsoleAttributeRetrieving");
 

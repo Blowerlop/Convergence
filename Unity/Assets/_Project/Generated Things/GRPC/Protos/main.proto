@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+option csharp_namespace = "GRPCClient";
+
+package main;
+
+service MainService {
+	//Establish first connection with client
+	//Sync all NetworkBehaviour + SyncVars
+	rpc GRPC_Handshake (GRPC_HandshakePost) returns (GRPC_HandshakeGet);
+
+	rpc GRPC_NetcodeHandshake (GRPC_NHandshakePost) returns (GRPC_NHandshakeGet);
+
+	//Ping stream checks regularly for client connections 
+	//(Used to disconnect safely from game if no response)
+	rpc GRPC_Ping (stream GRPC_PingPost) returns (stream GRPC_PingGet);
+	
+	//Srv prefix => from or to NetcodeServer
+	//Cli prefix => from or to UnrealClients
+	
+	//Used to send unreal clients connection / disconnection to netcode server
+	rpc GRPC_SrvClientUpdate (GRPC_EmptyMsg) returns (stream GRPC_ClientUpdate);
+
+	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (GRPC_EmptyMsg);
+	rpc GRPC_CliNetObjUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetObjUpdate);
+
+	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
+	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
+}
+
+//Handshake
+message GRPC_HandshakePost { }
+
+message GRPC_HandshakeGet {
+	int32 result = 1;
+	int32 clientId = 2;
+
+	repeated GRPC_NetObjUpdate netObjects = 3;
+	repeated GRPC_NetVarUpdate netVars = 4;
+}
+
+message GRPC_NHandshakePost { /*Init data*/ }
+message GRPC_NHandshakeGet { 
+	int32 result = 1;
+}
+
+//Used by PingStream.
+//Not using EmptyMsg => easier to send infos when pinging, if we want to
+message GRPC_PingPost { 
+	int32 clientId = 1;
+}
+message GRPC_PingGet { }
+
+//NetworkObjects
+message GRPC_NetObjUpdate {
+	GRPC_NetObjUpdateType type = 1;
+	int32 netId = 2;
+	string prefabId = 3;
+}
+
+enum GRPC_NetObjUpdateType {
+	NEW = 0;
+	DESTROY = 1;
+}
+
+//Data structures
+
+message GRPC_NetVarUpdate {
+	int32 netId = 1;
+	int32 hashName = 2;
+	GRPC_GenericValue newValue = 3;
+}
+
+//New value type
+message GRPC_EmptyMsg {}
+
+message GRPC_Vector3 {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}
+
+//Generics
+message GRPC_GenericValue {
+	GRPC_GenericType type = 1;
+	string value = 2;
+}
+
+enum GRPC_GenericType {
+	ISNULL = 0;	
+	INT = 1;
+	STRING = 2;
+	BOOL = 3;
+	VECTOR3 = 4;
+}
+
+//Really useful ?
+message GRPC_ClientId
+{
+	uint32 id = 1;
+}
+
+message GRPC_ClientUpdate
+{
+	string clientIP = 1;
+	GRPC_ClientUpdateType type = 2;
+}
+
+enum GRPC_ClientUpdateType {
+	CONNECT = 0;
+	DISCONNECT = 1;
+}

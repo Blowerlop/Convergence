@@ -10,50 +10,8 @@ using Sirenix.OdinInspector.Editor;
 
 namespace Project
 {
-    public struct InputActionPattern<T> where T : struct
-    {
-        private readonly InputAction _inputAction;
-        public T value;
-
-        private InputActionPattern(InputAction inputAction)
-        {
-            value = default;
-            
-            if (inputAction == null)
-            {
-                Debug.LogError("Have you initialized this field in the constructor? You can initialize it in the Awake/Start/OnEnable method, after initializing the InputActionAsset.");
-                _inputAction = null;
-                return;
-            }
-            
-            _inputAction = inputAction;
-        }
-
-        public InputActionPattern(InputAction inputAction, 
-            Action<InputAction.CallbackContext> started = null, 
-            Action<InputAction.CallbackContext> performed = null, 
-            Action<InputAction.CallbackContext> canceled = null) : this(inputAction)
-        {
-            if (started != null)
-            {
-                _inputAction.started += started;
-            }
-
-            if (performed != null)
-            {
-                _inputAction.performed += performed;
-            }
-
-            if (canceled != null)
-            {
-                _inputAction.canceled += canceled;
-            }
-        }
-    }
-    
-    
-    
-    public class InputManager : Singleton<InputManager>
+    [DefaultExecutionOrder(-1)]
+    public class InputManager : MonoSingleton<InputManager>
     {
         #region Variables
         private PlayerInputAction _inputAction;
@@ -74,15 +32,15 @@ namespace Project
         }
         #endif
         
-        // Inputs Handler
-        private InputActionPattern<Vector2> _move;
-        private InputActionPattern<bool> _fire;
-        private InputActionPattern<bool> _console;
+        [Title("Inputs Handler")]
+        public InputAction onMouseButton0 => _inputAction.Player.MouseButton0;
+        public InputAction onMouseButton1 => _inputAction.Player.MouseButton1;
+        public InputAction onConsoleKey => _inputAction.Persistant.Console;
 
-        // Inputs Value
-        public Vector2 move => _move.value;
-        public bool fire => _fire.value;
-        public bool console => _console.value;
+        [Title("Inputs value")] 
+        [ShowInInspector] public Vector2 move;
+        [ShowInInspector] public Vector2 look;
+        
         #endregion
         
         
@@ -100,64 +58,21 @@ namespace Project
             SwitchActionMap(_defaultInputActionMap);
         }
         
-        // private void OnEnable()
-        // {
-        //     SwitchActionMapForced(currentActionMap);
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     if (isBeingDestroyed) return;
-        //     
-        //     _inputAction.Disable();
-        // }
         #endregion
 
         
         #region Methods
         private void InitInputAction()
         {
-            _move = new InputActionPattern<Vector2>(_inputAction.Player.Move,
-                performed: context => _move.value = context.ReadValue<Vector2>(),
-                canceled: context => _move.value = Vector2.zero);
-
-            _fire = new InputActionPattern<bool>(_inputAction.Player.Fire,
-                started: context => _fire.value = true,
-                performed: context =>
-                {
-                    if (_fire.value)
-                    {
-                        StartCoroutine(Utilities.WaitForEndOfFrameAndDoActionCoroutine(() => _fire.value = false));
-                    }
-                },
-                canceled: context => _fire.value = false);
+            // Move
+            _inputAction.Player.Move.started += context => move = context.ReadValue<Vector2>();
+            _inputAction.Player.Move.performed += context => move = context.ReadValue<Vector2>();
+            _inputAction.Player.Move.canceled += context => move = Vector2.zero;
             
-            _console = new InputActionPattern<bool>(_inputAction.Persistant.Console,
-                started: context => _console.value = true,
-                performed: context =>
-                {
-                    if (_console.value)
-                    {
-                        StartCoroutine(Utilities.WaitForEndOfFrameAndDoActionCoroutine(() => _console.value = false));
-                    }
-                },
-                canceled: context => _console.value = false);
-        }
-        
-        
-        public void SwitchActionMap(InputActionMap actionMap)
-        {
-            if (actionMap == null) return;
-            if (currentActionMap == actionMap && actionMap.enabled) return;
-
-            _inputAction.Disable();
-        
-            if (currentActionMap != null) Debug.Log($"Switching action map : {currentActionMap.name} To {actionMap.name}");
-            else Debug.Log($"Setting action map : {actionMap.name}");
-            currentActionMap = actionMap;
-            currentActionMap.Enable();
-             
-            _inputAction.Persistant.Enable();
+            // Look
+            _inputAction.Player.Look.started += context => look = context.ReadValue<Vector2>();
+            _inputAction.Player.Look.performed += context => look = context.ReadValue<Vector2>();
+            _inputAction.Player.Look.canceled += context => look = Vector2.zero;
         }
         
         [Title("Button"),PropertyOrder(0), Button]
@@ -173,6 +88,20 @@ namespace Project
             SwitchActionMap(actionMap);
         }
         
+        private void SwitchActionMap(InputActionMap actionMap)
+        {
+            if (actionMap == null) return;
+            if (currentActionMap == actionMap && actionMap.enabled) return;
+
+            _inputAction.Disable();
+        
+            if (currentActionMap != null) Debug.Log($"Switching action map : {currentActionMap.name} To {actionMap.name}");
+            else Debug.Log($"Setting action map : {actionMap.name}");
+            currentActionMap = actionMap;
+            currentActionMap.Enable();
+             
+            _inputAction.Persistant.Enable();
+        }
         #endregion
     }
 
@@ -208,6 +137,8 @@ namespace Project
             actionMapProperty.stringValue = array[_index];
             
             serializedObject.ApplyModifiedProperties();
+            
+            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
         }
     }
     #endif
