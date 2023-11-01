@@ -155,8 +155,11 @@ namespace Project
                 Debug.LogError($"Trying to connect an already connected unreal client {address}");
                 return;
             }
+
+            var cli = new UnrealClient(address);
+            _unrealClients.Add(address, cli);
             
-            _unrealClients.Add(address, new UnrealClient(address));
+            Instantiate(GRPC_NetObjectsHandler.instance.cubePrefab).SpawnWithUnrealOwnership(cli);
         }
         
         private void UnrealClientDisconnected(string address)
@@ -187,6 +190,17 @@ namespace Project
         public UnrealClient GetUnrealClientByAddress(string address) =>
             !_unrealClients.ContainsKey(address) ? null : _unrealClients[address];
 
+        [ConsoleCommand("debug_unreal_clients", "Display the list of connected Unreal clients.")]
+        public static void DisplayUnrealClientsCmd()
+        {
+            Debug.Log("Unreal Clients:");
+
+            foreach (var client in instance._unrealClients)
+            {
+                Debug.Log(client.Key + "\n");
+            }
+        }
+        
         #endregion
     }
 }

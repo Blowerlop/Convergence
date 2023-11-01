@@ -89,6 +89,27 @@ namespace Project
             Instantiate(prefab).Spawn();
         }
         
+        [ConsoleCommand("debug_spawn_unreal_ownership", "Spawn a dummy network object to test sync between Unreal and Unity.")]
+        public static void DbgSpawnWithUnrealOwnershipCmd(string name, string address)
+        {
+            NetworkObject prefab = null;
+            
+            switch (name.ToLower())
+            {
+                case "player":
+                    prefab = instance.playerPrefab;
+                    break;
+                case "cube":
+                    prefab = instance.cubePrefab;
+                    break;
+                default:
+                    prefab = instance.cubePrefab;
+                    break;
+            }
+            
+            Instantiate(prefab).SpawnWithUnrealOwnership(address);
+        }
+        
         [ConsoleCommand("debug_despawn", 
             "Despawn random network object to test sync between Unreal and Unity.")]
         public static void DbgDespawnCmd(int netId)
