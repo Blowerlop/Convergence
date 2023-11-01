@@ -127,7 +127,7 @@ namespace Project
                     HandleUnrealClientUpdate(_unrealClientStream.ResponseStream.Current);
                 }
             }
-            catch (IOException)
+            catch (RpcException)
             {
                 if (isConnected) StopClient();
             }

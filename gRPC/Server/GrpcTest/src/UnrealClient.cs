@@ -39,7 +39,9 @@ namespace Networking
         {
             while (_netObjUpdateInWaiting.Count > 0)
             {
-                await NetObjectsStream.WriteAsync(_netObjUpdateInWaiting.Dequeue());
+                var update = _netObjUpdateInWaiting.Dequeue();
+                await NetObjectsStream.WriteAsync(update);
+                Console.WriteLine($"Deuqued update sent to {Adress} > {update.PrefabId}");
             }
         }
         
