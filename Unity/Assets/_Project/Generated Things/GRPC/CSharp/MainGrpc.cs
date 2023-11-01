@@ -58,9 +58,11 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_PingGet> __Marshaller_main_GRPC_PingGet = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_PingGet.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::GRPCClient.GRPC_NetObjUpdate> __Marshaller_main_GRPC_NetObjUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_NetObjUpdate.Parser));
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_EmptyMsg> __Marshaller_main_GRPC_EmptyMsg = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_EmptyMsg.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_ClientUpdate> __Marshaller_main_GRPC_ClientUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_ClientUpdate.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_NetObjUpdate> __Marshaller_main_GRPC_NetObjUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_NetObjUpdate.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_NetVarUpdate> __Marshaller_main_GRPC_NetVarUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_NetVarUpdate.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -89,6 +91,14 @@ namespace GRPCClient {
         "GRPC_Ping",
         __Marshaller_main_GRPC_PingPost,
         __Marshaller_main_GRPC_PingGet);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_ClientUpdate> __Method_GRPC_SrvClientUpdate = new grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_ClientUpdate>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GRPC_SrvClientUpdate",
+        __Marshaller_main_GRPC_EmptyMsg,
+        __Marshaller_main_GRPC_ClientUpdate);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GRPCClient.GRPC_NetObjUpdate, global::GRPCClient.GRPC_EmptyMsg> __Method_GRPC_SrvNetObjUpdate = new grpc::Method<global::GRPCClient.GRPC_NetObjUpdate, global::GRPCClient.GRPC_EmptyMsg>(
@@ -161,6 +171,19 @@ namespace GRPCClient {
       /// <returns>A task indicating completion of the handler.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task GRPC_Ping(grpc::IAsyncStreamReader<global::GRPCClient.GRPC_PingPost> requestStream, grpc::IServerStreamWriter<global::GRPCClient.GRPC_PingGet> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      ///Used to send unreal clients connection / disconnection to netcode server
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="responseStream">Used for sending responses back to the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>A task indicating completion of the handler.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GRPC_SrvClientUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_ClientUpdate> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -314,6 +337,30 @@ namespace GRPCClient {
       {
         return CallInvoker.AsyncDuplexStreamingCall(__Method_GRPC_Ping, null, options);
       }
+      /// <summary>
+      ///Used to send unreal clients connection / disconnection to netcode server
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_ClientUpdate> GRPC_SrvClientUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_SrvClientUpdate(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      ///Used to send unreal clients connection / disconnection to netcode server
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_ClientUpdate> GRPC_SrvClientUpdate(global::GRPCClient.GRPC_EmptyMsg request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_SrvClientUpdate, null, options, request);
+      }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncClientStreamingCall<global::GRPCClient.GRPC_NetObjUpdate, global::GRPCClient.GRPC_EmptyMsg> GRPC_SrvNetObjUpdate(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
@@ -371,6 +418,7 @@ namespace GRPCClient {
           .AddMethod(__Method_GRPC_Handshake, serviceImpl.GRPC_Handshake)
           .AddMethod(__Method_GRPC_NetcodeHandshake, serviceImpl.GRPC_NetcodeHandshake)
           .AddMethod(__Method_GRPC_Ping, serviceImpl.GRPC_Ping)
+          .AddMethod(__Method_GRPC_SrvClientUpdate, serviceImpl.GRPC_SrvClientUpdate)
           .AddMethod(__Method_GRPC_SrvNetObjUpdate, serviceImpl.GRPC_SrvNetObjUpdate)
           .AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl.GRPC_CliNetObjUpdate)
           .AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl.GRPC_SrvNetVarUpdate)
@@ -387,6 +435,7 @@ namespace GRPCClient {
       serviceBinder.AddMethod(__Method_GRPC_Handshake, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet>(serviceImpl.GRPC_Handshake));
       serviceBinder.AddMethod(__Method_GRPC_NetcodeHandshake, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_NHandshakePost, global::GRPCClient.GRPC_NHandshakeGet>(serviceImpl.GRPC_NetcodeHandshake));
       serviceBinder.AddMethod(__Method_GRPC_Ping, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_PingPost, global::GRPCClient.GRPC_PingGet>(serviceImpl.GRPC_Ping));
+      serviceBinder.AddMethod(__Method_GRPC_SrvClientUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_ClientUpdate>(serviceImpl.GRPC_SrvClientUpdate));
       serviceBinder.AddMethod(__Method_GRPC_SrvNetObjUpdate, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::GRPCClient.GRPC_NetObjUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SrvNetObjUpdate));
       serviceBinder.AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetObjUpdate>(serviceImpl.GRPC_CliNetObjUpdate));
       serviceBinder.AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SrvNetVarUpdate));

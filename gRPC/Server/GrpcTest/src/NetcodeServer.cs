@@ -1,3 +1,4 @@
+using Grpc.Core;
 using GRPCServer;
 using GRPCServer.Services;
 
@@ -6,7 +7,8 @@ namespace Networking
     public class NetcodeServer : GRPCClient
     {
         public Dictionary<int, NetworkObject> NetObjs = new();
-
+        public IServerStreamWriter<GRPC_ClientUpdate> ClientUpdateStream = null!;
+        
         public NetcodeServer(string ad) : base(ad) { }
 
         public override void Disconnect()

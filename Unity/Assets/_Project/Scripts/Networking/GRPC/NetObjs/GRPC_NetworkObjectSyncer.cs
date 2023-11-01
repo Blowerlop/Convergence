@@ -14,12 +14,15 @@ namespace Project
     {
         [SerializeField, Required, InlineButton(nameof(GoToNotionDoc), "Notion")] 
         private string prefabId;
+
+        [HideInInspector] public string UnrealOwnerAddress = null;
+        public bool IsOwnedByUnrealClient => UnrealOwnerAddress != null;
         
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-            if (!IsServer) return;
+            if (!IsServer && !IsHost) return;
             if (!EnsureInit()) return;
             
             GRPC_NetObjUpdate update = new()
@@ -36,7 +39,7 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-            if (!IsServer) return;
+            if (!IsServer && !IsHost) return;
             if (!EnsureInit()) return;
             
             GRPC_NetObjUpdate update = new()
@@ -46,6 +49,11 @@ namespace Project
             };
             
             GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+
+            if (IsOwnedByUnrealClient)
+            {
+                GRPC_NetworkManager.instance.GetUnrealClientByAddress(UnrealOwnerAddress).RemoveOwnership(NetworkObject);
+            }
         }
 
         private bool EnsureInit()
@@ -91,5 +99,15 @@ namespace Project
             Selection.activeGameObject = instance;
         }
 #endif
+
+        public void GiveUnrealOwnership(string address)
+        {
+            UnrealOwnerAddress = address;
+        }
+        
+        public void RemoveUnrealOwnership()
+        {
+            UnrealOwnerAddress = null;
+        }
     }
 }

@@ -7,7 +7,20 @@ namespace Networking
     public class UnrealClient : GRPCClient
     {
         public readonly Dictionary<GRPC_GenericType, IServerStreamWriter<GRPC_NetVarUpdate>> netVarStream = new Dictionary<GRPC_GenericType, IServerStreamWriter<GRPC_NetVarUpdate>>();
-        public IServerStreamWriter<GRPC_NetObjUpdate> NetObjectsStream;
+
+        private IServerStreamWriter<GRPC_NetObjUpdate> _netObjectsStream; 
+        public IServerStreamWriter<GRPC_NetObjUpdate> NetObjectsStream
+        {
+            get => _netObjectsStream;
+            set
+            {
+                _netObjectsStream = value;
+                if (value != null!) SendQueuedNetObjUpdates();
+            }
+        }
+        
+        //Stream is not created instantly when client connects, so we need to queue the updates while the stream is not set
+        private readonly Queue<GRPC_NetObjUpdate> _netObjUpdateInWaiting = new();
 
         public UnrealClient(string ad) : base(ad) { }
         
@@ -20,6 +33,19 @@ namespace Networking
         public override void Dispose()
         {
             
+        }
+        
+        private async void SendQueuedNetObjUpdates()
+        {
+            while (_netObjUpdateInWaiting.Count > 0)
+            {
+                await NetObjectsStream.WriteAsync(_netObjUpdateInWaiting.Dequeue());
+            }
+        }
+        
+        public void QueueNetObjUpdate(GRPC_NetObjUpdate update)
+        {
+            _netObjUpdateInWaiting.Enqueue(update);
         }
     }
 }

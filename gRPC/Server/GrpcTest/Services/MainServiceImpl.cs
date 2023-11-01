@@ -35,6 +35,9 @@ namespace GRPCServer.Services
         public static readonly Dictionary<string, UnrealClient> unrealClients = new Dictionary<string, UnrealClient>();
         public static NetcodeServerWrapper? netcodeServer = null;
 
+        public static event Action<UnrealClient> OnUnrealClientConnected;
+        public static event Action<UnrealClient> OnUnrealClientDisconnected;
+        
         private void AddNetcodeServer(string ip, string ad)
         {
             if (netcodeServer.HasValue)
@@ -69,6 +72,8 @@ namespace GRPCServer.Services
             UnrealClient unrealClient = new UnrealClient(ad);
             unrealClients.Add(ip, unrealClient);
             clients.Add(ip, unrealClient);
+            
+            OnUnrealClientConnected?.Invoke(unrealClient);
         }
 
         private void DisplayClients()
@@ -118,8 +123,11 @@ namespace GRPCServer.Services
             
             Console.WriteLine($"Disconnect {clientAdress}\n");
 
-            DisplayClients();
+            //Strange but cool way to cast then null check
+            if(client as UnrealClient is { } unrealClient)
+                OnUnrealClientDisconnected?.Invoke(unrealClient);
             
+            DisplayClients();
         }
 
         #endregion
@@ -207,6 +215,100 @@ namespace GRPCServer.Services
 
         #endregion
 
+        #region Clients Connection
+
+        public override async Task GRPC_SrvClientUpdate(GRPC_EmptyMsg request,
+            IServerStreamWriter<GRPC_ClientUpdate> responseStream, ServerCallContext context)
+        {
+            if (!netcodeServer.HasValue)
+            {
+                _logger.LogError(
+                    $"Presumed NetcodeServer {context.Peer} is trying to get ClientUpdate stream but NetcodeServer is not registered.");
+                return;
+            }
+            if (netcodeServer.Value.adress != context.Peer)
+            {
+                _logger.LogError(
+                    $"Client {context.Peer} is trying to get ClientUpdate stream but is not NetcodeServer {netcodeServer.Value.adress}.");
+                return;
+            }
+
+            OnUnrealClientConnected += SendClientConnectedUpdate;
+            OnUnrealClientDisconnected += SendClientDisconnectedUpdate;
+
+            netcodeServer.Value.netcodeServer.ClientUpdateStream = responseStream;
+            
+            try
+            {
+                await Task.Delay(-1, context.CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                Console.WriteLine("GRPC_SrvClientUpdate > Connection lost with NetcodeServer.");
+                UnsubscribeClientUpdateEvent();
+                DisconnectClient(context.Peer);
+            }
+        }
+
+        private async void SendClientConnectedUpdate(UnrealClient cli)
+        {
+            //This should never happen
+            if (!netcodeServer.HasValue)
+            {
+                _logger.LogCritical("Trying to send client connected update without NetcodeServer connected.");
+                UnsubscribeClientUpdateEvent();
+                return;
+            }
+                        
+            NetcodeServer srv = netcodeServer.Value.netcodeServer;
+            
+            try
+            {
+                await srv.ClientUpdateStream.WriteAsync(ToClientUpdate(cli, GRPC_ClientUpdateType.Connect));
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("SendClientConnectedUpdate > Connection lost with NetcodeServer.");
+                UnsubscribeClientUpdateEvent();
+                DisconnectClient(srv.Adress);
+            }
+        }
+        
+        private async void SendClientDisconnectedUpdate(UnrealClient cli)
+        {
+            //This should never happen
+            if (!netcodeServer.HasValue)
+            {
+                _logger.LogCritical("Trying to send client disconnected update without NetcodeServer connected.");
+                UnsubscribeClientUpdateEvent();
+                return;
+            }
+            
+            NetcodeServer srv = netcodeServer.Value.netcodeServer;
+            
+            try
+            {
+                await srv.ClientUpdateStream.WriteAsync(ToClientUpdate(cli, GRPC_ClientUpdateType.Disconnect));
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("SendClientDisconnectedUpdate > Connection lost with NetcodeServer.");
+                UnsubscribeClientUpdateEvent();
+                DisconnectClient(srv.Adress);
+            }
+        }
+
+        private GRPC_ClientUpdate ToClientUpdate(UnrealClient cli, GRPC_ClientUpdateType type) =>
+            new() { ClientIP = cli.Adress, Type = type };
+
+        private void UnsubscribeClientUpdateEvent()
+        {
+            OnUnrealClientConnected -= SendClientConnectedUpdate;
+            OnUnrealClientDisconnected -= SendClientDisconnectedUpdate;
+        }
+        
+        #endregion
+        
         #region NetObjects / NetVars Update
 
         public override async Task<GRPC_EmptyMsg> GRPC_SrvNetObjUpdate(IAsyncStreamReader<GRPC_NetObjUpdate> requestStream, ServerCallContext context)
@@ -232,7 +334,18 @@ namespace GRPCServer.Services
                     
                     foreach (var client in unrealClients)
                     {
-                        await client.Value.NetObjectsStream.WriteAsync(requestStream.Current);
+                        //If client has just connected and doesn't have a stream yet,
+                        //queue the update for when it will have a stream
+                        var stream = client.Value.NetObjectsStream;
+                        
+                        if (stream != null!)
+                        {
+                            await stream.WriteAsync(requestStream.Current);
+                        }
+                        else
+                        {
+                            client.Value.QueueNetObjUpdate(requestStream.Current);
+                        }
                     }
                     
                     Console.WriteLine("Update sent to all unreal clients.\n");

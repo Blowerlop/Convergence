@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Threading;
+using Grpc.Core;
 using GRPCClient;
 using Sirenix.OdinInspector;
-using Unity.Netcode;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Project
 {
@@ -35,7 +36,16 @@ namespace Project
         }
 
         private readonly List<GRPC_NetworkBehaviour> _networkBehaviours = new List<GRPC_NetworkBehaviour>();
-
+        
+        //Unreal clients
+        
+        private readonly Dictionary<string, UnrealClient> _unrealClients = new();
+        
+        private CancellationTokenSource _unrealClientStreamCancelSrc = new CancellationTokenSource();
+        private AsyncServerStreamingCall<GRPC_ClientUpdate> _unrealClientStream;
+        
+        //Events
+        
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
         public readonly Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
 
@@ -48,17 +58,13 @@ namespace Project
             networkTransport = GetComponent<GRPC_Transport>();
         }
 
-        private void Start()
-        {
-            // onClientPreEndedEvent = networkTransport.onClientPreEndedEvent;
-        }
-        
         [Button]
         public async void StartClient()
         {
             bool connectionState = await networkTransport.StartClient();
             if (connectionState)
             {
+                GetUnrealClientsUpdate();
                 onClientStartedEvent.Invoke(this, true);
             }
         }
@@ -94,6 +100,8 @@ namespace Project
             {
                 _networkBehaviours[i].Dispose();
             }
+            
+            DisposeUnrealClientStream();
         }
 
         public void ClientsCancelTokens()
@@ -102,6 +110,83 @@ namespace Project
             {
                 _networkBehaviours[i].CleanTokens();
             }
+
+            CleanUnrealClientToken();
         }
+        
+        #region Unreal Clients
+
+        private async void GetUnrealClientsUpdate()
+        { 
+            _unrealClientStream = _client.GRPC_SrvClientUpdate(new GRPC_EmptyMsg());
+
+            try
+            {
+                while (await _unrealClientStream.ResponseStream.MoveNext(_unrealClientStreamCancelSrc.Token))
+                {
+                    HandleUnrealClientUpdate(_unrealClientStream.ResponseStream.Current);
+                }
+            }
+            catch (IOException)
+            {
+                if (isConnected) StopClient();
+            }
+        }
+
+        private void HandleUnrealClientUpdate(GRPC_ClientUpdate update)
+        {
+            switch (update.Type)
+            {
+                case GRPC_ClientUpdateType.Connect:
+                    UnrealClientConnected(update.ClientIP);
+                    break;
+                case GRPC_ClientUpdateType.Disconnect:
+                    UnrealClientDisconnected(update.ClientIP);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        private void UnrealClientConnected(string address)
+        {
+            if (_unrealClients.ContainsKey(address))
+            {
+                Debug.LogError($"Trying to connect an already connected unreal client {address}");
+                return;
+            }
+            
+            _unrealClients.Add(address, new UnrealClient(address));
+        }
+        
+        private void UnrealClientDisconnected(string address)
+        {
+            if (!_unrealClients.ContainsKey(address))
+            {
+                Debug.LogError($"Trying to disconnect an already disconnected unreal client {address}");
+                return;
+            }
+            
+            _unrealClients[address].Disconnect();
+            _unrealClients.Remove(address);
+        }
+
+        private void DisposeUnrealClientStream()
+        {
+            _unrealClientStreamCancelSrc?.Dispose();
+            _unrealClientStream?.Dispose();
+
+            _unrealClientStream = null;
+        }
+        
+        private void CleanUnrealClientToken()
+        {
+            _unrealClientStreamCancelSrc?.Cancel();
+        }
+
+        public UnrealClient GetUnrealClientByAddress(string address) =>
+            !_unrealClients.ContainsKey(address) ? null : _unrealClients[address];
+
+        #endregion
     }
 }

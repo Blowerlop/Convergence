@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/any.proto";
 option csharp_namespace = "GRPCServer";
 
 package main;
@@ -16,17 +15,16 @@ service MainService {
 	//(Used to disconnect safely from game if no response)
 	rpc GRPC_Ping (stream GRPC_PingPost) returns (stream GRPC_PingGet);
 	
-
-	//Srv prefix => comming from NetcodeServer
+	//Srv prefix => from or to NetcodeServer
+	//Cli prefix => from or to UnrealClients
+	
+	//Used to send unreal clients connection / disconnection to netcode server
+	rpc GRPC_SrvClientUpdate (GRPC_EmptyMsg) returns (stream GRPC_ClientUpdate);
 
 	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (GRPC_EmptyMsg);
-
-	//Cli prefix => comming from UnrealClients
-	
 	rpc GRPC_CliNetObjUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetObjUpdate);
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
-
 	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
 }
 
@@ -96,7 +94,19 @@ enum GRPC_GenericType {
 	VECTOR3 = 4;
 }
 
+//Really useful ?
 message GRPC_ClientId
 {
 	uint32 id = 1;
+}
+
+message GRPC_ClientUpdate
+{
+	string clientIP = 1;
+	GRPC_ClientUpdateType type = 2;
+}
+
+enum GRPC_ClientUpdateType {
+	CONNECT = 0;
+	DISCONNECT = 1;
 }
