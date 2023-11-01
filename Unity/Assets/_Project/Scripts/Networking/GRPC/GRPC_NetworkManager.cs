@@ -190,7 +190,7 @@ namespace Project
         public UnrealClient GetUnrealClientByAddress(string address) =>
             !_unrealClients.ContainsKey(address) ? null : _unrealClients[address];
 
-        [ConsoleCommand("debug_unreal_clients", "Display the list of connected Unreal clients.")]
+        [ConsoleCommand("display_unreal_clients", "Display the list of connected Unreal clients.")]
         public static void DisplayUnrealClientsCmd()
         {
             Debug.Log("Unreal Clients:");
