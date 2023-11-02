@@ -127,6 +127,7 @@ jobs:
     outputs:
       versionFile: ${{ steps.VersionFile.outputs.prop }}
       releaseTag: ${{steps.ReleaseTag.outputs.tag}}
+      sameVersion : ${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -159,7 +160,7 @@ jobs:
     name: Release Project
     runs-on: ubuntu-latest
     if: |
-      ${{needs.compareVersions.outputs.versionFile.outputs.prop == needs.compareVersions.outputs.ReleaseTag.outputs.tag}}
+      ${{!needs.compareVersions.outputs.sameVersion}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
