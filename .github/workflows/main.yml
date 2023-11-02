@@ -159,8 +159,7 @@ jobs:
     needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
-    if: |
-      ${{needs.compareVersions.outputs.sameVersion == 'false'}}
+    if: ${{github.event_name == 'push' && needs.compareVersions.outputs.sameVersion == 'false'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
