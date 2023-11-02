@@ -156,7 +156,7 @@ jobs:
     name: Release Project
     runs-on: ubuntu-latest
     if: |
-      ${{needs.compareVersions.outputs.versionFile.outputs.prop != needs.compareVersions.outputs.ReleaseTag.outputs.tag}}
+      ${{needs.compareVersions.outputs.versionFile.outputs.prop == needs.compareVersions.outputs.ReleaseTag.outputs.tag}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
