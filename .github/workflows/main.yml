@@ -139,7 +139,7 @@ jobs:
           prop_path: 'version'
 
       - name: Echo package.json
-        run: echo "${{ steps.VersionFile.outputs.prop }}"
+        run: echo -n "${{ steps.VersionFile.outputs.prop }}"
       - name: Read Latest release tag
 
         id: ReleaseTag
@@ -149,7 +149,7 @@ jobs:
           releases-only: true 
 
       - name: Echo latest tag
-        run: echo "${{ steps.ReleaseTag.outputs.tag }}"
+        run: echo -n "${{ steps.ReleaseTag.outputs.tag }}"
           
   releaseProject:
     needs: compareVersions
