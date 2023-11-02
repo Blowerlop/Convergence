@@ -70,7 +70,7 @@ jobs:
 
 
 
-  #buildWindows:
+   buildWindows:
     needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
@@ -120,8 +120,8 @@ jobs:
           path: build/StandaloneWindows64
           #projectPath: ${{ matrix.projectPath }}
 
-  compareVersions:
-    #needs: buildWindows
+   compareVersions:
+    needs: buildWindows
     name: Compare Versions
     runs-on: ubuntu-latest
     outputs:
@@ -155,7 +155,7 @@ jobs:
       - name: Print Equality
         run: echo -n ${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}
           
-  releaseProject:
+   releaseProject:
     needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
