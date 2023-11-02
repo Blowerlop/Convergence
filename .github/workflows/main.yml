@@ -152,17 +152,20 @@ jobs:
       - name: Echo latest tag
         run: echo -n "[${{ steps.ReleaseTag.outputs.tag }}]"
 
-      - name: Print Equialirt
+      - name: Print Equality
         run: echo -n ${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}
           
   releaseProject:
     needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
-    if: ${{github.event_name == 'push' && needs.compareVersions.outputs.sameVersion == 'false'}}
+    if: ${{needs.compareVersions.outputs.sameVersion == 'false'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Print Equality
+        run: echo -n ${{needs.compareVersions.outputs.sameVersion}}
 
       - name: Json Reader
         id: VersionFile
