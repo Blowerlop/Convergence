@@ -12,7 +12,7 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  testRunner:
+   testRunner:
     name: Test in ${{ matrix.testMode }} ✨
     runs-on: ubuntu-latest
     strategy:
@@ -70,7 +70,7 @@ jobs:
 
 
 
-  buildWindows:
+   buildWindows:
     needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
@@ -120,13 +120,14 @@ jobs:
           path: build/StandaloneWindows64
           #projectPath: ${{ matrix.projectPath }}
 
-  compareVersions:
+   compareVersions:
     needs: buildWindows
     name: Compare Versions
     runs-on: ubuntu-latest
     outputs:
       versionFile: ${{ steps.VersionFile.outputs.prop }}
       releaseTag: ${{steps.ReleaseTag.outputs.tag}}
+      sameVersion : ${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -139,7 +140,7 @@ jobs:
           prop_path: 'version'
 
       - name: Echo package.json
-        run: echo "${{ steps.VersionFile.outputs.prop }}"
+        run: echo -n "[${{ steps.VersionFile.outputs.prop }}]"
       - name: Read Latest release tag
 
         id: ReleaseTag
@@ -149,13 +150,16 @@ jobs:
           releases-only: true 
 
       - name: Echo latest tag
-        run: echo "${{ steps.ReleaseTag.outputs.tag }}"
+        run: echo -n "[${{ steps.ReleaseTag.outputs.tag }}]"
+
+      - name: Print Equality
+        run: echo -n ${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}
           
-  releaseProject:
+   releaseProject:
     needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
-    if: ${{github.event_name == 'push' && needs.compareVersions.outputs.versionFile.outputs.prop != needs.compareVersions.outputs.ReleaseTag.outputs.tag }} 
+    if: ${{github.event_name == 'push' && needs.compareVersions.outputs.sameVersion != 'true'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
