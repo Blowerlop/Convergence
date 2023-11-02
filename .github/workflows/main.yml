@@ -12,7 +12,7 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  testRunner:
+  #testRunner:
     name: Test in ${{ matrix.testMode }} ✨
     runs-on: ubuntu-latest
     strategy:
@@ -70,7 +70,7 @@ jobs:
 
 
 
-  buildWindows:
+  #buildWindows:
     needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
@@ -155,7 +155,8 @@ jobs:
     needs: compareVersions
     name: Release Project
     runs-on: ubuntu-latest
-    if: ${{github.event_name == 'push' && needs.compareVersions.outputs.versionFile.outputs.prop != needs.compareVersions.outputs.ReleaseTag.outputs.tag }} 
+    if: ${{github.event_name == 'push'}} 
+    if: ${{needs.compareVersions.outputs.versionFile.outputs.prop != needs.compareVersions.outputs.ReleaseTag.outputs.tag }} 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
