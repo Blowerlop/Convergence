@@ -121,7 +121,7 @@ jobs:
           #projectPath: ${{ matrix.projectPath }}
 
   compareVersions:
-    needs: buildWindows
+    #needs: buildWindows
     name: Compare Versions
     runs-on: ubuntu-latest
     outputs:
