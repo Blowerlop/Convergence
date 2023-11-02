@@ -127,7 +127,7 @@ jobs:
     outputs:
       versionFile: ${{ steps.VersionFile.outputs.prop }}
       releaseTag: ${{steps.ReleaseTag.outputs.tag}}
-      sameVersion : "true"
+      sameVersion : "false"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
