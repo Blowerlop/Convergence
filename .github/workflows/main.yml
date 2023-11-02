@@ -153,7 +153,7 @@ jobs:
         run: echo -n "[${{ steps.ReleaseTag.outputs.tag }}]"
 
       - name: Print Equialirt
-        run: echo -n "${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}"
+        run: echo -n ${{steps.VersionFile.outputs.prop == steps.ReleaseTag.outputs.tag}}
           
   releaseProject:
     needs: compareVersions
