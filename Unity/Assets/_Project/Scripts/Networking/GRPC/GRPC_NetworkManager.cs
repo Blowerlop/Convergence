@@ -22,16 +22,21 @@ namespace Project
             get
             {
                 #if UNITY_EDITOR
-                if (networkTransport == null && Application.isPlaying == false)
+                if (Application.isPlaying == false) return false;
+                #endif
+                
+                if (networkTransport == null)
                 {
-                    networkTransport = GetComponent<GRPC_Transport>();
+                    if (TryGetComponent(out GRPC_Transport grpcTransport))
+                    {
+                        networkTransport = grpcTransport;
+                        return grpcTransport.isConnected;
+                    }
+
+                    return false;
                 }
 
-                if (networkTransport == null) return false;
                 return networkTransport.isConnected;
-                #else
-                return networkTransport.isConnected;
-                #endif
             }
         }
 
@@ -54,6 +59,11 @@ namespace Project
         
         
         protected override void Awake()
+        {
+            networkTransport = GetComponent<GRPC_Transport>();
+        }
+
+        private void Reset()
         {
             networkTransport = GetComponent<GRPC_Transport>();
         }

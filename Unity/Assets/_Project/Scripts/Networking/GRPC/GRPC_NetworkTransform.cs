@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -16,23 +17,27 @@ namespace Project
 
         
         #region Updates
-        public override void OnNetworkSpawn()
+        
+        private void Start()
         {
-            base.OnNetworkSpawn();
-            
-            _position.Initialize();
-            _rotation.Initialize();
-            _scale.Initialize();
+            InitializeNetworkVariables();
         }
+
         #endregion
 
 
         #region Methods
+        
+        private void InitializeNetworkVariables()
+        {
+            _position.Initialize();
+            _rotation.Initialize();
+            _scale.Initialize();
+        }
 
         protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)
         {
             if (IsOwner == false) return;
-
             
             if (newState.HasPositionChange)
             {
@@ -67,7 +72,6 @@ namespace Project
         {
             _scale.Value = new NetworkVector3Simplified(newScale);
         }
-
         #endregion
         
     }

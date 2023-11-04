@@ -1,34 +1,35 @@
-using System;
 using Sirenix.OdinInspector;
+using Unity.Collections;
 using Unity.Netcode;
-using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Project
 {
     public class GRPC_Client : NetworkBehaviour
     {
-        // private readonly GRPC_NetworkVariable<NetworkString> _name = new GRPC_NetworkVariable<NetworkString>("Name");
-        private readonly GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
-        // private readonly GRPC_NetworkVariable<Vector3> _position = new GRPC_NetworkVariable<Vector3>("Position");
-        // private readonly GRPC_NetworkVariable<Quaternion> _rotation = new GRPC_NetworkVariable<Quaternion>("Rotation");
-        // private readonly GRPC_NetworkVariable<NetworkString> _currentAnimation = new GRPC_NetworkVariable<NetworkString>("CurrentAnimation");
-        private readonly GRPC_NetworkVariable<int> _team = new GRPC_NetworkVariable<int>("Team");
-        private readonly GRPC_NetworkVariable<int> _mesh = new GRPC_NetworkVariable<int>("Mesh");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<FixedString64Bytes> _name = new GRPC_NetworkVariable<FixedString64Bytes>("Name");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<FixedString64Bytes> _currentAnimation = new GRPC_NetworkVariable<FixedString64Bytes>("CurrentAnimation");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _team = new GRPC_NetworkVariable<int>("Team");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _mesh = new GRPC_NetworkVariable<int>("Mesh");
 
 
-        public override void OnNetworkSpawn()
+        private void Start()
         {
+            InitializeNetworkVariables();
+        }
+
+        private void InitializeNetworkVariables()
+        {
+            _name.Initialize();
             _health.Initialize();
             _team.Initialize();
             _mesh.Initialize();
         }
 
-
         [Button]
         private void UpdateName(string newName)
         {
-            // _name.Value = new NetworkString(newName);
+            _name.Value = new FixedString64Bytes(newName);
         }
         
         [Button]
@@ -37,22 +38,10 @@ namespace Project
             _health.Value = amount;
         }
         
-        // [Button]
-        // private void UpdatePosition(Vector3 position)
-        // {
-        //     _position.Value = position;
-        // }
-        
-        // [Button]
-        // private void UpdateRotation(Vector3 rotation)
-        // {
-        //     _rotation.Value = Quaternion.Euler(rotation);
-        // }
-        
         [Button]
         private void UpdateAnimation(string animation)
         {
-            // _currentAnimation.Value = new NetworkString(animation);
+            _currentAnimation.Value = new FixedString64Bytes(animation);
         }
         
         [Button]

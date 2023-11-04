@@ -5,6 +5,7 @@ using Grpc.Core;
 using GRPCClient;
 using Newtonsoft.Json;
 using Project.Extensions;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using Type = System.Type;
@@ -15,13 +16,10 @@ namespace Project
     {
         private static MainService.MainServiceClient _client => GRPC_Transport.instance.client;
         
-        // private static AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
         private AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
-        // private static CancellationTokenSource _sendStreamCancellationTokenSource;
         private CancellationTokenSource _sendStreamCancellationTokenSource;
 
         private readonly int _variableHashName;
-        // private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
 
         private NetworkBehaviour _networkBehaviour;
@@ -36,21 +34,23 @@ namespace Project
 
         public void Initialize()
         {
+            if (GRPC_NetworkManager.instance.isConnected)
+            {
+                GRPC_NetworkVariable_Initialization();
+            }
+            else
+            {
+                GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
+            }
+        }
+
+        private void GRPC_NetworkVariable_Initialization()
+        {
             _networkBehaviour = GetBehaviour();
-            
-            if (_networkBehaviour.IsServer == false || _networkBehaviour.IsHost == false) return;
-            
-            
-            // if (_sendStream == null)
-            // {
-            //     _currentType = GetGrpcGenericType();
-            //     
-            //     _sendStream = _client.GRPC_SrvNetVarUpdate();
-            //     _sendStreamCancellationTokenSource = new CancellationTokenSource();
-            //
-            //     
-            //     GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, Dispose);
-            // }
+
+            // Server authoritative only 
+            // Only the server open NetworkVariable streams
+            if (_networkBehaviour.IsServer == false /*&& _networkBehaviour.IsHost == false*/) return;
             
             _currentType = GetGrpcGenericType();
             
@@ -58,7 +58,6 @@ namespace Project
             _sendStreamCancellationTokenSource = new CancellationTokenSource();
 
             GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
-            
             OnValueChanged += OnValueChange;
         }
 
@@ -74,10 +73,24 @@ namespace Project
                 object valueToEncodeInJson;
                 bool autoJsonSerialization = true;
                 
-                if (newValue is NetworkString)
+                if (newValue is FixedString32Bytes or FixedString64Bytes or FixedString128Bytes)
                 {
-                    NetworkString networkString = (NetworkString)Convert.ChangeType(newValue, typeof(NetworkString));
-                    valueToEncodeInJson = networkString.value;
+                    if (newValue is FixedString32Bytes string32Bytes)
+                    {
+                        valueToEncodeInJson = string32Bytes.Value;
+                    }
+                    else if (newValue is FixedString64Bytes string64Bytes)
+                    {
+                        valueToEncodeInJson = string64Bytes.Value;
+                    }
+                    else if (newValue is FixedString128Bytes string128Bytes)
+                    {
+                        valueToEncodeInJson = string128Bytes.Value;
+                    }
+                    else
+                    {
+                        valueToEncodeInJson = null;
+                    }
                 }
                 else if (newValue is NetworkVector3Simplified)
                 {
@@ -127,11 +140,11 @@ namespace Project
                 return GRPC_GenericType.Int;
             }
 
-            if (type == typeof(NetworkString))
+            if (type == typeof(FixedString32Bytes) || type == typeof(FixedString64Bytes) || type == typeof(FixedString128Bytes))
             {
                 return GRPC_GenericType.String;
             }
-
+            
             if (type == typeof(bool))
             {
                 return GRPC_GenericType.Bool;
@@ -169,6 +182,7 @@ namespace Project
 
             if (GRPC_NetworkManager.isBeingDestroyed == false)
             {
+                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(Initialize);
                 GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
             }
         }

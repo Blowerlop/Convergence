@@ -15,6 +15,9 @@ namespace Project
 
         [SerializeField] private float _lerpTime;
 
+        private Coroutine _movementLerpCoroutine;
+        private Coroutine _rotationLerpCoroutine;
+
         private void Start()
         {
             _camera = Camera.main;
@@ -51,11 +54,14 @@ namespace Project
         [ServerRpc]
         private void GoToServerRpc(Vector3 position)
         {
-            StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.position, position, value =>
+            if (_movementLerpCoroutine != null) StopCoroutine(_movementLerpCoroutine); 
+            if (_rotationLerpCoroutine != null) StopCoroutine(_rotationLerpCoroutine); 
+            
+            _movementLerpCoroutine = StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.position, position, value =>
             {
                 _character.position = value;
             }));
-            StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.rotation, Quaternion.LookRotation(position - _character.position), value =>
+            _rotationLerpCoroutine = StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.rotation, Quaternion.LookRotation(position - _character.position), value =>
             {
                 _character.rotation = value;
             }));
