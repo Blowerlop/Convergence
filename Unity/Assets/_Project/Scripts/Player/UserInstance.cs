@@ -39,18 +39,15 @@ namespace Project
         {
             _name.Initialize();
             _team.Initialize();
-            _character.Initialize();
         }
         
         //NetVars
         [ShowInInspector] private readonly GRPC_NetworkVariable<FixedString64Bytes> _name = new("Name");
         [ShowInInspector] private readonly GRPC_NetworkVariable<int> _team = new("Team");
-        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _character = new("Character");
         
         //Getters
         public string Name => _name.Value.ToString();
         public int Team => _team.Value;
-        public int Character => _character.Value;
         
         //Setters
         [Button]
@@ -67,14 +64,6 @@ namespace Project
             if (!IsServer && !IsHost) return;
             
             _team.Value = t;
-        }
-        
-        [Button]
-        public void SetCharacter(int c)
-        {
-            if (!IsServer && !IsHost) return;
-            
-            _character.Value = c;
         }
     }
 }
