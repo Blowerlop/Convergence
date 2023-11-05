@@ -98,6 +98,8 @@ namespace Project
                 Debug.LogError($"FU GRPCClient.cs > Connection failed : {e}");
             }
             
+            if(response.Result == 0)
+                FU_NetworkObjectManager.instance.ComputeNetObjUpdates(response.NetObjects.ToList());
             
             return response.Result == 0;
         }

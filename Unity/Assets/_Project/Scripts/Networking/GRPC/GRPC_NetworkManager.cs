@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project
@@ -168,8 +168,11 @@ namespace Project
 
             var cli = new UnrealClient(address);
             _unrealClients.Add(address, cli);
-            
-            Instantiate(GRPC_NetObjectsHandler.instance.cubePrefab).SpawnWithUnrealOwnership(cli);
+
+            if (NetworkManager.Singleton == null || NetworkManager.Singleton.NetworkConfig == null) return;
+
+            var userInstance = NetworkManager.Singleton.NetworkConfig.PlayerPrefab.GetComponent<NetworkObject>();
+            Instantiate(userInstance).SpawnWithUnrealOwnership(cli);
         }
         
         private void UnrealClientDisconnected(string address)
