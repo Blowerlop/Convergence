@@ -21,8 +21,8 @@ namespace Project
 
         private readonly int _variableHashName;
         private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
+        private int _netId;
 
-        private NetworkBehaviour _networkBehaviour;
         
         public GRPC_NetworkVariable(string variableName, T value = default,
             NetworkVariableReadPermission readPerm = DefaultReadPerm,
@@ -46,11 +46,12 @@ namespace Project
 
         private void GRPC_NetworkVariable_Initialization()
         {
-            _networkBehaviour = GetBehaviour();
+             NetworkBehaviour networkBehaviour = GetBehaviour();
 
             // Server authoritative only 
             // Only the server open NetworkVariable streams
-            if (_networkBehaviour.IsServer == false /*&& _networkBehaviour.IsHost == false*/) return;
+            if (networkBehaviour.IsServer == false /*&& _networkBehaviour.IsHost == false*/) return;
+            _netId = (int)networkBehaviour.GetComponentInParent<NetworkObject>().NetworkObjectId;
             
             _currentType = GetGrpcGenericType();
             
@@ -116,10 +117,9 @@ namespace Project
                     jsonEncode = (string)valueToEncodeInJson;
                 }
                 
-                int netId = (int)GetBehaviour().GetComponentInParent<NetworkObject>().NetworkObjectId;
                 GRPC_NetVarUpdate result = new GRPC_NetVarUpdate()
                 {
-                    NetId = netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
+                    NetId = _netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
 
                 await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
@@ -182,7 +182,7 @@ namespace Project
 
             if (GRPC_NetworkManager.isBeingDestroyed == false)
             {
-                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(Initialize);
+                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
                 GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
             }
         }

@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabId: Cube
+  UnrealOwnerAddress: 
 --- !u!114 &3138950150260988042
 MonoBehaviour:
   m_ObjectHideFlags: 0

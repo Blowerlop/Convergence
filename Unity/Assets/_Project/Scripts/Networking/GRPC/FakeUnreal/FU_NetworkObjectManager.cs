@@ -27,7 +27,7 @@ namespace Project
         {
             _networkManager = FU_GRPC_NetworkManager.instance;
             
-            _networkManager.networkTransport.onClientPreEndedEvent.Subscribe(this, TokenCancel);
+            _networkManager.networkTransport.onClientStopEvent.Subscribe(this, TokenCancel);
             _networkManager.onClientEndedEvent.Subscribe(this, Dispose);
             _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
         }
@@ -36,7 +36,7 @@ namespace Project
         {
             if (FU_GRPC_NetworkManager.isBeingDestroyed) return;
             
-            _networkManager.networkTransport.onClientPreEndedEvent.Unsubscribe(TokenCancel);
+            _networkManager.networkTransport.onClientStopEvent.Unsubscribe(TokenCancel);
             _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);
             _networkManager.onClientEndedEvent.Unsubscribe(Dispose);
         }

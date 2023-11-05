@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GRPCClient;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project
@@ -33,10 +34,9 @@ namespace Project
         }
         
         public Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
+        public Event onClientStopEvent => networkTransport.onClientStopEvent;
         public Event onClientEndedEvent = new Event(nameof(onClientEndedEvent));
 
-
-        [SerializeField] private GameObject player;
 
         protected override void Awake()
         {

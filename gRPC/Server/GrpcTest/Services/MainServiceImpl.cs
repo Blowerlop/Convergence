@@ -428,8 +428,11 @@ namespace GRPCServer.Services
         {
             Console.WriteLine($"Response stream opened : {context.Peer} / {request.Type}");
 
-            //unrealClients[context.Peer]._netVarStream = responseStream;
-            unrealClients[context.Peer].netVarStream.Add(request.Type, responseStream);
+            if (unrealClients[context.Peer].netVarStream.TryAdd(request.Type, responseStream) == false)
+            {
+                Console.WriteLine($"Unreal client {context.Peer} already open listening stream for {request.Type}");
+            }
+
             Console.WriteLine($"Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             try
             {

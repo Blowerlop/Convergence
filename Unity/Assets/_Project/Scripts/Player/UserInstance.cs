@@ -12,7 +12,7 @@ namespace Project
         /// <summary>
         /// Reference to the local client's UserInstance.
         /// </summary>
-        public static UserInstance Me;
+        [ClearOnReload] public static UserInstance Me;
         
         public override void OnNetworkSpawn()
         {
