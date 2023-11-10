@@ -394,6 +394,8 @@ namespace GRPCServer.Services
                     Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value}");
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
+                        //There could be a problem if a client does GRPC_CliNetNetVarUpdate
+                        //and at the same time netcode server send a net var update
                         if (unrealClient.Value.netVarStream.ContainsKey(requestStream.Current.NewValue.Type) == false) continue;
 
                         Console.WriteLine($"JE TECRIS :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
@@ -434,9 +436,10 @@ namespace GRPCServer.Services
                 {
                     Console.WriteLine($"Unreal client {context.Peer} already open listening stream for {request.Type}");
                 }
+                
+                Console.WriteLine($"Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             }
 
-            Console.WriteLine($"Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             try
             {
                 await Task.Delay(-1, context.CancellationToken);
