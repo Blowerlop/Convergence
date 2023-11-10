@@ -428,9 +428,12 @@ namespace GRPCServer.Services
         {
             Console.WriteLine($"Response stream opened : {context.Peer} / {request.Type}");
 
-            if (unrealClients[context.Peer].netVarStream.TryAdd(request.Type, responseStream) == false)
+            lock (unrealClients[context.Peer].netVarStream)
             {
-                Console.WriteLine($"Unreal client {context.Peer} already open listening stream for {request.Type}");
+                if (unrealClients[context.Peer].netVarStream.TryAdd(request.Type, responseStream) == false)
+                {
+                    Console.WriteLine($"Unreal client {context.Peer} already open listening stream for {request.Type}");
+                }
             }
 
             Console.WriteLine($"Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
@@ -440,7 +443,8 @@ namespace GRPCServer.Services
             }
             catch (TaskCanceledException)
             {
-                unrealClients[context.Peer].netVarStream.Remove(request.Type);
+                if(unrealClients.TryGetValue(context.Peer, out var client))
+                    client.netVarStream.Remove(request.Type);
             }
             Console.WriteLine($"Response stream closed : {context.Peer} / {request.Type}");
         }

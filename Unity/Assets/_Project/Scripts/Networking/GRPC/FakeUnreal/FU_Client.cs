@@ -4,7 +4,7 @@ using Unity.Netcode;
 
 namespace Project
 {
-    public class FU_Client : NetworkBehaviour
+    public class FU_Client : FU_NetworkObject
     {
         [ShowInInspector] private FU_NetworkVariableReadOnly<int> _networkVariableReadOnly = new FU_NetworkVariableReadOnly<int>("Health");
 

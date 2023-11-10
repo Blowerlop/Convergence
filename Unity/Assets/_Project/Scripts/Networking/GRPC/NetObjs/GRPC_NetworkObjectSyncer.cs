@@ -16,7 +16,7 @@ namespace Project
         private string prefabId;
 
         [HideInInspector] public string UnrealOwnerAddress = null;
-        public bool IsOwnedByUnrealClient => UnrealOwnerAddress != null;
+        public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
         
         public override void OnNetworkSpawn()
         {
