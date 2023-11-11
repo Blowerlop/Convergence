@@ -167,7 +167,7 @@ namespace Project
             if (string.IsNullOrEmpty(rawInput)) return;
 
             string trimString = rawInput.TrimEnd();
-            string[] splitInput = trimString.Split(" ");
+            string[] splitInput = trimString.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             Debug.Log($">> {trimString}");
             AddToCommandHistory(trimString);
@@ -183,19 +183,19 @@ namespace Project
                 {
                     int commandParametersLength = command.parametersInfo.Length;
 
-                    if (commandParametersLength == 0)
+                    switch (commandParametersLength)
                     {
-                        Debug.LogError($"This command has no parameter, you pass {parameters.Length}");
+                        case 0:
+                            Debug.LogError($"This command has no parameter, you pass {commandsSplitInputLength}");
+                            break;
+                        case 1:
+                            Debug.LogError($"This command has {commandParametersLength} parameter, you pass {commandsSplitInputLength}");
+                            break;
+                        default:
+                            Debug.LogError($"This command has {commandParametersLength} parameters, you pass {commandsSplitInputLength}");
+                            break;
                     }
-                    else if (commandParametersLength == 1)
-                    {
-                        Debug.LogError($"This command has {commandParametersLength} parameter, you pass {parameters.Length}");
-                    }
-                    else
-                    {
-                        Debug.LogError($"This command has {commandParametersLength} parameters, you pass {parameters.Length}");
-                    }
-                    
+
                     goto end;
                 }
                 
@@ -302,13 +302,18 @@ namespace Project
                 return;
             }
             
+            //string trimString = input.TrimEnd();
+            //string[] splitInput = trimString.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            
             for (int i = 0; i < _commandsName.Length; i++)
             {
                 _currentPrediction = _commandsName[i];
                 
+                //if (_currentPrediction.StartsWith(splitInput[0], true, CultureInfo.InvariantCulture))
                 if (_currentPrediction.StartsWith(input, true, CultureInfo.InvariantCulture))
                 {
                     int inputLength = input.Length;
+                    //int inputLength = splitInput[0].Length;
 
                     string preWriteCommandName = _currentPrediction.Substring(0, inputLength);
                     string nonWriteCommandName = _currentPrediction.Substring(inputLength);
@@ -317,6 +322,7 @@ namespace Project
                     // Enforce the input with the case of the command name
                     _inputInputField.text = _inputInputField.text.FollowCasePattern(preWriteCommandName);
                 
+                    //for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length - splitInput.Length - 1; j++)
                     for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length; j++)
                     {
                         ParameterInfo parameterInfo = _commands[_currentPrediction].parametersInfo[j];

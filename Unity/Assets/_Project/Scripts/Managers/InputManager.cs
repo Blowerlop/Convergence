@@ -49,7 +49,6 @@ namespace Project
         {
             dontDestroyOnLoad = false;
             base.Awake();
-            if (isBeingDestroyed) return;
             
             _inputAction = new PlayerInputAction();
             

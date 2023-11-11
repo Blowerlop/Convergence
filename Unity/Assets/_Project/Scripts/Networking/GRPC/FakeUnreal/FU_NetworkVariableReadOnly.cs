@@ -17,7 +17,7 @@ namespace Project
         [ShowInInspector, Sirenix.OdinInspector.ReadOnly] public T value { get; private set; }
         private int _netId;
 
-        [ClearOnReload(GRPC_GenericType.Isnull)] private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
+        private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         
         public event Action<T> OnValueChanged;
         
