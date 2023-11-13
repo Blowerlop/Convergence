@@ -26,6 +26,9 @@ service MainService {
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
 	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
+
+	rpc GRPC_TeamSelectionUnrealToGrpc (stream GRPC_Team) returns (stream GRPC_TeamResponse);
+	rpc GRPC_TeamSelectionGrpcToNetcode (stream GRPC_TeamResponse) returns (stream GRPC_Team);
 }
 
 //Handshake
@@ -109,4 +112,14 @@ message GRPC_ClientUpdate
 enum GRPC_ClientUpdateType {
 	CONNECT = 0;
 	DISCONNECT = 1;
+}
+
+message GRPC_Team{
+	GRPC_ClientId clientId = 1;
+	uint32 teamIndex = 2;
+}
+
+message GRPC_TeamResponse{
+	GRPC_Team team = 1;
+	bool response = 2;
 }

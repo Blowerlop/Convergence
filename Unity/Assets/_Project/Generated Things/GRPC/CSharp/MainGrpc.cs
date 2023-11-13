@@ -67,6 +67,10 @@ namespace GRPCClient {
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_NetVarUpdate> __Marshaller_main_GRPC_NetVarUpdate = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_NetVarUpdate.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_GenericValue> __Marshaller_main_GRPC_GenericValue = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_GenericValue.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_Team> __Marshaller_main_GRPC_Team = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_Team.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_TeamResponse> __Marshaller_main_GRPC_TeamResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_TeamResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet> __Method_GRPC_Handshake = new grpc::Method<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet>(
@@ -131,6 +135,22 @@ namespace GRPCClient {
         "GRPC_CliNetNetVarUpdate",
         __Marshaller_main_GRPC_GenericValue,
         __Marshaller_main_GRPC_NetVarUpdate);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse> __Method_GRPC_TeamSelectionUnrealToGrpc = new grpc::Method<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse>(
+        grpc::MethodType.DuplexStreaming,
+        __ServiceName,
+        "GRPC_TeamSelectionUnrealToGrpc",
+        __Marshaller_main_GRPC_Team,
+        __Marshaller_main_GRPC_TeamResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team> __Method_GRPC_TeamSelectionGrpcToNetcode = new grpc::Method<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team>(
+        grpc::MethodType.DuplexStreaming,
+        __ServiceName,
+        "GRPC_TeamSelectionGrpcToNetcode",
+        __Marshaller_main_GRPC_TeamResponse,
+        __Marshaller_main_GRPC_Team);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -208,6 +228,18 @@ namespace GRPCClient {
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task GRPC_CliNetNetVarUpdate(global::GRPCClient.GRPC_GenericValue request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_NetVarUpdate> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GRPC_TeamSelectionUnrealToGrpc(grpc::IAsyncStreamReader<global::GRPCClient.GRPC_Team> requestStream, grpc::IServerStreamWriter<global::GRPCClient.GRPC_TeamResponse> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GRPC_TeamSelectionGrpcToNetcode(grpc::IAsyncStreamReader<global::GRPCClient.GRPC_TeamResponse> requestStream, grpc::IServerStreamWriter<global::GRPCClient.GRPC_Team> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -401,6 +433,26 @@ namespace GRPCClient {
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_CliNetNetVarUpdate, null, options, request);
       }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncDuplexStreamingCall<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse> GRPC_TeamSelectionUnrealToGrpc(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_TeamSelectionUnrealToGrpc(new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncDuplexStreamingCall<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse> GRPC_TeamSelectionUnrealToGrpc(grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncDuplexStreamingCall(__Method_GRPC_TeamSelectionUnrealToGrpc, null, options);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncDuplexStreamingCall<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team> GRPC_TeamSelectionGrpcToNetcode(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_TeamSelectionGrpcToNetcode(new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncDuplexStreamingCall<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team> GRPC_TeamSelectionGrpcToNetcode(grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncDuplexStreamingCall(__Method_GRPC_TeamSelectionGrpcToNetcode, null, options);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override MainServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -422,7 +474,9 @@ namespace GRPCClient {
           .AddMethod(__Method_GRPC_SrvNetObjUpdate, serviceImpl.GRPC_SrvNetObjUpdate)
           .AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl.GRPC_CliNetObjUpdate)
           .AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl.GRPC_SrvNetVarUpdate)
-          .AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl.GRPC_CliNetNetVarUpdate).Build();
+          .AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl.GRPC_CliNetNetVarUpdate)
+          .AddMethod(__Method_GRPC_TeamSelectionUnrealToGrpc, serviceImpl.GRPC_TeamSelectionUnrealToGrpc)
+          .AddMethod(__Method_GRPC_TeamSelectionGrpcToNetcode, serviceImpl.GRPC_TeamSelectionGrpcToNetcode).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -440,6 +494,8 @@ namespace GRPCClient {
       serviceBinder.AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetObjUpdate>(serviceImpl.GRPC_CliNetObjUpdate));
       serviceBinder.AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SrvNetVarUpdate));
       serviceBinder.AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_GenericValue, global::GRPCClient.GRPC_NetVarUpdate>(serviceImpl.GRPC_CliNetNetVarUpdate));
+      serviceBinder.AddMethod(__Method_GRPC_TeamSelectionUnrealToGrpc, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse>(serviceImpl.GRPC_TeamSelectionUnrealToGrpc));
+      serviceBinder.AddMethod(__Method_GRPC_TeamSelectionGrpcToNetcode, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team>(serviceImpl.GRPC_TeamSelectionGrpcToNetcode));
     }
 
   }

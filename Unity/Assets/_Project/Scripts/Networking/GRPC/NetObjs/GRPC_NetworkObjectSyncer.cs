@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GRPCClient;
@@ -17,12 +18,16 @@ namespace Project
 
         [HideInInspector] public string UnrealOwnerAddress = null;
         public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
-        
-        public override void OnNetworkSpawn()
+
+        private void Start()
         {
-            base.OnNetworkSpawn();
-            
             if (!IsServer && !IsHost) return;
+            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
+            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpDisconnection_NetworkObjectUnSync);
+        }
+
+        private void OnGrpcConnection_NetworkObjectSync()
+        {
             if (!EnsureInit()) return;
             
             GRPC_NetObjUpdate update = new()
@@ -33,13 +38,12 @@ namespace Project
             };
             
             GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            
+            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
         }
 
-        public override void OnNetworkDespawn()
+        private void OnGrpDisconnection_NetworkObjectUnSync()
         {
-            base.OnNetworkDespawn();
-            
-            if (!IsServer && !IsHost) return;
             if (!EnsureInit()) return;
             
             GRPC_NetObjUpdate update = new()
@@ -54,6 +58,8 @@ namespace Project
             {
                 GRPC_NetworkManager.instance.GetUnrealClientByAddress(UnrealOwnerAddress).RemoveOwnership(NetworkObject);
             }
+            
+            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpDisconnection_NetworkObjectUnSync);
         }
 
         private bool EnsureInit()

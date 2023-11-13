@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Project
 {
@@ -13,7 +14,7 @@ namespace Project
         /// Reference to the local client's UserInstance.
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
-        
+
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
@@ -42,28 +43,46 @@ namespace Project
         }
         
         //NetVars
-        [ShowInInspector] private readonly GRPC_NetworkVariable<FixedString64Bytes> _name = new("Name");
-        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _team = new("Team");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<FixedString64Bytes> _name = new("Name", value: "UnknowName");
+        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _team = new("Team", value: -1);
         
         //Getters
-        public string Name => _name.Value.ToString();
+        public string PlayerName => _name.Value.ToString();
         public int Team => _team.Value;
         
         //Setters
-        [Button]
-        public void SetName(string n)
+        [ServerRpc, Button]
+        public void SetNameServerRpc(string playerName)
         {
-            if (!IsServer && !IsHost) return;
-            
-            _name.Value = n;
+            SetNameClientRpc(playerName);
+        }
+
+        [ClientRpc]
+        private void SetNameClientRpc(string playerName)
+        {
+            SetName(playerName);
         }
         
-        [Button]
-        public void SetTeam(int t)
+        private void SetName(string playerName)
         {
-            if (!IsServer && !IsHost) return;
-            
-            _team.Value = t;
+            _name.Value = playerName;
+        }
+        
+        [ServerRpc, Button]
+        public void SetTeamServerRpc(int playerTeam)
+        {
+            SetTeamClientRpc(playerTeam);
+        }
+
+        [ClientRpc]
+        private void SetTeamClientRpc(int playerTeam)
+        {
+            SetTeam(playerTeam);
+        }
+        
+        public void SetTeam(int playerTeam)
+        {
+            _team.Value = playerTeam;
         }
     }
 }

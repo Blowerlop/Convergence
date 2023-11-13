@@ -1,6 +1,7 @@
 using Grpc.Core;
 using Microsoft.AspNetCore.ResponseCompression;
 using Networking;
+using System.IO;
 using Utils;
 
 namespace GRPCServer.Services
@@ -452,6 +453,56 @@ namespace GRPCServer.Services
             Console.WriteLine($"Response stream closed : {context.Peer} / {request.Type}");
         }
 
+        #endregion
+
+        #region Lobby
+        public override async Task GRPC_TeamSelectionUnrealToGrpc(IAsyncStreamReader<GRPC_Team> requestStream, IServerStreamWriter<GRPC_TeamResponse> responseStream, ServerCallContext context)
+        {
+            netcodeServer.Value.netcodeServer.teamSelectionResponseStream.Add(responseStream);
+
+            try
+            {
+                while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
+                {
+                    GRPC_Team messageReceived = requestStream.Current;
+                    await UnrealClient.teamSelectionResponseStream.WriteAsync(messageReceived);
+
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("GRPC_SrvNetObjUpdate > Connection lost with client.");
+                DisconnectClient(context.Peer);
+            }
+
+            //return new GRPC_EmptyMsg();
+        }
+
+        public override async Task GRPC_TeamSelectionGrpcToNetcode(IAsyncStreamReader<GRPC_TeamResponse> requestStream, IServerStreamWriter<GRPC_Team> responseStream, ServerCallContext context)
+        {
+            Console.WriteLine("Opened");
+            UnrealClient.teamSelectionResponseStream = responseStream;
+
+            try
+            {
+                while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
+                {
+                    // Callback the response to all the Unreal clients
+                    foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer.Value.netcodeServer.teamSelectionResponseStream)
+                    {
+                        await item.WriteAsync(requestStream.Current);
+                    }
+                    
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("GRPC_SrvNetObjUpdate > Connection lost with client.");
+                DisconnectClient(context.Peer);
+            }
+
+            //return new GRPC_EmptyMsg();
+        }
         #endregion
     }
 }

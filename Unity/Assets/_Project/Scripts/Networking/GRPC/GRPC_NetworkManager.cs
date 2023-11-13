@@ -14,7 +14,7 @@ namespace Project
     [DisallowMultipleComponent]
     public class GRPC_NetworkManager : MonoSingleton<GRPC_NetworkManager>
     {
-        private MainService.MainServiceClient _client => networkTransport.client;
+        public MainService.MainServiceClient client => networkTransport.client;
         [ShowInInspector] public GRPC_Transport networkTransport { get; private set; }
         [ShowInInspector]
         public bool isConnected
@@ -128,7 +128,7 @@ namespace Project
 
         private async void GetUnrealClientsUpdate()
         { 
-            _unrealClientStream = _client.GRPC_SrvClientUpdate(new GRPC_EmptyMsg());
+            _unrealClientStream = client.GRPC_SrvClientUpdate(new GRPC_EmptyMsg());
 
             try
             {

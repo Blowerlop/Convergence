@@ -1,19 +1,30 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project
 {
     using UnityEngine;
 
-    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    [DefaultExecutionOrder(-1)]
+    public abstract class NetworkSingleton<T> : NetworkBehaviour where T : NetworkBehaviour
     {
+        protected static bool authorityCheck = false;
+        protected static NetworkVariableWritePermission instanceReadPerm = NetworkVariableWritePermission.Server;
+        
         protected static bool dontDestroyOnLoad = true;
         public static bool isBeingDestroyed { get; private set; }
         
         private static T _instance = null;
         public static T instance {
-            get 
-            { 
+            get
+            {
+                if (authorityCheck && CanClientRead() == false)
+                {
+                    Debug.LogError("Trying to access a NetworkSingleton instance with Authority Checked as non Server Client");
+                    return null;
+                }
+                
                 if(_instance == null){
                     _instance = FindObjectOfType<T>();
                     if(_instance == null){
@@ -45,8 +56,9 @@ namespace Project
             }
         }
 
-        protected virtual void OnDestroy()
+        public override void OnDestroy()
         {
+            base.OnDestroy();
             isBeingDestroyed = true;
         }
 
@@ -56,6 +68,18 @@ namespace Project
         private static void ResetStaticVariables()
         {
             _instance = null;
+        }
+
+        private static bool CanClientRead()
+        {
+            switch (instanceReadPerm)
+            {
+                case NetworkVariableWritePermission.Owner:
+                    return false;
+
+                default:
+                case NetworkVariableWritePermission.Server:
+                    return NetworkManager.Singleton.LocalClientId == NetworkManager.ServerClientId; }
         }
     }
 }

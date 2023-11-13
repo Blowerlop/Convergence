@@ -41,7 +41,7 @@ namespace Project
         {
             if (isConnected)
             {
-                Debug.LogError("Can't start a client when there is one already running");
+                Debug.LogWarning("Can't start a client when there is one already running");
                 return false;
             }
             
@@ -71,7 +71,7 @@ namespace Project
         {
             if (!isConnected)
             {
-                Debug.LogError("No client are running");
+                Debug.LogWarning("No client are running");
                 return false;
             }
             

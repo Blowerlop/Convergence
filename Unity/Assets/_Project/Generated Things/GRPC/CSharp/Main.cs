@@ -40,24 +40,31 @@ namespace GRPCClient {
             "ASABKA4yFi5tYWluLkdSUENfR2VuZXJpY1R5cGUSDQoFdmFsdWUYAiABKAki",
             "GwoNR1JQQ19DbGllbnRJZBIKCgJpZBgBIAEoDSJQChFHUlBDX0NsaWVudFVw",
             "ZGF0ZRIQCghjbGllbnRJUBgBIAEoCRIpCgR0eXBlGAIgASgOMhsubWFpbi5H",
-            "UlBDX0NsaWVudFVwZGF0ZVR5cGUqLQoVR1JQQ19OZXRPYmpVcGRhdGVUeXBl",
-            "EgcKA05FVxAAEgsKB0RFU1RST1kQASpKChBHUlBDX0dlbmVyaWNUeXBlEgoK",
-            "BklTTlVMTBAAEgcKA0lOVBABEgoKBlNUUklORxACEggKBEJPT0wQAxILCgdW",
-            "RUNUT1IzEAQqNAoVR1JQQ19DbGllbnRVcGRhdGVUeXBlEgsKB0NPTk5FQ1QQ",
-            "ABIOCgpESVNDT05ORUNUEAEyyQQKC01haW5TZXJ2aWNlEkMKDkdSUENfSGFu",
-            "ZHNoYWtlEhgubWFpbi5HUlBDX0hhbmRzaGFrZVBvc3QaFy5tYWluLkdSUENf",
-            "SGFuZHNoYWtlR2V0EkwKFUdSUENfTmV0Y29kZUhhbmRzaGFrZRIZLm1haW4u",
-            "R1JQQ19OSGFuZHNoYWtlUG9zdBoYLm1haW4uR1JQQ19OSGFuZHNoYWtlR2V0",
-            "EjgKCUdSUENfUGluZxITLm1haW4uR1JQQ19QaW5nUG9zdBoSLm1haW4uR1JQ",
-            "Q19QaW5nR2V0KAEwARJGChRHUlBDX1NydkNsaWVudFVwZGF0ZRITLm1haW4u",
-            "R1JQQ19FbXB0eU1zZxoXLm1haW4uR1JQQ19DbGllbnRVcGRhdGUwARJGChRH",
-            "UlBDX1Nydk5ldE9ialVwZGF0ZRIXLm1haW4uR1JQQ19OZXRPYmpVcGRhdGUa",
-            "Ey5tYWluLkdSUENfRW1wdHlNc2coARJGChRHUlBDX0NsaU5ldE9ialVwZGF0",
-            "ZRITLm1haW4uR1JQQ19FbXB0eU1zZxoXLm1haW4uR1JQQ19OZXRPYmpVcGRh",
-            "dGUwARJGChRHUlBDX1Nydk5ldFZhclVwZGF0ZRIXLm1haW4uR1JQQ19OZXRW",
-            "YXJVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJNChdHUlBDX0NsaU5l",
-            "dE5ldFZhclVwZGF0ZRIXLm1haW4uR1JQQ19HZW5lcmljVmFsdWUaFy5tYWlu",
-            "LkdSUENfTmV0VmFyVXBkYXRlMAFCDaoCCkdSUENDbGllbnRiBnByb3RvMw=="));
+            "UlBDX0NsaWVudFVwZGF0ZVR5cGUiRQoJR1JQQ19UZWFtEiUKCGNsaWVudElk",
+            "GAEgASgLMhMubWFpbi5HUlBDX0NsaWVudElkEhEKCXRlYW1JbmRleBgCIAEo",
+            "DSJEChFHUlBDX1RlYW1SZXNwb25zZRIdCgR0ZWFtGAEgASgLMg8ubWFpbi5H",
+            "UlBDX1RlYW0SEAoIcmVzcG9uc2UYAiABKAgqLQoVR1JQQ19OZXRPYmpVcGRh",
+            "dGVUeXBlEgcKA05FVxAAEgsKB0RFU1RST1kQASpKChBHUlBDX0dlbmVyaWNU",
+            "eXBlEgoKBklTTlVMTBAAEgcKA0lOVBABEgoKBlNUUklORxACEggKBEJPT0wQ",
+            "AxILCgdWRUNUT1IzEAQqNAoVR1JQQ19DbGllbnRVcGRhdGVUeXBlEgsKB0NP",
+            "Tk5FQ1QQABIOCgpESVNDT05ORUNUEAEy6gUKC01haW5TZXJ2aWNlEkMKDkdS",
+            "UENfSGFuZHNoYWtlEhgubWFpbi5HUlBDX0hhbmRzaGFrZVBvc3QaFy5tYWlu",
+            "LkdSUENfSGFuZHNoYWtlR2V0EkwKFUdSUENfTmV0Y29kZUhhbmRzaGFrZRIZ",
+            "Lm1haW4uR1JQQ19OSGFuZHNoYWtlUG9zdBoYLm1haW4uR1JQQ19OSGFuZHNo",
+            "YWtlR2V0EjgKCUdSUENfUGluZxITLm1haW4uR1JQQ19QaW5nUG9zdBoSLm1h",
+            "aW4uR1JQQ19QaW5nR2V0KAEwARJGChRHUlBDX1NydkNsaWVudFVwZGF0ZRIT",
+            "Lm1haW4uR1JQQ19FbXB0eU1zZxoXLm1haW4uR1JQQ19DbGllbnRVcGRhdGUw",
+            "ARJGChRHUlBDX1Nydk5ldE9ialVwZGF0ZRIXLm1haW4uR1JQQ19OZXRPYmpV",
+            "cGRhdGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJGChRHUlBDX0NsaU5ldE9i",
+            "alVwZGF0ZRITLm1haW4uR1JQQ19FbXB0eU1zZxoXLm1haW4uR1JQQ19OZXRP",
+            "YmpVcGRhdGUwARJGChRHUlBDX1Nydk5ldFZhclVwZGF0ZRIXLm1haW4uR1JQ",
+            "Q19OZXRWYXJVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJNChdHUlBD",
+            "X0NsaU5ldE5ldFZhclVwZGF0ZRIXLm1haW4uR1JQQ19HZW5lcmljVmFsdWUa",
+            "Fy5tYWluLkdSUENfTmV0VmFyVXBkYXRlMAESTgoeR1JQQ19UZWFtU2VsZWN0",
+            "aW9uVW5yZWFsVG9HcnBjEg8ubWFpbi5HUlBDX1RlYW0aFy5tYWluLkdSUENf",
+            "VGVhbVJlc3BvbnNlKAEwARJPCh9HUlBDX1RlYW1TZWxlY3Rpb25HcnBjVG9O",
+            "ZXRjb2RlEhcubWFpbi5HUlBDX1RlYW1SZXNwb25zZRoPLm1haW4uR1JQQ19U",
+            "ZWFtKAEwAUINqgIKR1JQQ0NsaWVudGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), typeof(global::GRPCClient.GRPC_ClientUpdateType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -73,7 +80,9 @@ namespace GRPCClient {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_Vector3), global::GRPCClient.GRPC_Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_GenericValue), global::GRPCClient.GRPC_GenericValue.Parser, new[]{ "Type", "Value" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_ClientId), global::GRPCClient.GRPC_ClientId.Parser, new[]{ "Id" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_ClientUpdate), global::GRPCClient.GRPC_ClientUpdate.Parser, new[]{ "ClientIP", "Type" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_ClientUpdate), global::GRPCClient.GRPC_ClientUpdate.Parser, new[]{ "ClientIP", "Type" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_Team), global::GRPCClient.GRPC_Team.Parser, new[]{ "ClientId", "TeamIndex" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_TeamResponse), global::GRPCClient.GRPC_TeamResponse.Parser, new[]{ "Team", "Response" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2814,6 +2823,476 @@ namespace GRPCClient {
           }
           case 16: {
             Type = (global::GRPCClient.GRPC_ClientUpdateType) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class GRPC_Team : pb::IMessage<GRPC_Team>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GRPC_Team> _parser = new pb::MessageParser<GRPC_Team>(() => new GRPC_Team());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GRPC_Team> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GRPC_Team() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GRPC_Team(GRPC_Team other) : this() {
+      clientId_ = other.clientId_ != null ? other.clientId_.Clone() : null;
+      teamIndex_ = other.teamIndex_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GRPC_Team Clone() {
+      return new GRPC_Team(this);
+    }
+
+    /// <summary>Field number for the "clientId" field.</summary>
+    public const int ClientIdFieldNumber = 1;
+    private global::GRPCClient.GRPC_ClientId clientId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GRPCClient.GRPC_ClientId ClientId {
+      get { return clientId_; }
+      set {
+        clientId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "teamIndex" field.</summary>
+    public const int TeamIndexFieldNumber = 2;
+    private uint teamIndex_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint TeamIndex {
+      get { return teamIndex_; }
+      set {
+        teamIndex_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GRPC_Team);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GRPC_Team other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(ClientId, other.ClientId)) return false;
+      if (TeamIndex != other.TeamIndex) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (clientId_ != null) hash ^= ClientId.GetHashCode();
+      if (TeamIndex != 0) hash ^= TeamIndex.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (clientId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(ClientId);
+      }
+      if (TeamIndex != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(TeamIndex);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (clientId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(ClientId);
+      }
+      if (TeamIndex != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(TeamIndex);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (clientId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ClientId);
+      }
+      if (TeamIndex != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(TeamIndex);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GRPC_Team other) {
+      if (other == null) {
+        return;
+      }
+      if (other.clientId_ != null) {
+        if (clientId_ == null) {
+          ClientId = new global::GRPCClient.GRPC_ClientId();
+        }
+        ClientId.MergeFrom(other.ClientId);
+      }
+      if (other.TeamIndex != 0) {
+        TeamIndex = other.TeamIndex;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (clientId_ == null) {
+              ClientId = new global::GRPCClient.GRPC_ClientId();
+            }
+            input.ReadMessage(ClientId);
+            break;
+          }
+          case 16: {
+            TeamIndex = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (clientId_ == null) {
+              ClientId = new global::GRPCClient.GRPC_ClientId();
+            }
+            input.ReadMessage(ClientId);
+            break;
+          }
+          case 16: {
+            TeamIndex = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class GRPC_TeamResponse : pb::IMessage<GRPC_TeamResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GRPC_TeamResponse> _parser = new pb::MessageParser<GRPC_TeamResponse>(() => new GRPC_TeamResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GRPC_TeamResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GRPCClient.MainReflection.Descriptor.MessageTypes[14]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GRPC_TeamResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GRPC_TeamResponse(GRPC_TeamResponse other) : this() {
+      team_ = other.team_ != null ? other.team_.Clone() : null;
+      response_ = other.response_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GRPC_TeamResponse Clone() {
+      return new GRPC_TeamResponse(this);
+    }
+
+    /// <summary>Field number for the "team" field.</summary>
+    public const int TeamFieldNumber = 1;
+    private global::GRPCClient.GRPC_Team team_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GRPCClient.GRPC_Team Team {
+      get { return team_; }
+      set {
+        team_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "response" field.</summary>
+    public const int ResponseFieldNumber = 2;
+    private bool response_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Response {
+      get { return response_; }
+      set {
+        response_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GRPC_TeamResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GRPC_TeamResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Team, other.Team)) return false;
+      if (Response != other.Response) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (team_ != null) hash ^= Team.GetHashCode();
+      if (Response != false) hash ^= Response.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (team_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Team);
+      }
+      if (Response != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(Response);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (team_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Team);
+      }
+      if (Response != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(Response);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (team_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Team);
+      }
+      if (Response != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GRPC_TeamResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.team_ != null) {
+        if (team_ == null) {
+          Team = new global::GRPCClient.GRPC_Team();
+        }
+        Team.MergeFrom(other.Team);
+      }
+      if (other.Response != false) {
+        Response = other.Response;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (team_ == null) {
+              Team = new global::GRPCClient.GRPC_Team();
+            }
+            input.ReadMessage(Team);
+            break;
+          }
+          case 16: {
+            Response = input.ReadBool();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (team_ == null) {
+              Team = new global::GRPCClient.GRPC_Team();
+            }
+            input.ReadMessage(Team);
+            break;
+          }
+          case 16: {
+            Response = input.ReadBool();
             break;
           }
         }

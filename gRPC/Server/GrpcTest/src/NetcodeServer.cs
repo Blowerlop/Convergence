@@ -8,7 +8,9 @@ namespace Networking
     {
         public Dictionary<int, NetworkObject> NetObjs = new();
         public IServerStreamWriter<GRPC_ClientUpdate> ClientUpdateStream = null!;
-        
+
+        public List<IServerStreamWriter<GRPC_TeamResponse>> teamSelectionResponseStream = new List<IServerStreamWriter<GRPC_TeamResponse>>();
+
         public NetcodeServer(string ad) : base(ad) { }
 
         public override void Disconnect()
