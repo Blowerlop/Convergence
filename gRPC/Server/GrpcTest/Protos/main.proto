@@ -98,6 +98,8 @@ enum GRPC_GenericType {
 }
 
 //Really useful ?
+// Ouai pas tres useful en effet
+// On fini nos test et je vire ca
 message GRPC_ClientId
 {
 	uint32 id = 1;
