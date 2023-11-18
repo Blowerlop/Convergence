@@ -1,7 +1,7 @@
-using System;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Project._Project.Scripts.Spells
 {
@@ -19,12 +19,15 @@ namespace Project._Project.Scripts.Spells
 
         private readonly SpellCaster[] _spellCasters = new SpellCaster[SpellsCount];
         
+        private int? _currentChannelingIndex;
+        
         private void Start()
         {
             InitSpellCasters();
             
             InputManager.instance.OnSpellInputStarted += StartChanneling;
             InputManager.instance.OnOnSpellInputCanceled += StopChanneling;
+            InputManager.instance.onMouseButton0.started += StopChanneling;
         }
 
         private void OnDestroy()
@@ -33,6 +36,7 @@ namespace Project._Project.Scripts.Spells
             
             InputManager.instance.OnSpellInputStarted -= StartChanneling;
             InputManager.instance.OnOnSpellInputCanceled -= StopChanneling;
+            InputManager.instance.onMouseButton0.started -= StopChanneling;
         }
 
         private void InitSpellCasters()
@@ -64,12 +68,20 @@ namespace Project._Project.Scripts.Spells
             }
             
             if (_spellCasters.Any(x => x.IsChanneling)) return;
-            
+
+            _currentChannelingIndex = spellIndex;
             _spellCasters[spellIndex].StartChanneling();
             
             //If the spell is instant, get the results right away
                 //var results = _spellCasters[spellIndex].GetResults();
                 //Ask SpellManager to spawn the according spell with the results
+        }
+
+        private void StopChanneling(InputAction.CallbackContext _)
+        {
+            if (!_currentChannelingIndex.HasValue) return;
+            
+            StopChanneling(_currentChannelingIndex.Value);
         }
         
         private void StopChanneling(int spellIndex)
@@ -81,6 +93,8 @@ namespace Project._Project.Scripts.Spells
             }
             
             if (!_spellCasters[spellIndex].IsChanneling) return;
+
+            _currentChannelingIndex = null;
             
             _spellCasters[spellIndex].StopChanneling();
             var results = _spellCasters[spellIndex].GetResults();
