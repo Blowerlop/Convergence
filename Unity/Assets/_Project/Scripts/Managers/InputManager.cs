@@ -37,12 +37,16 @@ namespace Project
         public InputAction onMouseButton1 => _inputAction.Player.MouseButton1;
         public InputAction onConsoleKey => _inputAction.Persistant.Console;
 
+        // Spells
+        private InputAction[] _spellInputs;
+        public event Action<int> OnSpellInputStarted; 
+        public event Action<int> OnOnSpellInputCanceled; 
+        
         [Title("Inputs value")] 
         [ShowInInspector] public Vector2 move;
         [ShowInInspector] public Vector2 look;
         
         #endregion
-        
         
         #region Updates
         protected override void Awake()
@@ -56,7 +60,18 @@ namespace Project
             
             SwitchActionMap(_defaultInputActionMap);
         }
-        
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            foreach (var spellAction in _spellInputs)
+            {
+                spellAction.started -= SpellInputStarted;
+                spellAction.canceled -= SpellInputCanceled;
+            }
+        }
+
         #endregion
 
         
@@ -72,6 +87,21 @@ namespace Project
             _inputAction.Player.Look.started += context => look = context.ReadValue<Vector2>();
             _inputAction.Player.Look.performed += context => look = context.ReadValue<Vector2>();
             _inputAction.Player.Look.canceled += context => look = Vector2.zero;
+            
+            // Spells
+            _spellInputs = new[]
+            {
+                _inputAction.Player.Spell1,
+                _inputAction.Player.Spell2,
+                _inputAction.Player.Spell3,
+                _inputAction.Player.Spell4
+            };
+            
+            foreach (var spellAction in _spellInputs)
+            {
+                spellAction.started += SpellInputStarted;
+                spellAction.canceled += SpellInputCanceled;
+            }
         }
         
         [Title("Button"),PropertyOrder(0), Button]
@@ -101,6 +131,19 @@ namespace Project
              
             _inputAction.Persistant.Enable();
         }
+
+        private void SpellInputStarted(InputAction.CallbackContext _)
+        {
+            int spellIndex = Array.IndexOf(_spellInputs, _.action);
+            OnSpellInputStarted?.Invoke(spellIndex);
+        }
+        
+        private void SpellInputCanceled(InputAction.CallbackContext _)
+        {
+            int spellIndex = Array.IndexOf(_spellInputs, _.action);
+            OnOnSpellInputCanceled?.Invoke(spellIndex);
+        }
+        
         #endregion
     }
 
