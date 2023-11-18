@@ -16,8 +16,8 @@ namespace Project
     [System.Serializable]
     public struct TeamData
     {
-        public ulong pcPlayerOwnerClientId;
-        public ulong mobilePlayerOwnerClientId;
+        public int pcPlayerOwnerClientId;
+        public int mobilePlayerOwnerClientId;
     }
     
     public class TeamManager : NetworkSingleton<TeamManager>
@@ -32,7 +32,7 @@ namespace Project
         private const string DEFAULT_PC_SLOT = "Click to join";
         private const string DEFAULT_MOBILE_SLOT = "Empty";
 
-        public Event<int, string> onTeamSetEvent = new Event<int, string>(nameof(onTeamSetEvent));
+        public Event<int, string, PlayerPlatform> onTeamSetEvent = new Event<int, string, PlayerPlatform>(nameof(onTeamSetEvent));
 
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
@@ -122,8 +122,8 @@ namespace Project
             {
                 TeamData teamData = new TeamData
                 {
-                    pcPlayerOwnerClientId = ulong.MaxValue,
-                    mobilePlayerOwnerClientId = ulong.MaxValue
+                    pcPlayerOwnerClientId = int.MaxValue,
+                    mobilePlayerOwnerClientId = int.MaxValue
                 };
 
                 _teams[i] = teamData;
@@ -143,7 +143,7 @@ namespace Project
             return true;
         }
 
-        public bool TrySetTeam(ulong ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        public bool TrySetTeam(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
         {
             if (IsTeamIndexValid(teamIndex) == false)
             {
@@ -164,17 +164,23 @@ namespace Project
             if (IsTeamIndexValid(previousUserTeamIndex))
             {
                 ResetTeam(previousUserTeamIndex, playerPlatform);
-                onTeamSetEvent.Invoke(this, true, previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT : DEFAULT_MOBILE_SLOT);
+                onTeamSetEvent.Invoke(this, true, previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT : DEFAULT_MOBILE_SLOT, playerPlatform);
             }
             
             SetTeam(ownerClientId, teamIndex, playerPlatform);
-            userInstance.SetTeam(teamIndex);
+            userInstance.SetTeamServerRpc(teamIndex);
             
-            onTeamSetEvent.Invoke(this, true, teamIndex, userInstance.PlayerName);
+            onTeamSetEvent.Invoke(this, true, teamIndex, userInstance.PlayerName, playerPlatform);
+            
+            Debug.Log("Try set team ok");
+            Debug.Log("Team recap :\n" +
+                      $"Index : {teamIndex}\n" +
+                      $"Pc : {_teams[teamIndex].pcPlayerOwnerClientId}\n" +
+                      $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
             return true;
         }
 
-        private void SetTeam(ulong ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        private void SetTeam(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
             if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
@@ -185,8 +191,8 @@ namespace Project
         private void ResetTeam(int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
-            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ulong.MaxValue;
-            else teamData.mobilePlayerOwnerClientId = ulong.MaxValue;
+            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = int.MaxValue;
+            else teamData.mobilePlayerOwnerClientId = int.MaxValue;
             _teams[teamIndex] = teamData;
         }
 
@@ -196,10 +202,10 @@ namespace Project
             {
                 if (playerPlatform == PlayerPlatform.Pc)
                 {
-                    return teamData.pcPlayerOwnerClientId == ulong.MaxValue;
+                    return teamData.pcPlayerOwnerClientId == int.MaxValue;
                 }
 
-                return teamData.mobilePlayerOwnerClientId == ulong.MaxValue;
+                return teamData.mobilePlayerOwnerClientId == int.MaxValue;
             }
 
             return false;
@@ -230,8 +236,9 @@ namespace Project
             {
                 while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))
                 {
+                    Debug.Log("Message received");
                     GRPC_Team messageReceived = _teamManagerStream.ResponseStream.Current;
-                    bool response = TrySetTeam(messageReceived.ClientId.Id, (int)messageReceived.TeamIndex, PlayerPlatform.Mobile);
+                    bool response = TrySetTeam(messageReceived.ClientId, messageReceived.TeamIndex, PlayerPlatform.Mobile);
                     Write(new GRPC_TeamResponse {Team = messageReceived, Response = response});
                 }
             }
@@ -250,7 +257,7 @@ namespace Project
             try
             {
                 Debug.Log("FU Write");
-                await _FU_teamManagerStream.RequestStream.WriteAsync(new GRPC_Team{ClientId = new GRPC_ClientId{Id = (uint)ownerClientId}, TeamIndex = (uint)teamIndex}, _FU_cancellationTokenSource.Token);
+                await _FU_teamManagerStream.RequestStream.WriteAsync(new GRPC_Team{ClientId = (int)ownerClientId, TeamIndex = teamIndex}, _FU_cancellationTokenSource.Token);
             }
             catch (IOException)
             {

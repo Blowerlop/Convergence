@@ -2,6 +2,7 @@ using Grpc.Core;
 using Microsoft.AspNetCore.ResponseCompression;
 using Networking;
 using System.IO;
+using System.Security.Claims;
 using Utils;
 
 namespace GRPCServer.Services
@@ -71,9 +72,10 @@ namespace GRPCServer.Services
             }
 
             UnrealClient unrealClient = new UnrealClient(ad);
+            unrealClient.id = -(clients.Keys.Count + 1);
             unrealClients.Add(ip, unrealClient);
             clients.Add(ip, unrealClient);
-            
+
             OnUnrealClientConnected?.Invoke(unrealClient);
         }
 
@@ -147,13 +149,24 @@ namespace GRPCServer.Services
                 // Catch if client is already added to the clients
                 string clientAdress = context.Peer;
                 AddUnrealClient(clientAdress, clientAdress);
+                
 
                 DisplayClients();
+
+                List<GRPC_NetVarUpdate> a = netcodeServer?.netcodeServer.GetNetworkVariablesAsUpdates();
+
+                Console.WriteLine("ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII EN DESSOUS");
+                Console.WriteLine(a.Count);
+                foreach (var item in a)
+                {
+                    Console.WriteLine(item.NewValue.Value);
+                }
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 return Task.FromResult(new GRPC_HandshakeGet
                 {
                     Result = 0, //0 = good!
-                    ClientId = clients.Keys.Count + 1,
+                    ClientId = unrealClients[clientAdress].id,
                     
                     NetObjects = { netcodeServer?.netcodeServer.GetNetworkObjectsAsUpdates() },
                     NetVars = { netcodeServer?.netcodeServer.GetNetworkVariablesAsUpdates() }
@@ -300,7 +313,7 @@ namespace GRPCServer.Services
         }
 
         private GRPC_ClientUpdate ToClientUpdate(UnrealClient cli, GRPC_ClientUpdateType type) =>
-            new() { ClientIP = cli.Adress, Type = type };
+            new() { ClientIP = cli.Adress, Type = type, ClientId = cli.id };
 
         private void UnsubscribeClientUpdateEvent()
         {
@@ -393,27 +406,37 @@ namespace GRPCServer.Services
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
                     Console.WriteLine($"NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value}");
+
+                    if (netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
+                    {
+                        netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
+                    }
+                    else
+                    {
+                        netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
+                    }
+
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
                         //There could be a problem if a client does GRPC_CliNetNetVarUpdate
                         //and at the same time netcode server send a net var update
                         if (unrealClient.Value.netVarStream.ContainsKey(requestStream.Current.NewValue.Type) == false) continue;
 
-                        Console.WriteLine($"JE TECRIS :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
+                        Console.WriteLine($"Unreal client receiving NetVar : HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
 
-                        if (netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
-                        {
-                            netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
-                        }
-                        else
-                        {
-                            netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
-                        }
+                        //if (netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
+                        //{
+                        //    netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
+                        //}
+                        //else
+                        //{
+                        //    netcodeServer.Value.netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
+                        //}
                         
                         await unrealClient.Value.netVarStream[requestStream.Current.NewValue.Type].WriteAsync(requestStream.Current);
                     }
 
-                    Console.WriteLine($"VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
+                    //Console.WriteLine($"VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
                 }
             }
             catch (IOException)
@@ -453,6 +476,48 @@ namespace GRPCServer.Services
             Console.WriteLine($"Response stream closed : {context.Peer} / {request.Type}");
         }
 
+        public override async Task<GRPC_EmptyMsg> GRPC_RequestNetVarUpdateUnrealToGrpc(GRPC_NetVarUpdate request, ServerCallContext context)
+        {
+            bool found = false;
+            foreach(var requestNetVarUpdate in netcodeServer.Value.netcodeServer.requestNetvarUpdateStream)
+            {
+                if (request.HashName == requestNetVarUpdate.Value.HashName 
+                    && request.NetId == requestNetVarUpdate.Value.NetId)
+                {
+                    await requestNetVarUpdate.Key.WriteAsync(request);
+                    found = true;
+                }
+            }
+
+            if (found == false)
+            {
+                Console.WriteLine("Unreal requested a sync for the NetVar but Netcode was not waiting for a request");
+            }
+            return new GRPC_EmptyMsg();
+        }
+
+        public override async Task GRPC_RequestNetVarUpdateGrpcToNetcode(GRPC_NetVarUpdate request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
+        {
+            Console.WriteLine("Opening new NetVar sync request for : ");
+
+            if (netcodeServer.Value.netcodeServer.requestNetvarUpdateStream.ContainsKey(responseStream))
+            {
+                netcodeServer.Value.netcodeServer.requestNetvarUpdateStream.Remove(responseStream);
+
+                Console.WriteLine("A request netVar sync for this is already opened");
+            }
+
+            netcodeServer.Value.netcodeServer.requestNetvarUpdateStream.Add(responseStream, request);
+
+            try
+            {
+                await Task.Delay(-1, context.CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                netcodeServer.Value.netcodeServer.requestNetvarUpdateStream.Remove(responseStream);
+            }
+        }
         #endregion
 
         #region Lobby
@@ -500,8 +565,6 @@ namespace GRPCServer.Services
                 Console.WriteLine("GRPC_SrvNetObjUpdate > Connection lost with client.");
                 DisconnectClient(context.Peer);
             }
-
-            //return new GRPC_EmptyMsg();
         }
         #endregion
     }

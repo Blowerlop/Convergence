@@ -48,6 +48,9 @@ namespace Project
         
         private CancellationTokenSource _unrealClientStreamCancelSrc = new CancellationTokenSource();
         private AsyncServerStreamingCall<GRPC_ClientUpdate> _unrealClientStream;
+
+        public readonly Event<UnrealClient> onUnrealClientConnected = new Event<UnrealClient>(nameof(onUnrealClientConnected));
+        public readonly Event<UnrealClient> onUnrealClientDisconnect = new Event<UnrealClient>(nameof(onUnrealClientDisconnect));
         
         //Events
         
@@ -148,43 +151,47 @@ namespace Project
             switch (update.Type)
             {
                 case GRPC_ClientUpdateType.Connect:
-                    UnrealClientConnected(update.ClientIP);
+                    UnrealClientConnected(update);
                     break;
                 case GRPC_ClientUpdateType.Disconnect:
-                    UnrealClientDisconnected(update.ClientIP);
+                    UnrealClientDisconnected(update);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
         
-        private void UnrealClientConnected(string address)
+        private void UnrealClientConnected(GRPC_ClientUpdate update)
         {
-            if (_unrealClients.ContainsKey(address))
+            if (_unrealClients.ContainsKey(update.ClientIP))
             {
-                Debug.LogError($"Trying to connect an already connected unreal client {address}");
+                Debug.LogError($"Trying to connect an already connected unreal client {update.ClientIP}");
                 return;
             }
 
-            var cli = new UnrealClient(address);
-            _unrealClients.Add(address, cli);
+            var cli = new UnrealClient(update.ClientIP, update.ClientId);
+            _unrealClients.Add(update.ClientIP, cli);
+            onUnrealClientConnected.Invoke(this, true, cli);
+            Debug.Log("New unreal client connected with id " + update.ClientId);
 
             if (NetworkManager.Singleton == null || NetworkManager.Singleton.NetworkConfig == null) return;
 
-            var userInstance = NetworkManager.Singleton.NetworkConfig.PlayerPrefab.GetComponent<NetworkObject>();
-            Instantiate(userInstance).SpawnWithUnrealOwnership(cli);
+            // Obsolete : The UserInstanceManager now get the job of spawning the Unreal UserInstance
+            // var userInstance = NetworkManager.Singleton.NetworkConfig.PlayerPrefab.GetComponent<NetworkObject>();
+            // Instantiate(userInstance).SpawnWithUnrealOwnership(cli);
         }
         
-        private void UnrealClientDisconnected(string address)
+        private void UnrealClientDisconnected(GRPC_ClientUpdate update)
         {
-            if (!_unrealClients.ContainsKey(address))
+            if (!_unrealClients.ContainsKey(update.ClientIP))
             {
-                Debug.LogError($"Trying to disconnect an already disconnected unreal client {address}");
+                Debug.LogError($"Trying to disconnect an already disconnected unreal client {update.ClientIP}");
                 return;
             }
             
-            _unrealClients[address].Disconnect();
-            _unrealClients.Remove(address);
+            onUnrealClientDisconnect.Invoke(this, true, _unrealClients[update.ClientIP]);
+            _unrealClients[update.ClientIP].Disconnect();
+            _unrealClients.Remove(update.ClientIP);
         }
 
         private void DisposeUnrealClientStream()

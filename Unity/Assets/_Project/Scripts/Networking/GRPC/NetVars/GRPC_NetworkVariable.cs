@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCClient;
 using Newtonsoft.Json;
@@ -34,6 +35,9 @@ namespace Project
 
         public void Initialize()
         {
+            NetworkBehaviour networkBehaviour = GetBehaviour();
+            if (!networkBehaviour.IsServer && !networkBehaviour.IsHost) return;
+            
             if (GRPC_NetworkManager.instance.isConnected)
             {
                 GRPC_NetworkVariable_Initialization();
@@ -42,15 +46,23 @@ namespace Project
             {
                 GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
             }
+
+            
+            GRPC_NetworkManager.instance.onUnrealClientConnected.Subscribe(this, OnUnrealClientConnected_WaitForNetVarSyncRequest);
         }
+
+        
 
         private void GRPC_NetworkVariable_Initialization()
         {
+            // if (isSync) return;
+            // isSync = true;
+            
              NetworkBehaviour networkBehaviour = GetBehaviour();
 
             // Server authoritative only 
             // Only the server open NetworkVariable streams
-            if (networkBehaviour.IsServer == false /*&& _networkBehaviour.IsHost == false*/) return;
+            if (!networkBehaviour.IsServer && !networkBehaviour.IsHost) return;
             _netId = (int)networkBehaviour.GetComponentInParent<NetworkObject>().NetworkObjectId;
             
             _currentType = GetGrpcGenericType();
@@ -59,6 +71,8 @@ namespace Project
             _sendStreamCancellationTokenSource = new CancellationTokenSource();
 
             GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
+            
+            Sync();
             OnValueChanged += OnValueChange;
         }
 
@@ -69,6 +83,9 @@ namespace Project
         
         private async void UpdateVariableOnGrpc(T newValue)
         {
+            if (GRPC_NetworkManager.instance.isConnected == false) return;
+            
+            Debug.Log("Update variable");
             try
             {
                 object valueToEncodeInJson;
@@ -131,6 +148,13 @@ namespace Project
             }
         }
 
+        public void Sync()
+        {
+            Debug.Log("Sync NetVar");
+            
+            UpdateVariableOnGrpc(Value);
+        }
+
         private static GRPC_GenericType GetGrpcGenericType()
         {
             Type type = typeof(T);
@@ -187,14 +211,28 @@ namespace Project
             }
         }
         
-        // #if UNITY_EDITOR
-        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        // private static void ClearStaticVariables()
-        // {
-        //     _currentType = GRPC_GenericType.Isnull;
-        //     _sendStream = null;
-        //     _sendStreamCancellationTokenSource = null;
-        // }
-        // #endif
+        private void OnUnrealClientConnected_WaitForNetVarSyncRequest(UnrealClient client)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            AsyncServerStreamingCall<GRPC_NetVarUpdate> a = _client.GRPC_RequestNetVarUpdateGrpcToNetcode(new GRPC_NetVarUpdate {NetId = _netId, HashName = _variableHashName});
+
+            WaitForNetVarSyncRequest(a, cancellationTokenSource);
+        }
+
+        private async void WaitForNetVarSyncRequest(AsyncServerStreamingCall<GRPC_NetVarUpdate> stream,
+            CancellationTokenSource cancellationTokenSource)
+        {
+            while (await stream.ResponseStream.MoveNext(cancellationTokenSource.Token))
+            {
+                GRPC_NetVarUpdate response = stream.ResponseStream.Current;
+                if (response.NetId == _netId && response.HashName == _variableHashName)
+                {
+                    Sync();
+                    cancellationTokenSource.Cancel();
+                    cancellationTokenSource.Dispose();
+                }
+                
+            }
+        }
     }
 }

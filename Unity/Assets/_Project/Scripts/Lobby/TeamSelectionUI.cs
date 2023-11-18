@@ -11,20 +11,14 @@ namespace Project
     public class TeamSelectionUI : NetworkBehaviour
     {
         [SerializeField, Min(-1), Tooltip("-1 mean that the team has not been set")] private int _teamIndex = -1;
-        private Button _button;
-        private TMP_Text _buttonText;
+        [SerializeField] private TMP_Text _pcButtonText;
+        [SerializeField] private TMP_Text _mobileButtonText;
         
         #if UNITY_EDITOR
         [ClearOnReload(true)] private static List<int> _commonTeamIndex = new List<int>((int)TeamManager.MAX_TEAM);
         #endif
 
-
-        private void Awake()
-        {
-            _button = GetComponent<Button>();
-            _buttonText = _button.GetComponentInChildren<TMP_Text>();
-        }
-
+        
         private void Start()
         {
             CheckTeamIndexValidity();
@@ -76,34 +70,54 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SetTeamServerRpc(int teamIndex, ulong ownerClientId)
         {
-            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(ownerClientId);
+            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance((int)ownerClientId);
             if (userInstance == null)
             {
                 Debug.LogError("User instance is null");
                 return;
             }
 
-            TeamManager.instance.TrySetTeam(ownerClientId, teamIndex, PlayerPlatform.Pc);
+            TeamManager.instance.TrySetTeam((int)ownerClientId, teamIndex, PlayerPlatform.Pc);
         }
 
-        private void OnTeamSet_UpdateButtonText(int teamIndex, string clientName)
+        private void OnTeamSet_UpdateButtonText(int teamIndex, string clientName, PlayerPlatform playerPlatform)
         {
             if (teamIndex != _teamIndex) return;
+
+            if (playerPlatform == PlayerPlatform.Pc)
+            {
+                // Also update the UI on the server to make the debugging easier
+                UpdatePcButtonTextLocal(clientName);
+                UpdatePcButtonTextClientRpc(clientName);
+            }
+            else
+            {
+                UpdateMobileButtonTextLocal(clientName);
+                UpdateMobileButtonTextClientRpc(clientName);
+            }
             
-            // Update the UI on the server to make the debugging easier
-            UpdateButtonTextLocal(clientName);
-            UpdateButtonTextClientRpc(clientName);
         }
         
         [ClientRpc]
-        private void UpdateButtonTextClientRpc(string clientName)
+        private void UpdatePcButtonTextClientRpc(string clientName)
         {
-            UpdateButtonTextLocal(clientName);
+            UpdatePcButtonTextLocal(clientName);
         }
 
-        private void UpdateButtonTextLocal(string clientName)
+        private void UpdatePcButtonTextLocal(string clientName)
         {
-            _buttonText.text = clientName;
+            _pcButtonText.text = clientName;
+        }
+        
+        [ClientRpc]
+        private void UpdateMobileButtonTextClientRpc(string clientName)
+        {
+            UpdateMobileButtonTextLocal(clientName);
+        }
+        
+        private void UpdateMobileButtonTextLocal(string clientName)
+        {
+            _mobileButtonText.text = clientName;
         }
     }
 }

@@ -14,6 +14,14 @@ namespace Project
         /// Reference to the local client's UserInstance.
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
+        
+        //NetVars
+        [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
+        [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
+        [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
+        
+        public string PlayerName => _networkPlayerName.Value.ToString();
+        public int Team => _networkTeam.Value;
 
         public override void OnNetworkSpawn()
         {
@@ -38,51 +46,48 @@ namespace Project
 
         private void InitializeNetworkVariables()
         {
-            _name.Initialize();
-            _team.Initialize();
+            _networkPlayerName.Initialize();
+            _networkTeam.Initialize();
+            _networkIsMobile.Initialize();
         }
+
         
-        //NetVars
-        [ShowInInspector] private readonly GRPC_NetworkVariable<FixedString64Bytes> _name = new("Name", value: "UnknowName");
-        [ShowInInspector] private readonly GRPC_NetworkVariable<int> _team = new("Team", value: -1);
         
-        //Getters
-        public string PlayerName => _name.Value.ToString();
-        public int Team => _team.Value;
+        
+        
         
         //Setters
         [ServerRpc, Button]
         public void SetNameServerRpc(string playerName)
         {
-            SetNameClientRpc(playerName);
-        }
-
-        [ClientRpc]
-        private void SetNameClientRpc(string playerName)
-        {
-            SetName(playerName);
+            SetNameLocal(playerName);
         }
         
-        private void SetName(string playerName)
+        private void SetNameLocal(string playerName)
         {
-            _name.Value = playerName;
+            _networkPlayerName.Value = playerName;
         }
         
         [ServerRpc, Button]
         public void SetTeamServerRpc(int playerTeam)
         {
-            SetTeamClientRpc(playerTeam);
+            SetTeamLocal(playerTeam);
         }
 
-        [ClientRpc]
-        private void SetTeamClientRpc(int playerTeam)
+        private void SetTeamLocal(int playerTeam)
         {
-            SetTeam(playerTeam);
+            _networkTeam.Value = playerTeam;
+        }
+
+        [ServerRpc, Button]
+        public void SetIsMobileServerRpc(bool isMobile)
+        {
+            IsMobile(isMobile);
         }
         
-        public void SetTeam(int playerTeam)
+        private void IsMobile(bool isMobile)
         {
-            _team.Value = playerTeam;
+            _networkIsMobile.Value = isMobile;
         }
     }
 }
