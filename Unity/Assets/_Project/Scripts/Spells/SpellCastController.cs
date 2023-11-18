@@ -7,6 +7,8 @@ namespace Project._Project.Scripts.Spells
 {
     public class SpellCastController : MonoBehaviour
     {
+        [SerializeField] private Transform playerTransform;
+        
         private const int SpellsCount = 4;
         
         [SerializeField] private SpellCastersList spellCastersList;
@@ -27,6 +29,8 @@ namespace Project._Project.Scripts.Spells
 
         private void OnDestroy()
         {
+            if (InputManager.isBeingDestroyed || InputManager.instance == null) return;
+            
             InputManager.instance.OnSpellInputStarted -= StartChanneling;
             InputManager.instance.OnOnSpellInputCanceled -= StopChanneling;
         }
@@ -46,7 +50,8 @@ namespace Project._Project.Scripts.Spells
                     continue;
                 }
 
-                _spellCasters[i] = Instantiate(prefab, transform);
+                _spellCasters[i] = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+                _spellCasters[i].Init(playerTransform);
             }
         }
 
@@ -79,6 +84,8 @@ namespace Project._Project.Scripts.Spells
             
             _spellCasters[spellIndex].StopChanneling();
             var results = _spellCasters[spellIndex].GetResults();
+            
+            Debug.LogError(results.ToString());
             
             //Ask SpellManager to spawn the according spell with the given results
         }

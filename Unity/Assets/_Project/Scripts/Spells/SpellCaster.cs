@@ -5,6 +5,13 @@ namespace Project._Project.Scripts.Spells
     public abstract class SpellCaster : MonoBehaviour
     {
         public bool IsChanneling { get; private set; }
+
+        protected Transform CasterTransform { get; private set; }
+        
+        public virtual void Init(Transform casterTransform)
+        {
+            CasterTransform = casterTransform;
+        }
         
         public virtual void StartChanneling()
         {

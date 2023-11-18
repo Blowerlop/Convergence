@@ -7,7 +7,7 @@ namespace Project._Project.Scripts.Spells
     [CreateAssetMenu(fileName = "SpellCastersList", menuName = "Spells/SpellCasters List", order = 0)]
     public class SpellCastersList : SerializedScriptableObject
     {
-        public Dictionary<CastResultType, SpellCaster> spellCasterPrefabs;
+        public Dictionary<CastResultType, SpellCaster> spellCasterPrefabs = new();
 
         public SpellCaster Get(CastResultType type)
         {
