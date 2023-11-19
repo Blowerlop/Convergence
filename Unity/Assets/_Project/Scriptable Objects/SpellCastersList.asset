@@ -22,14 +22,14 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: spellCasterPrefabs
+    - Name: SpellCasterPrefabs
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Project._Project.Scripts.Spells.CastResultType,
-        Assembly-CSharp],[Project._Project.Scripts.Spells.SpellCaster, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.Dictionary`2[[Project.Spells.ChannelingResultType,
+        Assembly-CSharp],[Project.Spells.Casters.SpellCaster, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Project._Project.Scripts.Spells.CastResultType,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Project.Spells.ChannelingResultType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12

@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
@@ -92,16 +92,15 @@ namespace Project._Project.Scripts.Spells
                 return;
             }
             
-            if (!_spellCasters[spellIndex].IsChanneling) return;
+            var caster = _spellCasters[spellIndex];
+            
+            if (!caster.IsChanneling) return;
 
             _currentChannelingIndex = null;
             
-            _spellCasters[spellIndex].StopChanneling();
-            var results = _spellCasters[spellIndex].GetResults();
-            
-            Debug.LogError(results.ToString());
-            
-            //Ask SpellManager to spawn the according spell with the given results
+            caster.StopChanneling();
+            caster.EvaluateResults();
+            caster.TryCast(spells[spellIndex].HashedID);
         }
     }
 }

@@ -1,15 +1,25 @@
+using Project.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells
 {
     [CreateAssetMenu(fileName = "New SpellData", menuName = "Spells/Spell Data", order = 1)]
     public class SpellData : ScriptableObject
     {
         public string spellId;
-        [HideInInspector] public int spellIdHash;
+
+        private int? hash;
+        public int HashedID
+        {
+            get
+            {
+                hash ??= spellId.ToLower().ToHashIsSameAlgoOnUnreal();
+                return hash.Value;
+            }       
+        }
         
-        public CastResultType castingType;
+        public ChannelingResultType castingType;
         
         public Spell spellPrefab;
         

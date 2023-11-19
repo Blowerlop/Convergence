@@ -1,9 +1,12 @@
 using Unity.Netcode;
+using UnityEngine;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells
 {
-    public class Spell : NetworkBehaviour
+    public abstract class Spell : NetworkBehaviour
     {
-        
+        public abstract void Init(IChannelingResult channelingResult);
+
+        public abstract (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult);
     }
 }

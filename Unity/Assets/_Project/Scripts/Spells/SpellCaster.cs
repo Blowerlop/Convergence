@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells.Casters
 {
     public abstract class SpellCaster : MonoBehaviour
     {
@@ -45,11 +45,12 @@ namespace Project._Project.Scripts.Spells
         /// Should evaluate current results based on user inputs and other factors. Then update _currentResults.
         /// Called before UpdateChanneling().
         /// </summary>
-        protected abstract void EvaluateResults();
+        public abstract void EvaluateResults();
 
         /// <summary>
-        /// Returns the current results of this caster.
+        /// Ask SpellManager to spawn the desired spell with caster current results.
         /// </summary>
-        public abstract ICastResult GetResults();
+        /// <param name="spellHash"></param>
+        public abstract void TryCast(int spellHash);
     }
 }

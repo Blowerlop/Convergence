@@ -1,7 +1,6 @@
-using Project._Project.Scripts.Spells.Results;
 using UnityEngine;
 
-namespace Project._Project.Scripts.Spells.Casters
+namespace Project.Spells.Casters
 {
     public class DefaultSkillShotCaster : SpellCaster
     {
@@ -39,7 +38,7 @@ namespace Project._Project.Scripts.Spells.Casters
             visual.rotation = Quaternion.LookRotation(_currentResults.Direction);
         }
 
-        protected override void EvaluateResults()
+        public override void EvaluateResults()
         {
             Utilities.GetMouseWorldPosition(_camera, groundLayerMask, out Vector3 position);
             position.y = 0;
@@ -50,10 +49,9 @@ namespace Project._Project.Scripts.Spells.Casters
             _currentResults.Direction = (position - playerPos).normalized;
         }
 
-        public override ICastResult GetResults()
+        public override void TryCast(int spellHash)
         {
-            EvaluateResults();
-            return _currentResults;
+            SpellManager.Instance.TryCastSpellServerRpc(spellHash, _currentResults);
         }
     }
 }

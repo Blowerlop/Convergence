@@ -1,17 +1,18 @@
 using System.Collections.Generic;
+using Project.Spells.Casters;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells
 {
     [CreateAssetMenu(fileName = "SpellCastersList", menuName = "Spells/SpellCasters List", order = 0)]
     public class SpellCastersList : SerializedScriptableObject
     {
-        public Dictionary<CastResultType, SpellCaster> spellCasterPrefabs = new();
+        public Dictionary<ChannelingResultType, SpellCaster> SpellCasterPrefabs = new();
 
-        public SpellCaster Get(CastResultType type)
+        public SpellCaster Get(ChannelingResultType type)
         {
-            return !spellCasterPrefabs.ContainsKey(type) ? null : spellCasterPrefabs[type];
+            return !SpellCasterPrefabs.ContainsKey(type) ? null : SpellCasterPrefabs[type];
         }
     }
 }
