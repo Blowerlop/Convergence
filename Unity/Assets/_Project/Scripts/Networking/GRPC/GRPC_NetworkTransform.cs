@@ -25,6 +25,12 @@ namespace Project
             InitializeNetworkVariables();
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            ResetNetworkVariables();
+        }
+
         #endregion
 
 
@@ -35,6 +41,13 @@ namespace Project
             _position.Initialize();
             _rotation.Initialize();
             _scale.Initialize();
+        }
+        
+        private void ResetNetworkVariables()
+        {
+            _position.Reset();
+            _rotation.Reset();
+            _scale.Reset();
         }
 
         protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)

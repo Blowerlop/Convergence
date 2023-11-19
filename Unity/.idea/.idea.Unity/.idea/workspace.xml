@@ -6,25 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/MainGrpc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/MainGrpc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/Protos/main.proto" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/Protos/main.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Prefabs/cube.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Prefabs/cube.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/NetworkingSample.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/NetworkingSample.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Command.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Command.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Client.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkTransform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkTransform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Transport.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetObjectsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetObjectsHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetworkObjectSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetworkObjectSyncer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/UnrealClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/UnrealClient.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstanceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstanceManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Protos/main.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Protos/main.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Services/MainServiceImpl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Services/MainServiceImpl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/src/NetcodeServer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/src/NetcodeServer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,7 +217,8 @@
       <workItem from="1700087873405" duration="2854000" />
       <workItem from="1700096704317" duration="877000" />
       <workItem from="1700186493569" duration="182000" />
-      <workItem from="1700304309225" duration="12898000" />
+      <workItem from="1700304309225" duration="14074000" />
+      <workItem from="1700399978188" duration="7138000" />
     </task>
     <servers />
   </component>

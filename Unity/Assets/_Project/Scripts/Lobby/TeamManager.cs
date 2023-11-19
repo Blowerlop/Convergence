@@ -26,7 +26,7 @@ namespace Project
         
         public const uint MAX_TEAM = 3;
         public const uint MAX_PLAYER = MAX_TEAM * 2;
-        // I cant ShowInInspector this variable. It weirdly override my value set by the script
+        // I cant ShowInInspector this array. It weirdly override my value set by the script
         private readonly TeamData[] _teams = new TeamData[MAX_TEAM];
 
         private const string DEFAULT_PC_SLOT = "Click to join";
@@ -78,7 +78,6 @@ namespace Project
 
         private void InitGrpcStream()
         {
-            Debug.Log("Init grpc stream");
             _teamManagerStream = _client.GRPC_TeamSelectionGrpcToNetcode();
             _cancellationTokenSource = new CancellationTokenSource();
             Read();
@@ -87,7 +86,6 @@ namespace Project
         #if UNITY_EDITOR
         private void FU_InitGrpcStream()
         {
-            Debug.Log("FU InitGrpcStream");
             _FU_teamManagerStream = FU_GRPC_NetworkManager.instance.client.GRPC_TeamSelectionUnrealToGrpc();
             _FU_cancellationTokenSource = new CancellationTokenSource();
             FU_Read();
@@ -156,39 +154,45 @@ namespace Project
                 Debug.Log("Trying to join a team slot that are already occupied");
                 return false;
             }
-            
+
+            Debug.Log("Try set team ok");
+            SetTeam(ownerClientId, teamIndex, playerPlatform);
+            return true;;
+        }
+        
+        private void SetTeam(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        {
             UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(ownerClientId);
             
             int previousUserTeamIndex = userInstance.Team;
             // Reset previous team slot if valid
             if (IsTeamIndexValid(previousUserTeamIndex))
             {
-                ResetTeam(previousUserTeamIndex, playerPlatform);
+                ResetTeamSlot(previousUserTeamIndex, playerPlatform);
                 onTeamSetEvent.Invoke(this, true, previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT : DEFAULT_MOBILE_SLOT, playerPlatform);
             }
             
-            SetTeam(ownerClientId, teamIndex, playerPlatform);
+            RegisterToTeamSlot(ownerClientId, teamIndex, playerPlatform);
             userInstance.SetTeamServerRpc(teamIndex);
             
             onTeamSetEvent.Invoke(this, true, teamIndex, userInstance.PlayerName, playerPlatform);
             
-            Debug.Log("Try set team ok");
+            
             Debug.Log("Team recap :\n" +
                       $"Index : {teamIndex}\n" +
                       $"Pc : {_teams[teamIndex].pcPlayerOwnerClientId}\n" +
                       $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
-            return true;
         }
 
-        private void SetTeam(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
             if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
             else teamData.mobilePlayerOwnerClientId = ownerClientId;
             _teams[teamIndex] = teamData;
         }
-        
-        private void ResetTeam(int teamIndex, PlayerPlatform playerPlatform)
+
+        private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
             if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = int.MaxValue;

@@ -23,6 +23,7 @@ namespace Project
         public string PlayerName => _networkPlayerName.Value.ToString();
         public int Team => _networkTeam.Value;
 
+        
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
@@ -44,6 +45,13 @@ namespace Project
             InitializeNetworkVariables();
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            ResetNetworkVariables();
+        }
+
         private void InitializeNetworkVariables()
         {
             _networkPlayerName.Initialize();
@@ -51,9 +59,12 @@ namespace Project
             _networkIsMobile.Initialize();
         }
 
-        
-        
-        
+        private void ResetNetworkVariables()
+        {
+            _networkPlayerName.Reset();
+            _networkTeam.Reset();
+            _networkIsMobile.Reset();
+        }
         
         
         //Setters

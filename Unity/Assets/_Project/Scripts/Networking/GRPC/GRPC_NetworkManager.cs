@@ -45,8 +45,8 @@ namespace Project
         //Unreal clients
         
         private readonly Dictionary<string, UnrealClient> _unrealClients = new();
-        
-        private CancellationTokenSource _unrealClientStreamCancelSrc = new CancellationTokenSource();
+
+        private CancellationTokenSource _unrealClientStreamCancelSrc;
         private AsyncServerStreamingCall<GRPC_ClientUpdate> _unrealClientStream;
 
         public readonly Event<UnrealClient> onUnrealClientConnected = new Event<UnrealClient>(nameof(onUnrealClientConnected));
@@ -132,7 +132,8 @@ namespace Project
         private async void GetUnrealClientsUpdate()
         { 
             _unrealClientStream = client.GRPC_SrvClientUpdate(new GRPC_EmptyMsg());
-
+            _unrealClientStreamCancelSrc = new CancellationTokenSource();
+            
             try
             {
                 while (await _unrealClientStream.ResponseStream.MoveNext(_unrealClientStreamCancelSrc.Token))

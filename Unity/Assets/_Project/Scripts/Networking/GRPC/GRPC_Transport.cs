@@ -24,6 +24,7 @@ namespace Project
         public bool isConnected { get; private set; }
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
+        private bool _isDisconnecting = false;
         
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
         public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
@@ -60,6 +61,7 @@ namespace Project
             client = new MainService.MainServiceClient(_channel);
             
             isConnected = await NHandshake();
+            _isDisconnecting = false;
             
             return isConnected;
         }
@@ -74,8 +76,11 @@ namespace Project
                 Debug.LogWarning("No client are running");
                 return false;
             }
+            if (_isDisconnecting) return true;
             
             Debug.Log("Connection shutting down... cleaning client");
+            _isDisconnecting = true;
+            
             onClientStopEvent.Invoke(this, true);
             
             // To do: find a better place to put this

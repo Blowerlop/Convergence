@@ -17,37 +17,48 @@ namespace Project
         [SerializeField, Required, InlineButton(nameof(GoToNotionDoc), "Notion")] 
         private string prefabId;
 
-        [HideInInspector] public string UnrealOwnerAddress = null;
+        [HideInInspector] public string UnrealOwnerAddress;
         public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
-
-        [SerializeField] private bool sync;
-
-        // private List<GRPC_NetworkVariable<>> a;
-        
-        
+        [ShowInInspector, ReadOnly] private bool _isGrpcSync;
 
         private void Start()
         {
             if (!IsServer && !IsHost) return;
 
+            
             if (GRPC_NetworkManager.instance.isConnected)
             {
                 OnGrpcConnection_NetworkObjectSync();
             }
-            else
-            {
-                GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
-            }
+            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
 
-            if (UnrealOwnerAddress == null)
+            if (IsOwnedByUnrealClient)
+            {
+                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, _ => OnGrpDisconnection_NetworkObjectUnSync());
+            }
+            else
             {
                 GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnGrpDisconnection_NetworkObjectUnSync);
             }
-            else
-            {
-                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, unrealClient => OnGrpDisconnection_NetworkObjectUnSync());
-            }
         }
+
+        // public override void OnDestroy()
+        // {
+        //     base.OnDestroy();
+        //
+        //     if (GRPC_NetworkManager.isBeingDestroyed == false)
+        //     {
+        //         GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
+        //         if (IsOwnedByUnrealClient)
+        //         {
+        //             GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(_ => OnGrpDisconnection_NetworkObjectUnSync());
+        //         }
+        //         else
+        //         {
+        //             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpDisconnection_NetworkObjectUnSync);
+        //         }
+        //     }
+        // }
 
         private void OnGrpcConnection_NetworkObjectSync()
         {
@@ -61,10 +72,7 @@ namespace Project
             };
 
             GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
-            
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
-
-            sync = true;
+            _isGrpcSync = true;
         }
 
         private void OnGrpDisconnection_NetworkObjectUnSync()
@@ -83,10 +91,8 @@ namespace Project
             {
                 GRPC_NetworkManager.instance.GetUnrealClientByAddress(UnrealOwnerAddress).RemoveOwnership(NetworkObject);
             }
-            
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpDisconnection_NetworkObjectUnSync);
-            
-            sync = false;
+
+            _isGrpcSync = false;
         }
 
         private bool EnsureInit()
@@ -141,39 +147,6 @@ namespace Project
         public void RemoveUnrealOwnership()
         {
             UnrealOwnerAddress = null;
-        }
-
-
-
-        [Button]
-        private async void SearchNetworkVariable()
-        {
-            const BindingFlags fieldBindingFlags = BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-            const BindingFlags methodBindingFlags = BindingFlags.Static | BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.NonPublic;
-            
-            Component[] components = GetComponentsInChildren<Component>();
-            foreach (var component in components)
-            {
-                // BindingFlags bindigFlags = 0x00000000;
-                Type type = component.GetType();
-                var fields = type.GetFields(fieldBindingFlags);
-                foreach (var field in fields)
-                {
-                    Debug.Log($"Name : {field.Name}\n" +
-                              $"Type : {field.FieldType}\n" +
-                              $"Type : {field.GetType()}");
-                    
-                    Type fieldType = field.FieldType;
-                    if (fieldType.IsGenericType && fieldType.GetGenericTypeDefinition() == typeof(GRPC_NetworkVariable<>))
-                    {
-                        Debug.Log("NetworkVariable Found");
-                        object fieldInstance = field.GetValue(component);
-                        fieldType.GetMethod("Sync", (BindingFlags)62)?.Invoke(fieldInstance, null);
-                        var syncResult = (bool)fieldType.GetField("isSync", fieldBindingFlags)?.GetValue(fieldInstance);
-                        Debug.Log("Sync result " + syncResult);
-                    }
-                }
-            }
         }
     }
 }
