@@ -41,6 +41,12 @@ namespace Project.Spells
         {
             TryCastSpell(spellHash, results);
         }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void TryCastSpellServerRpc(int spellHash, DefaultZoneResults results)
+        {
+            TryCastSpell(spellHash, results);
+        }
 
         #endregion
 

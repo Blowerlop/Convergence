@@ -170,7 +170,7 @@ Transform:
   - {fileID: 424222234728226997}
   - {fileID: 6696697580919237924}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1134584407861169612
 MonoBehaviour:
@@ -204,6 +204,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e17facf9ff54941ab6df144906a1ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _castOffset: {x: 0, y: 0, z: 0.5}
+  _castRadius: 0.5
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &4322445860022778890
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6696697580919237924
 Transform:
   m_ObjectHideFlags: 0

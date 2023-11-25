@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Spells
 {
-    [CreateAssetMenu(fileName = "New SpellData", menuName = "Spells/Spell Data", order = 1)]
+    [CreateAssetMenu(fileName = "New SpellData", menuName = "Spells/Data/Default", order = 1)]
     public class SpellData : ScriptableObject
     {
         public string spellId;
@@ -22,10 +22,5 @@ namespace Project.Spells
         public ChannelingResultType castingType;
         
         public Spell spellPrefab;
-        
-        [PropertySpace(25)]
-
-        public float baseCooldown;
-        public float baseChargeTime;
     }
 }

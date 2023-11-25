@@ -8,7 +8,7 @@ namespace Project.Spells.Casters
 
         protected Transform CasterTransform { get; private set; }
         
-        public virtual void Init(Transform casterTransform)
+        public virtual void Init(Transform casterTransform, SpellData spell)
         {
             CasterTransform = casterTransform;
         }

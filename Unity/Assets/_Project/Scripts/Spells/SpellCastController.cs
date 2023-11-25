@@ -55,7 +55,7 @@ namespace Project.Spells.Casters
                 }
 
                 _spellCasters[i] = Instantiate(prefab, transform.position, Quaternion.identity, transform);
-                _spellCasters[i].Init(playerTransform);
+                _spellCasters[i].Init(playerTransform, spells[i]);
             }
         }
 
