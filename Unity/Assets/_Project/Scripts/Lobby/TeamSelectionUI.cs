@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Project
 {
@@ -15,7 +13,9 @@ namespace Project
         [SerializeField] private TMP_Text _mobileButtonText;
         
         #if UNITY_EDITOR
-        [ClearOnReload(true)] private static List<int> _commonTeamIndex = new List<int>((int)TeamManager.MAX_TEAM);
+        // Used for debug purpose
+        // It permit to advertise if two teams have the same index
+        [ClearOnReload(assignNewTypeInstance: true)] private static readonly List<int> _commonTeamIndex = new List<int>((int)TeamManager.MAX_TEAM);
         #endif
 
         
@@ -49,7 +49,7 @@ namespace Project
             int countSameOccurence = _commonTeamIndex.Count(x => x == _teamIndex);
             if (countSameOccurence > 1)
             {
-                Debug.LogError($"{countSameOccurence} teams have the same team index : {_teamIndex}");
+                Debug.LogError($"{countSameOccurence} teams have the team index {_teamIndex}");
             }
             #endif
         }
@@ -86,13 +86,10 @@ namespace Project
 
             if (playerPlatform == PlayerPlatform.Pc)
             {
-                // Also update the UI on the server to make the debugging easier
-                UpdatePcButtonTextLocal(clientName);
                 UpdatePcButtonTextClientRpc(clientName);
             }
             else
             {
-                UpdateMobileButtonTextLocal(clientName);
                 UpdateMobileButtonTextClientRpc(clientName);
             }
             

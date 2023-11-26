@@ -19,8 +19,8 @@ namespace Project
 
         [HideInInspector] public string UnrealOwnerAddress;
         public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
-        [ShowInInspector, ReadOnly] private bool _isGrpcSync;
 
+        
         private void Start()
         {
             if (!IsServer && !IsHost) return;
@@ -72,7 +72,6 @@ namespace Project
             };
 
             GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
-            _isGrpcSync = true;
         }
 
         private void OnGrpDisconnection_NetworkObjectUnSync()
@@ -91,8 +90,6 @@ namespace Project
             {
                 GRPC_NetworkManager.instance.GetUnrealClientByAddress(UnrealOwnerAddress).RemoveOwnership(NetworkObject);
             }
-
-            _isGrpcSync = false;
         }
 
         private bool EnsureInit()
