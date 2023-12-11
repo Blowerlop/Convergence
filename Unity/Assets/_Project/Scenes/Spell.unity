@@ -1829,7 +1829,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 31.37.51.202
+    Address: 127.0.0.1
     Port: 51820
     ServerListenAddress: 0.0.0.0
   DebugSimulator:

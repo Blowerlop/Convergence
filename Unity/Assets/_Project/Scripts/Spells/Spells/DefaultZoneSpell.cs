@@ -7,7 +7,7 @@ namespace Project.Spells
 {
     public class DefaultZoneSpell : Spell
     {
-        [FormerlySerializedAs("_data")] [SerializeField] private DefaultZoneSpellData spellData;
+        [SerializeField] private DefaultZoneSpellData spellData;
         DefaultZoneResults _results;
         
         [SerializeField] private LayerMask _layerMask;
