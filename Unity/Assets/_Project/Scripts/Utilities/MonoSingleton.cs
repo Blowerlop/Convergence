@@ -53,7 +53,7 @@ namespace Project
         public static bool IsInstanceAlive() => _instance != null;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void Reset()
+        private static void ResetStaticVariables()
         {
             _instance = null;
         }

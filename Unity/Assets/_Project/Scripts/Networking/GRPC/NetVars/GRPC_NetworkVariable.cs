@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCClient;
 using Newtonsoft.Json;
@@ -19,9 +20,14 @@ namespace Project
         private AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
         private CancellationTokenSource _sendStreamCancellationTokenSource;
 
+        private CancellationTokenSource _sendRequireSyncCancellationTokenSource;
+
+
         private readonly int _variableHashName;
         private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         private int _netId;
+
+        private bool _isGrpcSync;
 
         
         public GRPC_NetworkVariable(string variableName, T value = default,
@@ -34,15 +40,31 @@ namespace Project
 
         public void Initialize()
         {
+            NetworkBehaviour networkBehaviour = GetBehaviour();
+            if (!networkBehaviour.IsServer && !networkBehaviour.IsHost) return;
+            
             if (GRPC_NetworkManager.instance.isConnected)
             {
                 GRPC_NetworkVariable_Initialization();
             }
-            else
-            {
-                GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
-            }
+
+            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
+            GRPC_NetworkManager.instance.onUnrealClientConnected.Subscribe(this, OnUnrealClientConnected_WaitForNetVarSyncRequest);
+            GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
         }
+
+        public void Reset()
+        {
+            if (GRPC_NetworkManager.isBeingDestroyed) return;
+            
+            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
+            GRPC_NetworkManager.instance.onUnrealClientConnected.Unsubscribe(OnUnrealClientConnected_WaitForNetVarSyncRequest);
+            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
+
+            // OnClientStop();
+        }
+
+        
 
         private void GRPC_NetworkVariable_Initialization()
         {
@@ -50,25 +72,30 @@ namespace Project
 
             // Server authoritative only 
             // Only the server open NetworkVariable streams
-            if (networkBehaviour.IsServer == false /*&& _networkBehaviour.IsHost == false*/) return;
+            if (!networkBehaviour.IsServer && !networkBehaviour.IsHost) return;
             _netId = (int)networkBehaviour.GetComponentInParent<NetworkObject>().NetworkObjectId;
             
             _currentType = GetGrpcGenericType();
             
             _sendStream = _client.GRPC_SrvNetVarUpdate();
             _sendStreamCancellationTokenSource = new CancellationTokenSource();
+            
+            Sync();
+            OnValueChanged += OnValueChange_WriteInStream;
 
-            GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
-            OnValueChanged += OnValueChange;
+            _isGrpcSync = true;
         }
 
-        private void OnValueChange(T _, T newValue)
+        private void OnValueChange_WriteInStream(T _, T newValue)
         {
             UpdateVariableOnGrpc(newValue);
         }
         
         private async void UpdateVariableOnGrpc(T newValue)
         {
+            if (GRPC_NetworkManager.instance.isConnected == false) return;
+            
+            Debug.Log("Update variable");
             try
             {
                 object valueToEncodeInJson;
@@ -131,6 +158,13 @@ namespace Project
             }
         }
 
+        public void Sync()
+        {
+            Debug.Log("Sync NetVar");
+            
+            UpdateVariableOnGrpc(Value);
+        }
+
         private static GRPC_GenericType GetGrpcGenericType()
         {
             Type type = typeof(T);
@@ -173,28 +207,47 @@ namespace Project
         //NetworkVariables by Netcode when a NetworkObject is despawned
         private void OnClientStop()
         {
+            if (_isGrpcSync)
+            {
+                OnValueChanged -= OnValueChange_WriteInStream;
+            }
+            
             _sendStreamCancellationTokenSource?.Cancel();
             _sendStreamCancellationTokenSource?.Dispose();
             _sendStreamCancellationTokenSource = null;
             
+            _sendRequireSyncCancellationTokenSource?.Cancel();
+            _sendRequireSyncCancellationTokenSource?.Dispose();
+            _sendRequireSyncCancellationTokenSource = null;
+            
             _sendStream?.Dispose();
             _sendStream = null;
 
-            if (GRPC_NetworkManager.isBeingDestroyed == false)
-            {
-                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
-                GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
-            }
+            _isGrpcSync = false;
         }
         
-        // #if UNITY_EDITOR
-        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        // private static void ClearStaticVariables()
-        // {
-        //     _currentType = GRPC_GenericType.Isnull;
-        //     _sendStream = null;
-        //     _sendStreamCancellationTokenSource = null;
-        // }
-        // #endif
+        private void OnUnrealClientConnected_WaitForNetVarSyncRequest(UnrealClient client)
+        {
+            _sendRequireSyncCancellationTokenSource = new CancellationTokenSource();
+            AsyncServerStreamingCall<GRPC_NetVarUpdate> syncRequestStream = _client.GRPC_RequestNetVarUpdateGrpcToNetcode(new GRPC_NetVarUpdate {NetId = _netId, HashName = _variableHashName});
+
+            WaitForNetVarSyncRequest(syncRequestStream);
+        }
+
+        private async void WaitForNetVarSyncRequest(AsyncServerStreamingCall<GRPC_NetVarUpdate> stream)
+        {
+            while (await stream.ResponseStream.MoveNext(_sendRequireSyncCancellationTokenSource.Token))
+            {
+                GRPC_NetVarUpdate response = stream.ResponseStream.Current;
+                if (response.NetId == _netId && response.HashName == _variableHashName)
+                {
+                    Sync();
+                    _sendRequireSyncCancellationTokenSource.Cancel();
+                    _sendRequireSyncCancellationTokenSource.Dispose();
+                    _sendRequireSyncCancellationTokenSource = null;
+                }
+                
+            }
+        }
     }
 }

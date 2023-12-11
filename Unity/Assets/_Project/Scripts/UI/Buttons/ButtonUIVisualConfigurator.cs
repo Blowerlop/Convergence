@@ -16,11 +16,12 @@ namespace Project
     {
         #region Variables
 
-        [Title("References")] [SerializeField] private GameObject _imagesContainer;
-        [SerializeField] private Image _baseImage;
-        [SerializeField] private Image _outlineImage;
-        [SerializeField] private TMPro.TMP_Text _text;
-        [SerializeField] private RectTransform _spacer;
+        [Title("References")] 
+        [SerializeField, FoldoutGroup("References")] private GameObject _imagesContainer;
+        [SerializeField, FoldoutGroup("References")] private Image _baseImage;
+        [SerializeField, FoldoutGroup("References")] private Image _outlineImage;
+        [SerializeField, FoldoutGroup("References")] private TMPro.TMP_Text _text;
+        [SerializeField, FoldoutGroup("References")] private RectTransform _spacer;
 
         [Space(30)] [Title("Global Settings")] [SerializeField]
         private float _spaceBetweenImagesAndText = 0.0f;
@@ -28,6 +29,7 @@ namespace Project
         [SerializeField] private bool _invertTextAndImage = false;
         [SerializeField] [MinValue(0)] private float _imageSize = 30.0f;
 
+        // Base Image
         [Space(30)] [Title("Base Image")] [SerializeField]
         private bool _useImage = true;
 
@@ -48,6 +50,7 @@ namespace Project
         [SerializeField] [ShowIf("@this._useImage && this._hasClickedState")]
         private Color _baseClickedColor = new Color(255.0f, 255.0f, 255.0f, 1.0f);
 
+        // Outline Image
         [Title("Outline Image")] [Space(30)] [SerializeField]
         private bool _useOutline = true;
 
@@ -69,6 +72,7 @@ namespace Project
         [SerializeField] [ShowIf("@this._useOutline && this._hasClickedState")]
         private Color _outlineClickedColor = new Color(255.0f, 255.0f, 255.0f, 1.0f);
 
+        // Text
         [Space(30)] [Title("Text")] [SerializeField]
         private bool _useText = true;
 
@@ -81,6 +85,7 @@ namespace Project
         [SerializeField] [ShowIf("@this._useText && this._hasClickedState")]
         private Color _textClickedColor = new Color(255.0f, 255.0f, 255.0f, 1.0f);
 
+        // States
         [Space(30)] [Title("States")] [SerializeField]
         private bool _hasHighlightedState;
 
