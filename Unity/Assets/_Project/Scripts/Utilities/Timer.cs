@@ -37,8 +37,28 @@ namespace Project
             _monoBehaviour = monoBehaviour;
             _timerCoroutine = monoBehaviour.StartCoroutine(TimerCoroutine(timeInSeconds, timerType, callback));
         }
-        
-        private IEnumerator TimerCoroutine(float timeInSeconds, TimeType timerType, Action callback)
+
+        public void StartTimerWithUpdateCallback(MonoBehaviour monoBehaviour, float timeInSeconds,
+            Action<float> updateCallback, Action callback = null, TimeType timerType = TimeType.Scaled,
+            bool forceStart = false)
+        {
+            if (isTimerRunning)
+            {
+                if (forceStart)
+                {
+                    StopTimer();
+                    return;
+                }
+                
+                Debug.Log("A timer is already in progress");
+                return;
+            }
+            
+            _monoBehaviour = monoBehaviour;
+            _timerCoroutine = monoBehaviour.StartCoroutine(TimerCoroutine(timeInSeconds, timerType, callback, updateCallback));
+        }
+
+        private IEnumerator TimerCoroutine(float timeInSeconds, TimeType timerType, Action callback, Action<float> updateCallback = null) 
         {
             timer = timeInSeconds;
 
@@ -47,6 +67,7 @@ namespace Project
                 while (timer > 0.0f)
                 {
                     timer -= Time.deltaTime;
+                    updateCallback?.Invoke(timer);
                     yield return null;
                 }
             }
@@ -55,6 +76,7 @@ namespace Project
                 while (timer > 0.0f)
                 {
                     timer -= Time.unscaledDeltaTime;
+                    updateCallback?.Invoke(timer);
                     yield return null;
                 }
             }

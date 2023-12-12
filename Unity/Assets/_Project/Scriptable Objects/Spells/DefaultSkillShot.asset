@@ -16,5 +16,4 @@ MonoBehaviour:
   castingType: 0
   spellPrefab: {fileID: 7716055719088318621, guid: d36295997fb1bec4f88a5540858e8f78,
     type: 3}
-  baseCooldown: 0
-  baseChargeTime: 0
+  cooldown: 5

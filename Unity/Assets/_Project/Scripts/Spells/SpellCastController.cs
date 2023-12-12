@@ -7,17 +7,19 @@ namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
+        // TODO: Gather this ref from a player controller when there will be one
+        [SerializeField] private CooldownController cooldowns;
+        
         [SerializeField] private Transform playerTransform;
         
-        private const int SpellsCount = 4;
-        
         [SerializeField] private SpellCastersList spellCastersList;
-        
+
         [PropertySpace(25)]
         
-        [RequiredListLength(SpellsCount), SerializeField] private SpellData[] spells = new SpellData[SpellsCount];
+        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
+        private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
 
-        private readonly SpellCaster[] _spellCasters = new SpellCaster[SpellsCount];
+        private readonly SpellCaster[] _spellCasters = new SpellCaster[SpellData.CharacterSpellsCount];
         
         private int? _currentChannelingIndex;
         
@@ -69,6 +71,8 @@ namespace Project.Spells.Casters
             
             if (_spellCasters.Any(x => x.IsChanneling)) return;
 
+            if (cooldowns.IsInCooldown(spellIndex)) return;
+            
             _currentChannelingIndex = spellIndex;
             _spellCasters[spellIndex].StartChanneling();
             
@@ -101,6 +105,8 @@ namespace Project.Spells.Casters
             caster.StopChanneling();
             caster.EvaluateResults();
             caster.TryCast(spells[spellIndex].HashedID);
+            
+            cooldowns.StartCooldown(spellIndex, spells[spellIndex].cooldown);
         }
     }
 }
