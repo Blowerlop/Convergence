@@ -49,9 +49,9 @@ namespace Project.Spells.Casters
             _currentResults.Direction = (position - playerPos).normalized;
         }
 
-        public override void TryCast(int spellHash)
+        public override void TryCast(int casterIndex)
         {
-            SpellManager.Instance.TryCastSpellServerRpc(spellHash, _currentResults);
+            SpellManager.instance.TryCastSpellServerRpc(casterIndex, _currentResults);
         }
     }
 }

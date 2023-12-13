@@ -104,9 +104,15 @@ namespace Project.Spells.Casters
             
             caster.StopChanneling();
             caster.EvaluateResults();
-            caster.TryCast(spells[spellIndex].HashedID);
             
-            cooldowns.StartCooldown(spellIndex, spells[spellIndex].cooldown);
+            caster.TryCast(spellIndex);
+            
+            cooldowns.StartLocalCooldown(spellIndex, spells[spellIndex].cooldown);
+        }
+
+        public SpellData GetSpellAtIndex(int index)
+        {
+            return spells[index];
         }
     }
 }

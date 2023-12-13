@@ -598,6 +598,8 @@ GameObject:
   - component: {fileID: 174587218}
   - component: {fileID: 174587220}
   - component: {fileID: 174587219}
+  - component: {fileID: 174587222}
+  - component: {fileID: 174587221}
   m_Layer: 5
   m_Name: Spell (2)
   m_TagString: Untagged
@@ -664,6 +666,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174587217}
   m_CullTransparentMesh: 1
+--- !u!225 &174587221
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174587217}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &174587222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174587217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c261ad690d834afba96b983ff77c2a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldowns: {fileID: 1501811174}
+  id: 2
+  group: {fileID: 174587221}
+  tmp: {fileID: 448662912}
+  img: {fileID: 602355663}
 --- !u!1 &204748602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2408,6 +2439,8 @@ GameObject:
   - component: {fileID: 709205284}
   - component: {fileID: 709205286}
   - component: {fileID: 709205285}
+  - component: {fileID: 709205288}
+  - component: {fileID: 709205287}
   m_Layer: 5
   m_Name: Spell (3)
   m_TagString: Untagged
@@ -2474,6 +2507,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 709205283}
   m_CullTransparentMesh: 1
+--- !u!225 &709205287
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709205283}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &709205288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709205283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c261ad690d834afba96b983ff77c2a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldowns: {fileID: 1501811174}
+  id: 3
+  group: {fileID: 709205287}
+  tmp: {fileID: 2088343133}
+  img: {fileID: 1349329327}
 --- !u!1 &757557544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2485,6 +2547,8 @@ GameObject:
   - component: {fileID: 757557545}
   - component: {fileID: 757557547}
   - component: {fileID: 757557546}
+  - component: {fileID: 757557549}
+  - component: {fileID: 757557548}
   m_Layer: 5
   m_Name: Spell (1)
   m_TagString: Untagged
@@ -2551,6 +2615,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757557544}
   m_CullTransparentMesh: 1
+--- !u!225 &757557548
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757557544}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &757557549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757557544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c261ad690d834afba96b983ff77c2a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldowns: {fileID: 1501811174}
+  id: 1
+  group: {fileID: 757557548}
+  tmp: {fileID: 1624822944}
+  img: {fileID: 2048646681}
 --- !u!1 &821438955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2794,6 +2887,7 @@ GameObject:
   - component: {fileID: 1066145691}
   - component: {fileID: 1066145690}
   - component: {fileID: 1066145689}
+  - component: {fileID: 1066145693}
   m_Layer: 0
   m_Name: Netcode_NetworkManager
   m_TagString: Untagged
@@ -2894,6 +2988,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1066145693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066145688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93313df1e69eb954bbb93f793a71e297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serverObject: {fileID: 7332020848674712276, guid: f98c64676dc730f41b4ce4e880030a6f,
+    type: 3}
 --- !u!1 &1137777636
 GameObject:
   m_ObjectHideFlags: 0
@@ -3410,6 +3518,7 @@ GameObject:
   - component: {fileID: 1501811172}
   - component: {fileID: 1501811171}
   - component: {fileID: 1501811170}
+  - component: {fileID: 1501811175}
   - component: {fileID: 1501811174}
   m_Layer: 0
   m_Name: Player
@@ -3519,6 +3628,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9c87b475764fc0a5d94f5991b94735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1501811175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501811169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2807666681
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1502894920
 GameObject:
   m_ObjectHideFlags: 0
@@ -4600,6 +4729,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafd2c48a23946ddbddd301cfd32fe8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spellCast: {fileID: 580873435}
+  cooldown: {fileID: 1501811174}
   spells: {fileID: 11400000, guid: 25a255d8f236d7d46b0335bd7103e191, type: 2}
 --- !u!4 &2056723307
 Transform:
@@ -4782,6 +4913,8 @@ GameObject:
   - component: {fileID: 2075431450}
   - component: {fileID: 2075431452}
   - component: {fileID: 2075431451}
+  - component: {fileID: 2075431454}
+  - component: {fileID: 2075431453}
   m_Layer: 5
   m_Name: Spell
   m_TagString: Untagged
@@ -4848,6 +4981,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2075431449}
   m_CullTransparentMesh: 1
+--- !u!225 &2075431453
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075431449}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2075431454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075431449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c261ad690d834afba96b983ff77c2a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldowns: {fileID: 1501811174}
+  id: 0
+  group: {fileID: 2075431453}
+  tmp: {fileID: 2062040339}
+  img: {fileID: 1137777638}
 --- !u!1 &2088343131
 GameObject:
   m_ObjectHideFlags: 0

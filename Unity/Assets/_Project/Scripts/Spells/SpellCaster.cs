@@ -50,7 +50,7 @@ namespace Project.Spells.Casters
         /// <summary>
         /// Ask SpellManager to spawn the desired spell with caster current results.
         /// </summary>
-        /// <param name="spellHash"></param>
-        public abstract void TryCast(int spellHash);
+        /// <param name="casterIndex"></param>
+        public abstract void TryCast(int casterIndex);
     }
 }

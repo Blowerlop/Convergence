@@ -40,7 +40,7 @@ namespace Project
 
         public void StartTimerWithUpdateCallback(MonoBehaviour monoBehaviour, float timeInSeconds,
             Action<float> updateCallback, Action callback = null, TimeType timerType = TimeType.Scaled,
-            bool forceStart = false)
+            bool ceiled = false, bool forceStart = false)
         {
             if (isTimerRunning)
             {
@@ -49,25 +49,38 @@ namespace Project
                     StopTimer();
                     return;
                 }
-                
-                Debug.Log("A timer is already in progress");
+
+                Debug.Log("A timer is already in progress " + GetTimeRemaining());
                 return;
             }
-            
+
             _monoBehaviour = monoBehaviour;
-            _timerCoroutine = monoBehaviour.StartCoroutine(TimerCoroutine(timeInSeconds, timerType, callback, updateCallback));
+            _timerCoroutine =
+                monoBehaviour.StartCoroutine(TimerCoroutine(timeInSeconds, timerType, callback, updateCallback, ceiled));
         }
 
-        private IEnumerator TimerCoroutine(float timeInSeconds, TimeType timerType, Action callback, Action<float> updateCallback = null) 
+        private IEnumerator TimerCoroutine(float timeInSeconds, TimeType timerType, Action callback, Action<float> updateCallback = null, bool ceiled = false) 
         {
             timer = timeInSeconds;
 
+            int lastSecond = Mathf.RoundToInt(timer);
+            
             if (timerType == TimeType.Scaled)
             {
                 while (timer > 0.0f)
                 {
                     timer -= Time.deltaTime;
-                    updateCallback?.Invoke(timer);
+
+                    if (ceiled)
+                    {
+                        var round = Mathf.CeilToInt(timer);
+                        if (round != lastSecond)
+                        {
+                            lastSecond = round;
+                            updateCallback?.Invoke(round);
+                        }
+                    }
+                    else updateCallback?.Invoke(timer);
                     yield return null;
                 }
             }
@@ -76,14 +89,25 @@ namespace Project
                 while (timer > 0.0f)
                 {
                     timer -= Time.unscaledDeltaTime;
-                    updateCallback?.Invoke(timer);
+                    
+                    if (ceiled)
+                    {
+                        var round = Mathf.CeilToInt(timer);
+                        if (round != lastSecond)
+                        {
+                            lastSecond = round;
+                            updateCallback?.Invoke(round);
+                        }
+                    }
+                    else updateCallback?.Invoke(timer);
                     yield return null;
                 }
             }
             
-            callback?.Invoke();
             _timerCoroutine = null;
             _monoBehaviour = null;
+            
+            callback?.Invoke();
         }
 
         private void StopTimer()
