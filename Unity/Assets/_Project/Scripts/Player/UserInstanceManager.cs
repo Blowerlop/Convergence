@@ -37,7 +37,6 @@ namespace Project
                 GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(DestroyUnrealUserInstance);
             }
         }
-
         
         private void CreateNetcodeUserInstance(ulong clientId)
         {
@@ -50,6 +49,7 @@ namespace Project
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+            userInstance.SetClientId((int)clientId);
                 
             _userInstances.Add((int)clientId, userInstance);
         }
@@ -67,6 +67,7 @@ namespace Project
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
+            userInstance.SetClientId(clientId);
             userInstance.SetIsMobileServerRpc(true);
                 
             _userInstances.Add(clientId, userInstance);
@@ -101,6 +102,32 @@ namespace Project
             userInstance.GetComponent<NetworkObject>().Despawn(true);
             
             _userInstances.Remove((int)clientId);
+        }
+ 
+        public void ClientRegisterUserInstance(UserInstance inst)
+        {
+            if (!IsClient) return;
+            
+            if(_userInstances.ContainsKey(inst.ClientId))
+            {
+                Debug.LogError($"UserInstance already registered for client {inst.ClientId}");
+                return;
+            }
+            
+            _userInstances.Add(inst.ClientId, inst);
+        }
+        
+        public void ClientUnregisterUserInstance(UserInstance inst)
+        {
+            if (!IsClient) return;
+            
+            if(!_userInstances.ContainsKey(inst.ClientId))
+            {
+                Debug.LogError($"UserInstance is not registered for client {inst.ClientId}");
+                return;
+            }
+            
+            _userInstances.Remove(inst.ClientId);
         }
         
         public UserInstance[] GetUsersInstance()
@@ -137,6 +164,23 @@ namespace Project
 
             Debug.LogError($"The client {clientName} has no userInstance registered");
             return null;
+        }
+
+        public Team GetTeam(int teamId)
+        {
+            var team = new Team();
+            
+            Debug.LogError(_userInstances.Values.Count);
+            foreach (var user in _userInstances.Values)
+            {
+                Debug.LogError("User: " + user.Team + ", " + user.IsMobile);
+                if (user.Team != teamId) continue;
+                
+                if(user.IsMobile) team.MobileUser = user;
+                else team.PcUser = user;
+            }
+
+            return team;
         }
     }
 }
