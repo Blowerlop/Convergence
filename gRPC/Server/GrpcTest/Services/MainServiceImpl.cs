@@ -141,15 +141,6 @@ namespace GRPCServer.Services
                     Debug.LogError("GRPC_Handshake > NetcodeServer is null");
                     return Task.FromResult(new GRPC_HandshakeGet { Result = 1, ClientId = -1 });
                 }
-                List<GRPC_NetVarUpdate> a = netcodeServer.GetNetworkVariablesAsUpdates();
-
-                Debug.Log("ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII EN DESSOUS");
-                Debug.Log(a.Count);
-                foreach (var item in a)
-                {
-                    Debug.Log(item.NewValue.Value);
-                }
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 return Task.FromResult(new GRPC_HandshakeGet
                 {

@@ -1,0 +1,902 @@
+
+[17:43:33] Log
+Cleared 8 members; executed 0 methods. 
+
+UnityEngine.Debug:Log (object)
+DomainReloadHandler:OnRuntimeLoad () (at ./Library/PackageCache/com.jsteinhauer.unitydomainreloadhelper@3c2e145365/Editor/DomainReloadHandler.cs:71)
+
+
+[17:43:33] Log
+Setting action map : Player 
+
+UnityEngine.Debug:Log (object)
+Project.InputManager:SwitchActionMap (UnityEngine.InputSystem.InputActionMap) (at Assets/_Project/Scripts/Managers/InputManager.cs:98)
+Project.InputManager:SwitchActionMap (string) (at Assets/_Project/Scripts/Managers/InputManager.cs:87)
+Project.InputManager:Awake () (at Assets/_Project/Scripts/Managers/InputManager.cs:57)
+UnityEngine.Object:Instantiate (UnityEngine.Object)
+Project.Bootstrapper:TryLoadBootstrapPrefab () (at Assets/_Project/Scripts/Boostrap/Bootstrapper.cs:24)
+Project.Bootstrapper:ExecuteBeforeSceneLoad () (at Assets/_Project/Scripts/Boostrap/Bootstrapper.cs:11)
+
+
+[17:43:33] Log
+Console cleared 
+
+UnityEngine.Debug:Log (object)
+Project.Console:ClearConsoleLogs () (at Assets/_Project/Scripts/Console/Console.cs:459)
+Project.Console:Awake () (at Assets/_Project/Scripts/Console/Console.cs:64)
+UnityEngine.Object:Instantiate (UnityEngine.Object)
+Project.Bootstrapper:TryLoadBootstrapPrefab () (at Assets/_Project/Scripts/Boostrap/Bootstrapper.cs:24)
+Project.Bootstrapper:ExecuteBeforeSceneLoad () (at Assets/_Project/Scripts/Boostrap/Bootstrapper.cs:11)
+
+
+[17:43:33] Warning
+DontDestroyOnLoad only works for root GameObjects or components on root GameObjects. 
+
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+Project.NetworkSingleton`1<Project.TeamManager>:Awake () (at Assets/_Project/Scripts/Utilities/NetworkSingleton.cs:55)
+
+
+[17:43:33] Log
+Method - OnTeamSet_UpdateButtonText - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`3<int, string, Project.PlayerPlatform>:Subscribe (object,System.Action`3<int, string, Project.PlayerPlatform>) (at Assets/_Project/Scripts/Event/Event.cs:330)
+Project.TeamSelectionUI:OnEnable () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:29)
+
+
+[17:43:33] Log
+Method - SetAvatarServerRpc - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`2<int, int>:Subscribe (object,System.Action`2<int, int>) (at Assets/_Project/Scripts/Event/Event.cs:248)
+Project.TeamsDisplay:OnEnable () (at Assets/_Project/Scripts/Lobby/TeamsDisplay.cs:30)
+
+
+[17:43:33] Log
+Method - TokenCancel - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetObjectsHandler:OnEnable () (at Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetObjectsHandler.cs:22)
+
+
+[17:43:33] Log
+Method - GetNetObjsUpdateStream - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetObjectsHandler:OnEnable () (at Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetObjectsHandler.cs:23)
+
+
+[17:43:33] Log
+Method - Dispose - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetObjectsHandler:OnEnable () (at Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetObjectsHandler.cs:24)
+
+
+[17:43:33] Log
+Method - NextPageServerRpc - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.Lobby:OnEnable () (at Assets/_Project/Scripts/Lobby/Lobby.cs:17)
+
+
+[17:43:33] Log
+Method - TokenCancel - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.FU_NetworkObjectManager:OnEnable () (at Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkObjectManager.cs:30)
+
+
+[17:43:33] Log
+Method - Dispose - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.FU_NetworkObjectManager:OnEnable () (at Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkObjectManager.cs:31)
+
+
+[17:43:33] Log
+Method - StartNetObjsUpdateStream - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.FU_NetworkObjectManager:OnEnable () (at Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkObjectManager.cs:32)
+
+
+[17:43:33] Log
+Method - OnTeamSet_UpdateButtonText - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`3<int, string, Project.PlayerPlatform>:Subscribe (object,System.Action`3<int, string, Project.PlayerPlatform>) (at Assets/_Project/Scripts/Event/Event.cs:330)
+Project.TeamSelectionUI:OnEnable () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:29)
+
+
+[17:43:33] Log
+Method - OnPlayersReady_DisplayPlayersAvatar - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.TeamsDisplay:Start () (at Assets/_Project/Scripts/Lobby/TeamsDisplay.cs:17)
+
+
+[17:43:36] Log
+Method - FU_InitGrpcStream - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.TeamManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:58)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkSpawnManager:ServerSpawnSceneObjectsOnStartSweep () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:801)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:958)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Method - FU_DisposeGrpcStream - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.TeamManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:59)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkSpawnManager:ServerSpawnSceneObjectsOnStartSweep () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:801)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:958)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+InitializeTeamsData 
+
+UnityEngine.Debug:Log (object)
+Project.TeamManager:InitializeTeamsData () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:127)
+Project.TeamManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:64)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkSpawnManager:ServerSpawnSceneObjectsOnStartSweep () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:801)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:958)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Method - InitGrpcStream - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.TeamManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:66)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkSpawnManager:ServerSpawnSceneObjectsOnStartSweep () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:801)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:958)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Method - DisposeGrpcStream - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.TeamManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:67)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkSpawnManager:ServerSpawnSceneObjectsOnStartSweep () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:801)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:958)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Server started 
+
+UnityEngine.Debug:Log (object)
+Project.Netcode_ConnectionManager:OnServerStarted () (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:134)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:960)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+<color=#00FF00>NetworkManager (Project.Netcode_ConnectionManager) invoked onConnectionStateUpdateEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.EConnectionState>:Invoke (object,bool,Project.EConnectionState) (at Assets/_Project/Scripts/Event/Event.cs:136)
+Project.Netcode_ConnectionManager:set_connectionState (Project.EConnectionState) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:33)
+Project.Netcode_ConnectionManager:OnServerStarted () (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:135)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:960)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+<color=#00FF00>Methods called by onConnectionStateUpdateEvent:</color> 
+ 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.EConnectionState>:Invoke (object,bool,Project.EConnectionState) (at Assets/_Project/Scripts/Event/Event.cs:149)
+Project.Netcode_ConnectionManager:set_connectionState (Project.EConnectionState) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:33)
+Project.Netcode_ConnectionManager:OnServerStarted () (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:135)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:960)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Method - CreateUnrealUserInstance - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.UnrealClient>:Subscribe (object,System.Action`1<Project.UnrealClient>) (at Assets/_Project/Scripts/Event/Event.cs:168)
+Project.UserInstanceManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Player/UserInstanceManager.cs:21)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkObject:SpawnInternal (bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:735)
+Project.OnServerStarted_SpawnServerObject:SpawnServerObject () (at Assets/_Project/Scripts/Networking/Netcode/OnServerStarted_SpawnServerObject.cs:29)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:960)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Method - DestroyUnrealUserInstance - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.UnrealClient>:Subscribe (object,System.Action`1<Project.UnrealClient>) (at Assets/_Project/Scripts/Event/Event.cs:168)
+Project.UserInstanceManager:OnNetworkSpawn () (at Assets/_Project/Scripts/Player/UserInstanceManager.cs:22)
+Unity.Netcode.NetworkBehaviour:VisibleOnNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:506)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkSpawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1237)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocallyCommon (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:606)
+Unity.Netcode.NetworkSpawnManager:SpawnNetworkObjectLocally (Unity.Netcode.NetworkObject,ulong,bool,bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:509)
+Unity.Netcode.NetworkObject:SpawnInternal (bool,ulong,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:735)
+Project.OnServerStarted_SpawnServerObject:SpawnServerObject () (at Assets/_Project/Scripts/Networking/Netcode/OnServerStarted_SpawnServerObject.cs:29)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:960)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Trying to establish a connection to 127.0.0.1:7777 
+
+UnityEngine.Debug:Log (object)
+Project.Netcode_ConnectionManager:OnClientStarted () (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:90)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:961)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+<color=#00FF00>NetworkManager (Project.Netcode_ConnectionManager) invoked onConnectionStateUpdateEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.EConnectionState>:Invoke (object,bool,Project.EConnectionState) (at Assets/_Project/Scripts/Event/Event.cs:136)
+Project.Netcode_ConnectionManager:set_connectionState (Project.EConnectionState) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:33)
+Project.Netcode_ConnectionManager:OnClientStarted () (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:91)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:961)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+<color=#00FF00>Methods called by onConnectionStateUpdateEvent:</color> 
+ 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.EConnectionState>:Invoke (object,bool,Project.EConnectionState) (at Assets/_Project/Scripts/Event/Event.cs:149)
+Project.Netcode_ConnectionManager:set_connectionState (Project.EConnectionState) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:33)
+Project.Netcode_ConnectionManager:OnClientStarted () (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:91)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:961)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Client id 0 has connected 
+
+UnityEngine.Debug:Log (object)
+Project.Netcode_ConnectionManager:OnClientConnectedCallback (ulong) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:104)
+Unity.Netcode.NetworkConnectionManager:InvokeOnClientConnectedCallback (ulong) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Connection/NetworkConnectionManager.cs:45)
+Unity.Netcode.NetworkManager:HostServerInitialize () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:966)
+Unity.Netcode.NetworkManager:StartHost () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:911)
+Unity.Netcode.Editor.NetworkManagerEditor:OnInspectorGUI () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Editor/NetworkManagerEditor.cs:292)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:36] Log
+Method - OnGrpcConnection_NetworkObjectSync - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkObjectSyncer:Start () (at Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetworkObjectSyncer.cs:33)
+
+
+[17:43:36] Log
+Method - OnGrpDisconnection_NetworkObjectUnSync - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkObjectSyncer:Start () (at Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetworkObjectSyncer.cs:41)
+
+
+[17:43:36] Log
+Method - GRPC_NetworkVariable_Initialization - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkVariable`1<Unity.Collections.FixedString64Bytes>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:51)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:62)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - OnUnrealClientConnected_WaitForNetVarSyncRequest - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.UnrealClient>:Subscribe (object,System.Action`1<Project.UnrealClient>) (at Assets/_Project/Scripts/Event/Event.cs:168)
+Project.GRPC_NetworkVariable`1<Unity.Collections.FixedString64Bytes>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:52)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:62)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - OnClientStop - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkVariable`1<Unity.Collections.FixedString64Bytes>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:53)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:62)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - GRPC_NetworkVariable_Initialization - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkVariable`1<int>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:51)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:63)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - OnUnrealClientConnected_WaitForNetVarSyncRequest - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.UnrealClient>:Subscribe (object,System.Action`1<Project.UnrealClient>) (at Assets/_Project/Scripts/Event/Event.cs:168)
+Project.GRPC_NetworkVariable`1<int>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:52)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:63)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - OnClientStop - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkVariable`1<int>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:53)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:63)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - GRPC_NetworkVariable_Initialization - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkVariable`1<bool>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:51)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:64)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - OnUnrealClientConnected_WaitForNetVarSyncRequest - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.UnrealClient>:Subscribe (object,System.Action`1<Project.UnrealClient>) (at Assets/_Project/Scripts/Event/Event.cs:168)
+Project.GRPC_NetworkVariable`1<bool>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:52)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:64)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:36] Log
+Method - OnClientStop - has subscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Subscribe (object,System.Action) (at Assets/_Project/Scripts/Event/Event.cs:88)
+Project.GRPC_NetworkVariable`1<bool>:Initialize () (at Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs:53)
+Project.UserInstance:InitializeNetworkVariables () (at Assets/_Project/Scripts/Player/UserInstance.cs:64)
+Project.UserInstance:Start () (at Assets/_Project/Scripts/Player/UserInstance.cs:50)
+
+
+[17:43:37] Log
+Try set team ok 
+
+UnityEngine.Debug:Log (object)
+Project.TeamManager:TrySetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:167)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:80)
+Project.TeamSelectionUI:__rpc_handler_4277394966 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:73)
+Project.TeamSelectionUI:SetTeamServerRpcc () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:66)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:37] Log
+<color=#00FF00>TeamManager (Project.TeamManager) invoked onTeamSetEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`3<int, string, Project.PlayerPlatform>:Invoke (object,bool,int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Event/Event.cs:296)
+Project.TeamManager:OnTeamSetLocal (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:246)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:234)
+Project.TeamManager:__rpc_handler_3182016369 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:234)
+Project.TeamManager:SetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:187)
+Project.TeamManager:TrySetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:168)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:80)
+Project.TeamSelectionUI:__rpc_handler_4277394966 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:73)
+Project.TeamSelectionUI:SetTeamServerRpcc () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:66)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:37] Log
+<color=#00FF00>Methods called by onTeamSetEvent:</color> 
+<color=#00FF00>- OnTeamSet_UpdateButtonText --- by Team 1 (Project.TeamSelectionUI)</color> 
+<color=#00FF00>- OnTeamSet_UpdateButtonText --- by Team 1 (1) (Project.TeamSelectionUI)</color> 
+ 
+
+UnityEngine.Debug:Log (object)
+Project.Event`3<int, string, Project.PlayerPlatform>:Invoke (object,bool,int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Event/Event.cs:310)
+Project.TeamManager:OnTeamSetLocal (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:246)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:234)
+Project.TeamManager:__rpc_handler_3182016369 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:234)
+Project.TeamManager:SetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:187)
+Project.TeamManager:TrySetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:168)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:80)
+Project.TeamSelectionUI:__rpc_handler_4277394966 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:73)
+Project.TeamSelectionUI:SetTeamServerRpcc () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:66)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:37] Log
+<color=#00FF00>TeamManager (Project.TeamManager) invoked onTeamSetEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`3<int, string, Project.PlayerPlatform>:Invoke (object,bool,int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Event/Event.cs:296)
+Project.TeamManager:OnTeamSetLocal (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:246)
+Project.TeamManager:OnTeamSetClientRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:241)
+Project.TeamManager:__rpc_handler_2925559905 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ClientRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:159)
+Unity.Netcode.NetworkBehaviour:__endSendClientRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ClientRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:239)
+Project.TeamManager:OnTeamSetClientRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:241)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:235)
+Project.TeamManager:__rpc_handler_3182016369 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:234)
+Project.TeamManager:SetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:187)
+Project.TeamManager:TrySetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:168)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:80)
+Project.TeamSelectionUI:__rpc_handler_4277394966 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:73)
+Project.TeamSelectionUI:SetTeamServerRpcc () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:66)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:37] Log
+<color=#00FF00>Methods called by onTeamSetEvent:</color> 
+<color=#00FF00>- OnTeamSet_UpdateButtonText --- by Team 1 (Project.TeamSelectionUI)</color> 
+<color=#00FF00>- OnTeamSet_UpdateButtonText --- by Team 1 (1) (Project.TeamSelectionUI)</color> 
+ 
+
+UnityEngine.Debug:Log (object)
+Project.Event`3<int, string, Project.PlayerPlatform>:Invoke (object,bool,int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Event/Event.cs:310)
+Project.TeamManager:OnTeamSetLocal (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:246)
+Project.TeamManager:OnTeamSetClientRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:241)
+Project.TeamManager:__rpc_handler_2925559905 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ClientRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:159)
+Unity.Netcode.NetworkBehaviour:__endSendClientRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ClientRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:239)
+Project.TeamManager:OnTeamSetClientRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:241)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:235)
+Project.TeamManager:__rpc_handler_3182016369 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:OnTeamSetServerRpc (int,string,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:234)
+Project.TeamManager:SetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:187)
+Project.TeamManager:TrySetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:168)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:80)
+Project.TeamSelectionUI:__rpc_handler_4277394966 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:73)
+Project.TeamSelectionUI:SetTeamServerRpcc () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:66)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:37] Log
+Team recap :
+Index : 0
+Pc : 0
+Mobile : 2147483647 
+
+UnityEngine.Debug:Log (object)
+Project.TeamManager:SetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:189)
+Project.TeamManager:TrySetTeam (int,int,Project.PlayerPlatform) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:168)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:80)
+Project.TeamSelectionUI:__rpc_handler_4277394966 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamSelectionUI:SetTeamServerRpc (int,ulong) (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:73)
+Project.TeamSelectionUI:SetTeamServerRpcc () (at Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs:66)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:38] Log
+All players ready 
+
+UnityEngine.Debug:Log (object)
+Project.TeamManager:PlayerReadyServerRpc (int) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:277)
+Project.TeamManager:__rpc_handler_692293797 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:PlayerReadyServerRpc (int) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:262)
+Project.TeamManager:PlayerReady () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:256)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:38] Log
+<color=#00FF00>TeamManager (Project.TeamManager) invoked onAllPlayersReadyEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Invoke (object,bool) (at Assets/_Project/Scripts/Event/Event.cs:55)
+Project.TeamManager:OnAllPlayersReadyLocal () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:296)
+Project.TeamManager:OnAllPlayersReadyClientRpc () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:291)
+Project.TeamManager:__rpc_handler_1571561910 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ClientRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:159)
+Unity.Netcode.NetworkBehaviour:__endSendClientRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ClientRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:239)
+Project.TeamManager:OnAllPlayersReadyClientRpc () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:291)
+Project.TeamManager:OnAllPlayersReadyServerRpc () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:285)
+Project.TeamManager:PlayerReadyServerRpc (int) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:278)
+Project.TeamManager:__rpc_handler_692293797 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:PlayerReadyServerRpc (int) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:262)
+Project.TeamManager:PlayerReady () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:256)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:38] Log
+<color=#00FF00>Methods called by onAllPlayersReadyEvent:</color> 
+<color=#00FF00>- NextPageServerRpc --- by Lobby (Project.Lobby)</color> 
+<color=#00FF00>- OnPlayersReady_DisplayPlayersAvatar --- by Teams Display (Project.TeamsDisplay)</color> 
+ 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Invoke (object,bool) (at Assets/_Project/Scripts/Event/Event.cs:69)
+Project.TeamManager:OnAllPlayersReadyLocal () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:296)
+Project.TeamManager:OnAllPlayersReadyClientRpc () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:291)
+Project.TeamManager:__rpc_handler_1571561910 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ClientRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:159)
+Unity.Netcode.NetworkBehaviour:__endSendClientRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ClientRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:239)
+Project.TeamManager:OnAllPlayersReadyClientRpc () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:291)
+Project.TeamManager:OnAllPlayersReadyServerRpc () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:285)
+Project.TeamManager:PlayerReadyServerRpc (int) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:278)
+Project.TeamManager:__rpc_handler_692293797 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.TeamManager:PlayerReadyServerRpc (int) (at Assets/_Project/Scripts/Lobby/TeamManager.cs:262)
+Project.TeamManager:PlayerReady () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:256)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:40] Log
+ici 
+
+UnityEngine.Debug:Log (object)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:40] Log
+<color=#00FF00>Meepo (Project.CharacterSelectionUI) invoked onCharacterSelectedEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`2<int, int>:Invoke (object,bool,int,int) (at Assets/_Project/Scripts/Event/Event.cs:216)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:46)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:41] Log
+ici 
+
+UnityEngine.Debug:Log (object)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:41] Log
+<color=#00FF00>Meepo (Project.CharacterSelectionUI) invoked onCharacterSelectedEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`2<int, int>:Invoke (object,bool,int,int) (at Assets/_Project/Scripts/Event/Event.cs:216)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:46)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:42] Log
+ici 
+
+UnityEngine.Debug:Log (object)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:42] Log
+<color=#00FF00>Meepo (Project.CharacterSelectionUI) invoked onCharacterSelectedEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`2<int, int>:Invoke (object,bool,int,int) (at Assets/_Project/Scripts/Event/Event.cs:216)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:46)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:43] Log
+ici 
+
+UnityEngine.Debug:Log (object)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:43] Log
+<color=#00FF00>Meepo (Project.CharacterSelectionUI) invoked onCharacterSelectedEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`2<int, int>:Invoke (object,bool,int,int) (at Assets/_Project/Scripts/Event/Event.cs:216)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:46)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:45] Log
+ici 
+
+UnityEngine.Debug:Log (object)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:45] Log
+<color=#00FF00>Meepo (Project.CharacterSelectionUI) invoked onCharacterSelectedEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`2<int, int>:Invoke (object,bool,int,int) (at Assets/_Project/Scripts/Event/Event.cs:216)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:46)
+Project.CharacterSelectionUI:__rpc_handler_3985724997 (Unity.Netcode.NetworkBehaviour,Unity.Netcode.FastBufferReader,Unity.Netcode.__RpcParams)
+Unity.Netcode.RpcMessageHelpers:Handle (Unity.Netcode.NetworkContext&,Unity.Netcode.RpcMetadata&,Unity.Netcode.FastBufferReader&,Unity.Netcode.__RpcParams&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:70)
+Unity.Netcode.ServerRpcMessage:Handle (Unity.Netcode.NetworkContext&) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Messaging/Messages/RpcMessages.cs:125)
+Unity.Netcode.NetworkBehaviour:__endSendServerRpc (Unity.Netcode.FastBufferWriter&,uint,Unity.Netcode.ServerRpcParams,Unity.Netcode.RpcDelivery) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:103)
+Project.CharacterSelectionUI:SetCharacterServerRpc (int,int) (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:39)
+Project.CharacterSelectionUI:SetCharacterServerRpcc () (at Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs:33)
+UnityEngine.EventSystems.EventSystem:Update () (at ./Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs:530)
+
+
+[17:43:46] Log
+Method - FU_InitGrpcStream - has unsubscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Unsubscribe (System.Action) (at Assets/_Project/Scripts/Event/Event.cs:106)
+Project.TeamManager:OnNetworkDespawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:76)
+Unity.Netcode.NetworkBehaviour:InternalOnNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:529)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1248)
+Unity.Netcode.NetworkSpawnManager:OnDespawnObject (Unity.Netcode.NetworkObject,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:856)
+Unity.Netcode.NetworkSpawnManager:DespawnAndDestroyNetworkObjects () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:737)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1055)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+Method - FU_DisposeGrpcStream - has unsubscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Unsubscribe (System.Action) (at Assets/_Project/Scripts/Event/Event.cs:106)
+Project.TeamManager:OnNetworkDespawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:77)
+Unity.Netcode.NetworkBehaviour:InternalOnNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:529)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1248)
+Unity.Netcode.NetworkSpawnManager:OnDespawnObject (Unity.Netcode.NetworkObject,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:856)
+Unity.Netcode.NetworkSpawnManager:DespawnAndDestroyNetworkObjects () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:737)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1055)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+Method - InitGrpcStream - has unsubscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Unsubscribe (System.Action) (at Assets/_Project/Scripts/Event/Event.cs:106)
+Project.TeamManager:OnNetworkDespawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:82)
+Unity.Netcode.NetworkBehaviour:InternalOnNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:529)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1248)
+Unity.Netcode.NetworkSpawnManager:OnDespawnObject (Unity.Netcode.NetworkObject,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:856)
+Unity.Netcode.NetworkSpawnManager:DespawnAndDestroyNetworkObjects () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:737)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1055)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+Method - DisposeGrpcStream - has unsubscribed 
+
+UnityEngine.Debug:Log (object)
+Project.Event:Unsubscribe (System.Action) (at Assets/_Project/Scripts/Event/Event.cs:106)
+Project.TeamManager:OnNetworkDespawn () (at Assets/_Project/Scripts/Lobby/TeamManager.cs:83)
+Unity.Netcode.NetworkBehaviour:InternalOnNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkBehaviour.cs:529)
+Unity.Netcode.NetworkObject:InvokeBehaviourNetworkDespawn () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkObject.cs:1248)
+Unity.Netcode.NetworkSpawnManager:OnDespawnObject (Unity.Netcode.NetworkObject,bool) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:856)
+Unity.Netcode.NetworkSpawnManager:DespawnAndDestroyNetworkObjects () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Spawning/NetworkSpawnManager.cs:737)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1055)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+Connection ended 
+
+UnityEngine.Debug:Log (object)
+Project.Netcode_ConnectionManager:OnClientStopped (bool) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:96)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1069)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+<color=#00FF00>NetworkManager (Project.Netcode_ConnectionManager) invoked onConnectionStateUpdateEvent</color> 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.EConnectionState>:Invoke (object,bool,Project.EConnectionState) (at Assets/_Project/Scripts/Event/Event.cs:136)
+Project.Netcode_ConnectionManager:set_connectionState (Project.EConnectionState) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:33)
+Project.Netcode_ConnectionManager:OnClientStopped (bool) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:97)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1069)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+<color=#00FF00>Methods called by onConnectionStateUpdateEvent:</color> 
+ 
+
+UnityEngine.Debug:Log (object)
+Project.Event`1<Project.EConnectionState>:Invoke (object,bool,Project.EConnectionState) (at Assets/_Project/Scripts/Event/Event.cs:149)
+Project.Netcode_ConnectionManager:set_connectionState (Project.EConnectionState) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:33)
+Project.Netcode_ConnectionManager:OnClientStopped (bool) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:97)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1069)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+
+[17:43:46] Log
+Server stopped 
+
+UnityEngine.Debug:Log (object)
+Project.Netcode_ConnectionManager:OnServerStopped (bool) (at Assets/_Project/Scripts/Networking/Netcode/Connection/Netcode_ConnectionManager.cs:140)
+Unity.Netcode.NetworkManager:ShutdownInternal () (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:1076)
+Unity.Netcode.NetworkManager:ModeChanged (UnityEditor.PlayModeStateChange) (at ./Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/Core/NetworkManager.cs:516)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+

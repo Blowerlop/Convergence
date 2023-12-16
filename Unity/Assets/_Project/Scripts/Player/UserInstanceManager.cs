@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Mono.Cecil;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,7 +10,13 @@ namespace Project
     {
         [SerializeField, Required, AssetsOnly] private UserInstance _userInstancePrefab;
         [ShowInInspector, ReadOnly] private readonly Dictionary<int, UserInstance> _userInstances = new Dictionary<int, UserInstance>();
-        
+
+
+        protected override void Awake()
+        {
+            authorityCheck = true;
+            base.Awake();
+        }
 
         public override void OnNetworkSpawn()
         {

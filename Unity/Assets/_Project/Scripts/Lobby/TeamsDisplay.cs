@@ -8,8 +8,9 @@ namespace Project
 {
     public class TeamsDisplay : NetworkBehaviour
     {
-        private readonly Dictionary<int, Image> _teamDisplays = new Dictionary<int, Image>();
+        private readonly Dictionary<int, Image> _playersAvatar = new Dictionary<int, Image>();
         public Image template;
+        [SerializeField] private Sprite _noCharacterSprite;
 
         
         private void Start()
@@ -27,12 +28,12 @@ namespace Project
         
         private void OnEnable()
         {
-            CharacterSelectionUI.onCharacterSelectedEvent.Subscribe(this, SetAvatarServerRpc);
+            CharacterSelectionUI.onCharacterSelectedEvent.Subscribe(this, SetPlayerCharacterAvatarServerRpc);
         }
 
         private void OnDisable()
         {
-            CharacterSelectionUI.onCharacterSelectedEvent.Unsubscribe(SetAvatarServerRpc);
+            CharacterSelectionUI.onCharacterSelectedEvent.Unsubscribe(SetPlayerCharacterAvatarServerRpc);
         }
         
         private void OnPlayersReady_DisplayPlayersAvatar()
@@ -41,46 +42,80 @@ namespace Project
             
             DisplayPlayersAvatarServerRpc();
         }
+
+        [ClientRpc]
+        private void InstantiateUiClientRpc()
+        {
+            TeamData[] teams = TeamManager.instance.GetTeams();
+            for (int i = 0; i < teams.Length; i++)
+            {
+                Image instance = Instantiate(template, transform);
+                instance.gameObject.SetActive(true);
+                _playersAvatar.Add(i, instance);
+            }
+        }
         
         [ServerRpc]
         private void DisplayPlayersAvatarServerRpc()
         {
+            InstantiateUiClientRpc();
+            
             var teams = TeamManager.instance.GetTeams();
             
             for (int i = 0; i < teams.Length; i++)
             {
-                DisplayPlayerAvatarClientRpc(teams[i].pcPlayerOwnerClientId);
+                if (TeamManager.instance.IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc))
+                {
+                    SetDefaultCharacterAvatarServerRpc(i);
+                }
+                else
+                {
+                    int playerCharacterId = UserInstanceManager.instance.GetUserInstance(teams[i].pcPlayerOwnerClientId).CharacterId;
+
+                    if (SOCharacter.TryGetCharacter(playerCharacterId, out SOCharacter _))
+                    {
+                        SetPlayerCharacterAvatarClientRpc(i, playerCharacterId);
+                    }
+                    else
+                    {
+                        SetDefaultCharacterAvatarServerRpc(i);
+                    }
+                }
             }
         }
-
-        [ClientRpc]
-        private void DisplayPlayerAvatarClientRpc(int playerId)
-        {
-            DisplayPlayerAvatarLocal(playerId);
-        }
-
-        private void DisplayPlayerAvatarLocal(int playerId)
-        {
-            Image instance = Instantiate(template, transform);
-            _teamDisplays.Add(playerId, instance);
-            instance.gameObject.SetActive(true);
-        }
-
+        
         [ServerRpc(RequireOwnership = false)]
-        private void SetAvatarServerRpc(int playerId, int characterId)
+        private void SetPlayerCharacterAvatarServerRpc(int teamId, int characterId)
         {
-            SetAvatarClientRpc(playerId, characterId);
+            SetPlayerCharacterAvatarClientRpc(teamId, characterId);
         }
 
         [ClientRpc]
-        private void SetAvatarClientRpc(int playerId, int characterId)
+        private void SetPlayerCharacterAvatarClientRpc(int teamId, int characterId)
         {
-            SetAvatarLocal(playerId, characterId);
+            SetPlayerCharacterAvatarLocal(teamId, characterId);
         }
 
-        private void SetAvatarLocal(int playerId, int characterId)
+        private void SetPlayerCharacterAvatarLocal(int teamId, int characterId)
         {
-            _teamDisplays[playerId].sprite = SOCharacter.GetCharacter(characterId).avatar;
+            _playersAvatar[teamId].sprite = SOCharacter.GetCharacter(characterId).avatar;
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        private void SetDefaultCharacterAvatarServerRpc(int teamId)
+        {
+            SetDefaultCharacterAvatarClientRpc(teamId);
+        }
+
+        [ClientRpc]
+        private void SetDefaultCharacterAvatarClientRpc(int teamId)
+        {
+            SetDefaultCharacterAvatarLocal(teamId);
+        }
+
+        private void SetDefaultCharacterAvatarLocal(int teamId)
+        {
+            _playersAvatar[teamId].sprite = _noCharacterSprite;
         }
     }
 }

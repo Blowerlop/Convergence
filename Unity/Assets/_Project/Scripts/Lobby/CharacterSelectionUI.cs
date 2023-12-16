@@ -6,6 +6,18 @@ using UnityEngine.UI;
 
 namespace Project
 {
+    public struct PlayerLobbyData
+    {
+        public int _teamIndex;
+        public int characterId;
+        public bool isReady;
+    }
+
+    public class PlayerLobbyDataManagement
+    {
+        public PlayerLobbyData playerLobbyData;
+    }
+    
     public class CharacterSelectionUI : NetworkBehaviour
     {
         [SerializeField, Required] private SOCharacter _characterData;
@@ -13,7 +25,7 @@ namespace Project
         [SerializeField, Required] private Image _image;
         [SerializeField, Required] private TMP_Text _name;
 
-        [ClearOnReload] private static int _characterSelectedId;
+        [ClearOnReload, ShowInInspector] private static int _characterSelectedId;
 
         [ClearOnReload(assignNewTypeInstance: true, nameof(onCharacterSelectedEvent))] public static Event<int, int> onCharacterSelectedEvent = new Event<int, int>(nameof(onCharacterSelectedEvent));
 
@@ -36,6 +48,7 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SetCharacterServerRpc(int clientId, int characterId)
         {
+            Debug.Log("ici");
             UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
             if (userInstance.CharacterId == characterId) return;
             

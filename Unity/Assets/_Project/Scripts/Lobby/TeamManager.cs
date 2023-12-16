@@ -208,7 +208,7 @@ namespace Project
             _teams[teamIndex] = teamData;
         }
 
-        private bool IsTeamPlayerSlotAvailable(int teamIndex, PlayerPlatform playerPlatform)
+        public bool IsTeamPlayerSlotAvailable(int teamIndex, PlayerPlatform playerPlatform)
         {
             if (TryGetTeam(teamIndex, out TeamData teamData))
             {
@@ -248,7 +248,8 @@ namespace Project
 
         public TeamData[] GetTeams()
         {
-            return _teams.Where((t, i) => IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc) == false).ToArray();
+            // return _teams.Where((t, i) => IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc) == false).ToArray();
+            return _teams;
         }
 
         public void PlayerReady()
