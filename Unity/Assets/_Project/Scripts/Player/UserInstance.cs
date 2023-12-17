@@ -16,8 +16,8 @@ namespace Project
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
         
-        public CharacterRefs LinkedCharacter { get; private set; }
-        public event Action<CharacterRefs> OnCharacterLinked;
+        public PlayerRefs LinkedPlayer { get; private set; }
+        public event Action<PlayerRefs> OnPlayerLinked;
         
         //NetVars
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkClientId = new("ClientId");
@@ -87,20 +87,20 @@ namespace Project
             _networkIsMobile.Reset();
         }
         
-        public void LinkCharacter(CharacterRefs refs)
+        public void LinkCharacter(PlayerRefs refs)
         {
             Debug.LogError("LinkCharacter");
-            LinkedCharacter = refs;
+            LinkedPlayer = refs;
             
-            OnCharacterLinked?.Invoke(refs);
+            OnPlayerLinked?.Invoke(refs);
         }
 
         public void UnlinkCharacter()
         {
-            LinkedCharacter = null;
+            LinkedPlayer = null;
             
             // Really useful ?
-            OnCharacterLinked?.Invoke(null);
+            OnPlayerLinked?.Invoke(null);
         }
         
         private void OnClientIdChanged(int oldValue, int newValue)

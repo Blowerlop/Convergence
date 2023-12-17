@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project
 {
-    public class CharacterRefs : NetworkBehaviour
+    public class PlayerRefs : NetworkBehaviour
     {
         private GRPC_NetworkVariable<int> assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
 
@@ -49,8 +49,8 @@ namespace Project
                 UserInstance oldPc = oldTeam.GetUserInstance(PlayerPlatform.Pc);
                 
                 // Do not unlink if another character has already been linked to old team
-                if(oldMobile != null && oldMobile.LinkedCharacter == this) oldMobile.UnlinkCharacter();
-                if(oldPc != null && oldPc.LinkedCharacter == this) oldPc.UnlinkCharacter();
+                if(oldMobile != null && oldMobile.LinkedPlayer == this) oldMobile.UnlinkCharacter();
+                if(oldPc != null && oldPc.LinkedPlayer == this) oldPc.UnlinkCharacter();
             }
 
             if (newTeamResult)

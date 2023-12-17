@@ -4,18 +4,9 @@ using UnityEngine;
 
 namespace Project
 {
-    public class CharacterManager : NetworkSingleton<CharacterManager>
+    public class PlayerManager : NetworkSingleton<PlayerManager>
     {
-        [SerializeField] private SOCharacter data;
-        [SerializeField] private int team;
-        
-        [Button("Debug SpawnPlayer")]
-        public void Btn()
-        {
-            SpawnCharacter(team, data);
-        }
-        
-        public void SpawnCharacter(int teamId, SOCharacter characterData)
+        public void SpawnPlayer(int teamId, SOCharacter characterData)
         {
             var result = TeamManager.instance.TryGetTeam(teamId, out var charTeam);
 
@@ -34,7 +25,7 @@ namespace Project
             var obj = Instantiate(characterData.prefab);
             obj.GetComponent<NetworkObject>().SpawnWithOwnership((ulong)charTeam.pcPlayerOwnerClientId);
 
-            obj.GetComponent<CharacterRefs>().ServerInit(teamId);
+            obj.GetComponent<PlayerRefs>().ServerInit(teamId);
         }
     }
 }
