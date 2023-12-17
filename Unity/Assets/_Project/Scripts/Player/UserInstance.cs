@@ -39,8 +39,12 @@ namespace Project
         public override void OnNetworkSpawn()
         {
             InitializeNetworkVariables();
-            
-            if (IsClient) _networkClientId.OnValueChanged += OnClientIdChanged;
+
+            if (IsClient)
+            {
+                _networkClientId.OnValueChanged += OnClientIdChanged;
+                _networkTeam.OnValueChanged += OnTeamChanged;
+            }
             
             if (!IsOwner) return;
 
@@ -55,6 +59,7 @@ namespace Project
             {
                 if(UserInstanceManager.instance) UserInstanceManager.instance.ClientUnregisterUserInstance(this);
                 _networkClientId.OnValueChanged -= OnClientIdChanged;
+                _networkTeam.OnValueChanged -= OnTeamChanged;
             }
             
             if (!IsOwner) return;
@@ -103,6 +108,11 @@ namespace Project
             // Should only happen once when user instance is spawned
             
             UserInstanceManager.instance.ClientRegisterUserInstance(this);
+        }
+        
+        private void OnTeamChanged(int oldValue, int newValue)
+        {
+            TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
         }
         
         #region Setters

@@ -1,5 +1,4 @@
 using Project.Extensions;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells

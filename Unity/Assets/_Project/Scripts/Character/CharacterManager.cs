@@ -1,4 +1,3 @@
-using System;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -13,21 +12,27 @@ namespace Project
         [Button("Debug SpawnPlayer")]
         public void Btn()
         {
-            SpawnPlayer(team, data);
+            SpawnCharacter(team, data);
         }
         
-        public void SpawnPlayer(int teamId, SOCharacter characterData)
+        public void SpawnCharacter(int teamId, SOCharacter characterData)
         {
-            var team = UserInstanceManager.instance.GetTeam(teamId);
+            var result = TeamManager.instance.TryGetTeam(teamId, out var charTeam);
+
+            if (!result)
+            {
+                Debug.LogError("Trying to spawn a character for an invalid team.");
+                return;
+            }
             
-            if (team.PcUser == null)
+            if (charTeam.pcPlayerOwnerClientId == int.MaxValue)
             {
                 Debug.LogError("Can't spawn player for a team that have no PCUser");
                 return;
             }
             
             var obj = Instantiate(characterData.prefab);
-            obj.GetComponent<NetworkObject>().SpawnWithOwnership(team.PcUser.OwnerClientId);
+            obj.GetComponent<NetworkObject>().SpawnWithOwnership((ulong)charTeam.pcPlayerOwnerClientId);
 
             obj.GetComponent<CharacterRefs>().ServerInit(teamId);
         }

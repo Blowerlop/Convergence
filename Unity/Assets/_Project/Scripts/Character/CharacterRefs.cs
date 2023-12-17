@@ -40,20 +40,27 @@ namespace Project
 
         private void OnTeamChanged(int oldValue, int newValue)
         {
-            Debug.LogError("On team changed");
-            
-            var oldTeam = UserInstanceManager.instance.GetTeam(oldValue);
-            var newTeam = UserInstanceManager.instance.GetTeam(newValue);
+            var oldTeamResult = TeamManager.instance.TryGetTeam(oldValue, out var oldTeam);
+            var newTeamResult = TeamManager.instance.TryGetTeam(newValue, out var newTeam);
 
-            if (!oldTeam.IsEmpty)
+            if (oldTeamResult)
             {
+                UserInstance oldMobile = oldTeam.GetUserInstance(PlayerPlatform.Mobile);
+                UserInstance oldPc = oldTeam.GetUserInstance(PlayerPlatform.Pc);
+                
                 // Do not unlink if another character has already been linked to old team
-                if(oldTeam.MobileUser.LinkedCharacter == this) oldTeam.MobileUser.UnlinkCharacter();
-                if(oldTeam.PcUser.LinkedCharacter == this) newTeam.PcUser.UnlinkCharacter();
+                if(oldMobile != null && oldMobile.LinkedCharacter == this) oldMobile.UnlinkCharacter();
+                if(oldPc != null && oldPc.LinkedCharacter == this) oldPc.UnlinkCharacter();
             }
+
+            if (newTeamResult)
+            {
+                UserInstance newMobile = newTeam.GetUserInstance(PlayerPlatform.Mobile);
+                UserInstance newPc = newTeam.GetUserInstance(PlayerPlatform.Pc);
             
-            if (newTeam.PcUser) newTeam.PcUser.LinkCharacter(this);
-            if (newTeam.MobileUser) newTeam.MobileUser.LinkCharacter(this);
+                if (newPc) newPc.LinkCharacter(this);
+                if (newMobile) newMobile.LinkCharacter(this);
+            }
         }
     }
 }

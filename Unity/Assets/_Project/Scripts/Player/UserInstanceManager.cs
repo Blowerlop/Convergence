@@ -165,22 +165,5 @@ namespace Project
             Debug.LogError($"The client {clientName} has no userInstance registered");
             return null;
         }
-
-        public Team GetTeam(int teamId)
-        {
-            var team = new Team();
-            
-            Debug.LogError(_userInstances.Values.Count);
-            foreach (var user in _userInstances.Values)
-            {
-                Debug.LogError("User: " + user.Team + ", " + user.IsMobile);
-                if (user.Team != teamId) continue;
-                
-                if(user.IsMobile) team.MobileUser = user;
-                else team.PcUser = user;
-            }
-
-            return team;
-        }
     }
 }

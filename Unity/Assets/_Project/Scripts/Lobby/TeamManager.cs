@@ -23,6 +23,15 @@ namespace Project
     {
         public int pcPlayerOwnerClientId;
         public int mobilePlayerOwnerClientId;
+
+        public UserInstance GetUserInstance(PlayerPlatform platform)
+        {
+            return !UserInstanceManager.instance
+                ? null
+                : UserInstanceManager.instance.GetUserInstance(platform == PlayerPlatform.Pc
+                    ? pcPlayerOwnerClientId
+                    : mobilePlayerOwnerClientId);
+        }
     }
     
     public class TeamManager : NetworkSingleton<TeamManager>
@@ -59,9 +68,9 @@ namespace Project
             FU_GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, FU_DisposeGrpcStream);
 #endif
             
-            if (!IsServer && !IsHost) return;
-            
             InitializeTeamsData();
+            
+            if (!IsServer && !IsHost) return;
             
             GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, InitGrpcStream);
             GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, DisposeGrpcStream);
@@ -192,6 +201,21 @@ namespace Project
                       $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
         }
 
+        /// <summary>
+        /// Called by UserInstance._networkTeam callback on clients to populate team array
+        /// </summary>
+        public void ClientOnTeamChanged(UserInstance user, int oldTeam, int newTeam)
+        {
+            var platform = user.IsMobile ? PlayerPlatform.Mobile : PlayerPlatform.Pc;
+            
+            if (IsTeamIndexValid(oldTeam))
+            {
+                ResetTeamSlot(oldTeam, platform);
+            }
+            
+            RegisterToTeamSlot(user.ClientId, newTeam, platform);
+        }
+        
         private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
