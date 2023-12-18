@@ -24,17 +24,33 @@ namespace Project
             CheckTeamIndexValidity();
         }
 
-        private void OnEnable()
+        public override void OnNetworkSpawn()
         {
             TeamManager.instance.onTeamSetEvent.Subscribe(this, OnTeamSet_UpdateButtonText);
+
+            // ONLY IN EDITOR AND FOR A SPECIFIC USE CASE.
+            // BECAUSE RIGHT NOW IN TESTING THIS NETWORK SPAWN MIGHT FIRED FIRST, WE HAVE A NULL REF ON OUR USERINSTANCE.
+            // BUT IN THE FINAL GAME, THE USER INSTANCE WILL BE THE FIRST THING EVER FIRED IN THE NETWORK (NORMALLY)
+            #if UNITY_EDITOR
+             Utilities.StartWaitForFramesAndDoActionCoroutine(this, 1,
+                () => UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor);
+             #else
+             UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor);
+             #endif
+
         }
 
-        private void OnDisable()
+        public override void OnNetworkDespawn()
         {
             if (TeamManager.isBeingDestroyed == false)
             {
                 TeamManager.instance.onTeamSetEvent.Unsubscribe(OnTeamSet_UpdateButtonText);
             }
+
+            if (UserInstance.Me != null)
+            {
+                UserInstance.Me._networkIsReady.OnValueChanged -= OnPlayerReady_UpdateButtonTextColor;
+            }   
         }
 
         private void CheckTeamIndexValidity()
@@ -98,23 +114,50 @@ namespace Project
         [ClientRpc]
         private void UpdatePcButtonTextClientRpc(string clientName)
         {
-            UpdatePcButtonTextLocal(clientName);
-        }
-
-        private void UpdatePcButtonTextLocal(string clientName)
-        {
             _pcButtonText.text = clientName;
         }
-        
+
         [ClientRpc]
         private void UpdateMobileButtonTextClientRpc(string clientName)
         {
-            UpdateMobileButtonTextLocal(clientName);
+            _mobileButtonText.text = clientName;
+        }
+
+        private void OnPlayerReady_UpdateButtonTextColor(bool _, bool readyState)
+        {
+            Debug.LogError("HERE");
+            OnPlayerReady_UpdateButtonTextColorServerRpc((int)NetworkManager.Singleton.LocalClientId, readyState);
         }
         
-        private void UpdateMobileButtonTextLocal(string clientName)
+        [ServerRpc(RequireOwnership = false)]
+        private void OnPlayerReady_UpdateButtonTextColorServerRpc(int clientId, bool readyState)
         {
-            _mobileButtonText.text = clientName;
+            TeamData teamData = TeamManager.instance.GetTeamData(_teamIndex);
+
+            if (teamData.pcPlayerOwnerClientId == clientId)
+            {
+                UpdatePcButtonTextColorClientRpc(_teamIndex, readyState);
+            }
+            else if (teamData.mobilePlayerOwnerClientId == clientId)
+            {
+                UpdateMobileButtonTextColorClientRpc(_teamIndex, readyState);
+            }
+        }
+
+        [ClientRpc]
+        private void UpdatePcButtonTextColorClientRpc(int teamIndex, bool state)
+        {
+            if (teamIndex != _teamIndex) return;
+            
+            _pcButtonText.color = state ? Color.green : Color.black;
+        }
+        
+        [ClientRpc]
+        private void UpdateMobileButtonTextColorClientRpc(int teamIndex, bool state)
+        {
+            if (teamIndex != _teamIndex) return;
+            
+            _mobileButtonText.color = state ? Color.green : Color.black;
         }
     }
 }

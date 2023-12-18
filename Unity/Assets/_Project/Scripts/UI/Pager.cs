@@ -33,7 +33,7 @@ namespace Project
         [SerializeField, ReadOnly] private int _currentPageIndex;
         [SerializeField, ReadOnly] private int _previousPageIndex;
         [SerializeField] private bool pageLoop = true;
-        [SerializeField] private bool _disablePages = true;
+        [SerializeField] private bool _disablePagesGameObject = true;
         [SerializeField] private bool crossFadePages;
         [SerializeField] private float _crossFadeDuration = 0.25f;
         private Coroutine _crossFadeCoroutineCurrentPage;
@@ -217,7 +217,7 @@ namespace Project
                 {
                     StopCoroutine(_crossFadeCoroutinePreviousPage);
                     previousPageCanvasGroup.alpha = 0.0f;
-                    if (_disablePages) previousPageCanvasGroup.gameObject.SetActive(false);
+                    if (_disablePagesGameObject) previousPageCanvasGroup.gameObject.SetActive(false);
                 }
 
                 _crossFadeCoroutinePreviousPage = null;
@@ -231,7 +231,7 @@ namespace Project
                 {
                     StopCoroutine(_crossFadeCoroutineCurrentPage);
                     currentCanvasGroup.alpha = 0.0f;
-                    if (_disablePages) currentCanvasGroup.gameObject.SetActive(false);
+                    if (_disablePagesGameObject) currentCanvasGroup.gameObject.SetActive(false);
                 }
 
                 _crossFadeCoroutineCurrentPage = null;
@@ -245,7 +245,7 @@ namespace Project
                 CrossFadePages();   
             }
             
-            if (_disablePages)
+            if (_disablePagesGameObject)
             {
                 _pages[_previousPageIndex].canvasGroup.gameObject.SetActive(false);
                 _pages[_currentPageIndex].canvasGroup.gameObject.SetActive(true);

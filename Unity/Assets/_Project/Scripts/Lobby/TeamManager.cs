@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
-using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -34,21 +29,29 @@ namespace Project
         // I cant ShowInInspector this array. It weirdly override my value set by the script
         private readonly TeamData[] _teams = new TeamData[MAX_TEAM];
 
-        private const string DEFAULT_PC_SLOT = "Click to join";
-        private const string DEFAULT_MOBILE_SLOT = "Empty";
+        private const string _DEFAULT_PC_SLOT = "Click to join";
+        private const string _DEFAULT_MOBILE_SLOT = "Empty";
 
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
 
         public readonly Event<int, string, PlayerPlatform> onTeamSetEvent = new Event<int, string, PlayerPlatform>(nameof(onTeamSetEvent));
         public readonly Event<int, string, PlayerPlatform> onPlayerReadyEvent = new Event<int, string, PlayerPlatform>(nameof(onPlayerReadyEvent));
-        public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
+        
         
         #if UNITY_EDITOR
         private AsyncDuplexStreamingCall<GRPC_Team, GRPC_TeamResponse> _FU_teamManagerStream;
         private CancellationTokenSource _FU_cancellationTokenSource;
         #endif
-        
+
+
+        protected override void Awake()
+        {
+            // authorityCheck = true;
+            dontDestroyOnLoad = false;
+            base.Awake();
+        }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -164,6 +167,12 @@ namespace Project
                 return false;
             }
 
+            if (UserInstanceManager.instance.GetUserInstance(ownerClientId).IsReady)
+            {
+                Debug.Log("Trying to join a team while being ready");
+                return false;
+            }
+
             Debug.Log("Try set team ok");
             SetTeam(ownerClientId, teamIndex, playerPlatform);
             return true;;
@@ -178,11 +187,11 @@ namespace Project
             if (IsTeamIndexValid(previousUserTeamIndex))
             {
                 ResetTeamSlot(previousUserTeamIndex, playerPlatform);
-                OnTeamSetServerRpc(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT : DEFAULT_MOBILE_SLOT, playerPlatform);
+                OnTeamSetServerRpc(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? _DEFAULT_PC_SLOT : _DEFAULT_MOBILE_SLOT, playerPlatform);
             }
             
-            RegisterToTeamSlot(ownerClientId, teamIndex, playerPlatform);
-            userInstance.SetTeamServerRpc(teamIndex);
+            RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
+            userInstance.SetTeam(teamIndex);
             
             OnTeamSetServerRpc(teamIndex, userInstance.PlayerName, playerPlatform);
             
@@ -192,13 +201,14 @@ namespace Project
                       $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
         }
 
-        private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        private void RegisterToTeamSlotLocal(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
             if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
             else teamData.mobilePlayerOwnerClientId = ownerClientId;
             _teams[teamIndex] = teamData;
         }
+        
 
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
@@ -246,58 +256,17 @@ namespace Project
             onTeamSetEvent.Invoke(this, true, teamIndex, playerName, playerPlatform);
         }
 
-        public TeamData[] GetTeams()
+        public TeamData[] GetTeamsData()
         {
             // return _teams.Where((t, i) => IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc) == false).ToArray();
             return _teams;
         }
-
-        public void PlayerReady()
+        
+        public TeamData GetTeamData(int teamIndex)
         {
-            PlayerReadyServerRpc((int)NetworkManager.Singleton.LocalClientId);
+            return _teams[teamIndex];
         }
         
-        [ServerRpc(RequireOwnership = false)]
-        private void PlayerReadyServerRpc(int clientId)
-        {
-            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
-            if (userInstance == null)
-            {
-                Debug.LogError("User instance is null");
-                return;
-            }
-
-            if (userInstance.IsReady) return;
-            
-            userInstance.SetIsReadyServerRpc(true);
-
-            UserInstance[] usersInstance = UserInstanceManager.instance.GetUsersInstance();
-            int numberOfPlayersReady = usersInstance.Count(x => x.IsReady);
-            if (numberOfPlayersReady == usersInstance.Length)
-            {
-                Debug.Log("All players ready");
-                OnAllPlayersReadyServerRpc();
-            }
-        }
-
-        [ServerRpc]
-        private void OnAllPlayersReadyServerRpc()
-        {
-            OnAllPlayersReadyClientRpc();
-        }
-        
-        [ClientRpc]
-        private void OnAllPlayersReadyClientRpc()
-        {
-            OnAllPlayersReadyLocal();
-        }
-        
-        private void OnAllPlayersReadyLocal()
-        {
-            onAllPlayersReadyEvent.Invoke(this, true);
-        }
-        
-
         private async void Write(GRPC_TeamResponse response)
         {
             try

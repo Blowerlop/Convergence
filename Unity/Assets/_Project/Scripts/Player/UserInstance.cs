@@ -19,14 +19,14 @@ namespace Project
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
         [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
-        [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsReady = new("IsReady");
-        [ShowInInspector] private NetworkVariable<int> _networkCharacter = new();
+        [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
+        [ShowInInspector] private NetworkVariable<int> _networkCharacterId = new();
         
         public string PlayerName => _networkPlayerName.Value.ToString();
         public int Team => _networkTeam.Value;
         public bool IsMobile => _networkIsMobile.Value;
         public bool IsReady => _networkIsReady.Value;
-        public int CharacterId => _networkCharacter.Value;
+        public int CharacterId => _networkCharacterId.Value;
 
         
         public override void OnNetworkSpawn()
@@ -73,34 +73,29 @@ namespace Project
         
         
         //Setters
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetNameServerRpc(string playerName)
+        public void SetName(string playerName)
         {
             _networkPlayerName.Value = playerName;
         }
         
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetTeamServerRpc(int playerTeam)
+        public void SetTeam(int playerTeam)
         {
             _networkTeam.Value = playerTeam;
         }
 
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetIsMobileServerRpc(bool isMobile)
+        public void SetIsMobile(bool isMobile)
         {
             _networkIsMobile.Value = isMobile;
         }
         
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetIsReadyServerRpc(bool isReady)
+        public void SetIsReady(bool isReady)
         {
             _networkIsReady.Value = isReady;
         }
         
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetCharacterServerRpc(int characterId)
+        public void SetCharacter(int characterId)
         {
-            _networkCharacter.Value = characterId;
+            _networkCharacterId.Value = characterId;
         }
     }
 }

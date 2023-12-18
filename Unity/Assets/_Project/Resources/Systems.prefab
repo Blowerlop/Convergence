@@ -229,6 +229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultInputActionMap: Player
+  move: {x: 0, y: 0}
+  look: {x: 0, y: 0}
 --- !u!1 &6248411025771008953
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +461,7 @@ GameObject:
   - component: {fileID: 4424353766954419714}
   - component: {fileID: 415310601902384542}
   m_Layer: 0
-  m_Name: LoadingManager
+  m_Name: LoadingScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -492,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989a18ccc76ae584c816878f0d73a9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadingScreenPrefab: {fileID: 7342910458805499942, guid: 56598558d5566c5418ce2c6dd385fc33,
+  _loadingScreenPrefab: {fileID: 2583934746869997351, guid: 56598558d5566c5418ce2c6dd385fc33,
     type: 3}
 --- !u!1 &8897260045845080591
 GameObject:
@@ -620,7 +622,7 @@ PrefabInstance:
     - target: {fileID: 2007544858024920349, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00024414062
+      value: 0.000076293945
       objectReference: {fileID: 0}
     - target: {fileID: 2007544858024920349, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
@@ -650,7 +652,7 @@ PrefabInstance:
     - target: {fileID: 4671869626109880196, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5391887945618225468, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
@@ -695,7 +697,7 @@ PrefabInstance:
     - target: {fileID: 7768236897624540859, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8090081948639838849, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}

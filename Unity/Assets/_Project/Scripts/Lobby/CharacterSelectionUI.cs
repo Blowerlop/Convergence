@@ -8,7 +8,6 @@ namespace Project
 {
     public struct PlayerLobbyData
     {
-        public int _teamIndex;
         public int characterId;
         public bool isReady;
     }
@@ -38,30 +37,32 @@ namespace Project
             name = _characterData.characterName;
         }
 
-        public void SelectCharacter() => _characterSelectedId = _characterData.id;
-        
-        public void SetCharacterServerRpcc()
+        public void SelectCharacter()
         {
-            SetCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
+            _characterSelectedId = _characterData.id;
+            SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void SetCharacterServerRpc(int clientId, int characterId)
+        private void SelectCharacterServerRpc(int clientId, int characterId)
         {
-            Debug.Log("ici");
-            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
-            if (userInstance.CharacterId == characterId) return;
-            
-            userInstance.SetCharacterServerRpc(characterId);
-            BlablaClientRpc(clientId, characterId);
-            
             onCharacterSelectedEvent.Invoke(this, false, clientId, characterId);
         }
 
-        [ClientRpc]
-        private void BlablaClientRpc(int clientId, int characterId)
+        public void ValidateCharacterServerRpcc()
         {
+            ValidateCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ValidateCharacterServerRpc(int clientId, int characterId)
+        {
+            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
+            if (userInstance.CharacterId == characterId) return;
             
+            userInstance.SetCharacter(characterId);
+            
+            SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
         }
     }
 }

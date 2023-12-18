@@ -95,7 +95,7 @@ namespace Project
         }
         
         [Button]
-        [Tooltip("Sometimes Github don't detect the changes made on the ScriptableObject, so we need to force the write on the disk")]
+        [Tooltip("Sometimes, Github don't detect the changes made on the ScriptableObject, so we need to force the write on the disk")]
         private void ForceSaveOnDisk()
         {
             EditorUtility.SetDirty(this);

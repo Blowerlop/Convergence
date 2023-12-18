@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,33 +9,9 @@ namespace Project
     {
         private readonly Dictionary<int, Image> _playersAvatar = new Dictionary<int, Image>();
         public Image template;
-        [SerializeField] private Sprite _noCharacterSprite;
+        [SerializeField] private Sprite _defaultSprite;
 
-        
-        private void Start()
-        {
-            TeamManager.instance.onAllPlayersReadyEvent.Subscribe(this, OnPlayersReady_DisplayPlayersAvatar);
-        }
-
-        private void OnDestroy()
-        {
-            if (TeamManager.isBeingDestroyed == false)
-            {
-                TeamManager.instance.onAllPlayersReadyEvent.Unsubscribe(OnPlayersReady_DisplayPlayersAvatar);
-            }
-        }
-        
-        private void OnEnable()
-        {
-            CharacterSelectionUI.onCharacterSelectedEvent.Subscribe(this, SetPlayerCharacterAvatarServerRpc);
-        }
-
-        private void OnDisable()
-        {
-            CharacterSelectionUI.onCharacterSelectedEvent.Unsubscribe(SetPlayerCharacterAvatarServerRpc);
-        }
-        
-        private void OnPlayersReady_DisplayPlayersAvatar()
+        public void OnPlayersReady_DisplayPlayersAvatar()
         {
             if (!IsServer && !IsOwner) return;
             
@@ -46,8 +21,7 @@ namespace Project
         [ClientRpc]
         private void InstantiateUiClientRpc()
         {
-            TeamData[] teams = TeamManager.instance.GetTeams();
-            for (int i = 0; i < teams.Length; i++)
+            for (int i = 0; i < TeamManager.MAX_TEAM; i++)
             {
                 Image instance = Instantiate(template, transform);
                 instance.gameObject.SetActive(true);
@@ -60,7 +34,7 @@ namespace Project
         {
             InstantiateUiClientRpc();
             
-            var teams = TeamManager.instance.GetTeams();
+            var teams = TeamManager.instance.GetTeamsData();
             
             for (int i = 0; i < teams.Length; i++)
             {
@@ -85,7 +59,7 @@ namespace Project
         }
         
         [ServerRpc(RequireOwnership = false)]
-        private void SetPlayerCharacterAvatarServerRpc(int teamId, int characterId)
+        public void SetPlayerCharacterAvatarServerRpc(int teamId, int characterId)
         {
             SetPlayerCharacterAvatarClientRpc(teamId, characterId);
         }
@@ -115,7 +89,7 @@ namespace Project
 
         private void SetDefaultCharacterAvatarLocal(int teamId)
         {
-            _playersAvatar[teamId].sprite = _noCharacterSprite;
+            _playersAvatar[teamId].sprite = _defaultSprite;
         }
     }
 }

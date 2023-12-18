@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -10,6 +9,7 @@ namespace Project
     {
         [SerializeField, Required, AssetsOnly] private UserInstance _userInstancePrefab;
         [ShowInInspector, ReadOnly] private readonly Dictionary<int, UserInstance> _userInstances = new Dictionary<int, UserInstance>();
+        public int count => _userInstances.Count;
 
 
         protected override void Awake()
@@ -73,7 +73,7 @@ namespace Project
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
-            userInstance.SetIsMobileServerRpc(true);
+            userInstance.SetIsMobile(true);
                 
             _userInstances.Add(clientId, userInstance);
         }

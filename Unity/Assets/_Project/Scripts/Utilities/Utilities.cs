@@ -50,11 +50,21 @@ namespace Project
             
             onFinishCallback?.Invoke();
         }
+
+        public static void StartWaitForSecondsAndDoActionCoroutine(MonoBehaviour monoBehaviour, float timeInSeconds, Action action)
+        {
+            monoBehaviour.StartCoroutine(WaitForSecondsAndDoActionCoroutine(timeInSeconds, action));
+        }
         
         public static IEnumerator WaitForSecondsAndDoActionCoroutine(float timeInSeconds, Action action)
         {
             yield return new WaitForSeconds(timeInSeconds);
             action.Invoke();
+        }
+        
+        public static void StartWaitForFramesAndDoActionCoroutine(MonoBehaviour monoBehaviour, int frames, Action action)
+        {
+            monoBehaviour.StartCoroutine(WaitForFramesAndDoActionCoroutine(frames, action));
         }
         
         public static IEnumerator WaitForFramesAndDoActionCoroutine(int frames, Action action)
