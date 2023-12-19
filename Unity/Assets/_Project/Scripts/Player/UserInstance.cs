@@ -129,6 +129,13 @@ namespace Project
         {
             _networkPlayerName.Value = playerName;
         }
+
+        public void ServerSetTeam(int playerTeam)
+        {
+            if (!IsServer) return;
+            
+            _networkTeam.Value = playerTeam;
+        }
         
         [ServerRpc(RequireOwnership = false), Button]
         public void SetTeamServerRpc(int playerTeam)

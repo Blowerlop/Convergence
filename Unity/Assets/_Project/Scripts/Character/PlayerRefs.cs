@@ -13,11 +13,7 @@ namespace Project
             base.OnNetworkSpawn();
             
             assignedTeam.Initialize();
-
-            Debug.LogError(assignedTeam.Value);
             
-            if (!IsClient) return;
-
             assignedTeam.OnValueChanged += OnTeamChanged;
         }
 
@@ -25,8 +21,6 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-            if (!IsClient) return;
-
             assignedTeam.OnValueChanged -= OnTeamChanged;
         }
 
