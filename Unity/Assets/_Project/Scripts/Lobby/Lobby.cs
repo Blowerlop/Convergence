@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Project.Extensions;
 using Unity.Netcode;
@@ -46,6 +45,7 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SetPlayerReadyStateServerRpc(int playerId, bool state)
         {
+
             UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(playerId);
             if (userInstance == null)
             {
@@ -53,6 +53,7 @@ namespace Project
                 return;
             }
             
+
             userInstance.SetIsReady(state);
 
             if (userInstance.IsReady)
@@ -75,7 +76,7 @@ namespace Project
             switch (_lobbyState)
             {
                 case ELobbyState.TeamSelection:
-                    // GoToCharacterSelectionPageServerRpc();
+                    GoToCharacterSelectionPageServerRpc();
                     break;
                 
                 case ELobbyState.CharacterSelection:
@@ -117,8 +118,7 @@ namespace Project
         
         private void GoToGameScene()
         {
-            LoadingScreenManager.Show(new LoadingScreenParameters(), null);
-            NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            Project.SceneManager.Network_LoadSceneAsync("Game", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.green));
         }
     }
 }

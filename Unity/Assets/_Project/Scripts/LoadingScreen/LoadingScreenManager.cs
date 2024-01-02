@@ -9,60 +9,74 @@ namespace Project
     {
         public readonly Sprite backgroundSprite;
         public readonly Color? backgroundColor;
+
+        public LoadingScreenParameters(Sprite backgroundSprite, Color? backgroundColor)
+        {
+            this.backgroundSprite = backgroundSprite;
+            this.backgroundColor = backgroundColor;
+        }
     }
     
     public class LoadingScreenManager : MonoBehaviour
     {
         [SerializeField, RequiredIn(PrefabKind.PrefabAsset), AssetsOnly] private LoadingScreen _loadingScreenPrefab;
-        private static LoadingScreenManager _instance;
-        private LoadingScreen _loadingScreenInstance;
-        private Coroutine _showCoroutine;
+        [ClearOnReload] private static LoadingScreenManager _instance;
+        [ClearOnReload] private static LoadingScreen _loadingScreenInstance;
+        [ClearOnReload] private static Coroutine _showCoroutine;
 
 
         private void Awake()
         {
+            // Lazy singleton
             _instance = this;
         }
 
 
         public static void Show(LoadingScreenParameters loadingScreenParameters, AsyncOperation asyncOperation = null)
         {
-            _instance.ShowBehaviour(loadingScreenParameters, asyncOperation);
+            ShowBehaviour(loadingScreenParameters, asyncOperation);
         }
         
-        [Button]
-        public void ShowBehaviour(LoadingScreenParameters loadingScreenParameters, AsyncOperation asyncOperation = null)
+        private static void ShowBehaviour(LoadingScreenParameters loadingScreenParameters, AsyncOperation asyncOperation = null)
         {
             if (_loadingScreenInstance != null) return;
 
-            _showCoroutine = StartCoroutine(ShowBehaviourCoroutine(loadingScreenParameters, asyncOperation));
+            _showCoroutine = _instance.StartCoroutine(ShowBehaviourCoroutine(loadingScreenParameters, asyncOperation));
         }
 
-        private IEnumerator ShowBehaviourCoroutine(LoadingScreenParameters loadingScreenParameters, AsyncOperation asyncOperation = null)
+        private static IEnumerator ShowBehaviourCoroutine(LoadingScreenParameters loadingScreenParameters, AsyncOperation asyncOperation = null)
         {
-            _loadingScreenInstance = Instantiate(_loadingScreenPrefab);
+            Debug.Log("LoadingScreen Show");
+            
+            _loadingScreenInstance = Instantiate(_instance._loadingScreenPrefab);
             _loadingScreenInstance.UpdateLoadingScreen(loadingScreenParameters);
 
-            if (asyncOperation != null && _loadingScreenInstance.transform.TryGetComponentInChildren(out LoadingBar loadingBar))
+            LoadingBar loadingBar = _loadingScreenInstance.transform.GetComponentInChildren<LoadingBar>();
+            if (asyncOperation != null)
             {
                 asyncOperation.allowSceneActivation = false;
+                loadingBar.IsNull()?.SetActive(true);
                 
                 while (asyncOperation.progress <= 0.9f)
                 {
-                    loadingBar.UpdateLoadingBar((asyncOperation.progress / 0.9f) * 100);
+                    loadingBar.IsNull()?.UpdateLoadingBar((asyncOperation.progress / 0.9f) * 100);
                     yield return null;
                 }
 
                 yield return new WaitForSecondsRealtime(0.1f);
                 asyncOperation.allowSceneActivation = true;
             }
+            else
+            {
+                loadingBar.IsNull()?.SetActive(false);
+            }
         }
         
 
-        [Button]
-        public void Hide()
+        public static void Hide()
         {
-            if (_loadingScreenInstance == null) return;
+            if (IsAlive() == false) return;
+            Debug.Log("LoadingScreen Hide");
 
             Destroy(_loadingScreenInstance.gameObject);
             _loadingScreenInstance = null;
@@ -70,8 +84,10 @@ namespace Project
             
             if (_showCoroutine == null) return;
             
-            StopCoroutine(_showCoroutine);
+            _instance.StopCoroutine(_showCoroutine);
             _showCoroutine = null;
         }
+
+        public static bool IsAlive() => _loadingScreenInstance != null;
     }
 }

@@ -28,16 +28,25 @@ namespace Project
         {
             TeamManager.instance.onTeamSetEvent.Subscribe(this, OnTeamSet_UpdateButtonText);
 
-            // ONLY IN EDITOR AND FOR A SPECIFIC USE CASE.
-            // BECAUSE RIGHT NOW IN TESTING THIS NETWORK SPAWN MIGHT FIRED FIRST, WE HAVE A NULL REF ON OUR USERINSTANCE.
-            // BUT IN THE FINAL GAME, THE USER INSTANCE WILL BE THE FIRST THING EVER FIRED IN THE NETWORK (NORMALLY)
+            // Only in editor and for a specific use case.
+            // Because right now in testing this network spawn might fired first, we have a null ref on our UserInstance.
+            // But in the final game, the UserInstance will be the first thing ever fired in the network (normally)
             #if UNITY_EDITOR
-             Utilities.StartWaitForFramesAndDoActionCoroutine(this, 1,
-                () => UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor);
+            if (NetworkManager.IsServer && NetworkManager.IsHost == false) return;
+            Utilities.StartWaitUntilAndDoAction(this, () => UserInstance.Me != null,
+                () =>
+                {
+                    if (UserInstance.Me == null)
+                    {
+                        Debug.LogError("UserInstance is null");
+                        return;
+                    }
+                    
+                    UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
+                });
              #else
              UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor);
              #endif
-
         }
 
         public override void OnNetworkDespawn()
@@ -125,7 +134,6 @@ namespace Project
 
         private void OnPlayerReady_UpdateButtonTextColor(bool _, bool readyState)
         {
-            Debug.LogError("HERE");
             OnPlayerReady_UpdateButtonTextColorServerRpc((int)NetworkManager.Singleton.LocalClientId, readyState);
         }
         
@@ -148,7 +156,7 @@ namespace Project
         private void UpdatePcButtonTextColorClientRpc(int teamIndex, bool state)
         {
             if (teamIndex != _teamIndex) return;
-            
+         
             _pcButtonText.color = state ? Color.green : Color.black;
         }
         

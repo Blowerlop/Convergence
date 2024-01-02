@@ -76,10 +76,32 @@ namespace Project
             
             action.Invoke();
         }
+
+        public static void StartWaitForEndOfFrameAndDoActionCoroutine(MonoBehaviour monoBehaviour, Action action)
+        {
+            monoBehaviour.StartCoroutine(WaitForEndOfFrameAndDoActionCoroutine(action));
+        }
         
         public static IEnumerator WaitForEndOfFrameAndDoActionCoroutine(Action action)
         {
             yield return new WaitForEndOfFrame();            
+            action.Invoke();
+        }
+
+        public static IEnumerator WaitWhileAndDoAction(Func<bool> predicate, Action action)
+        {
+            yield return new UnityEngine.WaitWhile(predicate);
+            action.Invoke();
+        }
+
+        public static void StartWaitUntilAndDoAction(MonoBehaviour monoBehaviour, Func<bool> predicate, Action action)
+        {
+            monoBehaviour.StartCoroutine(WaitUntilAndDoAction(predicate, action));
+        }
+        
+        public static IEnumerator WaitUntilAndDoAction(Func<bool> predicate, Action action)
+        {
+            yield return new UnityEngine.WaitUntil(predicate);
             action.Invoke();
         }
 
