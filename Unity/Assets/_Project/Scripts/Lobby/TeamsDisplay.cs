@@ -72,7 +72,15 @@ namespace Project
 
         private void SetPlayerCharacterAvatarLocal(int teamId, int characterId)
         {
-            _playersAvatar[teamId].sprite = SOCharacter.GetCharacter(characterId).avatar;
+            if (SOCharacter.TryGetCharacter(characterId, out SOCharacter characterData))
+            {
+                _playersAvatar[teamId].sprite = characterData.avatar;
+            }
+            else
+            {
+                Debug.LogError("There is no character with the id " + characterId);
+            }
+            
         }
         
         [ServerRpc(RequireOwnership = false)]
