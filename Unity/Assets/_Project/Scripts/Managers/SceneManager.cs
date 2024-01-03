@@ -23,12 +23,15 @@ namespace Project
         
         private void OnLoad(ulong clientId, string sceneName, LoadSceneMode loadSceneMode, AsyncOperation asyncOperation)
         {
-            LoadingScreenManager.Show(_currentLoadingScreenParameters/*, asyncOperation*/);
+            if (IsClient)
+            {
+                LoadingScreenManager.Show(_currentLoadingScreenParameters/*, asyncOperation*/);
+            }
         }
         
         private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
         {
-            if (IsServer || IsHost)
+            if (IsServer)
             {
                 if (UserInstanceManager.instance.TryGetUserInstance((int)clientId, out UserInstance userInstance))
                 {
@@ -39,7 +42,7 @@ namespace Project
                     Debug.LogError("[SceneManager/OnLoadComplete] UserInstance is null");
                 }
             }
-            else if (IsClient)
+            if (IsClient)
             {
                 LoadingScreenManager.Hide();  
             }

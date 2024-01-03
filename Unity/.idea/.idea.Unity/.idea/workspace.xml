@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/CSharp/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/Protos/main.proto" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/GRPC/Protos/main.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/SceneManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/SceneManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/UnrealClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/UnrealClient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstanceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstanceManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Protos/main.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/Protos/main.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/src/UnrealClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../gRPC/Server/GrpcTest/src/UnrealClient.cs" afterDir="false" />
-    </list>
+    <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -261,7 +250,7 @@
       <workItem from="1702854212173" duration="6349000" />
       <workItem from="1704112424999" duration="1189000" />
       <workItem from="1704187289127" duration="13147000" />
-      <workItem from="1704273076617" duration="2634000" />
+      <workItem from="1704273076617" duration="2933000" />
     </task>
     <servers />
   </component>
