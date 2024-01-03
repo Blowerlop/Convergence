@@ -7,31 +7,35 @@ namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
-        // TODO: Gather this ref from a player controller when there will be one
-        [SerializeField] private CooldownController cooldowns;
-        
-        [SerializeField] private Transform playerTransform;
-        
         [SerializeField] private SpellCastersList spellCastersList;
-
-        [PropertySpace(25)]
         
-        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
-        private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
-
-        private readonly SpellCaster[] _spellCasters = new SpellCaster[SpellData.CharacterSpellsCount];
+        private PlayerRefs _player;
+        private CooldownController _cooldowns;
+        
+        private SpellData[] _spells;
+        private SpellCaster[] _spellCasters;
         
         private int? _currentChannelingIndex;
         
-        private void Start()
+        public void Init(PlayerRefs p)
         {
-            InitSpellCasters();
+            _player = p;
             
-            InputManager.instance.OnSpellInputStarted += StartChanneling;
-            InputManager.instance.OnOnSpellInputCanceled += StopChanneling;
-            InputManager.instance.onMouseButton0.started += StopChanneling;
-        }
+            // Pc user should be player owner
+            if (!_player.IsOwner)
+            {
+                // Can cast spell only from local player
+                Destroy(gameObject);
+                return;
+            }
 
+            _cooldowns = _player.GetCooldownController(PlayerPlatform.Pc);
+
+            if (!InitSpells()) return;
+            InitSpellCasters();
+            InitInputs();
+        }
+        
         private void OnDestroy()
         {
             if (InputManager.isBeingDestroyed || InputManager.instance == null) return;
@@ -41,11 +45,33 @@ namespace Project.Spells.Casters
             InputManager.instance.onMouseButton0.started -= StopChanneling;
         }
 
+        private void InitInputs()
+        {
+            InputManager.instance.OnSpellInputStarted += StartChanneling;
+            InputManager.instance.OnOnSpellInputCanceled += StopChanneling;
+            InputManager.instance.onMouseButton0.started += StopChanneling;
+        }
+        
+        private bool InitSpells()
+        {
+            SOCharacter.TryGetCharacter(UserInstance.Me.CharacterId, out var character);
+            if(character == null)
+            {
+                Debug.LogError($"SpellCastController > Can't InitSpells because character {UserInstance.Me.CharacterId} can't be found.");
+                return false;
+            }
+
+            _spells = character.GetSpells();
+            return true;
+        }
+        
         private void InitSpellCasters()
         {
-            for (int i = 0; i < spells.Length; i++)
+            _spellCasters = new SpellCaster[_spells.Length];
+            
+            for (int i = 0; i < _spells.Length; i++)
             {
-                var spellData = spells[i];
+                var spellData = _spells[i];
 
                 var prefab = spellCastersList.Get(spellData.castingType);
 
@@ -56,14 +82,15 @@ namespace Project.Spells.Casters
                     continue;
                 }
 
-                _spellCasters[i] = Instantiate(prefab, transform.position, Quaternion.identity, transform);
-                _spellCasters[i].Init(playerTransform, spells[i]);
+                var ownTransform = transform;
+                _spellCasters[i] = Instantiate(prefab, ownTransform.position, Quaternion.identity, ownTransform);
+                _spellCasters[i].Init(_player.PlayerTransform, _spells[i]);
             }
         }
 
         private void StartChanneling(int spellIndex)
         {
-            if (spellIndex < 0 || spellIndex >= spells.Length)
+            if (spellIndex < 0 || spellIndex >= _spells.Length)
             {
                 Debug.LogError($"Spell index {spellIndex} is out of range.");
                 return;
@@ -71,7 +98,7 @@ namespace Project.Spells.Casters
             
             if (_spellCasters.Any(x => x.IsChanneling)) return;
 
-            if (cooldowns.IsInCooldown(spellIndex)) return;
+            if (_cooldowns.IsInCooldown(spellIndex)) return;
             
             _currentChannelingIndex = spellIndex;
             _spellCasters[spellIndex].StartChanneling();
@@ -90,7 +117,7 @@ namespace Project.Spells.Casters
         
         private void StopChanneling(int spellIndex)
         {
-            if(spellIndex < 0 || spellIndex >= spells.Length)            
+            if(spellIndex < 0 || spellIndex >= _spells.Length)            
             {
                 Debug.LogError($"Spell index {spellIndex} is out of range.");
                 return;
@@ -107,12 +134,7 @@ namespace Project.Spells.Casters
             
             caster.TryCast(spellIndex);
             
-            cooldowns.StartLocalCooldown(spellIndex, spells[spellIndex].cooldown);
-        }
-
-        public SpellData GetSpellAtIndex(int index)
-        {
-            return spells[index];
+            _cooldowns.StartLocalCooldown(spellIndex, _spells[spellIndex].cooldown);
         }
     }
 }

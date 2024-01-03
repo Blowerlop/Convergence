@@ -6,20 +6,47 @@ namespace Project.Spells
 {
     public class SpellManager : NetworkSingleton<SpellManager>
     {
-        [SerializeField] private SpellCastController spellCast;
-        [SerializeField] private CooldownController cooldown;
-        [SerializeField] private SpellDatasList spells;
-        
         private void TryCastSpell(int clientId, int spellIndex, IChannelingResult results)
         {
-            // TODO: Get right CooldownController from clientId
-            if (cooldown.IsInCooldown(spellIndex)) return;
+            UserInstance user = UserInstanceManager.instance.GetUserInstance(clientId);
+            if (user == null)
+            {
+                Debug.LogError("Trying to cast a spell for an invalid user.");
+                return;
+            }
+
+            PlayerRefs playerRefs = user.LinkedPlayer;
+            if (playerRefs == null)
+            {
+                Debug.LogError("Trying to cast a spell for a user that have no player assigned.");
+                return;
+            }
+
+            if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData))
+            {
+                Debug.LogError($"Trying to cast a spell for an invalid character {user.CharacterId}.");
+                return;
+            }
+
+            if (!characterData.TryGetSpell(spellIndex, out var spell))
+            {
+                Debug.LogError($"Trying to cast an invalid spell : {spellIndex} of character {characterData.characterName}.");
+                return;
+            }
             
-            // TODO: Get right spell from client character
-            var spell = spellCast.GetSpellAtIndex(spellIndex);
+            PlayerPlatform platform = user.GetPlatform();
+            CooldownController cooldownController = playerRefs.GetCooldownController(platform);
             
-            cooldown.StartServerCooldown(spellIndex, spell.cooldown);
+            if (cooldownController.IsInCooldown(spellIndex)) return;
             
+            cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
+            
+            Spell spellInstance = SpawnSpell(spell, results);
+            spellInstance.Init(results);
+        }
+
+        private Spell SpawnSpell(SpellData spell, IChannelingResult results)
+        {
             Spell spellPrefab = spell.spellPrefab;
             
             (Vector3 pos, Quaternion rot) trans = spellPrefab.GetDefaultTransform(results);
@@ -27,7 +54,7 @@ namespace Project.Spells
             Spell spellInstance = Instantiate(spellPrefab, trans.pos, trans.rot);
             spellInstance.NetworkObject.Spawn();
             
-            spellInstance.Init(results);
+            return spellInstance;
         }
 
         #region TryCast Interface

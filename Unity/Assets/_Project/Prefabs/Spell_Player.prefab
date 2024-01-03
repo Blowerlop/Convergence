@@ -44,8 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011aee35216f4f30b5d8218d9b13da0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldowns: {fileID: 4062393873198906358}
-  playerTransform: {fileID: 4124437638980882131}
   spellCastersList: {fileID: 11400000, guid: c8795dc5f6ffac1428ae57de079b6103, type: 2}
   spells:
   - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
@@ -88,7 +86,7 @@ Transform:
   m_Children:
   - {fileID: 3490958754586719391}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7172847356495465616
 MeshFilter:
@@ -175,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2807666681
+  GlobalObjectIdHash: 2134523557
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -207,3 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2ee3f111434074987556dde3f3e1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTransform: {fileID: 4124437638980882131}
+  spellCastController: {fileID: 5111047068020737362}
+  pcCooldowns: {fileID: 4062393873198906358}
+  mobileCooldowns: {fileID: 0}

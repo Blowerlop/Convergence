@@ -1951,7 +1951,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 4294967295
 --- !u!114 &564399444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4785,9 +4785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafd2c48a23946ddbddd301cfd32fe8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellCast: {fileID: 0}
-  cooldown: {fileID: 0}
-  spells: {fileID: 11400000, guid: 25a255d8f236d7d46b0335bd7103e191, type: 2}
 --- !u!4 &2056723307
 Transform:
   m_ObjectHideFlags: 0

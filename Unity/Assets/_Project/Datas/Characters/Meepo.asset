@@ -19,3 +19,8 @@ MonoBehaviour:
   <prefab>k__BackingField: {fileID: 8566652343378925700, guid: 3aaf77d849b3bf14788af804b91dc6b9,
     type: 3}
   <model>k__BackingField: {fileID: 0}
+  spells:
+  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
+  - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
+  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
+  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}

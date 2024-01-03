@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Project.Extensions;
+using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -20,6 +21,9 @@ namespace Project
         [field: SerializeField, AssetsOnly, Required] public GameObject prefab { get; private set; }
         [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
 
+        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
+        private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
+        
         // Stats
 
         private void RenameAssetByName()
@@ -54,7 +58,21 @@ namespace Project
 
             return null;
         }
+        
+        public bool TryGetSpell(int index, out SpellData spell)
+        {
+            spell = null;
+            if(index < 0 || index >= spells.Length) return false;
 
+            spell = spells[index];
+            return true;
+        }
+
+        public SpellData[] GetSpells()
+        {
+            return spells;
+        }
+        
         [Button]
         private void FindIfCharactersHaveTheSameId()
         {
