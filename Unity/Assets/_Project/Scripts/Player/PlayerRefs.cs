@@ -28,6 +28,9 @@ namespace Project
             
             _assignedTeam.Initialize();
             
+            // OnValueChanged is not called for network object that were already spawned before joining
+            // We need to call OnTeamChanged manually, if the value is not the default one
+            if(_assignedTeam.Value != -1) OnTeamChanged(-1, _assignedTeam.Value);
             _assignedTeam.OnValueChanged += OnTeamChanged;
             
             spellCastController.Init(this);

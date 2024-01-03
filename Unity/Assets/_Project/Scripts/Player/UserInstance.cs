@@ -20,7 +20,7 @@ namespace Project
         public event Action<PlayerRefs> OnPlayerLinked;
         
         //NetVars
-        [ShowInInspector] private GRPC_NetworkVariable<int> _networkClientId = new("ClientId");
+        [ShowInInspector] private GRPC_NetworkVariable<int> _networkClientId = new("ClientId", value: int.MaxValue);
         
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
@@ -42,6 +42,13 @@ namespace Project
 
             if (IsClient)
             {
+                Debug.LogError("UserInstance OnNetworkSpawn");
+                
+                // OnValueChanged is not called for network object that were already spawned before joining
+                // We need to call manually
+                if(_networkClientId.Value != int.MaxValue) OnClientIdChanged(0, _networkClientId.Value);
+                if(_networkTeam.Value != -1) OnTeamChanged(-1, _networkTeam.Value);
+                
                 _networkClientId.OnValueChanged += OnClientIdChanged;
                 _networkTeam.OnValueChanged += OnTeamChanged;
             }
@@ -107,12 +114,13 @@ namespace Project
         private void OnClientIdChanged(int oldValue, int newValue)
         {
             // Should only happen once when user instance is spawned
-            
+            Debug.LogError("UserInstance OnClientIdChanged");
             UserInstanceManager.instance.ClientRegisterUserInstance(this);
         }
         
         private void OnTeamChanged(int oldValue, int newValue)
-        {
+        {            
+            Debug.LogError("UserInstance OnTeamChanged");
             TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
         }
         
