@@ -15,7 +15,7 @@ namespace Project
         {
             if (!IsServer && !IsOwner) return;
             
-            DisplayPlayersAvatarServerRpc();
+            DisplayPlayersAvatar();
         }
 
         [ClientRpc]
@@ -29,8 +29,7 @@ namespace Project
             }
         }
         
-        [ServerRpc]
-        private void DisplayPlayersAvatarServerRpc()
+        private void DisplayPlayersAvatar()
         {
             InstantiateUiClientRpc();
             
@@ -58,8 +57,7 @@ namespace Project
             }
         }
         
-        [ServerRpc(RequireOwnership = false)]
-        public void SetPlayerCharacterAvatarServerRpc(int teamId, int characterId)
+        public void SetPlayerCharacterAvatar(int teamId, int characterId)
         {
             SetPlayerCharacterAvatarClientRpc(teamId, characterId);
         }

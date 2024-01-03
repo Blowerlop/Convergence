@@ -187,13 +187,13 @@ namespace Project
             if (IsTeamIndexValid(previousUserTeamIndex))
             {
                 ResetTeamSlot(previousUserTeamIndex, playerPlatform);
-                OnTeamSetServerRpc(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? _DEFAULT_PC_SLOT : _DEFAULT_MOBILE_SLOT, playerPlatform);
+                OnTeamSet(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? _DEFAULT_PC_SLOT : _DEFAULT_MOBILE_SLOT, playerPlatform);
             }
             
             RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
             userInstance.SetTeam(teamIndex);
             
-            OnTeamSetServerRpc(teamIndex, userInstance.PlayerName, playerPlatform);
+            OnTeamSet(teamIndex, userInstance.PlayerName, playerPlatform);
             
             Debug.Log("Team recap :\n" +
                       $"Index : {teamIndex}\n" +
@@ -238,8 +238,7 @@ namespace Project
             return !(teamIndex < 0 || teamIndex >= _teams.Length);
         }
         
-        [ServerRpc]
-        private void OnTeamSetServerRpc(int teamIndex, string playerName, PlayerPlatform playerPlatform)
+        private void OnTeamSet(int teamIndex, string playerName, PlayerPlatform playerPlatform)
         {
             OnTeamSetLocal(teamIndex, playerName, playerPlatform);
             OnTeamSetClientRpc(teamIndex, playerName, playerPlatform);

@@ -76,7 +76,7 @@ namespace Project
             switch (_lobbyState)
             {
                 case ELobbyState.TeamSelection:
-                    GoToCharacterSelectionPageServerRpc();
+                    GoToCharacterSelectionPage();
                     break;
                 
                 case ELobbyState.CharacterSelection:
@@ -88,7 +88,7 @@ namespace Project
                 
                 case ELobbyState.None:
                 default:
-                    Debug.LogError("Lobby State invalid state");
+                    Debug.LogError("Lobby invalid state");
                     break;
             }
             
@@ -102,15 +102,25 @@ namespace Project
             _lobbyState = ELobbyState.TeamSelection;
         }
 
-        [ServerRpc]
-        private void GoToCharacterSelectionPageServerRpc()
+        private void GoToCharacterSelectionPage()
         {
             UserInstanceManager.instance.GetUsersInstance().ForEach(x => x.SetIsReady(false));
+
+            if (IsServer && IsHost == false)
+            {
+                GoToCharacterSelectionPageLocal();
+            }
+            
             GoToCharacterSelectionPageClientRpc();
         }
         
         [ClientRpc]
         private void GoToCharacterSelectionPageClientRpc()
+        {
+            GoToCharacterSelectionPageLocal();
+        }
+
+        private void GoToCharacterSelectionPageLocal()
         {
             _pager.GoToPage(1);
             _lobbyState = ELobbyState.CharacterSelection;

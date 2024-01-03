@@ -25,26 +25,30 @@ namespace Project
         {
             if (IsClient)
             {
+                // AsyncOperation is commented because we don't need the loadingBar for the moment
                 LoadingScreenManager.Show(_currentLoadingScreenParameters/*, asyncOperation*/);
             }
         }
         
         private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
         {
-            if (IsServer)
-            {
-                if (UserInstanceManager.instance.TryGetUserInstance((int)clientId, out UserInstance userInstance))
-                {
-                    userInstance.SetScene(sceneName);
-                }
-                else
-                {
-                    Debug.LogError("[SceneManager/OnLoadComplete] UserInstance is null");
-                }
-            }
             if (IsClient)
             {
+                UpdateUserInstanceSceneServerRpc(clientId, sceneName);
                 LoadingScreenManager.Hide();  
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void UpdateUserInstanceSceneServerRpc(ulong clientId, string sceneName)
+        {
+            if (UserInstanceManager.instance.TryGetUserInstance((int)clientId, out UserInstance userInstance))
+            {
+                userInstance.SetScene(sceneName);
+            }
+            else
+            {
+                Debug.LogError("[SceneManager/OnLoadComplete] UserInstance is null");
             }
         }
 
