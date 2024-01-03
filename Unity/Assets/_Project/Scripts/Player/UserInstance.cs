@@ -87,16 +87,17 @@ namespace Project
             _networkIsMobile.Reset();
         }
         
-        public void LinkCharacter(PlayerRefs refs)
+        public void LinkPlayer(PlayerRefs refs)
         {
-            Debug.LogError("LinkCharacter");
+            Debug.Log($"LinkPlayer for UserInstance {_networkClientId}");
             LinkedPlayer = refs;
             
             OnPlayerLinked?.Invoke(refs);
         }
 
-        public void UnlinkCharacter()
+        public void UnlinkPlayer()
         {
+            Debug.Log($"UnlinkPlayer for UserInstance {_networkClientId}");
             LinkedPlayer = null;
             
             // Really useful ?
@@ -155,12 +156,32 @@ namespace Project
             _networkIsReady.Value = isReady;
         }
         
+        public void ServerSetCharacter(int characterId)
+        {
+            if (!IsServer) return;
+            
+            _networkCharacter.Value = characterId;
+        }
+        
         [ServerRpc(RequireOwnership = false), Button]
         public void SetCharacterServerRpc(int characterId)
         {
             _networkCharacter.Value = characterId;
         }
+        
+        #endregion
+        
+        #region Getters
 
+        public PlayerPlatform GetPlatform()
+        {
+            return _networkIsMobile.Value switch
+            {
+                true => PlayerPlatform.Mobile,
+                false => PlayerPlatform.Pc
+            };
+        }
+        
         #endregion
     }
 }

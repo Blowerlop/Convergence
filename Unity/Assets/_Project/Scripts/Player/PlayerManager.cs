@@ -7,10 +7,8 @@ namespace Project
     public class PlayerManager : NetworkSingleton<PlayerManager>
     {
         public void SpawnPlayer(int teamId, SOCharacter characterData)
-        {
-            var result = TeamManager.instance.TryGetTeam(teamId, out var charTeam);
-
-            if (!result)
+        { 
+            if (!TeamManager.instance.TryGetTeam(teamId, out var charTeam))
             {
                 Debug.LogError("Trying to spawn a character for an invalid team.");
                 return;
