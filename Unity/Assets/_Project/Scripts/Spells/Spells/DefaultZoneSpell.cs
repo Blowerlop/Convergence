@@ -26,7 +26,7 @@ namespace Project.Spells
             _results = results;
         }
 
-        public override (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult)
+        public override (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult, PlayerRefs player)
         {
             if (channelingResult is not DefaultZoneResults results)
             {

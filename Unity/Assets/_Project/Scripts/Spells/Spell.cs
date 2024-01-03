@@ -7,6 +7,6 @@ namespace Project.Spells
     {
         public abstract void Init(IChannelingResult channelingResult);
 
-        public abstract (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult);
+        public abstract (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult, PlayerRefs player);
     }
 }

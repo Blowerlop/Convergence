@@ -41,15 +41,15 @@ namespace Project.Spells
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
             
-            Spell spellInstance = SpawnSpell(spell, results);
+            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
             spellInstance.Init(results);
         }
 
-        private Spell SpawnSpell(SpellData spell, IChannelingResult results)
+        private Spell SpawnSpell(SpellData spell, IChannelingResult results, PlayerRefs playerRefs)
         {
             Spell spellPrefab = spell.spellPrefab;
             
-            (Vector3 pos, Quaternion rot) trans = spellPrefab.GetDefaultTransform(results);
+            (Vector3 pos, Quaternion rot) trans = spellPrefab.GetDefaultTransform(results, playerRefs);
             
             Spell spellInstance = Instantiate(spellPrefab, trans.pos, trans.rot);
             spellInstance.NetworkObject.Spawn();

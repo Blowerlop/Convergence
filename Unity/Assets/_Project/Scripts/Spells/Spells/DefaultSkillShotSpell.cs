@@ -31,7 +31,7 @@ namespace Project.Spells
             _moveSeq.OnComplete(() => NetworkObject.Despawn());
         }
 
-        public override (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult)
+        public override (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult, PlayerRefs player)
         {
             if (channelingResult is not DefaultSkillShotResults results)
             {
@@ -41,7 +41,7 @@ namespace Project.Spells
             }
             
             //TODO: Find a way to get the right player's position.
-            return (Vector3.zero + Vector3.up * 1f, Quaternion.LookRotation(results.Direction));
+            return (player.PlayerTransform.position, Quaternion.LookRotation(results.Direction));
         }
 
         private void Update()
