@@ -3987,6 +3987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pager: {fileID: 2056134601}
+  _transitionAnimator: {fileID: 0}
 --- !u!4 &1407460158
 Transform:
   m_ObjectHideFlags: 0

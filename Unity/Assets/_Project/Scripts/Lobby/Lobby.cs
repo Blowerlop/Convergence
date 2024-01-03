@@ -1,5 +1,7 @@
 using System.Linq;
 using Project.Extensions;
+using Sirenix.OdinInspector;
+using TransitionsPlus;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -125,7 +127,7 @@ namespace Project
             _pager.GoToPage(1);
             _lobbyState = ELobbyState.CharacterSelection;
         }
-        
+
         private void GoToGameScene()
         {
             Project.SceneManager.Network_LoadSceneAsync("Game", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.green));

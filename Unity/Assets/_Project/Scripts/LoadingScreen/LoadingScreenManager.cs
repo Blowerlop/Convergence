@@ -1,7 +1,9 @@
 using System.Collections;
 using Project.Extensions;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Project
 {
@@ -24,6 +26,10 @@ namespace Project
         [ClearOnReload] private static LoadingScreen _loadingScreenInstance;
         [ClearOnReload] private static Coroutine _showCoroutine;
 
+        [SerializeField] private UnityEvent _onShowEvent = new UnityEvent();
+        [SerializeField] private UnityEvent _onHideEvent = new UnityEvent();
+        
+
 
         private void Awake()
         {
@@ -31,7 +37,7 @@ namespace Project
             _instance = this;
         }
 
-
+        [Button]
         public static void Show(LoadingScreenParameters loadingScreenParameters, AsyncOperation asyncOperation = null)
         {
             ShowBehaviour(loadingScreenParameters, asyncOperation);
@@ -50,11 +56,14 @@ namespace Project
             
             _loadingScreenInstance = Instantiate(_instance._loadingScreenPrefab);
             _loadingScreenInstance.UpdateLoadingScreen(loadingScreenParameters);
+            _instance._onShowEvent.Invoke();
 
             LoadingBar loadingBar = _loadingScreenInstance.transform.GetComponentInChildren<LoadingBar>();
+            
             if (asyncOperation != null)
             {
-                asyncOperation.allowSceneActivation = false;
+                asyncOperation.allowSceneActivation = NetworkManager.Singleton.IsConnectedClient;
+                
                 loadingBar.IsNull()?.SetActive(true);
                 
                 while (asyncOperation.progress <= 0.9f)
@@ -72,11 +81,12 @@ namespace Project
             }
         }
         
-
+        [Button]
         public static void Hide()
         {
             if (IsAlive() == false) return;
             Debug.Log("LoadingScreen Hide");
+            _instance._onHideEvent.Invoke();
 
             Destroy(_loadingScreenInstance.gameObject);
             _loadingScreenInstance = null;
