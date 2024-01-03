@@ -73,6 +73,7 @@ namespace Project
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
+            userInstance.SetName(unrealClient.name);
             userInstance.SetIsMobile(true);
                 
             _userInstances.Add(clientId, userInstance);
@@ -122,6 +123,12 @@ namespace Project
 
             return usersInstance;
         }
+
+        public bool TryGetUserInstance(int clientId, out UserInstance userInstance)
+        {
+            userInstance = GetUserInstance(clientId);
+            return userInstance != null;
+        }
         
         public UserInstance GetUserInstance(int clientId)
         {
@@ -132,6 +139,12 @@ namespace Project
 
             Debug.LogError($"The client {clientId} has no userInstance registered");
             return null;
+        }
+        
+        public bool TryGetUserInstance(string clientName, out UserInstance userInstance)
+        {
+            userInstance = GetUserInstance(clientName);
+            return userInstance != null;
         }
         
         public UserInstance GetUserInstance(string clientName)

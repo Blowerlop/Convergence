@@ -21,14 +21,28 @@ namespace Project
         }
 
         
-        private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
-        {
-            LoadingScreenManager.Hide();  
-        }
-        
         private void OnLoad(ulong clientId, string sceneName, LoadSceneMode loadSceneMode, AsyncOperation asyncOperation)
         {
             LoadingScreenManager.Show(_currentLoadingScreenParameters/*, asyncOperation*/);
+        }
+        
+        private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+        {
+            if (IsServer || IsHost)
+            {
+                if (UserInstanceManager.instance.TryGetUserInstance((int)clientId, out UserInstance userInstance))
+                {
+                    userInstance.SetScene(sceneName);
+                }
+                else
+                {
+                    Debug.LogError("[SceneManager/OnLoadComplete] UserInstance is null");
+                }
+            }
+            else if (IsClient)
+            {
+                LoadingScreenManager.Hide();  
+            }
         }
 
         public static void Network_LoadSceneAsync(string sceneName, LoadSceneMode loadSceneMode, LoadingScreenParameters loadingScreenParameters)

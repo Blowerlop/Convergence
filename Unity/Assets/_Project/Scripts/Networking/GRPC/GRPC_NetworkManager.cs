@@ -170,7 +170,7 @@ namespace Project
                 return;
             }
 
-            var cli = new UnrealClient(update.ClientIP, update.ClientId);
+            var cli = new UnrealClient(update.ClientIP, update.ClientId, update.Name);
             _unrealClients.Add(update.ClientIP, cli);
             onUnrealClientConnected.Invoke(this, true, cli);
             Debug.Log("New unreal client connected with id " + update.ClientId);

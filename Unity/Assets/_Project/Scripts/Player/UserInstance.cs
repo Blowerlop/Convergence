@@ -16,11 +16,12 @@ namespace Project
         [ClearOnReload] public static UserInstance Me;
         
         //NetVars
+        [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkScene = new GRPC_NetworkVariable<FixedString64Bytes>("Scene");
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
         [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
         [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
-        [ShowInInspector] private NetworkVariable<int> _networkCharacterId = new();
+        [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
         
         public string PlayerName => _networkPlayerName.Value.ToString();
         public int Team => _networkTeam.Value;
@@ -59,20 +60,31 @@ namespace Project
 
         private void InitializeNetworkVariables()
         {
+            _networkScene.Initialize();
             _networkPlayerName.Initialize();
             _networkTeam.Initialize();
             _networkIsMobile.Initialize();
+            _networkIsReady.Initialize();
+            _networkCharacterId.Initialize();
         }
 
         private void ResetNetworkVariables()
         {
+            _networkScene.Reset();
             _networkPlayerName.Reset();
             _networkTeam.Reset();
             _networkIsMobile.Reset();
+            _networkIsReady.Reset();
+            _networkCharacterId.Reset();
         }
         
         
         //Setters
+        public void SetScene(string sceneName)
+        {
+            _networkScene.Value = sceneName;
+        }
+        
         public void SetName(string playerName)
         {
             _networkPlayerName.Value = playerName;
