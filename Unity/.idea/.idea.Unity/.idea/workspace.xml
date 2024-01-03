@@ -6,10 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Resources/Systems.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Resources/Systems.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Game.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/LoadingScreen/LoadingScreenManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/LoadingScreen/LoadingScreenManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/Lobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/Lobby.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/OnCharacterSelectedEvent_TeamsDisplayListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/OnCharacterSelectedEvent_TeamsDisplayListener.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamsDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamsDisplay.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/SceneManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/SceneManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,6 +70,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ddad446dd382038100b9a1da2176f66f45709de1608f2ded8fbccf2ef7df/Status.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/df32849ea335178f04fb0cb39bf59e13861bd99eb293e2298f5efc4f1e7bd/StatusCode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ff713594443921498f26765a9efff61f35f454213f9c47d4c47c238850f3701/SslCredentials.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Assets/TransitionsPlus/Demos/On Demand/StartTransition.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Library/PackageCache/com.unity.render-pipelines.core@14.0.8/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Character/SOCharacter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/LoadingScreen/LoadingScreen.cs" root0="FORCE_HIGHLIGHTING" />
@@ -257,7 +259,7 @@
       <workItem from="1702854212173" duration="6349000" />
       <workItem from="1704112424999" duration="1189000" />
       <workItem from="1704187289127" duration="13147000" />
-      <workItem from="1704273076617" duration="7820000" />
+      <workItem from="1704273076617" duration="12236000" />
     </task>
     <servers />
   </component>
