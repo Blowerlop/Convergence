@@ -19,8 +19,11 @@ namespace Project
                 Debug.LogError("Can't spawn player for a team that have no PCUser");
                 return;
             }
-            
-            var obj = Instantiate(characterData.prefab);
+
+            Vector3 pos = Random.insideUnitSphere * 4f;
+            pos.y = 1;
+
+            var obj = Instantiate(characterData.prefab, pos, Quaternion.identity);
             obj.GetComponent<NetworkObject>().SpawnWithOwnership((ulong)charTeam.pcPlayerOwnerClientId);
 
             obj.GetComponent<PlayerRefs>().ServerInit(teamId);

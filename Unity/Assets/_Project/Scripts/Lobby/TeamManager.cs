@@ -69,11 +69,11 @@ namespace Project
         {
             base.OnNetworkSpawn();
             
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
             // Unreal side
             FU_GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, FU_InitGrpcStream);
             FU_GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, FU_DisposeGrpcStream);
-#endif
+#endif*/
             
             InitializeTeamsData();
             
@@ -87,11 +87,11 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
             // Unreal side
             FU_GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(FU_InitGrpcStream);
             FU_GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(FU_DisposeGrpcStream);
-#endif
+#endif*/
             
             if (!IsServer && !IsHost) return;
             
