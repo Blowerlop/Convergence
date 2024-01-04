@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 

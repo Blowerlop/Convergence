@@ -13,7 +13,6 @@ namespace Project
         private static void Subscribe()
         {
             EditorApplication.playModeStateChanged += OnExitingEditMode;
-            EditorApplication.quitting += OnEditorQuitting;
         }
 
         private static void OnExitingEditMode(PlayModeStateChange state)
@@ -25,12 +24,6 @@ namespace Project
                 AssetDatabase.SaveAssets();
                 Debug.Log($"Auto-saved on EnteredEditMode at {DateTime.Now:h:mm:ss tt}");
             }
-        }
-
-        private static void OnEditorQuitting()
-        {
-            EditorApplication.playModeStateChanged -= OnExitingEditMode;
-            EditorApplication.quitting -= OnEditorQuitting;
         }
     }
 }

@@ -55,6 +55,7 @@ namespace Project
             Debug.Log("LoadingScreen Show");
             
             _loadingScreenInstance = Instantiate(_instance._loadingScreenPrefab);
+            DontDestroyOnLoad(_loadingScreenInstance);
             _loadingScreenInstance.UpdateLoadingScreen(loadingScreenParameters);
             _instance._onShowEvent.Invoke();
 

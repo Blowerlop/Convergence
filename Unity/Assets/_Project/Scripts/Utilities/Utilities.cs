@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -122,15 +122,34 @@ namespace Project
         }
         
         #if UNITY_EDITOR
-        public static IEnumerable<T> FindAssetsByType<T>() where T : UnityEngine.Object {
-            var guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
-            foreach (var t in guids) {
-                var assetPath = AssetDatabase.GUIDToAssetPath(t);
-                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-                if (asset != null) {
-                    yield return asset;
-                }
-            }
+        /// <summary>
+        /// /!\ Editor only
+        /// </summary>
+        /// <param name="type"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T[] FindAssetsByType<T>(Type type)  
+        {
+            string[] guids = AssetDatabase.FindAssets($"t:{type.Name}");
+            
+            return guids.Select(AssetDatabase.GUIDToAssetPath)
+                        .Select(path => AssetDatabase.LoadAssetAtPath(path, type))
+                        .Cast<T>()
+                        .ToArray();
+        }
+        
+        /// <summary>
+        /// /!\ Editor only
+        /// </summary>
+        /// <param name="type"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T[] FindAssetsByType<T>() where T : UnityEngine.Object {
+            string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
+            
+            return guids.Select(AssetDatabase.GUIDToAssetPath)
+                        .Select(AssetDatabase.LoadAssetAtPath<T>)
+                        .ToArray();
         }
         #endif
     }
