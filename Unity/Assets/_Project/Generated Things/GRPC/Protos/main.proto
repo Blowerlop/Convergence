@@ -26,6 +26,13 @@ service MainService {
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
 	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
+
+	rpc GRPC_RequestNetVarUpdateUnrealToGrpc (GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
+	//rpc GRPC_RequestNetVarUpdateUnrealToGrpc (stream GRPC_NetVarUpdate) returns (GRPC_NetVarUpdate);
+	rpc GRPC_RequestNetVarUpdateGrpcToNetcode (GRPC_NetVarUpdate) returns (stream GRPC_NetVarUpdate);
+
+	rpc GRPC_TeamSelectionUnrealToGrpc (stream GRPC_Team) returns (stream GRPC_TeamResponse);
+	rpc GRPC_TeamSelectionGrpcToNetcode (stream GRPC_TeamResponse) returns (stream GRPC_Team);
 }
 
 //Handshake
@@ -94,19 +101,24 @@ enum GRPC_GenericType {
 	VECTOR3 = 4;
 }
 
-//Really useful ?
-message GRPC_ClientId
-{
-	uint32 id = 1;
-}
-
 message GRPC_ClientUpdate
 {
 	string clientIP = 1;
 	GRPC_ClientUpdateType type = 2;
+	int32 clientId = 3;
 }
 
 enum GRPC_ClientUpdateType {
 	CONNECT = 0;
 	DISCONNECT = 1;
+}
+
+message GRPC_Team{
+	int32 clientId = 1;
+	int32 teamIndex = 2;
+}
+
+message GRPC_TeamResponse{
+	GRPC_Team team = 1;
+	bool response = 2;
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -77,7 +79,7 @@ namespace Project
             mousePosition.z = camera.nearClipPlane;
 
             Ray ray = camera.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo,100, layerMask))
             {
                 position = hitInfo.point;
                 return true;
@@ -86,5 +88,18 @@ namespace Project
             position = Vector3.zero;
             return false;
         }
+        
+        #if UNITY_EDITOR
+        public static IEnumerable<T> FindAssetsByType<T>() where T : UnityEngine.Object {
+            var guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
+            foreach (var t in guids) {
+                var assetPath = AssetDatabase.GUIDToAssetPath(t);
+                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset != null) {
+                    yield return asset;
+                }
+            }
+        }
+        #endif
     }
 }

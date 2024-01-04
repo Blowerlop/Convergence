@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Lobby.unity
     guid: ad020d0ff299aaa459082ac740099f32
+  - enabled: 1
+    path: Assets/_Project/Scenes/Spell.unity
+    guid: 31e119550f8bff5489cb049eb0e441da
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0f2779ed084f9934fa7e9dc8d2a6aba6,
       type: 2}

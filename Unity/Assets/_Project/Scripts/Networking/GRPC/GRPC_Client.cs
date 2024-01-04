@@ -18,12 +18,26 @@ namespace Project
             InitializeNetworkVariables();
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            ResetNetworkVariables();
+        }
+
         private void InitializeNetworkVariables()
         {
             _name.Initialize();
             _health.Initialize();
             _team.Initialize();
             _mesh.Initialize();
+        }
+        
+        private void ResetNetworkVariables()
+        {
+            _name.Reset();
+            _health.Reset();
+            _team.Reset();
+            _mesh.Reset();
         }
 
         [Button]

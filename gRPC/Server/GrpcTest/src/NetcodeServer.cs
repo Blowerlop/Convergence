@@ -8,7 +8,10 @@ namespace Networking
     {
         public Dictionary<int, NetworkObject> NetObjs = new();
         public IServerStreamWriter<GRPC_ClientUpdate> ClientUpdateStream = null!;
-        
+
+        public List<IServerStreamWriter<GRPC_TeamResponse>> teamSelectionResponseStream = new List<IServerStreamWriter<GRPC_TeamResponse>>();
+        public Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate> requestNetvarUpdateStream = new Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate>();
+
         public NetcodeServer(string ad) : base(ad) { }
 
         public override void Disconnect()
@@ -65,11 +68,16 @@ namespace Networking
         {
             List<GRPC_NetVarUpdate> list = new();
 
-            foreach (var netObj in NetObjs.Values)
+            foreach (NetworkObject netObj in NetObjs.Values)
             {
-                foreach (var netVar in netObj.NetVars)
+                foreach (KeyValuePair<int, GRPC_GenericValue> netVar in netObj.NetVars)
                 {
-                    list.Add(new GRPC_NetVarUpdate { NetId = netObj.NetId, HashName = netVar.Key, NewValue = { Type = netVar.Value.Type, Value = netVar.Value.Value } });
+                    if (netVar.Value == null) continue;
+
+                    GRPC_GenericValue genericValue = new GRPC_GenericValue { Type = netVar.Value.Type, Value = netVar.Value.Value };
+                    GRPC_NetVarUpdate update = new GRPC_NetVarUpdate { NetId = netObj.NetId, HashName = netVar.Key, NewValue = genericValue };
+                    list.Add(update);
+
                 }
             }
 
