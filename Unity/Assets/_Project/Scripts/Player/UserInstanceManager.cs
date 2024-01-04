@@ -115,7 +115,7 @@ namespace Project
  
         public void ClientRegisterUserInstance(UserInstance inst)
         {
-            if (!IsClient) return;
+            if (!IsClient || IsHost) return;
             
             if(_userInstances.ContainsKey(inst.ClientId))
             {
@@ -128,7 +128,7 @@ namespace Project
         
         public void ClientUnregisterUserInstance(UserInstance inst)
         {
-            if (!IsClient) return;
+            if (!IsClient || IsHost) return;
             
             if(!_userInstances.ContainsKey(inst.ClientId))
             {
