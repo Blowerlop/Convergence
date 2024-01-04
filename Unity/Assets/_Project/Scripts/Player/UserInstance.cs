@@ -114,13 +114,12 @@ namespace Project
         private void OnClientIdChanged(int oldValue, int newValue)
         {
             // Should only happen once when user instance is spawned
-            Debug.LogError("UserInstance OnClientIdChanged");
+
             UserInstanceManager.instance.ClientRegisterUserInstance(this);
         }
         
         private void OnTeamChanged(int oldValue, int newValue)
         {            
-            Debug.LogError("UserInstance OnTeamChanged");
             TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
         }
         

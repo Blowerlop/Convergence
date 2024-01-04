@@ -9,23 +9,42 @@ namespace Project.Spells
 {
     public class SpellUI : MonoBehaviour
     {
-        [SerializeField] private CooldownController cooldowns;
+        private CooldownController _cooldowns;
         [SerializeField] private int id;
 
         [SerializeField] private CanvasGroup group;
         [SerializeField] private TextMeshProUGUI tmp;
         [SerializeField] private Image img;
 
-        private float maxTime;
+        private float _maxTime;
         
         private void Awake()
         {
-            cooldowns.OnLocalCooldownStarted += OnCooldownStarted;
-            cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;
-            
-            cooldowns.OnServerCooldownEnded += OnCooldownEnded;
+            PlayerRefs.OnLocalPlayerSpawned += Setup;
         }
 
+        private void OnDestroy()
+        {
+            PlayerRefs.OnLocalPlayerSpawned -= Setup;
+            
+            _cooldowns.OnLocalCooldownStarted -= OnCooldownStarted;
+            _cooldowns.OnLocalCooldownUpdated -= OnCooldownUpdated;
+            
+            _cooldowns.OnServerCooldownEnded -= OnCooldownEnded;
+        }
+
+        private void Setup(PlayerRefs refs)
+        {
+            _cooldowns = refs.GetCooldownController(PlayerPlatform.Pc);
+            
+            _cooldowns.OnLocalCooldownStarted += OnCooldownStarted;
+            _cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;
+            
+            _cooldowns.OnServerCooldownEnded += OnCooldownEnded;
+            
+            group.DOFade(0, 0);
+        }
+        
         private void OnCooldownStarted(int index, float time)
         {
             if (index != id) return;
@@ -34,7 +53,7 @@ namespace Project.Spells
             img.fillAmount = 1;
             tmp.text = Mathf.RoundToInt(time).ToString();
 
-            maxTime = time;
+            _maxTime = time;
         }
 
         private void OnCooldownUpdated(int index, float value)
@@ -42,7 +61,7 @@ namespace Project.Spells
             if (index != id) return;
             
             tmp.text = value.ToString(CultureInfo.InvariantCulture);
-            img.fillAmount = maxTime / value;
+            img.fillAmount = _maxTime / value;
         }
         
         private void OnCooldownEnded(int index)
