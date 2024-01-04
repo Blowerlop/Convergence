@@ -1,7 +1,11 @@
 using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,6 +22,15 @@ namespace Project
     {
         public int pcPlayerOwnerClientId;
         public int mobilePlayerOwnerClientId;
+
+        public UserInstance GetUserInstance(PlayerPlatform platform)
+        {
+            return !UserInstanceManager.instance
+                ? null
+                : UserInstanceManager.instance.GetUserInstance(platform == PlayerPlatform.Pc
+                    ? pcPlayerOwnerClientId
+                    : mobilePlayerOwnerClientId);
+        }
     }
     
     public class TeamManager : NetworkSingleton<TeamManager>
@@ -37,7 +50,7 @@ namespace Project
 
         public readonly Event<int, string, PlayerPlatform> onTeamSetEvent = new Event<int, string, PlayerPlatform>(nameof(onTeamSetEvent));
         public readonly Event<int, string, PlayerPlatform> onPlayerReadyEvent = new Event<int, string, PlayerPlatform>(nameof(onPlayerReadyEvent));
-        
+        public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
         
         #if UNITY_EDITOR
         private AsyncDuplexStreamingCall<GRPC_Team, GRPC_TeamResponse> _FU_teamManagerStream;
@@ -62,9 +75,9 @@ namespace Project
             FU_GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, FU_DisposeGrpcStream);
 #endif
             
-            if (!IsServer && !IsHost) return;
-            
             InitializeTeamsData();
+            
+            if (!IsServer && !IsHost) return;
             
             GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, InitGrpcStream);
             GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, DisposeGrpcStream);
@@ -202,6 +215,29 @@ namespace Project
         }
 
         private void RegisterToTeamSlotLocal(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        {
+            TeamData teamData = _teams[teamIndex];
+            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
+            else teamData.mobilePlayerOwnerClientId = ownerClientId;
+            _teams[teamIndex] = teamData;
+        }
+        
+        /// <summary>
+        /// Called by UserInstance._networkTeam callback on clients to populate team array
+        /// </summary>
+        public void ClientOnTeamChanged(UserInstance user, int oldTeam, int newTeam)
+        {
+            var platform = user.IsMobile ? PlayerPlatform.Mobile : PlayerPlatform.Pc;
+            
+            if (IsTeamIndexValid(oldTeam))
+            {
+                ResetTeamSlot(oldTeam, platform);
+            }
+            
+            RegisterToTeamSlot(user.ClientId, newTeam, platform);
+        }
+        
+        private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
             if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;

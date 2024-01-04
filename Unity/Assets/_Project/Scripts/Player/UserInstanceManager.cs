@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Mono.Cecil;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -56,6 +57,7 @@ namespace Project
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+            userInstance.SetClientId((int)clientId);
                 
             _userInstances.Add((int)clientId, userInstance);
         }
@@ -73,6 +75,7 @@ namespace Project
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
+            userInstance.SetClientId(clientId);
             userInstance.SetName(unrealClient.name);
             userInstance.SetIsMobile(true);
                 
@@ -108,6 +111,32 @@ namespace Project
             userInstance.GetComponent<NetworkObject>().Despawn(true);
             
             _userInstances.Remove((int)clientId);
+        }
+ 
+        public void ClientRegisterUserInstance(UserInstance inst)
+        {
+            if (!IsClient) return;
+            
+            if(_userInstances.ContainsKey(inst.ClientId))
+            {
+                Debug.LogError($"UserInstance already registered for client {inst.ClientId}");
+                return;
+            }
+            
+            _userInstances.Add(inst.ClientId, inst);
+        }
+        
+        public void ClientUnregisterUserInstance(UserInstance inst)
+        {
+            if (!IsClient) return;
+            
+            if(!_userInstances.ContainsKey(inst.ClientId))
+            {
+                Debug.LogError($"UserInstance is not registered for client {inst.ClientId}");
+                return;
+            }
+            
+            _userInstances.Remove(inst.ClientId);
         }
         
         public UserInstance[] GetUsersInstance()

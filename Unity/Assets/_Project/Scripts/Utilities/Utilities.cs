@@ -111,7 +111,7 @@ namespace Project
             mousePosition.z = camera.nearClipPlane;
 
             Ray ray = camera.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo,100, layerMask))
             {
                 position = hitInfo.point;
                 return true;
