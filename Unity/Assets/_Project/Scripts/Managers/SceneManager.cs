@@ -25,7 +25,8 @@ namespace Project
         {
             if (IsClient)
             {
-                LoadingScreenManager.Show(_currentLoadingScreenParameters, asyncOperation);
+                // AsyncOperation is commented because we don't need the loadingBar for the moment
+                LoadingScreenManager.Show(_currentLoadingScreenParameters/*, asyncOperation*/);
             }
         }
         

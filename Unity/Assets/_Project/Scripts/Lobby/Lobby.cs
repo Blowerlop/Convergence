@@ -130,7 +130,7 @@ namespace Project
 
         private void GoToGameScene()
         {
-            Project.SceneManager.Network_LoadSceneAsync("Game", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.green));
+            Project.SceneManager.Network_LoadSceneAsync("Game", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
         }
     }
 }
