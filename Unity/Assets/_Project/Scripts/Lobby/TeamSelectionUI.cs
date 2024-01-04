@@ -45,7 +45,7 @@ namespace Project
                     UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
                 });
              #else
-             UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor);
+             UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
              #endif
         }
 
@@ -81,15 +81,7 @@ namespace Project
         
         public void SetTeamServerRpcc()
         {
-            #if UNITY_EDITOR
-            if (FU_GRPC_NetworkManager.instance.isConnected)
-            {
-                TeamManager.instance.FU_Write(NetworkManager.Singleton.LocalClientId, _teamIndex);
-                return;
-            }
-            #endif
             SetTeamServerRpc(_teamIndex, NetworkManager.Singleton.LocalClientId);
-            
         }
 
         [ServerRpc(RequireOwnership = false)]

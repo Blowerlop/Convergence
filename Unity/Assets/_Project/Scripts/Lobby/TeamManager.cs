@@ -52,11 +52,6 @@ namespace Project
         public readonly Event<int, string, PlayerPlatform> onPlayerReadyEvent = new Event<int, string, PlayerPlatform>(nameof(onPlayerReadyEvent));
         public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
         
-        #if UNITY_EDITOR
-        private AsyncDuplexStreamingCall<GRPC_Team, GRPC_TeamResponse> _FU_teamManagerStream;
-        private CancellationTokenSource _FU_cancellationTokenSource;
-        #endif
-
 
         protected override void Awake()
         {
@@ -107,15 +102,6 @@ namespace Project
             Read();
         }
         
-        #if UNITY_EDITOR
-        private void FU_InitGrpcStream()
-        {
-            _FU_teamManagerStream = FU_GRPC_NetworkManager.instance.client.GRPC_TeamSelectionUnrealToGrpc();
-            _FU_cancellationTokenSource = new CancellationTokenSource();
-            FU_Read();
-        }
-        #endif
-
         private void DisposeGrpcStream()
         {
             _cancellationTokenSource.Cancel();
@@ -125,18 +111,6 @@ namespace Project
             _teamManagerStream.Dispose();
             _teamManagerStream = null;
         }
-        
-        #if UNITY_EDITOR
-        private void FU_DisposeGrpcStream()
-        {
-            _FU_cancellationTokenSource.Cancel();
-            _FU_cancellationTokenSource.Dispose();
-            _FU_cancellationTokenSource = null;
-            
-            _FU_teamManagerStream.Dispose();
-            _FU_teamManagerStream = null;
-        }
-        #endif
         
         private void InitializeTeamsData()
         {
@@ -333,40 +307,6 @@ namespace Project
                 if (GRPC_NetworkManager.instance.isConnected)
                 {
                     GRPC_NetworkManager.instance.StopClient();
-                }
-            }
-        }
-        
-        
-        public async void FU_Write(ulong ownerClientId, int teamIndex)
-        {
-            try
-            {
-                Debug.Log("FU Write");
-                await _FU_teamManagerStream.RequestStream.WriteAsync(new GRPC_Team{ClientId = (int)ownerClientId, TeamIndex = teamIndex}, _FU_cancellationTokenSource.Token);
-            }
-            catch (IOException)
-            {
-                if (FU_GRPC_NetworkManager.instance.isConnected)
-                    FU_GRPC_NetworkManager.instance.StopClient();
-            }
-        }
-        
-        private async void FU_Read()
-        {
-            try
-            {
-                while (await _FU_teamManagerStream.ResponseStream.MoveNext(_FU_cancellationTokenSource.Token))
-                {
-                    GRPC_TeamResponse messageReceived = _FU_teamManagerStream.ResponseStream.Current;
-                    Debug.Log("Response : " + messageReceived.Response);
-                }
-            }
-            catch (RpcException)
-            {
-                if (FU_GRPC_NetworkManager.instance.isConnected)
-                {
-                    FU_GRPC_NetworkManager.instance.StopClient();
                 }
             }
         }
