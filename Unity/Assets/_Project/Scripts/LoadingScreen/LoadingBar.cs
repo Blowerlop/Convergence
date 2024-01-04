@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Project.Extensions;
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +12,15 @@ namespace Project
 {
     public class LoadingBar : MonoBehaviour
     {
-        [SerializeField, ] private Image _image;
+        [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _text;
 
+
+        public void SetActive(bool state)
+        {
+            _image.IsNull()?.gameObject.SetActive(state);
+            _text.IsNull()?.gameObject.SetActive(state);
+        }
         
         public void UpdateLoadingBar(float loadingValue)
         {

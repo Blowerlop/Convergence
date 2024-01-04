@@ -21,12 +21,12 @@ namespace Project
         
         //NetVars
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkClientId = new("ClientId", value: int.MaxValue);
-        
+        [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkScene = new GRPC_NetworkVariable<FixedString64Bytes>("Scene");
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
         [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
-        [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsReady = new("IsReady");
-        [ShowInInspector] private NetworkVariable<int> _networkCharacter = new();
+        [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
+        [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
         
         public int ClientId => _networkClientId.Value;
         
@@ -34,7 +34,8 @@ namespace Project
         public int Team => _networkTeam.Value;
         public bool IsMobile => _networkIsMobile.Value;
         public bool IsReady => _networkIsReady.Value;
-        public int CharacterId => _networkCharacter.Value;
+        public int CharacterId => _networkCharacterId.Value;
+
         
         public override void OnNetworkSpawn()
         {
@@ -42,8 +43,6 @@ namespace Project
 
             if (IsClient)
             {
-                Debug.LogError("UserInstance OnNetworkSpawn");
-                
                 // OnValueChanged is not called for network object that were already spawned before joining
                 // We need to call manually
                 if(_networkClientId.Value != int.MaxValue) OnClientIdChanged(0, _networkClientId.Value);
@@ -74,24 +73,33 @@ namespace Project
             Me = null;
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            ResetNetworkVariables();
+        }
+
         private void InitializeNetworkVariables()
         {
-            if (!IsServer && !IsHost) return;
-            
             _networkClientId.Initialize();
+            _networkScene.Initialize();
             _networkPlayerName.Initialize();
             _networkTeam.Initialize();
             _networkIsMobile.Initialize();
+            _networkIsReady.Initialize();
+            _networkCharacterId.Initialize();
         }
 
         private void ResetNetworkVariables()
         {
-            if (!IsServer && !IsHost) return;
-            
             _networkClientId.Reset();
+            _networkScene.Reset();
             _networkPlayerName.Reset();
             _networkTeam.Reset();
             _networkIsMobile.Reset();
+            _networkIsReady.Reset();
+            _networkCharacterId.Reset();
         }
         
         public void LinkPlayer(PlayerRefs refs)
@@ -123,61 +131,6 @@ namespace Project
             TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
         }
         
-        #region Setters
-        
-        public void SetClientId(int clientId)
-        {
-            if (!IsServer && !IsHost) return;
-            
-            _networkClientId.Value = clientId;
-        }
-        
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetNameServerRpc(string playerName)
-        {
-            _networkPlayerName.Value = playerName;
-        }
-
-        public void ServerSetTeam(int playerTeam)
-        {
-            if (!IsServer) return;
-            
-            _networkTeam.Value = playerTeam;
-        }
-        
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetTeamServerRpc(int playerTeam)
-        {
-            _networkTeam.Value = playerTeam;
-        }
-
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetIsMobileServerRpc(bool isMobile)
-        {
-            _networkIsMobile.Value = isMobile;
-        }
-        
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetIsReadyServerRpc(bool isReady)
-        {
-            _networkIsReady.Value = isReady;
-        }
-        
-        public void ServerSetCharacter(int characterId)
-        {
-            if (!IsServer) return;
-            
-            _networkCharacter.Value = characterId;
-        }
-        
-        [ServerRpc(RequireOwnership = false), Button]
-        public void SetCharacterServerRpc(int characterId)
-        {
-            _networkCharacter.Value = characterId;
-        }
-        
-        #endregion
-        
         #region Getters
 
         public PlayerPlatform GetPlatform()
@@ -190,5 +143,46 @@ namespace Project
         }
         
         #endregion
+        
+        
+        //Setters
+        public void SetClientId(int clientId)
+        {
+            if (!IsServer && !IsHost) return;
+            
+            _networkClientId.Value = clientId;
+        }
+        
+        public void SetScene(string sceneName)
+        {
+            _networkScene.Value = sceneName;
+        }
+        
+        public void SetName(string playerName)
+        {
+            _networkPlayerName.Value = playerName;
+        }
+        
+        public void SetTeam(int playerTeam)
+        {
+            _networkTeam.Value = playerTeam;
+        }
+
+        public void SetIsMobile(bool isMobile)
+        {
+            _networkIsMobile.Value = isMobile;
+        }
+        
+        public void SetIsReady(bool isReady)
+        {
+            _networkIsReady.Value = isReady;
+        }
+
+        public void SetCharacter(int characterId)
+        {
+            _networkCharacterId.Value = characterId;
+        }
+        
+        
     }
 }

@@ -10,7 +10,8 @@ namespace Project
     {
         [SerializeField, Required, AssetsOnly] private UserInstance _userInstancePrefab;
         [ShowInInspector, ReadOnly] private readonly Dictionary<int, UserInstance> _userInstances = new Dictionary<int, UserInstance>();
-        
+        public int count => _userInstances.Count;
+
 
         public override void OnNetworkSpawn()
         {
@@ -37,6 +38,7 @@ namespace Project
                 GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(DestroyUnrealUserInstance);
             }
         }
+
         
         private void CreateNetcodeUserInstance(ulong clientId)
         {
@@ -68,7 +70,8 @@ namespace Project
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
             userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
             userInstance.SetClientId(clientId);
-            userInstance.SetIsMobileServerRpc(true);
+            userInstance.SetName(unrealClient.name);
+            userInstance.SetIsMobile(true);
                 
             _userInstances.Add(clientId, userInstance);
         }
@@ -106,7 +109,7 @@ namespace Project
  
         public void ClientRegisterUserInstance(UserInstance inst)
         {
-            if (!IsClient) return;
+            if (!IsClient || IsHost) return;
             
             if(_userInstances.ContainsKey(inst.ClientId))
             {
@@ -119,7 +122,7 @@ namespace Project
         
         public void ClientUnregisterUserInstance(UserInstance inst)
         {
-            if (!IsClient) return;
+            if (!IsClient || IsHost) return;
             
             if(!_userInstances.ContainsKey(inst.ClientId))
             {
@@ -143,6 +146,12 @@ namespace Project
 
             return usersInstance;
         }
+
+        public bool TryGetUserInstance(int clientId, out UserInstance userInstance)
+        {
+            userInstance = GetUserInstance(clientId);
+            return userInstance != null;
+        }
         
         public UserInstance GetUserInstance(int clientId)
         {
@@ -153,6 +162,12 @@ namespace Project
 
             Debug.LogError($"The client {clientId} has no userInstance registered");
             return null;
+        }
+        
+        public bool TryGetUserInstance(string clientName, out UserInstance userInstance)
+        {
+            userInstance = GetUserInstance(clientName);
+            return userInstance != null;
         }
         
         public UserInstance GetUserInstance(string clientName)

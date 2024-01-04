@@ -27,6 +27,8 @@ namespace Project.Spells
         {
             PlayerRefs.OnLocalPlayerSpawned -= Setup;
             
+            if (!_cooldowns) return;
+            
             _cooldowns.OnLocalCooldownStarted -= OnCooldownStarted;
             _cooldowns.OnLocalCooldownUpdated -= OnCooldownUpdated;
             

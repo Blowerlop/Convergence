@@ -1,4 +1,6 @@
+using System;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Project
 {
@@ -8,7 +10,6 @@ namespace Project
     public abstract class NetworkSingleton<T> : NetworkBehaviour where T : NetworkBehaviour
     {
         protected static bool authorityCheck = false;
-        protected static NetworkVariableWritePermission instanceReadPerm = NetworkVariableWritePermission.Server;
         
         protected static bool dontDestroyOnLoad = true;
         public static bool isBeingDestroyed { get; private set; }
@@ -70,14 +71,7 @@ namespace Project
 
         private static bool CanClientRead()
         {
-            switch (instanceReadPerm)
-            {
-                case NetworkVariableWritePermission.Owner:
-                    return false;
-
-                default:
-                case NetworkVariableWritePermission.Server:
-                    return NetworkManager.Singleton.LocalClientId == NetworkManager.ServerClientId; }
+            return NetworkManager.Singleton.LocalClientId == NetworkManager.ServerClientId;
         }
     }
 }

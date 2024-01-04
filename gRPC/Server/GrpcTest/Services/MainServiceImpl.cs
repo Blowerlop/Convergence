@@ -41,7 +41,7 @@ namespace GRPCServer.Services
             clients.Add(ip, netcodeServer);
         }
 
-        private void AddUnrealClient(string ip)
+        private void AddUnrealClient(string ip, string name)
         {
             if (unrealClients.ContainsKey(ip))
             {
@@ -54,7 +54,7 @@ namespace GRPCServer.Services
                 return;
             }
 
-            UnrealClient unrealClient = new UnrealClient(ip);
+            UnrealClient unrealClient = new UnrealClient(ip, name);
             unrealClient.id = -(clients.Keys.Count + 1);
             unrealClients.Add(ip, unrealClient);
             clients.Add(ip, unrealClient);
@@ -131,7 +131,7 @@ namespace GRPCServer.Services
             {
                 // Catch if client is already added to the clients
                 string clientAdress = context.Peer;
-                AddUnrealClient(clientAdress);
+                AddUnrealClient(clientAdress, request.Name);
                 
 
                 DisplayClients();
@@ -141,15 +141,6 @@ namespace GRPCServer.Services
                     Debug.LogError("GRPC_Handshake > NetcodeServer is null");
                     return Task.FromResult(new GRPC_HandshakeGet { Result = 1, ClientId = -1 });
                 }
-                List<GRPC_NetVarUpdate> a = netcodeServer.GetNetworkVariablesAsUpdates();
-
-                Debug.Log("ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII EN DESSOUS");
-                Debug.Log(a.Count);
-                foreach (var item in a)
-                {
-                    Debug.Log(item.NewValue.Value);
-                }
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 return Task.FromResult(new GRPC_HandshakeGet
                 {
@@ -297,7 +288,7 @@ namespace GRPCServer.Services
         }
 
         private GRPC_ClientUpdate ToClientUpdate(UnrealClient cli, GRPC_ClientUpdateType type) =>
-            new() { ClientIP = cli.Adress, Type = type, ClientId = cli.id };
+            new() { ClientIP = cli.Adress, Type = type, ClientId = cli.id, Name = cli.name};
 
         private void UnsubscribeClientUpdateEvent()
         {

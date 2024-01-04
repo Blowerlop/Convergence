@@ -6,6 +6,7 @@ using Grpc.Core;
 using GRPCClient;
 using Newtonsoft.Json;
 using Project.Extensions;
+using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace Project
         private CancellationTokenSource _sendRequireSyncCancellationTokenSource;
 
 
-        private readonly int _variableHashName;
+        [ShowInInspector] private readonly int _variableHashName;
         private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         private int _netId;
 

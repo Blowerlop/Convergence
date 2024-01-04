@@ -233,4 +233,12 @@ namespace Project.Extensions
 #endif
         }
     }
+
+    public static class UnityObjectExtensions
+    {
+        public static T IsNull<T>(this T @object) where T : UnityEngine.Object
+        {
+            return @object == null ? null : @object;
+        }
+    }
 }

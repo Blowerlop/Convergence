@@ -1,7 +1,6 @@
+using System.IO;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
@@ -43,8 +42,8 @@ namespace Project
         // I cant ShowInInspector this array. It weirdly override my value set by the script
         private readonly TeamData[] _teams = new TeamData[MAX_TEAM];
 
-        private const string DEFAULT_PC_SLOT = "Click to join";
-        private const string DEFAULT_MOBILE_SLOT = "Empty";
+        private const string _DEFAULT_PC_SLOT = "Click to join";
+        private const string _DEFAULT_MOBILE_SLOT = "Empty";
 
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
@@ -57,16 +56,24 @@ namespace Project
         private AsyncDuplexStreamingCall<GRPC_Team, GRPC_TeamResponse> _FU_teamManagerStream;
         private CancellationTokenSource _FU_cancellationTokenSource;
         #endif
-        
+
+
+        protected override void Awake()
+        {
+            // authorityCheck = true;
+            dontDestroyOnLoad = false;
+            base.Awake();
+        }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
             // Unreal side
             FU_GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, FU_InitGrpcStream);
             FU_GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, FU_DisposeGrpcStream);
-#endif
+#endif*/
             
             InitializeTeamsData();
             
@@ -80,11 +87,11 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
             // Unreal side
             FU_GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(FU_InitGrpcStream);
             FU_GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(FU_DisposeGrpcStream);
-#endif
+#endif*/
             
             if (!IsServer && !IsHost) return;
             
@@ -173,6 +180,12 @@ namespace Project
                 return false;
             }
 
+            if (UserInstanceManager.instance.GetUserInstance(ownerClientId).IsReady)
+            {
+                Debug.Log("Trying to join a team while being ready");
+                return false;
+            }
+
             Debug.Log("Try set team ok");
             SetTeam(ownerClientId, teamIndex, playerPlatform);
             return true;;
@@ -187,13 +200,13 @@ namespace Project
             if (IsTeamIndexValid(previousUserTeamIndex))
             {
                 ResetTeamSlot(previousUserTeamIndex, playerPlatform);
-                OnTeamSetServer(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT : DEFAULT_MOBILE_SLOT, playerPlatform);
+                OnTeamSet(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? _DEFAULT_PC_SLOT : _DEFAULT_MOBILE_SLOT, playerPlatform);
             }
             
-            RegisterToTeamSlot(ownerClientId, teamIndex, playerPlatform);
-            userInstance.ServerSetTeam(teamIndex);
+            RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
+            userInstance.SetTeam(teamIndex);
             
-            OnTeamSetServer(teamIndex, userInstance.PlayerName, playerPlatform);
+            OnTeamSet(teamIndex, userInstance.PlayerName, playerPlatform);
             
             Debug.Log("Team recap :\n" +
                       $"Index : {teamIndex}\n" +
@@ -201,6 +214,14 @@ namespace Project
                       $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
         }
 
+        private void RegisterToTeamSlotLocal(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
+        {
+            TeamData teamData = _teams[teamIndex];
+            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
+            else teamData.mobilePlayerOwnerClientId = ownerClientId;
+            _teams[teamIndex] = teamData;
+        }
+        
         /// <summary>
         /// Called by UserInstance._networkTeam callback on clients to populate team array
         /// </summary>
@@ -223,6 +244,7 @@ namespace Project
             else teamData.mobilePlayerOwnerClientId = ownerClientId;
             _teams[teamIndex] = teamData;
         }
+        
 
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
@@ -232,7 +254,7 @@ namespace Project
             _teams[teamIndex] = teamData;
         }
 
-        private bool IsTeamPlayerSlotAvailable(int teamIndex, PlayerPlatform playerPlatform)
+        public bool IsTeamPlayerSlotAvailable(int teamIndex, PlayerPlatform playerPlatform)
         {
             if (TryGetTeam(teamIndex, out TeamData teamData))
             {
@@ -252,7 +274,7 @@ namespace Project
             return !(teamIndex < 0 || teamIndex >= _teams.Length);
         }
         
-        private void OnTeamSetServer(int teamIndex, string playerName, PlayerPlatform playerPlatform)
+        private void OnTeamSet(int teamIndex, string playerName, PlayerPlatform playerPlatform)
         {
             OnTeamSetLocal(teamIndex, playerName, playerPlatform);
             OnTeamSetClientRpc(teamIndex, playerName, playerPlatform);
@@ -269,57 +291,17 @@ namespace Project
             onTeamSetEvent.Invoke(this, true, teamIndex, playerName, playerPlatform);
         }
 
-        public TeamData[] GetTeams()
+        public TeamData[] GetTeamsData()
         {
-            return _teams.Where((t, i) => IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc) == false).ToArray();
-        }
-
-        public void PlayerReady()
-        {
-            PlayerReadyServerRpc((int)NetworkManager.Singleton.LocalClientId);
+            // return _teams.Where((t, i) => IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc) == false).ToArray();
+            return _teams;
         }
         
-        [ServerRpc(RequireOwnership = false)]
-        private void PlayerReadyServerRpc(int clientId)
+        public TeamData GetTeamData(int teamIndex)
         {
-            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
-            if (userInstance == null)
-            {
-                Debug.LogError("User instance is null");
-                return;
-            }
-
-            if (userInstance.IsReady) return;
-            
-            userInstance.SetIsReadyServerRpc(true);
-
-            UserInstance[] usersInstance = UserInstanceManager.instance.GetUsersInstance();
-            int numberOfPlayersReady = usersInstance.Count(x => x.IsReady);
-            if (numberOfPlayersReady == usersInstance.Length)
-            {
-                Debug.Log("All players ready");
-                OnAllPlayersReadyServerRpc();
-            }
-        }
-
-        [ServerRpc]
-        private void OnAllPlayersReadyServerRpc()
-        {
-            OnAllPlayersReadyClientRpc();
+            return _teams[teamIndex];
         }
         
-        [ClientRpc]
-        private void OnAllPlayersReadyClientRpc()
-        {
-            OnAllPlayersReadyLocal();
-        }
-        
-        private void OnAllPlayersReadyLocal()
-        {
-            onAllPlayersReadyEvent.Invoke(this, true);
-        }
-        
-
         private async void Write(GRPC_TeamResponse response)
         {
             try

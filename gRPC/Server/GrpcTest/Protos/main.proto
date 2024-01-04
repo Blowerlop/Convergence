@@ -36,7 +36,10 @@ service MainService {
 }
 
 //Handshake
-message GRPC_HandshakePost { }
+message GRPC_HandshakePost 
+{ 
+	string name = 1;
+}
 
 message GRPC_HandshakeGet {
 	int32 result = 1;
@@ -106,6 +109,7 @@ message GRPC_ClientUpdate
 	string clientIP = 1;
 	GRPC_ClientUpdateType type = 2;
 	int32 clientId = 3;
+	string name = 4;
 }
 
 enum GRPC_ClientUpdateType {

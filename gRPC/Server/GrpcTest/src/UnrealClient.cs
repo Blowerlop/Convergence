@@ -24,7 +24,12 @@ namespace Networking
 
         public static IServerStreamWriter<GRPC_Team> teamSelectionResponseStream;
 
-        public UnrealClient(string ad) : base(ad) { }
+        public string name;
+
+        public UnrealClient(string ad, string name) : base(ad)
+        {
+            this.name = name;
+        }
         
         public override void Disconnect()
         {

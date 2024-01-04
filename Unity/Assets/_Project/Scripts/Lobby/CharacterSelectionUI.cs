@@ -6,6 +6,17 @@ using UnityEngine.UI;
 
 namespace Project
 {
+    public struct PlayerLobbyData
+    {
+        public int characterId;
+        public bool isReady;
+    }
+
+    public class PlayerLobbyDataManagement
+    {
+        public PlayerLobbyData playerLobbyData;
+    }
+    
     public class CharacterSelectionUI : NetworkBehaviour
     {
         [SerializeField, Required] private SOCharacter _characterData;
@@ -13,7 +24,7 @@ namespace Project
         [SerializeField, Required] private Image _image;
         [SerializeField, Required] private TMP_Text _name;
 
-        [ClearOnReload] private static int _characterSelectedId;
+        [ClearOnReload, ShowInInspector] private static int _characterSelectedId;
 
         [ClearOnReload(assignNewTypeInstance: true, nameof(onCharacterSelectedEvent))] public static Event<int, int> onCharacterSelectedEvent = new Event<int, int>(nameof(onCharacterSelectedEvent));
 
@@ -26,29 +37,32 @@ namespace Project
             name = _characterData.characterName;
         }
 
-        public void SelectCharacter() => _characterSelectedId = _characterData.id;
-        
-        public void SetCharacterServerRpcc()
+        public void SelectCharacter()
         {
-            SetCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
+            _characterSelectedId = _characterData.id;
+            SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void SetCharacterServerRpc(int clientId, int characterId)
+        private void SelectCharacterServerRpc(int clientId, int characterId)
+        {
+            onCharacterSelectedEvent.Invoke(this, false, clientId, characterId);
+        }
+
+        public void ValidateCharacterServerRpcc()
+        {
+            ValidateCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ValidateCharacterServerRpc(int clientId, int characterId)
         {
             UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
             if (userInstance.CharacterId == characterId) return;
             
-            userInstance.SetCharacterServerRpc(characterId);
-            BlablaClientRpc(clientId, characterId);
+            userInstance.SetCharacter(characterId);
             
-            onCharacterSelectedEvent.Invoke(this, false, clientId, characterId);
-        }
-
-        [ClientRpc]
-        private void BlablaClientRpc(int clientId, int characterId)
-        {
-            
+            SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, characterId);
         }
     }
 }

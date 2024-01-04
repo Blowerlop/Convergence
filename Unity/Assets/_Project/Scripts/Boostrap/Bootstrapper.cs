@@ -1,27 +1,24 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace Project
 {
-    public class Bootstrapper : MonoBehaviour
+    public class Bootstrapper
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void ExecuteBeforeSceneLoad()
         {
             TryLoadBootstrapPrefab();
-        }
-
-        [RuntimeInitializeOnLoadMethod]
-        public static void ExecuteAfterSceneLoad()
-        {
-            // TryLoadBootstrapScene();
+            TryLoadBootstrapScene();
         }
 
         private static void TryLoadBootstrapPrefab()
         {
             try
             {
-                DontDestroyOnLoad(Instantiate(Resources.Load("Systems")));
+                Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Systems")));
             }
             catch
             {
@@ -38,11 +35,24 @@ namespace Project
                 Debug.LogError("There is no scene named 'Bootstrap'");
                 return;
             }
+            
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene() == UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex(sceneBuildIndex)) return;
+            
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneBuildIndex, LoadSceneMode.Additive);
+            
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, mode) =>
+            {
+                OnSceneLoaded_UnloadScene(scene);
+            };
 
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(sceneBuildIndex)) return;
-            
-            
-            SceneManager.LoadScene(sceneBuildIndex, LoadSceneMode.Additive);
+
+            void OnSceneLoaded_UnloadScene(Scene scene)
+            {
+                if (scene.buildIndex != sceneBuildIndex) return;
+                
+                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(scene);
+                UnityEngine.SceneManagement.SceneManager.sceneLoaded -= (scene, mode) => OnSceneLoaded_UnloadScene(scene);
+            }
         }
     }
 }
