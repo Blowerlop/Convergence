@@ -13,12 +13,6 @@ namespace Project
         public int count => _userInstances.Count;
 
 
-        protected override void Awake()
-        {
-            authorityCheck = true;
-            base.Awake();
-        }
-
         public override void OnNetworkSpawn()
         {
             if (!IsServer && !IsHost) return;

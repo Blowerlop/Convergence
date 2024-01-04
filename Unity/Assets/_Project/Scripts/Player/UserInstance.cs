@@ -43,8 +43,6 @@ namespace Project
 
             if (IsClient)
             {
-                Debug.LogError("UserInstance OnNetworkSpawn");
-                
                 // OnValueChanged is not called for network object that were already spawned before joining
                 // We need to call manually
                 if(_networkClientId.Value != int.MaxValue) OnClientIdChanged(0, _networkClientId.Value);
