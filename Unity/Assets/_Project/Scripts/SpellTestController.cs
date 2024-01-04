@@ -8,7 +8,7 @@ namespace Project._Project.Scripts
         [Button("Set Character Data")]
         public void SetCharacter(int clientId, SOCharacter data)
         {
-            UserInstanceManager.instance.GetUserInstance(clientId).ServerSetCharacter(data.id);
+            UserInstanceManager.instance.GetUserInstance(clientId).SetCharacter(data.id);
         }
         
         [Button("Set Team")]
