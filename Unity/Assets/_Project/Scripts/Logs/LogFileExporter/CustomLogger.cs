@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -78,16 +79,22 @@ namespace Project
                 Debug.LogError("There is no log file to send");
                 return;
             }
+            
+            Thread thread = new Thread(SendFile);
+            thread.Start();
+            return;
 
-            Discord.SendFile(DateTime.Now.ToString(CultureInfo.GetCultureInfoByIetfLanguageTag("fr")), Discord.TxtFileFormat,
-                LogSaverFilePath, Discord.TxtFileFormat);
+            void SendFile()
+            {
+                Discord.SendFile(DateTime.Now.ToString(CultureInfo.GetCultureInfoByIetfLanguageTag("fr")), Discord.TxtFileFormat,
+                    LogSaverFilePath, Discord.TxtFileFormat);
+            }
         }
         
         private static TimeSpan StripMilliseconds(TimeSpan time)
         {
             return new TimeSpan(time.Days, time.Hours, time.Minutes, time.Seconds);
         }
-        
         #endregion
     }
 }

@@ -34,7 +34,7 @@ namespace Project
             }
         }
 
-        private const string KICK_REASON = "You have been kicked by the server";
+        private const string DEFAULT_KICK_REASON = "You have been kicked by the server";
         
         [Title("Events")]
         public Event<EConnectionState> onConnectionStateUpdateEvent = new Event<EConnectionState>(nameof(onConnectionStateUpdateEvent));
@@ -132,11 +132,13 @@ namespace Project
         private void OnServerStarted()
         {
             Debug.Log("Server started");
+            connectionState = EConnectionState.Connected;
         }
 
         private void OnServerStopped(bool _)
         {
             Debug.Log("Server stopped");
+            connectionState = EConnectionState.Disconnected;
         }
 
         private void OnTransportFailure()
@@ -279,7 +281,7 @@ namespace Project
 
             if (string.IsNullOrEmpty(reason))
             {
-                NetworkManager.Singleton.DisconnectClient(clientId, KICK_REASON);
+                NetworkManager.Singleton.DisconnectClient(clientId, DEFAULT_KICK_REASON);
             }
             else
             {

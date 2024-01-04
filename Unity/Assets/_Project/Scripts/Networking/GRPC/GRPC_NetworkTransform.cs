@@ -6,6 +6,8 @@ namespace Project
 {
     
     [DefaultExecutionOrder(100000)] // this is needed to catch the update time after the transform was updated by user scripts
+    // SERVER AUTHORITATIVE
+    // BECAUSE ITS SERVER AUTHORITATIVE, THE INNER STATE IS NOT UPDATE SO THE OnNetworkTransformStateUpdated IS NOT CALLED, SO THE GRPC_NETWORKVARIABLE ARE NOT UPDATED
     public class GRPC_NetworkTransform : NetworkTransform
     {
         #region Variables
@@ -16,23 +18,40 @@ namespace Project
 
         
         #region Updates
-        public override void OnNetworkSpawn()
+        
+        private void Start()
         {
-            base.OnNetworkSpawn();
-            
-            _position.Initialize();
-            _rotation.Initialize();
-            _scale.Initialize();
+            InitializeNetworkVariables();
         }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            ResetNetworkVariables();
+        }
+
         #endregion
 
 
         #region Methods
+        
+        private void InitializeNetworkVariables()
+        {
+            _position.Initialize();
+            _rotation.Initialize();
+            _scale.Initialize();
+        }
+        
+        private void ResetNetworkVariables()
+        {
+            _position.Reset();
+            _rotation.Reset();
+            _scale.Reset();
+        }
 
         protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)
         {
             if (IsOwner == false) return;
-
             
             if (newState.HasPositionChange)
             {
@@ -67,7 +86,6 @@ namespace Project
         {
             _scale.Value = new NetworkVector3Simplified(newScale);
         }
-
         #endregion
         
     }

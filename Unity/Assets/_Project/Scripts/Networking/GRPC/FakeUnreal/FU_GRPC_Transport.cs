@@ -21,7 +21,7 @@ namespace Project
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
         
-        public readonly Event onClientPreEndedEvent = new Event(nameof(onClientPreEndedEvent));
+        public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
         
         private void Start()
         {
@@ -70,7 +70,7 @@ namespace Project
             
             Debug.Log("Connection shutdown ! Cleaning client...");
             
-            onClientPreEndedEvent.Invoke(this, false);
+            onClientStopEvent.Invoke(this, false);
             
             _channel?.ShutdownAsync().Wait();
             _channel = null;
@@ -98,6 +98,8 @@ namespace Project
                 Debug.LogError($"FU GRPCClient.cs > Connection failed : {e}");
             }
             
+            if(response.Result == 0)
+                FU_NetworkObjectManager.instance.ComputeNetObjUpdates(response.NetObjects.ToList());
             
             return response.Result == 0;
         }

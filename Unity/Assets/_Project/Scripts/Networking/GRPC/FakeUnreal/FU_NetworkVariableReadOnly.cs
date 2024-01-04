@@ -1,85 +1,145 @@
 using System;
-using System.IO;
-using System.Threading;
-using Grpc.Core;
 using GRPCClient;
-using Unity.Netcode;
+using Project.Extensions;
+using Sirenix.OdinInspector;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Project
 {
-    [System.Serializable]
-    public class FU_NetworkVariableReadOnly : IDisposable
+    [Serializable]
+    public class FU_NetworkVariableReadOnly<T> : IDisposable
     {
-        [SerializeField] private int _value;
-        private MainService.MainServiceClient _client => FU_GRPC_Transport.instance.client;
+        private FU_GRPC_NetworkManager NetworkManager => FU_GRPC_NetworkManager.instance;
+        private FU_NetVarHandler NetVarHandler => FU_NetVarHandler.instance;
+
+        private readonly int _variableHashName;
+        [ShowInInspector, Sirenix.OdinInspector.ReadOnly] public T value { get; private set; }
+        private int _netId;
+
+        private static GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         
-        private AsyncServerStreamingCall<GRPC_NetVarUpdate> _readStream;
-        private CancellationTokenSource _readStreamCancellationTokenSource;
+        public event Action<T> OnValueChanged;
         
-        
-        public FU_NetworkVariableReadOnly()
+        public FU_NetworkVariableReadOnly(string variableName)
         {
-            // _readStream = _client.GRPC_CliNetNetVarUpdate(new GRPC_NetVarUpdate() {HashName = "test".GetHashCode()});
-            _readStreamCancellationTokenSource = new CancellationTokenSource();
-            ReadValues();
+            _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnUnreal();
         }
-        
-        ~FU_NetworkVariableReadOnly()
-        {
-            Dispose();
-        }
-        
-        
+
         public void Dispose()
         {
-            _readStreamCancellationTokenSource?.Cancel();
-            _readStreamCancellationTokenSource?.Dispose();
+            if(!FU_GRPC_NetworkManager.isBeingDestroyed && NetworkManager != null) 
+                NetworkManager.onClientStopEvent.Unsubscribe(Dispose);
             
-            _readStream?.Dispose();
+            if(!FU_NetVarHandler.isBeingDestroyed && NetVarHandler != null) 
+                NetVarHandler.GetEvent(_currentType).Unsubscribe(OnNetVarUpdated);
         }
 
-
-
-        private async void ReadValues()
+        public void Initialize(FU_NetworkObject obj)
         {
-            try
+            _netId = (int)obj.NetID;
+            
+            if (NetworkManager.isConnected)
             {
-                while (await _readStream.ResponseStream.MoveNext(_readStreamCancellationTokenSource.Token))
-                {
-                    // _value = Convert(_readStream.ResponseStream.Current.NewValue);
-                    _value = int.Parse(_readStream.ResponseStream.Current.NewValue.Value);
-                    Debug.Log($"Network variable sync : {_value.ToString()}");
-                }
+                GRPC_NetworkVariable_Initialization();
             }
-            catch
+            else
             {
-                FU_GRPC_NetworkManager.instance.StopClient();
+                NetworkManager.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
             }
+        }
+
+        private void GRPC_NetworkVariable_Initialization()
+        {
+            NetworkManager.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
+            
+            if(_currentType == GRPC_GenericType.Isnull) _currentType = GetGrpcGenericType();
+            
+            NetworkManager.onClientStopEvent.Subscribe(this, Dispose);
+            
+            NetVarHandler.GetEvent(_currentType).Subscribe(this, OnNetVarUpdated);
+            NetVarHandler.TryCreateStream(_currentType);
+        }
+
+        private void OnNetVarUpdated(GRPC_NetVarUpdate update)
+        {
+            if (update.HashName != _variableHashName || update.NetId != _netId) return;
+            
+            object dynamicValueObject = ConvertGrpcGenericType(update.NewValue);
+            value = (T)dynamicValueObject;
+                        
+            OnValueChanged?.Invoke(value);
+                        
+            Debug.Log($"Network variable sync : {value.ToString()}");
         }
         
         /// TO PLACE SOMEWHERE ELSE
-        private dynamic Convert(GRPC_GenericValue grpcGenericValue)
+        private dynamic ConvertGrpcGenericType(GRPC_GenericValue grpcGenericValue)
         {
             switch (grpcGenericValue.Type)
             {
                 case GRPC_GenericType.Int:
                     return int.Parse(grpcGenericValue.Value);
-
                 case GRPC_GenericType.String:
                     return grpcGenericValue.Value;
-
                 case GRPC_GenericType.Bool:
                     return bool.Parse(grpcGenericValue.Value);
-
                 case GRPC_GenericType.Vector3:
-                    // return (Vector3)grpcGenericValue.Value
-                    break;
+                    string val = grpcGenericValue.Value.Replace("X=", "");
+                    val = val.Replace("Y=", "");
+                    val = val.Replace("Z=", "");
+                    string[] splitValue = val.Split(',');
+                    return new Vector3(float.Parse(splitValue[0]), float.Parse(splitValue[1]), float.Parse(splitValue[2]));
                 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            return null;
         }
+        
+        private static GRPC_GenericType GetGrpcGenericType()
+        {
+            Type type = typeof(T);
+
+            if (type == typeof(Int32))
+            {
+                return GRPC_GenericType.Int;
+            }
+
+            if (type == typeof(FixedString32Bytes) || type == typeof(FixedString64Bytes) || type == typeof(FixedString128Bytes) || type == typeof(string))
+            {
+                return GRPC_GenericType.String;
+            }
+            
+            if (type == typeof(bool))
+            {
+                return GRPC_GenericType.Bool;
+            }
+
+            if (type == typeof(Vector3))
+            {
+                return GRPC_GenericType.Vector3;
+            }
+            
+            if (type == typeof(NetworkVector3Simplified))
+            {
+                return GRPC_GenericType.Vector3;
+            }
+            
+            if (type == typeof(Quaternion))
+            {
+                return GRPC_GenericType.Vector3;
+            }
+
+            Debug.LogError($"The type '{type}' is not supported");
+            return GRPC_GenericType.Isnull;
+        }
+        
+        #if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ClearStaticFields()
+        {
+            _currentType = GRPC_GenericType.Isnull;
+        }
+        #endif
     }
 }
