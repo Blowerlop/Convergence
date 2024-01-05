@@ -6,16 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SingleWipeNoise Invert (Customized).asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SingleWipeNoise Invert (Customized).asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/SO Cache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/SO Cache.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Spell.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Spell.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/ScriptableObjectReferencesCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/ScriptableObjectReferencesCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/Lobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/Lobby.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/Team.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/Team.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/Extensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,6 +272,7 @@
       <workItem from="1704367033107" duration="9000" />
       <workItem from="1704367852387" duration="17437000" />
       <workItem from="1704444905573" duration="6622000" />
+      <workItem from="1704458443109" duration="1315000" />
     </task>
     <servers />
   </component>

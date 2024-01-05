@@ -24,6 +24,7 @@ namespace Project
 #endif
         
         [Title("Data")]
+        // I can't make it dictionary because Unity can't serialize them 
         [field: SerializeField, ReadOnly] private List<SOCacheEntry> _scriptableObjectsCache;
 
         
@@ -35,6 +36,7 @@ namespace Project
         #if UNITY_EDITOR
         public static ScriptableObjectReferencesCache GetAssetInstance() 
         {
+            // Should exist only one asset of this
             var assetInstance = Utilities.FindAssetsByType<ScriptableObjectReferencesCache>().First();
             if (assetInstance == null) Debug.LogError("Cannot find ScriptableObjectReferencesCache instance");
             return assetInstance;
