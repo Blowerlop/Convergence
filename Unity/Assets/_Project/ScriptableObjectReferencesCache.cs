@@ -11,7 +11,7 @@ using UnityEditor.Build.Reporting;
 #endif
 
 //
-// Inspired by https://gist.github.com/Lazersquid/4f04327da0741f2e1dea5038026701f2
+// Inspired of https://gist.github.com/Lazersquid/4f04327da0741f2e1dea5038026701f2
 //
 namespace Project
 {
@@ -24,12 +24,12 @@ namespace Project
 #endif
         
         [Title("Data")]
-        [field: SerializeField, ReadOnly] private List<SOCacheEntry> _typesCache;
+        [field: SerializeField, ReadOnly] private List<SOCacheEntry> _scriptableObjectsCache;
 
         
         public T[] GetScriptableObjects<T>()
         {
-            return _typesCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name).scriptableObjects.Cast<T>().ToArray();
+            return _scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name).scriptableObjects.Cast<T>().ToArray();
         }
         
         #if UNITY_EDITOR
@@ -46,13 +46,13 @@ namespace Project
             ClearReferences();
 
             ScriptableObjectReferencesCache assetInstance = GetAssetInstance();
-            assetInstance._typesCache = new List<SOCacheEntry>();
+            assetInstance._scriptableObjectsCache = new List<SOCacheEntry>();
             
             var types = GetSoTypesWithInterface<IScriptableObjectSerializeReference>();
             foreach (Type type in types)
             {
                 var scriptableObjects = Utilities.FindAssetsByType<ScriptableObject>(type);
-                assetInstance._typesCache.Add(new SOCacheEntry(type.Name, scriptableObjects));
+                assetInstance._scriptableObjectsCache.Add(new SOCacheEntry(type.Name, scriptableObjects));
             }
             
             assetInstance.ForceSaveOnDisk();
@@ -62,7 +62,7 @@ namespace Project
         private static void ClearReferences()
         {
             ScriptableObjectReferencesCache assetInstance = GetAssetInstance();
-            assetInstance._typesCache = null;
+            assetInstance._scriptableObjectsCache = null;
         }
         
         private static Type[] GetSoTypesWithInterface<T>()
@@ -92,7 +92,7 @@ namespace Project
     
     
     #if UNITY_EDITOR
-    public class ScriptableObjectReferenceCacheVersionDeuxEditor : IPreprocessBuildWithReport
+    public class ScriptableObjectReferencesCacheEditor : IPreprocessBuildWithReport
     {
         [InitializeOnLoadMethod]
         private static void Subscribe()

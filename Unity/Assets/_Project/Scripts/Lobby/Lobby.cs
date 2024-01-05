@@ -128,7 +128,7 @@ namespace Project
 
         private void GoToGameScene()
         {
-            Project.SceneManager.Network_LoadSceneAsync("Game", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
+            Project.SceneManager.Network_LoadSceneAsync("Spell", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
         }
     }
 }

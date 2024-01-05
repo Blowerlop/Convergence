@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO Cache
   m_EditorClassIdentifier: 
   <autoFetchInPlaymode>k__BackingField: 1
-  _typesCache:
+  _scriptableObjectsCache:
   - <typeName>k__BackingField: SOCharacter
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}

@@ -7,6 +7,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
+public enum EAxis
+{
+    X,
+    Y,
+    Z
+}
+
 namespace Project.Extensions
 {
     public static class TransformExtensions
@@ -239,6 +246,29 @@ namespace Project.Extensions
         public static T IsNull<T>(this T @object) where T : UnityEngine.Object
         {
             return @object == null ? null : @object;
+        }
+    }
+
+    public static class VectorExtensions
+    {
+        public static Vector3 RemoveAxis(this Vector3 vector3, EAxis axis)
+        {
+            switch (axis)
+            {
+                case EAxis.X:
+                    vector3.x = 0.0f;
+                    break;
+                
+                case EAxis.Y:
+                    vector3.y = 0.0f;
+                    break;
+                
+                case EAxis.Z:
+                    vector3.z = 0.0f;
+                    break;
+            }
+
+            return vector3;
         }
     }
 }
