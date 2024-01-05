@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace Project.Spells.Casters
 {
-    public class DefaultSkillShotCaster : SpellCaster
+    public class SkillShotCaster : SpellCaster
     {
         [SerializeField] private Transform visual;
         
         [SerializeField] private LayerMask groundLayerMask;
         private Camera _camera;
         
-        private DefaultSkillShotResults _currentResults = new();
+        private SingleVectorResults _currentResults = new();
 
         private void Start()
         {
@@ -35,7 +35,7 @@ namespace Project.Spells.Casters
         
         protected override void UpdateChanneling()
         {
-            visual.rotation = Quaternion.LookRotation(_currentResults.Direction);
+            visual.rotation = Quaternion.LookRotation(_currentResults.VectorProp);
         }
 
         public override void EvaluateResults()
@@ -46,7 +46,7 @@ namespace Project.Spells.Casters
             var playerPos = CasterTransform.position;
             playerPos.y = 0;
             
-            _currentResults.Direction = (position - playerPos).normalized;
+            _currentResults.VectorProp = (position - playerPos).normalized;
         }
 
         public override void TryCast(int casterIndex)

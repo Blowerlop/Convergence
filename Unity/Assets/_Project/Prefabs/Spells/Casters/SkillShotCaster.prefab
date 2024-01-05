@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 6332383838954588262}
   - component: {fileID: 6659489374371741918}
   m_Layer: 0
-  m_Name: DefaultSkillShotCaster
+  m_Name: SkillShotCaster
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: 80b74a073fa3027458f3b3ff5346f10b, type: 3}
   m_NavMeshLayer: 0
@@ -141,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6876870975011348124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b896e4d8d7b9e4a94f569c64f71c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ChannelingResultType>k__BackingField: 0
   visual: {fileID: 377429326200884870}
   groundLayerMask:
     serializedVersion: 2

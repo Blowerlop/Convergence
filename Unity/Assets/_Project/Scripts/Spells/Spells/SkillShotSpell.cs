@@ -4,44 +4,43 @@ using UnityEngine;
 
 namespace Project.Spells
 {
-    public class DefaultSkillShotSpell : Spell
+    public class SkillShotSpell : Spell
     {
         [SerializeField] private Vector3 _castOffset;
         [SerializeField] private float _castRadius;
         
-        DefaultSkillShotResults _results;
+        SingleVectorResults _results;
         
         [SerializeField] private LayerMask _layerMask;
 
         private Sequence _moveSeq;
         
-        public override void Init(IChannelingResult channelingResult)
+        public override void Init(ICastResult castResult)
         {
-            if (channelingResult is not DefaultSkillShotResults results)
+            if (castResult is not SingleVectorResults results)
             {
                 Debug.LogError(
-                    $"Given channeling result {nameof(channelingResult)} is not the required type for {nameof(DefaultSkillShotSpell)}!");
+                    $"Given channeling result {nameof(castResult)} is not the required type for {nameof(SkillShotSpell)}!");
                 return;
             }
 
             _results = results;
             
             _moveSeq = DOTween.Sequence();
-            _moveSeq.Join(transform.DOMove(transform.position + results.Direction * 6.75f, 0.35f).SetEase(Ease.Linear));
+            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * 6.75f, 0.35f).SetEase(Ease.Linear));
             _moveSeq.OnComplete(() => NetworkObject.Despawn());
         }
 
-        public override (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult, PlayerRefs player)
+        public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
         {
-            if (channelingResult is not DefaultSkillShotResults results)
+            if (castResult is not SingleVectorResults results)
             {
                 Debug.LogError(
-                    $"Given channeling result {nameof(channelingResult)} is not the required type for {nameof(DefaultSkillShotSpell)}!");
+                    $"Given channeling result {nameof(castResult)} is not the required type for {nameof(SkillShotSpell)}!");
                 return default;
             }
             
-            //TODO: Find a way to get the right player's position.
-            return (player.PlayerTransform.position, Quaternion.LookRotation(results.Direction));
+            return (player.PlayerTransform.position, Quaternion.LookRotation(results.VectorProp));
         }
 
         private void Update()
@@ -51,7 +50,7 @@ namespace Project.Spells
             var forward = transform.forward;
             Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
             
-            if (Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.Direction, 
+            if (Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
                     out RaycastHit hit, 0.1f, _layerMask))
             {
                 if (hit.transform.TryGetComponent(out IDamageable damageable))

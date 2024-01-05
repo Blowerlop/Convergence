@@ -4,6 +4,8 @@ namespace Project.Spells.Casters
 {
     public abstract class SpellCaster : MonoBehaviour
     {
+        [field: SerializeField] public CastResultType CastResultType { get; private set; }
+        
         public bool IsChanneling { get; private set; }
 
         protected Transform CasterTransform { get; private set; }

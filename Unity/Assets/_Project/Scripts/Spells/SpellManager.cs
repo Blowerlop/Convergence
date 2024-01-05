@@ -6,7 +6,7 @@ namespace Project.Spells
 {
     public class SpellManager : NetworkSingleton<SpellManager>
     {
-        private void TryCastSpell(int clientId, int spellIndex, IChannelingResult results)
+        private void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
             UserInstance user = UserInstanceManager.instance.GetUserInstance(clientId);
             if (user == null)
@@ -45,7 +45,7 @@ namespace Project.Spells
             spellInstance.Init(results);
         }
 
-        private Spell SpawnSpell(SpellData spell, IChannelingResult results, PlayerRefs playerRefs)
+        private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellPrefab = spell.spellPrefab;
             
@@ -62,13 +62,7 @@ namespace Project.Spells
         //Since Netcode doesn't really handle polymorphism, we need to create a TryCast method for each channeling results
         
         [ServerRpc(RequireOwnership = false)]
-        public void TryCastSpellServerRpc(int spellIndex, DefaultSkillShotResults results, ServerRpcParams serverRpcParams = default)
-        {
-            TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
-        }
-        
-        [ServerRpc(RequireOwnership = false)]
-        public void TryCastSpellServerRpc(int spellIndex, DefaultZoneResults results, ServerRpcParams serverRpcParams = default)
+        public void TryCastSpellServerRpc(int spellIndex, SingleVectorResults results, ServerRpcParams serverRpcParams = default)
         {
             TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
         }
