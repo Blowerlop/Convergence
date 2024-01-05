@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using Project.Extensions;
-using Sirenix.OdinInspector;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 

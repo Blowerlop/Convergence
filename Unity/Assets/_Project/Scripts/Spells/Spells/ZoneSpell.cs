@@ -1,7 +1,5 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Spells
 {

@@ -1,7 +1,5 @@
 using System.Linq;
 using Project.Extensions;
-using Sirenix.OdinInspector;
-using TransitionsPlus;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;

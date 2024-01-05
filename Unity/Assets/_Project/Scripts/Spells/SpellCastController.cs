@@ -1,5 +1,4 @@
 using System.Linq;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +6,8 @@ namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
+        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
+        
         private PlayerRefs _player;
         private CooldownController _cooldowns;
         
@@ -52,7 +53,7 @@ namespace Project.Spells.Casters
         
         private bool InitSpells()
         {
-            SOCharacter.TryGetCharacter(UserInstance.Me.CharacterId, out var character);
+            SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, UserInstance.Me.CharacterId, out var character);
             if(character == null)
             {
                 Debug.LogError($"SpellCastController > Can't InitSpells because character {UserInstance.Me.CharacterId} can't be found.");

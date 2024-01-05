@@ -1,4 +1,3 @@
-using Project.Spells.Casters;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,6 +5,8 @@ namespace Project.Spells
 {
     public class SpellManager : NetworkSingleton<SpellManager>
     {
+        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
+        
         private void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
             UserInstance user = UserInstanceManager.instance.GetUserInstance(clientId);
@@ -22,7 +23,7 @@ namespace Project.Spells
                 return;
             }
 
-            if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData))
+            if (!SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, user.CharacterId, out var characterData))
             {
                 Debug.LogError($"Trying to cast a spell for an invalid character {user.CharacterId}.");
                 return;

@@ -28,10 +28,8 @@ namespace Project
         {
             TeamManager.instance.onTeamSetEvent.Subscribe(this, OnTeamSet_UpdateButtonText);
 
-            // Only in editor and for a specific use case.
             // Because right now in testing this network spawn might fired first, we have a null ref on our UserInstance.
             // But in the final game, the UserInstance will be the first thing ever fired in the network (normally)
-            #if UNITY_EDITOR
             if (NetworkManager.IsServer && NetworkManager.IsHost == false) return;
             Utilities.StartWaitUntilAndDoAction(this, () => UserInstance.Me != null,
                 () =>
@@ -44,9 +42,8 @@ namespace Project
                     
                     UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
                 });
-             #else
-             UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor);
-             #endif
+            
+             // UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
         }
 
         public override void OnNetworkDespawn()
@@ -81,15 +78,7 @@ namespace Project
         
         public void SetTeamServerRpcc()
         {
-            #if UNITY_EDITOR
-            if (FU_GRPC_NetworkManager.instance.isConnected)
-            {
-                TeamManager.instance.FU_Write(NetworkManager.Singleton.LocalClientId, _teamIndex);
-                return;
-            }
-            #endif
             SetTeamServerRpc(_teamIndex, NetworkManager.Singleton.LocalClientId);
-            
         }
 
         [ServerRpc(RequireOwnership = false)]

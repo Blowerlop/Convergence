@@ -62,7 +62,7 @@ namespace Project
             
             userInstance.SetCharacter(characterId);
             
-            SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, characterId);
+            SelectCharacterServerRpc(clientId, characterId);
         }
     }
 }
