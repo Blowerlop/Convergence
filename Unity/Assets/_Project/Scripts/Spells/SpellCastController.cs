@@ -42,6 +42,7 @@ namespace Project.Spells.Casters
             InputManager.instance.OnSpellInputStarted -= StartChanneling;
             InputManager.instance.OnOnSpellInputCanceled -= StopChanneling;
             InputManager.instance.onMouseButton0.started -= StopChanneling;
+            InputManager.instance.onMouseButton1.started -= CancelChanneling;
         }
 
         private void InitInputs()
@@ -49,6 +50,7 @@ namespace Project.Spells.Casters
             InputManager.instance.OnSpellInputStarted += StartChanneling;
             InputManager.instance.OnOnSpellInputCanceled += StopChanneling;
             InputManager.instance.onMouseButton0.started += StopChanneling;
+            InputManager.instance.onMouseButton1.started += CancelChanneling;
         }
         
         private bool InitSpells()
@@ -140,6 +142,19 @@ namespace Project.Spells.Casters
             caster.TryCast(spellIndex);
             
             _cooldowns.StartLocalCooldown(spellIndex, _spells[spellIndex].cooldown);
+        }
+        
+        private void CancelChanneling(InputAction.CallbackContext _)
+        {
+            if (!_currentChannelingIndex.HasValue) return;
+            
+            var caster = _spellCasters[_currentChannelingIndex.Value];
+            
+            if (!caster.IsChanneling) return;
+
+            _currentChannelingIndex = null;
+            
+            caster.StopChanneling();
         }
     }
 }
