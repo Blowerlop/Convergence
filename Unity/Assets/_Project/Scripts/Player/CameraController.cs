@@ -21,6 +21,7 @@ namespace Project
         [SerializeField] private float _speed = 40.0f;
         [SerializeField] private bool _canUseKeyboard = true;
         [SerializeField] private bool _canUseMouse = true;
+        [SerializeField, OnValueChanged(nameof(ToggleCameraLock))] private bool _lockCamera = true;
         [SerializeField] private LayerMask _groundLayerMask;
         
         [Title("References")]
@@ -50,18 +51,30 @@ namespace Project
 #if UNITY_EDITOR
             if (Application.isFocused == false) return;
 #endif
+
+            if (_lockCamera) return;
             
             ComputeMovement();
         }
 
+        private void LateUpdate()
+        {
+            if (_lockCamera) CenterCameraOnPlayer();
+        }
+
         private void OnEnable()
         {
-            InputManager.instance.onCenterCamera.started += onCenterCameraRequest_CenterCameraOnPlayer;
+            InputManager.instance.onCenterCamera.performed += onCenterCameraRequest_CenterCameraOnPlayer;
+            InputManager.instance.onLockCamera.performed += OnCameraLockRequest_ToggleCameraLock;
         }
 
         private void OnDisable()
         {
-            InputManager.instance.onCenterCamera.started -= onCenterCameraRequest_CenterCameraOnPlayer;
+            if (InputManager.isBeingDestroyed == false)
+            {
+                InputManager.instance.onCenterCamera.performed -= onCenterCameraRequest_CenterCameraOnPlayer;
+                InputManager.instance.onLockCamera.performed -= OnCameraLockRequest_ToggleCameraLock;
+            }
         }
 
 
@@ -100,7 +113,18 @@ namespace Project
         {
             return movementInput != Vector2.zero;
         }
-        
+
+        private void OnCameraLockRequest_ToggleCameraLock(InputAction.CallbackContext _)
+        {
+            ToggleCameraLock();
+        }
+
+        private void ToggleCameraLock()
+        {
+            _lockCamera = !_lockCamera;
+            Debug.Log("Camera lock : " + _lockCamera);
+        }
+
         private void onCenterCameraRequest_CenterCameraOnPlayer(InputAction.CallbackContext _)
         {
             CenterCameraOnPlayer();

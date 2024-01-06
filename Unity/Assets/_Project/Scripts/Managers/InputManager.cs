@@ -37,6 +37,7 @@ namespace Project
         public InputAction onMouseButton1 => _inputAction.Player.MouseButton1;
         public InputAction onConsole => _inputAction.Persistant.Console;
         public InputAction onCenterCamera => _inputAction.Player.CenterCamera;
+        public InputAction onLockCamera => _inputAction.Player.LockCamera;
 
         // Spells
         private InputAction[] _spellInputs;

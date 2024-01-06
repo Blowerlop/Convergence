@@ -12,7 +12,8 @@
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Console.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Console.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/InputManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/Extensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/MovementController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/MovementController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Spells/SpellCastController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Spells/SpellCastController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,7 +281,7 @@
       <workItem from="1704444905573" duration="6622000" />
       <workItem from="1704458443109" duration="6690000" />
       <workItem from="1704468036305" duration="1235000" />
-      <workItem from="1704557664560" duration="3884000" />
+      <workItem from="1704557664560" duration="4679000" />
     </task>
     <servers />
   </component>
