@@ -85,14 +85,14 @@ namespace Project
 
         private void OnEnable()
         {
-            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
+            InputManager.instance.onConsole.started += OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.AddListener(ExecuteCommand);
             _inputInputField.onValueChanged.AddListenerExtended(CommandPrediction);
         }
 
         private void OnDisable()
         {
-            InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
+            InputManager.instance.onConsole.started -= OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.RemoveListener(ExecuteCommand);
             _inputInputField.onValueChanged.RemoveListenerExtended(CommandPrediction);
         }

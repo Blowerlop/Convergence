@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CenterCamera",
+                    "type": "Button",
+                    "id": "02a4f1ad-a1fc-4f2e-afca-783a989c7dc5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -296,6 +305,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Spell4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c84f2764-25ae-4c3b-ab57-c3b658a1e1bf",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CenterCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

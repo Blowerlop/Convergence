@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -22,6 +21,7 @@ namespace Project
         [SerializeField] private float _speed = 40.0f;
         [SerializeField] private bool _canUseKeyboard = true;
         [SerializeField] private bool _canUseMouse = true;
+        [SerializeField] private LayerMask _groundLayerMask;
         
         [Title("References")]
         [SerializeField] private Camera _playerCamera;
@@ -29,12 +29,20 @@ namespace Project
 
         private Vector3 _forward;
         private Vector3 _right;
+        private Vector3 _offset;
 
         
         private void Start()
         {
-            _forward = (_playerCamera.transform.forward + _playerCamera.transform.up).RemoveAxis(EAxis.Y).normalized;
+            _forward = (_playerCamera.transform.forward + _playerCamera.transform.up).ResetAxis(EAxis.Y).normalized;
             _right = _playerCamera.transform.right;
+            
+            if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out RaycastHit hit, Mathf.Infinity, _groundLayerMask))
+            {
+                _offset = _playerCamera.transform.position - hit.point;
+                _offset.y = 0.0f;
+            }
+            else Debug.LogError("Unable to calculate offset");
         }
 
         private void Update()
@@ -45,7 +53,17 @@ namespace Project
             
             ComputeMovement();
         }
-        
+
+        private void OnEnable()
+        {
+            InputManager.instance.onCenterCamera.started += onCenterCameraRequest_CenterCameraOnPlayer;
+        }
+
+        private void OnDisable()
+        {
+            InputManager.instance.onCenterCamera.started -= onCenterCameraRequest_CenterCameraOnPlayer;
+        }
+
 
         private void ComputeMovement()
         {
@@ -82,26 +100,16 @@ namespace Project
         {
             return movementInput != Vector2.zero;
         }
+        
+        private void onCenterCameraRequest_CenterCameraOnPlayer(InputAction.CallbackContext _)
+        {
+            CenterCameraOnPlayer();
+        }
 
-        /// <summary>
-        /// There is maybe a wayyyy more efficient way to do it but in works for the moment.
-        /// </summary>
         [Button]
         private void CenterCameraOnPlayer()
         {
-            if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out RaycastHit hit))
-            {
-            }
-            else return;
-
-            var result = (_player.transform.position - hit.point).RemoveAxis(EAxis.Y);
-            _playerCamera.transform.position += result;
-        }
-
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawLine(_playerCamera.transform.position, _player.transform.position);
+            _playerCamera.transform.position = new Vector3(_player.transform.position.x, _playerCamera.transform.position.y, _player.transform.position.z) + _offset;
         }
     }
 }

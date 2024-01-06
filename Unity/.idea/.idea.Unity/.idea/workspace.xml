@@ -6,10 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/PlayerInputAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/PlayerInputAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Generated Things/PlayerInputAction.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Generated Things/PlayerInputAction.inputactions" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Spell.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Spell.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Console.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Console.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Managers/InputManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/Extensions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +279,8 @@
       <workItem from="1704367852387" duration="17437000" />
       <workItem from="1704444905573" duration="6622000" />
       <workItem from="1704458443109" duration="6690000" />
-      <workItem from="1704468036305" duration="325000" />
+      <workItem from="1704468036305" duration="1235000" />
+      <workItem from="1704557664560" duration="3884000" />
     </task>
     <servers />
   </component>

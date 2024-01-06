@@ -251,7 +251,7 @@ namespace Project.Extensions
 
     public static class VectorExtensions
     {
-        public static Vector3 RemoveAxis(this Vector3 vector3, EAxis axis)
+        public static Vector3 ResetAxis(this Vector3 vector3, EAxis axis)
         {
             switch (axis)
             {
