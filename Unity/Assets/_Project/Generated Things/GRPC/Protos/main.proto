@@ -33,6 +33,10 @@ service MainService {
 
 	rpc GRPC_TeamSelectionUnrealToGrpc (stream GRPC_Team) returns (stream GRPC_TeamResponse);
 	rpc GRPC_TeamSelectionGrpcToNetcode (stream GRPC_TeamResponse) returns (stream GRPC_Team);
+	
+	//Spells
+	rpc GRPC_SpellCastRequestUnrealToGrpc (GRPC_SpellCastRequest) returns (GRPC_EmptyMsg);
+	rpc GRPC_SpellCastRequestGrpcToNetcode (GRPC_EmptyMsg) returns (stream GRPC_SpellCastRequest);
 }
 
 //Handshake
@@ -125,4 +129,10 @@ message GRPC_Team{
 message GRPC_TeamResponse{
 	GRPC_Team team = 1;
 	bool response = 2;
+}
+
+message GRPC_SpellCastRequest {
+	int32 spellIdHash = 1;
+	repeated GRPC_Vector3 vectorParams = 2;
+	repeated float floatParams = 3;
 }
