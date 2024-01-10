@@ -6,7 +6,7 @@ namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
-        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
+        [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
         
         [SerializeField] private SpellCastersList spellCastersList;
         
@@ -55,7 +55,7 @@ namespace Project.Spells.Casters
         
         private bool InitSpells()
         {
-            SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, UserInstance.Me.CharacterId, out var character);
+            SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, UserInstance.Me.CharacterId, out var character);
             if(character == null)
             {
                 Debug.LogError($"SpellCastController > Can't InitSpells because character {UserInstance.Me.CharacterId} can't be found.");

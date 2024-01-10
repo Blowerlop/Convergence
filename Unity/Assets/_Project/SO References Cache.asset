@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4645af361e12ba45a545aeb3aa65164, type: 3}
-  m_Name: SO Cache
+  m_Name: SO References Cache
   m_EditorClassIdentifier: 
   <autoFetchInPlaymode>k__BackingField: 1
   _scriptableObjectsCache:

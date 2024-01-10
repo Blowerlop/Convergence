@@ -16,7 +16,7 @@ using UnityEditor.Build.Reporting;
 namespace Project
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Reference Cache", fileName = "SO References Cache")]
-    public class ScriptableObjectReferencesCache : ScriptableObject
+    public class SOScriptableObjectReferencesCache : ScriptableObject
     {
 #if UNITY_EDITOR
         [field: Title("Configuration")]
@@ -34,12 +34,34 @@ namespace Project
         }
         
         #if UNITY_EDITOR
-        public static ScriptableObjectReferencesCache GetAssetInstance() 
+        /// <summary>
+        /// /!\ Never use this to get the asset instance other than in editor.
+        /// If you want to get the asset instance other than in editor, you need to get the direct reference of it.
+        /// </summary>
+        /// <returns></returns>
+        public static SOScriptableObjectReferencesCache GetAssetInstance() 
         {
             // Should exist only one asset of this
-            var assetInstance = Utilities.FindAssetsByType<ScriptableObjectReferencesCache>().First();
-            if (assetInstance == null) Debug.LogError("Cannot find ScriptableObjectReferencesCache instance");
-            return assetInstance;
+            SOScriptableObjectReferencesCache[] allAssetInstances = Utilities.FindAssetsByType<SOScriptableObjectReferencesCache>();
+            if (allAssetInstances == null)
+            {
+                Debug.LogError("Cannot find ScriptableObjectReferencesCache instance");
+                return null;
+            }
+
+            if (allAssetInstances.Length > 1)
+            {
+                Debug.LogWarning("More than one asset of ScriptableObjectReferencesCache, destroying them...");
+                
+                string[] assetsPath = AssetDatabase.FindAssets($"t:{typeof(SOScriptableObjectReferencesCache)}").Skip(1).Select(AssetDatabase.GUIDToAssetPath).ToArray();
+                
+                AssetDatabase.DeleteAssets(assetsPath, new List<string>());
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                Debug.LogWarning("Done !");
+            }
+            
+            return allAssetInstances.First();
         }
         
         [ButtonGroup]
@@ -47,7 +69,7 @@ namespace Project
         {
             ClearReferences();
 
-            ScriptableObjectReferencesCache assetInstance = GetAssetInstance();
+            SOScriptableObjectReferencesCache assetInstance = GetAssetInstance();
             assetInstance._scriptableObjectsCache = new List<SOCacheEntry>();
             
             var types = GetSoTypesWithInterface<IScriptableObjectSerializeReference>();
@@ -63,7 +85,7 @@ namespace Project
         [ButtonGroup]
         private static void ClearReferences()
         {
-            ScriptableObjectReferencesCache assetInstance = GetAssetInstance();
+            SOScriptableObjectReferencesCache assetInstance = GetAssetInstance();
             assetInstance._scriptableObjectsCache = null;
         }
         
@@ -103,16 +125,16 @@ namespace Project
         {
             if (state != PlayModeStateChange.ExitingEditMode) return;
             
-            if (ScriptableObjectReferencesCache.GetAssetInstance().autoFetchInPlaymode)
+            if (SOScriptableObjectReferencesCache.GetAssetInstance().autoFetchInPlaymode)
             {
-                ScriptableObjectReferencesCache.FetchReferences();
+                SOScriptableObjectReferencesCache.FetchReferences();
             }
         }
         
         public int callbackOrder { get; }
         public void OnPreprocessBuild(BuildReport report)
         {
-            ScriptableObjectReferencesCache.FetchReferences();
+            SOScriptableObjectReferencesCache.FetchReferences();
         }
     }
 #endif

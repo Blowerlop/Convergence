@@ -29,18 +29,18 @@ namespace Project
         // Stats
 
 
-        public static SOCharacter[] GetAllCharacters(ScriptableObjectReferencesCache referencesCache)
+        public static SOCharacter[] GetAllCharacters(SOScriptableObjectReferencesCache referencesCache)
         {
             return referencesCache.GetScriptableObjects<SOCharacter>();
         }
         
-        public static bool TryGetCharacter(ScriptableObjectReferencesCache referencesCache, int id, out SOCharacter characterData)
+        public static bool TryGetCharacter(SOScriptableObjectReferencesCache referencesCache, int id, out SOCharacter characterData)
         {
             characterData = GetCharacter(referencesCache, id);
             return characterData != null;
         }
 
-        public static SOCharacter GetCharacter(ScriptableObjectReferencesCache referencesCache, int id)
+        public static SOCharacter GetCharacter(SOScriptableObjectReferencesCache referencesCache, int id)
         {
             return GetAllCharacters(referencesCache).FirstOrDefault(character => character.id == id);
         }
@@ -79,7 +79,7 @@ namespace Project
         {
             Debug.Log("Start searching...");
 
-            IEnumerable<SOCharacter> characters = GetAllCharacters(ScriptableObjectReferencesCache.GetAssetInstance());
+            IEnumerable<SOCharacter> characters = GetAllCharacters(SOScriptableObjectReferencesCache.GetAssetInstance());
 
             Dictionary<int, List<string>> ids = new Dictionary<int, List<string>>();
             foreach (SOCharacter character in characters)

@@ -5,7 +5,7 @@ namespace Project.Spells
 {
     public class SpellManager : NetworkSingleton<SpellManager>
     {
-        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
+        [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
         
         private void TryCastSpell(int clientId, int spellIndex, IChannelingResult results)
         {
@@ -23,7 +23,7 @@ namespace Project.Spells
                 return;
             }
 
-            if (!SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, user.CharacterId, out var characterData))
+            if (!SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, user.CharacterId, out var characterData))
             {
                 Debug.LogError($"Trying to cast a spell for an invalid character {user.CharacterId}.");
                 return;
