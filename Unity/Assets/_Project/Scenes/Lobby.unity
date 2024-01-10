@@ -2099,7 +2099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ffeb1c2ffedbc44a554bc53da334f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectReferencesCache: {fileID: 11400000, guid: a91a98688d6fbcf4ba98455889d59ae5,
+  _soScriptableObjectReferencesCache: {fileID: 11400000, guid: 36cc491c143c4a940b47c4da303d2767,
     type: 2}
   template: {fileID: 1965578907}
   _defaultSprite: {fileID: 21300000, guid: 700501e0927233444865bee2355d30de, type: 3}
