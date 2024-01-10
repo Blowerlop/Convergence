@@ -1,9 +1,7 @@
-using System;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Vector2 = UnityEngine.Vector2;
 
 namespace Project
 {
@@ -23,6 +21,7 @@ namespace Project
         [SerializeField] private bool _canUseMouse = true;
         [SerializeField, OnValueChanged(nameof(ToggleCameraLock))] private bool _lockCamera = true;
         [SerializeField] private LayerMask _groundLayerMask;
+        [SerializeField] private Collider _border;
         
         [Title("References")]
         [SerializeField] private Camera _playerCamera;
@@ -31,35 +30,18 @@ namespace Project
         private Vector3 _forward;
         private Vector3 _right;
         private Vector3 _offset;
-
+        private float _minX;
+        private float _maxX;
+        private float _minZ;
+        private float _maxZ;
+        
+        
         
         private void Start()
         {
-            _forward = (_playerCamera.transform.forward + _playerCamera.transform.up).ResetAxis(EAxis.Y).normalized;
-            _right = _playerCamera.transform.right;
-            
-            if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out RaycastHit hit, Mathf.Infinity, _groundLayerMask))
-            {
-                _offset = _playerCamera.transform.position - hit.point;
-                _offset.y = 0.0f;
-            }
-            else Debug.LogError("Unable to calculate offset");
-        }
-
-        private void Update()
-        {
-#if UNITY_EDITOR
-            if (Application.isFocused == false) return;
-#endif
-
-            if (_lockCamera) return;
-            
-            ComputeMovement();
-        }
-
-        private void LateUpdate()
-        {
-            if (_lockCamera) CenterCameraOnPlayer();
+            CalculateDirectionalsVectors();
+            CalculateCameraOffset();
+            CalculateMinMaxAuthorizedCameraPosition();
         }
 
         private void OnEnable()
@@ -77,13 +59,58 @@ namespace Project
             }
         }
 
+        private void Update()
+        {
+#if UNITY_EDITOR
+            if (Application.isFocused == false) return;
+#endif
+
+            if (_lockCamera) return;
+            
+            ComputeMovement();
+        }
+
+        private void LateUpdate()
+        {
+            if (_lockCamera) CenterCameraOnPlayer();
+            else ClampCameraPosition();
+        }
+        
+        
+        private void CalculateMinMaxAuthorizedCameraPosition()
+        {
+            Bounds borderBounds = _border.bounds;
+            
+            _minX = borderBounds.min.x;
+            _maxX = borderBounds.max.x;
+            
+            _minZ = borderBounds.min.z;
+            _maxZ = borderBounds.max.z;
+        }
+
+        private void CalculateCameraOffset()
+        {
+            if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out RaycastHit hit,
+                    Mathf.Infinity, _groundLayerMask))
+            {
+                _offset = _playerCamera.transform.position - hit.point;
+                _offset.y = 0.0f;
+            }
+            else Debug.LogError("Unable to calculate offset");
+        }
+
+        private void CalculateDirectionalsVectors()
+        {
+            _forward = (_playerCamera.transform.forward + _playerCamera.transform.up).ResetAxis(EAxis.Y).normalized;
+            _right = _playerCamera.transform.right;
+        }
 
         private void ComputeMovement()
         {
             Vector2 movementInput = Vector2.zero;
             
-            if (_canUseKeyboard) ComputeMovementWithKeyboard(ref movementInput);
-            if (_canUseMouse) ComputeMovementWithMouse(ref movementInput);
+            if (_canUseKeyboard) RetrieveMovementInputWithKeyboard(ref movementInput);
+            if (_canUseMouse) RetrieveMovementInputWithMouse(ref movementInput);
             
             if (HasRequestedAMovement(movementInput) == false) return;
             
@@ -93,12 +120,12 @@ namespace Project
             _playerCamera.transform.position += velocity;
         }
 
-        private void ComputeMovementWithKeyboard(ref Vector2 movementInput)
+        private void RetrieveMovementInputWithKeyboard(ref Vector2 movementInput)
         {
             movementInput = InputManager.instance.move;
         }
 
-        private void ComputeMovementWithMouse(ref Vector2 movementInput)
+        private void RetrieveMovementInputWithMouse(ref Vector2 movementInput)
         {
             Vector2 mousePosition = Mouse.current.position.value;
 
@@ -135,5 +162,19 @@ namespace Project
         {
             _playerCamera.transform.position = new Vector3(_player.transform.position.x, _playerCamera.transform.position.y, _player.transform.position.z) + _offset;
         }
+        
+        private void ClampCameraPosition()
+        {
+            Vector3 cameraPosition = _playerCamera.transform.position;
+            
+            Vector3 clampedPosition = new Vector3(
+                Mathf.Clamp(cameraPosition.x, _minX, _maxX),
+                cameraPosition.y,
+                Mathf.Clamp(cameraPosition.z, _minZ, _maxZ)
+                );
+            
+            _playerCamera.transform.position = clampedPosition;
+        }
+
     }
 }

@@ -77,10 +77,7 @@ namespace Project
                     t.IsSubclassOf(typeof(ScriptableObject)))
                 .ToArray();
         }
-        #endif 
         
-        
-        #if UNITY_EDITOR
         [Button]
         private void ForceSaveOnDisk()
         {
@@ -88,7 +85,7 @@ namespace Project
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-        #endif
+        #endif 
     }
     
     
