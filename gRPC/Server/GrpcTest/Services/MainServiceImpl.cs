@@ -576,5 +576,74 @@ namespace GRPCServer.Services
             }
         }
         #endregion
+        
+        #region Spells
+        
+        // Forward Unreal spell cast request to Netcode server
+        public override Task<GRPC_EmptyMsg> GRPC_SpellCastRequestUnrealToGrpc(GRPC_SpellCastRequest request, ServerCallContext context)
+        {
+            GRPC_EmptyMsg empty = new();
+            
+            if (netcodeServer == null)
+            {
+                Debug.LogError("GRPC_SpellCastRequestUnrealToGrpc > Can't forward spell cast request to NetcodeServer because it is null!");
+                return Task.FromResult(empty);
+            }
+            if(netcodeServer.SpellCastRequestStream == null)
+            {
+                Debug.LogError("GRPC_SpellCastRequestUnrealToGrpc > Can't forward spell cast request to " +
+                               "NetcodeServer because SpellCastRequestStream is null!");
+                return Task.FromResult(empty);
+            }
+
+            var client = unrealClients.Values.FirstOrDefault(cli => cli.Adress == context.Peer);
+
+            if (client == null)
+            {
+                Debug.LogError($"GRPC_SpellCastRequestUnrealToGrpc > Received a spell cast request from " +
+                               $"'{context.Peer}' but no UnrealClient is registered with this IP!");
+                return Task.FromResult(empty);
+            }
+
+            request.ClientId = client.id;
+            netcodeServer.SpellCastRequestStream.WriteAsync(request);
+            
+            return Task.FromResult(empty);
+        }
+        
+        // Netcode server uses this to open a stream to receive spell cast requests from Unreal clients
+        public override async Task GRPC_SpellCastRequestGrpcToNetcode(GRPC_EmptyMsg request,
+            IServerStreamWriter<GRPC_SpellCastRequest> responseStream, ServerCallContext context)
+        {
+            if (netcodeServer == null)
+            {
+                Debug.LogError(
+                    $"GRPC_SpellCastRequestGrpcToNetcode > Presumed NetcodeServer {context.Peer} is trying to " +
+                    $"get Spells stream but NetcodeServer is not registered.");
+                return;
+            }
+            if (netcodeServer.Adress != context.Peer)
+            {
+                Debug.LogError(
+                    $"GRPC_SpellCastRequestGrpcToNetcode > Client {context.Peer} is trying to get Spells stream " +
+                    $"but is not NetcodeServer {netcodeServer.Adress}.");
+                return;
+            }
+            
+            netcodeServer.SpellCastRequestStream = responseStream;
+            
+            try
+            {
+                await Task.Delay(-1, context.CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                Debug.Log("GRPC_SpellCastRequestGrpcToNetcode > Connection lost with NetcodeServer.");
+                UnsubscribeClientUpdateEvent();
+                DisconnectClient(context.Peer);
+            }
+        }
+        
+        #endregion
     }
 }

@@ -135,4 +135,8 @@ message GRPC_SpellCastRequest {
 	int32 spellIdHash = 1;
 	repeated GRPC_Vector3 vectorParams = 2;
 	repeated float floatParams = 3;
+	
+	// Set by GRPC server automatically when a request is received
+	// If a field is not set in a request, it will not be serialized and won't take space
+	int32 clientId = 4;
 }
