@@ -43,39 +43,39 @@ namespace GRPCClient {
             "ZVR5cGUSEAoIY2xpZW50SWQYAyABKAUSDAoEbmFtZRgEIAEoCSIwCglHUlBD",
             "X1RlYW0SEAoIY2xpZW50SWQYASABKAUSEQoJdGVhbUluZGV4GAIgASgFIkQK",
             "EUdSUENfVGVhbVJlc3BvbnNlEh0KBHRlYW0YASABKAsyDy5tYWluLkdSUENf",
-            "VGVhbRIQCghyZXNwb25zZRgCIAEoCCJ9ChVHUlBDX1NwZWxsQ2FzdFJlcXVl",
-            "c3QSEwoLc3BlbGxJZEhhc2gYASABKAUSKAoMdmVjdG9yUGFyYW1zGAIgAygL",
-            "MhIubWFpbi5HUlBDX1ZlY3RvcjMSEwoLZmxvYXRQYXJhbXMYAyADKAISEAoI",
-            "Y2xpZW50SWQYBCABKAUqLQoVR1JQQ19OZXRPYmpVcGRhdGVUeXBlEgcKA05F",
-            "VxAAEgsKB0RFU1RST1kQASpKChBHUlBDX0dlbmVyaWNUeXBlEgoKBklTTlVM",
-            "TBAAEgcKA0lOVBABEgoKBlNUUklORxACEggKBEJPT0wQAxILCgdWRUNUT1Iz",
-            "EAQqNAoVR1JQQ19DbGllbnRVcGRhdGVUeXBlEgsKB0NPTk5FQ1QQABIOCgpE",
-            "SVNDT05ORUNUEAEyzggKC01haW5TZXJ2aWNlEkMKDkdSUENfSGFuZHNoYWtl",
-            "EhgubWFpbi5HUlBDX0hhbmRzaGFrZVBvc3QaFy5tYWluLkdSUENfSGFuZHNo",
-            "YWtlR2V0EkwKFUdSUENfTmV0Y29kZUhhbmRzaGFrZRIZLm1haW4uR1JQQ19O",
-            "SGFuZHNoYWtlUG9zdBoYLm1haW4uR1JQQ19OSGFuZHNoYWtlR2V0EjgKCUdS",
-            "UENfUGluZxITLm1haW4uR1JQQ19QaW5nUG9zdBoSLm1haW4uR1JQQ19QaW5n",
-            "R2V0KAEwARJGChRHUlBDX1NydkNsaWVudFVwZGF0ZRITLm1haW4uR1JQQ19F",
-            "bXB0eU1zZxoXLm1haW4uR1JQQ19DbGllbnRVcGRhdGUwARJGChRHUlBDX1Ny",
-            "dk5ldE9ialVwZGF0ZRIXLm1haW4uR1JQQ19OZXRPYmpVcGRhdGUaEy5tYWlu",
-            "LkdSUENfRW1wdHlNc2coARJGChRHUlBDX0NsaU5ldE9ialVwZGF0ZRITLm1h",
-            "aW4uR1JQQ19FbXB0eU1zZxoXLm1haW4uR1JQQ19OZXRPYmpVcGRhdGUwARJG",
-            "ChRHUlBDX1Nydk5ldFZhclVwZGF0ZRIXLm1haW4uR1JQQ19OZXRWYXJVcGRh",
-            "dGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJNChdHUlBDX0NsaU5ldE5ldFZh",
-            "clVwZGF0ZRIXLm1haW4uR1JQQ19HZW5lcmljVmFsdWUaFy5tYWluLkdSUENf",
-            "TmV0VmFyVXBkYXRlMAESVAokR1JQQ19SZXF1ZXN0TmV0VmFyVXBkYXRlVW5y",
-            "ZWFsVG9HcnBjEhcubWFpbi5HUlBDX05ldFZhclVwZGF0ZRoTLm1haW4uR1JQ",
-            "Q19FbXB0eU1zZxJbCiVHUlBDX1JlcXVlc3ROZXRWYXJVcGRhdGVHcnBjVG9O",
-            "ZXRjb2RlEhcubWFpbi5HUlBDX05ldFZhclVwZGF0ZRoXLm1haW4uR1JQQ19O",
-            "ZXRWYXJVcGRhdGUwARJOCh5HUlBDX1RlYW1TZWxlY3Rpb25VbnJlYWxUb0dy",
-            "cGMSDy5tYWluLkdSUENfVGVhbRoXLm1haW4uR1JQQ19UZWFtUmVzcG9uc2Uo",
-            "ATABEk8KH0dSUENfVGVhbVNlbGVjdGlvbkdycGNUb05ldGNvZGUSFy5tYWlu",
-            "LkdSUENfVGVhbVJlc3BvbnNlGg8ubWFpbi5HUlBDX1RlYW0oATABElUKIUdS",
-            "UENfU3BlbGxDYXN0UmVxdWVzdFVucmVhbFRvR3JwYxIbLm1haW4uR1JQQ19T",
-            "cGVsbENhc3RSZXF1ZXN0GhMubWFpbi5HUlBDX0VtcHR5TXNnElgKIkdSUENf",
-            "U3BlbGxDYXN0UmVxdWVzdEdycGNUb05ldGNvZGUSEy5tYWluLkdSUENfRW1w",
-            "dHlNc2caGy5tYWluLkdSUENfU3BlbGxDYXN0UmVxdWVzdDABQg2qAgpHUlBD",
-            "Q2xpZW50YgZwcm90bzM="));
+            "VGVhbRIQCghyZXNwb25zZRgCIAEoCCJ8ChVHUlBDX1NwZWxsQ2FzdFJlcXVl",
+            "c3QSEgoKc3BlbGxJbmRleBgBIAEoBRIoCgx2ZWN0b3JQYXJhbXMYAiADKAsy",
+            "Ei5tYWluLkdSUENfVmVjdG9yMxITCgtmbG9hdFBhcmFtcxgDIAMoAhIQCghj",
+            "bGllbnRJZBgEIAEoBSotChVHUlBDX05ldE9ialVwZGF0ZVR5cGUSBwoDTkVX",
+            "EAASCwoHREVTVFJPWRABKkoKEEdSUENfR2VuZXJpY1R5cGUSCgoGSVNOVUxM",
+            "EAASBwoDSU5UEAESCgoGU1RSSU5HEAISCAoEQk9PTBADEgsKB1ZFQ1RPUjMQ",
+            "BCo0ChVHUlBDX0NsaWVudFVwZGF0ZVR5cGUSCwoHQ09OTkVDVBAAEg4KCkRJ",
+            "U0NPTk5FQ1QQATLOCAoLTWFpblNlcnZpY2USQwoOR1JQQ19IYW5kc2hha2US",
+            "GC5tYWluLkdSUENfSGFuZHNoYWtlUG9zdBoXLm1haW4uR1JQQ19IYW5kc2hh",
+            "a2VHZXQSTAoVR1JQQ19OZXRjb2RlSGFuZHNoYWtlEhkubWFpbi5HUlBDX05I",
+            "YW5kc2hha2VQb3N0GhgubWFpbi5HUlBDX05IYW5kc2hha2VHZXQSOAoJR1JQ",
+            "Q19QaW5nEhMubWFpbi5HUlBDX1BpbmdQb3N0GhIubWFpbi5HUlBDX1BpbmdH",
+            "ZXQoATABEkYKFEdSUENfU3J2Q2xpZW50VXBkYXRlEhMubWFpbi5HUlBDX0Vt",
+            "cHR5TXNnGhcubWFpbi5HUlBDX0NsaWVudFVwZGF0ZTABEkYKFEdSUENfU3J2",
+            "TmV0T2JqVXBkYXRlEhcubWFpbi5HUlBDX05ldE9ialVwZGF0ZRoTLm1haW4u",
+            "R1JQQ19FbXB0eU1zZygBEkYKFEdSUENfQ2xpTmV0T2JqVXBkYXRlEhMubWFp",
+            "bi5HUlBDX0VtcHR5TXNnGhcubWFpbi5HUlBDX05ldE9ialVwZGF0ZTABEkYK",
+            "FEdSUENfU3J2TmV0VmFyVXBkYXRlEhcubWFpbi5HUlBDX05ldFZhclVwZGF0",
+            "ZRoTLm1haW4uR1JQQ19FbXB0eU1zZygBEk0KF0dSUENfQ2xpTmV0TmV0VmFy",
+            "VXBkYXRlEhcubWFpbi5HUlBDX0dlbmVyaWNWYWx1ZRoXLm1haW4uR1JQQ19O",
+            "ZXRWYXJVcGRhdGUwARJUCiRHUlBDX1JlcXVlc3ROZXRWYXJVcGRhdGVVbnJl",
+            "YWxUb0dycGMSFy5tYWluLkdSUENfTmV0VmFyVXBkYXRlGhMubWFpbi5HUlBD",
+            "X0VtcHR5TXNnElsKJUdSUENfUmVxdWVzdE5ldFZhclVwZGF0ZUdycGNUb05l",
+            "dGNvZGUSFy5tYWluLkdSUENfTmV0VmFyVXBkYXRlGhcubWFpbi5HUlBDX05l",
+            "dFZhclVwZGF0ZTABEk4KHkdSUENfVGVhbVNlbGVjdGlvblVucmVhbFRvR3Jw",
+            "YxIPLm1haW4uR1JQQ19UZWFtGhcubWFpbi5HUlBDX1RlYW1SZXNwb25zZSgB",
+            "MAESTwofR1JQQ19UZWFtU2VsZWN0aW9uR3JwY1RvTmV0Y29kZRIXLm1haW4u",
+            "R1JQQ19UZWFtUmVzcG9uc2UaDy5tYWluLkdSUENfVGVhbSgBMAESVQohR1JQ",
+            "Q19TcGVsbENhc3RSZXF1ZXN0VW5yZWFsVG9HcnBjEhsubWFpbi5HUlBDX1Nw",
+            "ZWxsQ2FzdFJlcXVlc3QaEy5tYWluLkdSUENfRW1wdHlNc2cSWAoiR1JQQ19T",
+            "cGVsbENhc3RSZXF1ZXN0R3JwY1RvTmV0Y29kZRITLm1haW4uR1JQQ19FbXB0",
+            "eU1zZxobLm1haW4uR1JQQ19TcGVsbENhc3RSZXF1ZXN0MAFCDaoCCkdSUEND",
+            "bGllbnRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), typeof(global::GRPCClient.GRPC_ClientUpdateType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -93,7 +93,7 @@ namespace GRPCClient {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_ClientUpdate), global::GRPCClient.GRPC_ClientUpdate.Parser, new[]{ "ClientIP", "Type", "ClientId", "Name" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_Team), global::GRPCClient.GRPC_Team.Parser, new[]{ "ClientId", "TeamIndex" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_TeamResponse), global::GRPCClient.GRPC_TeamResponse.Parser, new[]{ "Team", "Response" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_SpellCastRequest), global::GRPCClient.GRPC_SpellCastRequest.Parser, new[]{ "SpellIdHash", "VectorParams", "FloatParams", "ClientId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_SpellCastRequest), global::GRPCClient.GRPC_SpellCastRequest.Parser, new[]{ "SpellIndex", "VectorParams", "FloatParams", "ClientId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -3257,7 +3257,7 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public GRPC_SpellCastRequest(GRPC_SpellCastRequest other) : this() {
-      spellIdHash_ = other.spellIdHash_;
+      spellIndex_ = other.spellIndex_;
       vectorParams_ = other.vectorParams_.Clone();
       floatParams_ = other.floatParams_.Clone();
       clientId_ = other.clientId_;
@@ -3270,15 +3270,15 @@ namespace GRPCClient {
       return new GRPC_SpellCastRequest(this);
     }
 
-    /// <summary>Field number for the "spellIdHash" field.</summary>
-    public const int SpellIdHashFieldNumber = 1;
-    private int spellIdHash_;
+    /// <summary>Field number for the "spellIndex" field.</summary>
+    public const int SpellIndexFieldNumber = 1;
+    private int spellIndex_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int SpellIdHash {
-      get { return spellIdHash_; }
+    public int SpellIndex {
+      get { return spellIndex_; }
       set {
-        spellIdHash_ = value;
+        spellIndex_ = value;
       }
     }
 
@@ -3335,7 +3335,7 @@ namespace GRPCClient {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (SpellIdHash != other.SpellIdHash) return false;
+      if (SpellIndex != other.SpellIndex) return false;
       if(!vectorParams_.Equals(other.vectorParams_)) return false;
       if(!floatParams_.Equals(other.floatParams_)) return false;
       if (ClientId != other.ClientId) return false;
@@ -3346,7 +3346,7 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (SpellIdHash != 0) hash ^= SpellIdHash.GetHashCode();
+      if (SpellIndex != 0) hash ^= SpellIndex.GetHashCode();
       hash ^= vectorParams_.GetHashCode();
       hash ^= floatParams_.GetHashCode();
       if (ClientId != 0) hash ^= ClientId.GetHashCode();
@@ -3368,9 +3368,9 @@ namespace GRPCClient {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (SpellIdHash != 0) {
+      if (SpellIndex != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(SpellIdHash);
+        output.WriteInt32(SpellIndex);
       }
       vectorParams_.WriteTo(output, _repeated_vectorParams_codec);
       floatParams_.WriteTo(output, _repeated_floatParams_codec);
@@ -3388,9 +3388,9 @@ namespace GRPCClient {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (SpellIdHash != 0) {
+      if (SpellIndex != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(SpellIdHash);
+        output.WriteInt32(SpellIndex);
       }
       vectorParams_.WriteTo(ref output, _repeated_vectorParams_codec);
       floatParams_.WriteTo(ref output, _repeated_floatParams_codec);
@@ -3408,8 +3408,8 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (SpellIdHash != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SpellIdHash);
+      if (SpellIndex != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SpellIndex);
       }
       size += vectorParams_.CalculateSize(_repeated_vectorParams_codec);
       size += floatParams_.CalculateSize(_repeated_floatParams_codec);
@@ -3428,8 +3428,8 @@ namespace GRPCClient {
       if (other == null) {
         return;
       }
-      if (other.SpellIdHash != 0) {
-        SpellIdHash = other.SpellIdHash;
+      if (other.SpellIndex != 0) {
+        SpellIndex = other.SpellIndex;
       }
       vectorParams_.Add(other.vectorParams_);
       floatParams_.Add(other.floatParams_);
@@ -3452,7 +3452,7 @@ namespace GRPCClient {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            SpellIdHash = input.ReadInt32();
+            SpellIndex = input.ReadInt32();
             break;
           }
           case 18: {
@@ -3484,7 +3484,7 @@ namespace GRPCClient {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            SpellIdHash = input.ReadInt32();
+            SpellIndex = input.ReadInt32();
             break;
           }
           case 18: {

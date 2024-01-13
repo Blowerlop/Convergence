@@ -132,7 +132,7 @@ message GRPC_TeamResponse{
 }
 
 message GRPC_SpellCastRequest {
-	int32 spellIdHash = 1;
+	int32 spellIndex = 1;
 	repeated GRPC_Vector3 vectorParams = 2;
 	repeated float floatParams = 3;
 	
