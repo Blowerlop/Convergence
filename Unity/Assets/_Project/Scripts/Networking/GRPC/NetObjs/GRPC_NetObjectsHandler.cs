@@ -13,8 +13,8 @@ namespace Project
     {
         public NetworkObject cubePrefab;
         public NetworkObject playerPrefab;
-        
-        private readonly CancellationTokenSource _netObjsStreamCancelSrc = new CancellationTokenSource();
+
+        private CancellationTokenSource _netObjsStreamCancelSrc;
         private AsyncClientStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
         
         private void OnEnable()
@@ -35,6 +35,7 @@ namespace Project
 
         private void GetNetObjsUpdateStream()
         {
+            _netObjsStreamCancelSrc = new CancellationTokenSource();
             _netObjsStream = GRPC_Transport.instance.client.GRPC_SrvNetObjUpdate();
         }
         

@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using BestHTTP;
 using BestHTTP.Logger;
@@ -8,7 +5,6 @@ using Grpc.Core;
 using GRPC.NET;
 using Grpc.Net.Client;
 using GRPCClient;
-using Unity.Netcode;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -24,6 +20,7 @@ namespace Project
         public bool isConnected { get; private set; }
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
+        private bool _isDisconnecting = false;
         
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
         public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
@@ -41,7 +38,7 @@ namespace Project
         {
             if (isConnected)
             {
-                Debug.LogError("Can't start a client when there is one already running");
+                Debug.LogWarning("Can't start a client when there is one already running");
                 return false;
             }
             
@@ -60,6 +57,7 @@ namespace Project
             client = new MainService.MainServiceClient(_channel);
             
             isConnected = await NHandshake();
+            _isDisconnecting = false;
             
             return isConnected;
         }
@@ -71,11 +69,14 @@ namespace Project
         {
             if (!isConnected)
             {
-                Debug.LogError("No client are running");
+                Debug.LogWarning("No client are running");
                 return false;
             }
+            if (_isDisconnecting) return true;
             
             Debug.Log("Connection shutting down... cleaning client");
+            _isDisconnecting = true;
+            
             onClientStopEvent.Invoke(this, true);
             
             // To do: find a better place to put this

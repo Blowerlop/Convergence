@@ -15,12 +15,12 @@ namespace Project
         public const string TxtFileFormat = "text/plain";
 
 
-        public static string SendFile(
-            string message,
+        public static void SendFile(string message,
             // string filename,
             string fileFormat,
             string filepath,
-            string application)
+            string application
+        )
         {
             string fileName = Path.GetFileName(filepath);
 
@@ -52,7 +52,7 @@ namespace Project
             if (responseStream == null)
             {
                 Debug.LogError("No WebResponse");
-                return string.Empty;
+                return;
             }
 
             using StreamReader responseReader = new StreamReader(responseStream);
@@ -61,7 +61,6 @@ namespace Project
             Debug.Log($"Discord: file successfully sent \n {filepath}");
 
             //return string with response
-            return fullResponse;
         }
 
         private static class FormUpload //formats data as a multi part form to allow for file sharing

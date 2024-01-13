@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using GRPCClient;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -15,14 +13,51 @@ namespace Project
         [SerializeField, Required, InlineButton(nameof(GoToNotionDoc), "Notion")] 
         private string prefabId;
 
-        [HideInInspector] public string UnrealOwnerAddress = null;
+        [HideInInspector] public string UnrealOwnerAddress;
         public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
+
         
-        public override void OnNetworkSpawn()
+        private void Start()
         {
-            base.OnNetworkSpawn();
-            
             if (!IsServer && !IsHost) return;
+
+            
+            if (GRPC_NetworkManager.instance.isConnected)
+            {
+                OnGrpcConnection_NetworkObjectSync();
+            }
+            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
+
+            if (IsOwnedByUnrealClient)
+            {
+                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, _ => OnGrpDisconnection_NetworkObjectUnSync());
+            }
+            else
+            {
+                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnGrpDisconnection_NetworkObjectUnSync);
+            }
+        }
+
+        // public override void OnDestroy()
+        // {
+        //     base.OnDestroy();
+        //
+        //     if (GRPC_NetworkManager.isBeingDestroyed == false)
+        //     {
+        //         GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
+        //         if (IsOwnedByUnrealClient)
+        //         {
+        //             GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(_ => OnGrpDisconnection_NetworkObjectUnSync());
+        //         }
+        //         else
+        //         {
+        //             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpDisconnection_NetworkObjectUnSync);
+        //         }
+        //     }
+        // }
+
+        private void OnGrpcConnection_NetworkObjectSync()
+        {
             if (!EnsureInit()) return;
             
             GRPC_NetObjUpdate update = new()
@@ -31,15 +66,12 @@ namespace Project
                 Type = GRPC_NetObjUpdateType.New, 
                 PrefabId = prefabId
             };
-            
+
             GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
         }
 
-        public override void OnNetworkDespawn()
+        private void OnGrpDisconnection_NetworkObjectUnSync()
         {
-            base.OnNetworkDespawn();
-            
-            if (!IsServer && !IsHost) return;
             if (!EnsureInit()) return;
             
             GRPC_NetObjUpdate update = new()

@@ -5,15 +5,20 @@ namespace Project
 {
     public class UnrealClient
     {
+        // id Always negative 
+        public int id;
         public string Address;
+        public readonly string name;
         private readonly List<NetworkObject> _ownedNetObjects = new();
 
         private bool _isConnected;
         
-        public UnrealClient(string ad)
+        public UnrealClient(string ad, int id, string name)
         {
             Address = ad;
             _isConnected = true;
+            this.id = id;
+            this.name = name;
         }
         
         public void Disconnect()

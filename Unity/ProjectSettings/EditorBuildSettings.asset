@@ -5,21 +5,27 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/_Project/Scenes/Lobby.unity
+    guid: ad020d0ff299aaa459082ac740099f32
   - enabled: 0
     path: Assets/_Project/Scenes/Menu.unity
     guid: 7d128a0162b524c4b8a7968d026bb549
   - enabled: 0
-    path: Assets/_Project/Scenes/Bootstrap.unity
-    guid: a425e499545bd0345bd7ac4578aa2b27
-  - enabled: 0
     path: Assets/_Project/Scenes/gRPC/Sample/gRPC_HelloWorld_Sample.unity
     guid: 0c074b091b467f14dad77e8f3beb57cf
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Scenes/NetworkingSample.unity
     guid: 65142fe8af90a0049b5e52a1884c2bb5
   - enabled: 1
-    path: Assets/_Project/Scenes/Lobby.unity
-    guid: ad020d0ff299aaa459082ac740099f32
+    path: Assets/_Project/Scenes/Game.unity
+    guid: 7a6f5f716aca05b44bcb97519de77821
+  - enabled: 1
+    path: Assets/_Project/Scenes/Spell.unity
+    guid: 31e119550f8bff5489cb049eb0e441da
+  - enabled: 1
+    path: Assets/_Project/Scenes/Bootstrap.unity
+    guid: a425e499545bd0345bd7ac4578aa2b27
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0f2779ed084f9934fa7e9dc8d2a6aba6,
       type: 2}

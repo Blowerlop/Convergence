@@ -62,6 +62,42 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spell1"",
+                    ""type"": ""Button"",
+                    ""id"": ""573085c7-0cf0-4070-8c49-2c23c4c68575"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spell2"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ed16995-18d6-4335-b088-43c10cfa2b88"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spell3"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0fdf4cf-f14e-4814-b12a-801bbd14d53b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spell4"",
+                    ""type"": ""Button"",
+                    ""id"": ""bc635325-fbab-433b-a95b-ad04e205b562"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -238,6 +274,50 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""MouseButton1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""976d358c-e590-44a6-846b-92fbf7fa9e1c"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Spell1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94f3fe8c-d017-44e2-bd89-75111b77c2ad"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Spell2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3f5441e-b29d-4f79-95df-0a562b4a696e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Spell3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a19552e-f54a-44bb-8ddd-43b56aea3846"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Spell4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -745,6 +825,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_MouseButton0 = m_Player.FindAction("MouseButton0", throwIfNotFound: true);
         m_Player_MouseButton1 = m_Player.FindAction("MouseButton1", throwIfNotFound: true);
+        m_Player_Spell1 = m_Player.FindAction("Spell1", throwIfNotFound: true);
+        m_Player_Spell2 = m_Player.FindAction("Spell2", throwIfNotFound: true);
+        m_Player_Spell3 = m_Player.FindAction("Spell3", throwIfNotFound: true);
+        m_Player_Spell4 = m_Player.FindAction("Spell4", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -826,6 +910,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_MouseButton0;
     private readonly InputAction m_Player_MouseButton1;
+    private readonly InputAction m_Player_Spell1;
+    private readonly InputAction m_Player_Spell2;
+    private readonly InputAction m_Player_Spell3;
+    private readonly InputAction m_Player_Spell4;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -834,6 +922,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @MouseButton0 => m_Wrapper.m_Player_MouseButton0;
         public InputAction @MouseButton1 => m_Wrapper.m_Player_MouseButton1;
+        public InputAction @Spell1 => m_Wrapper.m_Player_Spell1;
+        public InputAction @Spell2 => m_Wrapper.m_Player_Spell2;
+        public InputAction @Spell3 => m_Wrapper.m_Player_Spell3;
+        public InputAction @Spell4 => m_Wrapper.m_Player_Spell4;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -855,6 +947,18 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @MouseButton1.started += instance.OnMouseButton1;
             @MouseButton1.performed += instance.OnMouseButton1;
             @MouseButton1.canceled += instance.OnMouseButton1;
+            @Spell1.started += instance.OnSpell1;
+            @Spell1.performed += instance.OnSpell1;
+            @Spell1.canceled += instance.OnSpell1;
+            @Spell2.started += instance.OnSpell2;
+            @Spell2.performed += instance.OnSpell2;
+            @Spell2.canceled += instance.OnSpell2;
+            @Spell3.started += instance.OnSpell3;
+            @Spell3.performed += instance.OnSpell3;
+            @Spell3.canceled += instance.OnSpell3;
+            @Spell4.started += instance.OnSpell4;
+            @Spell4.performed += instance.OnSpell4;
+            @Spell4.canceled += instance.OnSpell4;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -871,6 +975,18 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @MouseButton1.started -= instance.OnMouseButton1;
             @MouseButton1.performed -= instance.OnMouseButton1;
             @MouseButton1.canceled -= instance.OnMouseButton1;
+            @Spell1.started -= instance.OnSpell1;
+            @Spell1.performed -= instance.OnSpell1;
+            @Spell1.canceled -= instance.OnSpell1;
+            @Spell2.started -= instance.OnSpell2;
+            @Spell2.performed -= instance.OnSpell2;
+            @Spell2.canceled -= instance.OnSpell2;
+            @Spell3.started -= instance.OnSpell3;
+            @Spell3.performed -= instance.OnSpell3;
+            @Spell3.canceled -= instance.OnSpell3;
+            @Spell4.started -= instance.OnSpell4;
+            @Spell4.performed -= instance.OnSpell4;
+            @Spell4.canceled -= instance.OnSpell4;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1084,6 +1200,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnMouseButton0(InputAction.CallbackContext context);
         void OnMouseButton1(InputAction.CallbackContext context);
+        void OnSpell1(InputAction.CallbackContext context);
+        void OnSpell2(InputAction.CallbackContext context);
+        void OnSpell3(InputAction.CallbackContext context);
+        void OnSpell4(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

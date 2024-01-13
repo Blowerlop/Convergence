@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
-using UnityEngine;
 
 namespace Project
 {
@@ -56,7 +54,7 @@ namespace Project
                     _netVarUpdateEvents[type]?.Invoke(this, false, stream.ResponseStream.Current);
                 }
             }
-            catch (RpcException e)
+            catch (RpcException)
             {
                 if(FU_GRPC_NetworkManager.instance.isConnected)
                     FU_GRPC_NetworkManager.instance.StopClient();

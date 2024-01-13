@@ -1,6 +1,4 @@
-using System;
 using Sirenix.OdinInspector;
-using Unity.Netcode;
 
 namespace Project
 {

@@ -1,11 +1,10 @@
 using System;
 using System.Reflection;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Project
 {
-    [System.Serializable]
+    [Serializable]
     public class Command
     {
         [ShowInInspector] public string name { get; private set; }

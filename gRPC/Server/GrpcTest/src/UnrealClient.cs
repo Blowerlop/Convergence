@@ -22,7 +22,14 @@ namespace Networking
         //Stream is not created instantly when client connects, so we need to queue the updates while the stream is not set
         private readonly Queue<GRPC_NetObjUpdate> _netObjUpdateInWaiting = new();
 
-        public UnrealClient(string ad) : base(ad) { }
+        public static IServerStreamWriter<GRPC_Team> teamSelectionResponseStream;
+
+        public string name;
+
+        public UnrealClient(string ad, string name) : base(ad)
+        {
+            this.name = name;
+        }
         
         public override void Disconnect()
         {
