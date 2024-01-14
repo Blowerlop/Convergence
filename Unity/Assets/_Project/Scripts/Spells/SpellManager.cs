@@ -7,8 +7,10 @@ namespace Project.Spells
     {
         [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
         
-        private void TryCastSpell(int clientId, int spellIndex, ICastResult results)
+        public void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
+            if (!IsServer && !IsHost) return;
+            
             UserInstance user = UserInstanceManager.instance.GetUserInstance(clientId);
             if (user == null)
             {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using GRPCClient;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -119,6 +120,11 @@ namespace Project
             
             position = Vector3.zero;
             return false;
+        }
+
+        public static Vector3 GrpcToUnityVector3(GRPC_Vector3 vector)
+        {
+            return new Vector3(vector.X, vector.Y, vector.Z);
         }
         
         #if UNITY_EDITOR
