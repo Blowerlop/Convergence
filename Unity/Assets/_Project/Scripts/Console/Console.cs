@@ -34,7 +34,7 @@ namespace Project
         [SerializeField] private int _maxMessages = 100;
         [SerializeField] private int _maxCommandHistory = 50;
         
-        private readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>();
+        private readonly Dictionary<string, ConsoleCommand> _commands = new Dictionary<string, ConsoleCommand>();
         private string[] _commandsName;
         private List<string> _commandHistory;
         private int _commandHistoryIndex = 0;
@@ -173,7 +173,7 @@ namespace Project
             AddToCommandHistory(trimString);
 
             // Check if the command exist
-            if (_commands.TryGetValue(splitInput[0], out Command command))
+            if (_commands.TryGetValue(splitInput[0], out ConsoleCommand command))
             {
                 // Check if the command have the same number of parameters that the player input
                 object[] parameters = new object[command.parametersInfo.Length];
@@ -289,9 +289,9 @@ namespace Project
             _currentIndex = -1;
         }
 
-        public static void AddCommand(Command command)
+        public static void AddCommand(ConsoleCommand consoleCommand)
         {
-            instance._commands.Add(command.name, command);
+            instance._commands.Add(consoleCommand.name, consoleCommand);
         }
         
         private void CommandPrediction(string input)
@@ -626,7 +626,7 @@ namespace Project
                                 {
                                     for (int i = 0; i < commandAttribute.commandNames.Length; i++)
                                     {
-                                        AddCommand(new Command(commandAttribute.commandNames[i], commandAttribute.description, method));
+                                        AddCommand(new ConsoleCommand(commandAttribute.commandNames[i], commandAttribute.description, method));
                                     }
                                     
                                 }

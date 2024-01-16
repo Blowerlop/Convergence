@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 namespace Project
 {
     [Serializable]
-    public class Command
+    public class ConsoleCommand
     {
         [ShowInInspector] public string name { get; private set; }
         public ParameterInfo[] parametersInfo { get; private set; }
@@ -14,24 +14,32 @@ namespace Project
         public string description { get; private set; }
         
 
-        private Command(string name, string description)
+        private ConsoleCommand(string name, string description)
         {
             this.name = name.Replace(" ", "");
             this.description = description;
         }
         
-        public Command(string name, string description, Action method) : this(name, description)
+        public ConsoleCommand(string name, string description, Action method) : this(name, description)
         {
-            _methodInfo = method.GetMethodInfo();
-            parametersInfo = _methodInfo.GetParameters();
-            HasParametersInfoADefaultValue();
+            SetupFinalParameters(method.GetMethodInfo());
         }
 
-        public Command(string name, string description, MethodInfo methodInfo) : this(name, description)
+        public ConsoleCommand(string name, string description, MethodInfo methodInfo) : this(name, description)
+        {
+            SetupFinalParameters(methodInfo);
+        }
+        
+
+        private void SetupFinalParameters(MethodInfo methodInfo)
         {
             _methodInfo = methodInfo;
             parametersInfo = methodInfo.GetParameters();
-            HasParametersInfoADefaultValue();
+            HasParametersInfoHaveDefaultValue();
+            
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            description += $" ({_methodInfo.ReflectedType})";
+            #endif
         }
 
         public void InvokeMethod(object[] parameters)
@@ -39,7 +47,7 @@ namespace Project
             _methodInfo.Invoke(null, parameters);
         }
         
-        private void HasParametersInfoADefaultValue()
+        private void HasParametersInfoHaveDefaultValue()
         {
             for (int i = 0; i < parametersInfo.Length; i++)
             {
