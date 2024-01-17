@@ -301,48 +301,70 @@ namespace Project
                 ClearCommandPrediction();
                 return;
             }
-            
-            //string trimString = input.TrimEnd();
-            //string[] splitInput = trimString.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            
-            for (int i = 0; i < _commandsName.Length; i++)
+
+            string[] splitInput = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            string commandInput = splitInput[0];
+
+            List<int> allCommandsName = new List<int>();
+
+            _commandsName.ForEach((commandName, index) =>
             {
-                _currentPrediction = _commandsName[i];
-                
-                //if (_currentPrediction.StartsWith(splitInput[0], true, CultureInfo.InvariantCulture))
-                if (_currentPrediction.StartsWith(input, true, CultureInfo.InvariantCulture))
+                if (commandName.StartsWith(commandInput, true, CultureInfo.InvariantCulture))
                 {
-                    int inputLength = input.Length;
-                    //int inputLength = splitInput[0].Length;
-
-                    string preWriteCommandName = _currentPrediction.Substring(0, inputLength);
-                    string nonWriteCommandName = _currentPrediction.Substring(inputLength);
-                    _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{preWriteCommandName}</color>{nonWriteCommandName}";
-
-                    // Enforce the input with the case of the command name
-                    _inputInputField.text = _inputInputField.text.FollowCasePattern(preWriteCommandName);
-                
-                    //for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length - splitInput.Length - 1; j++)
-                    for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length; j++)
-                    {
-                        ParameterInfo parameterInfo = _commands[_currentPrediction].parametersInfo[j];
-                        
-                        if (parameterInfo.HasDefaultValue)
-                        {
-                            // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>(Optional)";
-                            _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}(Optional)";
-                        }
-                        else
-                        {
-                            // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>";
-                            _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}";
-                        }
-                    }
-                    return;
+                    allCommandsName.Add(index);
                 }
+            });
+
+            if (allCommandsName.Any() == false)
+            {
+                ClearCommandPrediction();
+                return;
             }
             
-            ClearCommandPrediction();
+            _currentPrediction = _commandsName[allCommandsName[0]];
+            #if UNITY_EDITOR
+            // Just to make Rider happy :)
+            if (_currentPrediction == null)
+            {
+                Debug.LogError("Current prediction is null, it should never happen");
+                ClearCommandPrediction();
+                return;
+            }
+            #endif
+            
+            int inputLength = commandInput.Length;
+
+            string preWriteCommandName = _currentPrediction.Substring(0, inputLength);
+            string nonWriteCommandName = _currentPrediction.Substring(inputLength);
+
+            if (string.IsNullOrEmpty(nonWriteCommandName))
+            {
+                _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{input}</color>";
+            }
+            else
+            {
+                _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{preWriteCommandName}</color>{nonWriteCommandName}";
+            }
+            
+            // Enforce the input with the case of the command name
+            // _inputInputField.text = _inputInputField.text.FollowCasePattern(preWriteCommandName);
+
+            for (int i = 0; i < _commands[_currentPrediction].parametersInfo.Length; i++)
+            {
+                if (splitInput.Length > i + 1) continue;
+                
+                ParameterInfo parameterInfo = _commands[_currentPrediction].parametersInfo[i];
+                if (parameterInfo.HasDefaultValue)
+                {
+                    // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>(Optional)";
+                    _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}(Optional)";
+                }
+                else
+                {
+                    // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>";
+                    _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}";
+                }
+            }
         }
 
         #endregion
@@ -447,6 +469,8 @@ namespace Project
         
         private void ClearCommandPrediction()
         {
+            if (_currentPrediction == null) return;
+            
             _currentPrediction = null;
             _inputFieldPredictionPlaceHolder.text = string.Empty;
         }
@@ -565,8 +589,6 @@ namespace Project
         // Implementation of finding attributes sourced from yasirkula's code
         private void RetrieveCommandAttribute()
         {
-            
-
             Profiler.BeginSample("ConsoleAttributeRetrieving");
 
 #if UNITY_EDITOR || !NETFX_CORE
