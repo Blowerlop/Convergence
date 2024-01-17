@@ -50,7 +50,7 @@ namespace Project.Spells
             Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
             
             if (Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
-                    out RaycastHit hit, 0.1f, _layerMask))
+                    out RaycastHit hit, 0.5f, _layerMask))
             {
                 if (hit.transform.TryGetComponent(out IDamageable damageable))
                 {
