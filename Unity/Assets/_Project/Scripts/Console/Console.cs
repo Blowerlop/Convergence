@@ -346,6 +346,7 @@ namespace Project
                 _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{preWriteCommandName}</color>{nonWriteCommandName}";
             }
             
+            // Disable for the moment because I think that this is useless.
             // Enforce the input with the case of the command name
             // _inputInputField.text = _inputInputField.text.FollowCasePattern(preWriteCommandName);
 

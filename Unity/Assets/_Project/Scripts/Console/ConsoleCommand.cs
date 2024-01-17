@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Sirenix.OdinInspector;
 
 namespace Project
@@ -16,7 +18,7 @@ namespace Project
 
         private ConsoleCommand(string name, string description)
         {
-            this.name = name.Replace(" ", "");
+            this.name = RefactorNameByTemplate(name);
             this.description = description;
         }
         
@@ -28,6 +30,17 @@ namespace Project
         public ConsoleCommand(string name, string description, MethodInfo methodInfo) : this(name, description)
         {
             SetupFinalParameters(methodInfo);
+        }
+
+
+        /// <summary>
+        /// KillPlayer => kill_player
+        /// </summary>
+        /// <param name="name"></param>
+        private string RefactorNameByTemplate(string name)
+        {
+            // Split by Upper character and join them with _
+            return string.Join('_', Regex.Split(name, @"(?<!^)(?=[A-Z])")).ToLower();
         }
         
 
