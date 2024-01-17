@@ -1,3 +1,4 @@
+using Project._Project.Scripts.Spells;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -38,16 +39,25 @@ namespace Project.Spells
             }
             
             PlayerPlatform platform = user.GetPlatform();
-            CooldownController cooldownController = playerRefs.GetCooldownController(platform);
             
+            ChannelingController channelingController = playerRefs.GetChannelingController(platform);
+            if (channelingController.IsChanneling) return;
+            
+            CooldownController cooldownController = playerRefs.GetCooldownController(platform);
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
             
+            channelingController.StartServerChanneling(spell.channelingTime,
+                () => OnChannelingEnded(spell, results, playerRefs));
+        }
+
+        private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        {
             Spell spellInstance = SpawnSpell(spell, results, playerRefs);
             spellInstance.Init(results);
         }
-
+        
         private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellPrefab = spell.spellPrefab;

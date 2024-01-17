@@ -1,4 +1,5 @@
 using System.Linq;
+using Project._Project.Scripts.Spells;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,11 +11,12 @@ namespace Project.Spells.Casters
         
         private PlayerRefs _player;
         private CooldownController _cooldowns;
+        private ChannelingController _channelingController;
         
         private SpellData[] _spells;
         private SpellCaster[] _spellCasters;
         
-        private int? _currentChannelingIndex;
+        private int? _currentCastingIndex;
         
         public void Init(PlayerRefs p)
         {
@@ -29,6 +31,7 @@ namespace Project.Spells.Casters
             }
 
             _cooldowns = _player.GetCooldownController(PlayerPlatform.Pc);
+            _channelingController = _player.GetChannelingController(PlayerPlatform.Pc);
 
             if (!InitSpells()) return;
             InitSpellCasters();
@@ -39,18 +42,18 @@ namespace Project.Spells.Casters
         {
             if (InputManager.isBeingDestroyed || InputManager.instance == null) return;
             
-            InputManager.instance.OnSpellInputStarted -= StartChanneling;
-            InputManager.instance.OnOnSpellInputCanceled -= StopChanneling;
-            InputManager.instance.onMouseButton0.started -= StopChanneling;
-            InputManager.instance.onMouseButton1.started -= CancelChanneling;
+            InputManager.instance.OnSpellInputStarted -= StartCasting;
+            InputManager.instance.OnOnSpellInputCanceled -= StopCasting;
+            InputManager.instance.onMouseButton0.started -= StopCasting;
+            InputManager.instance.onMouseButton1.started -= CancelCasting;
         }
 
         private void InitInputs()
         {
-            InputManager.instance.OnSpellInputStarted += StartChanneling;
-            InputManager.instance.OnOnSpellInputCanceled += StopChanneling;
-            InputManager.instance.onMouseButton0.started += StopChanneling;
-            InputManager.instance.onMouseButton1.started += CancelChanneling;
+            InputManager.instance.OnSpellInputStarted += StartCasting;
+            InputManager.instance.OnOnSpellInputCanceled += StopCasting;
+            InputManager.instance.onMouseButton0.started += StopCasting;
+            InputManager.instance.onMouseButton1.started += CancelCasting;
         }
         
         private bool InitSpells()
@@ -95,7 +98,7 @@ namespace Project.Spells.Casters
             }
         }
 
-        private void StartChanneling(int spellIndex)
+        private void StartCasting(int spellIndex)
         {
             if (spellIndex < 0 || spellIndex >= _spells.Length)
             {
@@ -103,11 +106,13 @@ namespace Project.Spells.Casters
                 return;
             }
             
-            if (_spellCasters.Any(x => x.IsChanneling)) return;
-
+            if(_channelingController.IsChanneling) return;
+            
+            if (_spellCasters.Any(x => x.IsCasting)) return;
+            
             if (_cooldowns.IsInCooldown(spellIndex)) return;
             
-            _currentChannelingIndex = spellIndex;
+            _currentCastingIndex = spellIndex;
             _spellCasters[spellIndex].StartChanneling();
             
             //If the spell is instant, get the results right away
@@ -115,14 +120,14 @@ namespace Project.Spells.Casters
                 //Ask SpellManager to spawn the according spell with the results
         }
 
-        private void StopChanneling(InputAction.CallbackContext _)
+        private void StopCasting(InputAction.CallbackContext _)
         {
-            if (!_currentChannelingIndex.HasValue) return;
+            if (!_currentCastingIndex.HasValue) return;
             
-            StopChanneling(_currentChannelingIndex.Value);
+            StopCasting(_currentCastingIndex.Value);
         }
         
-        private void StopChanneling(int spellIndex)
+        private void StopCasting(int spellIndex)
         {
             if(spellIndex < 0 || spellIndex >= _spells.Length)            
             {
@@ -132,9 +137,9 @@ namespace Project.Spells.Casters
             
             var caster = _spellCasters[spellIndex];
             
-            if (!caster.IsChanneling) return;
+            if (!caster.IsCasting) return;
 
-            _currentChannelingIndex = null;
+            _currentCastingIndex = null;
             
             caster.StopChanneling();
             caster.EvaluateResults();
@@ -144,15 +149,15 @@ namespace Project.Spells.Casters
             _cooldowns.StartLocalCooldown(spellIndex, _spells[spellIndex].cooldown);
         }
         
-        private void CancelChanneling(InputAction.CallbackContext _)
+        private void CancelCasting(InputAction.CallbackContext _)
         {
-            if (!_currentChannelingIndex.HasValue) return;
+            if (!_currentCastingIndex.HasValue) return;
             
-            var caster = _spellCasters[_currentChannelingIndex.Value];
+            var caster = _spellCasters[_currentCastingIndex.Value];
             
-            if (!caster.IsChanneling) return;
+            if (!caster.IsCasting) return;
 
-            _currentChannelingIndex = null;
+            _currentCastingIndex = null;
             
             caster.StopChanneling();
         }

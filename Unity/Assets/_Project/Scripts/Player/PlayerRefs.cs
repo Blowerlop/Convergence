@@ -1,6 +1,8 @@
 using System;
+using Project._Project.Scripts.Spells;
 using Project.Spells;
 using Project.Spells.Casters;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,8 +16,11 @@ namespace Project
         
         [SerializeField] private SpellCastController spellCastController;
         
-        [SerializeField] private CooldownController pcCooldowns;
-        [SerializeField] private CooldownController mobileCooldowns;
+        [BoxGroup("Cooldowns"),SerializeField] private CooldownController pcCooldowns;
+        [BoxGroup("Cooldowns"),SerializeField] private CooldownController mobileCooldowns;
+        
+        [BoxGroup("Channeling"), SerializeField] private ChannelingController pcChanneling;
+        [BoxGroup("Channeling"), SerializeField] private ChannelingController mobileChanneling;
         
         public Transform PlayerTransform => playerTransform;
         
@@ -84,7 +89,7 @@ namespace Project
         
         #endregion
         
-        #region Cooldowns
+        #region Getters
 
         public CooldownController GetCooldownController(PlayerPlatform platform)
         {
@@ -92,6 +97,16 @@ namespace Project
             {
                 PlayerPlatform.Pc => pcCooldowns,
                 PlayerPlatform.Mobile => mobileCooldowns,
+                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
+            };
+        }
+        
+        public ChannelingController GetChannelingController(PlayerPlatform platform)
+        {
+            return platform switch
+            {
+                PlayerPlatform.Pc => pcChanneling,
+                PlayerPlatform.Mobile => mobileChanneling,
                 _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
             };
         }

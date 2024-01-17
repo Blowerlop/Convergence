@@ -17,5 +17,6 @@ namespace Project.Spells
         
         [BoxGroup("Spell")] public Spell spellPrefab;
         [BoxGroup("Spell")] public float cooldown;
+        [BoxGroup("Spell")] public float channelingTime;
     }
 }

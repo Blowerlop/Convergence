@@ -19,5 +19,6 @@ MonoBehaviour:
   spellPrefab: {fileID: 7774840793179866475, guid: 2d656620d4c6696439f5ab0d2fc58415,
     type: 3}
   cooldown: 10
+  channelingTime: 0.25
   limitRadius: 5
   zoneRadius: 1.5

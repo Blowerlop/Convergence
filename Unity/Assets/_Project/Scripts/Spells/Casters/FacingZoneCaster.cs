@@ -42,7 +42,7 @@ namespace Project.Spells.Casters
         
         public override void StartChanneling()
         {
-            if (IsChanneling) return;
+            if (IsCasting) return;
             
             base.StartChanneling();
             zoneVisual.gameObject.SetActive(true);
@@ -51,7 +51,7 @@ namespace Project.Spells.Casters
         
         public override void StopChanneling()
         {
-            if (!IsChanneling) return;
+            if (!IsCasting) return;
             
             base.StopChanneling();
             zoneVisual.gameObject.SetActive(false);

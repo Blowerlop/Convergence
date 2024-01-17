@@ -62,7 +62,7 @@ namespace Project.Spells
             }
         }
         
-        void InitNetVars()
+        private void InitNetVars()
         {
             _cooldowns[0] = _cd1;
             _cooldowns[1] = _cd2;
@@ -96,8 +96,6 @@ namespace Project.Spells
             if (!IsServer && !IsHost) return;
             if (index < 0 || index >= _timers.Length) return;
             
-            Debug.LogError("Server: " + cooldownNetVarPrefix);
-            
             void TimerUpdate(float value)
             {
                 _cooldowns[index].Value = (int)value;
@@ -121,8 +119,6 @@ namespace Project.Spells
         public void StartLocalCooldown(int index, float time)
         {
             if (index < 0 || index >= _timers.Length) return;
-            
-            Debug.LogError("Local: " + cooldownNetVarPrefix);
             
             #region Methods
             
