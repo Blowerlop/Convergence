@@ -421,10 +421,10 @@ RectTransform:
   m_Father: {fileID: 2007544858024920349}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 5.005005, y: 0}
-  m_SizeDelta: {x: 10.01001, y: 0}
+  m_SizeDelta: {x: 10.01001, y: 25.65}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &93317938027575556
 CanvasRenderer:
@@ -1397,6 +1397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 813319985089124156}
   - component: {fileID: 7568533013786001867}
+  - component: {fileID: 4293194040823235706}
   m_Layer: 0
   m_Name: Console
   m_TagString: Untagged
@@ -1438,6 +1439,20 @@ MonoBehaviour:
   _logScrollRect: {fileID: 2934192161782301022}
   _logInputField: {fileID: 7075882152759586708}
   _inputInputField: {fileID: 3861899467939701326}
+  _inputFieldPredictionPlaceHolder: {fileID: 8690790590487268149}
+  _commandPrediction: {fileID: 4293194040823235706}
+--- !u!114 &4293194040823235706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2346266705016090110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43ce15febb989704ea11829c1402c7df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _inputFieldPredictionPlaceHolder: {fileID: 8690790590487268149}
 --- !u!1 &2711934960833532717
 GameObject:

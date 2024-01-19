@@ -27,24 +27,23 @@ namespace Project
         [ShowInInspector, ReadOnly] public static bool isConsoleEnabled { get; private set; }
         [ShowInInspector, ReadOnly] public bool isInputFieldFocus => _inputInputField != null && _inputInputField.isFocused;
         [ShowInInspector, ReadOnly] private int _currentNumberOfMessages;
-        [CanBeNull] [ShowInInspector, ReadOnly] private string _currentPrediction;
 
         [Title("Parameters")]
         [SerializeField] private Vector2 _fontSizeRange = new Vector2(20, 60);
         [SerializeField] private int _maxMessages = 100;
         [SerializeField] private int _maxCommandHistory = 50;
         
-        private readonly Dictionary<string, ConsoleCommand> _commands = new Dictionary<string, ConsoleCommand>();
-        private string[] _commandsName;
+        public readonly Dictionary<string, ConsoleCommand> commands = new Dictionary<string, ConsoleCommand>();
+        public string[] commandsName { get; private set; }
         private List<string> _commandHistory;
-        private int _commandHistoryIndex = 0;
+        private int _commandHistoryIndex;
         private int _currentIndex = -1;
         
         [TitleGroup("References")]
         [SerializeField, ChildGameObjectsOnly] private ScrollRect _logScrollRect;
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _logInputField;
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _inputInputField;
-        [SerializeField, ChildGameObjectsOnly] private TMP_Text _inputFieldPredictionPlaceHolder;
+        [SerializeField, ChildGameObjectsOnly] private ConsoleCommandPrediction _commandPrediction;
 
         #endregion
         
@@ -60,14 +59,14 @@ namespace Project
 
         private void Start()
         {
-            _commandsName = new string[_commands.Count];
+            commandsName = new string[commands.Count];
             int index = 0;
-            foreach (var kvp in _commands)
+            foreach (var kvp in commands)
             {
-                _commandsName[index] = kvp.Key;
+                commandsName[index] = kvp.Key;
                 index++;
             }
-            _commandsName.Sort();
+            commandsName.Sort();
 
             _commandHistory = new List<string>(_maxCommandHistory);
             
@@ -80,13 +79,13 @@ namespace Project
         private void OnEnable()
         {
             _inputInputField.onSubmit.AddListener(ExecuteCommand);
-            _inputInputField.onValueChanged.AddListenerExtended(CommandPrediction);
+            _inputInputField.onValueChanged.AddListener(_commandPrediction.Predict);
         }
 
         private void OnDisable()
         {
             _inputInputField.onSubmit.RemoveListener(ExecuteCommand);
-            _inputInputField.onValueChanged.RemoveListenerExtended(CommandPrediction);
+            _inputInputField.onValueChanged.RemoveListener(_commandPrediction.Predict);
         }
 
         protected override void OnDestroy()
@@ -123,8 +122,10 @@ namespace Project
             
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (_currentPrediction != null)
+                    Debug.Log("Here 1");
+                if (_commandPrediction.HasAPrediction())
                 {
+                    Debug.Log("Here 2");
                     AutoCompleteTextWithThePrediction();
                 }
             }
@@ -168,7 +169,7 @@ namespace Project
             AddToCommandHistory(trimString);
 
             // Check if the command exist
-            if (_commands.TryGetValue(splitInput[0], out ConsoleCommand command))
+            if (commands.TryGetValue(splitInput[0], out ConsoleCommand command))
             {
                 // Check if the command have the same number of parameters that the player input
                 object[] parameters = new object[command.parametersInfo.Length];
@@ -283,83 +284,7 @@ namespace Project
 
         public static void AddCommand(ConsoleCommand consoleCommand)
         {
-            instance._commands.Add(consoleCommand.name, consoleCommand);
-        }
-        
-        private void CommandPrediction(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                ClearCommandPrediction();
-                return;
-            }
-
-            string[] splitInput = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            string commandInput = splitInput[0];
-
-            List<string> allCommandsName = new List<string>();
-
-            _commandsName.ForEach((commandName, index) =>
-            {
-                if (commandName.StartsWith(commandInput, true, CultureInfo.InvariantCulture))
-                {
-                    allCommandsName.Add(_commandsName[index]);
-                }
-            });
-
-            allCommandsName.Debug();
-
-            if (allCommandsName.Any() == false)
-            {
-                ClearCommandPrediction();
-                return;
-            }
-            
-            _currentPrediction = _commandsName.First();
-            #if UNITY_EDITOR
-            // Just to make Rider happy :)
-            if (_currentPrediction == null)
-            {
-                Debug.LogError("Current prediction is null, it should never happen");
-                ClearCommandPrediction();
-                return;
-            }
-            #endif
-            
-            int inputLength = commandInput.Length;
-
-            string preWriteCommandName = _currentPrediction.Substring(0, inputLength);
-            string nonWriteCommandName = _currentPrediction.Substring(inputLength);
-
-            if (string.IsNullOrEmpty(nonWriteCommandName))
-            {
-                _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{input}</color>";
-            }
-            else
-            {
-                _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{preWriteCommandName}</color>{nonWriteCommandName}";
-            }
-            
-            // Disable for the moment because I think that this is useless.
-            // Enforce the input with the case of the command name
-            // _inputInputField.text = _inputInputField.text.FollowCasePattern(preWriteCommandName);
-
-            for (int i = 0; i < _commands[_currentPrediction].parametersInfo.Length; i++)
-            {
-                if (splitInput.Length > i + 1) continue;
-                
-                ParameterInfo parameterInfo = _commands[_currentPrediction].parametersInfo[i];
-                if (parameterInfo.HasDefaultValue)
-                {
-                    // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>(Optional)";
-                    _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}(Optional)";
-                }
-                else
-                {
-                    // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>";
-                    _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}";
-                }
-            }
+            instance.commands.Add(consoleCommand.name, consoleCommand);
         }
 
         #endregion
@@ -428,7 +353,7 @@ namespace Project
 
         private void AutoCompleteTextWithThePrediction()
         {
-            WriteTextToInputInputField(_currentPrediction);
+            WriteTextToInputInputField(_commandPrediction.currentPrediction);
             // ClearCommandPrediction();
             MoveCaretToTheEndOfTheText();
         }
@@ -462,13 +387,7 @@ namespace Project
             _inputInputField.ActivateInputField();
         }
         
-        private void ClearCommandPrediction()
-        {
-            if (_currentPrediction == null) return;
-            
-            _currentPrediction = null;
-            _inputFieldPredictionPlaceHolder.text = string.Empty;
-        }
+        
         #endregion
 
         #region Custom Commands
@@ -487,7 +406,7 @@ namespace Project
 
             stringBuilder.Append("Here the list of all available commands :\n");
 
-            foreach (var kvp in instance._commands)
+            foreach (var kvp in instance.commands)
             {
                 stringBuilder.Append($"{kvp.Key} --- {kvp.Value.description}\n");
             }

@@ -117,6 +117,14 @@ namespace Project.Extensions
             }
         }
 
+        public static void ForEach<T>(this IList<T> target, Action<T, int> action)
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                action.Invoke(target[i], i);
+            }
+        }
+
         public static void ForEach<T1, T2>(this Dictionary<T1, T2> target, Action<T1, T2> action)
         {
             foreach (KeyValuePair<T1, T2> kvp in target)
