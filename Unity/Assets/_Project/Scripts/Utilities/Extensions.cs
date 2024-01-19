@@ -124,6 +124,14 @@ namespace Project.Extensions
                 action.Invoke(kvp.Key, kvp.Value);
             }
         }
+
+        public static void Debug<T>(this IList<T> target, string textToInsertBefore = "")
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                UnityEngine.Debug.Log(textToInsertBefore + target[i]);
+            }
+        }
     }
 
     public static class StringExtensions

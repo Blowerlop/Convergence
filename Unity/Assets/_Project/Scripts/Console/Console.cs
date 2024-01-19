@@ -39,15 +39,7 @@ namespace Project
         private List<string> _commandHistory;
         private int _commandHistoryIndex = 0;
         private int _currentIndex = -1;
-
-        // [Title("Log Colors")] 
-        // [SerializeField] private Color _logColor;
-        // [SerializeField] private Color _logWarningColor;
-        // [SerializeField] private Color _logErrorColor;
         
-        [Title("Events")]
-        private Event _onConsoleCommandExecutedEvent = new Event(nameof(_onConsoleCommandExecutedEvent), false);
-
         [TitleGroup("References")]
         [SerializeField, ChildGameObjectsOnly] private ScrollRect _logScrollRect;
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _logInputField;
@@ -79,20 +71,20 @@ namespace Project
 
             _commandHistory = new List<string>(_maxCommandHistory);
             
-            DisableConsoleForced();
+            HideConsoleForced();
             ClearInputField();
+            
+            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
         }
 
         private void OnEnable()
         {
-            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.AddListener(ExecuteCommand);
             _inputInputField.onValueChanged.AddListenerExtended(CommandPrediction);
         }
 
         private void OnDisable()
         {
-            InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.RemoveListener(ExecuteCommand);
             _inputInputField.onValueChanged.RemoveListenerExtended(CommandPrediction);
         }
@@ -102,12 +94,15 @@ namespace Project
             base.OnDestroy();
             
             Application.logMessageReceived -= LogConsole;
+
+            if (InputManager.isBeingDestroyed == false)
+            {
+                InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
+            }
         }
 
         private void Update()
         {
-            if (isConsoleEnabled == false) return;
-            
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 GameObject currentCurrentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
@@ -225,9 +220,6 @@ namespace Project
             end:
             ClearInputField();
             FocusOnInputField();
-            // ClearCommandPrediction();
-            _onConsoleCommandExecutedEvent.Invoke(this, false);
-            
 
             
             
@@ -305,15 +297,17 @@ namespace Project
             string[] splitInput = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             string commandInput = splitInput[0];
 
-            List<int> allCommandsName = new List<int>();
+            List<string> allCommandsName = new List<string>();
 
             _commandsName.ForEach((commandName, index) =>
             {
                 if (commandName.StartsWith(commandInput, true, CultureInfo.InvariantCulture))
                 {
-                    allCommandsName.Add(index);
+                    allCommandsName.Add(_commandsName[index]);
                 }
             });
+
+            allCommandsName.Debug();
 
             if (allCommandsName.Any() == false)
             {
@@ -321,7 +315,7 @@ namespace Project
                 return;
             }
             
-            _currentPrediction = _commandsName[allCommandsName[0]];
+            _currentPrediction = _commandsName.First();
             #if UNITY_EDITOR
             // Just to make Rider happy :)
             if (_currentPrediction == null)
@@ -373,8 +367,8 @@ namespace Project
         #region Used by shortcut
         private void OnConsoleKeyStarted_ToggleConsole(InputAction.CallbackContext _)
         {
-            if (isConsoleEnabled) DisableConsole();
-            else EnableConsole();
+            if (isConsoleEnabled) HideConsole();
+            else ShowConsole();
         }
         
         private void GotToTheOlderInHistory()
@@ -504,32 +498,32 @@ namespace Project
         
         [ButtonGroup]
         [ConsoleCommand("enable", "Enable the console")]
-        public static void EnableConsole()
+        public static void ShowConsole()
         {
             if (isConsoleEnabled) return;
 
-            EnableConsoleForced();
+            ShowConsoleForced();
             instance.FocusOnInputField();
         }
 
-        private static void EnableConsoleForced()
+        private static void ShowConsoleForced()
         {
-            instance.transform.GetChild(0).gameObject.SetActive(true);
+            instance.gameObject.SetActive(true);
             isConsoleEnabled = true;
         }
 
         [ButtonGroup]
         [ConsoleCommand("disable", "Disable the console")]
-        public static void DisableConsole()
+        public static void HideConsole()
         {
             if (isConsoleEnabled == false) return;
             
-            DisableConsoleForced();
+            HideConsoleForced();
         }
 
-        private static void DisableConsoleForced()
+        private static void HideConsoleForced()
         {
-            instance.transform.GetChild(0).gameObject.SetActive(false);
+            instance.gameObject.SetActive(false);
             isConsoleEnabled = false;
         }
         
