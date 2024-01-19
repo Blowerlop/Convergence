@@ -82,6 +82,11 @@ namespace Project.Extensions
             return false;
         }
         
+        public static void DestroyChildren(this GameObject gameObject)
+        {
+            gameObject.transform.DestroyChildren();
+        }
+        
         public static void DestroyChildren(this Transform transform)
         {
             for (int i = transform.childCount - 1; i >= 0; i--)

@@ -8,6 +8,7 @@ using Project.Extensions;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project
 {
@@ -15,21 +16,25 @@ namespace Project
     {
         [SerializeField, ChildGameObjectsOnly] private TMP_Text _inputFieldPredictionPlaceHolder;
         [CanBeNull] [ShowInInspector, ReadOnly] public string currentPrediction { get; private set; }
+        [SerializeField, ChildGameObjectsOnly] private GameObject _gameObject;
+        [SerializeField, AssetsOnly] private Button _template;
 
         public bool HasAPrediction() => !string.IsNullOrEmpty(currentPrediction);
         
         public void Predict(string input)
         {
+            ClearPrediction();
+
             if (string.IsNullOrEmpty(input))
             {
-                ClearPrediction();
+                // ClearPrediction();
                 return;
             }
-
+            
             string[] splitInput = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             string commandInput = splitInput[0];
 
-            List<string> allCommandsName = new List<string>();
+            HashSet<string> allCommandsName = new HashSet<string>();
 
             Console.instance.commandsName.ForEach((commandName, index) =>
             {
@@ -47,8 +52,14 @@ namespace Project
                 return;
             }
             
-            currentPrediction = allCommandsName.First();
-            #if UNITY_EDITOR
+            ComputeFirstPrediction(input, allCommandsName.First(), commandInput, splitInput);
+            ComputeAdditionalPrediction(allCommandsName);
+        }
+
+        private void ComputeFirstPrediction(string input, string firstPredictionName, string commandInput, IReadOnlyCollection<string> splitInput)
+        {
+            currentPrediction = firstPredictionName;
+#if UNITY_EDITOR
             // Just to make Rider happy :)
             if (currentPrediction == null)
             {
@@ -56,8 +67,8 @@ namespace Project
                 ClearPrediction();
                 return;
             }
-            #endif
-            
+#endif
+
             int inputLength = commandInput.Length;
 
             string preWriteCommandName = currentPrediction.Substring(0, inputLength);
@@ -71,11 +82,11 @@ namespace Project
             {
                 _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{preWriteCommandName}</color>{nonWriteCommandName}";
             }
-            
+
             for (int i = 0; i < Console.instance.commands[currentPrediction].parametersInfo.Length; i++)
             {
-                if (splitInput.Length > i + 1) continue;
-                
+                if (splitInput.Count > i + 1) continue;
+
                 ParameterInfo parameterInfo = Console.instance.commands[currentPrediction].parametersInfo[i];
                 if (parameterInfo.HasDefaultValue)
                 {
@@ -89,13 +100,33 @@ namespace Project
                 }
             }
         }
+
         
+        private void ComputeAdditionalPrediction(HashSet<string> allPredictionsName)
+        {
+            foreach (var predictionsName in allPredictionsName)
+            {
+                Button instance = Instantiate(_template, _gameObject.transform);
+                // string commandName = predictionsName;
+                instance.onClick.AddListener(() =>
+                {
+                    Console.instance.SetTextOfInputInputFieldSilent(predictionsName);
+                    ComputeFirstPrediction(predictionsName, predictionsName, predictionsName,
+                        new[] { predictionsName });
+                    Console.instance.FocusOnInputField();
+                });
+                instance.GetComponentInChildren<TMP_Text>().text = predictionsName;
+                instance.gameObject.SetActive(true);
+            }
+        }
+
         private void ClearPrediction()
         {
             if (currentPrediction == null) return;
             
             currentPrediction = null;
             _inputFieldPredictionPlaceHolder.text = string.Empty;
+            _gameObject.DestroyChildren();
         }
     }
 }

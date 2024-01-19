@@ -122,10 +122,8 @@ namespace Project
             
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                    Debug.Log("Here 1");
                 if (_commandPrediction.HasAPrediction())
                 {
-                    Debug.Log("Here 2");
                     AutoCompleteTextWithThePrediction();
                 }
             }
@@ -306,8 +304,7 @@ namespace Project
 
             _currentIndex++;
             
-            WriteTextToInputInputField(_commandHistory[_currentIndex]);
-            MoveCaretToTheEndOfTheText();
+            SetTextOfInputInputField(_commandHistory[_currentIndex]);
         }
         
         private void GotToTheRecentInHistory()
@@ -318,15 +315,14 @@ namespace Project
             }
             if (_currentIndex <= 0)
             {
-                WriteTextToInputInputField(string.Empty);
+                SetTextOfInputInputField(string.Empty);
                 _currentIndex = -1;
                 return;
             }
 
             _currentIndex--;
             
-            WriteTextToInputInputField(_commandHistory[_currentIndex]);
-            MoveCaretToTheEndOfTheText();
+            SetTextOfInputInputField(_commandHistory[_currentIndex]);
         }
         
         private void IncreaseOrDecreaseLogTextSize()
@@ -347,22 +343,31 @@ namespace Project
                 }
             }
             
-            WriteTextToInputInputField(_inputInputField.text.Remove(startWordPosition, _inputInputField.caretPosition - startWordPosition));
-            MoveCaretToPosition(startWordPosition);
+            SetTextOfInputInputField(_inputInputField.text.Remove(startWordPosition, _inputInputField.caretPosition - startWordPosition));
         }
 
         private void AutoCompleteTextWithThePrediction()
         {
-            WriteTextToInputInputField(_commandPrediction.currentPrediction);
+            SetTextOfInputInputField(_commandPrediction.currentPrediction);
             // ClearCommandPrediction();
-            MoveCaretToTheEndOfTheText();
         }
         #endregion
         
         #region Utilities
-        private void WriteTextToInputInputField(string text)
+        public void SetTextOfInputInputField(string text)
         {
+            if (string.Equals(_inputInputField.text, text)) return;
+            
             _inputInputField.text = text;
+            MoveCaretToTheEndOfTheText();
+        }
+        
+        public void SetTextOfInputInputFieldSilent(string text)
+        {
+            if (string.Equals(_inputInputField.text, text)) return;
+            
+            _inputInputField.SetTextWithoutNotify(text);
+            MoveCaretToTheEndOfTheText();
         }
         
         private void MoveCaretToTheStartOfTheText()
@@ -382,7 +387,7 @@ namespace Project
         
         private void ClearInputField() => _inputInputField.text = (string.Empty);
         
-        private void FocusOnInputField()
+        public void FocusOnInputField()
         {
             _inputInputField.ActivateInputField();
         }
