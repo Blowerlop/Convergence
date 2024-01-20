@@ -9,17 +9,8 @@
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/TransitionsPlus/Runtime/Resources/Prefabs/Transitions Plus.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TransitionsPlus/Runtime/Resources/Prefabs/Transitions Plus.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Arts/Materials/Dummy/dummy_hay.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Arts/Materials/Dummy/dummy_hay.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Prefabs/Console/Console.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Prefabs/Console/Console.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Prefabs/Console/Template.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Prefabs/Console/Template.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Prefabs/FU_Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Prefabs/FU_Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Prefabs/UI/Buttons/PreConfiguredButton.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Prefabs/UI/Buttons/PreConfiguredButton.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/SO Cache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/SO Cache.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Spell.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Spell.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Console.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/Console.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/ConsoleCommandPrediction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Console/ConsoleCommandPrediction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/gRPC Client.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/gRPC Client.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Buttons/ButtonUIVisualConfigurator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Buttons/ButtonUIVisualConfigurator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Layout/GridLayoutGroupExtended.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Layout/GridLayoutGroupExtended.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,10 +54,13 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c521f2934b38415a9aef98ca65fec1a02e518/da/bcb9ebbe/GrpcChannelOptions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cdb260c3b2e74d54aab901849d3f0bed1400/a9/39f0c4e5/ClearOnReloadAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d4ef5f472a70499bb0ee8b32cbf174d852200/41/b14aa1d3/INetworkVariableSerializer`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/55/f6d80531/EditorGUI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/62/489dad50/CustomEditor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/7e/31127041/EditorGUIUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/82/237dd988/Editor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/b0/d3be4f2d/IPreprocessBuildWithReport.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/bc/9f0b77e1/AssetDatabase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/f2/04a0da38/PropertyHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e72ff03c16db458784c0e81c5ba7e4642cf400/6e/34bfbc17/MyInlineScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e72ff03c16db458784c0e81c5ba7e4642cf400/81/ecc3d325/OdinEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/21942216b1668d823358a0bc2e775e7476dae6f2a4f74b4ff0efec64ead67533/ChannelBase.cs" root0="SKIP_HIGHLIGHTING" />
@@ -86,6 +80,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ff713594443921498f26765a9efff61f35f454213f9c47d4c47c238850f3701/SslCredentials.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Assets/TransitionsPlus/Demos/On Demand/StartTransition.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Library/PackageCache/com.unity.render-pipelines.core@14.0.8/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Attributes/ServerFieldAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Attributes/TestMyAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Character/SOCharacter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Console/ConsoleCommandPrediction.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/LoadingScreen/LoadingScreen.cs" root0="FORCE_HIGHLIGHTING" />
@@ -287,7 +283,7 @@
       <workItem from="1704273076617" duration="13269000" />
       <workItem from="1704367033107" duration="9000" />
       <workItem from="1704367852387" duration="17437000" />
-      <workItem from="1705708486913" duration="2173000" />
+      <workItem from="1705708486913" duration="6928000" />
     </task>
     <servers />
   </component>
