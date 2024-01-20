@@ -7,6 +7,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
+public enum EAxis
+{
+    X,
+    Y,
+    Z
+}
+
 namespace Project.Extensions
 {
     public static class TransformExtensions
@@ -82,6 +89,11 @@ namespace Project.Extensions
             return false;
         }
         
+        public static void DestroyChildren(this GameObject gameObject)
+        {
+            gameObject.transform.DestroyChildren();
+        }
+        
         public static void DestroyChildren(this Transform transform)
         {
             for (int i = transform.childCount - 1; i >= 0; i--)
@@ -117,11 +129,27 @@ namespace Project.Extensions
             }
         }
 
+        public static void ForEach<T>(this IList<T> target, Action<T, int> action)
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                action.Invoke(target[i], i);
+            }
+        }
+
         public static void ForEach<T1, T2>(this Dictionary<T1, T2> target, Action<T1, T2> action)
         {
             foreach (KeyValuePair<T1, T2> kvp in target)
             {
                 action.Invoke(kvp.Key, kvp.Value);
+            }
+        }
+
+        public static void Debug<T>(this IList<T> target, string textToInsertBefore = "")
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                UnityEngine.Debug.Log(textToInsertBefore + target[i]);
             }
         }
     }
@@ -239,6 +267,29 @@ namespace Project.Extensions
         public static T IsNull<T>(this T @object) where T : UnityEngine.Object
         {
             return @object == null ? null : @object;
+        }
+    }
+
+    public static class VectorExtensions
+    {
+        public static Vector3 ResetAxis(this Vector3 vector3, EAxis axis)
+        {
+            switch (axis)
+            {
+                case EAxis.X:
+                    vector3.x = 0.0f;
+                    break;
+                
+                case EAxis.Y:
+                    vector3.y = 0.0f;
+                    break;
+                
+                case EAxis.Z:
+                    vector3.z = 0.0f;
+                    break;
+            }
+
+            return vector3;
         }
     }
 }

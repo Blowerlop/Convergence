@@ -76,6 +76,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CenterCamera",
+                    "type": "Button",
+                    "id": "02a4f1ad-a1fc-4f2e-afca-783a989c7dc5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LockCamera",
+                    "type": "Button",
+                    "id": "f8f5d2a2-7c06-447a-862c-1a1f96e75b61",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "MultiTap(tapDelay=0.25)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -296,6 +314,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Spell4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c84f2764-25ae-4c3b-ab57-c3b658a1e1bf",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CenterCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ff077515-5db3-4894-8e0c-4165c7b6b3a6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LockCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -730,15 +770,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Control",
-                    "type": "Button",
-                    "id": "ecc009f8-b5b4-4238-9989-c7b255883ff7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -750,17 +781,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Console",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fd7aee86-467e-417c-9501-51d3af8bab0c",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Control",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

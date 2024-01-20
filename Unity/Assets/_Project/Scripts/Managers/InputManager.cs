@@ -36,6 +36,8 @@ namespace Project
         public InputAction onMouseButton0 => _inputAction.Player.MouseButton0;
         public InputAction onMouseButton1 => _inputAction.Player.MouseButton1;
         public InputAction onConsoleKey => _inputAction.Persistant.Console;
+        public InputAction onCenterCamera => _inputAction.Player.CenterCamera;
+        public InputAction onLockCamera => _inputAction.Player.LockCamera;
 
         // Spells
         private InputAction[] _spellInputs;
@@ -47,6 +49,7 @@ namespace Project
         [ShowInInspector] public Vector2 look;
         
         #endregion
+        
         
         #region Updates
         protected override void Awake()
@@ -81,12 +84,12 @@ namespace Project
             // Move
             _inputAction.Player.Move.started += context => move = context.ReadValue<Vector2>();
             _inputAction.Player.Move.performed += context => move = context.ReadValue<Vector2>();
-            _inputAction.Player.Move.canceled += context => move = Vector2.zero;
+            _inputAction.Player.Move.canceled += _ => move = Vector2.zero;
             
             // Look
             _inputAction.Player.Look.started += context => look = context.ReadValue<Vector2>();
             _inputAction.Player.Look.performed += context => look = context.ReadValue<Vector2>();
-            _inputAction.Player.Look.canceled += context => look = Vector2.zero;
+            _inputAction.Player.Look.canceled += _ => look = Vector2.zero;
             
             // Spells
             _spellInputs = new[]
