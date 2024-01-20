@@ -35,7 +35,7 @@ namespace Project
         [Title("Inputs Handler")]
         public InputAction onMouseButton0 => _inputAction.Player.MouseButton0;
         public InputAction onMouseButton1 => _inputAction.Player.MouseButton1;
-        public InputAction onConsole => _inputAction.Persistant.Console;
+        public InputAction onConsoleKey => _inputAction.Persistant.Console;
         public InputAction onCenterCamera => _inputAction.Player.CenterCamera;
         public InputAction onLockCamera => _inputAction.Player.LockCamera;
 
@@ -49,6 +49,7 @@ namespace Project
         [ShowInInspector] public Vector2 look;
         
         #endregion
+        
         
         #region Updates
         protected override void Awake()
