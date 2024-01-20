@@ -101,7 +101,7 @@ namespace Project
         
         private void ComputeAdditionalPrediction(HashSet<string> allPredictionsName)
         {
-            foreach (string predictionsName in allPredictionsName.Skip(1))
+            foreach (string predictionsName in allPredictionsName)
             {
                 Button instance = Instantiate(_template, _gameObject.transform);
                 instance.onClick.AddListener(() =>
