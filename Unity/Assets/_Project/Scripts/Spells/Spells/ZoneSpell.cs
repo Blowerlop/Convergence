@@ -47,7 +47,7 @@ namespace Project.Spells
                 {
                     if (hit.TryGetComponent(out IDamageable damageable))
                     {
-                        damageable.Damage(1);
+                        damageable.Damage(10);
                     }
                 }
             }

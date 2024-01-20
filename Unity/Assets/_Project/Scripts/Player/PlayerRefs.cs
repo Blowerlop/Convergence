@@ -22,6 +22,8 @@ namespace Project
         [BoxGroup("Channeling"), SerializeField] private ChannelingController pcChanneling;
         [BoxGroup("Channeling"), SerializeField] private ChannelingController mobileChanneling;
         
+        [BoxGroup("Stats"), SerializeField] private PlayerStats stats;
+        
         public Transform PlayerTransform => playerTransform;
         
         public static event Action<PlayerRefs> OnLocalPlayerSpawned;
@@ -55,11 +57,12 @@ namespace Project
             _assignedTeam.OnValueChanged -= OnTeamChanged;
         }
 
-        public void ServerInit(int team)
+        public void ServerInit(int team, SOCharacter character)
         {
             if (!IsServer && !IsHost) return;
             
             _assignedTeam.Value = team;
+            stats.ServerInit(character);
         }
 
         private void OnTeamChanged(int oldValue, int newValue)
@@ -110,7 +113,9 @@ namespace Project
                 _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
             };
         }
-        
+
+        public PlayerStats GetStats() => stats;
+
         #endregion
     }
 }

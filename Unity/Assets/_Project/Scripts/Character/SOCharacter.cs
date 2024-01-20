@@ -27,7 +27,7 @@ namespace Project
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
         // Stats
-
+        [field: SerializeField, BoxGroup("Stats")] public int BaseHealth { get; private set; }
 
         public static SOCharacter[] GetAllCharacters(SOScriptableObjectReferencesCache referencesCache)
         {
