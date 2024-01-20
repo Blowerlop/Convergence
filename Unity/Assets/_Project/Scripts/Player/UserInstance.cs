@@ -15,6 +15,8 @@ namespace Project
         /// Reference to the local client's UserInstance.
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
+
+        public Character character;
         
         public PlayerRefs LinkedPlayer { get; private set; }
         public event Action<PlayerRefs> OnPlayerLinked;

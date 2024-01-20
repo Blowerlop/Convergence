@@ -5,8 +5,8 @@ namespace Project.Spells
 {
     public abstract class Spell : NetworkBehaviour
     {
-        public abstract void Init(IChannelingResult channelingResult);
+        public abstract void Init(ICastResult castResult);
 
-        public abstract (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult, PlayerRefs player);
+        public abstract (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player);
     }
 }

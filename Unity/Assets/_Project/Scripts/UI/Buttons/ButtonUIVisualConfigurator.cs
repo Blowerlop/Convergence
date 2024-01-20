@@ -23,10 +23,10 @@ namespace Project
         [SerializeField, FoldoutGroup("References")] private TMPro.TMP_Text _text;
         [SerializeField, FoldoutGroup("References")] private RectTransform _spacer;
 
-        [Space(30)] [Title("Global Settings")] [SerializeField]
-        private float _spaceBetweenImagesAndText = 0.0f;
-
-        [SerializeField] private bool _invertTextAndImage = false;
+        [Space(30)] [Title("Global Settings")] 
+        [SerializeField] private bool _addSpaceBetweenImagesAndText;
+        [SerializeField, ShowIf("_addSpaceBetweenImagesAndText")] private float _spaceBetweenImagesAndText = 0.0f;
+        [SerializeField] private bool _invertTextAndImage;
         [SerializeField] [MinValue(0)] private float _imageSize = 30.0f;
 
         // Base Image
@@ -146,11 +146,14 @@ namespace Project
             _text.gameObject.SetActive(_useText);
 
             // Set the distance between the image and the text
-            _spacer.sizeDelta = new Vector2(_spaceBetweenImagesAndText, _spacer.sizeDelta.y);
+            if (_addSpaceBetweenImagesAndText)
+            {
+                _spacer.sizeDelta = new Vector2(_spaceBetweenImagesAndText, _spacer.sizeDelta.y);
 
-            _imagesContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(_imageSize,
-                _imagesContainer.GetComponent<RectTransform>().sizeDelta.y);
-            _text.text = _textContent;
+                _imagesContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(_imageSize,
+                    _imagesContainer.GetComponent<RectTransform>().sizeDelta.y);
+                _text.text = _textContent;
+            }
 
             if (_invertTextAndImage)
             {

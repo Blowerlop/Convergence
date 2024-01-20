@@ -1,4 +1,6 @@
 using Project.Extensions;
+using Project.Spells.Casters;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells
@@ -9,21 +11,11 @@ namespace Project.Spells
         public const int CharacterSpellsCount = 4;
 
         public string spellId;
-
-        private int? hash;
-        public int HashedID
-        {
-            get
-            {
-                hash ??= spellId.ToLower().ToHashIsSameAlgoOnUnreal();
-                return hash.Value;
-            }       
-        }
         
-        public ChannelingResultType castingType;
+        [BoxGroup("Caster")] public SpellCaster requiredCaster;
+        [BoxGroup("Caster")] public CastResultType requiredResultType;
         
-        public Spell spellPrefab;
-
-        public float cooldown;
+        [BoxGroup("Spell")] public Spell spellPrefab;
+        [BoxGroup("Spell")] public float cooldown;
     }
 }

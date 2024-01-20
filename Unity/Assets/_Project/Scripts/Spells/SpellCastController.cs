@@ -8,8 +8,6 @@ namespace Project.Spells.Casters
     {
         [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
         
-        [SerializeField] private SpellCastersList spellCastersList;
-        
         private PlayerRefs _player;
         private CooldownController _cooldowns;
         
@@ -74,12 +72,18 @@ namespace Project.Spells.Casters
             {
                 var spellData = _spells[i];
 
-                var prefab = spellCastersList.Get(spellData.castingType);
+                var prefab = spellData.requiredCaster;
 
                 if (prefab == null)
                 {
-                    Debug.LogError($"Spell {spellData.spellId} require a SpellCaster of type {spellData.castingType} " +
-                                   $"but it can't be found. Please add one to the SpellCastersList.");
+                    Debug.LogError($"SpellCaster of spell {spellData.spellId} is null!");
+                    continue;
+                }
+                
+                if(prefab.CastResultType != spellData.requiredResultType)
+                {
+                    Debug.LogError($"Spell {spellData.spellId}'s requiredResultType and SpellCaster prefab's ChannelingResultType are different!\n" +
+                                   $"Maybe you forgot to set the requiredResultType or you picked a SpellCaster prefab that doesn't return the right type.");
                     continue;
                 }
 
