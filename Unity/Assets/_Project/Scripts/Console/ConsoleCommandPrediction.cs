@@ -19,17 +19,14 @@ namespace Project
         [SerializeField, ChildGameObjectsOnly] private GameObject _gameObject;
         [SerializeField, AssetsOnly] private Button _template;
 
+            
         public bool HasAPrediction() => !string.IsNullOrEmpty(currentPrediction);
         
         public void Predict(string input)
         {
             ClearPrediction();
 
-            if (string.IsNullOrEmpty(input))
-            {
-                // ClearPrediction();
-                return;
-            }
+            if (string.IsNullOrEmpty(input)) return;
             
             string[] splitInput = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             string commandInput = splitInput[0];
@@ -104,10 +101,9 @@ namespace Project
         
         private void ComputeAdditionalPrediction(HashSet<string> allPredictionsName)
         {
-            foreach (var predictionsName in allPredictionsName)
+            foreach (string predictionsName in allPredictionsName.Skip(1))
             {
                 Button instance = Instantiate(_template, _gameObject.transform);
-                // string commandName = predictionsName;
                 instance.onClick.AddListener(() =>
                 {
                     Console.instance.SetTextOfInputInputFieldSilent(predictionsName);
@@ -116,7 +112,6 @@ namespace Project
                     Console.instance.FocusOnInputField();
                 });
                 instance.GetComponentInChildren<TMP_Text>().text = predictionsName;
-                instance.gameObject.SetActive(true);
             }
         }
 

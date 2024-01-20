@@ -129,23 +129,25 @@ namespace Project
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                // if (string.IsNullOrEmpty(_inputInputField.text) == false)
-                // {
-                //     MoveCaretToTheEndOfTheText();
-                //     return;
-                // }
-                
-                GotToTheOlderInHistory();
+                if (_commandPrediction.HasAPrediction())
+                {
+
+                }
+                else
+                {
+                    GotToTheOlderInHistory();
+                }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                // if (string.IsNullOrEmpty(_inputInputField.text) == false)
-                // {
-                //     MoveCaretToTheEndOfTheText();
-                //     return;
-                // }
-                
-                GotToTheRecentInHistory();
+                if (_commandPrediction.HasAPrediction())
+                {
+                    
+                }
+                else
+                {
+                    GotToTheRecentInHistory();
+                }
             }
         }
 
@@ -304,7 +306,7 @@ namespace Project
 
             _currentIndex++;
             
-            SetTextOfInputInputField(_commandHistory[_currentIndex]);
+            SetTextOfInputInputFieldSilent(_commandHistory[_currentIndex]);
         }
         
         private void GotToTheRecentInHistory()
@@ -315,14 +317,14 @@ namespace Project
             }
             if (_currentIndex <= 0)
             {
-                SetTextOfInputInputField(string.Empty);
+                SetTextOfInputInputFieldSilent(string.Empty);
                 _currentIndex = -1;
                 return;
             }
 
             _currentIndex--;
             
-            SetTextOfInputInputField(_commandHistory[_currentIndex]);
+            SetTextOfInputInputFieldSilent(_commandHistory[_currentIndex]);
         }
         
         private void IncreaseOrDecreaseLogTextSize()
