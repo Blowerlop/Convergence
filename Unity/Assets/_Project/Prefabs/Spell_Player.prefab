@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011aee35216f4f30b5d8218d9b13da0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectReferencesCache: {fileID: 11400000, guid: a91a98688d6fbcf4ba98455889d59ae5,
+  _soScriptableObjectReferencesCache: {fileID: 11400000, guid: 36cc491c143c4a940b47c4da303d2767,
     type: 2}
 --- !u!1 &2318031707342146909
 GameObject:

@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
@@ -10,7 +9,7 @@ namespace Project
 {
     public class GRPC_SpellsHandler : MonoBehaviour, IDisposable
     {        
-        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
+        [SerializeField] private SOScriptableObjectReferencesCache scriptableObjectReferencesCache;
         
         private CancellationTokenSource _spellCastStreamCancelSrc;
         
@@ -81,9 +80,8 @@ namespace Project
                 Debug.LogError($"GRPC_SpellsHandler > Client {request.ClientId} is not a mobile client.");
                 return false;
             }
-
-            // TODO: Use new method to get new _scriptableObjectReferencesCache ?
-            if (!SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, user.CharacterId, out var character))
+            
+            if (!SOCharacter.TryGetCharacter(scriptableObjectReferencesCache, user.CharacterId, out var character))
             {
                 Debug.LogError($"GRPC_SpellsHandler > Client {request.ClientId} has an invalid character ID {user.CharacterId}.");
                 return false;
