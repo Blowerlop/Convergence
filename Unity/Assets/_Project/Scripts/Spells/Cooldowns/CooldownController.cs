@@ -62,6 +62,13 @@ namespace Project.Spells
             }
         }
         
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            ResetNetworkVariables();
+        }
+        
         private void InitNetVars()
         {
             _cooldowns[0] = _cd1;
@@ -75,6 +82,14 @@ namespace Project.Spells
             }
         }
 
+        private void ResetNetworkVariables()
+        {
+            for (var i = 0; i < _cooldowns.Length; i++)
+            {
+                _cooldowns[i].Reset();
+            }
+        }
+        
         public bool IsInCooldown(int index)
         {
             if (index < 0 || index >= _cooldowns.Length)

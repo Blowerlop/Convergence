@@ -36,6 +36,13 @@ namespace Project._Project.Scripts.Spells
                  else OnServerChannelingEnded?.Invoke();
             };
         }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            _isChanneling.Reset();
+        }
         
         private void InitNetVars()
         {

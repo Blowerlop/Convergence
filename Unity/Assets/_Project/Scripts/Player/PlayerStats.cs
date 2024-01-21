@@ -33,6 +33,14 @@ namespace Project
             _health.OnValueChanged -= HealthValueChanged;
             _maxHealth.OnValueChanged -= MaxHealthValueChanged;
         }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            _health.Reset();
+            _maxHealth.Reset();
+        }
         
         public void ServerInit(SOCharacter character)
         {
