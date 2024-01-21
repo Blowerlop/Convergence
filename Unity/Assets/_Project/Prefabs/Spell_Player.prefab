@@ -90,6 +90,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownNetVarPrefix: PC_Cooldown_
+--- !u!1 &670730528858720831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3937038633495866382}
+  - component: {fileID: 6844523429310098329}
+  m_Layer: 6
+  m_Name: PcChannelingController (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3937038633495866382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670730528858720831}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6844523429310098329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670730528858720831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b015a24c5a2042599366f9b452798718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  channelingNetVarName: Mobile_IsChanneling
 --- !u!1 &2007026922932564193
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +240,7 @@ GameObject:
   - component: {fileID: 3102969862620517255}
   - component: {fileID: 4031822796035881096}
   - component: {fileID: 4710973524522218224}
+  - component: {fileID: 1849431562472469695}
   m_Layer: 6
   m_Name: Spell_Player
   m_TagString: Untagged
@@ -219,6 +265,7 @@ Transform:
   - {fileID: 3986087505335088356}
   - {fileID: 2242298826837601606}
   - {fileID: 7564388947816390739}
+  - {fileID: 3937038633495866382}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -327,14 +374,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2ee3f111434074987556dde3f3e1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  referencesCache: {fileID: 0}
   playerTransform: {fileID: 4124437638980882131}
   spellCastController: {fileID: 5111047068020737362}
   pcCooldowns: {fileID: 1430276818711062553}
   mobileCooldowns: {fileID: 9017225376331183656}
   pcChanneling: {fileID: 2923043460446806746}
-  mobileChanneling: {fileID: 0}
+  mobileChanneling: {fileID: 6844523429310098329}
   stats: {fileID: 5660322341207031738}
+--- !u!114 &1849431562472469695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8566652343378925700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: SpellPlayer
+  UnrealOwnerAddress: 
 --- !u!1 &8990448522922621717
 GameObject:
   m_ObjectHideFlags: 0
