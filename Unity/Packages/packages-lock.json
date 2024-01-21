@@ -7,6 +7,15 @@
       "dependencies": {},
       "hash": "3c2e1453653b86a43bcb2b436ddcf4e34f0e4c3a"
     },
+    "com.mewlist.mew-weaver": {
+      "version": "https://github.com/mewlist/MewWeaver.git?path=Assets/MewWeaver",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.11.4"
+      },
+      "hash": "34aeca774d80ef46e36596fb084f952d45a6c4b3"
+    },
     "com.unity.burst": {
       "version": "1.8.7",
       "depth": 1,
