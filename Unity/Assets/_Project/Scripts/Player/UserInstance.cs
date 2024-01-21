@@ -217,7 +217,16 @@ namespace Project
         {
             _networkCharacterId.Value = characterId;
         }
-        
-        
+
+        public void SetMobileSpell(int index, int spellId)
+        {
+            if (index < 0 || index >= _mobileSpells.Length)
+            {
+                Debug.LogError($"Can't set mobile spell. Given index {index} is out of range");
+                return;
+            }
+            
+            _mobileSpells[index].Value = spellId;
+        }
     }
 }

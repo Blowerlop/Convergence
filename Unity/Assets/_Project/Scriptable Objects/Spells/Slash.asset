@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: 
   spellId: slash
+  spellIdHash: 7955549
   requiredCaster: {fileID: 2448168163828857503, guid: 5962c61f43786d54c9cb84587494855b,
     type: 3}
   requiredResultType: 0

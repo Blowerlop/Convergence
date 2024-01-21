@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SkillShot
   m_EditorClassIdentifier: 
   spellId: skillshot
+  spellIdHash: 165235253
   requiredCaster: {fileID: 6659489374371741918, guid: 0e857f00997a879418d612dd4d69bd73,
     type: 3}
   requiredResultType: 0

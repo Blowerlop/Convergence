@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Zone
   m_EditorClassIdentifier: 
   spellId: zone
+  spellIdHash: 162900
   requiredCaster: {fileID: 2732994462002990536, guid: 55dc4e10969599d4784bac0821ca0ff5,
     type: 3}
   requiredResultType: 0

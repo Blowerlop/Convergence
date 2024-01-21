@@ -1,3 +1,4 @@
+using System.Linq;
 using Project.Extensions;
 using Project.Spells.Casters;
 using Sirenix.OdinInspector;
@@ -10,7 +11,8 @@ namespace Project.Spells
     {        
         public const int CharacterSpellsCount = 4;
 
-        public string spellId;
+        [OnValueChanged("UpdateHash")] public string spellId;
+        [DisableIf("@true")] public int spellIdHash;
         
         [BoxGroup("Caster")] public SpellCaster requiredCaster;
         [BoxGroup("Caster")] public CastResultType requiredResultType;
@@ -18,5 +20,22 @@ namespace Project.Spells
         [BoxGroup("Spell")] public Spell spellPrefab;
         [BoxGroup("Spell")] public float cooldown;
         [BoxGroup("Spell")] public float channelingTime;
+
+        void Awake()
+        {
+            UpdateHash();
+        }
+        
+        private void UpdateHash()
+        {
+            spellIdHash = spellId.ToHashIsSameAlgoOnUnreal();
+        }
+
+        public static SpellData GetSpell(SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache,
+            int spellIdHash)
+        {
+            return _soScriptableObjectReferencesCache.GetScriptableObjects<SpellData>()
+                .FirstOrDefault(spell => spell.spellIdHash == spellIdHash);
+        }
     }
 }
