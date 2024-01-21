@@ -27,11 +27,22 @@ namespace Project
         {
             get
             {
-                if (currentActionMap == null) return _defaultInputActionMap;
+                if (currentActionMap == null) return string.Empty;
                 return currentActionMap.name;
             }
         }
-        #endif
+
+        [ShowInInspector, PropertyOrder(1), LabelText("Previous Action Map")]
+        private string _previousActionMapEditor
+        {
+            get
+            {
+                if (previousActionMap == null) return string.Empty;
+                return previousActionMap.name;
+            }
+        }
+#endif
+        
         
         [Title("Inputs Handler")]
         public InputAction onMouseButton0 => _inputAction.Player.MouseButton0;
@@ -61,8 +72,9 @@ namespace Project
             _inputAction = new PlayerInputAction();
             
             InitInputAction();
-            
+
             SwitchActionMap(_defaultInputActionMap);
+            previousActionMap = currentActionMap;
         }
 
         protected override void OnDestroy()
