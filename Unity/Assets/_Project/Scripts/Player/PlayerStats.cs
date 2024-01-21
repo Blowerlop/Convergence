@@ -42,9 +42,10 @@ namespace Project
             _maxHealth.Reset();
         }
         
-        [Server]
         public void ServerInit(SOCharacter character)
         {
+            if (!IsServer && !IsHost) return;
+            
             _maxHealth.Value = character.BaseHealth;
             _health.Value = character.BaseHealth;
         }
@@ -59,18 +60,20 @@ namespace Project
             OnHealthChanged?.Invoke(newValue, _maxHealth.Value);
         }
 
-        [Server]
         public void Damage(int modifier)
         {
+            if (!IsServer && !IsHost) return;
+            
             int newValue = _health.Value - modifier;
 
             newValue = Mathf.Clamp(newValue, 0, _maxHealth.Value);
             _health.Value = newValue;
         }
 
-        [Server]
         public void Heal(int modifier)
         {
+            if (!IsServer && !IsHost) return;
+            
             int newValue = _health.Value + modifier;
 
             newValue = Mathf.Clamp(newValue, 0, _maxHealth.Value);

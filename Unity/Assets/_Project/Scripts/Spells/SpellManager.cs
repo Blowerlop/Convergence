@@ -9,9 +9,10 @@ namespace Project.Spells
     {
         [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
         
-        [Server]
         public void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
+            if (!IsServer && !IsHost) return;
+            
             UserInstance user = UserInstanceManager.instance.GetUserInstance(clientId);
             if (user == null)
             {
@@ -42,14 +43,12 @@ namespace Project.Spells
                 () => OnChannelingEnded(spell, results, playerRefs));
         }
 
-        [Server]
         private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellInstance = SpawnSpell(spell, results, playerRefs);
             spellInstance.Init(results);
         }
 
-        [Server]
         private bool TryGetSpellData(UserInstance user, int spellIndex, out SpellData spell)
         {
             spell = null;
@@ -89,7 +88,6 @@ namespace Project.Spells
             return true;
         }
         
-        [Server]
         private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellPrefab = spell.spellPrefab;

@@ -57,9 +57,10 @@ namespace Project
             _assignedTeam.OnValueChanged -= OnTeamChanged;
         }
 
-        [Server]
         public void ServerInit(int team, SOCharacter character)
         {
+            if (!IsServer && !IsHost) return;
+            
             _assignedTeam.Value = team;
             stats.ServerInit(character);
         }

@@ -106,9 +106,9 @@ namespace Project.Spells
         /// </summary>
         /// <param name="index"></param>
         /// <param name="time"></param>
-        [Server]
         public void StartServerCooldown(int index, float time)
         {
+            if (!IsServer && !IsHost) return;
             if (index < 0 || index >= _timers.Length) return;
             
             void TimerUpdate(float value)
