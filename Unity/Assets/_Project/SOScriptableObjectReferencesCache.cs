@@ -101,6 +101,7 @@ namespace Project
         }
         
         [Button]
+        [ParrelSyncIgnore]
         private void ForceSaveOnDisk()
         {
             EditorUtility.SetDirty(this);

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using DG.Tweening;
 using JetBrains.Annotations;
 using Project.Extensions;
 using Sirenix.OdinInspector;
@@ -429,13 +430,21 @@ namespace Project
             if (isConsoleEnabled) return;
 
             ShowConsoleForced();
-            instance.FocusOnInputField();
         }
 
         private static void ShowConsoleForced()
         {
             instance.gameObject.SetActive(true);
             isConsoleEnabled = true;
+
+            instance.OnShowConsole();
+        }
+
+        private void OnShowConsole()
+        {
+            instance.FocusOnInputField();
+
+            InputManager.instance.SwitchActionMap("UI");
         }
 
         [ButtonGroup]
@@ -451,6 +460,13 @@ namespace Project
         {
             instance.gameObject.SetActive(false);
             isConsoleEnabled = false;
+
+            instance.OnHideConsole();
+        }
+
+        private void OnHideConsole()
+        {
+            InputManager.instance.SwitchActionMap(InputManager.instance.previousActionMap);
         }
         
         [Button]

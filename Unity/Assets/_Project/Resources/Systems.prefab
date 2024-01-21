@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1651884127027204229}
   - component: {fileID: 7620972513675234885}
-  - component: {fileID: 3848640996104426184}
+  - component: {fileID: 817131934873527382}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &3848640996104426184
+--- !u!114 &817131934873527382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -684,12 +684,12 @@ PrefabInstance:
     - target: {fileID: 2007544858024920349, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -757.99
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2007544858024920349, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 25.65
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2007544858024920349, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
@@ -729,7 +729,7 @@ PrefabInstance:
     - target: {fileID: 7118490474089459990, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 10.01001
       objectReference: {fileID: 0}
     - target: {fileID: 7118490474089459990, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
@@ -739,7 +739,7 @@ PrefabInstance:
     - target: {fileID: 7118490474089459990, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 5.005005
       objectReference: {fileID: 0}
     - target: {fileID: 7768236897624540859, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
