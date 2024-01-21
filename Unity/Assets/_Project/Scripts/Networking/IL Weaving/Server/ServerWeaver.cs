@@ -6,7 +6,7 @@ namespace Project
 {
     public class ServerWeaver : IWeaver
     {
-        public static void ControlMethodExecution()
+        private static void ControlMethodExecution()
         {
             if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening &&
                 NetworkManager.Singleton.IsServer == false)
