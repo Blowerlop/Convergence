@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Project.Spells
 {
     [CreateAssetMenu(fileName = "New SpellData", menuName = "Spells/Data/Default", order = 1)]
-    public class SpellData : ScriptableObject
+    public class SpellData : ScriptableObject, IScriptableObjectSerializeReference
     {        
         public const int CharacterSpellsCount = 4;
 

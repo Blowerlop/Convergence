@@ -176,6 +176,17 @@ namespace Project
                 false => PlayerPlatform.Pc
             };
         }
+
+        public int GetMobileSpell(int slotId)
+        {
+            if (slotId < 0 || slotId >= _mobileSpells.Length)
+            {
+                Debug.LogError($"Can't get mobile spell. Given index {slotId} is out of range");
+                return 0;
+            }
+            
+            return _mobileSpells[slotId].Value;
+        }
         
         #endregion
         

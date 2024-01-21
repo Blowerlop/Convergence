@@ -12,14 +12,18 @@ namespace Project
         [SerializeField] private SOScriptableObjectReferencesCache scriptableObjectReferencesCache;
         
         private CancellationTokenSource _spellCastStreamCancelSrc;
+        private CancellationTokenSource _setSpellStreamCancelSrc;
         
         // Stream coming from GRPC. Used to receive spell cast requests from Unreal clients on Netcode server.
-        private AsyncServerStreamingCall<GRPC_SpellCastRequest> _spellCastRequestStream;
+        private AsyncServerStreamingCall<GRPC_SpellCastRequest> _spellCastRequestStream; 
+        
+        private AsyncServerStreamingCall<GRPC_SpellSlot> _setSpellStream; 
         
         private void OnEnable()
         {
             GRPC_Transport.instance.onClientStopEvent.Subscribe(this, TokenCancel);
             GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, StartSpellCastRequestStream);
+            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, StartSetSpellStream);
             GRPC_NetworkManager.instance.onClientStoppedEvent.Subscribe(this, Dispose);
         }
 
@@ -29,8 +33,11 @@ namespace Project
             
             GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(StartSpellCastRequestStream);
+            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(StartSetSpellStream);
             GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);
         }
+        
+        #region SpellCastRequest
         
         private void StartSpellCastRequestStream()
         {
@@ -112,17 +119,72 @@ namespace Project
             SpellManager.instance.TryCastSpell(request.ClientId, request.SpellIndex, result);
         }
         
+        #endregion
+        
+        #region Spell Slot
+        
+        private void StartSetSpellStream()
+        {
+            if (_setSpellStream != null)
+            {
+                Debug.LogError(
+                    "GRPC_SpellsHandler > Trying to start a SetSpellStream when there is one already running.");
+                return;
+            }
+
+            SetSpellStream();
+        }
+        
+        private async void SetSpellStream()
+        {
+            _setSpellStreamCancelSrc = new CancellationTokenSource();
+            _setSpellStream = GRPC_Transport.instance.client.GRPC_SetUnrealSpellGrpcToNetcode(new GRPC_EmptyMsg());
+
+            try
+            {
+                while (await _setSpellStream.ResponseStream.MoveNext(_setSpellStreamCancelSrc.Token))
+                {
+                    var spellSlot = _setSpellStream.ResponseStream.Current;
+                    HandleSpellSlotUpdate(spellSlot);
+                }
+            }
+            catch (RpcException)
+            { 
+                if (GRPC_NetworkManager.instance.isConnected)
+                    GRPC_NetworkManager.instance.StopClient();
+            }
+        }
+
+        private void HandleSpellSlotUpdate(GRPC_SpellSlot slot)
+        {
+            if (!UserInstanceManager.instance.TryGetUserInstance(slot.ClientId, out var user))
+            {
+                Debug.LogError("GRPC_SpellsHandler > Received a spell slot update from client " +
+                               $"with ID {slot.ClientId}. But this client is not registered in UserInstanceManager.");
+                return;
+            }
+            
+            user.SetMobileSpell(slot.Index, slot.SpellHash);
+        }
+        
+        #endregion
+        
         private void TokenCancel()
         {
             _spellCastStreamCancelSrc?.Cancel();
+            _setSpellStreamCancelSrc?.Cancel();
         }
         
         public void Dispose()
         {            
             _spellCastStreamCancelSrc?.Dispose();
-            _spellCastRequestStream?.Dispose();
+            _spellCastRequestStream?.Dispose();  
+            
+            _setSpellStreamCancelSrc?.Dispose();
+            _setSpellStream?.Dispose();
 
             _spellCastRequestStream = null;
+            _setSpellStream = null;
         }
     }
 }

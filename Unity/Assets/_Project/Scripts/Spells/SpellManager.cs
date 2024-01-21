@@ -70,7 +70,9 @@ namespace Project.Spells
                     }
                     break;
                 case PlayerPlatform.Mobile:
-                    spell = SpellData.GetSpell(_soScriptableObjectReferencesCache, spellIndex);
+                    var spellHash = user.GetMobileSpell(spellIndex);
+                    
+                    spell = SpellData.GetSpell(_soScriptableObjectReferencesCache, spellHash);
 
                     if (spell == null)
                     {
