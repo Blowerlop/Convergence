@@ -20,7 +20,6 @@ namespace Project
         private void Start()
         {
             if (!IsServer && !IsHost) return;
-
             
             if (GRPC_NetworkManager.instance.isConnected)
             {

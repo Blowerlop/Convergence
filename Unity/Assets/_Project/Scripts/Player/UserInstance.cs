@@ -192,10 +192,9 @@ namespace Project
         
         
         //Setters
+        [Server]
         public void SetClientId(int clientId)
         {
-            if (!IsServer && !IsHost) return;
-            
             _networkClientId.Value = clientId;
         }
         
