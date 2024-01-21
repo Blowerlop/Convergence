@@ -72,6 +72,8 @@ namespace GRPCClient {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_TeamResponse> __Marshaller_main_GRPC_TeamResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_TeamResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_SpellSlot> __Marshaller_main_GRPC_SpellSlot = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_SpellSlot.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_SpellCastRequest> __Marshaller_main_GRPC_SpellCastRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_SpellCastRequest.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -169,6 +171,22 @@ namespace GRPCClient {
         "GRPC_TeamSelectionGrpcToNetcode",
         __Marshaller_main_GRPC_TeamResponse,
         __Marshaller_main_GRPC_Team);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_SpellSlot, global::GRPCClient.GRPC_EmptyMsg> __Method_GRPC_SetUnrealSpellUnrealToGrpc = new grpc::Method<global::GRPCClient.GRPC_SpellSlot, global::GRPCClient.GRPC_EmptyMsg>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GRPC_SetUnrealSpellUnrealToGrpc",
+        __Marshaller_main_GRPC_SpellSlot,
+        __Marshaller_main_GRPC_EmptyMsg);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_SpellSlot> __Method_GRPC_SetUnrealSpellGrpcToNetcode = new grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_SpellSlot>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GRPC_SetUnrealSpellGrpcToNetcode",
+        __Marshaller_main_GRPC_EmptyMsg,
+        __Marshaller_main_GRPC_SpellSlot);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GRPCClient.GRPC_SpellCastRequest, global::GRPCClient.GRPC_EmptyMsg> __Method_GRPC_SpellCastRequestUnrealToGrpc = new grpc::Method<global::GRPCClient.GRPC_SpellCastRequest, global::GRPCClient.GRPC_EmptyMsg>(
@@ -303,6 +321,18 @@ namespace GRPCClient {
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::GRPCClient.GRPC_EmptyMsg> GRPC_SetUnrealSpellUnrealToGrpc(global::GRPCClient.GRPC_SpellSlot request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GRPC_SetUnrealSpellGrpcToNetcode(global::GRPCClient.GRPC_EmptyMsg request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_SpellSlot> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::GRPCClient.GRPC_EmptyMsg> GRPC_SpellCastRequestUnrealToGrpc(global::GRPCClient.GRPC_SpellCastRequest request, grpc::ServerCallContext context)
       {
@@ -577,9 +607,9 @@ namespace GRPCClient {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_SpellCastRequestUnrealToGrpc(global::GRPCClient.GRPC_SpellCastRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_SetUnrealSpellUnrealToGrpc(global::GRPCClient.GRPC_SpellSlot request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return GRPC_SpellCastRequestUnrealToGrpc(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return GRPC_SetUnrealSpellUnrealToGrpc(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
       ///Spells
@@ -588,9 +618,9 @@ namespace GRPCClient {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_SpellCastRequestUnrealToGrpc(global::GRPCClient.GRPC_SpellCastRequest request, grpc::CallOptions options)
+      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_SetUnrealSpellUnrealToGrpc(global::GRPCClient.GRPC_SpellSlot request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_GRPC_SpellCastRequestUnrealToGrpc, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_GRPC_SetUnrealSpellUnrealToGrpc, null, options, request);
       }
       /// <summary>
       ///Spells
@@ -601,9 +631,9 @@ namespace GRPCClient {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_SpellCastRequestUnrealToGrpcAsync(global::GRPCClient.GRPC_SpellCastRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_SetUnrealSpellUnrealToGrpcAsync(global::GRPCClient.GRPC_SpellSlot request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return GRPC_SpellCastRequestUnrealToGrpcAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return GRPC_SetUnrealSpellUnrealToGrpcAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
       ///Spells
@@ -611,6 +641,36 @@ namespace GRPCClient {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_SetUnrealSpellUnrealToGrpcAsync(global::GRPCClient.GRPC_SpellSlot request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GRPC_SetUnrealSpellUnrealToGrpc, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_SpellSlot> GRPC_SetUnrealSpellGrpcToNetcode(global::GRPCClient.GRPC_EmptyMsg request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_SetUnrealSpellGrpcToNetcode(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_SpellSlot> GRPC_SetUnrealSpellGrpcToNetcode(global::GRPCClient.GRPC_EmptyMsg request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_SetUnrealSpellGrpcToNetcode, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_SpellCastRequestUnrealToGrpc(global::GRPCClient.GRPC_SpellCastRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_SpellCastRequestUnrealToGrpc(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_SpellCastRequestUnrealToGrpc(global::GRPCClient.GRPC_SpellCastRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GRPC_SpellCastRequestUnrealToGrpc, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_SpellCastRequestUnrealToGrpcAsync(global::GRPCClient.GRPC_SpellCastRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_SpellCastRequestUnrealToGrpcAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_SpellCastRequestUnrealToGrpcAsync(global::GRPCClient.GRPC_SpellCastRequest request, grpc::CallOptions options)
       {
@@ -652,6 +712,8 @@ namespace GRPCClient {
           .AddMethod(__Method_GRPC_RequestNetVarUpdateGrpcToNetcode, serviceImpl.GRPC_RequestNetVarUpdateGrpcToNetcode)
           .AddMethod(__Method_GRPC_TeamSelectionUnrealToGrpc, serviceImpl.GRPC_TeamSelectionUnrealToGrpc)
           .AddMethod(__Method_GRPC_TeamSelectionGrpcToNetcode, serviceImpl.GRPC_TeamSelectionGrpcToNetcode)
+          .AddMethod(__Method_GRPC_SetUnrealSpellUnrealToGrpc, serviceImpl.GRPC_SetUnrealSpellUnrealToGrpc)
+          .AddMethod(__Method_GRPC_SetUnrealSpellGrpcToNetcode, serviceImpl.GRPC_SetUnrealSpellGrpcToNetcode)
           .AddMethod(__Method_GRPC_SpellCastRequestUnrealToGrpc, serviceImpl.GRPC_SpellCastRequestUnrealToGrpc)
           .AddMethod(__Method_GRPC_SpellCastRequestGrpcToNetcode, serviceImpl.GRPC_SpellCastRequestGrpcToNetcode).Build();
     }
@@ -675,6 +737,8 @@ namespace GRPCClient {
       serviceBinder.AddMethod(__Method_GRPC_RequestNetVarUpdateGrpcToNetcode, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_NetVarUpdate>(serviceImpl.GRPC_RequestNetVarUpdateGrpcToNetcode));
       serviceBinder.AddMethod(__Method_GRPC_TeamSelectionUnrealToGrpc, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse>(serviceImpl.GRPC_TeamSelectionUnrealToGrpc));
       serviceBinder.AddMethod(__Method_GRPC_TeamSelectionGrpcToNetcode, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team>(serviceImpl.GRPC_TeamSelectionGrpcToNetcode));
+      serviceBinder.AddMethod(__Method_GRPC_SetUnrealSpellUnrealToGrpc, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_SpellSlot, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SetUnrealSpellUnrealToGrpc));
+      serviceBinder.AddMethod(__Method_GRPC_SetUnrealSpellGrpcToNetcode, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_SpellSlot>(serviceImpl.GRPC_SetUnrealSpellGrpcToNetcode));
       serviceBinder.AddMethod(__Method_GRPC_SpellCastRequestUnrealToGrpc, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_SpellCastRequest, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SpellCastRequestUnrealToGrpc));
       serviceBinder.AddMethod(__Method_GRPC_SpellCastRequestGrpcToNetcode, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_SpellCastRequest>(serviceImpl.GRPC_SpellCastRequestGrpcToNetcode));
     }

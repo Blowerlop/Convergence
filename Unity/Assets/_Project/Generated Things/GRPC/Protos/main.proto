@@ -35,6 +35,9 @@ service MainService {
 	rpc GRPC_TeamSelectionGrpcToNetcode (stream GRPC_TeamResponse) returns (stream GRPC_Team);
 	
 	//Spells
+	rpc GRPC_SetUnrealSpellUnrealToGrpc (GRPC_SpellSlot) returns (GRPC_EmptyMsg);
+	rpc GRPC_SetUnrealSpellGrpcToNetcode (GRPC_EmptyMsg) returns (stream GRPC_SpellSlot);
+	
 	rpc GRPC_SpellCastRequestUnrealToGrpc (GRPC_SpellCastRequest) returns (GRPC_EmptyMsg);
 	rpc GRPC_SpellCastRequestGrpcToNetcode (GRPC_EmptyMsg) returns (stream GRPC_SpellCastRequest);
 }
@@ -129,6 +132,15 @@ message GRPC_Team{
 message GRPC_TeamResponse{
 	GRPC_Team team = 1;
 	bool response = 2;
+}
+
+message GRPC_SpellSlot {
+	int32 index = 1;
+	int32 spellHash = 2;
+
+	// Set by GRPC server automatically when a request is received
+	// If a field is not set in a request, it will not be serialized and won't take space
+	int32 clientId = 3;
 }
 
 message GRPC_SpellCastRequest {

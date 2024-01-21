@@ -13,6 +13,7 @@ namespace Networking
         public Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate> requestNetvarUpdateStream = new Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate>();
 
         public IServerStreamWriter<GRPC_SpellCastRequest>? SpellCastRequestStream = null;
+        public IServerStreamWriter<GRPC_SpellSlot>? SetUnrealSpellStream = null;
         
         public NetcodeServer(string ad) : base(ad) { }
 
