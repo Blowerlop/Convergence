@@ -5,7 +5,7 @@ namespace Project
 {
     public class ParrelSyncWeaver : IWeaver
     {
-        private static void ControlMethodExecution()
+        public static void ControlMethodExecution()
         {
             if (ParrelSync.ClonesManager.IsClone()) return;
         }
