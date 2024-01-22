@@ -24,6 +24,7 @@ namespace Project.Spells
             }
             
             CheckForDamage(GetCollisions());
+            Invoke(nameof(KillSpell), 3);
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -60,6 +61,14 @@ namespace Project.Spells
                     damageable.TryDamage(Data.baseDamage, CasterTeamIndex);
                 }
             }
+        }
+
+        [Server]
+        private void KillSpell()
+        {
+            if (NetworkObject == null) return;
+            
+            NetworkObject.Despawn();
         }
     }
 }
