@@ -14,7 +14,7 @@ namespace Project.Spells
 
         private Sequence _moveSeq;
         
-        public override void Init(ICastResult castResult)
+        protected override void Init(ICastResult castResult)
         {
             if (castResult is not SingleVectorResults results)
             {
@@ -46,19 +46,32 @@ namespace Project.Spells
         {
             if (!IsServer && !IsHost) return;
 
+            if (IsColliding(out var hit)) OnCollision(hit);
+        }
+        
+        private bool IsColliding(out RaycastHit hit)
+        {
             var forward = transform.forward;
             Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
             
-            if (Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
-                    out RaycastHit hit, 0.5f, _layerMask))
+            return Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
+                    out hit, 0.5f, _layerMask);
+        }
+
+        private void OnCollision(RaycastHit hit)
+        {
+            if (!hit.transform.TryGetComponent(out IDamageable damageable)) return;
+
+            if (damageable.TryDamage(Data.baseDamage, CasterTeamIndex))
             {
-                if (hit.transform.TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.Damage(1);
-                    _moveSeq.Kill();
-                    NetworkObject.Despawn();
-                }
+                KillSpell();
             }
+        }
+
+        private void KillSpell()
+        {
+            _moveSeq.Kill();
+            NetworkObject.Despawn();
         }
     }
 }

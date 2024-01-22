@@ -21,6 +21,8 @@ namespace Project.Spells
         [BoxGroup("Spell")] public float cooldown;
         [BoxGroup("Spell")] public float channelingTime;
 
+        [BoxGroup("Spell")] public int baseDamage;
+        
         void Awake()
         {
             UpdateHash();

@@ -5,14 +5,16 @@ namespace Project.Spells
 {
     public class ZoneSpell : Spell
     {
-        [SerializeField] private ZoneSpellData spellData;
+        private ZoneSpellData _zoneData = null;
+        private ZoneSpellData ZoneData => _zoneData ??= Data as ZoneSpellData;
+        
         SingleVectorResults _results;
         
         [SerializeField] private LayerMask _layerMask;
-
-        private Sequence _moveSeq;
         
-        public override void Init(ICastResult castResult)
+        private Sequence _moveSeq;
+
+        protected override void Init(ICastResult castResult)
         {
             if (castResult is not SingleVectorResults results)
             {
@@ -40,14 +42,14 @@ namespace Project.Spells
         {
             if (!IsServer && !IsHost) return;
 
-            var hits = Physics.OverlapSphere(_results.VectorProp, spellData.zoneRadius, _layerMask);
+            var hits = Physics.OverlapSphere(_results.VectorProp, ZoneData.zoneRadius, _layerMask);
             if (hits.Length > 0)
             {
                 foreach (var hit in hits)
                 {
                     if (hit.TryGetComponent(out IDamageable damageable))
                     {
-                        damageable.Damage(10);
+                        damageable.TryDamage(ZoneData.baseDamage, CasterTeamIndex);
                     }
                 }
             }

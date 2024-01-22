@@ -2,13 +2,18 @@ using System;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Project
 {
     public class PlayerStats : NetworkBehaviour, IDamageable, IHealable
     {
+        [SerializeField] private PlayerRefs playerRefs;
+        
         [ShowInInspector] private GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth");
         [ShowInInspector] private GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
+        
+        public PlayerRefs PlayerRefs => playerRefs;
         
         public event Action<int, int> OnHealthChanged; 
         
@@ -66,6 +71,11 @@ namespace Project
 
             newValue = Mathf.Clamp(newValue, 0, _maxHealth.Value);
             _health.Value = newValue;
+        }
+
+        public bool CanDamage(int attackerTeamIndex)
+        {
+            return attackerTeamIndex != playerRefs.AssignedTeam;
         }
 
         [Server]

@@ -26,6 +26,8 @@ namespace Project
         
         public Transform PlayerTransform => playerTransform;
         
+        public int AssignedTeam => _assignedTeam.Value;
+        
         public static event Action<PlayerRefs> OnLocalPlayerSpawned;
         
         #region Team Linking
