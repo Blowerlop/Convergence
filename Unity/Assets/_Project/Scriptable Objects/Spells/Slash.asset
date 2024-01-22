@@ -21,5 +21,6 @@ MonoBehaviour:
     type: 3}
   cooldown: 2
   channelingTime: 0.25
+  baseDamage: 50
   limitRadius: 4
   zoneSize: 1

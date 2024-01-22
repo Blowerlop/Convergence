@@ -2,7 +2,6 @@ using System;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project
 {
@@ -10,8 +9,8 @@ namespace Project
     {
         [SerializeField] private PlayerRefs playerRefs;
         
-        [ShowInInspector] private GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth");
-        [ShowInInspector] private GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
+        private GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth");
+        private GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
         
         public PlayerRefs PlayerRefs => playerRefs;
         
