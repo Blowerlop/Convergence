@@ -1,55 +1,54 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Project
 {
-    public class Bootstrapper
+    public static class Bootstrapper
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void ExecuteBeforeSceneLoad()
+        private static SOBoostrap _bootstrap;
+        
+        
+        private static SOBoostrap GetScriptableObject()
         {
-            TryLoadBootstrapPrefab();
-            TryLoadBootstrapScene();
-        }
-
-        private static void TryLoadBootstrapPrefab()
-        {
-            try
-            {
-                Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Systems")));
-            }
-            catch
-            {
-                Debug.LogError("There is no prefab named 'Systems' in resources");
-            }
+            if (_bootstrap == null) _bootstrap = Resources.Load<SOBoostrap>("Bootstrap");
+                
+            return _bootstrap;
         }
         
-        private static void TryLoadBootstrapScene()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        public static void SubsystemRegistration()
         {
-            int sceneBuildIndex = SceneUtility.GetBuildIndexByScenePath("Bootstrap");
-            
-            if (sceneBuildIndex == -1)
-            {
-                Debug.LogError("There is no scene named 'Bootstrap'");
-                return;
-            }
-            
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene() == UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex(sceneBuildIndex)) return;
-            
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneBuildIndex, LoadSceneMode.Additive);
-            
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, mode) =>
-            {
-                OnSceneLoaded_UnloadScene(scene);
-            };
+            Execute(GetScriptableObject().subsystemRegistration);
+        }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        public static void AfterAssembliesLoaded()
+        {
+            Execute(GetScriptableObject().afterAssembliesLoaded);
+        }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+        public static void BeforeSplashScreen()
+        {
+            Execute(GetScriptableObject().beforeSplashScreen);
+        }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void BeforeSceneLoad()
+        {
+            Execute(GetScriptableObject().beforeSceneLoad);
+        }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        public static void AfterSceneLoad()
+        {
+            Execute(GetScriptableObject().afterSceneLoad);
+        }
 
-
-            void OnSceneLoaded_UnloadScene(Scene scene)
+        private static void Execute(Object[] objects)
+        {
+            foreach (Object obj in objects)
             {
-                if (scene.buildIndex != sceneBuildIndex) return;
-                
-                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(scene);
-                UnityEngine.SceneManagement.SceneManager.sceneLoaded -= (scene, mode) => OnSceneLoaded_UnloadScene(scene);
+                Object.DontDestroyOnLoad(Object.Instantiate(obj));
             }
         }
     }
