@@ -1,6 +1,8 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Project
 {
@@ -26,7 +28,52 @@ namespace Project
         [field: Title("After Scene Load")] 
         [field: Tooltip("Callback invoked when the first scene's objects are loaded into memory and after Awake has been called.")]
         [field: SerializeField] public Object[] afterSceneLoad { get; private set; }
+
+
+        public Object[] GetObjects(RuntimeInitializeLoadType runtimeInitializeLoadType)
+        {
+            return runtimeInitializeLoadType switch
+            {
+                RuntimeInitializeLoadType.AfterSceneLoad => afterSceneLoad,
+                RuntimeInitializeLoadType.BeforeSceneLoad => beforeSceneLoad,
+                RuntimeInitializeLoadType.AfterAssembliesLoaded => afterAssembliesLoaded,
+                RuntimeInitializeLoadType.BeforeSplashScreen => beforeSplashScreen,
+                RuntimeInitializeLoadType.SubsystemRegistration => subsystemRegistration,
+                _ => throw new ArgumentOutOfRangeException(nameof(runtimeInitializeLoadType), runtimeInitializeLoadType,
+                    null)
+            };
+        }
         
+        public void SetObjects(RuntimeInitializeLoadType runtimeInitializeLoadType, Object[] obj)
+        {
+            switch (runtimeInitializeLoadType)
+            {
+                case RuntimeInitializeLoadType.AfterSceneLoad:
+                    afterSceneLoad = obj;
+                    break;
+                
+                case RuntimeInitializeLoadType.BeforeSceneLoad:
+                    beforeSceneLoad = obj;
+                    break;
+                
+                case RuntimeInitializeLoadType.AfterAssembliesLoaded:
+                    afterAssembliesLoaded = obj;
+                    break;
+                
+                case RuntimeInitializeLoadType.BeforeSplashScreen:
+                    beforeSplashScreen = obj;
+                    break;
+                
+                case RuntimeInitializeLoadType.SubsystemRegistration:
+                    subsystemRegistration = obj;
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(runtimeInitializeLoadType), runtimeInitializeLoadType, null);
+            }
+            
+            ForceSaveOnDisk();
+        }
         
         #if UNITY_EDITOR
         [Button]

@@ -7,7 +7,7 @@ namespace Project
         private static SOBootstrap _bootstrap;
         
         
-        private static SOBootstrap GetScriptableObject()
+        public static SOBootstrap GetScriptableObject()
         {
             if (_bootstrap == null) _bootstrap = Resources.Load<SOBootstrap>("Bootstrap");
                 
