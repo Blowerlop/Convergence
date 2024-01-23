@@ -4,12 +4,12 @@ namespace Project
 {
     public static class Bootstrapper
     {
-        private static SOBoostrap _bootstrap;
+        private static SOBootstrap _bootstrap;
         
         
-        private static SOBoostrap GetScriptableObject()
+        private static SOBootstrap GetScriptableObject()
         {
-            if (_bootstrap == null) _bootstrap = Resources.Load<SOBoostrap>("Bootstrap");
+            if (_bootstrap == null) _bootstrap = Resources.Load<SOBootstrap>("Bootstrap");
                 
             return _bootstrap;
         }

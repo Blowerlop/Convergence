@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Project
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Boostrap")]
-    public class SOBoostrap : ScriptableObject
+    public class SOBootstrap : ScriptableObject
     {
         [field: Title("Subsystem Registration")]
         [field: Tooltip("Callback invoked when starting up the runtime. Called before the first scene is loaded.")]

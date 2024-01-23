@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e728b509aaf60546aa39fbb7cdd5b26, type: 3}
   m_Name: Bootstrap
   m_EditorClassIdentifier: 
-  <afterSceneLoad>k__BackingField: []
-  <beforeSceneLoad>k__BackingField:
-  - {fileID: 8897260045845080591, guid: 51c7b9cff5bc57c4f9b846616e6c56b8, type: 3}
+  <subsystemRegistration>k__BackingField: []
   <afterAssembliesLoaded>k__BackingField: []
   <beforeSplashScreen>k__BackingField: []
-  <subsystemRegistration>k__BackingField: []
+  <beforeSceneLoad>k__BackingField:
+  - {fileID: 8897260045845080591, guid: 51c7b9cff5bc57c4f9b846616e6c56b8, type: 3}
+  - {fileID: 6081436526929384584, guid: 42c8cba60aa1ab64195d8b451f1d948c, type: 3}
+  <afterSceneLoad>k__BackingField: []
