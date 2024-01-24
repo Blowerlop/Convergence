@@ -19,3 +19,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}
     - {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
     - {fileID: 11400000, guid: e016bfecaf6bfcc40844d5eada51d91f, type: 2}
+  - <typeName>k__BackingField: FacingZoneSpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
+  - <typeName>k__BackingField: ZoneSpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
+  - <typeName>k__BackingField: SpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
+    - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
+    - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}

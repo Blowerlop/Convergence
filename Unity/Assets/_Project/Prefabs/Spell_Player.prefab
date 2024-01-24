@@ -1,5 +1,164 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &109944189927519238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2242298826837601606}
+  - component: {fileID: 2923043460446806746}
+  m_Layer: 6
+  m_Name: PcChannelingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2242298826837601606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109944189927519238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2923043460446806746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109944189927519238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b015a24c5a2042599366f9b452798718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  channelingNetVarName: Pc_IsChanneling
+--- !u!1 &458406308534564621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7498701418951860559}
+  - component: {fileID: 1430276818711062553}
+  m_Layer: 6
+  m_Name: PcCooldowns
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7498701418951860559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458406308534564621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1430276818711062553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458406308534564621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a9c87b475764fc0a5d94f5991b94735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownNetVarPrefix: PC_Cooldown_
+--- !u!1 &1620765535107710638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9011955170663844517}
+  - component: {fileID: 1286915305946261820}
+  - component: {fileID: 8696916170390124156}
+  m_Layer: 6
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9011955170663844517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620765535107710638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1286915305946261820
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620765535107710638}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8696916170390124156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620765535107710638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d614da93bbf346479c95404f90d16b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRefs: {fileID: 4710973524522218224}
 --- !u!1 &2007026922932564193
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3490958754586719391}
   - component: {fileID: 5111047068020737362}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpellCastController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,9 +203,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011aee35216f4f30b5d8218d9b13da0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectReferencesCache: {fileID: 11400000, guid: a91a98688d6fbcf4ba98455889d59ae5,
+  _soScriptableObjectReferencesCache: {fileID: 11400000, guid: 36cc491c143c4a940b47c4da303d2767,
     type: 2}
-  spellCastersList: {fileID: 11400000, guid: c8795dc5f6ffac1428ae57de079b6103, type: 2}
+--- !u!1 &2318031707342146909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3986087505335088356}
+  - component: {fileID: 9017225376331183656}
+  m_Layer: 6
+  m_Name: MobileCooldowns
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3986087505335088356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2318031707342146909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9017225376331183656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2318031707342146909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a9c87b475764fc0a5d94f5991b94735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownNetVarPrefix: Mobile_Cooldown_
 --- !u!1 &8566652343378925700
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,11 +261,10 @@ GameObject:
   - component: {fileID: 4124437638980882131}
   - component: {fileID: 7172847356495465616}
   - component: {fileID: 1268494690094158107}
-  - component: {fileID: 3102969862620517255}
   - component: {fileID: 4031822796035881096}
-  - component: {fileID: 4062393873198906358}
   - component: {fileID: 4710973524522218224}
-  m_Layer: 0
+  - component: {fileID: 1849431562472469695}
+  m_Layer: 6
   m_Name: Spell_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,6 +284,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3490958754586719391}
+  - {fileID: 7498701418951860559}
+  - {fileID: 3986087505335088356}
+  - {fileID: 2242298826837601606}
+  - {fileID: 9011955170663844517}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -135,29 +341,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3102969862620517255
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8566652343378925700}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4031822796035881096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,18 +361,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4062393873198906358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8566652343378925700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a9c87b475764fc0a5d94f5991b94735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4710973524522218224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,5 +375,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 4124437638980882131}
   spellCastController: {fileID: 5111047068020737362}
-  pcCooldowns: {fileID: 4062393873198906358}
-  mobileCooldowns: {fileID: 0}
+  pcCooldowns: {fileID: 1430276818711062553}
+  mobileCooldowns: {fileID: 9017225376331183656}
+  pcChanneling: {fileID: 2923043460446806746}
+  mobileChanneling: {fileID: 0}
+  stats: {fileID: 8696916170390124156}
+--- !u!114 &1849431562472469695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8566652343378925700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: SpellPlayer
+  UnrealOwnerAddress: 

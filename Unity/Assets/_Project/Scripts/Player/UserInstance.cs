@@ -1,4 +1,5 @@
 using System;
+using Project.Spells;
 using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Netcode;
@@ -30,6 +31,9 @@ namespace Project
         [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
         
+        private GRPC_NetworkVariable<int>[] _mobileSpells = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
+        private GRPC_NetworkVariable<int> _ms1, _ms2, _ms3, _ms4;
+        
         public int ClientId => _networkClientId.Value;
         
         public string PlayerName => _networkPlayerName.Value.ToString();
@@ -38,6 +42,10 @@ namespace Project
         public bool IsReady => _networkIsReady.Value;
         public int CharacterId => _networkCharacterId.Value;
 
+        private void Awake()
+        {
+            CreateNetVarInstance();
+        }
         
         public override void OnNetworkSpawn()
         {
@@ -82,6 +90,16 @@ namespace Project
             ResetNetworkVariables();
         }
 
+        private void CreateNetVarInstance()
+        {
+            string prefix = "MobileSpell_";
+            
+            _ms1 = new GRPC_NetworkVariable<int>(prefix + 0);
+            _ms2 = new GRPC_NetworkVariable<int>(prefix + 1);
+            _ms3 = new GRPC_NetworkVariable<int>(prefix + 2);
+            _ms4 = new GRPC_NetworkVariable<int>(prefix + 3);
+        }
+        
         private void InitializeNetworkVariables()
         {
             _networkClientId.Initialize();
@@ -91,6 +109,16 @@ namespace Project
             _networkIsMobile.Initialize();
             _networkIsReady.Initialize();
             _networkCharacterId.Initialize();
+
+            _mobileSpells[0] = _ms1;
+            _mobileSpells[1] = _ms2;
+            _mobileSpells[2] = _ms3;
+            _mobileSpells[3] = _ms4;
+            
+            for (var i = 0; i < _mobileSpells.Length; i++)
+            {
+                _mobileSpells[i].Initialize();
+            }
         }
 
         private void ResetNetworkVariables()
@@ -102,6 +130,11 @@ namespace Project
             _networkIsMobile.Reset();
             _networkIsReady.Reset();
             _networkCharacterId.Reset();
+            
+            for (var i = 0; i < _mobileSpells.Length; i++)
+            {
+                _mobileSpells[i].Reset();
+            }
         }
         
         public void LinkPlayer(PlayerRefs refs)
@@ -143,15 +176,25 @@ namespace Project
                 false => PlayerPlatform.Pc
             };
         }
+
+        public int GetMobileSpell(int slotId)
+        {
+            if (slotId < 0 || slotId >= _mobileSpells.Length)
+            {
+                Debug.LogError($"Can't get mobile spell. Given index {slotId} is out of range");
+                return 0;
+            }
+            
+            return _mobileSpells[slotId].Value;
+        }
         
         #endregion
         
         
         //Setters
+        [Server]
         public void SetClientId(int clientId)
         {
-            if (!IsServer && !IsHost) return;
-            
             _networkClientId.Value = clientId;
         }
         
@@ -184,7 +227,16 @@ namespace Project
         {
             _networkCharacterId.Value = characterId;
         }
-        
-        
+
+        public void SetMobileSpell(int index, int spellId)
+        {
+            if (index < 0 || index >= _mobileSpells.Length)
+            {
+                Debug.LogError($"Can't set mobile spell. Given index {index} is out of range");
+                return;
+            }
+            
+            _mobileSpells[index].Value = spellId;
+        }
     }
 }
