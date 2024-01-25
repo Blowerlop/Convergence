@@ -26,18 +26,12 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void CompareCommitHashWithServer_ServerRpc(ulong clientId, string gitCommitHash)
         {
-            OnCommitHashCompared(clientId, _gitCommitHash == gitCommitHash);
-        }
-
-        [Server]
-        private void OnCommitHashCompared(ulong clientId, bool result)
-        {
-            if (result)
+            if (_gitCommitHash != gitCommitHash)
             {
                 NetworkManager.Singleton.DisconnectClient(clientId, "Last git commit hash different from server");
             }
         }
-        
+
         private string GetGitCommitHash()
         {
             string commitHash = GitUtilities.RetrieveCurrentCommitShorthash();
