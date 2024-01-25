@@ -44,6 +44,7 @@ namespace Project
             };
         }
         
+        [ParrelSyncIgnore]
         public void SetObjects(RuntimeInitializeLoadType runtimeInitializeLoadType, Object[] obj)
         {
             switch (runtimeInitializeLoadType)
@@ -78,6 +79,7 @@ namespace Project
         #if UNITY_EDITOR
         [Button]
         [Tooltip("Sometimes Github don't detect the changes made on the ScriptableObject, so we need to force the write on the disk")]
+        [ParrelSyncIgnore]
         private void ForceSaveOnDisk()
         {
             EditorUtility.SetDirty(this);
