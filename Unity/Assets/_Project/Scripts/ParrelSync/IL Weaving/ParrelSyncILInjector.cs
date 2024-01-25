@@ -26,9 +26,7 @@ namespace Project
             // If false, continue 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, first));
             // else return
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Nop));
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Nop)); 
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Ret)); 
         }    
     }
 }
