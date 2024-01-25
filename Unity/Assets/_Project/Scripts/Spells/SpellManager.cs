@@ -1,3 +1,5 @@
+using System;
+using Project._Project.Scripts.Spells;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +9,8 @@ namespace Project.Spells
     {
         [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
         
-        private void TryCastSpell(int clientId, int spellIndex, ICastResult results)
+        [Server]
+        public void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
             UserInstance user = UserInstanceManager.instance.GetUserInstance(clientId);
             if (user == null)
@@ -23,29 +26,70 @@ namespace Project.Spells
                 return;
             }
 
-            if (!SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, user.CharacterId, out var characterData))
-            {
-                Debug.LogError($"Trying to cast a spell for an invalid character {user.CharacterId}.");
-                return;
-            }
-
-            if (!characterData.TryGetSpell(spellIndex, out var spell))
-            {
-                Debug.LogError($"Trying to cast an invalid spell : {spellIndex} of character {characterData.characterName}.");
-                return;
-            }
+            if (!TryGetSpellData(user, spellIndex, out var spell)) return;
             
             PlayerPlatform platform = user.GetPlatform();
-            CooldownController cooldownController = playerRefs.GetCooldownController(platform);
             
+            ChannelingController channelingController = playerRefs.GetChannelingController(platform);
+            if (channelingController.IsChanneling) return;
+            
+            CooldownController cooldownController = playerRefs.GetCooldownController(platform);
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
             
-            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
-            spellInstance.Init(results);
+            channelingController.StartServerChanneling(spell.channelingTime,
+                () => OnChannelingEnded(spell, results, playerRefs));
         }
 
+        [Server]
+        private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        {
+            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
+            spellInstance.Init(results, spell, playerRefs.AssignedTeam);
+        }
+
+        [Server]
+        private bool TryGetSpellData(UserInstance user, int spellIndex, out SpellData spell)
+        {
+            spell = null;
+            
+            switch (user.GetPlatform())
+            {
+                case PlayerPlatform.Pc:
+                    if (!SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, user.CharacterId,
+                            out var characterData))
+                    {
+                        Debug.LogError($"Trying to cast a spell for an invalid character {user.CharacterId}.");
+                        return false;
+                    }
+                    if (!characterData.TryGetSpell(spellIndex, out spell))
+                    {
+                        Debug.LogError($"Trying to cast an invalid spell : {spellIndex} of character " +
+                                       $"{characterData.characterName}.");
+                        return false;
+                    }
+                    break;
+                case PlayerPlatform.Mobile:
+                    var spellHash = user.GetMobileSpell(spellIndex);
+                    
+                    spell = SpellData.GetSpell(_soScriptableObjectReferencesCache, spellHash);
+
+                    if (spell == null)
+                    {
+                        Debug.LogError($"Trying to cast an invalid spell : {spellIndex} of mobile player " +
+                                       $"{user.ClientId}.");
+                        return false;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return true;
+        }
+        
+        [Server]
         private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellPrefab = spell.spellPrefab;

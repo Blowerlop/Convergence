@@ -1,6 +1,8 @@
 using System;
+using Project._Project.Scripts.Spells;
 using Project.Spells;
 using Project.Spells.Casters;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,10 +16,17 @@ namespace Project
         
         [SerializeField] private SpellCastController spellCastController;
         
-        [SerializeField] private CooldownController pcCooldowns;
-        [SerializeField] private CooldownController mobileCooldowns;
+        [BoxGroup("Cooldowns"),SerializeField] private CooldownController pcCooldowns;
+        [BoxGroup("Cooldowns"),SerializeField] private CooldownController mobileCooldowns;
+        
+        [BoxGroup("Channeling"), SerializeField] private ChannelingController pcChanneling;
+        [BoxGroup("Channeling"), SerializeField] private ChannelingController mobileChanneling;
+        
+        [BoxGroup("Stats"), SerializeField] private PlayerStats stats;
         
         public Transform PlayerTransform => playerTransform;
+        
+        public int AssignedTeam => _assignedTeam.Value;
         
         public static event Action<PlayerRefs> OnLocalPlayerSpawned;
         
@@ -50,11 +59,11 @@ namespace Project
             _assignedTeam.OnValueChanged -= OnTeamChanged;
         }
 
-        public void ServerInit(int team)
+        [Server]
+        public void ServerInit(int team, SOCharacter character)
         {
-            if (!IsServer && !IsHost) return;
-            
             _assignedTeam.Value = team;
+            stats.ServerInit(character);
         }
 
         private void OnTeamChanged(int oldValue, int newValue)
@@ -84,7 +93,7 @@ namespace Project
         
         #endregion
         
-        #region Cooldowns
+        #region Getters
 
         public CooldownController GetCooldownController(PlayerPlatform platform)
         {
@@ -96,6 +105,18 @@ namespace Project
             };
         }
         
+        public ChannelingController GetChannelingController(PlayerPlatform platform)
+        {
+            return platform switch
+            {
+                PlayerPlatform.Pc => pcChanneling,
+                PlayerPlatform.Mobile => mobileChanneling,
+                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
+            };
+        }
+
+        public PlayerStats GetStats() => stats;
+
         #endregion
     }
 }

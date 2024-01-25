@@ -25,7 +25,7 @@ namespace Project
             var obj = Instantiate(characterData.prefab, pos, Quaternion.identity);
             obj.GetComponent<NetworkObject>().SpawnWithOwnership((ulong)charTeam.pcPlayerOwnerClientId);
 
-            obj.GetComponent<PlayerRefs>().ServerInit(teamId);
+            obj.GetComponent<PlayerRefs>().ServerInit(teamId, characterData);
         }
     }
 }

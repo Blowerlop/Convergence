@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 1134584407861169612}
   - component: {fileID: 7716055719088318621}
   - component: {fileID: -4050408657617360730}
+  - component: {fileID: -5190282394034715347}
   m_Layer: 0
   m_Name: DefaultSkillShot
   m_TagString: Untagged
@@ -240,6 +241,20 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 0
   SlerpPosition: 0
+--- !u!114 &-5190282394034715347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489764068185235993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: SkillshotSpell
+  UnrealOwnerAddress: 
 --- !u!1 &4322445860022778890
 GameObject:
   m_ObjectHideFlags: 0

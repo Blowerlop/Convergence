@@ -18,6 +18,11 @@ namespace Project._Project.Scripts
             if (_health.Value < 0) _health.Value = 0;
         }
 
+        public bool CanDamage(int attackerTeamIndex)
+        {
+            return true;
+        }
+
         public void Heal(int modifier)
         {
             _health.Value += modifier;

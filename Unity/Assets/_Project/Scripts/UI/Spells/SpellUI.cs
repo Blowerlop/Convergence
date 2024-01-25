@@ -42,8 +42,8 @@ namespace Project.Spells
             _cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;
             
             _cooldowns.OnServerCooldownEnded += OnCooldownEnded;
-            
-            group.DOFade(0, 0);
+
+            group.alpha = 0;
         }
         
         private void OnCooldownStarted(int index, float time)
@@ -62,7 +62,7 @@ namespace Project.Spells
             if (index != id) return;
             
             tmp.text = value.ToString(CultureInfo.InvariantCulture);
-            img.fillAmount = _maxTime / value;
+            img.fillAmount = value / _maxTime;
         }
         
         private void OnCooldownEnded(int index)

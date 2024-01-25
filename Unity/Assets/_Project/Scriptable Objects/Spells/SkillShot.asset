@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: SkillShot
   m_EditorClassIdentifier: 
   spellId: skillshot
+  spellIdHash: 165235253
   requiredCaster: {fileID: 6659489374371741918, guid: 0e857f00997a879418d612dd4d69bd73,
     type: 3}
   requiredResultType: 0
   spellPrefab: {fileID: 7716055719088318621, guid: d36295997fb1bec4f88a5540858e8f78,
     type: 3}
   cooldown: 5
+  channelingTime: 0.25
+  baseDamage: 25
