@@ -20,25 +20,10 @@ namespace Project
     public class Netcode_ConnectionManager : MonoSingleton<Netcode_ConnectionManager>
     {
         #region Variables
-        [ShowInInspector] private EConnectionState _connectionState = EConnectionState.Disconnected;
-        public EConnectionState connectionState
-        {
-            get => _connectionState;
-
-            private set
-            {
-                if (_connectionState == value) return;
-
-                _connectionState = value;
-                onConnectionStateUpdateEvent.Invoke(this, true, value);
-            }
-        }
-
+        // [ShowInInspector] private EConnectionState _connectionState = EConnectionState.Disconnected;
+        
         private const string DEFAULT_KICK_REASON = "You have been kicked by the server";
         
-        [Title("Events")]
-        public Event<EConnectionState> onConnectionStateUpdateEvent = new Event<EConnectionState>(nameof(onConnectionStateUpdateEvent));
-
         [Title("References")]
         private UnityTransport _transport;
         #endregion
@@ -88,13 +73,13 @@ namespace Project
         private void OnClientStarted()
         {
             Debug.Log($"Trying to establish a connection to {_transport.ConnectionData.Address}:{_transport.ConnectionData.Port}");
-            connectionState = EConnectionState.EstablishingConnection;
+            // _connectionState = EConnectionState.EstablishingConnection;
         }
 
         private void OnClientStopped(bool isHostClient)
         {
             Debug.Log("Connection ended");
-            connectionState = EConnectionState.Disconnected;
+            // _connectionState = EConnectionState.Disconnected;
         }
 
         private void OnClientConnectedCallback(ulong clientId)
@@ -106,7 +91,7 @@ namespace Project
             else
             {
                 Debug.Log($"You successfully connected to the server as id {clientId}");
-                connectionState = EConnectionState.Connected;
+                // _connectionState = EConnectionState.Connected;
             }
         }
 
@@ -125,20 +110,19 @@ namespace Project
                 {
                     Debug.Log($"Reason : {disconnectReason}");
                 }
-                // connectionState = EConnectionState.Disconnected;
             }
         }
 
         private void OnServerStarted()
         {
             Debug.Log("Server started");
-            connectionState = EConnectionState.Connected;
+            // _connectionState = EConnectionState.Connected;
         }
 
         private void OnServerStopped(bool _)
         {
             Debug.Log("Server stopped");
-            connectionState = EConnectionState.Disconnected;
+            // _connectionState = EConnectionState.Disconnected;
         }
 
         private void OnTransportFailure()
@@ -179,12 +163,12 @@ namespace Project
 
                     case NetworkEvent.Connect:
                         Debug.Log("Connection established ! Connecting...");
-                        connectionState = EConnectionState.Connecting;
+                        // _connectionState = EConnectionState.Connecting;
                         break;
                 
                     case NetworkEvent.Disconnect:
                         Debug.Log("Disconnecting...");
-                        connectionState = EConnectionState.Disconnecting;
+                        // _connectionState = EConnectionState.Disconnecting;
                         break;
 
                     case NetworkEvent.TransportFailure:
