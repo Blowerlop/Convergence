@@ -8,29 +8,33 @@ namespace Project
     {
         [Button]
         [Server]
-        private void TESTNORETURN()
+        private void TestNoReturn()
         {
+            Debug.Log("Coucou no return");
             return;
         }
         
         [Button]
         [Server]
-        private bool TESTRETURN()
+        private bool TestReturnBool()
         {
+            Debug.Log("Coucou bool");
             return false;
         }
         
         [Button]
         [Server]
-        private SpellManager TESTRETURNREF()
+        private SpellManager TestReturnRef()
         {
+            Debug.Log("Coucou null");
             return null;
         }
         
         [Button]
         [Server]
-        private string TESTRETURNSTR()
+        private string TestReturnString()
         {
+            Debug.Log("Coucou string");
             return "false";
         }
     }

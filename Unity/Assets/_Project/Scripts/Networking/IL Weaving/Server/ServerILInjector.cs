@@ -29,15 +29,21 @@ namespace Project
             TypeReference returnTypeRef = methodDefinition.ReturnType;
  
             // Instruction returnInstruction = Instruction.Create(OpCodes.Ldnull); 
-            Instruction returnInstruction = Instruction.Create(OpCodes.Ret); 
+            Instruction returnInstruction1 = Instruction.Create(OpCodes.Ldstr, "No singleton"); 
+            Instruction returnInstruction2 = Instruction.Create(OpCodes.Ldstr, "Not connected"); 
             
             // // If null, return
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Ldstr, "On commence")); 
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
+             
+            
+            
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, singletonRef));  
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnInstruction));
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnInstruction1));
             // // If false, return
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, singletonRef)); 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, isListeningRef)); 
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnInstruction)); 
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnInstruction2)); 
             // // If true, continue
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, singletonRef));  
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, isServerRef)); 
@@ -45,8 +51,16 @@ namespace Project
             // All conditions pass, return and log error because client called this method
             processor.InsertBefore(first, Instruction.Create(OpCodes.Ldstr, "Only the server can invoke a Server method")); 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
-            processor.InsertBefore(first, returnInstruction);
-            // processor.InsertBefore(first, Instruction.Create(OpCodes.Ret)); 
+            
+            
+            processor.InsertBefore(first, returnInstruction1);
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));
+            
+            processor.InsertBefore(first, returnInstruction2);
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));
+            // processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));  
         }
-    }
+    } 
 }
