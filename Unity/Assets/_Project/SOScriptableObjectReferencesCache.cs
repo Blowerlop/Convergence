@@ -57,7 +57,7 @@ namespace Project
             var types = GetSoTypesWithInterface<IScriptableObjectSerializeReference>();
             foreach (Type type in types)
             {
-                var scriptableObjects = Utilities.FindAssetsByType<ScriptableObject>(type);
+                ScriptableObject[] scriptableObjects = Utilities.FindAssetsByType<ScriptableObject>(type).Where(t => t.GetType() == type).ToArray();
                 instance._scriptableObjectsCache.Add(new SOCacheEntry(type.Name, scriptableObjects));
             }
             
