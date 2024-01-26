@@ -23,7 +23,7 @@ namespace Project
         {
             base.OnEnable();
             
-            _bootstrap = Bootstrapper.GetScriptableObject();
+            _bootstrap = Bootstrapper.instance;
         }
 
         

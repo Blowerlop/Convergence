@@ -6,7 +6,8 @@ namespace Project
     public static class Bootstrapper
     {
         private static SOBootstrap _instance;
-        private static SOBootstrap instance
+
+        public static SOBootstrap instance
         {
             get
             {
