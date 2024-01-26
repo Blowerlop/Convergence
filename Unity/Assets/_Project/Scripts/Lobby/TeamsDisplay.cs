@@ -7,8 +7,6 @@ namespace Project
 {
     public class TeamsDisplay : NetworkBehaviour
     {
-        [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
-        
         private readonly Dictionary<int, Image> _playersAvatar = new Dictionary<int, Image>();
         public Image template;
         [SerializeField] private Sprite _defaultSprite;
@@ -47,7 +45,7 @@ namespace Project
                 {
                     int playerCharacterId = UserInstanceManager.instance.GetUserInstance(teams[i].pcPlayerOwnerClientId).CharacterId;
 
-                    if (SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, playerCharacterId, out SOCharacter _))
+                    if (SOCharacter.TryGetCharacter(playerCharacterId, out SOCharacter _))
                     {
                         SetPlayerCharacterAvatarClientRpc(i, playerCharacterId);
                     }
@@ -72,7 +70,7 @@ namespace Project
 
         private void SetPlayerCharacterAvatarLocal(int teamId, int characterId)
         {
-            if (SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, characterId, out SOCharacter characterData))
+            if (SOCharacter.TryGetCharacter(characterId, out SOCharacter characterData))
             {
                 _playersAvatar[teamId].sprite = characterData.avatar;
             }

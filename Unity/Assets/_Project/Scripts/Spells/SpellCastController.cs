@@ -7,8 +7,6 @@ namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
-        [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
-        
         private PlayerRefs _player;
         private CooldownController _cooldowns;
         private ChannelingController _channelingController;
@@ -58,7 +56,7 @@ namespace Project.Spells.Casters
         
         private bool InitSpells()
         {
-            SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, UserInstance.Me.CharacterId, out var character);
+            SOCharacter.TryGetCharacter(UserInstance.Me.CharacterId, out var character);
             if(character == null)
             {
                 Debug.LogError($"SpellCastController > Can't InitSpells because character {UserInstance.Me.CharacterId} can't be found.");

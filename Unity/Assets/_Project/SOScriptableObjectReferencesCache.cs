@@ -22,71 +22,52 @@ namespace Project
         [field: Title("Configuration")]
         [field: SerializeField] public bool autoFetchInPlaymode { get; private set; } = true;
 #endif
+
+        private static SOScriptableObjectReferencesCache _instance;
+        public static SOScriptableObjectReferencesCache instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = Resources.FindObjectsOfTypeAll<SOScriptableObjectReferencesCache>().FirstOrDefault();
+                }
+
+                return _instance;
+            }
+        }
         
         [Title("Data")]
         // I can't make it dictionary because Unity can't serialize them 
         [field: SerializeField, ReadOnly] private List<SOCacheEntry> _scriptableObjectsCache;
-
         
-        public T[] GetScriptableObjects<T>()
+        public static T[] GetScriptableObjects<T>()
         {
-            return _scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name).scriptableObjects.Cast<T>().ToArray();
+            return instance._scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name).scriptableObjects.Cast<T>().ToArray();
         }
         
         #if UNITY_EDITOR
-        /// <summary>
-        /// /!\ Never use this to get the asset instance other than in editor.
-        /// If you want to get the asset instance other than in editor, you need to get the direct reference of it.
-        /// </summary>
-        /// <returns></returns>
-        public static SOScriptableObjectReferencesCache GetAssetInstance() 
-        {
-            // Should exist only one asset of this
-            SOScriptableObjectReferencesCache[] allAssetInstances = Utilities.FindAssetsByType<SOScriptableObjectReferencesCache>();
-            if (allAssetInstances == null)
-            {
-                Debug.LogError("Cannot find ScriptableObjectReferencesCache instance");
-                return null;
-            }
-
-            if (allAssetInstances.Length > 1)
-            {
-                Debug.LogWarning("More than one asset of ScriptableObjectReferencesCache, destroying them...");
-                
-                string[] assetsPath = AssetDatabase.FindAssets($"t:{typeof(SOScriptableObjectReferencesCache)}").Skip(1).Select(AssetDatabase.GUIDToAssetPath).ToArray();
-                
-                AssetDatabase.DeleteAssets(assetsPath, new List<string>());
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-                Debug.LogWarning("Done !");
-            }
-            
-            return allAssetInstances.First();
-        }
-        
         [ButtonGroup]
         public static void FetchReferences()
         {
             ClearReferences();
 
-            SOScriptableObjectReferencesCache assetInstance = GetAssetInstance();
-            assetInstance._scriptableObjectsCache = new List<SOCacheEntry>();
+            instance._scriptableObjectsCache = new List<SOCacheEntry>();
             
             var types = GetSoTypesWithInterface<IScriptableObjectSerializeReference>();
             foreach (Type type in types)
             {
                 var scriptableObjects = Utilities.FindAssetsByType<ScriptableObject>(type);
-                assetInstance._scriptableObjectsCache.Add(new SOCacheEntry(type.Name, scriptableObjects));
+                instance._scriptableObjectsCache.Add(new SOCacheEntry(type.Name, scriptableObjects));
             }
             
-            assetInstance.ForceSaveOnDisk();
+            instance.ForceSaveOnDisk();
         }
 
         [ButtonGroup]
         private static void ClearReferences()
         {
-            SOScriptableObjectReferencesCache assetInstance = GetAssetInstance();
-            assetInstance._scriptableObjectsCache = null;
+            instance._scriptableObjectsCache = null;
         }
         
         private static Type[] GetSoTypesWithInterface<T>()
@@ -126,7 +107,7 @@ namespace Project
         {
             if (state != PlayModeStateChange.ExitingEditMode) return;
             
-            if (SOScriptableObjectReferencesCache.GetAssetInstance().autoFetchInPlaymode)
+            if (SOScriptableObjectReferencesCache.instance.autoFetchInPlaymode)
             {
                 SOScriptableObjectReferencesCache.FetchReferences();
             }

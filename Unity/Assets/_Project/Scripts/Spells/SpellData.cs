@@ -33,10 +33,9 @@ namespace Project.Spells
             spellIdHash = spellId.ToHashIsSameAlgoOnUnreal();
         }
 
-        public static SpellData GetSpell(SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache,
-            int spellIdHash)
+        public static SpellData GetSpell(int spellIdHash)
         {
-            return _soScriptableObjectReferencesCache.GetScriptableObjects<SpellData>()
+            return SOScriptableObjectReferencesCache.GetScriptableObjects<SpellData>()
                 .FirstOrDefault(spell => spell.spellIdHash == spellIdHash);
         }
     }

@@ -7,8 +7,6 @@ namespace Project.Spells
 {
     public class SpellManager : NetworkSingleton<SpellManager>
     {
-        [SerializeField] private SOScriptableObjectReferencesCache _soScriptableObjectReferencesCache;
-        
         [Server]
         public void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
@@ -57,7 +55,7 @@ namespace Project.Spells
             switch (user.GetPlatform())
             {
                 case PlayerPlatform.Pc:
-                    if (!SOCharacter.TryGetCharacter(_soScriptableObjectReferencesCache, user.CharacterId,
+                    if (!SOCharacter.TryGetCharacter(user.CharacterId,
                             out var characterData))
                     {
                         Debug.LogError($"Trying to cast a spell for an invalid character {user.CharacterId}.");
@@ -73,7 +71,7 @@ namespace Project.Spells
                 case PlayerPlatform.Mobile:
                     var spellHash = user.GetMobileSpell(spellIndex);
                     
-                    spell = SpellData.GetSpell(_soScriptableObjectReferencesCache, spellHash);
+                    spell = SpellData.GetSpell(spellHash);
 
                     if (spell == null)
                     {
