@@ -20,13 +20,6 @@ namespace Project
         private ELobbyState _lobbyState = ELobbyState.TeamSelection;
         public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
 
-
-        protected override void Awake()
-        {
-            dontDestroyOnLoad = false;
-            base.Awake();
-        }
-
         private void Start()
         {
             GoToTeamSelectionPage();

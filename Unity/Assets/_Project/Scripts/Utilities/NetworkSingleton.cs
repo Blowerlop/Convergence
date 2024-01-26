@@ -9,7 +9,6 @@ namespace Project
     {
         protected static bool authorityCheck = false;
         
-        protected static bool dontDestroyOnLoad = true;
         public static bool isBeingDestroyed { get; private set; }
         
         private static T _instance = null;
@@ -46,11 +45,6 @@ namespace Project
             
             _instance = GetComponent<T>();
             isBeingDestroyed = false;
-            
-            if(dontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
         }
 
         public override void OnDestroy()

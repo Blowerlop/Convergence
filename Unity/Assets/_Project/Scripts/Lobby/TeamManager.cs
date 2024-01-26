@@ -47,14 +47,6 @@ namespace Project
         public readonly Event<int, string, PlayerPlatform> onTeamSetEvent = new Event<int, string, PlayerPlatform>(nameof(onTeamSetEvent));
         public readonly Event<int, string, PlayerPlatform> onPlayerReadyEvent = new Event<int, string, PlayerPlatform>(nameof(onPlayerReadyEvent));
         public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
-        
-
-        protected override void Awake()
-        {
-            // authorityCheck = true;
-            dontDestroyOnLoad = false;
-            base.Awake();
-        }
 
         public override void OnNetworkSpawn()
         {
