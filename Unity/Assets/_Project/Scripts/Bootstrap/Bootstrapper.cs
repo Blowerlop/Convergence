@@ -1,47 +1,53 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Project
 {
     public static class Bootstrapper
     {
-        private static SOBootstrap _bootstrap;
-        
-        
-        public static SOBootstrap GetScriptableObject()
+        private static SOBootstrap _instance;
+        private static SOBootstrap instance
         {
-            if (_bootstrap == null) _bootstrap = Resources.Load<SOBootstrap>("Bootstrap");
-                
-            return _bootstrap;
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = Resources.FindObjectsOfTypeAll<SOBootstrap>().FirstOrDefault();
+                }
+
+                return _instance;
+            }
         }
+        
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         public static void SubsystemRegistration()
         {
-            Execute(GetScriptableObject().subsystemRegistration);
+            Execute(instance.subsystemRegistration);
         }
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         public static void AfterAssembliesLoaded()
         {
-            Execute(GetScriptableObject().afterAssembliesLoaded);
+            Execute(instance.afterAssembliesLoaded);
         }
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         public static void BeforeSplashScreen()
         {
-            Execute(GetScriptableObject().beforeSplashScreen);
+            Execute(instance.beforeSplashScreen);
         }
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void BeforeSceneLoad()
         {
-            Execute(GetScriptableObject().beforeSceneLoad);
+            Execute(instance.beforeSceneLoad);
         }
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         public static void AfterSceneLoad()
         {
-            Execute(GetScriptableObject().afterSceneLoad);
+            Execute(instance.afterSceneLoad);
         }
 
         private static void Execute(Object[] objects)
