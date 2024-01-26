@@ -30,7 +30,7 @@ namespace Project
             {
                 if (_instance == null)
                 {
-                    _instance = Resources.FindObjectsOfTypeAll<SOScriptableObjectReferencesCache>().FirstOrDefault();
+                    _instance = Resources.Load<SOScriptableObjectReferencesCache>("SO References Cache");
                 }
 
                 return _instance;

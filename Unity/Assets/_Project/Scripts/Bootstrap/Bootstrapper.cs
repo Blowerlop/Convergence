@@ -13,7 +13,7 @@ namespace Project
             {
                 if (_instance == null)
                 {
-                    _instance = Resources.FindObjectsOfTypeAll<SOBootstrap>().FirstOrDefault();
+                    _instance = Resources.Load<SOBootstrap>("Bootstrap");
                 }
 
                 return _instance;
