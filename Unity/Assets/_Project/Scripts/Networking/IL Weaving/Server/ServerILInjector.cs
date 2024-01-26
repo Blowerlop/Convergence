@@ -26,7 +26,9 @@ namespace Project
             
             ILProcessor processor = methodDefinition.Body.GetILProcessor();
             Instruction first = methodDefinition.Body.Instructions.First();
+            TypeReference returnTypeRef = methodDefinition.ReturnType;
  
+            // Instruction returnInstruction = Instruction.Create(OpCodes.Ldnull); 
             Instruction returnInstruction = Instruction.Create(OpCodes.Ret); 
             
             // // If null, return
@@ -43,7 +45,8 @@ namespace Project
             // All conditions pass, return and log error because client called this method
             processor.InsertBefore(first, Instruction.Create(OpCodes.Ldstr, "Only the server can invoke a Server method")); 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
-            processor.InsertBefore(first, returnInstruction);  
+            processor.InsertBefore(first, returnInstruction);
+            // processor.InsertBefore(first, Instruction.Create(OpCodes.Ret)); 
         }
     }
 }
