@@ -1,10 +1,34 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Project
 {
     public class PlayerManager : NetworkSingleton<PlayerManager>
     {
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            if (!IsServer && !IsHost) return;
+            
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(ulong clientid, string scenename, LoadSceneMode loadscenemode)
+        {
+            if (!UserInstanceManager.instance.TryGetUserInstance((int)clientid, out var user)) return;
+
+            if (user.GetPlatform() == PlayerPlatform.Mobile) return;
+
+            if (!TeamManager.instance.IsTeamIndexValid(user.Team))  return;
+
+            if (!SOCharacter.TryGetCharacter(user.CharacterId, out var character))  return;
+                
+            SpawnPlayer(user.Team, character);
+        }
+
         public void SpawnPlayer(int teamId, SOCharacter characterData)
         { 
             if (!TeamManager.instance.TryGetTeam(teamId, out var charTeam))
