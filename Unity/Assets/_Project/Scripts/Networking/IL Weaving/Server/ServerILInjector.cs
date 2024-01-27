@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using Mewlist.Weaver;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Sirenix.Utilities;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -24,43 +26,65 @@ namespace Project
             Type debugType = typeof(Debug);
             MethodReference logErrorRef = moduleDefinition.ImportReference(debugType.GetMethod("LogError", new []{ typeof(object) }));
             
-            ILProcessor processor = methodDefinition.Body.GetILProcessor();
-            Instruction first = methodDefinition.Body.Instructions.First();
             TypeReference returnTypeRef = methodDefinition.ReturnType;
- 
-            // Instruction returnInstruction = Instruction.Create(OpCodes.Ldnull); 
-            Instruction returnInstruction1 = Instruction.Create(OpCodes.Ldstr, "No singleton"); 
-            Instruction returnInstruction2 = Instruction.Create(OpCodes.Ldstr, "Not connected"); 
+            Type type = Type.GetType(returnTypeRef.FullName);
+            if (type == null)
+            {
+                Debug.Log($"[{this}] Type not found for {returnTypeRef.FullName}");
+                return;
+            }
+            MethodReference returnTypeCtorRef = null;
+            if (type.IsNullableType() == false && type.FullName != "System.Void" && type.FullName != "System.Boolean")
+            {
+                ConstructorInfo returnTypeCtor = type.GetConstructors().FirstOrDefault();
+                returnTypeCtorRef = moduleDefinition.ImportReference(returnTypeCtor);
+            }  
             
-            // // If null, return
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Ldstr, "On commence")); 
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
+            ILProcessor processor = methodDefinition.Body.GetILProcessor(); 
+            Instruction first = methodDefinition.Body.Instructions.First(); 
              
             
+            // DEBUG
+            // Instruction returnInstruction1 = Instruction.Create(OpCodes.Ldstr, "No singleton"); 
+            // Instruction returnInstruction2 = Instruction.Create(OpCodes.Ldstr, "Not connected"); 
             
+            // DEBUG
+            // processor.InsertBefore(first, Instruction.Create(OpCodes.Ldstr, "On commence")); 
+            // processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
+
+            Instruction returnConstructorInstruction;
+            if (type.IsNullableType())
+            {
+                returnConstructorInstruction = Instruction.Create(OpCodes.Ldnull); 
+            }
+            else
+                returnConstructorInstruction = type.FullName switch
+                {
+                    "System.Boolean" => Instruction.Create(OpCodes.Ldc_I4_0), 
+                    "System.Void" => Instruction.Create(OpCodes.Nop),
+                    _ => Instruction.Create(OpCodes.Newobj, returnTypeCtorRef)
+                };
+ 
+            // If Singleton is null, return
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, singletonRef));  
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnInstruction1));
-            // // If false, return
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnConstructorInstruction));
+            
+            // If IsListening false, return;
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, singletonRef)); 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, isListeningRef)); 
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnInstruction2)); 
-            // // If true, continue
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, returnConstructorInstruction)); 
+            
+            // If IsServer, execute normal method
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, singletonRef));  
             processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, isServerRef)); 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Brtrue_S, first));
+            
             // All conditions pass, return and log error because client called this method
             processor.InsertBefore(first, Instruction.Create(OpCodes.Ldstr, "Only the server can invoke a Server method")); 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
             
-            
-            processor.InsertBefore(first, returnInstruction1);
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
+            processor.InsertBefore(first, returnConstructorInstruction);
             processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));
-            
-            processor.InsertBefore(first, returnInstruction2);
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));
-            // processor.InsertBefore(first, Instruction.Create(OpCodes.Ret));  
-        }
+        } 
     } 
 }
