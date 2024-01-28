@@ -71,6 +71,7 @@ namespace Project
             userInstance.SetClientId(clientId);
             userInstance.SetName(unrealClient.name);
             userInstance.SetIsMobile(true);
+            userInstance.SetCharacter(SOCharacter.GetMobileCharacterData().id);
                 
             _userInstances.Add(clientId, userInstance);
         }

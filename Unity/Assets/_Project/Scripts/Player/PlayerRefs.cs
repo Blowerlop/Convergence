@@ -28,8 +28,6 @@ namespace Project
         
         public int AssignedTeam => _assignedTeam.Value;
         
-        public static event Action<PlayerRefs> OnLocalPlayerSpawned;
-        
         #region Team Linking
         
         // Is done before ServerInit on server
@@ -45,11 +43,6 @@ namespace Project
             _assignedTeam.OnValueChanged += OnTeamChanged;
             
             spellCastController.Init(this);
-
-            if (IsOwner)
-            {
-                OnLocalPlayerSpawned?.Invoke(this);
-            }
         }
 
         public override void OnNetworkDespawn()
