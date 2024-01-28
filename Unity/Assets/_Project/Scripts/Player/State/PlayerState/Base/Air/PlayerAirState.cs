@@ -4,10 +4,8 @@ using UnityEngine;
 public class PlayerAirState : PlayerBaseState //TODO: maybe with buff????
 {
     public override string ToString() { return "PlayerAirState"; }
-    
-    public PlayerAirState(UserInstance newPlayer) : base(newPlayer) { }
 
-    protected override void StartState(UserInstance newPlayer)
+    public override void StartState(MovementController newPlayer)
     {
         base.StartState(newPlayer);
         Debug.Log("air");

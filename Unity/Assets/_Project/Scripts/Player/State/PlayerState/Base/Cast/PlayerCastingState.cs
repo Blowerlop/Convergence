@@ -4,14 +4,12 @@ using UnityEngine;
 public class PlayerCastingState : PlayerBaseState //TODO: maybe useless
 {
     public override string ToString() { return "PlayerCastingState"; }
-    
-    public PlayerCastingState(UserInstance newPlayer) : base(newPlayer) { }
 
-    protected override void StartState(UserInstance newPlayer)
+    public override void StartState(MovementController newPlayer)
     {
         base.StartState(newPlayer);
         Debug.Log("Casting");
-        Player.character.anim.SetTrigger("TODO");
+        //Player.character.anim.SetTrigger("TODO");
     }
     public override void UpdateState()
     {

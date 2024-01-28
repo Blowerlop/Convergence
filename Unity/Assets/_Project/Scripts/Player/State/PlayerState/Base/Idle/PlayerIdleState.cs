@@ -6,10 +6,8 @@ using UnityEngine;
 public class PlayerIdleState : PlayerBaseState
 {
     public override string ToString() { return "PlayerIdleState"; }
-    
-    public PlayerIdleState(UserInstance newPlayer) : base(newPlayer) { }
 
-    protected override void StartState(UserInstance newPlayer)
+    public override void StartState(MovementController newPlayer)
     {
         base.StartState(newPlayer);
         Debug.Log("idle");

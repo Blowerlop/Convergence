@@ -5,22 +5,13 @@ public abstract class PlayerState
     /// <summary>
     /// State owner
     /// </summary>
-    protected UserInstance Player; //TODO maybe get the player by another way but actually we get it with the param
-
-    /// <summary>
-    /// Create a new player state
-    /// </summary>
-    /// <param name="player">State owner => <see cref="Player"/></param>
-    protected PlayerState(UserInstance player)
-    {
-        StartState(player);
-    }
+    protected MovementController Player; //TODO maybe get the player by another way but actually we get it with the param
 
     /// <summary>
     /// Called on start state (not the same as the Unity event "Start")
     /// </summary>
     /// <param name="player">State owner => <see cref="Player"/></param>
-    protected abstract void StartState(UserInstance player);
+    public abstract void StartState(MovementController player);
     
     public override string ToString() { return "PlayerState"; } //DEBUG To REMOVE
 
@@ -28,6 +19,11 @@ public abstract class PlayerState
     /// Called with the Unity event "Update"
     /// </summary>
     public abstract void UpdateState();
+    
+    /// <summary>
+    /// Called on state end
+    /// </summary>
+    protected abstract void EndState();
     
     /// <summary>
     /// <para>Switch this state with another: <paramref name="newState"/> </para>
