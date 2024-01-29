@@ -83,7 +83,7 @@ namespace Project._Project.Scripts.UI.Settings
             QualitySettings.renderPipeline = currentRenderPipelineAsset;
             Debug.Log($"{_logPrefix} Quality setting is now Custom with the {currentRenderPipelineAsset.name} render pipeline");
         }
-
+        
         public void Load()
         {
             Debug.Log($"{_logPrefix} Loaded : {currentQualityName}");
@@ -109,9 +109,20 @@ namespace Project._Project.Scripts.UI.Settings
 
         public void Set(int targetFrameRate)
         {
+            SetWithoutNotify(targetFrameRate);
+            OnSet();
+        }
+
+        private void SetWithoutNotify(int targetFrameRate)
+        {
             Application.targetFrameRate = targetFrameRate;
+        }
+
+        private void OnSet()
+        {
             Save();
         }
+            
 
         public void Save()
         {
@@ -122,7 +133,7 @@ namespace Project._Project.Scripts.UI.Settings
 
         public void Load()
         {
-            Application.targetFrameRate = Get();
+            SetWithoutNotify(Get());
             Debug.Log($"{_logPrefix} Loaded : {Application.targetFrameRate}");
         }
 

@@ -40,8 +40,8 @@ namespace Project
 
         public void Enable()
         {
-            DropdownSelectCurrentResolution();
-            DropdownSelectCurrentDisplayMode();
+            // DropdownSelectCurrentResolution();
+            // DropdownSelectCurrentDisplayMode();
             
             _resolutionDropdown.onValueChanged.AddListener(OnResolutionDropdownValueChanged_CacheIndex);
             _displayModeDropdown.onValueChanged.AddListener(OnDisplayModeDropdownValueChanged_CacheIndex);
@@ -58,7 +58,6 @@ namespace Project
         }
 
 
-        private void SetResolution(int width, int height) => SetResolution(width, height, VideoSettingsManager.resolution.currentFullScreenMode);
         private void SetResolution(int width, int height, FullScreenMode fullScreenMode)
         {
             VideoSettingsManager.resolution.SetResolution(width, height, fullScreenMode);
