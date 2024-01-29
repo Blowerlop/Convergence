@@ -8,14 +8,14 @@ namespace Project
         
         private void Awake()
         {
-            PlayerRefs.OnLocalPlayerSpawned += Setup;
+            UserInstance.Me.OnPlayerLinked += Setup;
             
             SetFillAmount(1);
         }
 
         private void OnDestroy()
         {
-            PlayerRefs.OnLocalPlayerSpawned -= Setup;
+            UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_stats) return;
             
@@ -24,7 +24,7 @@ namespace Project
         
         private void Setup(PlayerRefs refs)
         {
-            _stats = refs.GetStats();
+            _stats = refs.Stats;
             
             _stats.OnHealthChanged += OnHealthChanged;
         }

@@ -28,8 +28,8 @@ namespace Project.Spells.Casters
                 return;
             }
 
-            _cooldowns = _player.GetCooldownController(PlayerPlatform.Pc);
-            _channelingController = _player.GetChannelingController(PlayerPlatform.Pc);
+            _cooldowns = _player.Cooldowns;
+            _channelingController = _player.Channeling;
 
             if (!InitSpells()) return;
             InitSpellCasters();

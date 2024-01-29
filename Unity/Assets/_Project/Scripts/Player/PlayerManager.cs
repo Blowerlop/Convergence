@@ -55,6 +55,7 @@ namespace Project
         }
 
         public void SpawnPlayer(int teamId, SOCharacter characterData)
+        public void SpawnPlayerForUser(UserInstance user)
         { 
             if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData)) return;
 

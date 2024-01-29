@@ -14,19 +14,21 @@ namespace Project
 
         [SerializeField] private Transform playerTransform;
         
+        // Will be null on mobile PlayerRefs
         [SerializeField] private SpellCastController spellCastController;
         
-        [BoxGroup("Cooldowns"),SerializeField] private CooldownController pcCooldowns;
-        [BoxGroup("Cooldowns"),SerializeField] private CooldownController mobileCooldowns;
-        
-        [BoxGroup("Channeling"), SerializeField] private ChannelingController pcChanneling;
-        [BoxGroup("Channeling"), SerializeField] private ChannelingController mobileChanneling;
-        
+        [BoxGroup("Cooldowns"),SerializeField] private CooldownController cooldowns;
+        [BoxGroup("Channeling"), SerializeField] private ChannelingController channeling;
         [BoxGroup("Stats"), SerializeField] private PlayerStats stats;
         
-        public Transform PlayerTransform => playerTransform;
-        
         public int AssignedTeam => _assignedTeam.Value;
+        
+        // Find a way to point to PC PlayerRefs on mobile PlayerRefs
+        public Transform PlayerTransform => playerTransform;
+
+        public CooldownController Cooldowns => cooldowns;
+        public ChannelingController Channeling => channeling;
+        public PlayerStats Stats => stats;
         
         #region Team Linking
         
@@ -84,32 +86,6 @@ namespace Project
             }
         }
         
-        #endregion
-        
-        #region Getters
-
-        public CooldownController GetCooldownController(PlayerPlatform platform)
-        {
-            return platform switch
-            {
-                PlayerPlatform.Pc => pcCooldowns,
-                PlayerPlatform.Mobile => mobileCooldowns,
-                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
-            };
-        }
-        
-        public ChannelingController GetChannelingController(PlayerPlatform platform)
-        {
-            return platform switch
-            {
-                PlayerPlatform.Pc => pcChanneling,
-                PlayerPlatform.Mobile => mobileChanneling,
-                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
-            };
-        }
-
-        public PlayerStats GetStats() => stats;
-
         #endregion
     }
 }
