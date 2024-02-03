@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 namespace Project._Project.Scripts.UI.Settings
 {
-    public class AudioSettingsManager
+    public static class AudioSettingsManager
     {
         private static AudioMixer _audioMixer;
         private static AudioMixer audioMixer
@@ -33,7 +33,7 @@ namespace Project._Project.Scripts.UI.Settings
 
 
         private static float GetDb(string exposedVolumeName) => PlayerPrefs.GetFloat(exposedVolumeName, Convert01ToDb(0.5f));
-        public static float Get01(string exposedVolumeName) => ConvertDbTo01(PlayerPrefs.GetFloat(exposedVolumeName, Convert01ToDb(0.5f)));
+        public static float Get01(string exposedVolumeName) => ConvertDbTo01(GetDb(exposedVolumeName));
 
         public static void Set(string exposedVolumeName, float value01)
         {

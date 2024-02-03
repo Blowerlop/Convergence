@@ -177,31 +177,34 @@ namespace Project
     [Serializable]
     public class FrameRateSettingsUI
     {
-        [SerializeField] private TMP_InputField _inputField;
+        [SerializeField] private TMP_InputField _frameRateInputField;
+        [SerializeField] private Button _vSyncButton;
 
 
         public void Start()
         {
-            _inputField.SetTextWithoutNotify(VideoSettingsManager.frameRate.ToString());
+            _frameRateInputField.SetTextWithoutNotify(VideoSettingsManager.frameRate.ToString());
         }
 
         public void Enable()
         {
-            _inputField.onDeselect.AddListener(Set);
+            _frameRateInputField.onDeselect.AddListener(SetSetFrameRate);
+            _vSyncButton.onClick.AddListener(ToggleVsync);
         }
         
         public void Disable()
         {
-            _inputField.onDeselect.RemoveListener(Set);
+            _frameRateInputField.onDeselect.RemoveListener(SetSetFrameRate);
+            _vSyncButton.onClick.RemoveListener(ToggleVsync);
         }
         
 
-        private void Set(int value)
+        private void SetFrameRate(int value)
         {
-            VideoSettingsManager.frameRate.Set(value);
+            VideoSettingsManager.frameRate.SetFrameRate(value);
         }
         
-        private void Set(string value)
+        private void SetSetFrameRate(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -211,12 +214,17 @@ namespace Project
 
             if (int.TryParse(value, out int result))
             {
-                Set(result);
+                SetFrameRate(result);
             }
             else
             {
                 Debug.LogError("FrameRateSettings inputField text parse failed. This should never happened");
             }
+        }
+
+        private void ToggleVsync()
+        {
+            VideoSettingsManager.frameRate.SetSync(!VideoSettingsManager.frameRate.GetVSync());
         }
     }
 

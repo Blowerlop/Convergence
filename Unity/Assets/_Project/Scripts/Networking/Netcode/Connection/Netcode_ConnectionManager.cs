@@ -21,7 +21,8 @@ namespace Project
     {
         #region Variables
         // [ShowInInspector] private EConnectionState _connectionState = EConnectionState.Disconnected;
-        
+
+        [SerializeField] private bool _startServerAutoIfServerBuild = true;
         private const string DEFAULT_KICK_REASON = "You have been kicked by the server";
         
         [Title("References")]
@@ -43,9 +44,12 @@ namespace Project
             NetworkManager.Singleton.OnServerStopped += OnServerStopped;
             NetworkManager.Singleton.OnTransportFailure += OnTransportFailure;
             _transport.OnTransportEvent += OnTransport;
-
+            
 #if UNITY_SERVER
-            StartServer();
+            if (_startServerAutoIfServerBuild)
+            {
+                StartServer();
+            }
 #endif
         }
 
@@ -115,7 +119,7 @@ namespace Project
 
         private void OnServerStarted()
         {
-            Debug.Log("Server started");
+            Debug.Log($"Server started to {_transport.ConnectionData.Address}:{_transport.ConnectionData.Port}");
             // _connectionState = EConnectionState.Connected;
         }
 

@@ -1,3 +1,4 @@
+using Project.Extensions;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -8,7 +9,7 @@ namespace Project._Project.Scripts.UI.Settings
         private static ResolutionSettingsManager _instance;
         public static ResolutionSettingsManager instance => _instance ??= new ResolutionSettingsManager();
 
-        public Resolution currentResolution => Screen.currentResolution;
+        public Resolution currentResolution => new Resolution {width = Screen.width, height = Screen.height};
         public string currentResolutionName => $"{currentResolution.width} x {currentResolution.height}";
         public FullScreenMode currentFullScreenMode => Screen.fullScreenMode;
         
@@ -95,7 +96,8 @@ namespace Project._Project.Scripts.UI.Settings
         private static FrameRateSettingsManager _instance;
         public static FrameRateSettingsManager instance => _instance ??= new FrameRateSettingsManager();
 
-        private const string _KEY = "FrameRate";
+        private const string _KEY_FRAMERATE = "FrameRate";
+        private const string _KEY_VSYNC = "Vsync";
         
         private readonly string _logPrefix = "[VideoManager/FrameRate]";
         
@@ -105,41 +107,65 @@ namespace Project._Project.Scripts.UI.Settings
         }
         
 
-        public int Get() => PlayerPrefs.GetInt(_KEY, (int)Screen.currentResolution.refreshRateRatio.value);
+        public int GetFrameRate() => PlayerPrefs.GetInt(_KEY_FRAMERATE, (int)Screen.currentResolution.refreshRateRatio.value);
+        public bool GetVSync() => PlayerPrefs.GetInt(_KEY_VSYNC, false.ToInt()).ToBool();
 
-        public void Set(int targetFrameRate)
+        public void SetFrameRate(int targetFrameRate)
         {
-            SetWithoutNotify(targetFrameRate);
-            OnSet();
+            SetFrameRateWithoutNotify(targetFrameRate);
+            OnFrameRateSet();
         }
 
-        private void SetWithoutNotify(int targetFrameRate)
+        private void SetFrameRateWithoutNotify(int targetFrameRate)
         {
             Application.targetFrameRate = targetFrameRate;
         }
 
-        private void OnSet()
+        private void OnFrameRateSet()
         {
-            Save();
+            SaveFrameRate();
         }
-            
-
-        public void Save()
+        
+        public void SaveFrameRate()
         {
-            PlayerPrefs.SetInt(_KEY, Application.targetFrameRate);
+            PlayerPrefs.SetInt(_KEY_FRAMERATE, Application.targetFrameRate);
             PlayerPrefs.Save();
             Debug.Log($"{_logPrefix} Saved : {Application.targetFrameRate}");
+        }
+        
+        public void SetSync(bool state)
+        {
+            SetVsyncWithoutNotify(state);
+            OnVsyncSet();
+        }
+
+        private void SetVsyncWithoutNotify(bool state)
+        {
+            QualitySettings.vSyncCount = state.ToInt();
+        }
+
+        private void OnVsyncSet()
+        {
+            SaveVSync();
+        }
+            
+        public void SaveVSync()
+        {
+            PlayerPrefs.SetInt(_KEY_VSYNC, QualitySettings.vSyncCount);
+            PlayerPrefs.Save();
+            Debug.Log($"{_logPrefix} Saved : vSync {GetVSync()}");
         }
 
         public void Load()
         {
-            SetWithoutNotify(Get());
+            SetFrameRateWithoutNotify(GetFrameRate());
+            SetVsyncWithoutNotify(GetVSync());
             Debug.Log($"{_logPrefix} Loaded : {Application.targetFrameRate}");
         }
 
         public override string ToString()
         {
-            return Get().ToString();
+            return GetFrameRate().ToString();
         }
     }
     
