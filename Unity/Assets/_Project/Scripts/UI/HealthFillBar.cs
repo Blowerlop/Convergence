@@ -1,10 +1,10 @@
-using System;
+using UnityEngine;
 
 namespace Project
 {
     public class HealthFillBar : FillBar
     {
-        private PlayerStats _stats;
+        private PCStats _stats;
         
         private void Awake()
         {
@@ -24,8 +24,16 @@ namespace Project
         
         private void Setup(PlayerRefs refs)
         {
-            _stats = refs.Stats;
-            
+            if (refs.Stats is PCStats stats)
+            {
+                _stats = stats;
+            }
+            else
+            {
+                Debug.LogError("Trying to link a non-PCStats to HealthFillBar!");
+                return;
+            }
+
             _stats.OnHealthChanged += OnHealthChanged;
         }
 
