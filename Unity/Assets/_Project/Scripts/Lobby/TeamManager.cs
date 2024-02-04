@@ -225,18 +225,9 @@ namespace Project
                 ResetTeamSlot(oldTeam, platform);
             }
             
-            RegisterToTeamSlot(user.ClientId, newTeam, platform);
+            RegisterToTeamSlotLocal(user.ClientId, newTeam, platform);
         }
         
-        private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
-        {
-            TeamData teamData = _teams[teamIndex];
-            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
-            else teamData.mobilePlayerOwnerClientId = ownerClientId;
-            _teams[teamIndex] = teamData;
-        }
-        
-
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];

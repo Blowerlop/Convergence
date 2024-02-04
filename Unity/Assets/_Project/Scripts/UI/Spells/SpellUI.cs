@@ -24,7 +24,7 @@ namespace Project.Spells
 
         private void OnDestroy()
         {
-            UserInstance.Me.OnPlayerLinked -= Setup;
+            if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_cooldowns) return;
             
