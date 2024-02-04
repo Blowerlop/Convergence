@@ -66,7 +66,7 @@ namespace Project
             var refs = obj.GetComponent<PlayerRefs>();
             _players.Add(refs);
             
-            refs.ServerInit(user.Team, characterData);
+            refs.ServerInit(user.Team, user.ClientId, characterData);
         }
     }
 }
