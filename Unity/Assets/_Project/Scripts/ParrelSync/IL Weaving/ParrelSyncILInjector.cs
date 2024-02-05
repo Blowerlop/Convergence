@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using Mewlist.Weaver;
@@ -30,3 +31,4 @@ namespace Project
         }    
     }
 }
+#endif
