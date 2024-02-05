@@ -65,6 +65,9 @@ namespace Project
             if (!IsOwner) return;
 
             Me = this;
+
+            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            SetScene(currentSceneName);
         }
         
         public override void OnNetworkDespawn()
@@ -193,41 +196,56 @@ namespace Project
         
         //Setters
         [Server]
+        [Button]
         public void SetClientId(int clientId)
         {
             _networkClientId.Value = clientId;
         }
         
+        [Server]
+        [Button]
         public void SetScene(string sceneName)
         {
             _networkScene.Value = sceneName;
         }
         
+        [Server]
+        [Button]
         public void SetName(string playerName)
         {
             _networkPlayerName.Value = playerName;
         }
         
+        [Server]
+        [Button]
         public void SetTeam(int playerTeam)
         {
             _networkTeam.Value = playerTeam;
         }
 
+        [Server]
+        [Button]
         public void SetIsMobile(bool isMobile)
         {
             _networkIsMobile.Value = isMobile;
         }
         
+        [Server]
+        [Button]
         public void SetIsReady(bool isReady)
         {
             _networkIsReady.Value = isReady;
         }
 
+        [Server]
+        [Button]
         public void SetCharacter(int characterId)
         {
             _networkCharacterId.Value = characterId;
         }
 
+        [Server]
+        [Button]
         public void SetMobileSpell(int index, int spellId)
         {
             if (index < 0 || index >= _mobileSpells.Length)

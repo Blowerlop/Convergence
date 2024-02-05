@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -30,7 +31,7 @@ namespace Project
 
         
         #region Updates
-        private void Start()
+        private IEnumerator Start()
         {
             // GetComponent in start because sometimes the NetworkManager initialize lately
             _transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
@@ -45,7 +46,17 @@ namespace Project
             _transport.OnTransportEvent += OnTransport;
 
 #if UNITY_SERVER
+<<<<<<< Updated upstream
             StartServer();
+=======
+            if (_startServerAutoIfServerBuild)
+            {
+                yield return null;
+                StartServer();
+            }
+#else
+            yield break;
+>>>>>>> Stashed changes
 #endif
         }
 

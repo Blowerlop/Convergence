@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -57,7 +58,7 @@ namespace Project
 
         private void CheckIfAllPlayersReady()
         {
-            if (UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady) ==
+            if (UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady || x.IsMobile) ==
                 UserInstanceManager.instance.count)
             {
                 OnAllPlayersReady();
@@ -95,11 +96,15 @@ namespace Project
             _lobbyState = ELobbyState.TeamSelection;
         }
 
-        private void GoToCharacterSelectionPage()
+        private async void GoToCharacterSelectionPage()
         {
-            UserInstanceManager.instance.GetUsersInstance().ForEach(x => x.SetIsReady(false));
+            foreach (UserInstance x in UserInstanceManager.instance.GetUsersInstance())
+            {
+                await Task.Delay(100);
+                x.SetIsReady(false);
+            }
 
-            if (IsServer && IsHost == false)
+            if (IsServer)
             {
                 GoToCharacterSelectionPageLocal();
             }
