@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -21,8 +22,7 @@ namespace Project
     {
         #region Variables
         // [ShowInInspector] private EConnectionState _connectionState = EConnectionState.Disconnected;
-
-        [SerializeField] private bool _startServerAutoIfServerBuild = true;
+        
         private const string DEFAULT_KICK_REASON = "You have been kicked by the server";
         
         [Title("References")]
@@ -31,7 +31,7 @@ namespace Project
 
         
         #region Updates
-        private void Start()
+        private IEnumerator Start()
         {
             // GetComponent in start because sometimes the NetworkManager initialize lately
             _transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
@@ -44,12 +44,15 @@ namespace Project
             NetworkManager.Singleton.OnServerStopped += OnServerStopped;
             NetworkManager.Singleton.OnTransportFailure += OnTransportFailure;
             _transport.OnTransportEvent += OnTransport;
-            
+
 #if UNITY_SERVER
             if (_startServerAutoIfServerBuild)
             {
+                yield return null;
                 StartServer();
             }
+#else
+            yield break;
 #endif
         }
 
@@ -119,7 +122,7 @@ namespace Project
 
         private void OnServerStarted()
         {
-            Debug.Log($"Server started to {_transport.ConnectionData.Address}:{_transport.ConnectionData.Port}");
+            Debug.Log("Server started");
             // _connectionState = EConnectionState.Connected;
         }
 

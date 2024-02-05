@@ -453,7 +453,7 @@ namespace GRPCServer.Services
                 Debug.Log($"GRPC_CliNetNetVarUpdate > Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             }
 
-            try
+            try 
             {
                 await Task.Delay(-1, context.CancellationToken);
             }
@@ -463,64 +463,6 @@ namespace GRPCServer.Services
                     client.netVarStream.Remove(request.Type);
             }
             Debug.Log($"GRPC_CliNetNetVarUpdate > Response stream closed : {context.Peer} / {request.Type}");
-        }
-
-        public override async Task<GRPC_EmptyMsg> GRPC_RequestNetVarUpdateUnrealToGrpc(GRPC_NetVarUpdate request, ServerCallContext context)
-        {
-            if (netcodeServer == null)
-            {
-                Debug.LogError("GRPC_RequestNetVarUpdateUnrealToGrpc > NetcodeServer is null");
-                return new GRPC_EmptyMsg();
-            }
-
-            bool found = false;
-            foreach(var requestNetVarUpdate in netcodeServer.requestNetvarUpdateStream)
-            {
-                if (request.HashName == requestNetVarUpdate.Value.HashName 
-                    && request.NetId == requestNetVarUpdate.Value.NetId)
-                {
-                    await requestNetVarUpdate.Key.WriteAsync(request);
-                    found = true;
-                }
-            }
-
-            if (found == false)
-            {
-                Debug.Log("GRPC_RequestNetVarUpdateUnrealToGrpc > Unreal requested a sync for the NetVar but Netcode was not waiting for a request");
-            }
-            return new GRPC_EmptyMsg();
-        }
-
-        public override async Task GRPC_RequestNetVarUpdateGrpcToNetcode(GRPC_NetVarUpdate request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
-        {
-            Debug.Log("GRPC_RequestNetVarUpdateGrpcToNetcode > Opening new NetVar sync request for : ");
-
-            if (netcodeServer == null)
-            {
-                Debug.LogError("GRPC_RequestNetVarUpdateGrpcToNetcode > Netcde server is null");
-                return;
-            }
-
-            if (netcodeServer.requestNetvarUpdateStream.ContainsKey(responseStream))
-            {
-                netcodeServer.requestNetvarUpdateStream.Remove(responseStream);
-
-                Debug.Log("GRPC_RequestNetVarUpdateGrpcToNetcode > A request netVar sync for this is already opened");
-            }
-
-            netcodeServer.requestNetvarUpdateStream.Add(responseStream, request);
-
-            try
-            {
-                await Task.Delay(-1, context.CancellationToken);
-            }
-            catch (TaskCanceledException)
-            {
-                if (netcodeServer != null && netcodeServer.requestNetvarUpdateStream.ContainsKey(responseStream))
-                {
-                    netcodeServer?.requestNetvarUpdateStream.Remove(responseStream);
-                }
-            }
         }
         #endregion
 

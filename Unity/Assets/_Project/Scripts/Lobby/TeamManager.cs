@@ -279,7 +279,6 @@ namespace Project
         
         private async void Read()
         {
-            Debug.Log("Read");
             try
             {
                 while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))
