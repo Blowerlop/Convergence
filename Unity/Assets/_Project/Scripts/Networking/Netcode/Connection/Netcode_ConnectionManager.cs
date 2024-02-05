@@ -46,9 +46,6 @@ namespace Project
             _transport.OnTransportEvent += OnTransport;
 
 #if UNITY_SERVER
-<<<<<<< Updated upstream
-            StartServer();
-=======
             if (_startServerAutoIfServerBuild)
             {
                 yield return null;
@@ -56,7 +53,6 @@ namespace Project
             }
 #else
             yield break;
->>>>>>> Stashed changes
 #endif
         }
 
