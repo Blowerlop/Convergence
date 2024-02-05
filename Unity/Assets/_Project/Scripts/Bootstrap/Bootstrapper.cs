@@ -55,7 +55,14 @@ namespace Project
         {
             foreach (Object obj in objects)
             {
-                Object.DontDestroyOnLoad(Object.Instantiate(obj));
+                if (obj == null)
+                {
+                    Debug.LogError("An object from bootstrapper is null");
+                    continue;
+                }
+                
+                Object ins = Object.Instantiate(obj);
+                Object.DontDestroyOnLoad(ins);
             }
         }
     }

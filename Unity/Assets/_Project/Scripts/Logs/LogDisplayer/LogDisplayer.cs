@@ -1,8 +1,9 @@
-using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
+using Project.Extensions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
+using UnityEngine.UI;
 
 namespace Project
 {
@@ -12,23 +13,13 @@ namespace Project
         [SerializeField] private Transform parent;
         [SerializeField] private TMP_Text logTemplate;
         [SerializeField] private float _timeBeforeDisappearing = 5.0f;
-        private WaitForSeconds _waitForSeconds;
         [SerializeField] private float _fadeDuration = 2.0f;
-        private ObjectPool<TMP_Text> _pool;
-
+        private List<Tween> _tweens = new List<Tween>();
         
         protected override void Awake()
         {
             dontDestroyOnLoad = false;
             base.Awake();
-            
-            _waitForSeconds = new WaitForSeconds(_timeBeforeDisappearing);
-            _pool = new ObjectPool<TMP_Text>(
-                LogInstancer,
-                actionOnRelease: text => text.gameObject.SetActive(false),
-                actionOnGet: text => text.gameObject.SetActive(true),
-                maxSize: 20
-            );
         }
         
         private void Start()
@@ -50,13 +41,23 @@ namespace Project
         
         private void DestroyLogs()
         {
-            _pool.Dispose();
+            _tweens.ForEach(sequence => sequence.Kill());
+            _tweens.Clear();
+            instance.parent.DestroyChildren();
         }
 
-        private IEnumerator HideLogCoroutine(TMP_Text logInstance)
+        private void ComputeHideLog(Graphic logInstance)
         {
-            yield return _waitForSeconds;
-            logInstance.DOFade(0.0f, _fadeDuration).OnComplete(() => _pool.Release(logInstance));
+            Sequence sequence = DOTween.Sequence();
+            _tweens.Add(sequence);
+            
+            sequence.AppendInterval(_timeBeforeDisappearing)
+                    .Append(logInstance.DOFade(0.0f, _fadeDuration))
+                    .OnComplete(() =>
+                    {
+                        _tweens.Remove(sequence);
+                        Destroy(logInstance.gameObject); 
+                    });
         }
         
         private void DisplayLog(string condition, string trace, LogType logType)
@@ -78,21 +79,19 @@ namespace Project
                     break;
             }
 
-            TMP_Text logInstance = _pool.Get();
+            TMP_Text logInstance = Instantiate(logTemplate, parent);
             logInstance.alpha = 1.0f;
             logInstance.text = $"<color=#{ColorUtility.ToHtmlStringRGB(logColor)}>{condition}</color>\n";
-            StartCoroutine(HideLogCoroutine(logInstance));
+            ComputeHideLog(logInstance);
         }
 
         [ConsoleCommand("logDisplay", "Display all new logs on an UI that is directly in the game view.")]
         private static void EnableLogDisplay(bool state)
         {
-            instance.gameObject.SetActive(state);
-        }
-
-        private TMP_Text LogInstancer()
-        {
-            return Instantiate(logTemplate, parent);
+            if (instance.parent.gameObject.activeInHierarchy == state) return;
+            
+            instance.DestroyLogs();
+            instance.parent.gameObject.SetActive(state);            
         }
     }
 }

@@ -27,10 +27,6 @@ service MainService {
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
 	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
 
-	rpc GRPC_RequestNetVarUpdateUnrealToGrpc (GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
-	//rpc GRPC_RequestNetVarUpdateUnrealToGrpc (stream GRPC_NetVarUpdate) returns (GRPC_NetVarUpdate);
-	rpc GRPC_RequestNetVarUpdateGrpcToNetcode (GRPC_NetVarUpdate) returns (stream GRPC_NetVarUpdate);
-
 	rpc GRPC_TeamSelectionUnrealToGrpc (stream GRPC_Team) returns (stream GRPC_TeamResponse);
 	rpc GRPC_TeamSelectionGrpcToNetcode (stream GRPC_TeamResponse) returns (stream GRPC_Team);
 	
