@@ -302,9 +302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c9bb8296fdb844a9b9bf1e356e795e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 1
-  _counter: 0
-  _timeBetweenEachCalculation: 0.1
   _totalFramesCount: 60
   text: {fileID: 6253577182595808571}
 --- !u!1 &1612547785583041428

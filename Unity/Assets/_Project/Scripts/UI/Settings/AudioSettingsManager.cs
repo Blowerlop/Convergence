@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -24,14 +25,6 @@ namespace Project._Project.Scripts.UI.Settings
         private static readonly string _logPrefix = "[AudioManager]";
         
         
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void Initialize()
-        {
-            // https://forum.unity.com/threads/audiomixer-setfloat-doesnt-work-on-awake.323880/
-            DOVirtual.DelayedCall(0.1f, Load, false);
-        }
-
-
         private static float GetDb(string exposedVolumeName) => PlayerPrefs.GetFloat(exposedVolumeName, Convert01ToDb(0.5f));
         public static float Get01(string exposedVolumeName) => ConvertDbTo01(GetDb(exposedVolumeName));
 
@@ -72,8 +65,10 @@ namespace Project._Project.Scripts.UI.Settings
             return Mathf.Round(Mathf.Pow(10, volume / 20) * 100) / 100;
         }
         
-        private static void Load()
+        public static async void Load()
         {
+            await Task.Delay(100);
+            
             SetWithoutNotify(KEY_MASTER, Get01(KEY_MASTER));
             SetWithoutNotify(KEY_MUSIC,Get01(KEY_MUSIC));
             SetWithoutNotify(KEY_GAME_SOUNDS, Get01(KEY_GAME_SOUNDS));

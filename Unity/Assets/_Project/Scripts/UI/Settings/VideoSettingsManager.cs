@@ -177,8 +177,7 @@ namespace Project._Project.Scripts.UI.Settings
         public static FrameRateSettingsManager frameRate => FrameRateSettingsManager.instance;
 
         
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void Initialize()
+        public static void Load()
         {
             resolution.Load();
             quality.Load();
