@@ -9,7 +9,7 @@ namespace Project
 {
     public class LogDisplayer : MonoSingleton<LogDisplayer>
     {
-        [SerializeField] private bool _defaultEnableState = true;
+        [SerializeField] private bool _defaultEnableState = false;
         [SerializeField] private Transform parent;
         [SerializeField] private TMP_Text logTemplate;
         [SerializeField] private float _timeBeforeDisappearing = 5.0f;
@@ -41,7 +41,7 @@ namespace Project
         
         private void DestroyLogs()
         {
-            _tweens.ForEach(sequence => sequence.Kill());
+            _tweens.ForEach(sequence => sequence?.Kill());
             _tweens.Clear();
             instance.parent.DestroyChildren();
         }

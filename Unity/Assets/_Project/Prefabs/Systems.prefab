@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e714103eb60d48849908413862f33013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultEnableState: 1
+  _defaultEnableState: 0
   parent: {fileID: 6128563226101593208}
   logTemplate: {fileID: 2390995741606033434, guid: 4aa89f5e2705ad0498cf0f7f6921d784,
     type: 3}
