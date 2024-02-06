@@ -22,7 +22,15 @@ namespace Project
         private void Start()
         {
             _camera = Camera.main;
-            if (NetworkManager.IsServer || true)
+            
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            enabled = IsOwner;
+            if (IsServer)
             {
                 _agent = GetComponent<NavMeshAgent>();
                 state = new PlayerIdleState();
@@ -31,13 +39,6 @@ namespace Project
             }
             else
                 GetComponent<NavMeshAgent>().enabled = false;
-        }
-
-        public override void OnNetworkSpawn()
-        {
-            base.OnNetworkSpawn();
-            
-            enabled = IsOwner;
         }
 
         private void OnEnable()
