@@ -8,14 +8,11 @@ namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
-        [SerializeField] private Transform _character;
         
         [SerializeField] private Camera _camera;
         [SerializeField] private LayerMask _groundLayerMask;
         private NavMeshAgent _agent;
         public PlayerState state;
-
-        [SerializeField] private float _lerpTime;
 
         private Coroutine _movementLerpCoroutine;
         private Coroutine _rotationLerpCoroutine;
@@ -71,33 +68,22 @@ namespace Project
             if (Utilities.GetMouseWorldPosition(_camera, _groundLayerMask, out Vector3 position))
             {
                 GoToServerRpc(position);
-                var newState = new PlayerMoveState();
-                if (state is not PlayerMoveState && state.CanChangeState(newState))
-                {
-                    state.ChangeState(newState);
-                }
-
-                if (state is PlayerMoveState)
-                {
-                    _agent.SetDestination(position);
-                }
             }
         }
 
         [ServerRpc]
         private void GoToServerRpc(Vector3 position)
         {
-            if (_movementLerpCoroutine != null) StopCoroutine(_movementLerpCoroutine); 
-            if (_rotationLerpCoroutine != null) StopCoroutine(_rotationLerpCoroutine); 
-            
-            _movementLerpCoroutine = StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.position, position, value =>
+            var newState = new PlayerMoveState();
+            if (state is not PlayerMoveState && state.CanChangeState(newState))
             {
-                _character.position = value;
-            }));
-            _rotationLerpCoroutine = StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.rotation, Quaternion.LookRotation(position - _character.position), value =>
+                state.ChangeState(newState);
+            }
+
+            if (state is PlayerMoveState)
             {
-                _character.rotation = value;
-            }));
+                _agent.SetDestination(position);
+            }
         }
 
         private void PositionReached()
