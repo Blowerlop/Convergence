@@ -35,5 +35,5 @@ namespace Project
             return commitHash;
         }
     }
-}
+} 
 #endif
