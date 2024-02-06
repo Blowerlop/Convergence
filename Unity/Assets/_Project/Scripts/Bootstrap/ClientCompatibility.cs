@@ -10,13 +10,10 @@ namespace Project
         [ShowInInspector, ReadOnly] private string _gitCommitHash;
         
         
-        private void Start()
-        {
-            _gitCommitHash = GetGitCommitHash();
-        }
-
         public override void OnNetworkSpawn()
         {
+            _gitCommitHash = GetGitCommitHash();
+            
             if (IsClient == false) return;
             
             CompareCommitHashWithServer_ServerRpc(NetworkManager.Singleton.LocalClientId, _gitCommitHash);
@@ -24,11 +21,11 @@ namespace Project
 
         
         [ServerRpc(RequireOwnership = false)]
-        private void CompareCommitHashWithServer_ServerRpc(ulong clientId, string gitCommitHash)
+        private void CompareCommitHashWithServer_ServerRpc(ulong clientId, string clientGitCommitHash)
         {
-            if (_gitCommitHash != gitCommitHash)
+            if (_gitCommitHash != clientGitCommitHash)
             {
-                NetworkManager.Singleton.DisconnectClient(clientId, "Last git commit hash different from server");
+                NetworkManager.Singleton.DisconnectClient(clientId, $"Last git commit hash different from server : [Server] {_gitCommitHash} / [Client] {clientGitCommitHash}");
             }
         }
 
