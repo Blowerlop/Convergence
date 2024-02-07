@@ -18,7 +18,8 @@ namespace Project
 
         private ConsoleCommand(string name, string description)
         {
-            this.name = RefactorNameByTemplate(name);
+            // this.name = RefactorNameByTemplate(name);
+            this.name = name;
             this.description = description;
         }
         
@@ -37,11 +38,11 @@ namespace Project
         /// KillPlayer => kill_player
         /// </summary>
         /// <param name="name"></param>
-        private string RefactorNameByTemplate(string name)
-        {
-            // Split by Upper character and join them with _
-            return string.Join('_', Regex.Split(name, @"(?<!^)(?=[A-Z])")).ToLower();
-        }
+        // private string RefactorNameByTemplate(string name)
+        // {
+        //     // Split by Upper character and join them with _
+        //     return string.Join('_', Regex.Split(name, @"(?<!^)(?=[A-Z])")).ToLower();
+        // }
         
 
         private void SetupFinalParameters(MethodInfo methodInfo)
@@ -50,9 +51,9 @@ namespace Project
             parametersInfo = methodInfo.GetParameters();
             HasParametersInfoHaveDefaultValue();
             
-            #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            description += $" ({_methodInfo.ReflectedType})";
-            #endif
+            // #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            // description += $" ({_methodInfo.ReflectedType})";
+            // #endif
         }
 
         public void InvokeMethod(object[] parameters)

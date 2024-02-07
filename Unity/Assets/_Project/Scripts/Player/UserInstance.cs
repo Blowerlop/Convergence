@@ -61,13 +61,18 @@ namespace Project
                 _networkClientId.OnValueChanged += OnClientIdChanged;
                 _networkTeam.OnValueChanged += OnTeamChanged;
             }
+
+            if (IsServer)
+            {
+                string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                SetScene(currentSceneName);
+            }
             
             if (!IsOwner) return;
 
             Me = this;
-
-            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            SetScene(currentSceneName);
+            
+            
         }
         
         public override void OnNetworkDespawn()

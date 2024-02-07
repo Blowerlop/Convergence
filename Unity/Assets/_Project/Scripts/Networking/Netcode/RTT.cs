@@ -39,7 +39,7 @@ namespace Project
         }
         
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void PingServerRpc(float pingTime)
         {
             PongClientRpc(pingTime, _clientRpcParams);

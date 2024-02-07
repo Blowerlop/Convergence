@@ -104,19 +104,14 @@ namespace Project
 
         private void OnClientDisconnectCallback(ulong clientId)
         {
-            if (NetworkManager.Singleton.IsServer)
-            {
-                Debug.Log($"Client {clientId} has disconnected");
-            }
-            else
-            {
-                Debug.Log($"You successfully disconnected from the server");
+            Debug.Log(NetworkManager.Singleton.IsServer
+                ? $"Client {clientId} has disconnected"
+                : "You successfully disconnected from the server");
 
-                string disconnectReason = NetworkManager.Singleton.DisconnectReason;
-                if (string.IsNullOrEmpty(disconnectReason) == false)
-                {
-                    Debug.Log($"Reason : {disconnectReason}");
-                }
+            string disconnectReason = NetworkManager.Singleton.DisconnectReason;
+            if (string.IsNullOrEmpty(disconnectReason) == false)
+            {
+                Debug.Log($"Reason : {disconnectReason}");
             }
         }
 
