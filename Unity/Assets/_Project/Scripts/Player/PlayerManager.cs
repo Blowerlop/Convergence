@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,9 @@ namespace Project
 {
     public class PlayerManager : NetworkSingleton<PlayerManager>
     {
+        // Used to destroy all players when game ends
+        [ServerField] private List<PlayerRefs> _players = new();
+        
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -16,40 +20,53 @@ namespace Project
             NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
 
-        private void OnSceneLoaded(ulong clientid, string scenename, LoadSceneMode loadscenemode)
+        public override void OnNetworkDespawn()
         {
-            if (!UserInstanceManager.instance.TryGetUserInstance((int)clientid, out var user)) return;
-
-            if (user.GetPlatform() == PlayerPlatform.Mobile) return;
-
-            if (!TeamManager.instance.IsTeamIndexValid(user.Team))  return;
-
-            if (!SOCharacter.TryGetCharacter(user.CharacterId, out var character))  return;
-                
-            SpawnPlayer(user.Team, character);
+            base.OnNetworkDespawn();
+            
+            if (!IsServer && !IsHost) return;
+            if (NetworkManager.Singleton is not { SceneManager: not null }) return;
+            
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
         }
-
-        public void SpawnPlayer(int teamId, SOCharacter characterData)
-        { 
-            if (!TeamManager.instance.TryGetTeam(teamId, out var charTeam))
+        
+        private void OnSceneLoaded(ulong clientId, string scene, LoadSceneMode mode)
+        {
+            if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
+            if (!TeamManager.instance.TryGetTeam(user.Team, out var team))
             {
-                Debug.LogError("Trying to spawn a character for an invalid team.");
+                Debug.LogError($"Team {user.Team} is invalid for user {user.ClientId}");
+                return;
+            }
+
+            if (!team.HasPC)
+            {
+                // This should never happen
+                Debug.LogError($"Team {user.Team} has no PC player!");
                 return;
             }
             
-            if (charTeam.pcPlayerOwnerClientId == int.MaxValue)
-            {
-                Debug.LogError("Can't spawn player for a team that have no PCUser");
-                return;
-            }
+            // user is a netcode client, team is valid, team has pc
+            // -> we don't need to check if he is team's pc player
+            SpawnPlayerForUser(user);
+
+            if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
+                SpawnPlayerForUser(mobileUser);
+        }
+        public void SpawnPlayerForUser(UserInstance user)
+        { 
+            if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData)) return;
 
             Vector3 pos = Random.insideUnitSphere * 4f;
             pos.y = 1;
 
             var obj = Instantiate(characterData.prefab, pos, Quaternion.identity);
-            obj.GetComponent<NetworkObject>().SpawnWithOwnership((ulong)charTeam.pcPlayerOwnerClientId);
+            obj.GetComponent<NetworkObject>().Spawn();
 
-            obj.GetComponent<PlayerRefs>().ServerInit(teamId, characterData);
+            var refs = obj.GetComponent<PlayerRefs>();
+            _players.Add(refs);
+            
+            refs.ServerInit(user.Team, user.ClientId, characterData);
         }
     }
 }

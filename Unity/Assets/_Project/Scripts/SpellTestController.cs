@@ -22,11 +22,5 @@ namespace Project._Project.Scripts
         {
             TeamManager.instance.TrySetTeam(clientId, teamId, platform);
         }
-        
-        [Button("Spawn Player")]
-        public void SpawnPlayer(SOCharacter data, int team)
-        {
-            PlayerManager.instance.SpawnPlayer(team, data);
-        }
     }
 }

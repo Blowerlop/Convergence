@@ -18,6 +18,7 @@ MonoBehaviour:
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}
     - {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
+    - {fileID: 11400000, guid: 09489626d3af5374fb9aa68680bc4db8, type: 2}
     - {fileID: 11400000, guid: e016bfecaf6bfcc40844d5eada51d91f, type: 2}
   - <typeName>k__BackingField: FacingZoneSpellData
     <scriptableObjects>k__BackingField:
@@ -27,4 +28,5 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
   - <typeName>k__BackingField: SpellData
     <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 5895892d18a0d2a408b7c331d1bda849, type: 2}
     - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}

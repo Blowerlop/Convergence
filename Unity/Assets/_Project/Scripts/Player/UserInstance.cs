@@ -51,7 +51,7 @@ namespace Project
         {
             InitializeNetworkVariables();
 
-            if (IsClient)
+            if (IsClient && !IsHost)
             {
                 // OnValueChanged is not called for network object that were already spawned before joining
                 // We need to call manually
