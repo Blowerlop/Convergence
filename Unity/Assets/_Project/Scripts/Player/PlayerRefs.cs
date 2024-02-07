@@ -56,7 +56,7 @@ namespace Project
             _ownerId.OnValueChanged -= OnOwnerChanged;
         }
 
-        //[Server]
+        [Server]
         public virtual void ServerInit(int team, int ownerId, SOCharacter character)
         {
             _ownerId.Value = ownerId;
