@@ -58,7 +58,7 @@ namespace Project
             OnHealthChanged?.Invoke(newValue, _maxHealth.Value);
         }
 
-        //[Server]
+        [Server]
         public void Damage(int modifier)
         {
             int newValue = _health.Value - modifier;
@@ -72,7 +72,7 @@ namespace Project
             return attackerTeamIndex != PlayerRefs.AssignedTeam;
         }
 
-        //[Server]
+        [Server]
         public void Heal(int modifier)
         {
             int newValue = _health.Value + modifier;
