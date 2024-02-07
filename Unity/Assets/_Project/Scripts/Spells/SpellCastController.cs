@@ -15,19 +15,24 @@ namespace Project.Spells.Casters
         private SpellCaster[] _spellCasters;
         
         private int? _currentCastingIndex;
+
+        private bool _needInit = true;
         
         public void Init(PlayerRefs p)
         {
             _player = p;
             
             // Pc user should be player owner
-            if (!_player.IsOwner)
+            if (_player.OwnerId != UserInstance.Me.ClientId)
             {
                 // Can cast spell only from local player
-                Destroy(gameObject);
+                gameObject.SetActive(false);
                 return;
             }
-
+            
+            if (!_needInit) return;
+            _needInit = false;
+            
             _cooldowns = _player.Cooldowns;
             _channelingController = _player.Channeling;
 

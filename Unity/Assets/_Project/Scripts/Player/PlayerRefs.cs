@@ -67,7 +67,7 @@ namespace Project
 
         protected virtual void OnTeamChanged(int oldValue, int newValue) { }
         
-        private void OnOwnerChanged(int oldId, int newId)
+        protected virtual void OnOwnerChanged(int oldId, int newId)
         {
             if(UserInstanceManager.instance.TryGetUserInstance(oldId, out var oldUser))
             {

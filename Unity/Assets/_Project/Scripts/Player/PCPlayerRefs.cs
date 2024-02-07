@@ -7,9 +7,9 @@ namespace Project
     {
         [SerializeField] private SpellCastController spellCastController;
 
-        public override void OnNetworkSpawn()
+        protected override void OnOwnerChanged(int oldId, int newId)
         {
-            base.OnNetworkSpawn();
+            base.OnOwnerChanged(oldId, newId);
             
             spellCastController.Init(this);
         }
