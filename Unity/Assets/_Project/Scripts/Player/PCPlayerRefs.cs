@@ -18,12 +18,6 @@ namespace Project
         {
             base.OnTeamChanged(oldValue, newValue);
             
-            if (!UserInstanceManager.instance.TryGetUserInstance(OwnerId, out var user))
-            {
-                Debug.LogError($"OnTeamChanged > Can't find UserInstance for PlayerRefs with OwnerId {OwnerId}!");
-                return;
-            }
-            
             // Maybe change color or something idk
         }
     }
