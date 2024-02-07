@@ -8,7 +8,7 @@ namespace Project
         [SerializeField] private PlayerRefs playerRefs;
         public PlayerRefs PlayerRefs => playerRefs;
         
-        //[Server]
+        [Server]
         public virtual void ServerInit(SOCharacter character) { }
     }
 }
