@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Michsky.UI.Heat;
 using Project._Project.Scripts.UI.Settings;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Dropdown = Michsky.UI.Heat.Dropdown;
 
 namespace Project
 {
@@ -19,9 +21,9 @@ namespace Project
             Windowed
         }
         
-        [SerializeField] private TMP_Dropdown _resolutionDropdown;
-        [SerializeField] private TMP_Dropdown _displayModeDropdown;
-        [SerializeField] private Button _applyButton;
+        [SerializeField] private Dropdown _resolutionDropdown;
+        [SerializeField] private Dropdown _displayModeDropdown;
+        [SerializeField] private ButtonManager _applyButton;
 
         [LabelText("Current Resolution"), ShowInInspector, ReadOnly] private string _currentResolutionName => VideoSettingsManager.resolution.currentResolutionName;
         [ShowInInspector, ReadOnly] private int _selectedResolutionIndex;
@@ -31,8 +33,8 @@ namespace Project
         
         public void Start()
         {
-            FillResolutionDropDown();
-            FillDisplayModeDropDown();
+            PopulateResolutionDropDown();
+            PopulateDisplayModeDropDown();
             
             DropdownSelectCurrentResolution();
             DropdownSelectCurrentDisplayMode();
@@ -63,28 +65,28 @@ namespace Project
             VideoSettingsManager.resolution.SetResolution(width, height, fullScreenMode);
         }
 
-        private void FillResolutionDropDown()
+        private void PopulateResolutionDropDown()
         {
             var resolutionsName = Screen.resolutions.Select(resolution => $"{resolution.width} x {resolution.height}").Distinct().Reverse().ToList();
-            _resolutionDropdown.AddOptions(resolutionsName);
+            resolutionsName.ForEach(x => _resolutionDropdown.CreateNewItem(x));
         }
         
-        private void FillDisplayModeDropDown()
+        private void PopulateDisplayModeDropDown()
         {
             List<string> fullScreenModeNames = Enum.GetNames(typeof(ECustomFullScreenModeLabel)).ToList();
-            _displayModeDropdown.AddOptions(fullScreenModeNames); 
+            fullScreenModeNames.ForEach(x => _displayModeDropdown.CreateNewItem(x));
         }
 
         private void DropdownSelectCurrentResolution()
         {
-            int index = _resolutionDropdown.options.FindIndex(optionData => optionData.text == _currentResolutionName);
-            _resolutionDropdown.value = index;
+            int index = _resolutionDropdown.items.FindIndex(optionData => optionData.itemName == _currentResolutionName);
+            _resolutionDropdown.SetDropdownIndex(index);
         }
         
         private void DropdownSelectCurrentDisplayMode()
         {
-            int index = _displayModeDropdown.options.FindIndex(optionData => optionData.text == _currentDisplayModeName);
-            _displayModeDropdown.value = index;
+            int index = _displayModeDropdown.items.FindIndex(optionData => optionData.itemName == _currentDisplayModeName);
+            _displayModeDropdown.SetDropdownIndex(index);
         }
 
         private void OnResolutionDropdownValueChanged_CacheIndex(int index)
@@ -99,7 +101,7 @@ namespace Project
 
         private void ApplyResolution()
         {
-            Resolution resolution = ExtractResolutionFromOption(_resolutionDropdown.options[_selectedResolutionIndex]);
+            Resolution resolution = ExtractResolutionFromOption(_resolutionDropdown.items[_selectedResolutionIndex]);
 
             ECustomFullScreenModeLabel customFullScreenModeLabel = (ECustomFullScreenModeLabel)_selectedDisplayModeIndex;
             FullScreenMode fullScreenMode = ConvertCustomFullScreenModeToUnityOne(customFullScreenModeLabel);
@@ -107,9 +109,9 @@ namespace Project
             SetResolution(resolution.width, resolution.height, fullScreenMode);
         }
 
-        private Resolution ExtractResolutionFromOption(TMP_Dropdown.OptionData optionData)
+        private Resolution ExtractResolutionFromOption(Dropdown.Item optionData)
         {
-            string[] split = optionData.text.Split('x', StringSplitOptions.RemoveEmptyEntries);
+            string[] split = optionData.itemName.Split('x', StringSplitOptions.RemoveEmptyEntries);
             return new Resolution{width = int.Parse(split[0]), height = int.Parse(split[1])};
         }
 
@@ -130,9 +132,9 @@ namespace Project
     [Serializable]
     public class QualitySettingsUI
     {
-        [SerializeField] private Button _lowQualityButton;
-        [SerializeField] private Button _mediumQualityButton;
-        [SerializeField] private Button _HighButton;
+        [SerializeField] private ButtonManager _lowQualityButton;
+        [SerializeField] private ButtonManager _mediumQualityButton;
+        [SerializeField] private ButtonManager _HighButton;
 
 
         public void Start()
@@ -140,15 +142,15 @@ namespace Project
             switch (VideoSettingsManager.quality.currentQualityIndex)
             {
                 case 0:
-                    _lowQualityButton.Select();
+                    // _lowQualityButton.Select();
                     break;
                 
                 case 1:
-                    _mediumQualityButton.Select();
+                    // _mediumQualityButton.Select();
                     break;
                 
                 case 2:
-                    _HighButton.Select();
+                    // _HighButton.Select();
                     break;
             }
         }
@@ -177,25 +179,26 @@ namespace Project
     [Serializable]
     public class FrameRateSettingsUI
     {
-        [SerializeField] private TMP_InputField _frameRateInputField;
-        [SerializeField] private Button _vSyncButton;
+        [SerializeField] private InputFieldManager _frameRateInputField;
+        [SerializeField] private SwitchManager _vSyncSwitch;
 
 
         public void Start()
         {
-            _frameRateInputField.SetTextWithoutNotify(VideoSettingsManager.frameRate.ToString());
+            _frameRateInputField.inputText.SetTextWithoutNotify(VideoSettingsManager.frameRate.ToString());
+            _vSyncSwitch.Set(VideoSettingsManager.frameRate.GetVSync(), true);
         }
 
         public void Enable()
         {
-            _frameRateInputField.onDeselect.AddListener(SetSetFrameRate);
-            _vSyncButton.onClick.AddListener(ToggleVsync);
+            _frameRateInputField.inputText.onDeselect.AddListener(SetSetFrameRate);
+            _vSyncSwitch.onValueChanged.AddListener(EnableVsync);
         }
         
         public void Disable()
         {
-            _frameRateInputField.onDeselect.RemoveListener(SetSetFrameRate);
-            _vSyncButton.onClick.RemoveListener(ToggleVsync);
+            _frameRateInputField.inputText.onDeselect.RemoveListener(SetSetFrameRate);
+            _vSyncSwitch.onValueChanged.RemoveListener(EnableVsync);
         }
         
 
@@ -222,9 +225,9 @@ namespace Project
             }
         }
 
-        private void ToggleVsync()
+        private void EnableVsync(bool state)
         {
-            VideoSettingsManager.frameRate.SetSync(!VideoSettingsManager.frameRate.GetVSync());
+            VideoSettingsManager.frameRate.SetSync(state);
         }
     }
 

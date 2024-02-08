@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerILInjector.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerILInjector.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TransitionsPlus/Runtime/Resources/Prefabs/Transitions Plus.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TransitionsPlus/Runtime/Resources/Prefabs/Transitions Plus.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Arts/Materials/Dummy/dummy_hay.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Arts/Materials/Dummy/dummy_hay.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/SO References Cache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/SO References Cache.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerWeaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerWeaver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Heat - Complete Modern UI/Scripts/UI Elements/SwitchManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Heat - Complete Modern UI/Scripts/UI Elements/SwitchManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Heat - Complete Modern UI/Scripts/UI Elements/SwitchManagerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Heat - Complete Modern UI/Scripts/UI Elements/SwitchManagerEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Bootstrap.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Bootstrap.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/SO References Cache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/SO References Cache.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Samples/Settings.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Samples/Settings.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/VideoSettingsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/VideoSettingsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/VideoSettingsUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/VideoSettingsUI.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +168,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Main-Bis",
+    "git-widget-placeholder": "Settings-visual",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.sourceCode.C#"
   },

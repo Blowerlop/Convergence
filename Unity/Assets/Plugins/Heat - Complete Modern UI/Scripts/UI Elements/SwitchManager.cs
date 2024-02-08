@@ -18,6 +18,7 @@ namespace Michsky.UI.Heat
 
         // Settings
         public bool isOn = true;
+        public bool setOnAwake = true;
         public bool isInteractable = true;
         public bool invokeOnEnable = true;
         public bool useSounds = true;
@@ -37,7 +38,7 @@ namespace Michsky.UI.Heat
         void Awake()
         {
             if (saveValue) { GetSavedData(); }
-            else
+            else if (setOnAwake)
             {
                 if (gameObject.activeInHierarchy)
                 {
@@ -138,7 +139,13 @@ namespace Michsky.UI.Heat
             onValueChanged.Invoke(isOn);
         }
 
-        public void SetOn()
+        public void Set(bool state, bool instantAnimation)
+        {
+            if (state) SetOn(instantAnimation);
+            else SetOff(instantAnimation);
+        }
+
+        public void SetOn(bool instantAnimation)
         {
             if (saveValue) { PlayerPrefs.SetString("Switch_" + saveKey, "true"); }
             if (gameObject.activeInHierarchy)
@@ -148,14 +155,14 @@ namespace Michsky.UI.Heat
             }
 
             switchAnimator.enabled = true;
-            switchAnimator.Play("On");
+            switchAnimator.Play(instantAnimation ? "On Instant" : "On");
 
             isOn = true;
             onEvents.Invoke();
             onValueChanged.Invoke(true);
         }
 
-        public void SetOff()
+        public void SetOff(bool instantAnimation)
         {
             if (saveValue) { PlayerPrefs.SetString("Switch_" + saveKey, "false"); }
             if (gameObject.activeInHierarchy)
@@ -165,7 +172,7 @@ namespace Michsky.UI.Heat
             }
 
             switchAnimator.enabled = true;
-            switchAnimator.Play("Off");
+            switchAnimator.Play(instantAnimation ? "Off Instant" : "Off");
 
             isOn = false;
             offEvents.Invoke();

@@ -49,6 +49,7 @@ namespace Michsky.UI.Heat
 
             var fadingMultiplier = serializedObject.FindProperty("fadingMultiplier");
             var isOn = serializedObject.FindProperty("isOn");
+            var setOnAwake = serializedObject.FindProperty("setOnAwake");
             var isInteractable = serializedObject.FindProperty("isInteractable");
             var invokeOnEnable = serializedObject.FindProperty("invokeOnEnable");
             var useSounds = serializedObject.FindProperty("useSounds");
@@ -61,6 +62,7 @@ namespace Michsky.UI.Heat
                 case 0:
                     HeatUIEditorHandler.DrawHeader(customSkin, "Options Header", 6);
                     isOn.boolValue = HeatUIEditorHandler.DrawToggle(isOn.boolValue, customSkin, "Is On");
+                    setOnAwake.boolValue = HeatUIEditorHandler.DrawToggle(setOnAwake.boolValue, customSkin, "Set On Awake");
                     GUILayout.BeginVertical(EditorStyles.helpBox);
                     GUILayout.Space(-3);
                     saveValue.boolValue = HeatUIEditorHandler.DrawTogglePlain(saveValue.boolValue, customSkin, "Save Value");

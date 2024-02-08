@@ -160,7 +160,7 @@ namespace Project._Project.Scripts.UI.Settings
         {
             SetFrameRateWithoutNotify(GetFrameRate());
             SetVsyncWithoutNotify(GetVSync());
-            Debug.Log($"{_logPrefix} Loaded : {Application.targetFrameRate}");
+            Debug.Log($"{_logPrefix} Loaded : {Application.targetFrameRate} / vSync {GetVSync()}");
         }
 
         public override string ToString()
