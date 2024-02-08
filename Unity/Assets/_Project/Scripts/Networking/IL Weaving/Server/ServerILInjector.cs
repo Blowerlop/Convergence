@@ -13,12 +13,18 @@ namespace Project
 {
     public class ServerILInjector : IILInjector
     {
+        private bool IsNetworkManagerSingletonExist() => NetworkManager.Singleton != null;
+        private bool IsListening() => NetworkManager.Singleton.IsListening;
+        private bool IsServer() => NetworkManager.Singleton.IsServer;
+        
         public void Validate(ICustomAttribute customAttribute)
         {
         }
 
         public void Inject(CustomAttribute customAttribute, ModuleDefinition moduleDefinition, MethodDefinition methodDefinition)
         {
+            methodDefinition.CustomAttributes.Remove(customAttribute);
+            
             Type networkManagerType = typeof(NetworkManager);  
             MethodReference singletonRef = moduleDefinition.ImportReference(networkManagerType.GetMethod("get_Singleton"));
             MethodReference isListeningRef = moduleDefinition.ImportReference(networkManagerType.GetMethod("get_IsListening"));

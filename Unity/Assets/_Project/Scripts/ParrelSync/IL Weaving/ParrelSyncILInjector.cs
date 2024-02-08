@@ -17,6 +17,8 @@ namespace Project
         
         public void Inject(CustomAttribute customAttribute, ModuleDefinition moduleDefinition, MethodDefinition methodDefinition)
         {
+            methodDefinition.CustomAttributes.Remove(customAttribute);
+            
             Type clonesManagerType = typeof(ClonesManager);
             MethodReference isCloneRef = moduleDefinition.ImportReference(clonesManagerType.GetMethod("IsClone"));
             
