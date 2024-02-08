@@ -25,7 +25,7 @@ namespace Project
             ILProcessor processor = methodDefinition.Body.GetILProcessor();
             Instruction first = methodDefinition.Body.Instructions.First();
 
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, isCloneRef));
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, isCloneRef));
             // If false, continue 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, first));
             // else return
