@@ -27,6 +27,10 @@ namespace Project
         
         [Title("References")]
         private UnityTransport _transport;
+        
+        #if UNITY_SERVER
+        [SerializeField] private bool _startServerAutoIfServerBuild = true;
+        #endif
         #endregion
 
         
@@ -50,6 +54,7 @@ namespace Project
             {
                 yield return null;
                 StartServer();
+                GRPC_NetworkManager.instance.StartClient();
             }
 #else
             yield break;

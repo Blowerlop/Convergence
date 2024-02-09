@@ -14,7 +14,7 @@ namespace Project
         private string prefabId;
 
         [HideInInspector] public string UnrealOwnerAddress;
-        public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
+        [ShowInInspector] public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
 
         
         private void Start()

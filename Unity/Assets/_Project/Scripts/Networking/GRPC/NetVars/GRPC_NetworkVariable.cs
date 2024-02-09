@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCClient;
 using Newtonsoft.Json;
@@ -77,11 +80,32 @@ namespace Project
             _sendStreamCancellationTokenSource = new CancellationTokenSource();
             
             Sync();
-            Utilities.StartWaitForSecondsAndDoActionCoroutine(GetBehaviour(), 2, Sync);
+            GetBehaviour().StartCoroutine(WaitAndTrySyncNewUnrealClient());
             
             OnValueChanged += OnValueChange_WriteInStream;
 
             _isGrpcSync = true;
+        }
+
+        private IEnumerator WaitAndTrySyncNewUnrealClient()
+        {
+            yield return new WaitForSeconds(2.0f);
+            
+            Debug.LogError("HERE");
+            GRPC_NetworkObjectSyncer syncer = GetBehaviour().GetComponentInParent<GRPC_NetworkObjectSyncer>();
+            if (syncer == null)
+            {
+                Debug.LogError("NetworkObject has not NetworkObjectSyncer component");
+                yield break;
+            }
+
+            if (!syncer.IsOwnedByUnrealClient) yield break;
+            
+            if (syncer.IsOwnedByUnrealClient)
+            {
+                Debug.Log("Unreal client connected, sync vars");
+                Sync();
+            }
         }
 
         private void OnValueChange_WriteInStream(T _, T newValue)
