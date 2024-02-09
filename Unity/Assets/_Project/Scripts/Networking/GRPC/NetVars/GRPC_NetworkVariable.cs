@@ -91,7 +91,6 @@ namespace Project
         {
             yield return new WaitForSeconds(2.0f);
             
-            Debug.LogError("HERE");
             GRPC_NetworkObjectSyncer syncer = GetBehaviour().GetComponentInParent<GRPC_NetworkObjectSyncer>();
             if (syncer == null)
             {
