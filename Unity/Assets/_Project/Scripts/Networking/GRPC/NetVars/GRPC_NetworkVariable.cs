@@ -38,6 +38,11 @@ namespace Project
             _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnUnreal();
         }
 
+        ~GRPC_NetworkVariable()
+        {
+            OnClientStop();
+        }
+
 
         public void Initialize()
         {
