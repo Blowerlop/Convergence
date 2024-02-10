@@ -26,7 +26,7 @@ namespace Project.Spells
             _results = results;
             
             _moveSeq = DOTween.Sequence();
-            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * 6.75f, 0.35f).SetEase(Ease.Linear));
+            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * 0.1f, 10f).SetEase(Ease.Linear));
             _moveSeq.OnComplete(() => NetworkObject.Despawn());
         }
 
