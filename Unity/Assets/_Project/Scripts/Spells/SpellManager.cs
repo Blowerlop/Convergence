@@ -71,6 +71,8 @@ namespace Project.Spells
                 case PlayerPlatform.Mobile:
                     var spellHash = user.GetMobileSpell(spellIndex);
                     
+                    Debug.Log($"Trying to get spell {spellIndex} for mobile {user.ClientId} : {spellHash}");
+                    
                     spell = SpellData.GetSpell(spellHash);
 
                     if (spell == null)
