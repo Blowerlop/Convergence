@@ -259,6 +259,8 @@ namespace Project
                 return;
             }
             
+            Debug.Log("SetMobileSpell " + index + " : " + spellId + " for " + _networkClientId.Value + " : " + _networkPlayerName.Value);
+            
             _mobileSpells[index].Value = spellId;
         }
     }

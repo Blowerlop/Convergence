@@ -138,6 +138,8 @@ namespace Project
             _setSpellStreamCancelSrc = new CancellationTokenSource();
             _setSpellStream = GRPC_Transport.instance.client.GRPC_SetUnrealSpellGrpcToNetcode(new GRPC_EmptyMsg());
 
+            Debug.Log("SetSpellStream started.");
+            
             try
             {
                 while (await _setSpellStream.ResponseStream.MoveNext(_setSpellStreamCancelSrc.Token))
@@ -161,6 +163,8 @@ namespace Project
                                $"with ID {slot.ClientId}. But this client is not registered in UserInstanceManager.");
                 return;
             }
+            
+            Debug.Log($"HandleSpellSlotUpdate {slot.SpellHash} for client {slot.ClientId} in slot {slot.Index}");
             
             user.SetMobileSpell(slot.Index, slot.SpellHash);
         }
