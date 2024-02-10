@@ -68,7 +68,7 @@ namespace Project
                 SetScene(currentSceneName);
             }
             
-            if (!IsOwner) return;
+            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
 
             Me = this;
             
@@ -86,7 +86,7 @@ namespace Project
                 _networkTeam.OnValueChanged -= OnTeamChanged;
             }
             
-            if (!IsOwner) return;
+            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
 
             Me = null;
         }
