@@ -159,8 +159,7 @@ namespace Project
             {
                 return userInstance;
             }
-
-            Debug.LogError($"The client {clientId} has no userInstance registered");
+            
             return null;
         }
         
@@ -177,7 +176,6 @@ namespace Project
                 if (userInstance.name == clientName) return userInstance;
             }
 
-            Debug.LogError($"The client {clientName} has no userInstance registered");
             return null;
         }
     }
