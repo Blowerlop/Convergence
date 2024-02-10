@@ -147,7 +147,7 @@ namespace Project
         
         public void LinkPlayer(PlayerRefs refs)
         {
-            Debug.Log($"LinkPlayer for UserInstance {_networkClientId}");
+            Debug.Log($"LinkPlayer for UserInstance {_networkClientId.Value}");
             LinkedPlayer = refs;
             
             OnPlayerLinked?.Invoke(refs);
@@ -155,7 +155,7 @@ namespace Project
 
         public void UnlinkPlayer()
         {
-            Debug.Log($"UnlinkPlayer for UserInstance {_networkClientId}");
+            Debug.Log($"UnlinkPlayer for UserInstance {_networkClientId.Value}");
             LinkedPlayer = null;
             
             // Really useful ?
