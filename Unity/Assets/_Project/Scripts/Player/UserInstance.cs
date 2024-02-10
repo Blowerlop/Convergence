@@ -32,7 +32,7 @@ namespace Project
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
         
         private GRPC_NetworkVariable<int>[] _mobileSpells = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
-        private GRPC_NetworkVariable<int> _ms1, _ms2, _ms3, _ms4;
+        private GRPC_NetworkVariable<int> _ms1 = new("MobileSpell_0"), _ms2 = new("MobileSpell_1"), _ms3 = new("MobileSpell_2"), _ms4 = new("MobileSpell_3");
         
         public int ClientId => _networkClientId.Value;
         
@@ -44,7 +44,7 @@ namespace Project
 
         private void Awake()
         {
-            CreateNetVarInstance();
+         //   CreateNetVarInstance();
         }
         
         public override void OnNetworkSpawn()
