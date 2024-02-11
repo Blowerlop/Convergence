@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -152,6 +153,20 @@ namespace Project.Extensions
                 UnityEngine.Debug.Log(textToInsertBefore + target[i]);
             }
         }
+        
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector)
+        {
+            return _(); IEnumerable<TSource> _()
+            {
+                var knownKeys = new HashSet<TKey>();
+                foreach (var element in source)
+                {
+                    if (knownKeys.Add(keySelector(element)))
+                        yield return element;
+                }
+            }
+        }
     }
 
     public static class StringExtensions
@@ -208,6 +223,17 @@ namespace Project.Extensions
                 pPow = (pPow * p) % m;
             }
             return (int)hashValue; 
+        }
+        
+        public static string ConvertToValidIdentifier(this string input, bool isPath = false)
+        {
+            if (isPath) input = Path.GetFileNameWithoutExtension(input);
+            
+            // Replace all invalid characters
+            input = Regex.Replace(input, "[^a-zA-Z0-9_]", "_", RegexOptions.Compiled);
+            if (input.EndsWith('_')) input = input.Remove(input.Length - 1);
+            
+            return input;
         }
     }
 
