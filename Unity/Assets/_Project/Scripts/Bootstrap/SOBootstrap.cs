@@ -29,7 +29,7 @@ namespace Project
         [field: Tooltip("Callback invoked when the first scene's objects are loaded into memory and after Awake has been called.")]
         [field: SerializeField] public Object[] afterSceneLoad { get; private set; }
 
-
+#if UNITY_EDITOR
         public Object[] GetObjects(RuntimeInitializeLoadType runtimeInitializeLoadType)
         {
             return runtimeInitializeLoadType switch
@@ -76,7 +76,6 @@ namespace Project
             ForceSaveOnDisk();
         }
         
-        #if UNITY_EDITOR
         [Button]
         [Tooltip("Sometimes Github don't detect the changes made on the ScriptableObject, so we need to force the write on the disk")]
         [ParrelSyncIgnore]

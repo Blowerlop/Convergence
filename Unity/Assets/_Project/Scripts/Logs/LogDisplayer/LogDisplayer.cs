@@ -1,98 +1,114 @@
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
+using Project.Extensions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
+using UnityEngine.UI;
 
 namespace Project
 {
     public class LogDisplayer : MonoSingleton<LogDisplayer>
     {
-        [SerializeField] private bool _defaultEnableState = true;
-        [SerializeField] private Transform parent;
-        [SerializeField] private TMP_Text logTemplate;
-        [SerializeField] private float _timeBeforeDisappearing = 5.0f;
-        private WaitForSeconds _waitForSeconds;
-        [SerializeField] private float _fadeDuration = 2.0f;
-        private ObjectPool<TMP_Text> _pool;
+        private struct LogContainer
+        {
+            public string message;
+            public Color color;
 
+
+            public LogContainer(string message, Color color)
+            {
+                this.message = message;
+                this.color = color;
+            }
+        }
         
+        [Header("GUI Rect")]
+        private const int _MARGIN = 8;
+        private readonly float _width = Screen.width / 3.0f;
+        private float _height;
+        private Rect _area; 
+        
+        private readonly GUIContent _guiContent = new GUIContent();
+        private GUIStyle _guiStyle;
+        
+        private readonly List<LogContainer> _logsContainer = new List<LogContainer>();
+        private const float _LOG_SCREEN_TIME = 5.0f;
+
+
         protected override void Awake()
         {
             dontDestroyOnLoad = false;
             base.Awake();
             
-            _waitForSeconds = new WaitForSeconds(_timeBeforeDisappearing);
-            _pool = new ObjectPool<TMP_Text>(
-                LogInstancer,
-                actionOnRelease: text => text.gameObject.SetActive(false),
-                actionOnGet: text => text.gameObject.SetActive(true),
-                maxSize: 20
-            );
-        }
-        
-        private void Start()
-        {
-            EnableLogDisplay(_defaultEnableState);
+            Application.logMessageReceived += OnLogMessageReceived_UpdateGUI; 
         }
 
-        private void OnEnable()
+        protected override void OnDestroy()
         {
-            Application.logMessageReceived += DisplayLog;
-        }
-        
-        private void OnDisable()
-        {
-            Application.logMessageReceived -= DisplayLog;
-            DestroyLogs();
+            base.OnDestroy();
+            
+            Application.logMessageReceived -= OnLogMessageReceived_UpdateGUI; 
         }
 
         
-        private void DestroyLogs()
+        [ConsoleCommand("logs_display", "Display log on GUI")]
+        private static void Enable(bool state)
         {
-            _pool.Dispose();
-        }
-
-        private IEnumerator HideLogCoroutine(TMP_Text logInstance)
-        {
-            yield return _waitForSeconds;
-            logInstance.DOFade(0.0f, _fadeDuration).OnComplete(() => _pool.Release(logInstance));
+            instance.enabled = state;
+            instance._logsContainer.Clear();
+            instance.StopAllCoroutines();
         }
         
-        private void DisplayLog(string condition, string trace, LogType logType)
+        private void OnLogMessageReceived_UpdateGUI(string condition, string _, LogType logType)
         {
-            Color logColor;
-            switch (logType)
+#if UNITY_EDITOR
+            if (Application.isPlaying == false) return;
+#endif
+            
+            if (logType is LogType.Log or LogType.Warning) return;
+
+            _logsContainer.Add(new LogContainer(condition, CustomLogger.logErrorColor));
+            
+            Timer.StartTimerWithCallbackUnscaled(this, _LOG_SCREEN_TIME, () =>
             {
-                case LogType.Log:
-                    logColor = CustomLogger.logColor;
-                    break;
+#if UNITY_EDITOR
+                if (Application.isPlaying == false) return;
+#endif
                 
-                case LogType.Warning:
-                    logColor = CustomLogger.logWarningColor;
-                    break;
+                Utilities.StartWaitForEndOfFrameAndDoActionCoroutine(this, () =>
+                {
+#if UNITY_EDITOR
+                    if (Application.isPlaying == false) return;
+#endif
+                    
+                    _logsContainer.RemoveAt(0);
+                });
+            });
+        }
+        
+        
+        private void OnGUI()
+        {
+            if (_logsContainer.Any() == false) return;
+            
+            
+            _area = new Rect(_MARGIN, _MARGIN, _width, _height); ;
+            _guiStyle = new GUIStyle(GUI.skin.box);
+            
+            using (new GUILayout.AreaScope(_area, _guiContent, _guiStyle))
+            {
+                _height = 0;
                 
-                // All the other LogType
-                default:
-                    logColor = CustomLogger.logErrorColor;
-                    break;
+                foreach (LogContainer logContainer in _logsContainer)
+                {
+                    Rect labelRect = GUILayoutUtility.GetRect(new GUIContent(logContainer.message), "label");
+                    _height += labelRect.height;
+                    
+                    GUI.contentColor = logContainer.color;
+                    GUI.Label(labelRect, logContainer.message);
+                }
             }
-
-            TMP_Text logInstance = _pool.Get();
-            logInstance.alpha = 1.0f;
-            logInstance.text = $"<color=#{ColorUtility.ToHtmlStringRGB(logColor)}>{condition}</color>\n";
-            StartCoroutine(HideLogCoroutine(logInstance));
-        }
-
-        [ConsoleCommand("logDisplay", "Display all new logs on an UI that is directly in the game view.")]
-        private static void EnableLogDisplay(bool state)
-        {
-            instance.gameObject.SetActive(state);
-        }
-
-        private TMP_Text LogInstancer()
-        {
-            return Instantiate(logTemplate, parent);
         }
     }
 }

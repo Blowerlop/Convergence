@@ -30,7 +30,7 @@ namespace Project
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
         
         private GRPC_NetworkVariable<int>[] _mobileSpells = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
-        private GRPC_NetworkVariable<int> _ms1, _ms2, _ms3, _ms4;
+        private GRPC_NetworkVariable<int> _ms1 = new("MobileSpell_0"), _ms2 = new("MobileSpell_1"), _ms3 = new("MobileSpell_2"), _ms4 = new("MobileSpell_3");
         
         public int ClientId => _networkClientId.Value;
         
@@ -42,14 +42,14 @@ namespace Project
 
         private void Awake()
         {
-            CreateNetVarInstance();
+         //   CreateNetVarInstance();
         }
         
         public override void OnNetworkSpawn()
         {
             InitializeNetworkVariables();
 
-            if (IsClient)
+            if (IsClient && !IsHost)
             {
                 // OnValueChanged is not called for network object that were already spawned before joining
                 // We need to call manually
@@ -59,10 +59,18 @@ namespace Project
                 _networkClientId.OnValueChanged += OnClientIdChanged;
                 _networkTeam.OnValueChanged += OnTeamChanged;
             }
+
+            if (IsServer)
+            {
+                string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                SetScene(currentSceneName);
+            }
             
-            if (!IsOwner) return;
+            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
 
             Me = this;
+            
+            
         }
         
         public override void OnNetworkDespawn()
@@ -76,7 +84,7 @@ namespace Project
                 _networkTeam.OnValueChanged -= OnTeamChanged;
             }
             
-            if (!IsOwner) return;
+            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
 
             Me = null;
         }
@@ -137,7 +145,7 @@ namespace Project
         
         public void LinkPlayer(PlayerRefs refs)
         {
-            Debug.Log($"LinkPlayer for UserInstance {_networkClientId}");
+            Debug.Log($"LinkPlayer for UserInstance {_networkClientId.Value}");
             LinkedPlayer = refs;
             
             OnPlayerLinked?.Invoke(refs);
@@ -145,7 +153,7 @@ namespace Project
 
         public void UnlinkPlayer()
         {
-            Debug.Log($"UnlinkPlayer for UserInstance {_networkClientId}");
+            Debug.Log($"UnlinkPlayer for UserInstance {_networkClientId.Value}");
             LinkedPlayer = null;
             
             // Really useful ?
@@ -191,41 +199,56 @@ namespace Project
         
         //Setters
         [Server]
+        [Button]
         public void SetClientId(int clientId)
         {
             _networkClientId.Value = clientId;
         }
         
+        [Server]
+        [Button]
         public void SetScene(string sceneName)
         {
             _networkScene.Value = sceneName;
         }
         
+        [Server]
+        [Button]
         public void SetName(string playerName)
         {
             _networkPlayerName.Value = playerName;
         }
         
+        [Server]
+        [Button]
         public void SetTeam(int playerTeam)
         {
             _networkTeam.Value = playerTeam;
         }
 
+        [Server]
+        [Button]
         public void SetIsMobile(bool isMobile)
         {
             _networkIsMobile.Value = isMobile;
         }
         
+        [Server]
+        [Button]
         public void SetIsReady(bool isReady)
         {
             _networkIsReady.Value = isReady;
         }
 
+        [Server]
+        [Button]
         public void SetCharacter(int characterId)
         {
             _networkCharacterId.Value = characterId;
         }
 
+        [Server]
+        [Button]
         public void SetMobileSpell(int index, int spellId)
         {
             if (index < 0 || index >= _mobileSpells.Length)
@@ -233,6 +256,8 @@ namespace Project
                 Debug.LogError($"Can't set mobile spell. Given index {index} is out of range");
                 return;
             }
+            
+            Debug.Log("SetMobileSpell " + index + " : " + spellId + " for " + _networkClientId.Value + " : " + _networkPlayerName.Value);
             
             _mobileSpells[index].Value = spellId;
         }

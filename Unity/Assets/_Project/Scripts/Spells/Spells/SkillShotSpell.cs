@@ -7,6 +7,9 @@ namespace Project.Spells
     {
         [SerializeField] private Vector3 _castOffset;
         [SerializeField] private float _castRadius;
+
+        [SerializeField] private float speed = 3f;
+        [SerializeField] private float duration = 2f;
         
         SingleVectorResults _results;
         
@@ -26,7 +29,7 @@ namespace Project.Spells
             _results = results;
             
             _moveSeq = DOTween.Sequence();
-            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * 6.75f, 0.35f).SetEase(Ease.Linear));
+            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, duration).SetEase(Ease.Linear));
             _moveSeq.OnComplete(() => NetworkObject.Despawn());
         }
 

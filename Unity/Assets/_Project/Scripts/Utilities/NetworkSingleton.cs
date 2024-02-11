@@ -15,6 +15,10 @@ namespace Project
         public static T instance {
             get
             {
+                #if UNITY_EDITOR
+                if (Application.isPlaying == false) return null;
+                #endif
+                
                 if (authorityCheck && CanClientRead() == false)
                 {
                     Debug.LogError("Trying to access a NetworkSingleton instance with Authority Checked as non Server Client");

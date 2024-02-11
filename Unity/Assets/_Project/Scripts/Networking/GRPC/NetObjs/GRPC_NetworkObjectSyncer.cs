@@ -14,47 +14,38 @@ namespace Project
         private string prefabId;
 
         [HideInInspector] public string UnrealOwnerAddress;
-        public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
+        [ShowInInspector] public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
 
-        
-        private void Start()
+        public override void OnNetworkSpawn()
         {
-            if (!IsServer && !IsHost) return;
+            base.OnNetworkSpawn();
+
+            if (!IsServer) return;
             
             if (GRPC_NetworkManager.instance.isConnected)
             {
                 OnGrpcConnection_NetworkObjectSync();
             }
             GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
+        }
+        
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
 
-            if (IsOwnedByUnrealClient)
+            if (!IsServer) return;
+            
+            if (GRPC_NetworkManager.instance.isConnected)
             {
-                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, _ => OnGrpDisconnection_NetworkObjectUnSync());
+                OnGrpDisconnection_NetworkObjectUnSync();
             }
-            else
+
+            if (GRPC_NetworkManager.isBeingDestroyed == false)
             {
-                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnGrpDisconnection_NetworkObjectUnSync);
+                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
             }
         }
-
-        // public override void OnDestroy()
-        // {
-        //     base.OnDestroy();
-        //
-        //     if (GRPC_NetworkManager.isBeingDestroyed == false)
-        //     {
-        //         GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
-        //         if (IsOwnedByUnrealClient)
-        //         {
-        //             GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(_ => OnGrpDisconnection_NetworkObjectUnSync());
-        //         }
-        //         else
-        //         {
-        //             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpDisconnection_NetworkObjectUnSync);
-        //         }
-        //     }
-        // }
-
+        
         private void OnGrpcConnection_NetworkObjectSync()
         {
             if (!EnsureInit()) return;

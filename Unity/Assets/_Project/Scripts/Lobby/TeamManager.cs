@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading;
 using Grpc.Core;
@@ -19,6 +20,9 @@ namespace Project
         public int pcPlayerOwnerClientId;
         public int mobilePlayerOwnerClientId;
 
+        public bool HasPC => pcPlayerOwnerClientId != int.MaxValue;
+        public bool HasMobile => mobilePlayerOwnerClientId != int.MaxValue;
+        
         public UserInstance GetUserInstance(PlayerPlatform platform)
         {
             return !UserInstanceManager.instance
@@ -26,6 +30,31 @@ namespace Project
                 : UserInstanceManager.instance.GetUserInstance(platform == PlayerPlatform.Pc
                     ? pcPlayerOwnerClientId
                     : mobilePlayerOwnerClientId);
+        }
+
+        public bool TryGetUserInstance(PlayerPlatform platform, out UserInstance user)
+        {
+            user = null;
+
+            if (!UserInstanceManager.instance) return false;
+
+            int clientId;
+            
+            switch (platform)
+            {
+                case PlayerPlatform.Pc:
+                    if (pcPlayerOwnerClientId == int.MaxValue) return false;
+                    clientId = pcPlayerOwnerClientId;
+                    break;
+                case PlayerPlatform.Mobile:
+                    if (mobilePlayerOwnerClientId == int.MaxValue) return false;
+                    clientId = mobilePlayerOwnerClientId;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(platform), platform, null);
+            }
+
+            return UserInstanceManager.instance.TryGetUserInstance(clientId, out user);
         }
     }
     
@@ -196,18 +225,9 @@ namespace Project
                 ResetTeamSlot(oldTeam, platform);
             }
             
-            RegisterToTeamSlot(user.ClientId, newTeam, platform);
+            RegisterToTeamSlotLocal(user.ClientId, newTeam, platform);
         }
         
-        private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
-        {
-            TeamData teamData = _teams[teamIndex];
-            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
-            else teamData.mobilePlayerOwnerClientId = ownerClientId;
-            _teams[teamIndex] = teamData;
-        }
-        
-
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
@@ -279,7 +299,6 @@ namespace Project
         
         private async void Read()
         {
-            Debug.Log("Read");
             try
             {
                 while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))

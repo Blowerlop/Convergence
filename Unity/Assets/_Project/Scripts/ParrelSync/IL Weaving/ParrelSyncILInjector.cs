@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using Mewlist.Weaver;
@@ -16,13 +17,15 @@ namespace Project
         
         public void Inject(CustomAttribute customAttribute, ModuleDefinition moduleDefinition, MethodDefinition methodDefinition)
         {
+            methodDefinition.CustomAttributes.Remove(customAttribute);
+            
             Type clonesManagerType = typeof(ClonesManager);
             MethodReference isCloneRef = moduleDefinition.ImportReference(clonesManagerType.GetMethod("IsClone"));
             
             ILProcessor processor = methodDefinition.Body.GetILProcessor();
             Instruction first = methodDefinition.Body.Instructions.First();
 
-            processor.InsertBefore(first, Instruction.Create(OpCodes.Callvirt, isCloneRef));
+            processor.InsertBefore(first, Instruction.Create(OpCodes.Call, isCloneRef));
             // If false, continue 
             processor.InsertBefore(first, Instruction.Create(OpCodes.Brfalse_S, first));
             // else return
@@ -30,3 +33,4 @@ namespace Project
         }    
     }
 }
+#endif

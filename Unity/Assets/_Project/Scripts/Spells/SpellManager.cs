@@ -28,10 +28,10 @@ namespace Project.Spells
             
             PlayerPlatform platform = user.GetPlatform();
             
-            ChannelingController channelingController = playerRefs.GetChannelingController(platform);
+            ChannelingController channelingController = playerRefs.Channeling;
             if (channelingController.IsChanneling) return;
             
-            CooldownController cooldownController = playerRefs.GetCooldownController(platform);
+            CooldownController cooldownController = playerRefs.Cooldowns;
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
@@ -70,6 +70,8 @@ namespace Project.Spells
                     break;
                 case PlayerPlatform.Mobile:
                     var spellHash = user.GetMobileSpell(spellIndex);
+                    
+                    Debug.Log($"Trying to get spell {spellIndex} for mobile {user.ClientId} : {spellHash}");
                     
                     spell = SpellData.GetSpell(spellHash);
 

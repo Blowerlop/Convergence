@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using Debug = UnityEngine.Debug;
 
 namespace Project._Project.Scripts.Utilities
@@ -62,7 +63,7 @@ namespace Project._Project.Scripts.Utilities
 
     public static string RetrieveCurrentCommitShorthash()
     {
-        string result = RunGitCommand("rev-parse --short --verify HEAD");
+        string result = RunGitCommand("rev-parse --short=7 --verify HEAD");
         // Clean up whitespace around hash. (seems to just be the way this command returns :/ )
         result = string.Join("", result.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
         Debug.Log("Current Commit: " + result);

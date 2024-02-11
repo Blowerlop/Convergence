@@ -12,14 +12,14 @@ namespace Project.Spells
         
         private void Awake()
         {
-            PlayerRefs.OnLocalPlayerSpawned += Setup;
+            UserInstance.Me.OnPlayerLinked += Setup;
             
             group.alpha = 0;
         }
         
         private void OnDestroy()
         {
-            PlayerRefs.OnLocalPlayerSpawned -= Setup;
+            if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_channelingController) return;
             
@@ -29,7 +29,7 @@ namespace Project.Spells
         
         private void Setup(PlayerRefs refs)
         {
-            _channelingController = refs.GetChannelingController(PlayerPlatform.Pc);
+            _channelingController = refs.Channeling;
             
             _channelingController.OnServerChannelingStarted += OnChannelingStarted;
             _channelingController.OnServerChannelingEnded += OnChannelingEnded;

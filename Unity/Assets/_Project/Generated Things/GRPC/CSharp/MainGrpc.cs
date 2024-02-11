@@ -141,22 +141,6 @@ namespace GRPCClient {
         __Marshaller_main_GRPC_NetVarUpdate);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg> __Method_GRPC_RequestNetVarUpdateUnrealToGrpc = new grpc::Method<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(
-        grpc::MethodType.Unary,
-        __ServiceName,
-        "GRPC_RequestNetVarUpdateUnrealToGrpc",
-        __Marshaller_main_GRPC_NetVarUpdate,
-        __Marshaller_main_GRPC_EmptyMsg);
-
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_NetVarUpdate> __Method_GRPC_RequestNetVarUpdateGrpcToNetcode = new grpc::Method<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_NetVarUpdate>(
-        grpc::MethodType.ServerStreaming,
-        __ServiceName,
-        "GRPC_RequestNetVarUpdateGrpcToNetcode",
-        __Marshaller_main_GRPC_NetVarUpdate,
-        __Marshaller_main_GRPC_NetVarUpdate);
-
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse> __Method_GRPC_TeamSelectionUnrealToGrpc = new grpc::Method<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse>(
         grpc::MethodType.DuplexStreaming,
         __ServiceName,
@@ -280,25 +264,6 @@ namespace GRPCClient {
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task GRPC_CliNetNetVarUpdate(global::GRPCClient.GRPC_GenericValue request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_NetVarUpdate> responseStream, grpc::ServerCallContext context)
-      {
-        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
-      }
-
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::GRPCClient.GRPC_EmptyMsg> GRPC_RequestNetVarUpdateUnrealToGrpc(global::GRPCClient.GRPC_NetVarUpdate request, grpc::ServerCallContext context)
-      {
-        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
-      }
-
-      /// <summary>
-      ///rpc GRPC_RequestNetVarUpdateUnrealToGrpc (stream GRPC_NetVarUpdate) returns (GRPC_NetVarUpdate);
-      /// </summary>
-      /// <param name="request">The request received from the client.</param>
-      /// <param name="responseStream">Used for sending responses back to the client.</param>
-      /// <param name="context">The context of the server-side call handler being invoked.</param>
-      /// <returns>A task indicating completion of the handler.</returns>
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task GRPC_RequestNetVarUpdateGrpcToNetcode(global::GRPCClient.GRPC_NetVarUpdate request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_NetVarUpdate> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -535,50 +500,6 @@ namespace GRPCClient {
         return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_CliNetNetVarUpdate, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_RequestNetVarUpdateUnrealToGrpc(global::GRPCClient.GRPC_NetVarUpdate request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return GRPC_RequestNetVarUpdateUnrealToGrpc(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::GRPCClient.GRPC_EmptyMsg GRPC_RequestNetVarUpdateUnrealToGrpc(global::GRPCClient.GRPC_NetVarUpdate request, grpc::CallOptions options)
-      {
-        return CallInvoker.BlockingUnaryCall(__Method_GRPC_RequestNetVarUpdateUnrealToGrpc, null, options, request);
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_RequestNetVarUpdateUnrealToGrpcAsync(global::GRPCClient.GRPC_NetVarUpdate request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return GRPC_RequestNetVarUpdateUnrealToGrpcAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::GRPCClient.GRPC_EmptyMsg> GRPC_RequestNetVarUpdateUnrealToGrpcAsync(global::GRPCClient.GRPC_NetVarUpdate request, grpc::CallOptions options)
-      {
-        return CallInvoker.AsyncUnaryCall(__Method_GRPC_RequestNetVarUpdateUnrealToGrpc, null, options, request);
-      }
-      /// <summary>
-      ///rpc GRPC_RequestNetVarUpdateUnrealToGrpc (stream GRPC_NetVarUpdate) returns (GRPC_NetVarUpdate);
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The call object.</returns>
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_NetVarUpdate> GRPC_RequestNetVarUpdateGrpcToNetcode(global::GRPCClient.GRPC_NetVarUpdate request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return GRPC_RequestNetVarUpdateGrpcToNetcode(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      /// <summary>
-      ///rpc GRPC_RequestNetVarUpdateUnrealToGrpc (stream GRPC_NetVarUpdate) returns (GRPC_NetVarUpdate);
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The call object.</returns>
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_NetVarUpdate> GRPC_RequestNetVarUpdateGrpcToNetcode(global::GRPCClient.GRPC_NetVarUpdate request, grpc::CallOptions options)
-      {
-        return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_RequestNetVarUpdateGrpcToNetcode, null, options, request);
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncDuplexStreamingCall<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse> GRPC_TeamSelectionUnrealToGrpc(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GRPC_TeamSelectionUnrealToGrpc(new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -708,8 +629,6 @@ namespace GRPCClient {
           .AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl.GRPC_CliNetObjUpdate)
           .AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl.GRPC_SrvNetVarUpdate)
           .AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl.GRPC_CliNetNetVarUpdate)
-          .AddMethod(__Method_GRPC_RequestNetVarUpdateUnrealToGrpc, serviceImpl.GRPC_RequestNetVarUpdateUnrealToGrpc)
-          .AddMethod(__Method_GRPC_RequestNetVarUpdateGrpcToNetcode, serviceImpl.GRPC_RequestNetVarUpdateGrpcToNetcode)
           .AddMethod(__Method_GRPC_TeamSelectionUnrealToGrpc, serviceImpl.GRPC_TeamSelectionUnrealToGrpc)
           .AddMethod(__Method_GRPC_TeamSelectionGrpcToNetcode, serviceImpl.GRPC_TeamSelectionGrpcToNetcode)
           .AddMethod(__Method_GRPC_SetUnrealSpellUnrealToGrpc, serviceImpl.GRPC_SetUnrealSpellUnrealToGrpc)
@@ -733,8 +652,6 @@ namespace GRPCClient {
       serviceBinder.AddMethod(__Method_GRPC_CliNetObjUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_NetObjUpdate>(serviceImpl.GRPC_CliNetObjUpdate));
       serviceBinder.AddMethod(__Method_GRPC_SrvNetVarUpdate, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SrvNetVarUpdate));
       serviceBinder.AddMethod(__Method_GRPC_CliNetNetVarUpdate, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_GenericValue, global::GRPCClient.GRPC_NetVarUpdate>(serviceImpl.GRPC_CliNetNetVarUpdate));
-      serviceBinder.AddMethod(__Method_GRPC_RequestNetVarUpdateUnrealToGrpc, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_RequestNetVarUpdateUnrealToGrpc));
-      serviceBinder.AddMethod(__Method_GRPC_RequestNetVarUpdateGrpcToNetcode, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_NetVarUpdate, global::GRPCClient.GRPC_NetVarUpdate>(serviceImpl.GRPC_RequestNetVarUpdateGrpcToNetcode));
       serviceBinder.AddMethod(__Method_GRPC_TeamSelectionUnrealToGrpc, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_Team, global::GRPCClient.GRPC_TeamResponse>(serviceImpl.GRPC_TeamSelectionUnrealToGrpc));
       serviceBinder.AddMethod(__Method_GRPC_TeamSelectionGrpcToNetcode, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::GRPCClient.GRPC_TeamResponse, global::GRPCClient.GRPC_Team>(serviceImpl.GRPC_TeamSelectionGrpcToNetcode));
       serviceBinder.AddMethod(__Method_GRPC_SetUnrealSpellUnrealToGrpc, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_SpellSlot, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SetUnrealSpellUnrealToGrpc));

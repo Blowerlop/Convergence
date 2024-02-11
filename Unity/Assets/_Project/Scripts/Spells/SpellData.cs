@@ -35,8 +35,22 @@ namespace Project.Spells
 
         public static SpellData GetSpell(int spellIdHash)
         {
-            return SOScriptableObjectReferencesCache.GetScriptableObjects<SpellData>()
-                .FirstOrDefault(spell => spell.spellIdHash == spellIdHash);
+            var spells = SOScriptableObjectReferencesCache.GetScriptableObjects<SpellData>();
+            
+            Debug.Log("> Get spell with hash: " + spellIdHash + ": ");
+            
+            foreach (var spellData in spells)
+            {
+                if (spellData == null)
+                {
+                    Debug.Log("Spell data null ???");
+                    continue;
+                }
+                
+                Debug.Log(spellData.spellIdHash + " - " + spellData.spellId);
+            }
+            
+            return spells.FirstOrDefault(spell => spell.spellIdHash == spellIdHash);
         }
     }
 }

@@ -19,12 +19,12 @@ namespace Project.Spells
         
         private void Awake()
         {
-            PlayerRefs.OnLocalPlayerSpawned += Setup;
+            UserInstance.Me.OnPlayerLinked += Setup;
         }
 
         private void OnDestroy()
         {
-            PlayerRefs.OnLocalPlayerSpawned -= Setup;
+            if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_cooldowns) return;
             
@@ -36,7 +36,7 @@ namespace Project.Spells
 
         private void Setup(PlayerRefs refs)
         {
-            _cooldowns = refs.GetCooldownController(PlayerPlatform.Pc);
+            _cooldowns = refs.Cooldowns;
             
             _cooldowns.OnLocalCooldownStarted += OnCooldownStarted;
             _cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;

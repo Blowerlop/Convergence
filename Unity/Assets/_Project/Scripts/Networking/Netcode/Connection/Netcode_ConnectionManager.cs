@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -26,11 +27,15 @@ namespace Project
         
         [Title("References")]
         private UnityTransport _transport;
+        
+        #if UNITY_SERVER
+        [SerializeField] private bool _startServerAutoIfServerBuild = true;
+        #endif
         #endregion
 
         
         #region Updates
-        private void Start()
+        private IEnumerator Start()
         {
             // GetComponent in start because sometimes the NetworkManager initialize lately
             _transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
@@ -45,7 +50,14 @@ namespace Project
             _transport.OnTransportEvent += OnTransport;
 
 #if UNITY_SERVER
-            StartServer();
+            if (_startServerAutoIfServerBuild)
+            {
+                yield return null;
+                StartServer();
+                GRPC_NetworkManager.instance.StartClient();
+            }
+#else
+            yield break;
 #endif
         }
 
@@ -97,19 +109,14 @@ namespace Project
 
         private void OnClientDisconnectCallback(ulong clientId)
         {
-            if (NetworkManager.Singleton.IsServer)
-            {
-                Debug.Log($"Client {clientId} has disconnected");
-            }
-            else
-            {
-                Debug.Log($"You successfully disconnected from the server");
+            Debug.Log(NetworkManager.Singleton.IsServer
+                ? $"Client {clientId} has disconnected"
+                : "You successfully disconnected from the server");
 
-                string disconnectReason = NetworkManager.Singleton.DisconnectReason;
-                if (string.IsNullOrEmpty(disconnectReason) == false)
-                {
-                    Debug.Log($"Reason : {disconnectReason}");
-                }
+            string disconnectReason = NetworkManager.Singleton.DisconnectReason;
+            if (string.IsNullOrEmpty(disconnectReason) == false)
+            {
+                Debug.Log($"Reason : {disconnectReason}");
             }
         }
 

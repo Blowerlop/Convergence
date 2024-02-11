@@ -37,16 +37,38 @@ namespace Project
         
         private void InitializeNetworkVariables()
         {
-            _position.Initialize();
-            _rotation.Initialize();
-            _scale.Initialize();
+            if (SyncPositionX || SyncPositionY || SyncPositionZ)
+            {
+                _position.Initialize();
+            }
+            
+            if (SyncRotAngleX || SyncRotAngleY || SyncRotAngleZ)
+            {
+                _rotation.Initialize();
+            }
+            
+            if (SyncScaleX || SyncScaleY || SyncScaleZ)
+            {
+                _scale.Initialize();
+            }
         }
         
         private void ResetNetworkVariables()
         {
-            _position.Reset();
-            _rotation.Reset();
-            _scale.Reset();
+            if (SyncPositionX || SyncPositionY || SyncPositionZ)
+            {
+                _position.Reset();
+            }
+            
+            if (SyncRotAngleX || SyncRotAngleY || SyncRotAngleZ)
+            {
+                _rotation.Reset();
+            }
+            
+            if (SyncScaleX || SyncScaleY || SyncScaleZ)
+            {
+                _scale.Reset();
+            }
         }
 
         protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)

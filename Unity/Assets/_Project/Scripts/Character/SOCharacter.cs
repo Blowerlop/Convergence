@@ -44,6 +44,11 @@ namespace Project
         {
             return GetAllCharacters().FirstOrDefault(character => character.id == id);
         }
+
+        public static SOCharacter GetMobileCharacterData()
+        {
+            return GetAllCharacters().FirstOrDefault(character => character.characterName == "mobile_character");
+        }
         
         public bool TryGetSpell(int index, out SpellData spell)
         {

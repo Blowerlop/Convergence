@@ -1,21 +1,21 @@
-using System;
+using UnityEngine;
 
 namespace Project
 {
     public class HealthFillBar : FillBar
     {
-        private PlayerStats _stats;
+        private PCStats _stats;
         
         private void Awake()
         {
-            PlayerRefs.OnLocalPlayerSpawned += Setup;
+            UserInstance.Me.OnPlayerLinked += Setup;
             
             SetFillAmount(1);
         }
 
         private void OnDestroy()
         {
-            PlayerRefs.OnLocalPlayerSpawned -= Setup;
+            if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_stats) return;
             
@@ -24,8 +24,16 @@ namespace Project
         
         private void Setup(PlayerRefs refs)
         {
-            _stats = refs.GetStats();
-            
+            if (refs.Stats is PCStats stats)
+            {
+                _stats = stats;
+            }
+            else
+            {
+                Debug.LogError("Trying to link a non-PCStats to HealthFillBar!");
+                return;
+            }
+
             _stats.OnHealthChanged += OnHealthChanged;
         }
 
