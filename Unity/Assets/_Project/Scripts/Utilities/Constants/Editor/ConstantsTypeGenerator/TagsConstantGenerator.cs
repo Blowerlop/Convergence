@@ -1,4 +1,5 @@
 ﻿using System.CodeDom.Compiler;
+using Project.Extensions;
 
 namespace _Project.ConstantGenerator
 {
