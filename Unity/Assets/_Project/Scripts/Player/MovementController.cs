@@ -51,8 +51,10 @@ namespace Project
             InputManager.instance.onMouseButton0.started -= TryGoTo;
         }
 
-        private void OnDestroy()
+        public override void OnDestroy()
         {
+            base.OnDestroy();
+            
             OnPositionReached -= PositionReached;
         }
         
