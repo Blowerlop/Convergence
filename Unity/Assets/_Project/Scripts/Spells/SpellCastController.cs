@@ -43,7 +43,7 @@ namespace Project.Spells.Casters
         
         private void OnDestroy()
         {
-            if (InputManager.isBeingDestroyed || InputManager.instance == null) return;
+            if (InputManager.instance == null) return;
             
             InputManager.instance.OnSpellInputStarted -= StartCasting;
             InputManager.instance.OnOnSpellInputCanceled -= StopCasting;

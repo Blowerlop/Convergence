@@ -89,13 +89,11 @@ namespace Project
             _inputInputField.onValueChanged.RemoveListener(_commandPrediction.Predict);
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-            
             Application.logMessageReceived -= LogConsole;
 
-            if (InputManager.isBeingDestroyed == false)
+            if (InputManager.instance != null)
             {
                 InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
             }

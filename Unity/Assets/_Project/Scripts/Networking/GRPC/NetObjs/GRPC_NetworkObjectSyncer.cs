@@ -40,7 +40,7 @@ namespace Project
                 OnGrpDisconnection_NetworkObjectUnSync();
             }
 
-            if (GRPC_NetworkManager.isBeingDestroyed == false)
+            if (GRPC_NetworkManager.instance != null)
             {
                 GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
             }

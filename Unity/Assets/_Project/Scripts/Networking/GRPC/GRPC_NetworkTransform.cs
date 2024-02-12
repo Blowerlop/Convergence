@@ -18,8 +18,8 @@ namespace Project
 
         
         #region Updates
-        
-        private void Start()
+
+        public override void OnNetworkSpawn()
         {
             InitializeNetworkVariables();
         }

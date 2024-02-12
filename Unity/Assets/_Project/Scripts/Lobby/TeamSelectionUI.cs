@@ -48,7 +48,7 @@ namespace Project
 
         public override void OnNetworkDespawn()
         {
-            if (TeamManager.isBeingDestroyed == false)
+            if (TeamManager.instance != null)
             {
                 TeamManager.instance.onTeamSetEvent.Unsubscribe(OnTeamSet_UpdateButtonText);
             }

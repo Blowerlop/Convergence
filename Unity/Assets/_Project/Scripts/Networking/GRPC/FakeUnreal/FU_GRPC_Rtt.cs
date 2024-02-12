@@ -28,9 +28,10 @@ namespace Project
 
         private void OnDisable()
         {
-            if (FU_GRPC_NetworkManager.isBeingDestroyed) return;
-            
-            FU_GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
+            if (FU_GRPC_NetworkManager.instance != null)
+            {
+                FU_GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
+            }
         }
 
         private void FixedUpdate()

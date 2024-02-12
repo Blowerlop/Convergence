@@ -33,11 +33,12 @@ namespace Project
 
         private void OnDisable()
         {
-            if (FU_GRPC_NetworkManager.isBeingDestroyed) return;
-            
-            _networkManager.networkTransport.onClientStopEvent.Unsubscribe(TokenCancel);
-            _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);
-            _networkManager.onClientEndedEvent.Unsubscribe(Dispose);
+            if (FU_GRPC_NetworkManager.instance != null)
+            {
+                _networkManager.networkTransport.onClientStopEvent.Unsubscribe(TokenCancel);
+                _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);
+                _networkManager.onClientEndedEvent.Unsubscribe(Dispose);
+            }
         }
         
         #region Stream
