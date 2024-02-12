@@ -1,4 +1,6 @@
 using System;
+using _Project.Constants;
+using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,14 +10,15 @@ namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
-        
         [SerializeField] private Camera _camera;
-        [SerializeField] private LayerMask _groundLayerMask;
+        private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
         private NavMeshAgent _agent;
         public PlayerState state;
 
         private Coroutine _movementLerpCoroutine;
         private Coroutine _rotationLerpCoroutine;
+
+        private const float _DESTINATION_REACHED_OFFSET = 0.1f;
         
         public static event Action OnPositionReached;
 
@@ -33,6 +36,8 @@ namespace Project
             if (IsServer)
             {
                 _agent = GetComponent<NavMeshAgent>();
+                _agent.updatePosition = false;
+                _agent.updateRotation = false;
                 state = new PlayerIdleState();
                 state.StartState(this);
                 OnPositionReached += PositionReached;
@@ -48,7 +53,10 @@ namespace Project
         
         private void OnDisable()
         {
-            InputManager.instance.onMouseButton0.started -= TryGoTo;
+            if (InputManager.IsInstanceAlive())
+            {
+                InputManager.instance.onMouseButton0.started -= TryGoTo;
+            }
         }
 
         public override void OnDestroy()
@@ -60,15 +68,25 @@ namespace Project
         
         private void Update()
         {
-            if (state is PlayerMoveState && Math.Abs(_agent.remainingDistance - _agent.stoppingDistance) < 0.1f)
+            if (IsServer == false) return;
+            
+            if (state is PlayerMoveState)
             {
-                OnPositionReached?.Invoke();
+                if (state is PlayerMoveState && Math.Abs(_agent.remainingDistance - _agent.stoppingDistance) < _DESTINATION_REACHED_OFFSET)
+                {
+                    OnPositionReached?.Invoke();
+                }
+                else
+                {
+                    transform.rotation = Quaternion.LookRotation( (_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
+                    transform.position = _agent.nextPosition;
+                }
             }
         }
 
         private void TryGoTo(InputAction.CallbackContext _)
         {
-            if (Utilities.GetMouseWorldPosition(_camera, _groundLayerMask, out Vector3 position))
+            if (Utilities.GetMouseWorldPosition(_camera, _GROUND_LAYER_MASK, out Vector3 position))
             {
                 GoToServerRpc(position);
             }
