@@ -28,10 +28,10 @@ namespace Project
 
         public void Dispose()
         {
-            if(FU_GRPC_NetworkManager.instance != null && NetworkManager != null) 
+            if(FU_GRPC_NetworkManager.IsInstanceAlive() && NetworkManager != null) 
                 NetworkManager.onClientStopEvent.Unsubscribe(Dispose);
             
-            if(FU_NetVarHandler.instance != null && NetVarHandler != null) 
+            if(FU_NetVarHandler.IsInstanceAlive() && NetVarHandler != null) 
                 NetVarHandler.GetEvent(_currentType).Unsubscribe(OnNetVarUpdated);
         }
 

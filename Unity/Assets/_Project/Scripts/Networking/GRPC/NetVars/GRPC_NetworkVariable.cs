@@ -60,7 +60,7 @@ namespace Project
 
         public void Reset()
         {
-            if (GRPC_NetworkManager.instance == null) return;
+            if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
             GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);

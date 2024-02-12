@@ -41,7 +41,7 @@ namespace Project
 
         private void OnDisable()
         {
-            if (GRPC_NetworkManager.instance == null) return;
+            if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
             GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
             GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);

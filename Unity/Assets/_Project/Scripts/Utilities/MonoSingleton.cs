@@ -41,6 +41,8 @@ namespace Project
             }
         }
 
+        public static bool IsInstanceAlive() => _instance != null;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStaticVariables()
         {

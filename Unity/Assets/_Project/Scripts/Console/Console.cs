@@ -93,7 +93,7 @@ namespace Project
         {
             Application.logMessageReceived -= LogConsole;
 
-            if (InputManager.instance != null)
+            if (InputManager.IsInstanceAlive())
             {
                 InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
             }

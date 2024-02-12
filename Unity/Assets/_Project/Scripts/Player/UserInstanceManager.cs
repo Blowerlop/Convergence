@@ -31,7 +31,7 @@ namespace Project
             NetworkManager.Singleton.OnClientConnectedCallback -= CreateNetcodeUserInstance;
             NetworkManager.Singleton.OnClientDisconnectCallback -= DestroyNetcodeUserInstance;
 
-            if (GRPC_NetworkManager.instance != null)
+            if (GRPC_NetworkManager.IsInstanceAlive())
             {
                 GRPC_NetworkManager.instance.onUnrealClientConnected.Unsubscribe(CreateUnrealUserInstance);
                 GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(DestroyUnrealUserInstance);

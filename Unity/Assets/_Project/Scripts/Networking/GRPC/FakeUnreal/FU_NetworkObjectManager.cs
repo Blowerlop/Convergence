@@ -11,7 +11,7 @@ namespace Project
     {
         private FU_GRPC_NetworkManager _networkManager;
         private MainService.MainServiceClient _client =>
-            FU_GRPC_Transport.instance ? FU_GRPC_Transport.instance.client : null;
+            FU_GRPC_Transport.IsInstanceAlive() ? FU_GRPC_Transport.instance.client : null;
 
         private Dictionary<ulong, FU_NetworkObject> _networkObjects = new();
         
@@ -33,7 +33,7 @@ namespace Project
 
         private void OnDisable()
         {
-            if (FU_GRPC_NetworkManager.instance != null)
+            if (FU_GRPC_NetworkManager.IsInstanceAlive())
             {
                 _networkManager.networkTransport.onClientStopEvent.Unsubscribe(TokenCancel);
                 _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);

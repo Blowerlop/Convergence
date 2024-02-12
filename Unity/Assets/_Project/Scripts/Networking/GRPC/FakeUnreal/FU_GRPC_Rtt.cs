@@ -28,7 +28,7 @@ namespace Project
 
         private void OnDisable()
         {
-            if (FU_GRPC_NetworkManager.instance != null)
+            if (FU_GRPC_NetworkManager.IsInstanceAlive())
             {
                 FU_GRPC_NetworkManager.instance.onClientEndedEvent.Unsubscribe(Dispose);
             }

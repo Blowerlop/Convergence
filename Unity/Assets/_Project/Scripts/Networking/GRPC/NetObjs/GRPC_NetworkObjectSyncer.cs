@@ -40,7 +40,7 @@ namespace Project
                 OnGrpDisconnection_NetworkObjectUnSync();
             }
 
-            if (GRPC_NetworkManager.instance != null)
+            if (GRPC_NetworkManager.IsInstanceAlive())
             {
                 GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
             }
@@ -86,7 +86,7 @@ namespace Project
                 return false;
             }
 
-            if (!GRPC_NetObjectsHandler.instance)
+            if (GRPC_NetObjectsHandler.IsInstanceAlive())
             {
                 Debug.LogError($"Trying to sync NetworkObject {prefabId} without an instance of GRPC_NetObjectsHandler.");
                 return false;
