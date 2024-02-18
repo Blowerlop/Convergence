@@ -1,3 +1,4 @@
+using System;
 using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
@@ -8,10 +9,10 @@ namespace Project._Project.TESTT_REBIND
     public static class InputSettingsManager
     {
         private static readonly string _cancelBinding = "<Keyboard>/escape";
-        
-        public static Event<InputAction, int> onRebindStarted = new Event<InputAction, int>(nameof(onRebindStarted));
-        public static Event onRebindComplete = new Event(nameof(onRebindComplete));
-        public static Event onRebindCanceled = new Event(nameof(onRebindCanceled));
+
+        public static Action<InputAction, int> onRebindStarted;
+        public static Action onRebindComplete;
+        public static Action onRebindCanceled;
     
     
         public static void StartRebind(string actionName, int bindingIndex, TMP_Text statusText, bool excludeMouse)
@@ -60,20 +61,20 @@ namespace Project._Project.TESTT_REBIND
                     }
                     
                     SaveBindingOverride(actionToRebind);
-                    onRebindComplete?.Invoke(nameof(InputSettingsManager));
+                    onRebindComplete?.Invoke();
                 })
                 .OnCancel(operation =>
                 {
                     if (actionWasEnabled) actionToRebind.Enable();
                     operation.Dispose();
 
-                    onRebindCanceled?.Invoke(nameof(InputSettingsManager));
+                    onRebindCanceled?.Invoke();
                 });
             
             if (excludeMouse)
                 rebind.WithControlsExcluding("Mouse");
 
-            onRebindStarted?.Invoke(nameof(InputSettingsManager), true, actionToRebind, bindingIndex);
+            onRebindStarted?.Invoke(actionToRebind, bindingIndex);
             rebind.Start(); //actually starts the rebinding process
         }
 

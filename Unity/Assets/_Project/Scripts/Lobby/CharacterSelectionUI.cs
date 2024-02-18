@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.Netcode;
@@ -26,7 +27,7 @@ namespace Project
 
         [ClearOnReload, ShowInInspector] private static int _characterSelectedId;
 
-        [ClearOnReload(assignNewTypeInstance: true, nameof(onCharacterSelectedEvent))] public static Event<int, int> onCharacterSelectedEvent = new Event<int, int>(nameof(onCharacterSelectedEvent));
+        [ClearOnReload] public static Action<int, int> onCharacterSelectedEvent;
 
         [Button]
         private void OnValidate()
@@ -46,7 +47,7 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SelectCharacterServerRpc(int clientId, int characterId)
         {
-            onCharacterSelectedEvent.Invoke(this, false, clientId, characterId);
+            onCharacterSelectedEvent?.Invoke(clientId, characterId);
         }
 
         public void ValidateCharacterServerRpcc()

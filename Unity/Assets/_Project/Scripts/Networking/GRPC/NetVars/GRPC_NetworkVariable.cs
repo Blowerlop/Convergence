@@ -54,16 +54,16 @@ namespace Project
                 GRPC_NetworkVariable_Initialization();
             }
 
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
-            GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
+            GRPC_NetworkManager.instance.onClientStartedEvent += GRPC_NetworkVariable_Initialization;
+            GRPC_NetworkManager.instance.onClientStopEvent += OnClientStop;
         }
 
         public void Reset()
         {
             if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
-            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
+            GRPC_NetworkManager.instance.onClientStartedEvent -= GRPC_NetworkVariable_Initialization;
+            GRPC_NetworkManager.instance.onClientStopEvent -= OnClientStop;
 
             // OnClientStop();
         }

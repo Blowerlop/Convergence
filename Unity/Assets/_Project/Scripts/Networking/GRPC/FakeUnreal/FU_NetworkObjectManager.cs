@@ -26,18 +26,18 @@ namespace Project
         {
             _networkManager = FU_GRPC_NetworkManager.instance;
             
-            _networkManager.networkTransport.onClientStopEvent.Subscribe(this, TokenCancel);
-            _networkManager.onClientEndedEvent.Subscribe(this, Dispose);
-            _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
+            _networkManager.networkTransport.onClientStopEvent += TokenCancel;
+            _networkManager.onClientEndedEvent += Dispose;
+            _networkManager.onClientStartedEvent += StartNetObjsUpdateStream;
         }
 
         private void OnDisable()
         {
             if (FU_GRPC_NetworkManager.IsInstanceAlive())
             {
-                _networkManager.networkTransport.onClientStopEvent.Unsubscribe(TokenCancel);
-                _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);
-                _networkManager.onClientEndedEvent.Unsubscribe(Dispose);
+                _networkManager.networkTransport.onClientStopEvent -= TokenCancel;
+            _networkManager.onClientEndedEvent -= Dispose;
+            _networkManager.onClientStartedEvent -= StartNetObjsUpdateStream;
             }
         }
         

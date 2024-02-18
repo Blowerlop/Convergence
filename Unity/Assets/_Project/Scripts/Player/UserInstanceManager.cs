@@ -19,8 +19,8 @@ namespace Project
             base.OnNetworkSpawn();
             NetworkManager.Singleton.OnClientConnectedCallback += CreateNetcodeUserInstance;
             NetworkManager.Singleton.OnClientDisconnectCallback += DestroyNetcodeUserInstance;
-            GRPC_NetworkManager.instance.onUnrealClientConnected.Subscribe(this, CreateUnrealUserInstance);
-            GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, DestroyUnrealUserInstance);
+            GRPC_NetworkManager.instance.onUnrealClientConnected += CreateUnrealUserInstance;
+            GRPC_NetworkManager.instance.onUnrealClientDisconnect += DestroyUnrealUserInstance;
         }
         
         public override void OnNetworkDespawn()
@@ -33,8 +33,8 @@ namespace Project
 
             if (GRPC_NetworkManager.IsInstanceAlive())
             {
-                GRPC_NetworkManager.instance.onUnrealClientConnected.Unsubscribe(CreateUnrealUserInstance);
-                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(DestroyUnrealUserInstance);
+                GRPC_NetworkManager.instance.onUnrealClientConnected -= CreateUnrealUserInstance;
+                GRPC_NetworkManager.instance.onUnrealClientDisconnect -= DestroyUnrealUserInstance;
             }
         }
 

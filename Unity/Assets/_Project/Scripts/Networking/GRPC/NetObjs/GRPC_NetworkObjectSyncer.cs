@@ -26,7 +26,7 @@ namespace Project
             {
                 OnGrpcConnection_NetworkObjectSync();
             }
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
+            GRPC_NetworkManager.instance.onClientStartedEvent += OnGrpcConnection_NetworkObjectSync;
         }
         
         public override void OnNetworkDespawn()
@@ -42,7 +42,7 @@ namespace Project
 
             if (GRPC_NetworkManager.IsInstanceAlive())
             {
-                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
+                GRPC_NetworkManager.instance.onClientStartedEvent -= OnGrpcConnection_NetworkObjectSync;
             }
         }
         

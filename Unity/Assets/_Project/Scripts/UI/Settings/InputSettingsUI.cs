@@ -46,8 +46,8 @@ namespace Project._Project.TESTT_REBIND
             _resetButton.onClick.AddListener(ResetBinding);
             _clearButton.onClick.AddListener(ClearRebind);
             
-            InputSettingsManager.onRebindComplete.Subscribe(this, UpdateUI);
-            InputSettingsManager.onRebindCanceled.Subscribe(this, UpdateUI);
+            InputSettingsManager.onRebindComplete += UpdateUI;
+            InputSettingsManager.onRebindCanceled += UpdateUI;
         
 #if UNITY_EDITOR
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Settings")
@@ -67,8 +67,8 @@ namespace Project._Project.TESTT_REBIND
             _resetButton.onClick.RemoveListener(ResetBinding);
             _clearButton.onClick.RemoveListener(ClearRebind);
             
-            InputSettingsManager.onRebindComplete.Unsubscribe(UpdateUI);
-            InputSettingsManager.onRebindCanceled.Unsubscribe(UpdateUI);
+            InputSettingsManager.onRebindComplete -= UpdateUI;
+            InputSettingsManager.onRebindCanceled -= UpdateUI;
         }
 
         private void OnValidate()

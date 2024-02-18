@@ -14,6 +14,7 @@ namespace Project._Project.Scripts.StateMachine
         private PlayerRefs _playerRefs;
         
         
+        
         private void Awake()
         {
             _playerRefs = GetComponent<PlayerRefs>();
