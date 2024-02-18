@@ -1,4 +1,6 @@
 using System;
+using Project._Project.Scripts.Player.State;
+using Project._Project.Scripts.Player.State.PlayerState.Base;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,10 +11,11 @@ namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
+        private PlayerStateMachineController _stateMachineController;
+        
         private Camera _camera;
         private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
         private NavMeshAgent _agent;
-        public PlayerState state;
 
         private Coroutine _movementLerpCoroutine;
         private Coroutine _rotationLerpCoroutine;
@@ -25,6 +28,7 @@ namespace Project
         private void Awake()
         {
             _camera = Camera.main;
+            _stateMachineController = GetComponent<PlayerStateMachineController>();
         }
 
         public override void OnNetworkSpawn()
@@ -37,8 +41,6 @@ namespace Project
                 _agent = GetComponent<NavMeshAgent>();
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
-                state = new PlayerIdleState();
-                state.StartState(this);
                 OnPositionReached += OnPositionReached_UpdateState;
             }
             else
@@ -68,17 +70,16 @@ namespace Project
         
         private void Update()
         {
-            if (state is PlayerMoveState)
+            if (_stateMachineController.currentState is not MoveState) return;
+            
+            if (Math.Abs(_agent.remainingDistance - _agent.stoppingDistance) < _DESTINATION_REACHED_OFFSET)
             {
-                if (state is PlayerMoveState && Math.Abs(_agent.remainingDistance - _agent.stoppingDistance) < _DESTINATION_REACHED_OFFSET)
-                {
-                    OnPositionReached?.Invoke();
-                }
-                else
-                {
-                    transform.rotation = Quaternion.LookRotation((_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
-                    transform.position = _agent.nextPosition;
-                }
+                OnPositionReached?.Invoke();
+            }
+            else
+            {
+                transform.rotation = Quaternion.LookRotation((_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
+                transform.position = _agent.nextPosition;
             }
         }
 
@@ -93,13 +94,12 @@ namespace Project
         [ServerRpc]
         private void GoToServerRpc(Vector3 position)
         {
-            var newState = new PlayerMoveState();
-            if (state is not PlayerMoveState && state.CanChangeState(newState))
+            if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo(_stateMachineController.moveState))
             {
-                state.ChangeState(newState);
+                _stateMachineController.ChangeState(_stateMachineController.moveState);
             }
 
-            if (state is PlayerMoveState)
+            if (_stateMachineController.currentState is MoveState)
             {
                 _agent.SetDestination(position);
             }
@@ -107,10 +107,9 @@ namespace Project
 
         private void OnPositionReached_UpdateState()
         {
-            var newState = new PlayerIdleState();
-            if (state.CanChangeState(newState))
+            if (_stateMachineController.CanChangeStateTo(_stateMachineController.idleState))
             {
-                state.ChangeState(newState);
+                _stateMachineController.ChangeState(_stateMachineController.idleState);
             }
         }
     }

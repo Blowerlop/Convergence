@@ -1,3 +1,4 @@
+using System;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -23,9 +24,9 @@ namespace Project
         private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
 
         [Title("References")]
-        [SerializeField] private Camera _playerCamera;
-        [SerializeField] private Transform _player;
         [SerializeField] private Collider _border;
+        private Transform _player;
+        private Camera _playerCamera;
 
         private Vector3 _forward;
         private Vector3 _right;
@@ -34,9 +35,14 @@ namespace Project
         private float _maxX;
         private float _minZ;
         private float _maxZ;
-        
-        
-        
+
+
+        private void Awake()
+        {
+            _playerCamera = Camera.main;
+            _player = GetComponent<PCPlayerRefs>().PlayerTransform;
+        }
+
         private void Start()
         {
             CalculateDirectionalsVectors();
