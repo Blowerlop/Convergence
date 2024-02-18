@@ -25,7 +25,7 @@ namespace Project
         
         public UserInstance GetUserInstance(PlayerPlatform platform)
         {
-            return !UserInstanceManager.instance
+            return UserInstanceManager.instance
                 ? null
                 : UserInstanceManager.instance.GetUserInstance(platform == PlayerPlatform.Pc
                     ? pcPlayerOwnerClientId
@@ -106,9 +106,12 @@ namespace Project
 #endif*/
             
             if (!IsServer && !IsHost) return;
-            
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(InitGrpcStream);
-            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(DisposeGrpcStream);
+
+            if (GRPC_NetworkManager.IsInstanceAlive())
+            {
+                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(InitGrpcStream);
+                GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(DisposeGrpcStream);
+            }
         }
 
         

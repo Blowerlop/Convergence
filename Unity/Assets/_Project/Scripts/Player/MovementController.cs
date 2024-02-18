@@ -1,49 +1,91 @@
+using System;
+using Project._Project.Scripts.Player.State;
+using Project._Project.Scripts.Player.State.PlayerState.Base;
+using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
-        [SerializeField] private Transform _character;
+        private PlayerStateMachineController _stateMachineController;
         
-        [SerializeField] private Camera _camera;
-        [SerializeField] private LayerMask _groundLayerMask;
-
-        [SerializeField] private float _lerpTime;
+        private Camera _camera;
+        private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
+        private NavMeshAgent _agent;
 
         private Coroutine _movementLerpCoroutine;
         private Coroutine _rotationLerpCoroutine;
 
-        private void Start()
+        private const float _DESTINATION_REACHED_OFFSET = 0.1f;
+        
+        public static event Action OnPositionReached;
+
+        
+        private void Awake()
         {
             _camera = Camera.main;
+            _stateMachineController = GetComponent<PlayerStateMachineController>();
         }
-
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
             enabled = IsOwner;
+            if (IsServer)
+            {
+                _agent = GetComponent<NavMeshAgent>();
+                _agent.updatePosition = false;
+                _agent.updateRotation = false;
+                OnPositionReached += OnPositionReached_UpdateState;
+            }
+            else
+                GetComponent<NavMeshAgent>().enabled = false;
         }
-
 
         private void OnEnable()
         {
-            InputManager.instance.onMouseButton0.started += TryGoTo;
+            InputManager.instance.onMouseButton1.started += TryGoToPosition;
         }
         
         private void OnDisable()
         {
-            InputManager.instance.onMouseButton0.started -= TryGoTo;
+            if (InputManager.IsInstanceAlive())
+            {
+                InputManager.instance.onMouseButton1.started -= TryGoToPosition;
+            }
         }
 
-
-        private void TryGoTo(InputAction.CallbackContext _)
+        public override void OnDestroy()
         {
-            if (Utilities.GetMouseWorldPosition(_camera, _groundLayerMask, out Vector3 position))
+            base.OnDestroy();
+            
+            OnPositionReached -= OnPositionReached_UpdateState;
+        }
+        
+        
+        private void Update()
+        {
+            if (_stateMachineController.currentState is not MoveState) return;
+            
+            if (Math.Abs(_agent.remainingDistance - _agent.stoppingDistance) < _DESTINATION_REACHED_OFFSET)
+            {
+                OnPositionReached?.Invoke();
+            }
+            else
+            {
+                transform.rotation = Quaternion.LookRotation((_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
+                transform.position = _agent.nextPosition;
+            }
+        }
+
+        private void TryGoToPosition(InputAction.CallbackContext _)
+        {
+            if (Utilities.GetMouseWorldPosition(_camera, _GROUND_LAYER_MASK, out Vector3 position))
             {
                 GoToServerRpc(position);
             }
@@ -52,17 +94,23 @@ namespace Project
         [ServerRpc]
         private void GoToServerRpc(Vector3 position)
         {
-            if (_movementLerpCoroutine != null) StopCoroutine(_movementLerpCoroutine); 
-            if (_rotationLerpCoroutine != null) StopCoroutine(_rotationLerpCoroutine); 
-            
-            _movementLerpCoroutine = StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.position, position, value =>
+            if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo(_stateMachineController.moveState))
             {
-                _character.position = value;
-            }));
-            _rotationLerpCoroutine = StartCoroutine(Utilities.LerpInTimeCoroutine(_lerpTime, _character.rotation, Quaternion.LookRotation(position - _character.position), value =>
+                _stateMachineController.ChangeState(_stateMachineController.moveState);
+            }
+
+            if (_stateMachineController.currentState is MoveState)
             {
-                _character.rotation = value;
-            }));
+                _agent.SetDestination(position);
+            }
+        }
+
+        private void OnPositionReached_UpdateState()
+        {
+            if (_stateMachineController.CanChangeStateTo(_stateMachineController.idleState))
+            {
+                _stateMachineController.ChangeState(_stateMachineController.idleState);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace _Project.ConstantGenerator
 {
     public static class ConstantsGenerator
     {
-        private const string _NAMESPACE = "_Project.Constants";
+        private const string _NAMESPACE = "Project";
         private const string _FILE_NAME = "Constants";
         
         

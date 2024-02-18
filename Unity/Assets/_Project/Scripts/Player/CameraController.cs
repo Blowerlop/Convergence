@@ -1,3 +1,4 @@
+using System;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -19,13 +20,13 @@ namespace Project
         [SerializeField] private float _speed = 40.0f;
         [SerializeField] private bool _canUseKeyboard = true;
         [SerializeField] private bool _canUseMouse = true;
-        [SerializeField, OnValueChanged(nameof(ToggleCameraLock))] private bool _lockCamera = true;
-        [SerializeField] private LayerMask _groundLayerMask;
-        [SerializeField] private Collider _border;
-        
+        [SerializeField, ReadOnly] private bool _cameraLock;
+        private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
+
         [Title("References")]
-        [SerializeField] private Camera _playerCamera;
-        [SerializeField] private Transform _player;
+        [SerializeField] private Collider _border;
+        private Transform _player;
+        private Camera _playerCamera;
 
         private Vector3 _forward;
         private Vector3 _right;
@@ -34,9 +35,14 @@ namespace Project
         private float _maxX;
         private float _minZ;
         private float _maxZ;
-        
-        
-        
+
+
+        private void Awake()
+        {
+            _playerCamera = Camera.main;
+            _player = GetComponent<PCPlayerRefs>().PlayerTransform;
+        }
+
         private void Start()
         {
             CalculateDirectionalsVectors();
@@ -52,7 +58,7 @@ namespace Project
 
         private void OnDisable()
         {
-            if (InputManager.isBeingDestroyed == false)
+            if (InputManager.IsInstanceAlive())
             {
                 InputManager.instance.onCenterCamera.performed -= onCenterCameraRequest_CenterCameraOnPlayer;
                 InputManager.instance.onLockCamera.performed -= OnCameraLockRequest_ToggleCameraLock;
@@ -65,14 +71,14 @@ namespace Project
             if (Application.isFocused == false) return;
 #endif
 
-            if (_lockCamera) return;
+            if (_cameraLock) return;
             
             ComputeMovement();
         }
 
         private void LateUpdate()
         {
-            if (_lockCamera) CenterCameraOnPlayer();
+            if (_cameraLock) CenterCameraOnPlayer();
             else ClampCameraPosition();
         }
         
@@ -91,7 +97,7 @@ namespace Project
         private void CalculateCameraOffset()
         {
             if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out RaycastHit hit,
-                    Mathf.Infinity, _groundLayerMask))
+                    Mathf.Infinity, _GROUND_LAYER_MASK))
             {
                 _offset = _playerCamera.transform.position - hit.point;
                 _offset.y = 0.0f;
@@ -146,10 +152,11 @@ namespace Project
             ToggleCameraLock();
         }
 
+        [Button]
         private void ToggleCameraLock()
         {
-            _lockCamera = !_lockCamera;
-            Debug.Log("Camera lock : " + _lockCamera);
+            _cameraLock = !_cameraLock;
+            Debug.Log("Camera lock : " + _cameraLock);
         }
 
         private void onCenterCameraRequest_CenterCameraOnPlayer(InputAction.CallbackContext _)
