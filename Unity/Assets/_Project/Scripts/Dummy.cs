@@ -28,7 +28,9 @@ namespace Project._Project.Scripts
             _health.Value += modifier;
             if (_health.Value > maxHealth) _health.Value= maxHealth;
         }
-        
+
+        public void MaxHeal() => Heal(maxHealth);
+
         public override void OnNetworkSpawn()
         {
             if (IsServer || IsHost) _health.Value = maxHealth;

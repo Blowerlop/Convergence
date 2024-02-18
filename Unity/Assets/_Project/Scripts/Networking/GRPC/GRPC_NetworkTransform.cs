@@ -5,9 +5,7 @@ using UnityEngine;
 namespace Project
 {
     
-    [DefaultExecutionOrder(100000)] // this is needed to catch the update time after the transform was updated by user scripts
-    // SERVER AUTHORITATIVE
-    // BECAUSE ITS SERVER AUTHORITATIVE, THE INNER STATE IS NOT UPDATE SO THE OnNetworkTransformStateUpdated IS NOT CALLED, SO THE GRPC_NETWORKVARIABLE ARE NOT UPDATED
+    [DefaultExecutionOrder(100000)] // This is needed to catch the update time after the transform was updated by user scripts
     public class GRPC_NetworkTransform : NetworkTransform
     {
         #region Variables

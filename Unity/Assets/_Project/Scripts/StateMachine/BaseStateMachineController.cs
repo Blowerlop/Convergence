@@ -10,18 +10,15 @@ namespace Project._Project.Scripts.StateMachine
     {
         protected abstract BaseStateMachine defaultState { get; set; }
         [ShowInInspector] public BaseStateMachine currentState { get; private set; }
-
-        public readonly IdleState idleState = new IdleState();
-        public readonly MoveState moveState = new MoveState();
         
-
         private PlayerRefs _playerRefs;
-
+        
+        
         private void Awake()
         {
             _playerRefs = GetComponent<PlayerRefs>();
         }
-
+        
         private void Start()
         {
             currentState = defaultState;
