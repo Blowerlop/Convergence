@@ -15,14 +15,14 @@ namespace Project.Spells.Casters
             CasterTransform = casterTransform;
         }
         
-        public virtual void StartChanneling()
+        public virtual void StartCasting()
         {
             if (IsCasting) return;
             
             IsCasting = true;
         }
         
-        public virtual void StopChanneling()
+        public virtual void StopCasting()
         {
             if (!IsCasting) return;
             

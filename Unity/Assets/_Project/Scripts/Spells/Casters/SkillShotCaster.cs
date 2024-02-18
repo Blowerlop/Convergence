@@ -17,19 +17,19 @@ namespace Project.Spells.Casters
             visual.gameObject.SetActive(false);
         }
         
-        public override void StartChanneling()
+        public override void StartCasting()
         {
             if (IsCasting) return;
             
-            base.StartChanneling();
+            base.StartCasting();
             visual.gameObject.SetActive(true);
         }
         
-        public override void StopChanneling()
+        public override void StopCasting()
         {
             if (!IsCasting) return;
             
-            base.StopChanneling();
+            base.StopCasting();
             visual.gameObject.SetActive(false);
         }
         

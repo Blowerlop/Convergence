@@ -122,6 +122,22 @@ namespace Project
             return false;
         }
 
+        public static bool GetFirstHitFromMouse(Camera camera, LayerMask layerMask, out RaycastHit hit)
+        {
+            Vector3 mousePosition = Mouse.current.position.value;
+            mousePosition.z = camera.nearClipPlane;
+
+            Ray ray = camera.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo,100, layerMask))
+            {
+                hit = hitInfo;
+                return true;
+            }
+            
+            hit = default;
+            return false;
+        }
+        
         public static Vector3 GrpcToUnityVector3(GRPC_Vector3 vector)
         {
             return new Vector3(vector.X, vector.Y, vector.Z);
