@@ -1,5 +1,4 @@
 using System;
-using _Project.Constants;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
-        [SerializeField] private Camera _camera;
+        private Camera _camera;
         private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
         private NavMeshAgent _agent;
         public PlayerState state;
@@ -22,10 +21,10 @@ namespace Project
         
         public static event Action OnPositionReached;
 
-        private void Start()
+        
+        private void Awake()
         {
             _camera = Camera.main;
-            
         }
 
         public override void OnNetworkSpawn()
@@ -40,7 +39,7 @@ namespace Project
                 _agent.updateRotation = false;
                 state = new PlayerIdleState();
                 state.StartState(this);
-                OnPositionReached += PositionReached;
+                OnPositionReached += OnPositionReached_UpdateState;
             }
             else
                 GetComponent<NavMeshAgent>().enabled = false;
@@ -48,14 +47,14 @@ namespace Project
 
         private void OnEnable()
         {
-            InputManager.instance.onMouseButton0.started += TryGoTo;
+            InputManager.instance.onMouseButton1.started += TryGoToPosition;
         }
         
         private void OnDisable()
         {
             if (InputManager.IsInstanceAlive())
             {
-                InputManager.instance.onMouseButton0.started -= TryGoTo;
+                InputManager.instance.onMouseButton1.started -= TryGoToPosition;
             }
         }
 
@@ -63,13 +62,12 @@ namespace Project
         {
             base.OnDestroy();
             
-            OnPositionReached -= PositionReached;
+            OnPositionReached -= OnPositionReached_UpdateState;
         }
+        
         
         private void Update()
         {
-            if (IsServer == false) return;
-            
             if (state is PlayerMoveState)
             {
                 if (state is PlayerMoveState && Math.Abs(_agent.remainingDistance - _agent.stoppingDistance) < _DESTINATION_REACHED_OFFSET)
@@ -78,13 +76,13 @@ namespace Project
                 }
                 else
                 {
-                    transform.rotation = Quaternion.LookRotation( (_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
+                    transform.rotation = Quaternion.LookRotation((_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
                     transform.position = _agent.nextPosition;
                 }
             }
         }
 
-        private void TryGoTo(InputAction.CallbackContext _)
+        private void TryGoToPosition(InputAction.CallbackContext _)
         {
             if (Utilities.GetMouseWorldPosition(_camera, _GROUND_LAYER_MASK, out Vector3 position))
             {
@@ -107,7 +105,7 @@ namespace Project
             }
         }
 
-        private void PositionReached()
+        private void OnPositionReached_UpdateState()
         {
             var newState = new PlayerIdleState();
             if (state.CanChangeState(newState))
