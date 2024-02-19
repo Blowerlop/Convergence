@@ -1,6 +1,6 @@
+using System;
 using Project._Project.Scripts.Player.State;
 using Project._Project.Scripts.Player.State.PlayerState;
-using Project._Project.Scripts.Player.State.PlayerState.Base.Idle;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,7 +12,8 @@ namespace Project._Project.Scripts.StateMachine
         [ShowInInspector] public BaseStateMachine currentState { get; private set; }
         
         private PlayerRefs _playerRefs;
-        
+
+        public event Action<BaseStateMachine, BaseStateMachine> onStateChange;
         
         
         private void Awake()
@@ -38,9 +39,13 @@ namespace Project._Project.Scripts.StateMachine
         /// <param name="newStateMachine">new player state</param>
         public virtual void ChangeState(BaseStateMachine newStateMachine)
         {
-            currentState.EndState();
+            BaseStateMachine previousState = currentState;
+            previousState.EndState();
+            
             currentState = newStateMachine;
             currentState.StartState(_playerRefs);
+            
+            onStateChange?.Invoke(previousState, currentState);
         }
 
         public virtual bool CanChangeStateTo(BaseStateMachine newStateMachine)

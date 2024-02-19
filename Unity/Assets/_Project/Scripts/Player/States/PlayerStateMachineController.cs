@@ -1,5 +1,4 @@
 using Project._Project.Scripts.Player.State;
-using Project._Project.Scripts.Player.State.PlayerState.Base.Idle;
 using Project._Project.Scripts.StateMachine;
 
 namespace Project._Project.Scripts.Player.States
