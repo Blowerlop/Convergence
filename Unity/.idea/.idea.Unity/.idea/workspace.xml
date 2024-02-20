@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerILInjector.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerILInjector.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/GameplaySettingsUI.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/GameplaySettingsUI.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/TransitionsPlus/Runtime/Resources/Prefabs/Transitions Plus.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/TransitionsPlus/Runtime/Resources/Prefabs/Transitions Plus.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Arts/Materials/Dummy/dummy_hay.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Arts/Materials/Dummy/dummy_hay.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/SO References Cache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/SO References Cache.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerWeaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Networking/IL Weaving/Server/ServerWeaver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Bootstrap/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Bootstrap/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scripts/Player/CameraController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +32,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/2d/33f266b5/ScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/3a/c3cca682/SceneManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/61/bc603102/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/67/20ec571b/PlayerPrefs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/9d/478ba6d4/ILogHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/c0/8b5ffeeb/ObjectPool`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/c0/9dddc01c/IObjectPool`1.cs" root0="SKIP_HIGHLIGHTING" />
@@ -86,7 +83,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ddad446dd382038100b9a1da2176f66f45709de1608f2ded8fbccf2ef7df/Status.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/df32849ea335178f04fb0cb39bf59e13861bd99eb293e2298f5efc4f1e7bd/StatusCode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ff713594443921498f26765a9efff61f35f454213f9c47d4c47c238850f3701/SslCredentials.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Assets/TransitionsPlus/Demos/On Demand/StartTransition.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Library/PackageCache/com.unity.render-pipelines.core@14.0.8/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Attributes/ServerFieldAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Character/SOCharacter.cs" root0="FORCE_HIGHLIGHTING" />
@@ -113,8 +109,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Player/MovementController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Player/UserInstanceManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/UI/Pager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/UI/Settings/GameplaySettingsManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Utilities/NetworkSingleton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/_Project/TESTTT.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@2.1.4/Unity.Collections/FixedString.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@2.1.4/Unity.Collections/FixedStringFormat.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.6.3/InputSystem/Plugins/UI/InputSystemUIInputModule.cs" root0="SKIP_HIGHLIGHTING" />
@@ -143,7 +139,6 @@
     <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetworkObjectSyncer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/Netcode/Netcode_NetworkRTT.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Player/MovementController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Utilities/NetworkSingleton.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../gRPC/Server/GrpcTest/Services/MainServiceImpl.cs" root0="SKIP_HIGHLIGHTING" />
@@ -169,7 +164,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Main-Bis",
+    "git-widget-placeholder": "Player-Loop",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.sourceCode.C#"
   },
@@ -183,7 +178,7 @@
 }]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/Build/Windows\TBD.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Builds/Windows/Client\TBD.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\chris\Documents\Unity\UnityProjects\TBD\Unity\Build\Linux" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -296,6 +291,7 @@
       <workItem from="1705708486913" duration="6928000" />
       <workItem from="1705802786741" duration="1548000" />
       <workItem from="1706273724565" duration="6133000" />
+      <workItem from="1708368176576" duration="14048000" />
     </task>
     <servers />
   </component>
