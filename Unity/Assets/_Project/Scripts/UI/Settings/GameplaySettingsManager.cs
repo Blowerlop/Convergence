@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Project._Project.Scripts.UI.Settings
 {
+    [System.Serializable]
     public class GameplaySettings
     {
         public readonly string key;

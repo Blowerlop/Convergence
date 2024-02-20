@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -33,10 +34,10 @@ namespace Project
         [SerializeField, ReadOnly] private int _previousPageIndex;
         [SerializeField] private bool pageLoop = true;
         [SerializeField] private bool _disablePagesGameObject = true;
-        [SerializeField] private bool crossFadePages;
+        [SerializeField] private bool crossFadePages = true;
         [SerializeField] private float _crossFadeDuration = 0.25f;
-        private Coroutine _crossFadeCoroutineCurrentPage;
-        private Coroutine _crossFadeCoroutinePreviousPage;
+        private Tween _currentPageFadeTween;
+        private Tween _previousPageFadeTween;
 
 
         private void Start()
@@ -67,11 +68,10 @@ namespace Project
 
             if (crossFadePages)
             {
-                CancelCrossPages();
+                CrossFadePages();   
             }
 
             GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-            ChangePageVisualBehaviour();
         }
 
         [Button]
@@ -95,15 +95,12 @@ namespace Project
                 _currentPageIndex--;
             }
 
-
             if (crossFadePages)
             {
-                CancelCrossPages();
+                CrossFadePages();
             }
-
+            
             GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-            ChangePageVisualBehaviour();
-
         }
 
         [Button]
@@ -132,7 +129,10 @@ namespace Project
                 }
             }
 
-            ChangePageVisualBehaviour();
+            if (crossFadePages)
+            {
+                CrossFadePages();
+            }
             
             Debug.Log("Pager refreshed !");
         }
@@ -149,7 +149,10 @@ namespace Project
                     _currentPageIndex = i;
 
                     GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-                    ChangePageVisualBehaviour();
+                    if (crossFadePages)
+                    {
+                        CrossFadePages();
+                    }
                     break;
                 }
             }
@@ -169,7 +172,10 @@ namespace Project
                     _currentPageIndex = i;
 
                     GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-                    ChangePageVisualBehaviour();
+                    if (crossFadePages)
+                    {
+                        CrossFadePages();
+                    }
                     break;
                 }
             }
@@ -179,71 +185,31 @@ namespace Project
 
         private void CrossFadePages()
         {
+            #if UNITY_EDITOR
+            // Dotween dont work in editor
+            if (Application.isPlaying == false)
+            {
+                ChangePageVisualBehaviour();
+                return;
+            }
+            #endif
+            
+            _previousPageFadeTween?.Kill(true);
+            _currentPageFadeTween?.Kill(true);
+            
             CanvasGroup previousPageCanvasGroup = GetPage(_previousPageIndex).canvasGroup;
             CanvasGroup currentCanvasGroup = GetPage(_currentPageIndex).canvasGroup;
 
-            #if UNITY_EDITOR
-            if (Application.isPlaying == false)
+            _previousPageFadeTween = previousPageCanvasGroup.DOFade(0.0f, _crossFadeDuration).OnComplete(() => _previousPageFadeTween = null);
+            _currentPageFadeTween = currentCanvasGroup.DOFade(1.0f, _crossFadeDuration).OnComplete(() =>
             {
-                previousPageCanvasGroup.alpha = 0.0f;
-                currentCanvasGroup.alpha = 1.0f;
-            }
-            else
-            #endif
-            {
-                _crossFadeCoroutinePreviousPage =
-                    StartCoroutine(Utilities.LerpInTimeCoroutine(_crossFadeDuration, 1.0f, 0.0f, lerpCurrentValue =>
-                    {
-                        previousPageCanvasGroup.alpha = lerpCurrentValue;
-                    }));
-                
-                _crossFadeCoroutineCurrentPage =
-                    StartCoroutine(Utilities.LerpInTimeCoroutine(_crossFadeDuration, 0.0f, 1.0f, lerpCurrentValue =>
-                    {
-                        currentCanvasGroup.alpha = lerpCurrentValue;
-                    }));
-            }
-        }
-
-        private void CancelCrossPages()
-        {
-            if (_crossFadeCoroutinePreviousPage != null)
-            {
-                CanvasGroup previousPageCanvasGroup = GetPage(_previousPageIndex).canvasGroup;
-
-
-                if (previousPageCanvasGroup.gameObject.activeInHierarchy)
-                {
-                    StopCoroutine(_crossFadeCoroutinePreviousPage);
-                    previousPageCanvasGroup.alpha = 0.0f;
-                    if (_disablePagesGameObject) previousPageCanvasGroup.gameObject.SetActive(false);
-                }
-
-                _crossFadeCoroutinePreviousPage = null;
-            }
-
-            if (_crossFadeCoroutineCurrentPage != null)
-            {
-                CanvasGroup currentCanvasGroup = GetPage(_currentPageIndex).canvasGroup;
-
-                if (currentCanvasGroup.gameObject.activeInHierarchy)
-                {
-                    StopCoroutine(_crossFadeCoroutineCurrentPage);
-                    currentCanvasGroup.alpha = 0.0f;
-                    if (_disablePagesGameObject) currentCanvasGroup.gameObject.SetActive(false);
-                }
-
-                _crossFadeCoroutineCurrentPage = null;
-            }
+                ChangePageVisualBehaviour();
+                _currentPageFadeTween = null;
+            });;
         }
 
         private void ChangePageVisualBehaviour()
         {
-            if (crossFadePages)
-            {
-                CrossFadePages();   
-            }
-            
             if (_disablePagesGameObject)
             {
                 _pages[_previousPageIndex].canvasGroup.gameObject.SetActive(false);

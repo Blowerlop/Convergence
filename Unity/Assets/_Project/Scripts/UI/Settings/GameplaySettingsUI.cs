@@ -12,8 +12,8 @@ namespace Project._Project.Scripts.UI.Settings
 {
     public class GameplaySettingsUI : MonoBehaviour
     {
-        [NonSerialized] public GameplaySettings gameplaySettings;
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
+        [HideInInspector] public GameplaySettings gameplaySettings;
         [ShowInInspector, HideIf("@gameplaySettings == null")] private bool value
         {
             get => gameplaySettings is { value: true };
@@ -22,8 +22,15 @@ namespace Project._Project.Scripts.UI.Settings
         }
 #endif
 
+        public string key;
+
         [SerializeField, Required] private Button _button;
 
+
+        private void Start()
+        {
+            LinkReference();
+        }
 
         private void OnEnable()
         {
@@ -39,6 +46,18 @@ namespace Project._Project.Scripts.UI.Settings
         private void ToggleState()
         {
             gameplaySettings.value = !gameplaySettings.value;
+            Debug.Log(gameplaySettings.value);
+        }
+
+        private void LinkReference()
+        {
+            FieldInfo[] fields = typeof(GameplaySettingsManager).GetFields(BindingFlags.Public | BindingFlags.Static);
+
+            gameplaySettings = fields
+                .Where(field => field.FieldType == typeof(GameplaySettings))
+                .Select(x => x.GetValue(null))
+                .Cast<GameplaySettings>()
+                .First(x => x.key == key);
         }
     }
 
@@ -92,6 +111,10 @@ namespace Project._Project.Scripts.UI.Settings
             _key = _keys[index];
             
             t.gameplaySettings = _gameplaySettingsContainers[index];
+
+            var keySerialized = serializedObject.FindProperty("key");
+            keySerialized.stringValue = _key;
+            serializedObject.ApplyModifiedProperties(); 
         }
     }
     #endif
