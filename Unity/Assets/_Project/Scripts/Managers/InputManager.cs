@@ -55,6 +55,7 @@ namespace Project
         public InputAction onConsoleKey => inputAction.Persistant.Console;
         public InputAction onCenterCamera => inputAction.Player.CenterCamera;
         public InputAction onLockCamera => inputAction.Player.LockCamera;
+        public InputAction onMenuKey => inputAction.Persistant.Menu;
 
         // Spells
         private InputAction[] _spellInputs;

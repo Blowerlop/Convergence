@@ -68,6 +68,9 @@ namespace Project
 
             _logsContainer.Add(new LogContainer(condition, CustomLogger.logErrorColor));
             
+#if UNITY_EDITOR
+            if (Application.isPlaying == false) return;
+#endif
             Timer.StartTimerWithCallbackUnscaled(this, _LOG_SCREEN_TIME, () =>
             {
 #if UNITY_EDITOR

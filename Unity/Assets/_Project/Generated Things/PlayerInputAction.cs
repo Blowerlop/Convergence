@@ -792,6 +792,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6a67dcf-d820-468e-b59d-3eb7de2a8622"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -803,6 +812,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Console"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9763d8a4-cc0f-4c26-8806-84725e4161df"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -866,6 +886,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         // Persistant
         m_Persistant = asset.FindActionMap("Persistant", throwIfNotFound: true);
         m_Persistant_Console = m_Persistant.FindAction("Console", throwIfNotFound: true);
+        m_Persistant_Menu = m_Persistant.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1164,11 +1185,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Persistant;
     private List<IPersistantActions> m_PersistantActionsCallbackInterfaces = new List<IPersistantActions>();
     private readonly InputAction m_Persistant_Console;
+    private readonly InputAction m_Persistant_Menu;
     public struct PersistantActions
     {
         private @PlayerInputAction m_Wrapper;
         public PersistantActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Console => m_Wrapper.m_Persistant_Console;
+        public InputAction @Menu => m_Wrapper.m_Persistant_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Persistant; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1181,6 +1204,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Console.started += instance.OnConsole;
             @Console.performed += instance.OnConsole;
             @Console.canceled += instance.OnConsole;
+            @Menu.started += instance.OnMenu;
+            @Menu.performed += instance.OnMenu;
+            @Menu.canceled += instance.OnMenu;
         }
 
         private void UnregisterCallbacks(IPersistantActions instance)
@@ -1188,6 +1214,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Console.started -= instance.OnConsole;
             @Console.performed -= instance.OnConsole;
             @Console.canceled -= instance.OnConsole;
+            @Menu.started -= instance.OnMenu;
+            @Menu.performed -= instance.OnMenu;
+            @Menu.canceled -= instance.OnMenu;
         }
 
         public void RemoveCallbacks(IPersistantActions instance)
@@ -1252,5 +1281,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     public interface IPersistantActions
     {
         void OnConsole(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

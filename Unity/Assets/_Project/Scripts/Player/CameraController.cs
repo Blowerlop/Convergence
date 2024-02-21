@@ -1,4 +1,5 @@
 using System;
+using Project._Project.Scripts.UI.Settings;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -19,8 +20,6 @@ namespace Project
     {
         [Title("Settings")]
         [SerializeField] private float _speed = 40.0f;
-        [SerializeField] private bool _canUseKeyboard = true;
-        [SerializeField] private bool _canUseMouse = true;
         [SerializeField, ReadOnly] private bool _cameraLock;
         private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
 
@@ -139,8 +138,8 @@ namespace Project
         {
             Vector2 movementInput = Vector2.zero;
             
-            if (_canUseKeyboard) RetrieveMovementInputWithKeyboard(ref movementInput);
-            if (_canUseMouse) RetrieveMovementInputWithMouse(ref movementInput);
+            RetrieveMovementInputWithKeyboard(ref movementInput);
+            if (GameplaySettingsManager.useMouse.value) RetrieveMovementInputWithMouse(ref movementInput);
             
             if (HasRequestedAMovement(movementInput) == false) return;
             

@@ -86,7 +86,7 @@ namespace Project
                 return false;
             }
 
-            if (GRPC_NetObjectsHandler.IsInstanceAlive())
+            if (GRPC_NetObjectsHandler.IsInstanceAlive() == false)
             {
                 Debug.LogError($"Trying to sync NetworkObject {prefabId} without an instance of GRPC_NetObjectsHandler.");
                 return false;
