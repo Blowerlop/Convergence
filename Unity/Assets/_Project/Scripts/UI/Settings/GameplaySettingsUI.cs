@@ -12,6 +12,7 @@ namespace Project._Project.Scripts.UI.Settings
 {
     public class GameplaySettingsUI : MonoBehaviour
     {
+
 #if UNITY_EDITOR
         [HideInInspector] public GameplaySettings gameplaySettings;
         [ShowInInspector, HideIf("@gameplaySettings == null")] private bool value
@@ -22,7 +23,7 @@ namespace Project._Project.Scripts.UI.Settings
         }
 #endif
 
-        public string key;
+        [SerializeField, HideInInspector] private string key;
         [ClearOnReload] private static IEnumerable<GameplaySettings> _gameplaySettingsFields;
 
         [SerializeField, Required] private Button _button;
@@ -62,7 +63,7 @@ namespace Project._Project.Scripts.UI.Settings
                     .Cast<GameplaySettings>();
             }
 
-            gameplaySettings = _gameplaySettingsFields.First();
+            gameplaySettings = _gameplaySettingsFields.First(x => x.key == key);
         }
     }
 

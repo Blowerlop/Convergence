@@ -30,6 +30,7 @@ namespace Project
         private RectTransform _rectTransform;
 
         public List<Page> _pages = new List<Page>();
+        [SerializeField, PropertyRange(0, "@_pages.Count")] private int _startupPage;
         [SerializeField, ReadOnly] private int _currentPageIndex;
         [SerializeField, ReadOnly] private int _previousPageIndex;
         [SerializeField] private bool pageLoop = true;
@@ -42,7 +43,7 @@ namespace Project
 
         private void Start()
         {
-            GoToPage(_currentPageIndex, true);
+            GoToPage(_startupPage, true);
         }
 
         [Button]
