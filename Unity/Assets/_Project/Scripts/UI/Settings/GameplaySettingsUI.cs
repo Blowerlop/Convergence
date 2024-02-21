@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Project.Extensions;
@@ -23,6 +23,7 @@ namespace Project._Project.Scripts.UI.Settings
 #endif
 
         public string key;
+        [ClearOnReload] private static IEnumerable<GameplaySettings> _gameplaySettingsFields;
 
         [SerializeField, Required] private Button _button;
 
@@ -51,13 +52,17 @@ namespace Project._Project.Scripts.UI.Settings
 
         private void LinkReference()
         {
-            FieldInfo[] fields = typeof(GameplaySettingsManager).GetFields(BindingFlags.Public | BindingFlags.Static);
+            if (_gameplaySettingsFields == null)
+            {
+                FieldInfo[] fields = typeof(GameplaySettingsManager).GetFields(BindingFlags.Public | BindingFlags.Static);
 
-            gameplaySettings = fields
-                .Where(field => field.FieldType == typeof(GameplaySettings))
-                .Select(x => x.GetValue(null))
-                .Cast<GameplaySettings>()
-                .First(x => x.key == key);
+                _gameplaySettingsFields = fields
+                    .Where(field => field.FieldType == typeof(GameplaySettings))
+                    .Select(x => x.GetValue(null))
+                    .Cast<GameplaySettings>();
+            }
+
+            gameplaySettings = _gameplaySettingsFields.First();
         }
     }
 
