@@ -1,3 +1,5 @@
+using Unity.Netcode;
+
 namespace Project
 {
     /// <summary>
@@ -11,6 +13,6 @@ namespace Project
         /// <summary>
         /// </summary>
         /// <returns>NetworkID of associated object</returns>
-        public ulong GetID();
+        public NetworkObject GetNetworkObject();
     }
 }

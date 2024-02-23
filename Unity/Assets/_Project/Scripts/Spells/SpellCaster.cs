@@ -9,6 +9,8 @@ namespace Project.Spells.Casters
         public bool IsCasting { get; private set; }
 
         protected Transform CasterTransform { get; private set; }
+
+        protected virtual bool DisableUpdateEvaluation => false;
         
         public virtual void Init(Transform casterTransform, SpellData spell)
         {
@@ -22,18 +24,20 @@ namespace Project.Spells.Casters
             IsCasting = true;
         }
         
-        public virtual void StopCasting()
+        public virtual bool StopCasting()
         {
-            if (!IsCasting) return;
+            if (!IsCasting) return false;
             
             IsCasting = false;
+
+            return true;
         }
         
         protected virtual void Update()
         {
             if (!IsCasting) return;
-            
-            EvaluateResults();
+
+            if (!DisableUpdateEvaluation) EvaluateResults();
             UpdateChanneling();
         }
 

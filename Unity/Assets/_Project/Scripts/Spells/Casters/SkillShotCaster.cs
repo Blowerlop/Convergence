@@ -25,12 +25,13 @@ namespace Project.Spells.Casters
             visual.gameObject.SetActive(true);
         }
         
-        public override void StopCasting()
+        public override bool StopCasting()
         {
-            if (!IsCasting) return;
+            if (!base.StopCasting()) return false;
             
-            base.StopCasting();
             visual.gameObject.SetActive(false);
+            
+            return true;
         }
         
         protected override void UpdateChanneling()

@@ -142,14 +142,15 @@ namespace Project.Spells.Casters
             
             if (!caster.IsCasting) return;
 
-            _currentCastingIndex = null;
+            if (!caster.StopCasting()) return;
             
-            caster.StopCasting();
             caster.EvaluateResults();
             
             caster.TryCast(spellIndex);
             
             _cooldowns.StartLocalCooldown(spellIndex, _spells[spellIndex].cooldown);
+            
+            _currentCastingIndex = null;
         }
         
         private void CancelCasting(InputAction.CallbackContext _)

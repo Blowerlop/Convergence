@@ -23,6 +23,9 @@ MonoBehaviour:
   - <typeName>k__BackingField: FacingZoneSpellData
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
+  - <typeName>k__BackingField: TargetSpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: fd9e20c902e9df1498c7c604fbf6492b, type: 2}
   - <typeName>k__BackingField: ZoneSpellData
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}

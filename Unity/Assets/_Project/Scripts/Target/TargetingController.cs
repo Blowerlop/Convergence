@@ -10,8 +10,6 @@ namespace Project
         
         [SerializeField] private LayerMask _targetableLayerMask;
         
-        private bool _isTargeting;
-        
         private Func<ITargetable, bool> _currentPredicate;
         private ITargetable _currentResult;
         
@@ -20,20 +18,15 @@ namespace Project
         /// If predicate is null, all ITargetable are valid.
         /// </summary>
         [Button]
-        public void Begin(Func<ITargetable, bool> targetingPredicate = null)
+        public void BeginCustom(Func<ITargetable, bool> targetingPredicate = null)
         {
-            if (_isTargeting) return;
-            
             CursorManager.Request(_noTargetCursor, Vector2.one * 32, CursorMode.Auto, CursorLockMode.Confined);
             
             _currentPredicate = targetingPredicate;
-            _isTargeting = true;
         }
 
         private void Update()
-        {
-            if (!_isTargeting) return;
-
+        { 
             var lastTarget = _currentResult;
             bool hadTarget = lastTarget != null;
             
@@ -75,12 +68,10 @@ namespace Project
         /// Called to stop the targeting process
         /// </summary>
         [Button]
-        public void Stop()
+        public void StopCustom()
         {
-            if (!_isTargeting) return;
-            
-            _isTargeting = false;
             CursorManager.Release();
+            _currentPredicate = null;
         }
     }
 }

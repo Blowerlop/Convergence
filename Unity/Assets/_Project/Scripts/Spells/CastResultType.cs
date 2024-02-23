@@ -2,6 +2,7 @@ namespace Project.Spells
 {
     public enum CastResultType
     {
-        SingleVector
+        SingleVector,
+        SingleUInt
     }
 }
