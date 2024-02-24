@@ -3,10 +3,12 @@ using System.Linq;
 using System.Reflection;
 using Project.Extensions;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using Sirenix.OdinInspector.Editor;
+using UnityEditor;
+#endif
 
 namespace Project._Project.Scripts.UI.Settings
 {
@@ -14,7 +16,6 @@ namespace Project._Project.Scripts.UI.Settings
     {
 
 #if UNITY_EDITOR
-        [HideInInspector] public GameplaySettings gameplaySettings;
         [ShowInInspector, HideIf("@gameplaySettings == null")] private bool value
         {
             get => gameplaySettings is { value: true };
@@ -24,6 +25,7 @@ namespace Project._Project.Scripts.UI.Settings
 #endif
 
         [SerializeField, HideInInspector] private string key;
+        [HideInInspector] public GameplaySettings gameplaySettings;
         [ClearOnReload] private static IEnumerable<GameplaySettings> _gameplaySettingsFields;
 
         [SerializeField, Required] private Button _button;
@@ -113,7 +115,7 @@ namespace Project._Project.Scripts.UI.Settings
                 }
             }
             
-            index = EditorGUILayout.Popup( "Key", index, _keys);
+            index = EditorGUILayout.Popup("Key", index, _keys);
             _key = _keys[index];
             
             t.gameplaySettings = _gameplaySettingsContainers[index];
