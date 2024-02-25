@@ -23,14 +23,14 @@ namespace Project.Spells.Casters
             
             IsCasting = true;
         }
-        
-        public virtual bool StopCasting()
+
+        public abstract bool CanStopCasting();
+
+        public virtual void StopCasting()
         {
-            if (!IsCasting) return false;
+            if (!IsCasting) return;
             
             IsCasting = false;
-
-            return true;
         }
         
         protected virtual void Update()

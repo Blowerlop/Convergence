@@ -46,18 +46,23 @@ namespace Project.Spells.Casters
             TargetingController.instance.BeginCustom();
         }
 
-        public override bool StopCasting()
+        public override bool CanStopCasting()
         {
+            if (!IsCasting) return false;
+            
             if(!TargetingController.instance.TryGetResult(out var _)) 
                 return false;
             
-            if (!base.StopCasting()) return false;
+            return true;
+        }
+
+        public override void StopCasting()
+        {
+            base.StopCasting();
             
             zoneVisual.gameObject.SetActive(false);
             
             TargetingController.instance.StopCustom();
-
-            return true;
         }
         
         protected override void UpdateChanneling() { }

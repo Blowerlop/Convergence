@@ -139,10 +139,10 @@ namespace Project.Spells.Casters
             }
             
             var caster = _spellCasters[spellIndex];
-            
-            if (!caster.IsCasting) return;
 
-            if (!caster.StopCasting()) return;
+            if (!caster.CanStopCasting()) return;
+            
+            caster.StopCasting();
             
             caster.EvaluateResults();
             

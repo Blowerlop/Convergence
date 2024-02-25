@@ -7,5 +7,6 @@ namespace Project.Spells
     {
         public float limitRadius;
         public float zoneRadius;
+        
     }
 }

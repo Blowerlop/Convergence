@@ -49,14 +49,17 @@ namespace Project.Spells.Casters
             aimVisual.gameObject.SetActive(true);
         }
 
-        public override bool StopCasting()
+        public override bool CanStopCasting()
         {
-            if (!base.StopCasting()) return false;
+            return IsCasting;
+        }
+
+        public override void StopCasting()
+        {
+            base.StopCasting();
 
             zoneVisual.gameObject.SetActive(false);
             aimVisual.gameObject.SetActive(false);
-
-            return true;
         }
 
         protected override void UpdateChanneling()
