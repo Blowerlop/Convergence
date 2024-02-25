@@ -53,14 +53,16 @@ namespace Project
 
         private static void Execute(Object[] objects)
         {
-            foreach (Object obj in objects)
+            for (int i = 0; i < objects.Length; i++)
             {
+                Object obj = objects[i];
+                
                 if (obj == null)
                 {
-                    Debug.LogError("An object from bootstrapper is null");
+                    Debug.LogError($"An object from bootstrapper is null : index {i}");
                     continue;
                 }
-                
+
                 Object ins = Object.Instantiate(obj);
                 Object.DontDestroyOnLoad(ins);
             }

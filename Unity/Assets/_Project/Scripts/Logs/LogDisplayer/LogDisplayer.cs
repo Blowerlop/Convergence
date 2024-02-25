@@ -44,10 +44,8 @@ namespace Project
             Application.logMessageReceived += OnLogMessageReceived_UpdateGUI; 
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-            
             Application.logMessageReceived -= OnLogMessageReceived_UpdateGUI; 
         }
 
@@ -70,6 +68,9 @@ namespace Project
 
             _logsContainer.Add(new LogContainer(condition, CustomLogger.logErrorColor));
             
+#if UNITY_EDITOR
+            if (Application.isPlaying == false) return;
+#endif
             Timer.StartTimerWithCallbackUnscaled(this, _LOG_SCREEN_TIME, () =>
             {
 #if UNITY_EDITOR

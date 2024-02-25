@@ -75,7 +75,7 @@ namespace Project
             _netVarUpdateStreams.Clear();
             _netVarUpdateEvents.Clear();
             
-            if (FU_GRPC_NetworkManager.isBeingDestroyed == false)
+            if (FU_GRPC_NetworkManager.IsInstanceAlive())
             {
                 FU_GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
             }

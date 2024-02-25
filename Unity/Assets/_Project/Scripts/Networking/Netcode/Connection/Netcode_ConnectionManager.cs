@@ -61,10 +61,8 @@ namespace Project
 #endif
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             if (NetworkManager.Singleton == null) return;
 
             NetworkManager.Singleton.OnClientStarted -= OnClientStarted;

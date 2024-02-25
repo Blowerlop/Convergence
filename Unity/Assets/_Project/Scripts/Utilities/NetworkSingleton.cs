@@ -9,15 +9,11 @@ namespace Project
     {
         protected static bool authorityCheck = false;
         
-        public static bool isBeingDestroyed { get; private set; }
-        
         private static T _instance = null;
         public static T instance {
             get
             {
-                #if UNITY_EDITOR
                 if (Application.isPlaying == false) return null;
-                #endif
                 
                 if (authorityCheck && CanClientRead() == false)
                 {
@@ -42,19 +38,11 @@ namespace Project
             if (_instance != null)
             {
                 Debug.LogError($"There is more than one instance of {this}");
-                isBeingDestroyed = true;
                 Destroy(this);
                 return;
             }
             
             _instance = GetComponent<T>();
-            isBeingDestroyed = false;
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            isBeingDestroyed = true;
         }
 
         public static bool IsInstanceAlive() => _instance != null;

@@ -18,9 +18,10 @@ namespace Project
 
         
         #region Updates
-        
-        private void Start()
+
+        public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             InitializeNetworkVariables();
         }
 
@@ -73,6 +74,7 @@ namespace Project
 
         protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)
         {
+            // Cant user server because transform update on server side don't call any event/method
             if (IsOwner == false) return;
             
             if (newState.HasPositionChange)

@@ -1,4 +1,4 @@
-namespace _Project.Constants
+namespace Project
 {
     public static class Constants
     {
