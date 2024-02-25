@@ -14,7 +14,6 @@ namespace Project._Project.Scripts.StateMachine
         public virtual void StartState(PlayerRefs refs)
         {
             playerRefs = refs;
-            Debug.Log($"<color=#00D8FF>[{playerRefs.PlayerTransform.name}] Enter state {ToString()}</color> ");
         }
     
         /// <summary>
@@ -28,7 +27,6 @@ namespace Project._Project.Scripts.StateMachine
         /// </summary>
         public virtual void EndState()
         {
-            Debug.Log($"<color=orange>[{playerRefs.PlayerTransform.name}] Exit state {ToString()}</color> ");
             Dispose();
         }
         

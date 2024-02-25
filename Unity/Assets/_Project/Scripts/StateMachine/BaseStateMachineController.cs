@@ -1,6 +1,4 @@
 using System;
-using Project._Project.Scripts.Player.State;
-using Project._Project.Scripts.Player.State.PlayerState;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -41,6 +39,8 @@ namespace Project._Project.Scripts.StateMachine
         {
             BaseStateMachine previousState = currentState;
             previousState.EndState();
+            
+            Debug.Log($"<color=#00D8FF>[{name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
             
             currentState = newStateMachine;
             currentState.StartState(_playerRefs);
