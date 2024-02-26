@@ -9,7 +9,7 @@ namespace Project
     {
         [SerializeField] private float _pingInterval = 0.5f;
         [ShowInInspector, ReadOnly] private float _currentRTT;
-        private ClientRpcParams _clientRpcParams;
+        private ulong _clientId;
         private float _lastPingTime = 0.0f;
         
         
@@ -20,11 +20,8 @@ namespace Project
                 enabled = false;
                 return;
             }
-            
-            _clientRpcParams = new ClientRpcParams()
-            {
-                Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { NetworkManager.Singleton.LocalClientId } }
-            };
+
+            _clientId = NetworkManager.Singleton.LocalClientId;
         }
         
         
@@ -33,16 +30,21 @@ namespace Project
             if (Time.realtimeSinceStartup - _lastPingTime > _pingInterval)
             {
                 _lastPingTime = Time.realtimeSinceStartup;
-                PingServerRpc(_lastPingTime);
+                PingServerRpc(_lastPingTime, _clientId);
             }
             
         }
         
 
         [ServerRpc(RequireOwnership = false)]
-        private void PingServerRpc(float pingTime)
+        private void PingServerRpc(float pingTime, ulong senderClientId)
         {
-            PongClientRpc(pingTime, _clientRpcParams);
+            ClientRpcParams targetClient = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { senderClientId } }
+            };
+            
+            PongClientRpc(pingTime, targetClient);
         }
 
         [ClientRpc]
