@@ -30,7 +30,6 @@ namespace Project
         {
             HTTPManager.Logger.Level = Loglevels.None;
         }
-
         
         /// <summary>
         /// Do not call directly this method. Use GRPC_NetworkManager.StartClient() instead.
@@ -56,9 +55,16 @@ namespace Project
             });
 
             client = new MainService.MainServiceClient(_channel);
+
+            var stream = client.GRPC_PacketLossTest(new GRPC_EmptyMsg()).ResponseStream;
+
+            while (await stream.MoveNext())
+            {
+                Debug.Log($"<color=pink>Number: {stream.Current.Number}</color>");
+            }
             
-            isConnected = await NHandshake();
-            _isDisconnecting = false;
+            //isConnected = await NHandshake();
+            //_isDisconnecting = false;
             
             return isConnected;
         }

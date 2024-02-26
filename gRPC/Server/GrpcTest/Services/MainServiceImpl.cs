@@ -652,5 +652,25 @@ namespace GRPCServer.Services
         }
         
         #endregion
+        
+        #region Packet loss test
+        
+        public override async Task GRPC_PacketLossTest(GRPC_EmptyMsg request, IServerStreamWriter<GRPC_PacketLossMessage> responseStream, ServerCallContext context)
+        {
+            try
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    await responseStream.WriteAsync(new GRPC_PacketLossMessage() { Number =  i});
+                    await Task.Delay(10, context.CancellationToken);
+                }
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.Log("Packet loss stream closed ? " + ex.Message);
+            }
+        }
+        
+        #endregion
     }
 }
