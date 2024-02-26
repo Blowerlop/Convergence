@@ -10,12 +10,12 @@ namespace Project
         [SerializeField] private float _pingInterval = 0.5f;
         [ShowInInspector, ReadOnly] private float _currentRTT;
         private ulong _clientId;
-        private float _lastPingTime = 0.0f;
+        private float _lastPingTime;
         
         
         public override void OnNetworkSpawn()
         {
-            if (IsServer)
+            if (IsServer || IsOwner == false)
             {
                 enabled = false;
                 return;
