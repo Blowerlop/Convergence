@@ -157,15 +157,33 @@ namespace Project.Extensions
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector)
         {
-            return _(); IEnumerable<TSource> _()
+            var knownKeys = new HashSet<TKey>();
+            foreach (var element in source)
             {
-                var knownKeys = new HashSet<TKey>();
-                foreach (var element in source)
-                {
-                    if (knownKeys.Add(keySelector(element)))
-                        yield return element;
-                }
+                if (knownKeys.Add(keySelector(element)))
+                    yield return element;
             }
+        }
+
+        public static bool TryPop<T>(this IList<T> collection, int index, out T item)
+        {
+            item = default;
+            if (index >= collection.Count) return false;
+
+            item = collection[index];
+            collection.RemoveAt(index);
+            
+            return true;
+        }
+
+        public static bool TryPeek<T>(this IList<T> collection, out T item)
+        {
+            item = default;
+            if (collection.Count == 0) return false;
+
+            item = collection[^1];
+            
+            return true;
         }
     }
 

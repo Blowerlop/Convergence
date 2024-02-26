@@ -54,7 +54,8 @@ namespace Project
 
         [ClearOnReload] private static bool _dragged = false;
         [ClearOnReload] private static ResizableWindow _draggedUser = null;
-        
+
+        private const string CursorId = "ResizableWindow.Cursor";
         
         private void Awake()
         {
@@ -83,7 +84,7 @@ namespace Project
             if (_autoUpdateCursorVisual)
             {
                 _onPointerEnterEvent.Subscribe(this, UpdateCursorVisualOnPointerEnter);
-                _onPointerExitEvent.Subscribe(this, CursorManager.Release);
+                _onPointerExitEvent.Subscribe(this, Release);
             }
         }
 
@@ -92,8 +93,13 @@ namespace Project
             if (_autoUpdateCursorVisual)
             {
                 _onPointerEnterEvent.Unsubscribe(UpdateCursorVisualOnPointerEnter);
-                _onPointerExitEvent.Unsubscribe(CursorManager.Release);
+                _onPointerExitEvent.Unsubscribe(Release);
             }
+        }
+        
+        private void Release()
+        {
+            CursorManager.Release(CursorId);   
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -270,7 +276,7 @@ namespace Project
         
         private void UpdateCursorVisualOnPointerEnter()
         {
-            CursorManager.Request(_cursorTexture2D, _hotSpot, _cursorMode);
+            CursorManager.Request(CursorId, _cursorTexture2D, _hotSpot, _cursorMode);
         }
     }
 }

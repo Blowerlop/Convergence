@@ -6,21 +6,43 @@ namespace Project
 {
     public class TargetingController : MonoSingleton<TargetingController>
     {
-        [SerializeField] private Texture2D _noTargetCursor, hasTargetCursor;
+        [SerializeField] private Texture2D defaultTargetCursor;
+        [SerializeField] private Texture2D defaultCustomNoTargetCursor;
+        [SerializeField] private Texture2D defaultCustomTargetCursor;
+
+        [SerializeField] private LayerMask targetableLayerMask;
         
-        [SerializeField] private LayerMask _targetableLayerMask;
-        
-        private Func<ITargetable, bool> _currentPredicate;
+        private Predicate<ITargetable> _currentPredicate;
         private ITargetable _currentResult;
+
+        private Texture2D _currentNoTargetCursor, _currentTargetCursor;
+
+        private const string TargetCursorId = "TargetCursorId";
+        private const string NoTargetCursorId = "NoTargetCursorId";
+        
+        private void Start()
+        {
+            ResetCursors();
+        }   
         
         /// <summary>
         /// Start targeting process. Target are found based on predicate.
         /// If predicate is null, all ITargetable are valid.
         /// </summary>
         [Button]
-        public void BeginCustom(Func<ITargetable, bool> targetingPredicate = null)
+        public void BeginCustom(Predicate<ITargetable> targetingPredicate = null)
         {
-            CursorManager.Request(_noTargetCursor, Vector2.one * 32, CursorMode.Auto, CursorLockMode.Confined);
+            BeginCustom(defaultCustomNoTargetCursor, defaultCustomTargetCursor, targetingPredicate);
+        }
+
+        public void BeginCustom(Texture2D customNoTargetCursor, Texture2D customTargetCursor, 
+            Predicate<ITargetable> targetingPredicate = null)
+        {
+            _currentNoTargetCursor = customNoTargetCursor;
+            _currentTargetCursor = customTargetCursor;
+            
+            CursorManager.Request(NoTargetCursorId, _currentNoTargetCursor, Vector2.one * 32, 
+                CursorMode.Auto, CursorLockMode.Confined);
             
             _currentPredicate = targetingPredicate;
         }
@@ -35,13 +57,14 @@ namespace Project
                 if (!hadTarget)
                 {
                     _currentResult.OnTargeted();
-                    CursorManager.Request(hasTargetCursor, Vector2.one * 32, CursorMode.Auto, CursorLockMode.Confined);
+                    CursorManager.Request(TargetCursorId, _currentTargetCursor, Vector2.one * 32, 
+                        CursorMode.Auto, CursorLockMode.Confined);
                 }
             }
             else if (hadTarget)
             { 
                 lastTarget.OnUntargeted();
-                CursorManager.Release();
+                CursorManager.Release(TargetCursorId);
             }
         }
         
@@ -52,7 +75,7 @@ namespace Project
         /// <returns></returns>
         public bool TryGetResult(out ITargetable result)
         {
-            if (Utilities.GetFirstHitFromMouse(Camera.main, _targetableLayerMask, out var hit))
+            if (Utilities.GetFirstHitFromMouse(Camera.main, targetableLayerMask, out var hit))
             {
                 if (hit.transform.TryGetComponent(out result))
                 {
@@ -70,8 +93,17 @@ namespace Project
         [Button]
         public void StopCustom()
         {
-            CursorManager.Release();
+            CursorManager.Release(NoTargetCursorId);
+            CursorManager.Release(TargetCursorId);
             _currentPredicate = null;
+
+            ResetCursors();
+        }
+
+        private void ResetCursors()
+        {
+            _currentTargetCursor = defaultTargetCursor;
+            _currentNoTargetCursor = null;
         }
     }
 }
