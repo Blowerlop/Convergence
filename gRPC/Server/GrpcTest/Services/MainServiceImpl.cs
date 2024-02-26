@@ -1,3 +1,4 @@
+using System.Drawing;
 using Grpc.Core;
 using Networking;
 
@@ -64,7 +65,7 @@ namespace GRPCServer.Services
 
         private void DisplayClients()
         {
-            Debug.Log("-----------------------------------", Debug.separatorColor);
+            Debug.Log("-----------------------------------", Debug.SEPARATOR_COLOR);
             Console.WriteLine();
 
             Debug.Log($"Connected clients : {clients.Keys.Count}");
@@ -92,7 +93,7 @@ namespace GRPCServer.Services
             }
             Console.WriteLine();
 
-            Debug.Log("-----------------------------------", Debug.separatorColor);
+            Debug.Log("-----------------------------------", Debug.SEPARATOR_COLOR);
             Console.WriteLine();
         }
 
@@ -123,9 +124,9 @@ namespace GRPCServer.Services
         public override Task<GRPC_HandshakeGet> GRPC_Handshake(GRPC_HandshakePost request, ServerCallContext context)
         {          
             //Debug
-            Debug.Log("Handshake");
-            Debug.Log(context.Host);
-            Debug.Log(context.Peer + "\n");
+            Debug.Log("Handshake", ConsoleColor.Magenta);
+            Debug.Log(context.Host, ConsoleColor.Magenta);
+            Debug.Log(context.Peer + "\n", ConsoleColor.Magenta);
 
             if (clients.Count > 0)
             {
@@ -164,9 +165,9 @@ namespace GRPCServer.Services
         public override Task<GRPC_NHandshakeGet> GRPC_NetcodeHandshake(GRPC_NHandshakePost request, ServerCallContext context)
         {
             //Debug
-            Debug.Log("NetcodeHandshake");
-            Debug.Log(context.Host);
-            Debug.Log(context.Peer + "\n");
+            Debug.Log("NetcodeHandshake", ConsoleColor.Magenta);
+            Debug.Log(context.Host, ConsoleColor.Magenta);
+            Debug.Log(context.Peer + "\n", ConsoleColor.Magenta);
 
             if (netcodeServer == null)
             {
