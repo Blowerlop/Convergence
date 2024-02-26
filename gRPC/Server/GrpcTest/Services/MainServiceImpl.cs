@@ -658,6 +658,8 @@ namespace GRPCServer.Services
         
         public override async Task GRPC_PacketLossTest(GRPC_EmptyMsg request, IServerStreamWriter<GRPC_PacketLossMessage> responseStream, ServerCallContext context)
         {
+            Debug.Log("Packet Loss stream opened");
+            
             try
             {
                 for (int i = 0; i < 10; i++)
