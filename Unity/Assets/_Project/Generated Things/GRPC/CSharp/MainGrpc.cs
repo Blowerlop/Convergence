@@ -75,6 +75,8 @@ namespace GRPCClient {
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_SpellSlot> __Marshaller_main_GRPC_SpellSlot = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_SpellSlot.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GRPCClient.GRPC_SpellCastRequest> __Marshaller_main_GRPC_SpellCastRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_SpellCastRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GRPCClient.GRPC_PacketLossMessage> __Marshaller_main_GRPC_PacketLossMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GRPCClient.GRPC_PacketLossMessage.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet> __Method_GRPC_Handshake = new grpc::Method<global::GRPCClient.GRPC_HandshakePost, global::GRPCClient.GRPC_HandshakeGet>(
@@ -187,6 +189,14 @@ namespace GRPCClient {
         "GRPC_SpellCastRequestGrpcToNetcode",
         __Marshaller_main_GRPC_EmptyMsg,
         __Marshaller_main_GRPC_SpellCastRequest);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_PacketLossMessage> __Method_GRPC_PacketLossTest = new grpc::Method<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_PacketLossMessage>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GRPC_PacketLossTest",
+        __Marshaller_main_GRPC_EmptyMsg,
+        __Marshaller_main_GRPC_PacketLossMessage);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -306,6 +316,12 @@ namespace GRPCClient {
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task GRPC_SpellCastRequestGrpcToNetcode(global::GRPCClient.GRPC_EmptyMsg request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_SpellCastRequest> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GRPC_PacketLossTest(global::GRPCClient.GRPC_EmptyMsg request, grpc::IServerStreamWriter<global::GRPCClient.GRPC_PacketLossMessage> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -607,6 +623,16 @@ namespace GRPCClient {
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_SpellCastRequestGrpcToNetcode, null, options, request);
       }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_PacketLossMessage> GRPC_PacketLossTest(global::GRPCClient.GRPC_EmptyMsg request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GRPC_PacketLossTest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::GRPCClient.GRPC_PacketLossMessage> GRPC_PacketLossTest(global::GRPCClient.GRPC_EmptyMsg request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GRPC_PacketLossTest, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override MainServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -634,7 +660,8 @@ namespace GRPCClient {
           .AddMethod(__Method_GRPC_SetUnrealSpellUnrealToGrpc, serviceImpl.GRPC_SetUnrealSpellUnrealToGrpc)
           .AddMethod(__Method_GRPC_SetUnrealSpellGrpcToNetcode, serviceImpl.GRPC_SetUnrealSpellGrpcToNetcode)
           .AddMethod(__Method_GRPC_SpellCastRequestUnrealToGrpc, serviceImpl.GRPC_SpellCastRequestUnrealToGrpc)
-          .AddMethod(__Method_GRPC_SpellCastRequestGrpcToNetcode, serviceImpl.GRPC_SpellCastRequestGrpcToNetcode).Build();
+          .AddMethod(__Method_GRPC_SpellCastRequestGrpcToNetcode, serviceImpl.GRPC_SpellCastRequestGrpcToNetcode)
+          .AddMethod(__Method_GRPC_PacketLossTest, serviceImpl.GRPC_PacketLossTest).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -658,6 +685,7 @@ namespace GRPCClient {
       serviceBinder.AddMethod(__Method_GRPC_SetUnrealSpellGrpcToNetcode, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_SpellSlot>(serviceImpl.GRPC_SetUnrealSpellGrpcToNetcode));
       serviceBinder.AddMethod(__Method_GRPC_SpellCastRequestUnrealToGrpc, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GRPCClient.GRPC_SpellCastRequest, global::GRPCClient.GRPC_EmptyMsg>(serviceImpl.GRPC_SpellCastRequestUnrealToGrpc));
       serviceBinder.AddMethod(__Method_GRPC_SpellCastRequestGrpcToNetcode, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_SpellCastRequest>(serviceImpl.GRPC_SpellCastRequestGrpcToNetcode));
+      serviceBinder.AddMethod(__Method_GRPC_PacketLossTest, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GRPCClient.GRPC_EmptyMsg, global::GRPCClient.GRPC_PacketLossMessage>(serviceImpl.GRPC_PacketLossTest));
     }
 
   }
