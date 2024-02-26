@@ -7,17 +7,6 @@ using UnityEngine.UI;
 
 namespace Project
 {
-    public struct PlayerLobbyData
-    {
-        public int characterId;
-        public bool isReady;
-    }
-
-    public class PlayerLobbyDataManagement
-    {
-        public PlayerLobbyData playerLobbyData;
-    }
-    
     public class CharacterSelectionUI : NetworkBehaviour
     {
         [SerializeField, Required] private SOCharacter _characterData;

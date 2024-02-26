@@ -11,7 +11,8 @@ namespace Project._Project.Scripts.StateMachine
         
         private PlayerRefs _playerRefs;
 
-        public event Action<BaseStateMachine, BaseStateMachine> onStateChange;
+        public event Action<BaseStateMachine> OnStateEnter;
+        public event Action<BaseStateMachine> OnStateExit;
         
         
         private void Awake()
@@ -38,14 +39,14 @@ namespace Project._Project.Scripts.StateMachine
         public virtual void ChangeState(BaseStateMachine newStateMachine)
         {
             BaseStateMachine previousState = currentState;
+            OnStateExit?.Invoke(previousState);
             previousState.EndState();
             
             Debug.Log($"<color=#00D8FF>[{name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
             
             currentState = newStateMachine;
             currentState.StartState(_playerRefs);
-            
-            onStateChange?.Invoke(previousState, currentState);
+            OnStateEnter?.Invoke(currentState);
         }
 
         public virtual bool CanChangeStateTo(BaseStateMachine newStateMachine)
