@@ -20,6 +20,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
     - {fileID: 11400000, guid: 09489626d3af5374fb9aa68680bc4db8, type: 2}
     - {fileID: 11400000, guid: e016bfecaf6bfcc40844d5eada51d91f, type: 2}
+  - <typeName>k__BackingField: SOGameSettings
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: dac479bbb367c4046b09f19998826fc1, type: 2}
   - <typeName>k__BackingField: FacingZoneSpellData
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}

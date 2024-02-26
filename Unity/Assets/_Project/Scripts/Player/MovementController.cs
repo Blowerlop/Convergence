@@ -1,6 +1,7 @@
 using System;
 using Project._Project.Scripts.Player.State;
 using Project._Project.Scripts.Player.State.PlayerState.Base;
+using Project._Project.Scripts.Player.States;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -34,8 +35,9 @@ namespace Project
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+
+            enabled = IsServer;
             
-            enabled = IsOwner;
             if (IsServer)
             {
                 _agent = GetComponent<NavMeshAgent>();
@@ -44,22 +46,26 @@ namespace Project
                 OnPositionReached += OnPositionReached_UpdateState;
             }
             else
+            {
                 GetComponent<NavMeshAgent>().enabled = false;
+            }
+
+            if (IsOwner)
+            {
+                InputManager.instance.onMouseButton1.started += TryGoToPosition;
+            }
         }
 
-        private void OnEnable()
+        public override void OnNetworkDespawn()
         {
-            InputManager.instance.onMouseButton1.started += TryGoToPosition;
-        }
-        
-        private void OnDisable()
-        {
-            if (InputManager.IsInstanceAlive())
+            base.OnNetworkDespawn();
+            
+            if (IsOwner && InputManager.IsInstanceAlive())
             {
                 InputManager.instance.onMouseButton1.started -= TryGoToPosition;
             }
         }
-
+        
         public override void OnDestroy()
         {
             base.OnDestroy();

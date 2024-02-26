@@ -49,21 +49,22 @@ namespace Project
         private CancellationTokenSource _unrealClientStreamCancelSrc;
         private AsyncServerStreamingCall<GRPC_ClientUpdate> _unrealClientStream;
 
-        public readonly Event<UnrealClient> onUnrealClientConnected = new Event<UnrealClient>(nameof(onUnrealClientConnected));
-        public readonly Event<UnrealClient> onUnrealClientDisconnect = new Event<UnrealClient>(nameof(onUnrealClientDisconnect));
+        public Action<UnrealClient> onUnrealClientConnected;
+        public Action<UnrealClient> onUnrealClientDisconnect;
         
         //Events
         
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
-        public readonly Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
-
-        public Event onClientStopEvent => networkTransport.onClientStopEvent;
-        public readonly Event onClientStoppedEvent = new Event(nameof(onClientStoppedEvent));
+        public Action onClientStartedEvent;
+        public Action onClientStopEvent;
+        // public Action onClientStopEvent => networkTransport.onClientStopEvent;
+        public Action onClientStoppedEvent;
         
         
         protected override void Awake()
         {
             networkTransport = GetComponent<GRPC_Transport>();
+            networkTransport.onClientStopEvent += onClientStopEvent;
         }
 
         private void Reset()
@@ -78,7 +79,7 @@ namespace Project
             if (connectionState)
             {
                 GetUnrealClientsUpdate();
-                onClientStartedEvent.Invoke(this, true);
+                onClientStartedEvent?.Invoke();
             }
         }
 
@@ -88,8 +89,8 @@ namespace Project
             if (networkTransport.StopClient())
             {
                 DisposeClients();
-                
-                onClientStoppedEvent.Invoke(this, true);
+
+                onClientStoppedEvent?.Invoke();
             }
         }
 
@@ -172,7 +173,7 @@ namespace Project
 
             var cli = new UnrealClient(update.ClientIP, update.ClientId, update.Name);
             _unrealClients.Add(update.ClientIP, cli);
-            onUnrealClientConnected.Invoke(this, true, cli);
+            onUnrealClientConnected?.Invoke(cli);
             Debug.Log("New unreal client connected with id " + update.ClientId);
 
             if (NetworkManager.Singleton == null || NetworkManager.Singleton.NetworkConfig == null) return;
@@ -190,7 +191,7 @@ namespace Project
                 return;
             }
             
-            onUnrealClientDisconnect.Invoke(this, true, _unrealClients[update.ClientIP]);
+            onUnrealClientDisconnect?.Invoke(_unrealClients[update.ClientIP]);
             _unrealClients[update.ClientIP].Disconnect();
             _unrealClients.Remove(update.ClientIP);
         }

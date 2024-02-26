@@ -1,7 +1,6 @@
-using System;
+using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.Spells;
 using Project.Spells;
-using Project.Spells.Casters;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -18,6 +17,7 @@ namespace Project
         [BoxGroup("Cooldowns"),SerializeField] private CooldownController cooldowns;
         [BoxGroup("Channeling"), SerializeField] private ChannelingController channeling;
         [BoxGroup("Stats"), SerializeField] private PlayerStats stats;
+        [BoxGroup("State Machine Controller"), SerializeField] private PlayerStateMachineController _stateMachine;
         
         public int AssignedTeam => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
@@ -28,6 +28,7 @@ namespace Project
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
         public PlayerStats Stats => stats;
+        public PlayerStateMachineController StateMachine => _stateMachine;
         
         #region Team Linking
         

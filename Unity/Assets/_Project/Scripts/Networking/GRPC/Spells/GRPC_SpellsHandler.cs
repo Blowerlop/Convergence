@@ -19,20 +19,20 @@ namespace Project
         
         private void OnEnable()
         {
-            GRPC_Transport.instance.onClientStopEvent.Subscribe(this, TokenCancel);
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, StartSpellCastRequestStream);
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, StartSetSpellStream);
-            GRPC_NetworkManager.instance.onClientStoppedEvent.Subscribe(this, Dispose);
+            GRPC_Transport.instance.onClientStopEvent += TokenCancel;
+            GRPC_NetworkManager.instance.onClientStartedEvent += StartSpellCastRequestStream;
+            GRPC_NetworkManager.instance.onClientStartedEvent += StartSetSpellStream;
+            GRPC_NetworkManager.instance.onClientStoppedEvent += Dispose;
         }
 
         private void OnDisable()
         {
             if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
-            GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(StartSpellCastRequestStream);
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(StartSetSpellStream);
-            GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);
+            GRPC_Transport.instance.onClientStopEvent -= TokenCancel;
+            GRPC_NetworkManager.instance.onClientStartedEvent -= StartSpellCastRequestStream;
+            GRPC_NetworkManager.instance.onClientStartedEvent -= StartSetSpellStream;
+            GRPC_NetworkManager.instance.onClientStoppedEvent -= Dispose;
         }
         
         #region SpellCastRequest

@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project
@@ -7,6 +8,8 @@ namespace Project
     {
         private GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth");
         private GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
+        
+        [ShowInInspector] public int health => _health.Value;
         
         public event Action<int, int> OnHealthChanged; 
         
@@ -40,6 +43,7 @@ namespace Project
             _maxHealth.Reset();
         }
         
+        [Button]
         public override void ServerInit(SOCharacter character)
         {
             base.ServerInit(character);
@@ -59,6 +63,7 @@ namespace Project
         }
 
         [Server]
+        [Button]
         public void Damage(int modifier)
         {
             int newValue = _health.Value - modifier;
@@ -73,6 +78,7 @@ namespace Project
         }
 
         [Server]
+        [Button]
         public void Heal(int modifier)
         {
             int newValue = _health.Value + modifier;
@@ -80,5 +86,7 @@ namespace Project
             newValue = Mathf.Clamp(newValue, 0, _maxHealth.Value);
             _health.Value = newValue;
         }
+
+        public void MaxHeal() => Heal(_maxHealth.Value);
     }
 }

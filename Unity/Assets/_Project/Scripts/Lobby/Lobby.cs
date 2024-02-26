@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Project.Extensions;
@@ -19,7 +20,7 @@ namespace Project
     {
         [SerializeField] private Pager _pager;
         private ELobbyState _lobbyState = ELobbyState.TeamSelection;
-        public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
+        public readonly Action onAllPlayersReadyEvent;
 
         private void Start()
         {
@@ -85,8 +86,8 @@ namespace Project
                     Debug.LogError("Lobby invalid state");
                     break;
             }
-            
-            onAllPlayersReadyEvent.Invoke(this, true);
+
+            onAllPlayersReadyEvent?.Invoke();
         }
 
         // Don't need to be a RPC because it will be executed at the Start

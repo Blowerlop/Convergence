@@ -73,9 +73,9 @@ namespace Project
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public readonly Event<int, string, PlayerPlatform> onTeamSetEvent = new Event<int, string, PlayerPlatform>(nameof(onTeamSetEvent));
-        public readonly Event<int, string, PlayerPlatform> onPlayerReadyEvent = new Event<int, string, PlayerPlatform>(nameof(onPlayerReadyEvent));
-        public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
+        public Action<int, string, PlayerPlatform> onTeamSetEvent;
+        public Action<int, string, PlayerPlatform> onPlayerReadyEvent;
+        public Action onAllPlayersReadyEvent;
 
         public override void OnNetworkSpawn()
         {
@@ -91,8 +91,8 @@ namespace Project
             
             if (!IsServer && !IsHost) return;
             
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, InitGrpcStream);
-            GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, DisposeGrpcStream);
+            GRPC_NetworkManager.instance.onClientStartedEvent += InitGrpcStream;
+            GRPC_NetworkManager.instance.onClientStopEvent +=DisposeGrpcStream;
         }
 
         public override void OnNetworkDespawn()
@@ -109,8 +109,8 @@ namespace Project
 
             if (GRPC_NetworkManager.IsInstanceAlive())
             {
-                GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(InitGrpcStream);
-                GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(DisposeGrpcStream);
+                GRPC_NetworkManager.instance.onClientStartedEvent -= InitGrpcStream;
+                GRPC_NetworkManager.instance.onClientStopEvent -=DisposeGrpcStream;
             }
         }
 
@@ -273,7 +273,7 @@ namespace Project
 
         private void OnTeamSetLocal(int teamIndex, string playerName, PlayerPlatform playerPlatform)
         {
-            onTeamSetEvent.Invoke(this, true, teamIndex, playerName, playerPlatform);
+            onTeamSetEvent?.Invoke(teamIndex, playerName, playerPlatform);
         }
 
         public TeamData[] GetTeamsData()

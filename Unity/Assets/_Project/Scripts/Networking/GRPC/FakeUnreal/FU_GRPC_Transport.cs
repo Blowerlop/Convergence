@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using BestHTTP;
@@ -20,8 +21,8 @@ namespace Project
         public bool isConnected { get; private set; }
         private GrpcChannel _channel;
         public MainService.MainServiceClient client { get; private set; }
-        
-        public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
+
+        public Action onClientStopEvent;
         
         private void Start()
         {
@@ -70,7 +71,7 @@ namespace Project
             
             Debug.Log("Connection shutdown ! Cleaning client...");
             
-            onClientStopEvent.Invoke(this, false);
+            onClientStopEvent?.Invoke();
             
             _channel?.ShutdownAsync().Wait();
             _channel = null;

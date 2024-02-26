@@ -48,12 +48,12 @@ namespace Project
             
             // user is a netcode client, team is valid, team has pc
             // -> we don't need to check if he is team's pc player
-            SpawnPlayerForUser(user);
+            SpawnPlayerForUser(user, clientId);
 
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
-                SpawnPlayerForUser(mobileUser);
+                SpawnPlayerForUser(mobileUser, clientId);
         }
-        public void SpawnPlayerForUser(UserInstance user)
+        public void SpawnPlayerForUser(UserInstance user, ulong clientId)
         { 
             if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData)) return;
 
@@ -61,7 +61,8 @@ namespace Project
             pos.y = 1;
 
             var obj = Instantiate(characterData.prefab, pos, Quaternion.identity);
-            obj.GetComponent<NetworkObject>().Spawn();
+            obj.name = "Player " + clientId;
+            obj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
 
             var refs = obj.GetComponent<PlayerRefs>();
             _players.Add(refs);

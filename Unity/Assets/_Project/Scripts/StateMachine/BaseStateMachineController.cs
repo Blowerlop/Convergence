@@ -1,6 +1,4 @@
-using Project._Project.Scripts.Player.State;
-using Project._Project.Scripts.Player.State.PlayerState;
-using Project._Project.Scripts.Player.State.PlayerState.Base.Idle;
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,18 +8,18 @@ namespace Project._Project.Scripts.StateMachine
     {
         protected abstract BaseStateMachine defaultState { get; set; }
         [ShowInInspector] public BaseStateMachine currentState { get; private set; }
-
-        public readonly IdleState idleState = new IdleState();
-        public readonly MoveState moveState = new MoveState();
         
-
         private PlayerRefs _playerRefs;
 
+        public event Action<BaseStateMachine> OnStateEnter;
+        public event Action<BaseStateMachine> OnStateExit;
+        
+        
         private void Awake()
         {
             _playerRefs = GetComponent<PlayerRefs>();
         }
-
+        
         private void Start()
         {
             currentState = defaultState;
@@ -40,9 +38,15 @@ namespace Project._Project.Scripts.StateMachine
         /// <param name="newStateMachine">new player state</param>
         public virtual void ChangeState(BaseStateMachine newStateMachine)
         {
-            currentState.EndState();
+            BaseStateMachine previousState = currentState;
+            OnStateExit?.Invoke(previousState);
+            previousState.EndState();
+            
+            Debug.Log($"<color=#00D8FF>[{name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
+            
             currentState = newStateMachine;
             currentState.StartState(_playerRefs);
+            OnStateEnter?.Invoke(currentState);
         }
 
         public virtual bool CanChangeStateTo(BaseStateMachine newStateMachine)

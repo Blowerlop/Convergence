@@ -29,10 +29,13 @@ namespace Project
         public void Dispose()
         {
             if(FU_GRPC_NetworkManager.IsInstanceAlive() && NetworkManager != null) 
-                NetworkManager.onClientStopEvent.Unsubscribe(Dispose);
-            
-            if(FU_NetVarHandler.IsInstanceAlive() && NetVarHandler != null) 
-                NetVarHandler.GetEvent(_currentType).Unsubscribe(OnNetVarUpdated);
+                NetworkManager.onClientStopEvent -= Dispose;
+
+            if (FU_NetVarHandler.IsInstanceAlive() && NetVarHandler != null)
+            {
+                var envt = NetVarHandler.GetEvent(_currentType);
+                envt -= OnNetVarUpdated;
+            }
         }
 
         public void Initialize(FU_NetworkObject obj)
@@ -45,19 +48,20 @@ namespace Project
             }
             else
             {
-                NetworkManager.onClientStartedEvent.Subscribe(this, GRPC_NetworkVariable_Initialization);
+                NetworkManager.onClientStartedEvent += GRPC_NetworkVariable_Initialization;
             }
         }
 
         private void GRPC_NetworkVariable_Initialization()
         {
-            NetworkManager.onClientStartedEvent.Unsubscribe(GRPC_NetworkVariable_Initialization);
+            NetworkManager.onClientStartedEvent -= GRPC_NetworkVariable_Initialization;
             
             if(_currentType == GRPC_GenericType.Isnull) _currentType = GetGrpcGenericType();
             
-            NetworkManager.onClientStopEvent.Subscribe(this, Dispose);
+            NetworkManager.onClientStopEvent += Dispose;
             
-            NetVarHandler.GetEvent(_currentType).Subscribe(this, OnNetVarUpdated);
+            var evnt = NetVarHandler.GetEvent(_currentType);
+            evnt += OnNetVarUpdated;
             NetVarHandler.TryCreateStream(_currentType);
         }
 

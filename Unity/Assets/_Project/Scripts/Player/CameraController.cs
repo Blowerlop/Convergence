@@ -2,6 +2,7 @@ using System;
 using Project._Project.Scripts.UI.Settings;
 using Project.Extensions;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +16,7 @@ namespace Project
         public static int bottom => 0;
     }
     
-    public class CameraController : MonoBehaviour
+    public class CameraController : NetworkBehaviour
     {
         [Title("Settings")]
         [SerializeField] private float _speed = 40.0f;
@@ -39,7 +40,7 @@ namespace Project
         private void Awake()
         {
             _playerCamera = Camera.main;
-            _player = GetComponent<PCPlayerRefs>().PlayerTransform;
+            _player = transform;
         }
 
         private void Start()
@@ -64,6 +65,13 @@ namespace Project
             }
         }
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            enabled = IsOwner;
+        }
+
         private void Update()
         {
 #if UNITY_EDITOR
@@ -84,13 +92,29 @@ namespace Project
         
         private void CalculateMinMaxAuthorizedCameraPosition()
         {
-            Bounds borderBounds = _border.bounds;
+            if (_border == null)
+            {
+                Debug.LogWarning("No border assigned, camera will have no movement limit");
+                
+                _minX = float.MinValue;
+                _maxX = float.MaxValue;
+
+                _minZ = _minX;
+                _maxZ = _maxX;
+
+            }
+            else
+            {
+                Bounds borderBounds = _border.bounds;
             
-            _minX = borderBounds.min.x;
-            _maxX = borderBounds.max.x;
+                _minX = borderBounds.min.x;
+                _maxX = borderBounds.max.x;
             
-            _minZ = borderBounds.min.z;
-            _maxZ = borderBounds.max.z;
+                _minZ = borderBounds.min.z;
+                _maxZ = borderBounds.max.z;
+            }
+            
+            
         }
 
         private void CalculateCameraOffset()

@@ -14,17 +14,17 @@ namespace Project
 
         private void Start()
         {
-            CharacterSelectionUI.onCharacterSelectedEvent.Subscribe(this, OnCharacterSelected_SetPlayerAvatar);
+            CharacterSelectionUI.onCharacterSelectedEvent += OnCharacterSelected_SetPlayerAvatar;
         }
 
         private void OnDestroy()
         {
-            CharacterSelectionUI.onCharacterSelectedEvent.Unsubscribe(OnCharacterSelected_SetPlayerAvatar);
+            CharacterSelectionUI.onCharacterSelectedEvent -= OnCharacterSelected_SetPlayerAvatar;
         }
 
         private void OnCharacterSelected_SetPlayerAvatar(int playerId, int characterId)
         {
-            _teamsDisplay.SetPlayerCharacterAvatar(playerId, characterId);
+            _teamsDisplay.SetAvatar(playerId, characterId);
         }
     }
 }

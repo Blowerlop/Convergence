@@ -25,7 +25,7 @@ namespace _Project.ConstantGenerator
         {
             foreach (AnimatorControllerParameter exposedParameter in GetParameters())
             {
-                ConstantsGenerator.WriteSummary(streamWriter, $"{exposedParameter.name}");
+                ConstantsGenerator.WriteSummary(streamWriter, $"{exposedParameter.name} : {exposedParameter.type}");
                 streamWriter.WriteLine($"public const int {exposedParameter.name.ConvertToValidIdentifier()} = {exposedParameter.nameHash};");
             }
         }

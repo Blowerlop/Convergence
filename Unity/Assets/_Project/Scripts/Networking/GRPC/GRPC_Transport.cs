@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using BestHTTP;
 using BestHTTP.Logger;
@@ -23,7 +24,7 @@ namespace Project
         private bool _isDisconnecting = false;
         
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
-        public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
+        public Action onClientStopEvent;
         
         private void Start()
         {
@@ -77,7 +78,7 @@ namespace Project
             Debug.Log("Connection shutting down... cleaning client");
             _isDisconnecting = true;
             
-            onClientStopEvent.Invoke(this, true);
+            onClientStopEvent.Invoke();
             
             // To do: find a better place to put this
             GRPC_NetworkManager.instance.ClientsCancelTokens();
