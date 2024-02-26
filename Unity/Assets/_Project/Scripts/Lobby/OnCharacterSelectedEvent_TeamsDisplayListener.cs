@@ -24,7 +24,7 @@ namespace Project
 
         private void OnCharacterSelected_SetPlayerAvatar(int playerId, int characterId)
         {
-            _teamsDisplay.SetAvatar(playerId, characterId);
+            _teamsDisplay.SetAvatarServerRpc(playerId, characterId);
         }
     }
 }
