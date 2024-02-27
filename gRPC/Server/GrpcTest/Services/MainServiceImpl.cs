@@ -443,7 +443,7 @@ namespace GRPCServer.Services
         public override async Task GRPC_CliNetNetVarUpdate(GRPC_GenericValue request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
         {
             Debug.Log($"Response stream opened : {context.Peer} / {request.Type}");
-
+            
             lock (unrealClients[context.Peer].netVarStream)
             {
                 if (unrealClients[context.Peer].netVarStream.TryAdd(request.Type, responseStream) == false)
@@ -452,6 +452,12 @@ namespace GRPCServer.Services
                 }
 
                 Debug.Log($"GRPC_CliNetNetVarUpdate > Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
+            }
+            
+            foreach (GRPC_NetVarUpdate netVarUpdate in netcodeServer.GetNetworkVariablesAsUpdates()
+                         .Where(netVarUpdate => netVarUpdate.NewValue.Type == request.Type))
+            {
+                await responseStream.WriteAsync(netVarUpdate);
             }
 
             try 
