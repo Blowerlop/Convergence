@@ -13,7 +13,7 @@ namespace Project
         {
             if (IsServer)
             {
-                PlayerRefs playerRefs = GetComponentInParent<PlayerRefs>();n
+                PlayerRefs playerRefs = GetComponentInParent<PlayerRefs>();
                 _stats = (PCStats)playerRefs.Stats;
                 _stateMachine = playerRefs.StateMachine;
                             
@@ -27,7 +27,7 @@ namespace Project
             
             if (IsServer) _stats.OnHealthChanged -= OnHealthChanged_CheckIfDead;
         }
-
+    
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
