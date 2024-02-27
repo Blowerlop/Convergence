@@ -9,7 +9,7 @@ namespace Project._Project.Scripts.Player.State
         {
             base.StartState(refs);
             
-            playerRefs.StateMachine.GetComponentInChildren<Animator>().SetBool(Constants.AnimatorsParam.Movement, true);
+            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, true);
         }
 
         public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
