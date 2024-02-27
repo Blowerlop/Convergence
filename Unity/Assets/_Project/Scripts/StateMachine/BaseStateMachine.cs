@@ -1,34 +1,32 @@
 using System;
-using UnityEngine;
 
 namespace Project._Project.Scripts.StateMachine
 {
+    [Serializable]
     public abstract class BaseStateMachine : IDisposable
     {
         protected PlayerRefs playerRefs { get; private set; }
         
-        /// <summary>
-        /// Called on start state (not the same as the Unity event "Start").
-        /// </summary>
-        /// <param name="refs"></param>
-        public virtual void StartState(PlayerRefs refs)
+
+        public void Enter(PlayerRefs refs)
         {
             playerRefs = refs;
+            
+            OnEnter();
         }
-    
-        /// <summary>
-        /// Called with the Unity event "Update"
-        /// </summary>
-        public virtual void UpdateState() {}
+        
+        protected virtual void OnEnter() {}
 
-        /// <summary>
-        /// Called on state end.
-        /// Call the base at the end of the override because of the dispose.
-        /// </summary>
-        public virtual void EndState()
+        public virtual void Update() {}
+
+        public void Exit()
         {
+            OnExit();
             Dispose();
         }
+        
+        protected virtual void OnExit() {} 
+        
         
         /// <summary>
         /// Check if we can change the actual state with the <paramref name="newStateMachine"/>

@@ -1,4 +1,3 @@
-using Project._Project.Scripts.Player.State;
 using Project._Project.Scripts.StateMachine;
 
 namespace Project._Project.Scripts.Player.States

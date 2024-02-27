@@ -1,10 +1,11 @@
 using System;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project._Project.Scripts.StateMachine
 {
-    public abstract class BaseStateMachineController : MonoBehaviour
+    public abstract class BaseStateMachineController : NetworkBehaviour
     {
         protected abstract BaseStateMachine defaultState { get; set; }
         [ShowInInspector] public BaseStateMachine currentState { get; private set; }
@@ -19,16 +20,16 @@ namespace Project._Project.Scripts.StateMachine
         {
             _playerRefs = GetComponent<PlayerRefs>();
         }
-        
-        private void Start()
+
+        public override void OnNetworkSpawn()
         {
             currentState = defaultState;
-            currentState.StartState(_playerRefs);
+            currentState.Enter(_playerRefs);
         }
 
         public virtual void Update()
         {
-            currentState.UpdateState();
+            currentState.Update();
         }
 
         /// <summary>
@@ -36,16 +37,17 @@ namespace Project._Project.Scripts.StateMachine
         /// /!\ do a <see cref="CanChangeStateTo"/> before
         /// </summary>
         /// <param name="newStateMachine">new player state</param>
+        [Server]
         public virtual void ChangeState(BaseStateMachine newStateMachine)
         {
             BaseStateMachine previousState = currentState;
             OnStateExit?.Invoke(previousState);
-            previousState.EndState();
+            previousState.Exit();
             
             Debug.Log($"<color=#00D8FF>[{name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
             
             currentState = newStateMachine;
-            currentState.StartState(_playerRefs);
+            currentState.Enter(_playerRefs);
             OnStateEnter?.Invoke(currentState);
         }
 

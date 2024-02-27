@@ -71,7 +71,7 @@ namespace Project
 
             enabled = IsOwner;
         }
-
+        
         private void Update()
         {
 #if UNITY_EDITOR

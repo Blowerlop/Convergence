@@ -9,30 +9,8 @@ namespace Project._Project.Scripts.Player.States
     {
         [ShowInInspector] private Timer _deathTimer;
         private Vector3 _position;
-        
-        public override void StartState(PlayerRefs refs)
-        {
-            base.StartState(refs);
 
-            if (refs.IsServer) SrvOnStartState();
-        }
-
-        public override void EndState()
-        {
-            if (playerRefs.IsServer) SrvOnEndState();
-
-            base.EndState();
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            
-            _deathTimer = null;
-        }
-
-        [Server]
-        private void SrvOnStartState()
+        protected override void OnEnter()
         {
             _deathTimer = new Timer();
             _deathTimer.StartTimerWithCallback(playerRefs.StateMachine, GameSettings.instance.deathTime, () =>
@@ -44,19 +22,19 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
         }
 
-        [Server]
-        private void SrvOnEndState()
+        protected override void OnExit()
         {
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
             playerRefs.GetComponentInChildren<IHealable>().MaxHeal();
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="newStateMachine"></param>
-        /// <returns></returns>
+        public override void Dispose()
+        {
+            base.Dispose();
+            
+            _deathTimer = null;
+        }
+        
         public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
         {
             return false;

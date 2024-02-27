@@ -1,14 +1,11 @@
 using Project._Project.Scripts.StateMachine;
-using UnityEngine;
 
-namespace Project._Project.Scripts.Player.State
+namespace Project._Project.Scripts.Player.States
 {
     public class MoveState : BaseStateMachine
     {
-        public override void StartState(PlayerRefs refs)
+        protected override void OnEnter()
         {
-            base.StartState(refs);
-            
             playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, true);
         }
 

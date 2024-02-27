@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Project
 {
@@ -20,6 +21,7 @@ namespace Project
         [SerializeField] private PlayerStats stats;
         [SerializeField] private PlayerStateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
+        [SerializeField] private NavMeshAgent _navMeshAgent;
         
         public int AssignedTeam => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
@@ -32,6 +34,7 @@ namespace Project
         public PlayerStats Stats => stats;
         public PlayerStateMachineController StateMachine => _stateMachine;
         public Animator Animator => _networkAnimator.Animator;
+        public NavMeshAgent NavMeshAgent => _navMeshAgent;
         
         #region Team Linking
         

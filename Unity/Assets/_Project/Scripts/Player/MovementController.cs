@@ -1,6 +1,4 @@
 using System;
-using Project._Project.Scripts.Player.State;
-using Project._Project.Scripts.Player.State.PlayerState.Base;
 using Project._Project.Scripts.Player.States;
 using Project.Extensions;
 using Unity.Netcode;
@@ -12,49 +10,50 @@ namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
+        private Transform _player;
         private PlayerStateMachineController _stateMachineController;
         
         private Camera _camera;
         private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
         private NavMeshAgent _agent;
 
-        private Coroutine _movementLerpCoroutine;
-        private Coroutine _rotationLerpCoroutine;
-
         private const float _DESTINATION_REACHED_OFFSET = 0.1f;
         
-        public static event Action OnPositionReached;
+        public event Action OnPositionReached;
 
         
         private void Awake()
         {
             _camera = Camera.main;
-            _stateMachineController = GetComponent<PlayerStateMachineController>();
+            _stateMachineController = GetComponentInParent<PlayerStateMachineController>();
         }
 
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
-
             enabled = IsServer;
             
+            PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
+            NavMeshAgent agent = playerRefs.NavMeshAgent; 
+                
             if (IsServer)
             {
-                _agent = GetComponent<NavMeshAgent>();
+                _player = playerRefs.PlayerTransform;
+
+                _agent = agent;
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
             }
             else
             {
-                GetComponent<NavMeshAgent>().enabled = false;
+                agent.enabled = false;
             }
 
             if (IsOwner)
             {
                 InputManager.instance.onMouseButton1.started += TryGoToPosition;
             }
-        }
+        } 
 
         public override void OnNetworkDespawn()
         {
@@ -84,8 +83,8 @@ namespace Project
             }
             else
             {
-                transform.rotation = Quaternion.LookRotation((_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
-                transform.position = _agent.nextPosition;
+                _player.rotation = Quaternion.LookRotation((_agent.nextPosition - transform.position).ResetAxis(EAxis.Y).normalized);
+                _player.position = _agent.nextPosition;
             }
         }
 

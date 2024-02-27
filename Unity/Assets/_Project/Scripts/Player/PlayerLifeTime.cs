@@ -1,27 +1,34 @@
 using Project._Project.Scripts.Player.States;
-using UnityEngine;
+using Unity.Netcode;
 
 namespace Project
 {
-    public class PlayerLifeTime : MonoBehaviour
+    public class PlayerLifeTime : NetworkBehaviour
     {
         private PlayerStateMachineController _stateMachine;
         private PCStats _stats;
 
 
-        private void Awake()
+        public override void OnNetworkSpawn()
         {
-            PlayerRefs playerRefs = GetComponentInParent<PlayerRefs>();
-            _stats = (PCStats)playerRefs.Stats;
-            _stateMachine = playerRefs.StateMachine;
+            if (IsServer)
+            {
+                PlayerRefs playerRefs = GetComponentInParent<PlayerRefs>();n
+                _stats = (PCStats)playerRefs.Stats;
+                _stateMachine = playerRefs.StateMachine;
+                            
+                _stats.OnHealthChanged += OnHealthChanged_CheckIfDead;
+            }
         }
 
-        private void Start()
+        public override void OnNetworkDespawn()
         {
-            _stats.OnHealthChanged += OnHealthChanged_CheckIfDead;
+            base.OnNetworkDespawn();
+            
+            if (IsServer) _stats.OnHealthChanged -= OnHealthChanged_CheckIfDead;
         }
 
-        
+
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
             if (currentHealth <= 0) _stateMachine.ChangeState(_stateMachine.deadState);
