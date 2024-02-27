@@ -36,13 +36,6 @@ service MainService {
 	
 	rpc GRPC_SpellCastRequestUnrealToGrpc (GRPC_SpellCastRequest) returns (GRPC_EmptyMsg);
 	rpc GRPC_SpellCastRequestGrpcToNetcode (GRPC_EmptyMsg) returns (stream GRPC_SpellCastRequest);
-
-	rpc GRPC_PacketLossTest (GRPC_EmptyMsg) returns (stream GRPC_PacketLossMessage);
-}
-
-message GRPC_PacketLossMessage
-{
-	int32 number = 1;
 }
 
 //Handshake
