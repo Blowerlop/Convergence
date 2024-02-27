@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd7ac39-d534-41e2-9838-6e42a780614c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/.unsaved/.user/Metadata/Asset/{6d482be1-744e-4512-8cf4-a507dedf0b91}.user.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/.unsaved/.user/Metadata/Mixer.user.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/.unsaved/.user/Metadata/Workspace.user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/.unsaved/.user/Metadata/Workspace.user.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/.user/Metadata/Workspace.user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/.user/Metadata/Workspace.user.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Bank/{72cf065d-be32-47ad-8652-3349cb273193}.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Bank/{72cf065d-be32-47ad-8652-3349cb273193}.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Master.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Master.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Platform/{6309cc59-1ab0-4e78-9c11-ce7cb117fc5e}.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Platform/{6309cc59-1ab0-4e78-9c11-ce7cb117fc5e}.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/SnapshotGroup/{dfaa4c7f-3315-4d2c-9419-9069ca0ac0e4}.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/SnapshotGroup/{dfaa4c7f-3315-4d2c-9419-9069ca0ac0e4}.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Fmod/Convergence/Metadata/Workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Unity/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Resources/Systems.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Resources/Systems.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/SO Cache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/SO Cache.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Project/Scenes/Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,61 +29,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/a0a51b0401304c18909b7fea1a988fc710200/5f/66c77773/0200001Cpdb10.il" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/04/24c25293/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/1c/dc7a15e6/Sprite.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/25/428998e9/RuntimeInitializeOnLoadMethodAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/2a/a7570006/Transform.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/2d/33f266b5/ScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/3a/c3cca682/SceneManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/61/bc603102/Object.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/ea/7c3fefc1/LayerMask.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/f6/45b16e74/Color.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1954cbd202fb44a8ae054ed34b1c311264400/cc/74db79c7/SerializedScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29bd604b30874e73a7713c23600492fb28800/fa/3bb9e431/ListExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/0a/7b99e5d0/Void.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/28/26baad78/SslProtocols.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/e9/671249af/BindingFlags.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/eb/881dd537/ICredentials.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/fa/9935abee/IDisposable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7004fc2578314f748ee07d160fc3f50154000/d6/cf872ddf/NetworkVariableWritePermission.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92857c5e0ebb410a9be084d8ea3580a417400/4b/3ffefb73/ShowInInspectorAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92857c5e0ebb410a9be084d8ea3580a417400/6f/ce2f4a26/CustomContextMenuAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92857c5e0ebb410a9be084d8ea3580a417400/d4/9ff66b08/OnValueChangedAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92857c5e0ebb410a9be084d8ea3580a417400/f8/25d875bd/ButtonAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/92857c5e0ebb410a9be084d8ea3580a417400/fd/24746d2d/InlineButtonAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a3e5f74a5cb94732900ea970e15acb9511c800/8c/bd78df38/AssemblyUtilities.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/adf3cd973d39499797858b119c00097654400/01/a72b2460/SceneEventProgressStatus.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/adf3cd973d39499797858b119c00097654400/6c/3493bf92/NetworkVariableReadPermission.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/adf3cd973d39499797858b119c00097654400/95/fab279b2/NetworkVariableWritePermission.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c521f2934b38415a9aef98ca65fec1a02e518/5a/6a4ebc7f/GrpcChannel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c521f2934b38415a9aef98ca65fec1a02e518/da/bcb9ebbe/GrpcChannelOptions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cdb260c3b2e74d54aab901849d3f0bed1400/a9/39f0c4e5/ClearOnReloadAttribute.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d4ef5f472a70499bb0ee8b32cbf174d852200/41/b14aa1d3/INetworkVariableSerializer`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/62/489dad50/CustomEditor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/82/237dd988/Editor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/b0/d3be4f2d/IPreprocessBuildWithReport.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/da771086bc2e4cfc9ad0a72e083a7f9893fe00/bc/9f0b77e1/AssetDatabase.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e72ff03c16db458784c0e81c5ba7e4642cf400/6e/34bfbc17/MyInlineScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e72ff03c16db458784c0e81c5ba7e4642cf400/81/ecc3d325/OdinEditor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/21942216b1668d823358a0bc2e775e7476dae6f2a4f74b4ff0efec64ead67533/ChannelBase.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2c4d9097c757b765869d75c13d8d23b82b179afd22fd3cad7c852eb679a8b0/IAsyncStreamWriter.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3934722bcca6fc258ca4933f1db26f13d2ea9f432922cba528b1e4c1b53/AsyncServerStreamingCall.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/696aa455fd6736cddaf4da626e8bac73eb7a3f4de26241c24169a89f925074/System.Net.Http.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/82ae89a7af3fc5315f70cd7ee4616f482bcc56af244bd11c8e5cdc41c7f62e/System.Net.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8a522b806eac9bb894e6e4c5fe87f353457535e769447e79c6b396beecb5d0/System.Threading.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8dbdc1a3fde53563de6bebef41fa6792f2dfd51f15573af8b306245371693b6/AsyncDuplexStreamingCall.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9384495d2a482ac7341d67ca84e16d267d16c62458a9d67a92b119199a9/System.Threading.Tasks.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9b2345a712dab44f741c5ddd88fab9f9102b65223163a2412ecd2b791b7a89/AsyncClientStreamingCall.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9b67a50d8d4d220ebb46ed474b37d537c444ac8c7f3187ce44af925431d9db/ChannelCredentials.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/da6a1787df247a0274ec8fc4840f41df092ee13874f55f87a9db568acab1bd2/System.Reflection.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ddad446dd382038100b9a1da2176f66f45709de1608f2ded8fbccf2ef7df/Status.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/df32849ea335178f04fb0cb39bf59e13861bd99eb293e2298f5efc4f1e7bd/StatusCode.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ff713594443921498f26765a9efff61f35f454213f9c47d4c47c238850f3701/SslCredentials.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Assets/TransitionsPlus/Demos/On Demand/StartTransition.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../Sandbox_2022/Library/PackageCache/com.unity.render-pipelines.core@14.0.8/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/_Project/ScriptableObjectReferenceCacheVersionDeux.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Character/SOCharacter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/LoadingScreen/LoadingScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs" root0="FORCE_HIGHLIGHTING" />
@@ -79,6 +37,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Lobby/TeamsDisplay.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Managers/SoundManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_Client.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkVariableReadOnly.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Project/Scripts/Networking/GRPC/GRPC_Client.cs" root0="FORCE_HIGHLIGHTING" />
@@ -104,23 +63,12 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/SceneManagement/DefaultSceneManagerHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/SceneManagement/ISceneManagerHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.7.1/Runtime/SceneManagement/NetworkSceneManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Boostrap/Bootstrapper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Lobby/CharacterSelectionUI.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Lobby/Lobby.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Lobby/TeamManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Lobby/TeamSelectionUI.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Lobby/TeamsDisplay.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_GRPC_NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_GRPC_Transport.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkObjectManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/FakeUnreal/FU_NetworkVariableReadOnly.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/GRPC_Client.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/GRPC_NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/NetObjs/GRPC_NetworkObjectSyncer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/GRPC/NetVars/GRPC_NetworkVariable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Networking/Netcode/Netcode_NetworkRTT.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Player/MovementController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity_clone_0/Assets/_Project/Scripts/Utilities/NetworkSingleton.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_InputField.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Layout/GridLayoutGroup.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Layout/LayoutGroup.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.veriorpies.parrelsync@141b4e1e31/Editor/ClonesManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/TBD/Unity/ProjectSettings/AudioManager.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../gRPC/Server/GrpcTest/Services/MainServiceImpl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../gRPC/Server/GrpcTest/src/UnrealClient.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -144,15 +92,20 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Main-Bis&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\chris\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\chris\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\chris\\AppData\\Local\\Symbols\\src&quot;
+      &quot;C:\\Users\\Guill\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Guill\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Guill\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
 }</component>
@@ -166,7 +119,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity Hub\Editor\2022.3.4f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.4f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\chris\Documents\Unity\Unity Projects\TBD\Unity&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\chris\Documents\Unity\Unity Projects\TBD\Unity" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -174,7 +127,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity Hub\Editor\2022.3.4f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.4f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\chris\Documents\Unity\Unity Projects\TBD\Unity&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\chris\Documents\Unity\Unity Projects\TBD\Unity" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -268,8 +221,13 @@
       <workItem from="1704273076617" duration="13269000" />
       <workItem from="1704367033107" duration="9000" />
       <workItem from="1704367852387" duration="17437000" />
+      <workItem from="1709022919048" duration="1409000" />
+      <workItem from="1709041341885" duration="460000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />

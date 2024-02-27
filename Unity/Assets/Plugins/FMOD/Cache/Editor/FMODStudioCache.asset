@@ -1,0 +1,271 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8961079288470882361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Game.bank
+  m_EditorClassIdentifier: 
+  Path: SoundBanks/Desktop/Game.bank
+  Name: Game
+  StudioPath: bank:/Game
+  lastModified: 638446233007617469
+  FileSizes:
+  - Name: Desktop
+    Value: 1149280
+  Exists: 1
+--- !u!114 &-8677591998273475603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Common.bank
+  m_EditorClassIdentifier: 
+  Path: SoundBanks/Desktop/Common.bank
+  Name: Common
+  StudioPath: bank:/Common
+  lastModified: 638446232998754065
+  FileSizes:
+  - Name: Desktop
+    Value: 90464
+  Exists: 1
+--- !u!114 &-8585532095438298938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: snapshot:/Pause
+  m_EditorClassIdentifier: 
+  Path: snapshot:/Pause
+  Guid:
+    Data1: 1797256097
+    Data2: 1180916585
+    Data3: -1383459162
+    Data4: -1638343617
+  Banks:
+  - {fileID: -8677591998273475603}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &-6520184250965589625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ForestMusic
+  m_EditorClassIdentifier: 
+  Path: event:/ForestMusic
+  Guid:
+    Data1: 1932783277
+    Data2: 1299035159
+    Data3: 1028337846
+    Data4: 1226159920
+  Banks:
+  - {fileID: -8961079288470882361}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 49946
+--- !u!114 &-2771027538260659207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Common.strings.bank
+  m_EditorClassIdentifier: 
+  Path: SoundBanks/Desktop/Common.strings.bank
+  Name: Common.strings
+  StudioPath: bank:/Common.strings
+  lastModified: 638446232998766873
+  FileSizes:
+  - Name: Desktop
+    Value: 1194
+  Exists: 1
+--- !u!114 &-93725752687795552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/oceana
+  m_EditorClassIdentifier: 
+  Path: event:/oceana
+  Guid:
+    Data1: -2011671773
+    Data2: 1141382902
+    Data3: 352504737
+    Data4: 1363427719
+  Banks:
+  - {fileID: -8677591998273475603}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 2658069773790141947}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10216
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -2771027538260659207}
+  - {fileID: -8677591998273475603}
+  - {fileID: -8961079288470882361}
+  - {fileID: 8806360787514146321}
+  EditorEvents:
+  - {fileID: -93725752687795552}
+  - {fileID: 7413792558838162012}
+  - {fileID: -8585532095438298938}
+  - {fileID: -6520184250965589625}
+  EditorParameters:
+  - {fileID: 6025931534066218899}
+  MasterBanks:
+  - {fileID: -8677591998273475603}
+  StringsBanks:
+  - {fileID: -2771027538260659207}
+  cacheTime: 638446233007647133
+  cacheVersion: 131609
+--- !u!114 &2658069773790141947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/oceana/LifeTime
+  m_EditorClassIdentifier: 
+  Name: LifeTime
+  StudioPath: 
+  Min: -1
+  Max: 10
+  Default: -1
+  ID:
+    data1: 3301520729
+    data2: 1621753134
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &6025931534066218899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/PlayMode
+  m_EditorClassIdentifier: 
+  Name: PlayMode
+  StudioPath: parameter:/PlayMode
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2916595220
+    data2: 3016412950
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Running
+  - Paused
+  Exists: 1
+--- !u!114 &7413792558838162012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/deadwindpassday
+  m_EditorClassIdentifier: 
+  Path: event:/deadwindpassday
+  Guid:
+    Data1: 1493647372
+    Data2: 1085074535
+    Data3: -1868022338
+    Data4: -1426607860
+  Banks:
+  - {fileID: -8961079288470882361}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 46904
+--- !u!114 &8806360787514146321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Menu.bank
+  m_EditorClassIdentifier: 
+  Path: SoundBanks/Desktop/Menu.bank
+  Name: Menu
+  StudioPath: bank:/Menu
+  lastModified: 638446233007647133
+  FileSizes:
+  - Name: Desktop
+    Value: 494
+  Exists: 1

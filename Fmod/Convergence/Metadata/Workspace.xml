@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Workspace" id="{85b5fc5c-2af2-46ea-9e85-f7f48c85e562}">
+		<property name="builtBanksOutputDirectory">
+			<value>../../Unity/SoundBanks</value>
+		</property>
+		<property name="builtBanksEncryptionKey" />
 		<relationship name="masterEventFolder">
 			<destination>{72727f19-f0a6-4108-905b-48e17965faba}</destination>
 		</relationship>
