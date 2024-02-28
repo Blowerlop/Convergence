@@ -73,6 +73,8 @@ namespace Project._Project.TESTT_REBIND
 
         private void OnValidate()
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+            
             if (inputActionReference == null) return; 
             
             GetBindingInfo();
