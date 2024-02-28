@@ -95,8 +95,8 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 89.87.220.108
-    Port: 51820
+    Address: 25.17.147.214
+    Port: 26500
     ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
