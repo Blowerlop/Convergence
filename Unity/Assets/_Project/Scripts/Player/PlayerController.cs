@@ -1,22 +1,19 @@
-using Project._Project.Scripts.Player.States;
-using Unity.Netcode;
+using Project._Project.Scripts;
+using UnityEngine;
 
 namespace Project
 {
-    public class PlayerLifeTime : NetworkBehaviour
+    public class PlayerController : Entity
     {
-        private PlayerStateMachineController _stateMachine;
-        private PCStats _stats;
+        [SerializeField] private PlayerRefs _refs;
+
+        public override int TeamIndex => _refs.TeamIndex;
 
 
         public override void OnNetworkSpawn()
         {
             if (IsServer)
             {
-                PlayerRefs playerRefs = GetComponentInParent<PlayerRefs>();
-                _stats = (PCStats)playerRefs.Stats;
-                _stateMachine = playerRefs.StateMachine;
-                            
                 _stats.health.OnValueChanged += OnHealthChanged_CheckIfDead;
             }
         }
@@ -31,7 +28,7 @@ namespace Project
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
-            if (currentHealth <= 0) _stateMachine.ChangeState(_stateMachine.deadState);
+            if (currentHealth <= 0) _refs.StateMachine.ChangeState(_refs.StateMachine.deadState);
         }
     }
 }

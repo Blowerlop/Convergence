@@ -7,7 +7,7 @@ namespace Project._Project.Scripts.StateMachine
 {
     public abstract class BaseStateMachineController : NetworkBehaviour
     {
-        [ShowInInspector, ReadOnly] protected abstract BaseStateMachine defaultState { get; set; }
+        protected abstract BaseStateMachine defaultState { get; set; }
         [ShowInInspector, ReadOnly] public BaseStateMachine currentState { get; private set; }
         
         private PlayerRefs _playerRefs;

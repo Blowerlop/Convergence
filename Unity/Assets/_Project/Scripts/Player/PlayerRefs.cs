@@ -2,30 +2,33 @@ using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.Spells;
 using Project.Spells;
+using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Project
 {
-    public class PlayerRefs : Entity
+    public class PlayerRefs : NetworkBehaviour
     {
         private GRPC_NetworkVariable<int> _assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
 
         [SerializeField] protected Transform playerTransform;
-        
+
+        [SerializeField] private Entity _entity;
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
         [SerializeField] private PlayerStateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        public override int TeamIndex => _assignedTeam.Value;
+        public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
         // Find a way to point to PC PlayerRefs on mobile PlayerRefs
         public Transform PlayerTransform => playerTransform;
+        public Entity Entity => _entity;
 
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
@@ -61,12 +64,11 @@ namespace Project
         }
 
         [Server]
-        public override void ServerInit(int team, int ownerId, SOCharacter character)
+        public void ServerInit(int team, int ownerId, SOEntity entity)
         {
-            base.ServerInit(team, ownerId, character);
-            
             _ownerId.Value = ownerId;
             _assignedTeam.Value = team;
+            _entity.ServerInit(entity);
         }
 
         protected virtual void OnTeamChanged(int oldValue, int newValue) { }
