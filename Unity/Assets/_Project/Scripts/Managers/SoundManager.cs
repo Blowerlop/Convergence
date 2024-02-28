@@ -177,6 +177,31 @@ namespace Project._Project.Scripts.Managers
             errCallback:
             Debug.LogWarning("Fmod: Event:" + eventName + " does not exist prévenir Guillaume");
         }
+        
+        public void PlayStaticSound(string eventName, GameObject target, EventType type)
+        {
+            switch (type)
+            {
+                default:
+                    eventName = "event:/" + eventName;
+                    break;
+            }
+            
+            if (RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo) != RESULT.OK)
+                goto errCallback;
+            
+            eventInfo.createInstance(out var eventInstance);
+            
+            RuntimeManager.AttachInstanceToGameObject(eventInstance, target.transform);
+            
+            if(eventInstance.start() != RESULT.OK)
+                goto errCallback;
+            
+            return;
+            
+            errCallback:
+            Debug.LogWarning("Fmod: Event:" + eventName + " does not exist prévenir Guillaume");
+        }
 
         /// <summary>
         /// 
