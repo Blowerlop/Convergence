@@ -127,6 +127,11 @@ namespace Project
             return new Vector3(vector.X, vector.Y, vector.Z);
         }
         
+        public static GRPC_Vector3 UnityToGrpcVector3(Vector3 vector)
+        {
+            return new GRPC_Vector3() { X = vector.x, Y = vector.y, Z = vector.z };
+        }
+        
         #if UNITY_EDITOR
         /// <summary>
         /// /!\ Editor only

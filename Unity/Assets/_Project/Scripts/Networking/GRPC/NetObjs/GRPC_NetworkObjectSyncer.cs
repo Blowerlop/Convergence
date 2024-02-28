@@ -54,7 +54,9 @@ namespace Project
             {
                 NetId = (int)NetworkObject.NetworkObjectId, 
                 Type = GRPC_NetObjUpdateType.New, 
-                PrefabId = prefabId
+                PrefabId = prefabId,
+                Position = Utilities.UnityToGrpcVector3(transform.position),
+                Rotation = Utilities.UnityToGrpcVector3(transform.rotation.eulerAngles)
             };
 
             GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);

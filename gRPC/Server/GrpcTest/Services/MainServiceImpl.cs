@@ -385,14 +385,7 @@ namespace GRPCServer.Services
                 {
                     Debug.Log($"GRPC_SrvNetVarUpdate > NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value}");
 
-                    if (netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
-                    {
-                        netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
-                    }
-                    else
-                    {
-                        netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
-                    }
+                    netcodeServer!.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
 
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
@@ -454,7 +447,7 @@ namespace GRPCServer.Services
                 Debug.Log($"GRPC_CliNetNetVarUpdate > Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             }
             
-            foreach (GRPC_NetVarUpdate netVarUpdate in netcodeServer.GetNetworkVariablesAsUpdates()
+            foreach (GRPC_NetVarUpdate netVarUpdate in netcodeServer!.GetNetworkVariablesAsUpdates()
                          .Where(netVarUpdate => netVarUpdate.NewValue.Type == request.Type))
             {
                 await responseStream.WriteAsync(netVarUpdate);
@@ -511,7 +504,7 @@ namespace GRPCServer.Services
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
                     // Callback the response to all the Unreal clients
-                    foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer.teamSelectionResponseStream)
+                    foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer!.teamSelectionResponseStream)
                     {
                         await item.WriteAsync(requestStream.Current);
                     }
