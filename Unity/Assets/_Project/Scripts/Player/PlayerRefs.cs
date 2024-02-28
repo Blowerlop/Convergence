@@ -17,7 +17,6 @@ namespace Project
         
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
-        [SerializeField] private PlayerStats stats;
         [SerializeField] private PlayerStateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
@@ -30,7 +29,6 @@ namespace Project
 
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
-        public PlayerStats Stats => stats;
         public PlayerStateMachineController StateMachine => _stateMachine;
         public Animator Animator => _networkAnimator.Animator;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
@@ -63,12 +61,12 @@ namespace Project
         }
 
         [Server]
-        public virtual void ServerInit(int team, int ownerId, SOCharacter character)
+        public override void ServerInit(int team, int ownerId, SOCharacter character)
         {
+            base.ServerInit(team, ownerId, character);
+            
             _ownerId.Value = ownerId;
             _assignedTeam.Value = team;
-            
-            stats.ServerInit(character);
         }
 
         protected virtual void OnTeamChanged(int oldValue, int newValue) { }
