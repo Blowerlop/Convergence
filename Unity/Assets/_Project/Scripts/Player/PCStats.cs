@@ -6,7 +6,7 @@ namespace Project
 {
     public class PCStats : PlayerStats
     {
-        [field: SerializeField] public Health health { get; set; }
+        [field: SerializeField] public Health health { get; private set; }
         // + Movement speed / attack speed / damage scale / other stats...
         
         
