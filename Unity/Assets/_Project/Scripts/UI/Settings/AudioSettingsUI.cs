@@ -35,7 +35,7 @@ namespace Project._Project.Scripts.UI.Settings
         {
             _masterSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_MASTER));
             _musicSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_MUSIC));
-            _gameSoundsSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_GAME_SOUNDS));
+            _gameSoundsSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_SFX));
         }
 
 
@@ -63,7 +63,7 @@ namespace Project._Project.Scripts.UI.Settings
         
         private void OnPointerUp_SetGameSounds(float value)
         {
-            Set(AudioSettingsManager.KEY_GAME_SOUNDS, value);
+            Set(AudioSettingsManager.KEY_SFX, value);
         }
     }
 }

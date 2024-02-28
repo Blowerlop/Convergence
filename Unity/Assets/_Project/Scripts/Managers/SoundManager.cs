@@ -41,6 +41,7 @@ namespace Project._Project.Scripts.Managers
         private readonly Dictionary<string, SoundInstance> _staticSoundList = new Dictionary<string, SoundInstance>();
         private readonly Dictionary<string, SoundInstance> _globalSoundList = new Dictionary<string, SoundInstance>();
         private readonly Dictionary<string, SoundInstance> _snapshotList = new Dictionary<string, SoundInstance>();
+        private readonly Dictionary<string, Bus> _busList = new Dictionary<string, Bus>();
         private Dictionary<int, PlayerAction> _actionPool;
 
         private IEnumerator _poolCoroutine;
@@ -214,6 +215,23 @@ namespace Project._Project.Scripts.Managers
 
         #endregion
 
+        #region Bus
+
+        public void SetBusVolume(float volume, string busKey)
+        {
+            if (_busList.TryGetValue(busKey, out var busVal))
+            {
+                busVal.setVolume(volume);
+                return;
+            }
+            
+            var bus = RuntimeManager.GetBus("bus:/" + busKey);
+            bus.setVolume(volume);
+            _busList.Add(busKey, bus);
+        }
+
+        #endregion
+        
         #region Utils
 
         public void TriggerSnapshot(string snapshotName, string snapshotAlias)
