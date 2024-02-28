@@ -20,13 +20,7 @@ namespace Project
         [ShowInInspector, ReadOnly] public int Value
         {
             get => _health.Value;
-            set
-            {
-                int newValue = _health.Value + value;
-
-                newValue = Mathf.Clamp(newValue, 0, _maxHealth.Value);
-                _health.Value = newValue;
-            }
+            set => _health.Value = Mathf.Clamp(value, 0, _maxHealth.Value);
         }
 
         [ShowInInspector, ReadOnly] public int MaxValue
