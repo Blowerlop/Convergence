@@ -40,7 +40,7 @@ namespace Project
 
         ~GRPC_NetworkVariable()
         {
-            Reset();
+            //Reset();
             OnClientStop();
         }
 
