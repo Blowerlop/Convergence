@@ -1,6 +1,6 @@
 using Project._Project.Scripts.StateMachine;
 
-namespace Project._Project.Scripts.Player.State.PlayerState.Base.Cast
+namespace Project._Project.Scripts.Player.States
 {
     public class CastingState : BaseStateMachine
     {

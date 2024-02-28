@@ -49,10 +49,9 @@ namespace Project._Project.Scripts.Spells
             _isChanneling.Initialize();
         }
         
+        [Server]
         public void StartServerChanneling(float channelingTime, Action channelingDoneAction = null)
         {
-            if (!IsHost && !IsServer) return;
-            
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {

@@ -81,9 +81,9 @@ namespace Project
             /// </summary>
             public const int UI = 32;
             /// <summary>
-            /// Damageable
+            /// Entity
             /// </summary>
-            public const int Damageable = 64;
+            public const int Entity = 64;
             /// <summary>
             /// Ground
             /// </summary>

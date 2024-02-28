@@ -40,6 +40,7 @@ namespace Project
 
         ~GRPC_NetworkVariable()
         {
+            Reset();
             OnClientStop();
         }
 
@@ -94,7 +95,7 @@ namespace Project
 
         private IEnumerator WaitAndTrySyncNewUnrealClient()
         {
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(5.0f);
             
             GRPC_NetworkObjectSyncer syncer = GetBehaviour().GetComponentInParent<GRPC_NetworkObjectSyncer>();
             if (syncer == null)

@@ -1,15 +1,14 @@
+using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.Spells;
 using Project.Spells;
-using Sirenix.OdinInspector;
-using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Project
 {
-    public class PlayerRefs : NetworkBehaviour
+    public class PlayerRefs : Entity
     {
         private GRPC_NetworkVariable<int> _assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
@@ -22,8 +21,8 @@ namespace Project
         [SerializeField] private PlayerStateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
-        
-        public int AssignedTeam => _assignedTeam.Value;
+
+        public override int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
         // Find a way to point to PC PlayerRefs on mobile PlayerRefs
