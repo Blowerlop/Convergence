@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="Workspace" id="{85b5fc5c-2af2-46ea-9e85-f7f48c85e562}">
+		<property name="builtBanksOutputDirectory">
+			<value>../../Unity/SoundBanks</value>
+		</property>
+		<property name="builtBanksEncryptionKey" />
+		<relationship name="masterEventFolder">
+			<destination>{72727f19-f0a6-4108-905b-48e17965faba}</destination>
+		</relationship>
+		<relationship name="masterTagFolder">
+			<destination>{1e056ba9-5b87-45a3-8314-4a5d9f83df8f}</destination>
+		</relationship>
+		<relationship name="masterEffectPresetFolder">
+			<destination>{afd9fd67-7a20-47ae-a74b-adc3fd77b278}</destination>
+		</relationship>
+		<relationship name="masterParameterPresetFolder">
+			<destination>{a8e17658-4510-4be6-98ea-08df8ea47dbc}</destination>
+		</relationship>
+		<relationship name="masterBankFolder">
+			<destination>{841946b9-dd35-4359-a5b0-62bb75d70874}</destination>
+		</relationship>
+		<relationship name="masterSandboxFolder">
+			<destination>{d7cc3f1e-2dad-4e40-a972-9f674a3dab03}</destination>
+		</relationship>
+		<relationship name="masterAssetFolder">
+			<destination>{6d482be1-744e-4512-8cf4-a507dedf0b91}</destination>
+		</relationship>
+		<relationship name="mixer">
+			<destination>{bb1654bb-c966-413f-bf7e-3a489dad92af}</destination>
+		</relationship>
+		<relationship name="profilerSessionFolder">
+			<destination>{a373f749-5e0a-4e3b-b91f-af9850861249}</destination>
+		</relationship>
+		<relationship name="platforms">
+			<destination>{6309cc59-1ab0-4e78-9c11-ce7cb117fc5e}</destination>
+		</relationship>
+	</object>
+</objects>
