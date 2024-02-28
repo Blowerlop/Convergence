@@ -19,7 +19,7 @@ namespace Project
         private float _start = 0.0f;
         private float _end = 0.0f;
         [SerializeField] private float _heartBeat = 0.5f;
-        public Event<float> onRttUpdateEvent = new Event<float>(nameof(onRttUpdateEvent));
+        public Action<float> onRttUpdateEvent;
 
         // private void Start()
         // {
@@ -35,16 +35,16 @@ namespace Project
 
         private void OnEnable()
         {
-            GRPC_Transport.instance.onClientStopEvent.Subscribe(this, TokenCancel);
-            GRPC_NetworkManager.instance.onClientStoppedEvent.Subscribe(this, Dispose);
+            GRPC_Transport.instance.onClientStopEvent += TokenCancel;
+            GRPC_NetworkManager.instance.onClientStoppedEvent += Dispose;
         }
 
         private void OnDisable()
         {
-            if (GRPC_NetworkManager.isBeingDestroyed) return;
+            if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
-            GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
-            GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);
+            GRPC_Transport.instance.onClientStopEvent -= TokenCancel;
+            GRPC_NetworkManager.instance.onClientStoppedEvent -= Dispose;
         }
 
         private void FixedUpdate()
@@ -69,7 +69,7 @@ namespace Project
                 // Debug.Log("Current RTT : " + currentRTT);
                 _start = Time.realtimeSinceStartup;
                 // Debug.Log("Ping : " + _start);
-                onRttUpdateEvent.Invoke(this, false, currentRTT);
+                onRttUpdateEvent?.Invoke(currentRTT);
                 PingPostServerRpc();
             }
             

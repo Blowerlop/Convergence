@@ -1,3 +1,4 @@
+using System.Drawing;
 using Grpc.Core;
 using Networking;
 
@@ -64,7 +65,7 @@ namespace GRPCServer.Services
 
         private void DisplayClients()
         {
-            Debug.Log("-----------------------------------", Debug.separatorColor);
+            Debug.Log("-----------------------------------", Debug.SEPARATOR_COLOR);
             Console.WriteLine();
 
             Debug.Log($"Connected clients : {clients.Keys.Count}");
@@ -92,7 +93,7 @@ namespace GRPCServer.Services
             }
             Console.WriteLine();
 
-            Debug.Log("-----------------------------------", Debug.separatorColor);
+            Debug.Log("-----------------------------------", Debug.SEPARATOR_COLOR);
             Console.WriteLine();
         }
 
@@ -123,9 +124,9 @@ namespace GRPCServer.Services
         public override Task<GRPC_HandshakeGet> GRPC_Handshake(GRPC_HandshakePost request, ServerCallContext context)
         {          
             //Debug
-            Debug.Log("Handshake");
-            Debug.Log(context.Host);
-            Debug.Log(context.Peer + "\n");
+            Debug.Log("Handshake", ConsoleColor.Magenta);
+            Debug.Log(context.Host, ConsoleColor.Magenta);
+            Debug.Log(context.Peer + "\n", ConsoleColor.Magenta);
 
             if (clients.Count > 0)
             {
@@ -164,9 +165,9 @@ namespace GRPCServer.Services
         public override Task<GRPC_NHandshakeGet> GRPC_NetcodeHandshake(GRPC_NHandshakePost request, ServerCallContext context)
         {
             //Debug
-            Debug.Log("NetcodeHandshake");
-            Debug.Log(context.Host);
-            Debug.Log(context.Peer + "\n");
+            Debug.Log("NetcodeHandshake", ConsoleColor.Magenta);
+            Debug.Log(context.Host, ConsoleColor.Magenta);
+            Debug.Log(context.Peer + "\n", ConsoleColor.Magenta);
 
             if (netcodeServer == null)
             {
@@ -442,7 +443,7 @@ namespace GRPCServer.Services
         public override async Task GRPC_CliNetNetVarUpdate(GRPC_GenericValue request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
         {
             Debug.Log($"Response stream opened : {context.Peer} / {request.Type}");
-
+            
             lock (unrealClients[context.Peer].netVarStream)
             {
                 if (unrealClients[context.Peer].netVarStream.TryAdd(request.Type, responseStream) == false)
@@ -452,8 +453,14 @@ namespace GRPCServer.Services
 
                 Debug.Log($"GRPC_CliNetNetVarUpdate > Check : {unrealClients[context.Peer].netVarStream[request.Type]}");
             }
+            
+            foreach (GRPC_NetVarUpdate netVarUpdate in netcodeServer.GetNetworkVariablesAsUpdates()
+                         .Where(netVarUpdate => netVarUpdate.NewValue.Type == request.Type))
+            {
+                await responseStream.WriteAsync(netVarUpdate);
+            }
 
-            try
+            try 
             {
                 await Task.Delay(-1, context.CancellationToken);
             }
@@ -463,64 +470,6 @@ namespace GRPCServer.Services
                     client.netVarStream.Remove(request.Type);
             }
             Debug.Log($"GRPC_CliNetNetVarUpdate > Response stream closed : {context.Peer} / {request.Type}");
-        }
-
-        public override async Task<GRPC_EmptyMsg> GRPC_RequestNetVarUpdateUnrealToGrpc(GRPC_NetVarUpdate request, ServerCallContext context)
-        {
-            if (netcodeServer == null)
-            {
-                Debug.LogError("GRPC_RequestNetVarUpdateUnrealToGrpc > NetcodeServer is null");
-                return new GRPC_EmptyMsg();
-            }
-
-            bool found = false;
-            foreach(var requestNetVarUpdate in netcodeServer.requestNetvarUpdateStream)
-            {
-                if (request.HashName == requestNetVarUpdate.Value.HashName 
-                    && request.NetId == requestNetVarUpdate.Value.NetId)
-                {
-                    await requestNetVarUpdate.Key.WriteAsync(request);
-                    found = true;
-                }
-            }
-
-            if (found == false)
-            {
-                Debug.Log("GRPC_RequestNetVarUpdateUnrealToGrpc > Unreal requested a sync for the NetVar but Netcode was not waiting for a request");
-            }
-            return new GRPC_EmptyMsg();
-        }
-
-        public override async Task GRPC_RequestNetVarUpdateGrpcToNetcode(GRPC_NetVarUpdate request, IServerStreamWriter<GRPC_NetVarUpdate> responseStream, ServerCallContext context)
-        {
-            Debug.Log("GRPC_RequestNetVarUpdateGrpcToNetcode > Opening new NetVar sync request for : ");
-
-            if (netcodeServer == null)
-            {
-                Debug.LogError("GRPC_RequestNetVarUpdateGrpcToNetcode > Netcde server is null");
-                return;
-            }
-
-            if (netcodeServer.requestNetvarUpdateStream.ContainsKey(responseStream))
-            {
-                netcodeServer.requestNetvarUpdateStream.Remove(responseStream);
-
-                Debug.Log("GRPC_RequestNetVarUpdateGrpcToNetcode > A request netVar sync for this is already opened");
-            }
-
-            netcodeServer.requestNetvarUpdateStream.Add(responseStream, request);
-
-            try
-            {
-                await Task.Delay(-1, context.CancellationToken);
-            }
-            catch (TaskCanceledException)
-            {
-                if (netcodeServer != null && netcodeServer.requestNetvarUpdateStream.ContainsKey(responseStream))
-                {
-                    netcodeServer?.requestNetvarUpdateStream.Remove(responseStream);
-                }
-            }
         }
         #endregion
 
@@ -575,6 +524,140 @@ namespace GRPCServer.Services
                 //DisconnectClient(context.Peer);
             }
         }
+        #endregion
+        
+        #region Spells
+        
+        // Forward Unreal spell cast request to Netcode server
+        public override Task<GRPC_EmptyMsg> GRPC_SetUnrealSpellUnrealToGrpc(GRPC_SpellSlot request, ServerCallContext context)
+        {
+            GRPC_EmptyMsg empty = new();
+            
+            if (netcodeServer == null)
+            {
+                Debug.LogError("GRPC_SetUnrealSpellUnrealToGrpc > Can't forward spell cast request to NetcodeServer because it is null!");
+                return Task.FromResult(empty);
+            }
+            if(netcodeServer.SetUnrealSpellStream == null)
+            {
+                Debug.LogError("GRPC_SetUnrealSpellUnrealToGrpc > Can't forward spell cast request to " +
+                               "NetcodeServer because SetUnrealSpellStream is null!");
+                return Task.FromResult(empty);
+            }
+
+            var client = unrealClients.Values.FirstOrDefault(cli => cli.Adress == context.Peer);
+
+            if (client == null)
+            {
+                Debug.LogError($"GRPC_SetUnrealSpellUnrealToGrpc > Received a spell cast request from " +
+                               $"'{context.Peer}' but no UnrealClient is registered with this IP!");
+                return Task.FromResult(empty);
+            }
+
+            request.ClientId = client.id;
+            netcodeServer.SetUnrealSpellStream.WriteAsync(request);
+            
+            return Task.FromResult(empty);
+        }
+        
+        // Netcode server uses this to open a stream to receive spell cast requests from Unreal clients
+        public override async Task GRPC_SetUnrealSpellGrpcToNetcode(GRPC_EmptyMsg request,
+            IServerStreamWriter<GRPC_SpellSlot> responseStream, ServerCallContext context)
+        {
+            if (netcodeServer == null)
+            {
+                Debug.LogError(
+                    $"GRPC_SetUnrealSpellGrpcToNetcode > Presumed NetcodeServer {context.Peer} is trying to " +
+                    $"get SetUnrealSpellStream but NetcodeServer is not registered.");
+                return;
+            }
+            if (netcodeServer.Adress != context.Peer)
+            {
+                Debug.LogError(
+                    $"GRPC_SetUnrealSpellGrpcToNetcode > Client {context.Peer} is trying to get SetUnrealSpellStream " +
+                    $"but is not NetcodeServer {netcodeServer.Adress}.");
+                return;
+            }
+            
+            netcodeServer.SetUnrealSpellStream = responseStream;
+            
+            try
+            {
+                await Task.Delay(-1, context.CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                Debug.Log("GRPC_SetUnrealSpellGrpcToNetcode > Connection lost with NetcodeServer.");
+                UnsubscribeClientUpdateEvent();
+                DisconnectClient(context.Peer);
+            }
+        }
+        
+        // Forward Unreal spell cast request to Netcode server
+        public override Task<GRPC_EmptyMsg> GRPC_SpellCastRequestUnrealToGrpc(GRPC_SpellCastRequest request, ServerCallContext context)
+        {
+            GRPC_EmptyMsg empty = new();
+            
+            if (netcodeServer == null)
+            {
+                Debug.LogError("GRPC_SpellCastRequestUnrealToGrpc > Can't forward spell cast request to NetcodeServer because it is null!");
+                return Task.FromResult(empty);
+            }
+            if(netcodeServer.SpellCastRequestStream == null)
+            {
+                Debug.LogError("GRPC_SpellCastRequestUnrealToGrpc > Can't forward spell cast request to " +
+                               "NetcodeServer because SpellCastRequestStream is null!");
+                return Task.FromResult(empty);
+            }
+
+            var client = unrealClients.Values.FirstOrDefault(cli => cli.Adress == context.Peer);
+
+            if (client == null)
+            {
+                Debug.LogError($"GRPC_SpellCastRequestUnrealToGrpc > Received a spell cast request from " +
+                               $"'{context.Peer}' but no UnrealClient is registered with this IP!");
+                return Task.FromResult(empty);
+            }
+
+            request.ClientId = client.id;
+            netcodeServer.SpellCastRequestStream.WriteAsync(request);
+            
+            return Task.FromResult(empty);
+        }
+        
+        // Netcode server uses this to open a stream to receive spell cast requests from Unreal clients
+        public override async Task GRPC_SpellCastRequestGrpcToNetcode(GRPC_EmptyMsg request,
+            IServerStreamWriter<GRPC_SpellCastRequest> responseStream, ServerCallContext context)
+        {
+            if (netcodeServer == null)
+            {
+                Debug.LogError(
+                    $"GRPC_SpellCastRequestGrpcToNetcode > Presumed NetcodeServer {context.Peer} is trying to " +
+                    $"get Spells stream but NetcodeServer is not registered.");
+                return;
+            }
+            if (netcodeServer.Adress != context.Peer)
+            {
+                Debug.LogError(
+                    $"GRPC_SpellCastRequestGrpcToNetcode > Client {context.Peer} is trying to get Spells stream " +
+                    $"but is not NetcodeServer {netcodeServer.Adress}.");
+                return;
+            }
+            
+            netcodeServer.SpellCastRequestStream = responseStream;
+            
+            try
+            {
+                await Task.Delay(-1, context.CancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                Debug.Log("GRPC_SpellCastRequestGrpcToNetcode > Connection lost with NetcodeServer.");
+                UnsubscribeClientUpdateEvent();
+                DisconnectClient(context.Peer);
+            }
+        }
+        
         #endregion
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading;
 using Grpc.Core;
@@ -19,13 +20,41 @@ namespace Project
         public int pcPlayerOwnerClientId;
         public int mobilePlayerOwnerClientId;
 
+        public bool HasPC => pcPlayerOwnerClientId != int.MaxValue;
+        public bool HasMobile => mobilePlayerOwnerClientId != int.MaxValue;
+        
         public UserInstance GetUserInstance(PlayerPlatform platform)
         {
-            return !UserInstanceManager.instance
+            return UserInstanceManager.instance
                 ? null
                 : UserInstanceManager.instance.GetUserInstance(platform == PlayerPlatform.Pc
                     ? pcPlayerOwnerClientId
                     : mobilePlayerOwnerClientId);
+        }
+
+        public bool TryGetUserInstance(PlayerPlatform platform, out UserInstance user)
+        {
+            user = null;
+
+            if (!UserInstanceManager.instance) return false;
+
+            int clientId;
+            
+            switch (platform)
+            {
+                case PlayerPlatform.Pc:
+                    if (pcPlayerOwnerClientId == int.MaxValue) return false;
+                    clientId = pcPlayerOwnerClientId;
+                    break;
+                case PlayerPlatform.Mobile:
+                    if (mobilePlayerOwnerClientId == int.MaxValue) return false;
+                    clientId = mobilePlayerOwnerClientId;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(platform), platform, null);
+            }
+
+            return UserInstanceManager.instance.TryGetUserInstance(clientId, out user);
         }
     }
     
@@ -44,17 +73,9 @@ namespace Project
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public readonly Event<int, string, PlayerPlatform> onTeamSetEvent = new Event<int, string, PlayerPlatform>(nameof(onTeamSetEvent));
-        public readonly Event<int, string, PlayerPlatform> onPlayerReadyEvent = new Event<int, string, PlayerPlatform>(nameof(onPlayerReadyEvent));
-        public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
-        
-
-        protected override void Awake()
-        {
-            // authorityCheck = true;
-            dontDestroyOnLoad = false;
-            base.Awake();
-        }
+        public Action<int, string, PlayerPlatform> onTeamSetEvent;
+        public Action<int, string, PlayerPlatform> onPlayerReadyEvent;
+        public Action onAllPlayersReadyEvent;
 
         public override void OnNetworkSpawn()
         {
@@ -70,8 +91,8 @@ namespace Project
             
             if (!IsServer && !IsHost) return;
             
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, InitGrpcStream);
-            GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, DisposeGrpcStream);
+            GRPC_NetworkManager.instance.onClientStartedEvent += InitGrpcStream;
+            GRPC_NetworkManager.instance.onClientStopEvent +=DisposeGrpcStream;
         }
 
         public override void OnNetworkDespawn()
@@ -85,9 +106,12 @@ namespace Project
 #endif*/
             
             if (!IsServer && !IsHost) return;
-            
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(InitGrpcStream);
-            GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(DisposeGrpcStream);
+
+            if (GRPC_NetworkManager.IsInstanceAlive())
+            {
+                GRPC_NetworkManager.instance.onClientStartedEvent -= InitGrpcStream;
+                GRPC_NetworkManager.instance.onClientStopEvent -=DisposeGrpcStream;
+            }
         }
 
         
@@ -204,18 +228,9 @@ namespace Project
                 ResetTeamSlot(oldTeam, platform);
             }
             
-            RegisterToTeamSlot(user.ClientId, newTeam, platform);
+            RegisterToTeamSlotLocal(user.ClientId, newTeam, platform);
         }
         
-        private void RegisterToTeamSlot(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
-        {
-            TeamData teamData = _teams[teamIndex];
-            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = ownerClientId;
-            else teamData.mobilePlayerOwnerClientId = ownerClientId;
-            _teams[teamIndex] = teamData;
-        }
-        
-
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
@@ -258,7 +273,7 @@ namespace Project
 
         private void OnTeamSetLocal(int teamIndex, string playerName, PlayerPlatform playerPlatform)
         {
-            onTeamSetEvent.Invoke(this, true, teamIndex, playerName, playerPlatform);
+            onTeamSetEvent?.Invoke(teamIndex, playerName, playerPlatform);
         }
 
         public TeamData[] GetTeamsData()
@@ -287,7 +302,6 @@ namespace Project
         
         private async void Read()
         {
-            Debug.Log("Read");
             try
             {
                 while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))

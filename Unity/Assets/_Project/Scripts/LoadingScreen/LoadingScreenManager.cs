@@ -63,14 +63,14 @@ namespace Project
             
             if (asyncOperation != null)
             {
-                asyncOperation.allowSceneActivation = NetworkManager.Singleton.IsConnectedClient;
+                asyncOperation.allowSceneActivation = NetworkManager.Singleton.IsListening;
                 
                 loadingBar.IsNull()?.SetActive(true);
                 
-                while (asyncOperation.progress <= 0.9f)
+                while (asyncOperation.progress <= 0.89f)
                 {
                     loadingBar.IsNull()?.UpdateLoadingBar((asyncOperation.progress / 0.9f) * 100);
-                    yield return null;
+                    yield return null; 
                 }
 
                 yield return new WaitForSecondsRealtime(0.1f);

@@ -18,12 +18,19 @@ namespace Project._Project.Scripts
             if (_health.Value < 0) _health.Value = 0;
         }
 
+        public bool CanDamage(int attackerTeamIndex)
+        {
+            return true;
+        }
+
         public void Heal(int modifier)
         {
             _health.Value += modifier;
             if (_health.Value > maxHealth) _health.Value= maxHealth;
         }
-        
+
+        public void MaxHeal() => Heal(maxHealth);
+
         public override void OnNetworkSpawn()
         {
             if (IsServer || IsHost) _health.Value = maxHealth;

@@ -27,22 +27,27 @@ namespace Project
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
         // Stats
+        [field: SerializeField, BoxGroup("Stats")] public int BaseHealth { get; private set; }
 
-
-        public static SOCharacter[] GetAllCharacters(ScriptableObjectReferencesCache referencesCache)
+        public static SOCharacter[] GetAllCharacters()
         {
-            return referencesCache.GetScriptableObjects<SOCharacter>();
+            return SOScriptableObjectReferencesCache.GetScriptableObjects<SOCharacter>();
         }
         
-        public static bool TryGetCharacter(ScriptableObjectReferencesCache referencesCache, int id, out SOCharacter characterData)
+        public static bool TryGetCharacter(int id, out SOCharacter characterData)
         {
-            characterData = GetCharacter(referencesCache, id);
+            characterData = GetCharacter(id);
             return characterData != null;
         }
 
-        public static SOCharacter GetCharacter(ScriptableObjectReferencesCache referencesCache, int id)
+        public static SOCharacter GetCharacter(int id)
         {
-            return GetAllCharacters(referencesCache).FirstOrDefault(character => character.id == id);
+            return GetAllCharacters().FirstOrDefault(character => character.id == id);
+        }
+
+        public static SOCharacter GetMobileCharacterData()
+        {
+            return GetAllCharacters().FirstOrDefault(character => character.characterName == "mobile_character");
         }
         
         public bool TryGetSpell(int index, out SpellData spell)
@@ -79,7 +84,7 @@ namespace Project
         {
             Debug.Log("Start searching...");
 
-            IEnumerable<SOCharacter> characters = GetAllCharacters(ScriptableObjectReferencesCache.GetAssetInstance());
+            IEnumerable<SOCharacter> characters = GetAllCharacters();
 
             Dictionary<int, List<string>> ids = new Dictionary<int, List<string>>();
             foreach (SOCharacter character in characters)

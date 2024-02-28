@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Grpc.Core;
@@ -8,13 +9,13 @@ namespace Project
     public class FU_NetVarHandler : MonoSingleton<FU_NetVarHandler>
     {
         private readonly Dictionary<GRPC_GenericType, AsyncServerStreamingCall<GRPC_NetVarUpdate>> _netVarUpdateStreams = new();
-        private readonly Dictionary<GRPC_GenericType, Event<GRPC_NetVarUpdate>> _netVarUpdateEvents = new();
+        private readonly Dictionary<GRPC_GenericType, Action<GRPC_NetVarUpdate>> _netVarUpdateEvents = new();
         
         private CancellationTokenSource _readStreamCancellationTokenSource = new();
 
         private void Start()
         {
-            FU_GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnClientStop);
+            FU_GRPC_NetworkManager.instance.onClientStopEvent += OnClientStop;
         }
 
         public void TryCreateStream(GRPC_GenericType type)
@@ -29,14 +30,14 @@ namespace Project
             ReadValues(type);
         }
 
-        public Event<GRPC_NetVarUpdate> GetEvent(GRPC_GenericType type)
+        public Action<GRPC_NetVarUpdate> GetEvent(GRPC_GenericType type)
         {
             if (_netVarUpdateEvents.TryGetValue(type, out var eventVar))
             {
                 return eventVar;
             }
 
-            var newEvent = new Event<GRPC_NetVarUpdate>(type.ToString());
+            Action<GRPC_NetVarUpdate> newEvent = default; 
             
             _netVarUpdateEvents.Add(type, newEvent);
             
@@ -51,7 +52,7 @@ namespace Project
             {
                 while (await stream.ResponseStream.MoveNext(_readStreamCancellationTokenSource.Token))
                 {
-                    _netVarUpdateEvents[type]?.Invoke(this, false, stream.ResponseStream.Current);
+                    _netVarUpdateEvents[type]?.Invoke(stream.ResponseStream.Current);
                 }
             }
             catch (RpcException)
@@ -75,9 +76,9 @@ namespace Project
             _netVarUpdateStreams.Clear();
             _netVarUpdateEvents.Clear();
             
-            if (FU_GRPC_NetworkManager.isBeingDestroyed == false)
+            if (FU_GRPC_NetworkManager.IsInstanceAlive())
             {
-                FU_GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(OnClientStop);
+                FU_GRPC_NetworkManager.instance.onClientStopEvent -= OnClientStop;
             }
         }
     }

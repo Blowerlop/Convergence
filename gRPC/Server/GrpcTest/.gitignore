@@ -30,7 +30,6 @@ nuget.exe
 *~
 .build/
 .testPublish/
-launchSettings.json
 BenchmarkDotNet.Artifacts/
 BDN.Generated/
 binaries/

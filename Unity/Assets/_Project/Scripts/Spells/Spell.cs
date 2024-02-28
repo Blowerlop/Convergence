@@ -5,8 +5,23 @@ namespace Project.Spells
 {
     public abstract class Spell : NetworkBehaviour
     {
-        public abstract void Init(IChannelingResult channelingResult);
+        protected int CasterTeamIndex { get; set; }
 
-        public abstract (Vector3, Quaternion) GetDefaultTransform(IChannelingResult channelingResult, PlayerRefs player);
+        protected SpellData Data { get; private set; }
+        
+        // Called by Server
+        // Used to set field that are common for every spell before calling overriden Init
+        [Server]
+        public void Init(ICastResult castResult, SpellData data, int teamIndex)
+        {
+            CasterTeamIndex = teamIndex;
+            Data = data;
+            
+            Init(castResult);
+        }
+        
+        protected abstract void Init(ICastResult castResult);
+
+        public abstract (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player);
     }
 }

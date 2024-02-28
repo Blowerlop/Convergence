@@ -9,13 +9,12 @@ namespace Project
     {
         protected static bool authorityCheck = false;
         
-        protected static bool dontDestroyOnLoad = true;
-        public static bool isBeingDestroyed { get; private set; }
-        
         private static T _instance = null;
         public static T instance {
             get
             {
+                if (Application.isPlaying == false) return null;
+                
                 if (authorityCheck && CanClientRead() == false)
                 {
                     Debug.LogError("Trying to access a NetworkSingleton instance with Authority Checked as non Server Client");
@@ -39,24 +38,11 @@ namespace Project
             if (_instance != null)
             {
                 Debug.LogError($"There is more than one instance of {this}");
-                isBeingDestroyed = true;
                 Destroy(this);
                 return;
             }
             
             _instance = GetComponent<T>();
-            isBeingDestroyed = false;
-            
-            if(dontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            isBeingDestroyed = true;
         }
 
         public static bool IsInstanceAlive() => _instance != null;

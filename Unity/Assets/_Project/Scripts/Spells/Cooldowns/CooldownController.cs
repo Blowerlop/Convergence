@@ -9,12 +9,11 @@ namespace Project.Spells
     /// </summary>
     public class CooldownController : NetworkBehaviour
     {
+        [SerializeField] private string cooldownNetVarPrefix = "Cooldown_";
+        
         private GRPC_NetworkVariable<int>[] _cooldowns = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
 
-        private GRPC_NetworkVariable<int> cd1 = new GRPC_NetworkVariable<int>("Cooldown_" + 0);
-        private GRPC_NetworkVariable<int> cd2 = new GRPC_NetworkVariable<int>("Cooldown_" + 1);
-        private GRPC_NetworkVariable<int> cd3 = new GRPC_NetworkVariable<int>("Cooldown_" + 2);
-        private GRPC_NetworkVariable<int> cd4 = new GRPC_NetworkVariable<int>("Cooldown_" + 3);
+        private GRPC_NetworkVariable<int> _cd1, _cd2, _cd3, _cd4;
         
         private readonly Timer[] _timers = new Timer[SpellData.CharacterSpellsCount];
         
@@ -26,20 +25,25 @@ namespace Project.Spells
 
         private void Awake()
         {
+            CreateNetVarInstance();
+            
             for(int i = 0; i < _timers.Length; i++)
             {
                 _timers[i] = new Timer();
             }
         }
 
+        private void CreateNetVarInstance()
+        {
+            _cd1 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 0);
+            _cd2 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 1);
+            _cd3 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 2);
+            _cd4 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 3);
+        }
+        
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-
-            _cooldowns[0] = cd1;
-            _cooldowns[1] = cd2;
-            _cooldowns[2] = cd3;
-            _cooldowns[3] = cd4;
             
             InitNetVars();
             
@@ -57,15 +61,35 @@ namespace Project.Spells
                 };
             }
         }
-        
-        void InitNetVars()
+
+        public override void OnNetworkDespawn()
         {
+            base.OnNetworkDespawn();
+            
+            ResetNetworkVariables();
+        }
+        
+        private void InitNetVars()
+        {
+            _cooldowns[0] = _cd1;
+            _cooldowns[1] = _cd2;
+            _cooldowns[2] = _cd3;
+            _cooldowns[3] = _cd4;
+            
             for (var i = 0; i < _cooldowns.Length; i++)
             {
                 _cooldowns[i].Initialize();
             }
         }
 
+        private void ResetNetworkVariables()
+        {
+            for (var i = 0; i < _cooldowns.Length; i++)
+            {
+                _cooldowns[i].Reset();
+            }
+        }
+        
         public bool IsInCooldown(int index)
         {
             if (index < 0 || index >= _cooldowns.Length)
@@ -82,9 +106,9 @@ namespace Project.Spells
         /// </summary>
         /// <param name="index"></param>
         /// <param name="time"></param>
+        [Server]
         public void StartServerCooldown(int index, float time)
         {
-            if (!IsServer && !IsHost) return;
             if (index < 0 || index >= _timers.Length) return;
             
             void TimerUpdate(float value)

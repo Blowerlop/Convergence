@@ -4,7 +4,9 @@ namespace Project.Spells.Casters
 {
     public abstract class SpellCaster : MonoBehaviour
     {
-        public bool IsChanneling { get; private set; }
+        [field: SerializeField] public CastResultType CastResultType { get; private set; }
+        
+        public bool IsCasting { get; private set; }
 
         protected Transform CasterTransform { get; private set; }
         
@@ -15,21 +17,21 @@ namespace Project.Spells.Casters
         
         public virtual void StartChanneling()
         {
-            if (IsChanneling) return;
+            if (IsCasting) return;
             
-            IsChanneling = true;
+            IsCasting = true;
         }
         
         public virtual void StopChanneling()
         {
-            if (!IsChanneling) return;
+            if (!IsCasting) return;
             
-            IsChanneling = false;
+            IsCasting = false;
         }
         
         protected virtual void Update()
         {
-            if (!IsChanneling) return;
+            if (!IsCasting) return;
             
             EvaluateResults();
             UpdateChanneling();

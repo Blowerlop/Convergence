@@ -19,12 +19,12 @@ namespace Project.Spells
         
         private void Awake()
         {
-            PlayerRefs.OnLocalPlayerSpawned += Setup;
+            UserInstance.Me.OnPlayerLinked += Setup;
         }
 
         private void OnDestroy()
         {
-            PlayerRefs.OnLocalPlayerSpawned -= Setup;
+            if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_cooldowns) return;
             
@@ -36,14 +36,14 @@ namespace Project.Spells
 
         private void Setup(PlayerRefs refs)
         {
-            _cooldowns = refs.GetCooldownController(PlayerPlatform.Pc);
+            _cooldowns = refs.Cooldowns;
             
             _cooldowns.OnLocalCooldownStarted += OnCooldownStarted;
             _cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;
             
             _cooldowns.OnServerCooldownEnded += OnCooldownEnded;
-            
-            group.DOFade(0, 0);
+
+            group.alpha = 0;
         }
         
         private void OnCooldownStarted(int index, float time)
@@ -62,7 +62,7 @@ namespace Project.Spells
             if (index != id) return;
             
             tmp.text = value.ToString(CultureInfo.InvariantCulture);
-            img.fillAmount = _maxTime / value;
+            img.fillAmount = value / _maxTime;
         }
         
         private void OnCooldownEnded(int index)

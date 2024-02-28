@@ -11,7 +11,7 @@ namespace Project
     {
         private FU_GRPC_NetworkManager _networkManager;
         private MainService.MainServiceClient _client =>
-            FU_GRPC_Transport.instance ? FU_GRPC_Transport.instance.client : null;
+            FU_GRPC_Transport.IsInstanceAlive() ? FU_GRPC_Transport.instance.client : null;
 
         private Dictionary<ulong, FU_NetworkObject> _networkObjects = new();
         
@@ -26,18 +26,19 @@ namespace Project
         {
             _networkManager = FU_GRPC_NetworkManager.instance;
             
-            _networkManager.networkTransport.onClientStopEvent.Subscribe(this, TokenCancel);
-            _networkManager.onClientEndedEvent.Subscribe(this, Dispose);
-            _networkManager.onClientStartedEvent.Subscribe(this, StartNetObjsUpdateStream);
+            _networkManager.networkTransport.onClientStopEvent += TokenCancel;
+            _networkManager.onClientEndedEvent += Dispose;
+            _networkManager.onClientStartedEvent += StartNetObjsUpdateStream;
         }
 
         private void OnDisable()
         {
-            if (FU_GRPC_NetworkManager.isBeingDestroyed) return;
-            
-            _networkManager.networkTransport.onClientStopEvent.Unsubscribe(TokenCancel);
-            _networkManager.onClientStartedEvent.Unsubscribe(StartNetObjsUpdateStream);
-            _networkManager.onClientEndedEvent.Unsubscribe(Dispose);
+            if (FU_GRPC_NetworkManager.IsInstanceAlive())
+            {
+                _networkManager.networkTransport.onClientStopEvent -= TokenCancel;
+            _networkManager.onClientEndedEvent -= Dispose;
+            _networkManager.onClientStartedEvent -= StartNetObjsUpdateStream;
+            }
         }
         
         #region Stream

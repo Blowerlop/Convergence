@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using DG.Tweening;
 using JetBrains.Annotations;
 using Project.Extensions;
 using Sirenix.OdinInspector;
@@ -27,32 +28,23 @@ namespace Project
         [ShowInInspector, ReadOnly] public static bool isConsoleEnabled { get; private set; }
         [ShowInInspector, ReadOnly] public bool isInputFieldFocus => _inputInputField != null && _inputInputField.isFocused;
         [ShowInInspector, ReadOnly] private int _currentNumberOfMessages;
-        [CanBeNull] [ShowInInspector, ReadOnly] private string _currentPrediction;
 
         [Title("Parameters")]
         [SerializeField] private Vector2 _fontSizeRange = new Vector2(20, 60);
         [SerializeField] private int _maxMessages = 100;
         [SerializeField] private int _maxCommandHistory = 50;
         
-        private readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>();
-        private string[] _commandsName;
+        public readonly Dictionary<string, ConsoleCommand> commands = new Dictionary<string, ConsoleCommand>();
+        public string[] commandsName { get; private set; }
         private List<string> _commandHistory;
-        private int _commandHistoryIndex = 0;
+        private int _commandHistoryIndex;
         private int _currentIndex = -1;
-
-        // [Title("Log Colors")] 
-        // [SerializeField] private Color _logColor;
-        // [SerializeField] private Color _logWarningColor;
-        // [SerializeField] private Color _logErrorColor;
         
-        [Title("Events")]
-        private Event _onConsoleCommandExecutedEvent = new Event(nameof(_onConsoleCommandExecutedEvent), false);
-
         [TitleGroup("References")]
         [SerializeField, ChildGameObjectsOnly] private ScrollRect _logScrollRect;
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _logInputField;
         [SerializeField, ChildGameObjectsOnly] private TMP_InputField _inputInputField;
-        [SerializeField, ChildGameObjectsOnly] private TMP_Text _inputFieldPredictionPlaceHolder;
+        [SerializeField, ChildGameObjectsOnly] private ConsoleCommandPrediction _commandPrediction;
 
         #endregion
         
@@ -68,46 +60,47 @@ namespace Project
 
         private void Start()
         {
-            _commandsName = new string[_commands.Count];
+            commandsName = new string[commands.Count];
             int index = 0;
-            foreach (var kvp in _commands)
+            foreach (var kvp in commands)
             {
-                _commandsName[index] = kvp.Key;
+                commandsName[index] = kvp.Key;
                 index++;
             }
-            _commandsName.Sort();
+            commandsName.Sort();
 
             _commandHistory = new List<string>(_maxCommandHistory);
             
-            DisableConsoleForced();
+            HideConsoleForced();
             ClearInputField();
+            
+            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
         }
 
         private void OnEnable()
         {
-            InputManager.instance.onConsoleKey.started += OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.AddListener(ExecuteCommand);
-            _inputInputField.onValueChanged.AddListenerExtended(CommandPrediction);
+            _inputInputField.onValueChanged.AddListener(_commandPrediction.Predict);
         }
 
         private void OnDisable()
         {
-            InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
             _inputInputField.onSubmit.RemoveListener(ExecuteCommand);
-            _inputInputField.onValueChanged.RemoveListenerExtended(CommandPrediction);
+            _inputInputField.onValueChanged.RemoveListener(_commandPrediction.Predict);
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-            
             Application.logMessageReceived -= LogConsole;
+
+            if (InputManager.IsInstanceAlive())
+            {
+                InputManager.instance.onConsoleKey.started -= OnConsoleKeyStarted_ToggleConsole;
+            }
         }
 
         private void Update()
         {
-            if (isConsoleEnabled == false) return;
-            
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 GameObject currentCurrentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
@@ -128,30 +121,32 @@ namespace Project
             
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (_currentPrediction != null)
+                if (_commandPrediction.HasAPrediction())
                 {
                     AutoCompleteTextWithThePrediction();
                 }
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                // if (string.IsNullOrEmpty(_inputInputField.text) == false)
-                // {
-                //     MoveCaretToTheEndOfTheText();
-                //     return;
-                // }
-                
-                GotToTheOlderInHistory();
+                if (_commandPrediction.HasAPrediction())
+                {
+
+                }
+                else
+                {
+                    GotToTheOlderInHistory();
+                }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                // if (string.IsNullOrEmpty(_inputInputField.text) == false)
-                // {
-                //     MoveCaretToTheEndOfTheText();
-                //     return;
-                // }
-                
-                GotToTheRecentInHistory();
+                if (_commandPrediction.HasAPrediction())
+                {
+                    
+                }
+                else
+                {
+                    GotToTheRecentInHistory();
+                }
             }
         }
 
@@ -173,7 +168,7 @@ namespace Project
             AddToCommandHistory(trimString);
 
             // Check if the command exist
-            if (_commands.TryGetValue(splitInput[0], out Command command))
+            if (commands.TryGetValue(splitInput[0], out ConsoleCommand command))
             {
                 // Check if the command have the same number of parameters that the player input
                 object[] parameters = new object[command.parametersInfo.Length];
@@ -225,9 +220,6 @@ namespace Project
             end:
             ClearInputField();
             FocusOnInputField();
-            // ClearCommandPrediction();
-            _onConsoleCommandExecutedEvent.Invoke(this, false);
-            
 
             
             
@@ -289,60 +281,9 @@ namespace Project
             _currentIndex = -1;
         }
 
-        public static void AddCommand(Command command)
+        public static void AddCommand(ConsoleCommand consoleCommand)
         {
-            instance._commands.Add(command.name, command);
-        }
-        
-        private void CommandPrediction(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                ClearCommandPrediction();
-                return;
-            }
-            
-            //string trimString = input.TrimEnd();
-            //string[] splitInput = trimString.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            
-            for (int i = 0; i < _commandsName.Length; i++)
-            {
-                _currentPrediction = _commandsName[i];
-                
-                //if (_currentPrediction.StartsWith(splitInput[0], true, CultureInfo.InvariantCulture))
-                if (_currentPrediction.StartsWith(input, true, CultureInfo.InvariantCulture))
-                {
-                    int inputLength = input.Length;
-                    //int inputLength = splitInput[0].Length;
-
-                    string preWriteCommandName = _currentPrediction.Substring(0, inputLength);
-                    string nonWriteCommandName = _currentPrediction.Substring(inputLength);
-                    _inputFieldPredictionPlaceHolder.text = $"<color=#00000000>{preWriteCommandName}</color>{nonWriteCommandName}";
-
-                    // Enforce the input with the case of the command name
-                    _inputInputField.text = _inputInputField.text.FollowCasePattern(preWriteCommandName);
-                
-                    //for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length - splitInput.Length - 1; j++)
-                    for (int j = 0; j < _commands[_currentPrediction].parametersInfo.Length; j++)
-                    {
-                        ParameterInfo parameterInfo = _commands[_currentPrediction].parametersInfo[j];
-                        
-                        if (parameterInfo.HasDefaultValue)
-                        {
-                            // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>(Optional)";
-                            _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}(Optional)";
-                        }
-                        else
-                        {
-                            // _inputFieldPredictionPlaceHolder.text += $" <{parameterType.Name}>";
-                            _inputFieldPredictionPlaceHolder.text += $" {parameterInfo.Name}";
-                        }
-                    }
-                    return;
-                }
-            }
-            
-            ClearCommandPrediction();
+            instance.commands.Add(consoleCommand.name, consoleCommand);
         }
 
         #endregion
@@ -350,8 +291,8 @@ namespace Project
         #region Used by shortcut
         private void OnConsoleKeyStarted_ToggleConsole(InputAction.CallbackContext _)
         {
-            if (isConsoleEnabled) DisableConsole();
-            else EnableConsole();
+            if (isConsoleEnabled) HideConsole();
+            else ShowConsole();
         }
         
         private void GotToTheOlderInHistory()
@@ -364,8 +305,7 @@ namespace Project
 
             _currentIndex++;
             
-            WriteTextToInputInputField(_commandHistory[_currentIndex]);
-            MoveCaretToTheEndOfTheText();
+            SetTextOfInputInputFieldSilent(_commandHistory[_currentIndex]);
         }
         
         private void GotToTheRecentInHistory()
@@ -376,15 +316,14 @@ namespace Project
             }
             if (_currentIndex <= 0)
             {
-                WriteTextToInputInputField(string.Empty);
+                SetTextOfInputInputFieldSilent(string.Empty);
                 _currentIndex = -1;
                 return;
             }
 
             _currentIndex--;
             
-            WriteTextToInputInputField(_commandHistory[_currentIndex]);
-            MoveCaretToTheEndOfTheText();
+            SetTextOfInputInputFieldSilent(_commandHistory[_currentIndex]);
         }
         
         private void IncreaseOrDecreaseLogTextSize()
@@ -405,22 +344,31 @@ namespace Project
                 }
             }
             
-            WriteTextToInputInputField(_inputInputField.text.Remove(startWordPosition, _inputInputField.caretPosition - startWordPosition));
-            MoveCaretToPosition(startWordPosition);
+            SetTextOfInputInputField(_inputInputField.text.Remove(startWordPosition, _inputInputField.caretPosition - startWordPosition));
         }
 
         private void AutoCompleteTextWithThePrediction()
         {
-            WriteTextToInputInputField(_currentPrediction);
+            SetTextOfInputInputField(_commandPrediction.currentPrediction);
             // ClearCommandPrediction();
-            MoveCaretToTheEndOfTheText();
         }
         #endregion
         
         #region Utilities
-        private void WriteTextToInputInputField(string text)
+        public void SetTextOfInputInputField(string text)
         {
+            if (string.Equals(_inputInputField.text, text)) return;
+            
             _inputInputField.text = text;
+            MoveCaretToTheEndOfTheText();
+        }
+        
+        public void SetTextOfInputInputFieldSilent(string text)
+        {
+            if (string.Equals(_inputInputField.text, text)) return;
+            
+            _inputInputField.SetTextWithoutNotify(text);
+            MoveCaretToTheEndOfTheText();
         }
         
         private void MoveCaretToTheStartOfTheText()
@@ -440,16 +388,12 @@ namespace Project
         
         private void ClearInputField() => _inputInputField.text = (string.Empty);
         
-        private void FocusOnInputField()
+        public void FocusOnInputField()
         {
             _inputInputField.ActivateInputField();
         }
         
-        private void ClearCommandPrediction()
-        {
-            _currentPrediction = null;
-            _inputFieldPredictionPlaceHolder.text = string.Empty;
-        }
+        
         #endregion
 
         #region Custom Commands
@@ -468,7 +412,7 @@ namespace Project
 
             stringBuilder.Append("Here the list of all available commands :\n");
 
-            foreach (var kvp in instance._commands)
+            foreach (var kvp in instance.commands)
             {
                 stringBuilder.Append($"{kvp.Key} --- {kvp.Value.description}\n");
             }
@@ -479,33 +423,48 @@ namespace Project
         
         [ButtonGroup]
         [ConsoleCommand("enable", "Enable the console")]
-        public static void EnableConsole()
+        public static void ShowConsole()
         {
             if (isConsoleEnabled) return;
 
-            EnableConsoleForced();
-            instance.FocusOnInputField();
+            ShowConsoleForced();
         }
 
-        private static void EnableConsoleForced()
+        private static void ShowConsoleForced()
         {
-            instance.transform.GetChild(0).gameObject.SetActive(true);
+            instance.gameObject.SetActive(true);
             isConsoleEnabled = true;
+
+            instance.OnShowConsole();
+        }
+
+        private void OnShowConsole()
+        {
+            instance.FocusOnInputField();
+
+            InputManager.instance.SwitchActionMap("UI");
         }
 
         [ButtonGroup]
         [ConsoleCommand("disable", "Disable the console")]
-        public static void DisableConsole()
+        public static void HideConsole()
         {
             if (isConsoleEnabled == false) return;
             
-            DisableConsoleForced();
+            HideConsoleForced();
         }
 
-        private static void DisableConsoleForced()
+        private static void HideConsoleForced()
         {
-            instance.transform.GetChild(0).gameObject.SetActive(false);
+            instance.gameObject.SetActive(false);
             isConsoleEnabled = false;
+
+            instance.OnHideConsole();
+        }
+
+        private void OnHideConsole()
+        {
+            InputManager.instance.SwitchActionMap(InputManager.instance.previousActionMap);
         }
         
         [Button]
@@ -565,8 +524,6 @@ namespace Project
         // Implementation of finding attributes sourced from yasirkula's code
         private void RetrieveCommandAttribute()
         {
-            
-
             Profiler.BeginSample("ConsoleAttributeRetrieving");
 
 #if UNITY_EDITOR || !NETFX_CORE
@@ -626,7 +583,7 @@ namespace Project
                                 {
                                     for (int i = 0; i < commandAttribute.commandNames.Length; i++)
                                     {
-                                        AddCommand(new Command(commandAttribute.commandNames[i], commandAttribute.description, method));
+                                        AddCommand(new ConsoleCommand(commandAttribute.commandNames[i], commandAttribute.description, method));
                                     }
                                     
                                 }

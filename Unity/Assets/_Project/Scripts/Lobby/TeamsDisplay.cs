@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,97 +10,82 @@ namespace Project
 {
     public class TeamsDisplay : NetworkBehaviour
     {
-        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
-        
         private readonly Dictionary<int, Image> _playersAvatar = new Dictionary<int, Image>();
-        public Image template;
         [SerializeField] private Sprite _defaultSprite;
+        [SerializeField] private Image _template;
 
-        public void OnPlayersReady_DisplayPlayersAvatar()
+
+        public override void OnNetworkSpawn()
         {
-            if (!IsServer && !IsOwner) return;
+            base.OnNetworkSpawn();
             
-            DisplayPlayersAvatar();
+            Init();
+        }
+        
+        
+        private void Init()
+        {
+            SpawnUi();
+            SetPlayersAvatar();
         }
 
-        [ClientRpc]
-        private void InstantiateUiClientRpc()
+        private void SpawnUi()
         {
             for (int i = 0; i < TeamManager.MAX_TEAM; i++)
             {
-                Image instance = Instantiate(template, transform);
-                instance.gameObject.SetActive(true);
+                Image instance = Instantiate(_template, transform);
                 _playersAvatar.Add(i, instance);
             }
         }
-        
-        private void DisplayPlayersAvatar()
+
+        private void SetPlayersAvatar()
         {
-            InstantiateUiClientRpc();
-            
             var teams = TeamManager.instance.GetTeamsData();
             
-            for (int i = 0; i < teams.Length; i++)
+            for (int i = 0; i < TeamManager.MAX_TEAM; i++)
             {
                 if (TeamManager.instance.IsTeamPlayerSlotAvailable(i, PlayerPlatform.Pc))
                 {
-                    SetDefaultCharacterAvatarServerRpc(i);
+                    GetByTeamId(i).sprite = _defaultSprite;
                 }
                 else
                 {
                     int playerCharacterId = UserInstanceManager.instance.GetUserInstance(teams[i].pcPlayerOwnerClientId).CharacterId;
 
-                    if (SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, playerCharacterId, out SOCharacter _))
-                    {
-                        SetPlayerCharacterAvatarClientRpc(i, playerCharacterId);
-                    }
-                    else
-                    {
-                        SetDefaultCharacterAvatarServerRpc(i);
-                    }
+                    GetByTeamId(i).sprite = SOCharacter.TryGetCharacter(playerCharacterId, out SOCharacter characterData) ? characterData.avatar : _defaultSprite;
                 }
             }
         }
-        
-        public void SetPlayerCharacterAvatar(int teamId, int characterId)
+
+        private Image GetByTeamId(int teamId) => _playersAvatar[teamId];
+
+        private Image GetByPlayerId(int playerId)
         {
-            SetPlayerCharacterAvatarClientRpc(teamId, characterId);
+            var teams = TeamManager.instance.GetTeamsData();
+            return GetByTeamId(teams.FindIndex(x => x.pcPlayerOwnerClientId == playerId));
+        }
+
+        [ServerRpc]
+        public void SetAvatarServerRpc(int playerId, int characterId)
+        {
+            SetAvatarClientRpc(playerId, characterId);
         }
 
         [ClientRpc]
-        private void SetPlayerCharacterAvatarClientRpc(int teamId, int characterId)
+        private void SetAvatarClientRpc(int playerId, int characterId)
         {
-            SetPlayerCharacterAvatarLocal(teamId, characterId);
+            SetAvatarLocal(playerId, characterId);
         }
 
-        private void SetPlayerCharacterAvatarLocal(int teamId, int characterId)
+        private void SetAvatarLocal(int playerId, int characterId)
         {
-            if (SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, characterId, out SOCharacter characterData))
+            Image player = GetByPlayerId(playerId);
+
+            if (SOCharacter.TryGetCharacter(characterId, out SOCharacter characterData))
             {
-                _playersAvatar[teamId].sprite = characterData.avatar;
+                player.sprite = characterData.avatar;
             }
-            else
-            {
-                Debug.LogError("There is no character with the id " + characterId);
-            }
-            
-        }
-        
-        [ServerRpc(RequireOwnership = false)]
-        private void SetDefaultCharacterAvatarServerRpc(int teamId)
-        {
-            SetDefaultCharacterAvatarClientRpc(teamId);
-        }
-
-        [ClientRpc]
-        private void SetDefaultCharacterAvatarClientRpc(int teamId)
-        {
-            SetDefaultCharacterAvatarLocal(teamId);
-        }
-
-        private void SetDefaultCharacterAvatarLocal(int teamId)
-        {
-            _playersAvatar[teamId].sprite = _defaultSprite;
+            else Debug.LogError("No character with id " + characterId);
         }
     }
 }

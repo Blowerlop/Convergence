@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using BestHTTP;
 using BestHTTP.Logger;
@@ -23,13 +25,12 @@ namespace Project
         private bool _isDisconnecting = false;
         
         // public readonly Event onClientStartEvent = new Event(nameof(onClientStartEvent));
-        public readonly Event onClientStopEvent = new Event(nameof(onClientStopEvent));
+        public Action onClientStopEvent;
         
         private void Start()
         {
             HTTPManager.Logger.Level = Loglevels.None;
         }
-
         
         /// <summary>
         /// Do not call directly this method. Use GRPC_NetworkManager.StartClient() instead.
@@ -72,13 +73,14 @@ namespace Project
                 Debug.LogWarning("No client are running");
                 return false;
             }
+
             if (_isDisconnecting) return true;
-            
+
             Debug.Log("Connection shutting down... cleaning client");
             _isDisconnecting = true;
-            
-            onClientStopEvent.Invoke(this, true);
-            
+
+            onClientStopEvent.Invoke();
+
             // To do: find a better place to put this
             GRPC_NetworkManager.instance.ClientsCancelTokens();
 
@@ -89,9 +91,9 @@ namespace Project
             Debug.Log("Client cleaned !");
             return true;
         }
-        
+
         #region Handshake
-        
+
         async Task<bool> NHandshake()
         {
             Debug.Log("GRPCClient.cs > NHandshake...");
@@ -107,10 +109,11 @@ namespace Project
                 response = new GRPC_NHandshakeGet(new GRPC_NHandshakeGet() { Result = -1 });
                 Debug.LogError($"GRPCClient.cs > Connection failed : {e}");
             }
-            
-            
+
+
             return response.Result == 0;
         }
+
         #endregion
     }
 }

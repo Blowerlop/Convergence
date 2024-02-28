@@ -148,7 +148,8 @@ GameObject:
   - component: {fileID: 2847123272100714907}
   - component: {fileID: 1134584407861169612}
   - component: {fileID: 7716055719088318621}
-  - component: {fileID: -4050408657617360730}
+  - component: {fileID: -5190282394034715347}
+  - component: {fileID: 173338008607415805}
   m_Layer: 0
   m_Name: DefaultSkillShot
   m_TagString: Untagged
@@ -210,7 +211,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &-4050408657617360730
+--- !u!114 &-5190282394034715347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,11 +220,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1489764068185235993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: SkillshotSpell
+  UnrealOwnerAddress: 
+--- !u!114 &173338008607415805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489764068185235993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821f53892ebc3024eb36e56360795854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
-  SyncPositionY: 0
+  SyncPositionY: 1
   SyncPositionZ: 1
   SyncRotAngleX: 0
   SyncRotAngleY: 0

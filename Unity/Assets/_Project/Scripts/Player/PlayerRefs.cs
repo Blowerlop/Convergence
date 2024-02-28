@@ -1,25 +1,40 @@
-using System;
+using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.Spells;
 using Project.Spells;
-using Project.Spells.Casters;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Project
 {
     public class PlayerRefs : NetworkBehaviour
     {
         private GRPC_NetworkVariable<int> _assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
+        private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
 
-        [SerializeField] private Transform playerTransform;
+        [SerializeField] protected Transform playerTransform;
         
-        [SerializeField] private SpellCastController spellCastController;
+        [SerializeField] private CooldownController cooldowns;
+        [SerializeField] private ChannelingController channeling;
+        [SerializeField] private PlayerStats stats;
+        [SerializeField] private PlayerStateMachineController _stateMachine;
+        [SerializeField] private NetworkAnimator _networkAnimator;
+        [SerializeField] private NavMeshAgent _navMeshAgent;
         
-        [SerializeField] private CooldownController pcCooldowns;
-        [SerializeField] private CooldownController mobileCooldowns;
+        public int AssignedTeam => _assignedTeam.Value;
+        public int OwnerId => _ownerId.Value;
         
+        // Find a way to point to PC PlayerRefs on mobile PlayerRefs
         public Transform PlayerTransform => playerTransform;
-        
-        public static event Action<PlayerRefs> OnLocalPlayerSpawned;
+
+        public CooldownController Cooldowns => cooldowns;
+        public ChannelingController Channeling => channeling;
+        public PlayerStats Stats => stats;
+        public PlayerStateMachineController StateMachine => _stateMachine;
+        public Animator Animator => _networkAnimator.Animator;
+        public NavMeshAgent NavMeshAgent => _navMeshAgent;
         
         #region Team Linking
         
@@ -29,18 +44,15 @@ namespace Project
             base.OnNetworkSpawn();
             
             _assignedTeam.Initialize();
+            _ownerId.Initialize();
             
             // OnValueChanged is not called for network object that were already spawned before joining
             // We need to call OnTeamChanged manually, if the value is not the default one
             if(_assignedTeam.Value != -1) OnTeamChanged(-1, _assignedTeam.Value);
             _assignedTeam.OnValueChanged += OnTeamChanged;
             
-            spellCastController.Init(this);
-
-            if (IsOwner)
-            {
-                OnLocalPlayerSpawned?.Invoke(this);
-            }
+            if(_ownerId.Value != int.MaxValue) OnOwnerChanged(int.MaxValue, _ownerId.Value);
+            _ownerId.OnValueChanged += OnOwnerChanged;
         }
 
         public override void OnNetworkDespawn()
@@ -48,52 +60,31 @@ namespace Project
             base.OnNetworkDespawn();
             
             _assignedTeam.OnValueChanged -= OnTeamChanged;
+            _ownerId.OnValueChanged -= OnOwnerChanged;
         }
 
-        public void ServerInit(int team)
+        [Server]
+        public virtual void ServerInit(int team, int ownerId, SOCharacter character)
         {
-            if (!IsServer && !IsHost) return;
-            
+            _ownerId.Value = ownerId;
             _assignedTeam.Value = team;
-        }
-
-        private void OnTeamChanged(int oldValue, int newValue)
-        {
-            var oldTeamResult = TeamManager.instance.TryGetTeam(oldValue, out var oldTeam);
-            var newTeamResult = TeamManager.instance.TryGetTeam(newValue, out var newTeam);
-
-            if (oldTeamResult)
-            {
-                UserInstance oldMobile = oldTeam.GetUserInstance(PlayerPlatform.Mobile);
-                UserInstance oldPc = oldTeam.GetUserInstance(PlayerPlatform.Pc);
-                
-                // Do not unlink if another character has already been linked to old team
-                if(oldMobile != null && oldMobile.LinkedPlayer == this) oldMobile.UnlinkPlayer();
-                if(oldPc != null && oldPc.LinkedPlayer == this) oldPc.UnlinkPlayer();
-            }
-
-            if (newTeamResult)
-            {
-                UserInstance newPc = newTeam.GetUserInstance(PlayerPlatform.Pc);
-                UserInstance newMobile = newTeam.GetUserInstance(PlayerPlatform.Mobile);
             
-                if (newPc) newPc.LinkPlayer(this);
-                if (newMobile) newMobile.LinkPlayer(this);
-            }
+            stats.ServerInit(character);
         }
-        
-        #endregion
-        
-        #region Cooldowns
 
-        public CooldownController GetCooldownController(PlayerPlatform platform)
+        protected virtual void OnTeamChanged(int oldValue, int newValue) { }
+        
+        protected virtual void OnOwnerChanged(int oldId, int newId)
         {
-            return platform switch
+            if(UserInstanceManager.instance.TryGetUserInstance(oldId, out var oldUser))
             {
-                PlayerPlatform.Pc => pcCooldowns,
-                PlayerPlatform.Mobile => mobileCooldowns,
-                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
-            };
+                oldUser.UnlinkPlayer();
+            }
+            
+            if(UserInstanceManager.instance.TryGetUserInstance(newId, out var newUser))
+            {
+                newUser.LinkPlayer(this);
+            }
         }
         
         #endregion

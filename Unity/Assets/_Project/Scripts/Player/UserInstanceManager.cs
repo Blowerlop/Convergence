@@ -19,8 +19,8 @@ namespace Project
             base.OnNetworkSpawn();
             NetworkManager.Singleton.OnClientConnectedCallback += CreateNetcodeUserInstance;
             NetworkManager.Singleton.OnClientDisconnectCallback += DestroyNetcodeUserInstance;
-            GRPC_NetworkManager.instance.onUnrealClientConnected.Subscribe(this, CreateUnrealUserInstance);
-            GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, DestroyUnrealUserInstance);
+            GRPC_NetworkManager.instance.onUnrealClientConnected += CreateUnrealUserInstance;
+            GRPC_NetworkManager.instance.onUnrealClientDisconnect += DestroyUnrealUserInstance;
         }
         
         public override void OnNetworkDespawn()
@@ -31,10 +31,10 @@ namespace Project
             NetworkManager.Singleton.OnClientConnectedCallback -= CreateNetcodeUserInstance;
             NetworkManager.Singleton.OnClientDisconnectCallback -= DestroyNetcodeUserInstance;
 
-            if (GRPC_NetworkManager.isBeingDestroyed == false)
+            if (GRPC_NetworkManager.IsInstanceAlive())
             {
-                GRPC_NetworkManager.instance.onUnrealClientConnected.Unsubscribe(CreateUnrealUserInstance);
-                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(DestroyUnrealUserInstance);
+                GRPC_NetworkManager.instance.onUnrealClientConnected -= CreateUnrealUserInstance;
+                GRPC_NetworkManager.instance.onUnrealClientDisconnect -= DestroyUnrealUserInstance;
             }
         }
 
@@ -71,6 +71,7 @@ namespace Project
             userInstance.SetClientId(clientId);
             userInstance.SetName(unrealClient.name);
             userInstance.SetIsMobile(true);
+            userInstance.SetCharacter(SOCharacter.GetMobileCharacterData().id);
                 
             _userInstances.Add(clientId, userInstance);
         }
@@ -158,8 +159,7 @@ namespace Project
             {
                 return userInstance;
             }
-
-            Debug.LogError($"The client {clientId} has no userInstance registered");
+            
             return null;
         }
         
@@ -176,7 +176,6 @@ namespace Project
                 if (userInstance.name == clientName) return userInstance;
             }
 
-            Debug.LogError($"The client {clientName} has no userInstance registered");
             return null;
         }
     }
