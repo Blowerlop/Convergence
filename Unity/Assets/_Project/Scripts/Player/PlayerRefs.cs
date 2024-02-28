@@ -1,15 +1,14 @@
+using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.Spells;
 using Project.Spells;
-using Sirenix.OdinInspector;
-using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Project
 {
-    public class PlayerRefs : NetworkBehaviour
+    public class PlayerRefs : Entity
     {
         private GRPC_NetworkVariable<int> _assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
@@ -18,12 +17,11 @@ namespace Project
         
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
-        [SerializeField] private PlayerStats stats;
         [SerializeField] private PlayerStateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
-        
-        public int AssignedTeam => _assignedTeam.Value;
+
+        public override int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
         // Find a way to point to PC PlayerRefs on mobile PlayerRefs
@@ -31,7 +29,6 @@ namespace Project
 
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
-        public PlayerStats Stats => stats;
         public PlayerStateMachineController StateMachine => _stateMachine;
         public Animator Animator => _networkAnimator.Animator;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
@@ -64,12 +61,12 @@ namespace Project
         }
 
         [Server]
-        public virtual void ServerInit(int team, int ownerId, SOCharacter character)
+        public override void ServerInit(int team, int ownerId, SOCharacter character)
         {
+            base.ServerInit(team, ownerId, character);
+            
             _ownerId.Value = ownerId;
             _assignedTeam.Value = team;
-            
-            stats.ServerInit(character);
         }
 
         protected virtual void OnTeamChanged(int oldValue, int newValue) { }

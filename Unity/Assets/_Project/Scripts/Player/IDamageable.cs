@@ -9,7 +9,7 @@ namespace Project
         /// <param name="modifier"></param>
         public void Damage(int modifier);
 
-        public bool CanDamage(int attackerTeamIndex);
+        public bool CanDamage(int teamIndex);
 
         /// <summary>
         /// Does the same as <see cref="Damage"/> but checks if the attacker can damage before applying.
