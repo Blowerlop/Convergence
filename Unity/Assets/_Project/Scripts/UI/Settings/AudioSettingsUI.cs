@@ -6,6 +6,7 @@ namespace Project._Project.Scripts.UI.Settings
     {
         [SerializeField] private SliderExtended _masterSlider;
         [SerializeField] private SliderExtended _musicSlider;
+        [SerializeField] private SliderExtended _ambienceSlider;
         [SerializeField] private SliderExtended _gameSoundsSlider;
 
 
@@ -20,6 +21,7 @@ namespace Project._Project.Scripts.UI.Settings
                 
             _masterSlider.onPointerUp.AddListener(OnPointerUp_SetMaster);
             _musicSlider.onPointerUp.AddListener(OnPointerUp_SetMusic);
+            _ambienceSlider.onPointerUp.AddListener(OnPointerUp_SetAmbience);
             _gameSoundsSlider.onPointerUp.AddListener(OnPointerUp_SetGameSounds);
         }
 
@@ -27,6 +29,7 @@ namespace Project._Project.Scripts.UI.Settings
         {
             _masterSlider.onPointerUp.RemoveListener(OnPointerUp_SetMaster);
             _musicSlider.onPointerUp.RemoveListener(OnPointerUp_SetMusic);
+            _ambienceSlider.onPointerUp.RemoveListener(OnPointerUp_SetAmbience);
             _gameSoundsSlider.onPointerUp.RemoveListener(OnPointerUp_SetGameSounds);
         }
 
@@ -35,6 +38,7 @@ namespace Project._Project.Scripts.UI.Settings
         {
             _masterSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_MASTER));
             _musicSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_MUSIC));
+            _ambienceSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_AMBIENCE));
             _gameSoundsSlider.SetValueWithoutNotify(Get(AudioSettingsManager.KEY_SFX));
         }
 
@@ -59,6 +63,11 @@ namespace Project._Project.Scripts.UI.Settings
         private void OnPointerUp_SetMusic(float value)
         {
             Set(AudioSettingsManager.KEY_MUSIC, value);
+        }
+        
+        private void OnPointerUp_SetAmbience(float value)
+        {
+            Set(AudioSettingsManager.KEY_AMBIENCE, value);
         }
         
         private void OnPointerUp_SetGameSounds(float value)

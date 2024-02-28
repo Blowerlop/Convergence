@@ -20,8 +20,9 @@ namespace Project._Project.Scripts.UI.Settings
         }
 
         public const string KEY_MASTER = "MasterBus";
-        public const string KEY_MUSIC = "Music";
-        public const string KEY_SFX = "SFX";
+        public const string KEY_MUSIC = "MasterBus/Music";
+        public const string KEY_AMBIENCE = "MasterBus/Ambience";
+        public const string KEY_SFX = "MasterBus/SFX";
         
         private static readonly string _logPrefix = "[AudioManager]";
         
@@ -73,11 +74,13 @@ namespace Project._Project.Scripts.UI.Settings
             
             SetWithoutNotify(KEY_MASTER, Get01(KEY_MASTER));
             SetWithoutNotify(KEY_MUSIC,Get01(KEY_MUSIC));
+            SetWithoutNotify(KEY_AMBIENCE,Get01(KEY_AMBIENCE));
             SetWithoutNotify(KEY_SFX, Get01(KEY_SFX));
             
             Debug.Log($"{_logPrefix} Volumes loaded : \n " +
                       $"- {KEY_MASTER} {GetDb(KEY_MASTER)} dB \n " +
                       $"- {KEY_MUSIC} {GetDb(KEY_MUSIC)} dB \n " +
+                      $"- {KEY_MUSIC} {GetDb(KEY_AMBIENCE)} dB \n " +
                       $"- {KEY_SFX} {GetDb(KEY_SFX)} dB");
         }
         
@@ -89,6 +92,9 @@ namespace Project._Project.Scripts.UI.Settings
         
         [ConsoleCommand("volume_m", "Set the music volume")]
         private static void SetMusicVolume(float value01) => Set(KEY_MUSIC, value01);
+        
+        [ConsoleCommand("volume_a", "Set the ambience volume")]
+        private static void SetAmbienceVolume(float value01) => Set(KEY_AMBIENCE, value01);
         
         [ConsoleCommand("volume_fx", "Set the game sounds volume")]
         private static void SetGameSoundsVolume(float value01) => Set(KEY_MASTER, value01);
