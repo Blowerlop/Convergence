@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
-	<object class="AudioFile" id="{aca583ab-46c9-46a8-b39f-1e22e5513875}">
+	<object class="AudioFile" id="{5d8eb199-a735-4d35-9c57-577f9d6bcceb}">
 		<property name="assetPath">
-			<value>Kultiran/loop/mus_81_kultiran_battle_3_b.mp3</value>
+			<value>Kultiran/intro/mus_91_broker_kultiran_highseas.mp3</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
@@ -14,7 +14,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>74.213877551020403</value>
+			<value>29.413877551020409</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{6d482be1-744e-4512-8cf4-a507dedf0b91}</destination>
