@@ -7,8 +7,8 @@ namespace Project._Project.Scripts.StateMachine
 {
     public abstract class BaseStateMachineController : NetworkBehaviour
     {
-        protected abstract BaseStateMachine defaultState { get; set; }
-        [ShowInInspector] public BaseStateMachine currentState { get; private set; }
+        [ShowInInspector, ReadOnly] protected abstract BaseStateMachine defaultState { get; set; }
+        [ShowInInspector, ReadOnly] public BaseStateMachine currentState { get; private set; }
         
         private PlayerRefs _playerRefs;
 
@@ -27,7 +27,7 @@ namespace Project._Project.Scripts.StateMachine
             currentState.Enter(_playerRefs);
         }
 
-        public virtual void Update()
+        private void Update()
         {
             currentState.Update();
         }
@@ -38,20 +38,20 @@ namespace Project._Project.Scripts.StateMachine
         /// </summary>
         /// <param name="newStateMachine">new player state</param>
         [Server]
-        public virtual void ChangeState(BaseStateMachine newStateMachine)
+        public void ChangeState(BaseStateMachine newStateMachine)
         {
             BaseStateMachine previousState = currentState;
             OnStateExit?.Invoke(previousState);
             previousState.Exit();
             
-            Debug.Log($"<color=#00D8FF>[{name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
+            Debug.Log($"<color=#00D8FF>[{_playerRefs.PlayerTransform.name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
             
             currentState = newStateMachine;
             currentState.Enter(_playerRefs);
             OnStateEnter?.Invoke(currentState);
         }
 
-        public virtual bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public bool CanChangeStateTo(BaseStateMachine newStateMachine)
         {
             return currentState.CanChangeStateTo(newStateMachine);
         }

@@ -17,7 +17,7 @@ namespace Project
                 _stats = (PCStats)playerRefs.Stats;
                 _stateMachine = playerRefs.StateMachine;
                             
-                _stats.OnHealthChanged += OnHealthChanged_CheckIfDead;
+                _stats.health.OnValueChanged += OnHealthChanged_CheckIfDead;
             }
         }
 
@@ -25,7 +25,7 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-            if (IsServer) _stats.OnHealthChanged -= OnHealthChanged_CheckIfDead;
+            if (IsServer) _stats.health.OnValueChanged -= OnHealthChanged_CheckIfDead;
         }
     
 

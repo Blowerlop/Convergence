@@ -25,7 +25,7 @@ namespace Project._Project.Scripts.Player.States
         protected override void OnExit()
         {
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
-            playerRefs.GetComponentInChildren<IHealable>().MaxHeal();
+            ((PCStats)playerRefs.Stats).health.SetToMaxValue();
         }
 
         public override void Dispose()

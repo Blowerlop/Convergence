@@ -19,7 +19,7 @@ namespace Project
             
             if (!_stats) return;
             
-            _stats.OnHealthChanged -= OnHealthChanged;
+            _stats.health.OnValueChanged -= OnHealthChanged;
         }
         
         private void Setup(PlayerRefs refs)
@@ -34,7 +34,7 @@ namespace Project
                 return;
             }
 
-            _stats.OnHealthChanged += OnHealthChanged;
+            _stats.health.OnValueChanged += OnHealthChanged;
         }
 
         private void OnHealthChanged(int currentHealth, int maxHealth)
