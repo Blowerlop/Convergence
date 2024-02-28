@@ -385,7 +385,14 @@ namespace GRPCServer.Services
                 {
                     Debug.Log($"GRPC_SrvNetVarUpdate > NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value}");
 
-                    netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
+                    if (netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
+                    {
+                        netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
+                    }
+                    else
+                    {
+                        netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
+                    }
 
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
