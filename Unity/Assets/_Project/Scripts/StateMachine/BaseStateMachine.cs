@@ -5,10 +5,10 @@ namespace Project._Project.Scripts.StateMachine
     [Serializable]
     public abstract class BaseStateMachine : IDisposable
     {
-        protected PlayerRefs playerRefs { get; private set; }
+        protected PCPlayerRefs playerRefs { get; private set; }
         
 
-        public void Enter(PlayerRefs refs)
+        public void Enter(PCPlayerRefs refs)
         {
             playerRefs = refs;
             

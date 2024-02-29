@@ -3,9 +3,7 @@ using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.Spells;
 using Project.Spells;
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Project
 {
@@ -16,26 +14,18 @@ namespace Project
 
         [SerializeField] protected Transform playerTransform;
 
-        [SerializeField] private Entity _entity;
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
-        [SerializeField] private PlayerStateMachineController _stateMachine;
-        [SerializeField] private NetworkAnimator _networkAnimator;
-        [SerializeField] private NavMeshAgent _navMeshAgent;
-
+        
         public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
         // Find a way to point to PC PlayerRefs on mobile PlayerRefs
         public Transform PlayerTransform => playerTransform;
-        public Entity Entity => _entity;
-
+        
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
-        public PlayerStateMachineController StateMachine => _stateMachine;
-        public Animator Animator => _networkAnimator.Animator;
-        public NavMeshAgent NavMeshAgent => _navMeshAgent;
-        
+
         #region Team Linking
         
         // Is done before ServerInit on server
@@ -64,11 +54,10 @@ namespace Project
         }
 
         [Server]
-        public void ServerInit(int team, int ownerId, SOEntity entity)
+        public virtual void ServerInit(int team, int ownerId, SOEntity entity)
         {
             _ownerId.Value = ownerId;
             _assignedTeam.Value = team;
-            _entity.ServerInit(entity);
         }
 
         protected virtual void OnTeamChanged(int oldValue, int newValue) { }

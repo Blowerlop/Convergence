@@ -22,7 +22,9 @@ namespace Project
         
         private void Setup(PlayerRefs refs)
         {
-            _stats = refs.Entity.Stats;
+            if (refs is not PCPlayerRefs _refs) return;
+            
+            _stats = _refs.Entity.Stats;
             
             _stats.health.OnValueChanged += OnHealthChanged;
         }

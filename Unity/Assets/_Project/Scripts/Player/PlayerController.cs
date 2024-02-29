@@ -5,7 +5,7 @@ namespace Project
 {
     public class PlayerController : Entity
     {
-        [SerializeField] private PlayerRefs _refs;
+        [SerializeField] private PCPlayerRefs _refs;
 
         public override int TeamIndex => _refs.TeamIndex;
 
