@@ -60,6 +60,10 @@ namespace Project
             /// Channeling : Bool
             /// </summary>
             public const int Channeling = -888734683;
+            /// <summary>
+            /// EmoteIndex : Int
+            /// </summary>
+            public const int EmoteIndex = -126835265;
         }
         
         public static class LayersMask

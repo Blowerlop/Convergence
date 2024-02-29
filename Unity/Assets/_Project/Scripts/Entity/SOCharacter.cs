@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Project
 {
+    [CreateAssetMenu(menuName = "Scriptable Objects/Character")]
     public class SOCharacter : SOEntity
     {
         [ShowInInspector, PropertyOrder(-1)] public int id = -1;

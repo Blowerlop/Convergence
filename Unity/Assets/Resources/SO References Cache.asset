@@ -14,6 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <autoFetchInPlaymode>k__BackingField: 1
   _scriptableObjectsCache:
+  - <typeName>k__BackingField: EmoteData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 311fd77ffb3937243ba40fdd1beed494, type: 2}
+    - {fileID: 11400000, guid: bfccfeb78b0d2214d8a2e488bdbdc950, type: 2}
+    - {fileID: 11400000, guid: 9cef1a8c7c8986b4398bc4d828e34db0, type: 2}
+    - {fileID: 11400000, guid: f591a104b9b4ef74dab2f2ce45b4dc23, type: 2}
   - <typeName>k__BackingField: SOCharacter
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}

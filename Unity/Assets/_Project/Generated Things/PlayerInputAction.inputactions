@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "MultiTap(tapDelay=0.25)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "EmotesWheel",
+                    "type": "Button",
+                    "id": "ad53a320-67d4-44a4-bf1a-165ebec19865",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -336,6 +345,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LockCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64813dfe-f703-4ecf-83dd-b515e9757322",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "EmotesWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
