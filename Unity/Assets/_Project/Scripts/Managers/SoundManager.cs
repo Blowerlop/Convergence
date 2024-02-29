@@ -377,6 +377,7 @@ namespace Project._Project.Scripts.Managers
             {
                 case RESULT.OK:
                     return false;
+                case RESULT.ERR_EVENT_NOTFOUND:
                 case RESULT.ERR_FILE_NOTFOUND:
                     Debug.LogWarning("Fmod: Event: " + info + " does not exist prévenir Guillaume");
                     return false;

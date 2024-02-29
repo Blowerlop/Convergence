@@ -61,5 +61,11 @@ namespace Project
         }
 
         public void SetToMaxValue() => Value = MaxValue;
+
+        [Button]
+        private void AddHealth(int value)
+        {
+            Value += value;
+        }
     }
 }
