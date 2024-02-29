@@ -20,7 +20,6 @@ namespace Project
         public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
-        // Find a way to point to PC PlayerRefs on mobile PlayerRefs
         public Transform PlayerTransform => playerTransform;
         
         public CooldownController Cooldowns => cooldowns;

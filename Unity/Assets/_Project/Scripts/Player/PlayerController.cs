@@ -1,4 +1,6 @@
+using System;
 using Project._Project.Scripts;
+using Project.Spells;
 using UnityEngine;
 
 namespace Project
@@ -9,6 +11,24 @@ namespace Project
 
         public override int TeamIndex => _refs.TeamIndex;
 
+        private void Start()
+        {
+            SpellManager.OnChannelingStarted += OnChannelingStarted;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            SpellManager.OnChannelingStarted -= OnChannelingStarted;
+        }
+        
+        private void OnChannelingStarted(PlayerRefs player, Vector3 direction)
+        {
+            if (player != _refs) return;
+            
+            _refs.PlayerTransform.rotation = Quaternion.LookRotation(direction);
+        }
 
         public override void OnNetworkSpawn()
         {

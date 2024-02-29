@@ -56,6 +56,10 @@ namespace Project
             /// Movement : Bool
             /// </summary>
             public const int Movement = 229373857;
+            /// <summary>
+            /// Channeling : Bool
+            /// </summary>
+            public const int Channeling = -888734683;
         }
         
         public static class LayersMask

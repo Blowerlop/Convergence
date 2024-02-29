@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b015a24c5a2042599366f9b452798718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRefs: {fileID: 6738473160392363157}
   channelingNetVarName: IsChanneling
 --- !u!1 &1620765535107710638
 GameObject:
@@ -191,12 +192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  _entity: {fileID: 0}
   cooldowns: {fileID: 9017225376331183656}
   channeling: {fileID: 2923043460446806746}
-  _stateMachine: {fileID: 0}
-  _networkAnimator: {fileID: 0}
-  _navMeshAgent: {fileID: 0}
 --- !u!114 &1849431562472469695
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ namespace Project.Spells
 {
     public class SpellManager : NetworkSingleton<SpellManager>
     {
+        public static event Action<PlayerRefs, Vector3> OnChannelingStarted;
+        
         [Server]
         public void TryCastSpell(int clientId, int spellIndex, ICastResult results)
         {
@@ -38,6 +40,8 @@ namespace Project.Spells
             
             channelingController.StartServerChanneling(spell.channelingTime,
                 () => OnChannelingEnded(spell, results, playerRefs));
+            
+            OnChannelingStarted?.Invoke(playerRefs, spell.spellPrefab.GetDirection(results, playerRefs));
         }
 
         [Server]

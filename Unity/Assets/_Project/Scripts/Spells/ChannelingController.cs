@@ -1,4 +1,6 @@
 using System;
+using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.StateMachine;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,6 +8,8 @@ namespace Project._Project.Scripts.Spells
 {
     public class ChannelingController : NetworkBehaviour
     { 
+        [SerializeField] private PlayerRefs playerRefs;
+        
         [SerializeField] private string channelingNetVarName = "Channeling";
         
         private GRPC_NetworkVariable<bool> _isChanneling;
@@ -52,12 +56,26 @@ namespace Project._Project.Scripts.Spells
         [Server]
         public void StartServerChanneling(float channelingTime, Action channelingDoneAction = null)
         {
+            ChangeState(new CastingState());
+            
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {
+                ChangeState(new IdleState());
+                
                 channelingDoneAction?.Invoke();
                 _isChanneling.Value = false;
             });
+
+            void ChangeState(BaseStateMachine state)
+            {
+                if (playerRefs is not PCPlayerRefs pcRefs) return;
+                
+                if (pcRefs.StateMachine.CanChangeStateTo(state))
+                {
+                    pcRefs.StateMachine.ChangeState(state);
+                }
+            }
         }
     }
 }

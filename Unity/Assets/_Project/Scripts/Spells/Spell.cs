@@ -23,5 +23,7 @@ namespace Project.Spells
         protected abstract void Init(ICastResult castResult);
 
         public abstract (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player);
+        
+        public abstract Vector3 GetDirection(ICastResult castResult, PlayerRefs player);
     }
 }
