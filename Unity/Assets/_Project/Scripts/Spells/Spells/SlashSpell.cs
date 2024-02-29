@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Project._Project.Scripts.Managers;
 using UnityEngine;
 
 namespace Project.Spells
@@ -22,6 +23,8 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return;
             }
+            
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
             
             CheckForDamage(GetCollisions());
             Invoke(nameof(KillSpell), 3);
