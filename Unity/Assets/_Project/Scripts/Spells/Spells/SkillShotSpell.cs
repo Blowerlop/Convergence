@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Project._Project.Scripts.Managers;
 using UnityEngine;
 
 namespace Project.Spells
@@ -27,7 +28,7 @@ namespace Project.Spells
             }
 
             _results = results;
-            
+
             _moveSeq = DOTween.Sequence();
             _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, duration).SetEase(Ease.Linear));
             _moveSeq.OnComplete(() => NetworkObject.Despawn());
@@ -81,6 +82,13 @@ namespace Project.Spells
             {
                 KillSpell();
             }
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
         }
 
         private void KillSpell()
