@@ -5,12 +5,18 @@ namespace Project.Effects
         public int DamageAmount;
         
         [Server]
-        public override void Apply(PlayerRefs player)
+        public override bool TryApply(PlayerRefs player)
         {
             if(player is not PCPlayerRefs pcPlayer)
-                return;
-            
-            pcPlayer.Entity.Stats.health.Value -= DamageAmount;
+                return false;
+
+            if (!pcPlayer.Entity.CanDamage(player.TeamIndex))
+            {
+                pcPlayer.Entity.Damage(DamageAmount);
+                return true;
+            }
+
+            return false;
         }
     }
 }

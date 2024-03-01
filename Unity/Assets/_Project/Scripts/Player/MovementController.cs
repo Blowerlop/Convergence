@@ -20,7 +20,6 @@ namespace Project
         private const float _DESTINATION_REACHED_OFFSET = 0.1f;
         
         public event Action OnPositionReached;
-
         
         private void Awake()
         {
@@ -33,8 +32,8 @@ namespace Project
             enabled = IsServer;
             
             PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
-            NavMeshAgent agent = playerRefs.NavMeshAgent; 
-                
+            NavMeshAgent agent = playerRefs.NavMeshAgent;
+            
             if (IsServer)
             {
                 _player = playerRefs.PlayerTransform;
@@ -43,6 +42,9 @@ namespace Project
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
+                
+                var moveSpeed = playerRefs.Entity.Stats.moveSpeed;
+                moveSpeed.OnValueChanged += OnSpeedChanged;
             }
             else
             {
@@ -53,7 +55,7 @@ namespace Project
             {
                 InputManager.instance.onMouseButton1.started += TryGoToPosition;
             }
-        } 
+        }
 
         public override void OnNetworkDespawn()
         {
@@ -116,6 +118,12 @@ namespace Project
             {
                 _stateMachineController.ChangeState(_stateMachineController.idleState);
             }
+        }
+        
+        [Server]
+        private void OnSpeedChanged(int current, int max)
+        {
+            _agent.speed = current;
         }
     }
 }

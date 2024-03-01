@@ -75,12 +75,16 @@ namespace Project.Spells
 
         private void OnCollision(RaycastHit hit)
         {
-            if (!hit.transform.TryGetComponent(out IDamageable damageable)) return;
+            if (!hit.transform.TryGetComponent(out PlayerRefs player)) return;
 
-            if (damageable.TryDamage(Data.baseDamage, CasterTeamIndex))
+            int appliedNb = 0;
+            
+            foreach (var effect in Data.effects)
             {
-                KillSpell();
+                if (effect.TryApply(player)) appliedNb++;
             }
+
+            if (appliedNb > 0) KillSpell();
         }
 
         private void KillSpell()

@@ -9,6 +9,7 @@ namespace Project
         public PlayerRefs PlayerRefs => playerRefs;
         
         [field: SerializeField] public Health health { get; private set; }
+        [field: SerializeField] public MoveSpeed moveSpeed { get; private set; }
 
         [Server]
         public void ServerInit(SOEntity entity)
@@ -17,6 +18,8 @@ namespace Project
             
             health.MaxValue = character.BaseHealth;
             health.Value = character.BaseHealth;
+
+            moveSpeed.Value = character.BaseMoveSpeed;
         }
     }
 }

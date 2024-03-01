@@ -22,3 +22,18 @@ MonoBehaviour:
   cooldown: 5
   channelingTime: 0.25
   baseDamage: 25
+  effects:
+  - rid: 2921934589571366912
+  - rid: 2921934589586046976
+  references:
+    version: 2
+    RefIds:
+    - rid: 2921934589571366912
+      type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        DamageAmount: 25
+    - rid: 2921934589586046976
+      type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        SlowAmount: 150
+        Duration: 5

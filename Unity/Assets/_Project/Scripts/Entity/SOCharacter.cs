@@ -28,6 +28,7 @@ namespace Project
         
         // Stats
         [field: SerializeField, BoxGroup("Stats")] public int BaseHealth { get; private set; }
+        [field: SerializeField, BoxGroup("Stats")] public int BaseMoveSpeed { get; private set; }
 
         public static SOCharacter[] GetAllCharacters()
         {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Project._Project.Scripts
 
         public virtual int TeamIndex => -1;
 
+        private List<Effect> _appliedEffects = new();
 
         [Server]
         public void ServerInit(SOEntity entityData)
@@ -38,6 +40,11 @@ namespace Project._Project.Scripts
         public bool CanDamage(int teamIndex)
         {
             return TeamIndex != teamIndex;
+        }
+        
+        public void ApplyEffect(Effect effect)
+        {
+            _appliedEffects.Add(effect);
         }
     }
 }

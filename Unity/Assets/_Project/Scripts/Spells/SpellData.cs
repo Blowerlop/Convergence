@@ -22,6 +22,8 @@ namespace Project.Spells
         [BoxGroup("Spell")] public float channelingTime;
 
         [BoxGroup("Spell")] public int baseDamage;
+
+        [SerializeReference] public Effect[] effects;
         
         void Awake()
         {

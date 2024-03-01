@@ -5,12 +5,13 @@ namespace Project.Effects
         public int HealAmount;
         
         [Server]
-        public override void Apply(PlayerRefs player)
+        public override bool TryApply(PlayerRefs player)
         {
             if(player is not PCPlayerRefs pcPlayer)
-                return;
+                return false;
             
-            pcPlayer.Entity.Stats.health.Value += HealAmount;
+            pcPlayer.Entity.Heal(HealAmount);
+            return true;
         }
     }
 }
