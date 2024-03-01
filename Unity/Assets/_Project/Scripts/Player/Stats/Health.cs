@@ -62,10 +62,12 @@ namespace Project
 
         public void SetToMaxValue() => Value = MaxValue;
 
+        #if UNITY_EDITOR
         [Button]
         private void AddHealth(int value)
         {
             Value += value;
         }
+        #endif
     }
 }
