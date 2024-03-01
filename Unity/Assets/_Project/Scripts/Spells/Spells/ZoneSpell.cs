@@ -23,8 +23,6 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return;
             }
-            
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
 
             _results = results;
         }
@@ -63,6 +61,13 @@ namespace Project.Spells
             if (!IsServer && !IsHost) return;
             
             NetworkObject.Despawn();
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
         }
     }
 }
