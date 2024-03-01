@@ -38,10 +38,10 @@ namespace Project._Project.Scripts.Managers
     {
         private List<string> _eventsPath;
 
-        private readonly Dictionary<string, SoundInstance> _staticSoundList = new();
-        private readonly Dictionary<string, SoundInstance> _globalSoundList = new();
-        private readonly Dictionary<string, SoundInstance> _snapshotList = new();
-        private readonly Dictionary<string, Bus> _busList = new();
+        private readonly Dictionary<string, SoundInstance> _staticSoundList = new Dictionary<string, SoundInstance>();
+        private readonly Dictionary<string, SoundInstance> _globalSoundList = new Dictionary<string, SoundInstance>();
+        private readonly Dictionary<string, SoundInstance> _snapshotList = new Dictionary<string, SoundInstance>();
+        private readonly Dictionary<string, Bus> _busList = new Dictionary<string, Bus>();
         private Dictionary<int, PlayerAction> _actionPool;
 
         private IEnumerator _poolCoroutine;
@@ -78,10 +78,8 @@ namespace Project._Project.Scripts.Managers
         /// <param name="type"></param>
         public void PlayGlobalSound(string eventName, string eventAlias, EventType type)
         {
-            GetPath(ref eventName, type);
-            
-            if (CheckErrorMessage(RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo), eventName))
-                return;
+            if (RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo) != RESULT.OK)
+                goto errCallback;
 
             if (_globalSoundList.TryGetValue(eventAlias, out var value))
             {
@@ -93,10 +91,15 @@ namespace Project._Project.Scripts.Managers
 
             eventInfo.createInstance(out var eventInstance);
             
-            if(CheckErrorMessage(eventInstance.start()))
-                return;
+            if(eventInstance.start() != RESULT.OK)
+                goto errCallback;
             
             _globalSoundList.Add(eventAlias, new SoundInstance(eventName, type, eventInstance));
+            
+            return;
+            
+            errCallback:
+            Debug.LogWarning("Fmod: Event:" + eventName + " does not exist prévenir Guillaume");
         }
 
         /// <summary>
@@ -123,10 +126,8 @@ namespace Project._Project.Scripts.Managers
         /// <param name="type"></param>
         public void PlayStaticSound(string eventName, string eventAlias, Vector3 position, EventType type)
         {
-            GetPath(ref eventName, type);
-            
-            if (CheckErrorMessage(RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo), eventName))
-                return;
+            if (RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo) != RESULT.OK)
+                goto errCallback;
 
             if (_staticSoundList.TryGetValue(eventAlias, out var value))
             {
@@ -140,18 +141,21 @@ namespace Project._Project.Scripts.Managers
             
             eventInstance.set3DAttributes(position.To3DAttributes());
             
-            if(CheckErrorMessage(eventInstance.start()))
-                return;
+            if(eventInstance.start() != RESULT.OK)
+                goto errCallback;
             
             _staticSoundList.Add(eventAlias, new SoundInstance(eventName, type, eventInstance));
+            
+            return;
+            
+            errCallback:
+            Debug.LogWarning("Fmod: Event:" + eventName + " does not exist prévenir Guillaume");
         }
         
         public void PlayStaticSound(string eventName, string eventAlias, GameObject target, EventType type)
         {
-            GetPath(ref eventName, type);
-            
-            if (CheckErrorMessage(RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo), eventName))
-                return;
+            if (RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo) != RESULT.OK)
+                goto errCallback;
 
             if (_staticSoundList.TryGetValue(eventAlias, out var value))
             {
@@ -165,24 +169,13 @@ namespace Project._Project.Scripts.Managers
             
             RuntimeManager.AttachInstanceToGameObject(eventInstance, target.transform);
             
-            if(CheckErrorMessage(eventInstance.start()))
-                return;
+            if(eventInstance.start() != RESULT.OK)
+                goto errCallback;
             
             _staticSoundList.Add(eventAlias, new SoundInstance(eventName, type, eventInstance));
-        }
-        
-        public void PlayStaticSound(string eventName, GameObject target, EventType type)
-        {
-            GetPath(ref eventName, type);
-
-            if (CheckErrorMessage(RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo), eventName)) 
-                return;
             
-            eventInfo.createInstance(out var eventInstance);
-            
-            RuntimeManager.AttachInstanceToGameObject(eventInstance, target.transform);
-
-            CheckErrorMessage(eventInstance.start());
+            errCallback:
+            Debug.LogWarning("Fmod: Event:" + eventName + " does not exist prévenir Guillaume");
         }
 
         /// <summary>
@@ -238,67 +231,13 @@ namespace Project._Project.Scripts.Managers
         }
 
         #endregion
-
-        #region Parameters
-
-        public void SetGlobalParameterValue(string parameterName, int parameterValue)
-        {
-            CheckErrorMessage(RuntimeManager.StudioSystem.setParameterByName(parameterName, parameterValue),
-                parameterName);
-        }
-        
-        public void SetGlobalParameterValue(string parameterName, string parameterValue)
-        {
-            CheckErrorMessage(RuntimeManager.StudioSystem.setParameterByNameWithLabel(parameterName, parameterValue),
-                parameterName);
-        }
-        
-        public void SetGlobalSoundParameterValue(string parameterName, int parameterValue, string eventAlias)
-        {
-            if(_globalSoundList.TryGetValue(eventAlias, out var eventInstance))
-            {
-                CheckErrorMessage(eventInstance.EventInstance.setParameterByName(parameterName, parameterValue),
-                    parameterName);
-            }
-        }
-        
-        public void SetGlobalSoundParameterValue(string parameterName, string parameterValue, string eventAlias)
-        {
-            if(_globalSoundList.TryGetValue(eventAlias, out var eventInstance))
-            {
-                CheckErrorMessage(
-                    eventInstance.EventInstance.setParameterByNameWithLabel(parameterName, parameterValue),
-                    parameterName);
-            }
-        }
-        
-        public void SetStaticSoundParameterValue(string parameterName, int parameterValue, string eventAlias)
-        {
-            if(_staticSoundList.TryGetValue(eventAlias, out var eventInstance))
-            {
-                CheckErrorMessage(eventInstance.EventInstance.setParameterByName(parameterName, parameterValue),
-                    parameterName);
-            }
-        }
-        
-        public void SetStaticSoundParameterValue(string parameterName, string parameterValue, string eventAlias)
-        {
-            if(_staticSoundList.TryGetValue(eventAlias, out var eventInstance))
-            {
-                CheckErrorMessage(
-                    eventInstance.EventInstance.setParameterByNameWithLabel(parameterName, parameterValue),
-                    parameterName);
-            }
-        }
-
-        #endregion
         
         #region Utils
 
         public void TriggerSnapshot(string snapshotName, string snapshotAlias)
         {
-            if (CheckErrorMessage(RuntimeManager.StudioSystem.getEvent("snapshot:/" + snapshotName, out var eventInfo), snapshotName))
-                return;
+            if (RuntimeManager.StudioSystem.getEvent("snapshot:/" + snapshotName, out var eventInfo) != RESULT.OK)
+                goto errCallback;
 
             if (_snapshotList.TryGetValue(snapshotAlias, out var value))
             {
@@ -310,11 +249,16 @@ namespace Project._Project.Scripts.Managers
             
             eventInfo.createInstance(out var eventInstance);
             
-            if(CheckErrorMessage(eventInstance.start()))
-                return;
+            if(eventInstance.start() != RESULT.OK)
+                goto errCallback;
 
             _snapshotList.Add(snapshotAlias,
                 new SoundInstance("snapshot:/" + snapshotName, EventType.Snapshot, eventInstance));
+            
+            return;
+            
+            errCallback:
+            Debug.LogWarning("Fmod: Event: snapshot:/" + snapshotName + " does not exist prévenir Guillaume");
         }
         
         public void StopSnapshot(string snapshotAlias)
@@ -351,41 +295,6 @@ namespace Project._Project.Scripts.Managers
 
             return _eventsPath;
         }
-
-        private void GetPath(ref string eventName, EventType type)
-        {
-            switch (type)
-            {
-                case EventType.Music:
-                    eventName = "event:/Music/" + eventName;
-                    break;
-                case EventType.Ambiance:
-                    eventName = "event:/Ambience/" + eventName;
-                    break;
-                case EventType.SFX:
-                    eventName = "event:/SFX/" + eventName;
-                    break;
-                default:
-                    eventName = "event:/" + eventName;
-                    break;
-            }
-        }
-
-        private bool CheckErrorMessage(RESULT result, string info = null)
-        {
-            switch (result)
-            {
-                case RESULT.OK:
-                    return false;
-                case RESULT.ERR_EVENT_NOTFOUND:
-                case RESULT.ERR_FILE_NOTFOUND:
-                    Debug.LogWarning("Fmod: Event: " + info + " does not exist prévenir Guillaume");
-                    return false;
-                default:
-                    Debug.LogError("Fmod: " + result + ", " + info + " prévenir Guillaume");
-                    return true;
-            }
-        } 
 
         #endregion
     }

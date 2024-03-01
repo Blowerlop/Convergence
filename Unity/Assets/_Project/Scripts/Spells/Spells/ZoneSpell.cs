@@ -1,5 +1,4 @@
 using DG.Tweening;
-using Project._Project.Scripts.Managers;
 using Project.Extensions;
 using UnityEngine;
 
@@ -78,13 +77,6 @@ namespace Project.Spells
             if (!IsServer && !IsHost) return;
             
             NetworkObject.Despawn();
-        }
-        
-        public override void OnNetworkSpawn()
-        {
-            base.OnNetworkSpawn();
-            
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
         }
     }
 }
