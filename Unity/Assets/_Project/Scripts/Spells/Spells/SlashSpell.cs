@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using Project._Project.Scripts.Managers;
+using Project.Extensions;
 using UnityEngine;
 
 namespace Project.Spells
@@ -36,12 +37,26 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return default;
             }
+
+            var dir = GetDirection(castResult, player);
+            
+            return (results.VectorProp, Quaternion.LookRotation(dir));
+        }
+
+        public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
+        {
+            if (castResult is not SingleVectorResults results)
+            {
+                Debug.LogError(
+                    $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
+                return default;
+            }
             
             var dir = results.VectorProp - player.PlayerTransform.position;
             dir.y = 0;
             dir.Normalize();
             
-            return (results.VectorProp, Quaternion.LookRotation(dir));
+            return dir;
         }
 
         private Collider[] GetCollisions()

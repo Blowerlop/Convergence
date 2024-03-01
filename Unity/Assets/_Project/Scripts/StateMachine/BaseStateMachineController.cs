@@ -7,10 +7,10 @@ namespace Project._Project.Scripts.StateMachine
 {
     public abstract class BaseStateMachineController : NetworkBehaviour
     {
-        [ShowInInspector, ReadOnly] protected abstract BaseStateMachine defaultState { get; set; }
+        protected abstract BaseStateMachine defaultState { get; set; }
         [ShowInInspector, ReadOnly] public BaseStateMachine currentState { get; private set; }
         
-        private PlayerRefs _playerRefs;
+        private PCPlayerRefs _playerRefs;
 
         public event Action<BaseStateMachine> OnStateEnter;
         public event Action<BaseStateMachine> OnStateExit;
@@ -18,7 +18,7 @@ namespace Project._Project.Scripts.StateMachine
         
         private void Awake()
         {
-            _playerRefs = GetComponent<PlayerRefs>();
+            _playerRefs = GetComponent<PCPlayerRefs>();
         }
 
         public override void OnNetworkSpawn()

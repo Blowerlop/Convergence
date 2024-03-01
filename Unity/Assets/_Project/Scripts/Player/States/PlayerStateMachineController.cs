@@ -9,5 +9,6 @@ namespace Project._Project.Scripts.Player.States
         public readonly IdleState idleState = new IdleState();
         public readonly MoveState moveState = new MoveState();
         public readonly DeadState deadState = new DeadState();
+        public readonly CastingState castingState = new CastingState();
     }
 }

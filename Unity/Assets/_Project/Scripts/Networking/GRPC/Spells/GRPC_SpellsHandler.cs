@@ -62,10 +62,13 @@ namespace Project
                     HandleSpellCastRequest(request);
                 }
             }
-            catch (RpcException)
-            { 
+            catch (RpcException e)
+            {
                 if (GRPC_NetworkManager.instance.isConnected)
+                {
+                    Debug.LogError(e);
                     GRPC_NetworkManager.instance.StopClient();
+                }
             }
         }
 
@@ -148,10 +151,13 @@ namespace Project
                     HandleSpellSlotUpdate(spellSlot);
                 }
             }
-            catch (RpcException)
-            { 
+            catch (RpcException e)
+            {
                 if (GRPC_NetworkManager.instance.isConnected)
+                {
+                    Debug.LogError(e);
                     GRPC_NetworkManager.instance.StopClient();
+                }
             }
         }
 

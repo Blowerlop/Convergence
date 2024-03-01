@@ -7,8 +7,8 @@ namespace Project
 {
     public class Health : NetworkBehaviour, IStat
     {
-        private readonly GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth");
-        private readonly GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health");
+        private readonly GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth", 1);
+        private readonly GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health", 1);
         
         /// <summary>
         /// Current health / Max health

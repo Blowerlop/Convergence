@@ -107,6 +107,8 @@ namespace Project
             
             if (!IsServer && !IsHost) return;
 
+            DisposeGrpcStream();
+            
             if (GRPC_NetworkManager.IsInstanceAlive())
             {
                 GRPC_NetworkManager.instance.onClientStartedEvent -= InitGrpcStream;
@@ -122,7 +124,7 @@ namespace Project
             Read();
         }
         
-        private void DisposeGrpcStream()
+        public void DisposeGrpcStream()
         {
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
@@ -292,11 +294,15 @@ namespace Project
             try
             {
                 await _teamManagerStream.RequestStream.WriteAsync(response, _cancellationTokenSource.Token);
+                Debug.Log("Team message send");
             }
-            catch (IOException)
+            catch (IOException e)
             {
                 if (GRPC_NetworkManager.instance.isConnected)
+                {
+                    Debug.LogError(e);
                     GRPC_NetworkManager.instance.StopClient();
+                }
             }
         }
         
@@ -306,19 +312,20 @@ namespace Project
             {
                 while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))
                 {
-                    Debug.Log("Message received");
+                    Debug.Log("Team message received");
                     GRPC_Team messageReceived = _teamManagerStream.ResponseStream.Current;
                     bool response = TrySetTeam(messageReceived.ClientId, messageReceived.TeamIndex, PlayerPlatform.Mobile);
                     Write(new GRPC_TeamResponse {Team = messageReceived, Response = response});
                 }
             }
-            catch (RpcException)
+            catch (RpcException e)
             {
                 if (GRPC_NetworkManager.instance.isConnected)
                 {
+                    Debug.LogError(e);
                     GRPC_NetworkManager.instance.StopClient();
                 }
-            }
+            }   
         }
     }
 }

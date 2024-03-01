@@ -1,22 +1,25 @@
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Project._Project.Scripts
 {
-    public class Entity : NetworkBehaviour, IHealable, IDamageable/*, ITargetable*/
+    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable/*, ITargetable*/
     {
-        [SerializeField] private PCStats _stats;
-        public PCStats Stats => _stats;
+        [ShowInInspector, ReadOnly, ServerField] protected SOEntity _data;
+        [SerializeField] protected PlayerStats _stats;
+        public PlayerStats Stats => _stats;
 
         public virtual int TeamIndex => -1;
-        
-        
-        [Server]
-        public virtual void ServerInit(int team, int ownerId, SOCharacter character)
-        {
-            _stats.ServerInit(character);
-        }
 
+
+        [Server]
+        public void ServerInit(SOEntity entityData)
+        {
+            _data = entityData;
+            _stats.ServerInit(entityData);
+        }
+        
         public void Heal(int modifier)
         {
             _stats.health.Value += modifier;

@@ -58,6 +58,7 @@ namespace Project
             foreach (Type type in types)
             {
                 ScriptableObject[] scriptableObjects = Utilities.FindAssetsByType<ScriptableObject>(type).Where(t => t.GetType() == type).ToArray();
+                if (scriptableObjects.Length == 0) continue;
                 instance._scriptableObjectsCache.Add(new SOCacheEntry(type.Name, scriptableObjects));
             }
             

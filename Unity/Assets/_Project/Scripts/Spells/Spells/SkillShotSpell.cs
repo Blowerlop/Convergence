@@ -46,6 +46,18 @@ namespace Project.Spells
             return (player.PlayerTransform.position, Quaternion.LookRotation(results.VectorProp));
         }
 
+        public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
+        {
+            if (castResult is not SingleVectorResults results)
+            {
+                Debug.LogError(
+                    $"Given channeling result {nameof(castResult)} is not the required type for {nameof(SkillShotSpell)}!");
+                return default;
+            }
+            
+            return results.VectorProp;
+        }
+
         private void Update()
         {
             if (!IsServer && !IsHost) return;

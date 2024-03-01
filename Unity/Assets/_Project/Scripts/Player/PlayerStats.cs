@@ -8,7 +8,15 @@ namespace Project
         [SerializeField] private PlayerRefs playerRefs;
         public PlayerRefs PlayerRefs => playerRefs;
         
+        [field: SerializeField] public Health health { get; private set; }
+
         [Server]
-        public virtual void ServerInit(SOCharacter character) { }
+        public void ServerInit(SOEntity entity)
+        {
+            SOCharacter character = (SOCharacter)entity;
+            
+            health.MaxValue = character.BaseHealth;
+            health.Value = character.BaseHealth;
+        }
     }
 }

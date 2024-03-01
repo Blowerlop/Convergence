@@ -1,6 +1,7 @@
 using System.Globalization;
 using DG.Tweening;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,8 +29,13 @@ namespace Project.Spells
             
             if (!_cooldowns) return;
             
+            // For clients only
             _cooldowns.OnLocalCooldownStarted -= OnCooldownStarted;
             _cooldowns.OnLocalCooldownUpdated -= OnCooldownUpdated;
+            
+            // For host only
+            _cooldowns.OnServerCooldownStarted -= OnCooldownStarted;
+            _cooldowns.OnServerCooldownUpdated -= OnCooldownUpdated;
             
             _cooldowns.OnServerCooldownEnded -= OnCooldownEnded;
         }
@@ -37,9 +43,17 @@ namespace Project.Spells
         private void Setup(PlayerRefs refs)
         {
             _cooldowns = refs.Cooldowns;
-            
-            _cooldowns.OnLocalCooldownStarted += OnCooldownStarted;
-            _cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;
+
+            if (!NetworkManager.Singleton.IsHost)
+            {
+                _cooldowns.OnLocalCooldownStarted += OnCooldownStarted;
+                _cooldowns.OnLocalCooldownUpdated += OnCooldownUpdated;
+            }
+            else
+            {
+                _cooldowns.OnServerCooldownStarted += OnCooldownStarted;
+                _cooldowns.OnServerCooldownUpdated += OnCooldownUpdated;
+            }
             
             _cooldowns.OnServerCooldownEnded += OnCooldownEnded;
 

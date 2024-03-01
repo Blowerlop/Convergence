@@ -21,7 +21,7 @@ service MainService {
 	//Used to send unreal clients connection / disconnection to netcode server
 	rpc GRPC_SrvClientUpdate (GRPC_EmptyMsg) returns (stream GRPC_ClientUpdate);
 
-	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (GRPC_EmptyMsg);
+	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (stream GRPC_EmptyMsg);
 	rpc GRPC_CliNetObjUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetObjUpdate);
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
@@ -69,6 +69,8 @@ message GRPC_NetObjUpdate {
 	GRPC_NetObjUpdateType type = 1;
 	int32 netId = 2;
 	string prefabId = 3;
+	GRPC_Vector3 position = 4;
+	GRPC_Vector3 rotation = 5;
 }
 
 enum GRPC_NetObjUpdateType {

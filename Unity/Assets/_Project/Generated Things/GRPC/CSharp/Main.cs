@@ -30,53 +30,55 @@ namespace GRPCClient {
             "aW4uR1JQQ19OZXRPYmpVcGRhdGUSKAoHbmV0VmFycxgEIAMoCzIXLm1haW4u",
             "R1JQQ19OZXRWYXJVcGRhdGUiFQoTR1JQQ19OSGFuZHNoYWtlUG9zdCIkChJH",
             "UlBDX05IYW5kc2hha2VHZXQSDgoGcmVzdWx0GAEgASgFIiEKDUdSUENfUGlu",
-            "Z1Bvc3QSEAoIY2xpZW50SWQYASABKAUiDgoMR1JQQ19QaW5nR2V0Il8KEUdS",
-            "UENfTmV0T2JqVXBkYXRlEikKBHR5cGUYASABKA4yGy5tYWluLkdSUENfTmV0",
-            "T2JqVXBkYXRlVHlwZRINCgVuZXRJZBgCIAEoBRIQCghwcmVmYWJJZBgDIAEo",
-            "CSJfChFHUlBDX05ldFZhclVwZGF0ZRINCgVuZXRJZBgBIAEoBRIQCghoYXNo",
-            "TmFtZRgCIAEoBRIpCghuZXdWYWx1ZRgDIAEoCzIXLm1haW4uR1JQQ19HZW5l",
-            "cmljVmFsdWUiDwoNR1JQQ19FbXB0eU1zZyIvCgxHUlBDX1ZlY3RvcjMSCQoB",
-            "eBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAIiSAoRR1JQQ19HZW5lcmlj",
-            "VmFsdWUSJAoEdHlwZRgBIAEoDjIWLm1haW4uR1JQQ19HZW5lcmljVHlwZRIN",
-            "CgV2YWx1ZRgCIAEoCSJwChFHUlBDX0NsaWVudFVwZGF0ZRIQCghjbGllbnRJ",
-            "UBgBIAEoCRIpCgR0eXBlGAIgASgOMhsubWFpbi5HUlBDX0NsaWVudFVwZGF0",
-            "ZVR5cGUSEAoIY2xpZW50SWQYAyABKAUSDAoEbmFtZRgEIAEoCSIwCglHUlBD",
-            "X1RlYW0SEAoIY2xpZW50SWQYASABKAUSEQoJdGVhbUluZGV4GAIgASgFIkQK",
-            "EUdSUENfVGVhbVJlc3BvbnNlEh0KBHRlYW0YASABKAsyDy5tYWluLkdSUENf",
-            "VGVhbRIQCghyZXNwb25zZRgCIAEoCCJECg5HUlBDX1NwZWxsU2xvdBINCgVp",
-            "bmRleBgBIAEoBRIRCglzcGVsbEhhc2gYAiABKAUSEAoIY2xpZW50SWQYAyAB",
-            "KAUifAoVR1JQQ19TcGVsbENhc3RSZXF1ZXN0EhIKCnNwZWxsSW5kZXgYASAB",
-            "KAUSKAoMdmVjdG9yUGFyYW1zGAIgAygLMhIubWFpbi5HUlBDX1ZlY3RvcjMS",
-            "EwoLZmxvYXRQYXJhbXMYAyADKAISEAoIY2xpZW50SWQYBCABKAUqLQoVR1JQ",
-            "Q19OZXRPYmpVcGRhdGVUeXBlEgcKA05FVxAAEgsKB0RFU1RST1kQASpKChBH",
-            "UlBDX0dlbmVyaWNUeXBlEgoKBklTTlVMTBAAEgcKA0lOVBABEgoKBlNUUklO",
-            "RxACEggKBEJPT0wQAxILCgdWRUNUT1IzEAQqNAoVR1JQQ19DbGllbnRVcGRh",
-            "dGVUeXBlEgsKB0NPTk5FQ1QQABIOCgpESVNDT05ORUNUEAEyuggKC01haW5T",
-            "ZXJ2aWNlEkMKDkdSUENfSGFuZHNoYWtlEhgubWFpbi5HUlBDX0hhbmRzaGFr",
-            "ZVBvc3QaFy5tYWluLkdSUENfSGFuZHNoYWtlR2V0EkwKFUdSUENfTmV0Y29k",
-            "ZUhhbmRzaGFrZRIZLm1haW4uR1JQQ19OSGFuZHNoYWtlUG9zdBoYLm1haW4u",
-            "R1JQQ19OSGFuZHNoYWtlR2V0EjgKCUdSUENfUGluZxITLm1haW4uR1JQQ19Q",
-            "aW5nUG9zdBoSLm1haW4uR1JQQ19QaW5nR2V0KAEwARJGChRHUlBDX1NydkNs",
-            "aWVudFVwZGF0ZRITLm1haW4uR1JQQ19FbXB0eU1zZxoXLm1haW4uR1JQQ19D",
-            "bGllbnRVcGRhdGUwARJGChRHUlBDX1Nydk5ldE9ialVwZGF0ZRIXLm1haW4u",
-            "R1JQQ19OZXRPYmpVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlNc2coARJGChRH",
-            "UlBDX0NsaU5ldE9ialVwZGF0ZRITLm1haW4uR1JQQ19FbXB0eU1zZxoXLm1h",
-            "aW4uR1JQQ19OZXRPYmpVcGRhdGUwARJGChRHUlBDX1Nydk5ldFZhclVwZGF0",
-            "ZRIXLm1haW4uR1JQQ19OZXRWYXJVcGRhdGUaEy5tYWluLkdSUENfRW1wdHlN",
-            "c2coARJNChdHUlBDX0NsaU5ldE5ldFZhclVwZGF0ZRIXLm1haW4uR1JQQ19H",
-            "ZW5lcmljVmFsdWUaFy5tYWluLkdSUENfTmV0VmFyVXBkYXRlMAESTgoeR1JQ",
-            "Q19UZWFtU2VsZWN0aW9uVW5yZWFsVG9HcnBjEg8ubWFpbi5HUlBDX1RlYW0a",
-            "Fy5tYWluLkdSUENfVGVhbVJlc3BvbnNlKAEwARJPCh9HUlBDX1RlYW1TZWxl",
-            "Y3Rpb25HcnBjVG9OZXRjb2RlEhcubWFpbi5HUlBDX1RlYW1SZXNwb25zZRoP",
-            "Lm1haW4uR1JQQ19UZWFtKAEwARJMCh9HUlBDX1NldFVucmVhbFNwZWxsVW5y",
-            "ZWFsVG9HcnBjEhQubWFpbi5HUlBDX1NwZWxsU2xvdBoTLm1haW4uR1JQQ19F",
-            "bXB0eU1zZxJPCiBHUlBDX1NldFVucmVhbFNwZWxsR3JwY1RvTmV0Y29kZRIT",
-            "Lm1haW4uR1JQQ19FbXB0eU1zZxoULm1haW4uR1JQQ19TcGVsbFNsb3QwARJV",
-            "CiFHUlBDX1NwZWxsQ2FzdFJlcXVlc3RVbnJlYWxUb0dycGMSGy5tYWluLkdS",
-            "UENfU3BlbGxDYXN0UmVxdWVzdBoTLm1haW4uR1JQQ19FbXB0eU1zZxJYCiJH",
-            "UlBDX1NwZWxsQ2FzdFJlcXVlc3RHcnBjVG9OZXRjb2RlEhMubWFpbi5HUlBD",
-            "X0VtcHR5TXNnGhsubWFpbi5HUlBDX1NwZWxsQ2FzdFJlcXVlc3QwAUINqgIK",
-            "R1JQQ0NsaWVudGIGcHJvdG8z"));
+            "Z1Bvc3QSEAoIY2xpZW50SWQYASABKAUiDgoMR1JQQ19QaW5nR2V0IqsBChFH",
+            "UlBDX05ldE9ialVwZGF0ZRIpCgR0eXBlGAEgASgOMhsubWFpbi5HUlBDX05l",
+            "dE9ialVwZGF0ZVR5cGUSDQoFbmV0SWQYAiABKAUSEAoIcHJlZmFiSWQYAyAB",
+            "KAkSJAoIcG9zaXRpb24YBCABKAsyEi5tYWluLkdSUENfVmVjdG9yMxIkCghy",
+            "b3RhdGlvbhgFIAEoCzISLm1haW4uR1JQQ19WZWN0b3IzIl8KEUdSUENfTmV0",
+            "VmFyVXBkYXRlEg0KBW5ldElkGAEgASgFEhAKCGhhc2hOYW1lGAIgASgFEikK",
+            "CG5ld1ZhbHVlGAMgASgLMhcubWFpbi5HUlBDX0dlbmVyaWNWYWx1ZSIPCg1H",
+            "UlBDX0VtcHR5TXNnIi8KDEdSUENfVmVjdG9yMxIJCgF4GAEgASgCEgkKAXkY",
+            "AiABKAISCQoBehgDIAEoAiJIChFHUlBDX0dlbmVyaWNWYWx1ZRIkCgR0eXBl",
+            "GAEgASgOMhYubWFpbi5HUlBDX0dlbmVyaWNUeXBlEg0KBXZhbHVlGAIgASgJ",
+            "InAKEUdSUENfQ2xpZW50VXBkYXRlEhAKCGNsaWVudElQGAEgASgJEikKBHR5",
+            "cGUYAiABKA4yGy5tYWluLkdSUENfQ2xpZW50VXBkYXRlVHlwZRIQCghjbGll",
+            "bnRJZBgDIAEoBRIMCgRuYW1lGAQgASgJIjAKCUdSUENfVGVhbRIQCghjbGll",
+            "bnRJZBgBIAEoBRIRCgl0ZWFtSW5kZXgYAiABKAUiRAoRR1JQQ19UZWFtUmVz",
+            "cG9uc2USHQoEdGVhbRgBIAEoCzIPLm1haW4uR1JQQ19UZWFtEhAKCHJlc3Bv",
+            "bnNlGAIgASgIIkQKDkdSUENfU3BlbGxTbG90Eg0KBWluZGV4GAEgASgFEhEK",
+            "CXNwZWxsSGFzaBgCIAEoBRIQCghjbGllbnRJZBgDIAEoBSJ8ChVHUlBDX1Nw",
+            "ZWxsQ2FzdFJlcXVlc3QSEgoKc3BlbGxJbmRleBgBIAEoBRIoCgx2ZWN0b3JQ",
+            "YXJhbXMYAiADKAsyEi5tYWluLkdSUENfVmVjdG9yMxITCgtmbG9hdFBhcmFt",
+            "cxgDIAMoAhIQCghjbGllbnRJZBgEIAEoBSotChVHUlBDX05ldE9ialVwZGF0",
+            "ZVR5cGUSBwoDTkVXEAASCwoHREVTVFJPWRABKkoKEEdSUENfR2VuZXJpY1R5",
+            "cGUSCgoGSVNOVUxMEAASBwoDSU5UEAESCgoGU1RSSU5HEAISCAoEQk9PTBAD",
+            "EgsKB1ZFQ1RPUjMQBCo0ChVHUlBDX0NsaWVudFVwZGF0ZVR5cGUSCwoHQ09O",
+            "TkVDVBAAEg4KCkRJU0NPTk5FQ1QQATK8CAoLTWFpblNlcnZpY2USQwoOR1JQ",
+            "Q19IYW5kc2hha2USGC5tYWluLkdSUENfSGFuZHNoYWtlUG9zdBoXLm1haW4u",
+            "R1JQQ19IYW5kc2hha2VHZXQSTAoVR1JQQ19OZXRjb2RlSGFuZHNoYWtlEhku",
+            "bWFpbi5HUlBDX05IYW5kc2hha2VQb3N0GhgubWFpbi5HUlBDX05IYW5kc2hh",
+            "a2VHZXQSOAoJR1JQQ19QaW5nEhMubWFpbi5HUlBDX1BpbmdQb3N0GhIubWFp",
+            "bi5HUlBDX1BpbmdHZXQoATABEkYKFEdSUENfU3J2Q2xpZW50VXBkYXRlEhMu",
+            "bWFpbi5HUlBDX0VtcHR5TXNnGhcubWFpbi5HUlBDX0NsaWVudFVwZGF0ZTAB",
+            "EkgKFEdSUENfU3J2TmV0T2JqVXBkYXRlEhcubWFpbi5HUlBDX05ldE9ialVw",
+            "ZGF0ZRoTLm1haW4uR1JQQ19FbXB0eU1zZygBMAESRgoUR1JQQ19DbGlOZXRP",
+            "YmpVcGRhdGUSEy5tYWluLkdSUENfRW1wdHlNc2caFy5tYWluLkdSUENfTmV0",
+            "T2JqVXBkYXRlMAESRgoUR1JQQ19TcnZOZXRWYXJVcGRhdGUSFy5tYWluLkdS",
+            "UENfTmV0VmFyVXBkYXRlGhMubWFpbi5HUlBDX0VtcHR5TXNnKAESTQoXR1JQ",
+            "Q19DbGlOZXROZXRWYXJVcGRhdGUSFy5tYWluLkdSUENfR2VuZXJpY1ZhbHVl",
+            "GhcubWFpbi5HUlBDX05ldFZhclVwZGF0ZTABEk4KHkdSUENfVGVhbVNlbGVj",
+            "dGlvblVucmVhbFRvR3JwYxIPLm1haW4uR1JQQ19UZWFtGhcubWFpbi5HUlBD",
+            "X1RlYW1SZXNwb25zZSgBMAESTwofR1JQQ19UZWFtU2VsZWN0aW9uR3JwY1Rv",
+            "TmV0Y29kZRIXLm1haW4uR1JQQ19UZWFtUmVzcG9uc2UaDy5tYWluLkdSUENf",
+            "VGVhbSgBMAESTAofR1JQQ19TZXRVbnJlYWxTcGVsbFVucmVhbFRvR3JwYxIU",
+            "Lm1haW4uR1JQQ19TcGVsbFNsb3QaEy5tYWluLkdSUENfRW1wdHlNc2cSTwog",
+            "R1JQQ19TZXRVbnJlYWxTcGVsbEdycGNUb05ldGNvZGUSEy5tYWluLkdSUENf",
+            "RW1wdHlNc2caFC5tYWluLkdSUENfU3BlbGxTbG90MAESVQohR1JQQ19TcGVs",
+            "bENhc3RSZXF1ZXN0VW5yZWFsVG9HcnBjEhsubWFpbi5HUlBDX1NwZWxsQ2Fz",
+            "dFJlcXVlc3QaEy5tYWluLkdSUENfRW1wdHlNc2cSWAoiR1JQQ19TcGVsbENh",
+            "c3RSZXF1ZXN0R3JwY1RvTmV0Y29kZRITLm1haW4uR1JQQ19FbXB0eU1zZxob",
+            "Lm1haW4uR1JQQ19TcGVsbENhc3RSZXF1ZXN0MAFCDaoCCkdSUENDbGllbnRi",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCClient.GRPC_NetObjUpdateType), typeof(global::GRPCClient.GRPC_GenericType), typeof(global::GRPCClient.GRPC_ClientUpdateType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -86,7 +88,7 @@ namespace GRPCClient {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NHandshakeGet), global::GRPCClient.GRPC_NHandshakeGet.Parser, new[]{ "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_PingPost), global::GRPCClient.GRPC_PingPost.Parser, new[]{ "ClientId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_PingGet), global::GRPCClient.GRPC_PingGet.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NetObjUpdate), global::GRPCClient.GRPC_NetObjUpdate.Parser, new[]{ "Type", "NetId", "PrefabId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NetObjUpdate), global::GRPCClient.GRPC_NetObjUpdate.Parser, new[]{ "Type", "NetId", "PrefabId", "Position", "Rotation" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_NetVarUpdate), global::GRPCClient.GRPC_NetVarUpdate.Parser, new[]{ "NetId", "HashName", "NewValue" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_EmptyMsg), global::GRPCClient.GRPC_EmptyMsg.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCClient.GRPC_Vector3), global::GRPCClient.GRPC_Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
@@ -1319,6 +1321,8 @@ namespace GRPCClient {
       type_ = other.type_;
       netId_ = other.netId_;
       prefabId_ = other.prefabId_;
+      position_ = other.position_ != null ? other.position_.Clone() : null;
+      rotation_ = other.rotation_ != null ? other.rotation_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1364,6 +1368,30 @@ namespace GRPCClient {
       }
     }
 
+    /// <summary>Field number for the "position" field.</summary>
+    public const int PositionFieldNumber = 4;
+    private global::GRPCClient.GRPC_Vector3 position_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GRPCClient.GRPC_Vector3 Position {
+      get { return position_; }
+      set {
+        position_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rotation" field.</summary>
+    public const int RotationFieldNumber = 5;
+    private global::GRPCClient.GRPC_Vector3 rotation_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GRPCClient.GRPC_Vector3 Rotation {
+      get { return rotation_; }
+      set {
+        rotation_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1382,6 +1410,8 @@ namespace GRPCClient {
       if (Type != other.Type) return false;
       if (NetId != other.NetId) return false;
       if (PrefabId != other.PrefabId) return false;
+      if (!object.Equals(Position, other.Position)) return false;
+      if (!object.Equals(Rotation, other.Rotation)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1392,6 +1422,8 @@ namespace GRPCClient {
       if (Type != global::GRPCClient.GRPC_NetObjUpdateType.New) hash ^= Type.GetHashCode();
       if (NetId != 0) hash ^= NetId.GetHashCode();
       if (PrefabId.Length != 0) hash ^= PrefabId.GetHashCode();
+      if (position_ != null) hash ^= Position.GetHashCode();
+      if (rotation_ != null) hash ^= Rotation.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1422,6 +1454,14 @@ namespace GRPCClient {
         output.WriteRawTag(26);
         output.WriteString(PrefabId);
       }
+      if (position_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(Position);
+      }
+      if (rotation_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Rotation);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1444,6 +1484,14 @@ namespace GRPCClient {
         output.WriteRawTag(26);
         output.WriteString(PrefabId);
       }
+      if (position_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(Position);
+      }
+      if (rotation_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Rotation);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1462,6 +1510,12 @@ namespace GRPCClient {
       }
       if (PrefabId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PrefabId);
+      }
+      if (position_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
+      }
+      if (rotation_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Rotation);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1483,6 +1537,18 @@ namespace GRPCClient {
       }
       if (other.PrefabId.Length != 0) {
         PrefabId = other.PrefabId;
+      }
+      if (other.position_ != null) {
+        if (position_ == null) {
+          Position = new global::GRPCClient.GRPC_Vector3();
+        }
+        Position.MergeFrom(other.Position);
+      }
+      if (other.rotation_ != null) {
+        if (rotation_ == null) {
+          Rotation = new global::GRPCClient.GRPC_Vector3();
+        }
+        Rotation.MergeFrom(other.Rotation);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1511,6 +1577,20 @@ namespace GRPCClient {
             PrefabId = input.ReadString();
             break;
           }
+          case 34: {
+            if (position_ == null) {
+              Position = new global::GRPCClient.GRPC_Vector3();
+            }
+            input.ReadMessage(Position);
+            break;
+          }
+          case 42: {
+            if (rotation_ == null) {
+              Rotation = new global::GRPCClient.GRPC_Vector3();
+            }
+            input.ReadMessage(Rotation);
+            break;
+          }
         }
       }
     #endif
@@ -1536,6 +1616,20 @@ namespace GRPCClient {
           }
           case 26: {
             PrefabId = input.ReadString();
+            break;
+          }
+          case 34: {
+            if (position_ == null) {
+              Position = new global::GRPCClient.GRPC_Vector3();
+            }
+            input.ReadMessage(Position);
+            break;
+          }
+          case 42: {
+            if (rotation_ == null) {
+              Rotation = new global::GRPCClient.GRPC_Vector3();
+            }
+            input.ReadMessage(Rotation);
             break;
           }
         }

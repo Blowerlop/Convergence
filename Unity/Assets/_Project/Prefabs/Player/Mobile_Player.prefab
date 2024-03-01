@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b015a24c5a2042599366f9b452798718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRefs: {fileID: 6738473160392363157}
   channelingNetVarName: IsChanneling
 --- !u!1 &1620765535107710638
 GameObject:
@@ -54,7 +55,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9011955170663844517}
-  - component: {fileID: 2289047232795204093}
   m_Layer: 2
   m_Name: Stats
   m_TagString: Untagged
@@ -77,19 +77,6 @@ Transform:
   m_Father: {fileID: 4124437638980882131}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2289047232795204093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1620765535107710638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d41342493c7e48fe86785776c2e845fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerRefs: {fileID: 6738473160392363157}
 --- !u!1 &2318031707342146909
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +194,6 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   cooldowns: {fileID: 9017225376331183656}
   channeling: {fileID: 2923043460446806746}
-  stats: {fileID: 2289047232795204093}
 --- !u!114 &1849431562472469695
 MonoBehaviour:
   m_ObjectHideFlags: 0

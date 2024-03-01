@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace Project
 {
+    public class BoolWrapper
+    {
+        public bool value;
+    }
+    
     [AddComponentMenu("GRPC/NetworkObject Syncer")]
     [RequireComponent(typeof(NetworkObject))]
     public class GRPC_NetworkObjectSyncer : NetworkBehaviour
@@ -15,6 +20,8 @@ namespace Project
 
         [HideInInspector] public string UnrealOwnerAddress;
         [ShowInInspector] public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
+
+        public readonly BoolWrapper hasBeenProcessed = new BoolWrapper();
 
         public override void OnNetworkSpawn()
         {
@@ -54,10 +61,12 @@ namespace Project
             {
                 NetId = (int)NetworkObject.NetworkObjectId, 
                 Type = GRPC_NetObjUpdateType.New, 
-                PrefabId = prefabId
+                PrefabId = prefabId,
+                Position = Utilities.UnityToGrpcVector3(transform.position),
+                Rotation = Utilities.UnityToGrpcVector3(transform.rotation.eulerAngles)
             };
 
-            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update, hasBeenProcessed);
         }
 
         private void OnGrpDisconnection_NetworkObjectUnSync()
@@ -70,7 +79,7 @@ namespace Project
                 Type = GRPC_NetObjUpdateType.Destroy
             };
             
-            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update, hasBeenProcessed);
 
             if (IsOwnedByUnrealClient)
             {

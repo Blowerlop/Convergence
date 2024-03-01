@@ -20,6 +20,7 @@ namespace Project.Spells
         public event Action<int, float> OnLocalCooldownStarted; 
         public event Action<int, float> OnLocalCooldownUpdated; 
         
+        public event Action<int, float> OnServerCooldownStarted; 
         public event Action<int, float> OnServerCooldownUpdated; 
         public event Action<int> OnServerCooldownEnded; 
 
@@ -104,8 +105,8 @@ namespace Project.Spells
         /// <summary>
         /// Used by server to start cooldown.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="time"></param>
+        /// <param name="index">index</param>
+        /// <param name="time">time</param>
         [Server]
         public void StartServerCooldown(int index, float time)
         {
@@ -123,6 +124,7 @@ namespace Project.Spells
             
             _cooldowns[index].Value = Mathf.RoundToInt(time);
 
+            OnServerCooldownStarted?.Invoke(index, time);
             _timers[index].StartTimerWithUpdateCallback(this, time, TimerUpdate, TimerEnd, TimeType.Unscaled, ceiled: true);
         }
         
