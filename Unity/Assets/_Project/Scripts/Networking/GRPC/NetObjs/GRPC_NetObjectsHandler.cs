@@ -15,7 +15,7 @@ namespace Project
         public NetworkObject playerPrefab;
 
         private CancellationTokenSource _netObjsStreamCancelSrc;
-        private AsyncClientStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
+        private AsyncDuplexStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
         
         private void OnEnable()
         {
@@ -39,13 +39,26 @@ namespace Project
             _netObjsStream = GRPC_Transport.instance.client.GRPC_SrvNetObjUpdate();
         }
         
-        public async void SendNetObjsUpdate(GRPC_NetObjUpdate update)
+        public async void SendNetObjsUpdate(GRPC_NetObjUpdate update, BoolWrapper processed)
         {
-            if (_netObjsStream == null) return;
-            
             try
             {
-                await _netObjsStream.RequestStream.WriteAsync(update);
+                processed.value = false;
+                Debug.Log("NetObj send");
+                
+                // Fast fix, need to find how to Lock an await
+                write:
+                try
+                {
+                    await _netObjsStream.RequestStream.WriteAsync(update);
+                }
+                catch (InvalidOperationException)
+                {
+                    goto write;
+                }
+
+                await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
+                processed.value = true;
             }
             catch (IOException)
             {

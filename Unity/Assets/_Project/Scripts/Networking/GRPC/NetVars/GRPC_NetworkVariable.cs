@@ -27,8 +27,10 @@ namespace Project
         [ShowInInspector] private readonly int _variableHashName;
         private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         private int _netId;
+        private NetworkBehaviour _networkBehaviour;
 
         private bool _isGrpcSync;
+        private GRPC_NetworkObjectSyncer _netObjectSyncer;
 
         
         public GRPC_NetworkVariable(string variableName, T value = default,
@@ -47,8 +49,8 @@ namespace Project
 
         public void Initialize()
         {
-            NetworkBehaviour networkBehaviour = GetBehaviour();
-            if (!networkBehaviour.IsServer && !networkBehaviour.IsHost) return;
+            _networkBehaviour = GetBehaviour();
+            if (!_networkBehaviour.IsServer && !_networkBehaviour.IsHost) return;
             
             if (GRPC_NetworkManager.instance.isConnected)
             {
@@ -81,9 +83,11 @@ namespace Project
             _netId = (int)networkBehaviour.GetComponentInParent<NetworkObject>().NetworkObjectId;
             
             _currentType = GetGrpcGenericType();
+            _netObjectSyncer = networkBehaviour.GetComponentInParent<GRPC_NetworkObjectSyncer>();
             
             _sendStream = _client.GRPC_SrvNetVarUpdate();
             _sendStreamCancellationTokenSource = new CancellationTokenSource();
+            
             
             Sync();
             GetBehaviour().StartCoroutine(WaitAndTrySyncNewUnrealClient());
@@ -117,10 +121,32 @@ namespace Project
         {
             UpdateVariableOnGrpc(newValue);
         }
+
+        private T _lastValue;
+
+
+        private Coroutine _loop;
+
+        private IEnumerator Loop()
+        {
+            yield return new WaitUntil(() => _netObjectSyncer.hasBeenProcessed.value);
+
+            UpdateVariableOnGrpc(_lastValue);
+        }
         
         private async void UpdateVariableOnGrpc(T newValue)
         {
             if (GRPC_NetworkManager.instance.isConnected == false) return;
+            
+            if (_netObjectSyncer.hasBeenProcessed.value == false)
+            {
+                if (_loop != null) _networkBehaviour.StopCoroutine(_loop);
+                    
+                _lastValue = newValue;
+                _loop = _networkBehaviour.StartCoroutine(Loop());
+                    
+                return;
+            }
             
             try
             {
@@ -175,6 +201,8 @@ namespace Project
                     NetId = _netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
 
+                Debug.Log("NetVar Send");
+                
                 await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
                 // Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }
