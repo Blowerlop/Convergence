@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace Project._Project.Scripts.Managers
             Epic,
             Dead,
         }
-        private PCStats _stats;
+        private PlayerStats _stats;
 
         private Mode _actualMode;
 
@@ -26,15 +25,16 @@ namespace Project._Project.Scripts.Managers
 
         void LinkPlayer(PlayerRefs playerRefs)
         {
-            if (playerRefs.Stats is { } stats)
+            if (playerRefs is PCPlayerRefs refs)
             {
-                _stats = stats;
+                _stats = refs.Entity.Stats;
             }
             else
             {
-                Debug.LogError("Trying to link a non-PCStats to HealthFillBar!");
+                Debug.LogError("Trying to link a non-PCStats to Ambiance Manager!");
                 return;
             }
+            
             SoundManager.instance.PlayGlobalSound("Kultiran", "music", SoundManager.EventType.Music);
             StartCoroutine(NextTrackCoroutine());
             
