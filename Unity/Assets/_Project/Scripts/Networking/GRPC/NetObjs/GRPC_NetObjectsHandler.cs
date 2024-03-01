@@ -57,8 +57,16 @@ namespace Project
                     goto write;
                 }
 
-                await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
-                processed.value = true;
+                read:
+                try
+                {
+                    await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
+                    processed.value = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    goto read;
+                }
             }
             catch (IOException)
             {

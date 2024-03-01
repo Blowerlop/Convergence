@@ -1,5 +1,6 @@
 using System;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,9 +68,18 @@ namespace Project
         private void CloseEmotesWheel(InputAction.CallbackContext obj)
         {
             if (!_isOpen) return;
-            
-            if(_selectedItem != null)
-                playerRefs.EmoteController.TryPlayEmote(_selectedItem.Index);
+
+            if (_selectedItem != null)
+            {
+                if (NetworkManager.Singleton.IsClient)
+                {
+                    playerRefs.EmoteController.TryPlayEmoteServerRpc(_selectedItem.Index);
+                }
+                else if (NetworkManager.Singleton.IsServer)
+                {
+                    playerRefs.EmoteController.TryPlayEmote(_selectedItem.Index);
+                }
+            }
             
             content.SetActive(false);
             _isOpen = false;
