@@ -1,6 +1,7 @@
 using System;
 using Project._Project.Scripts;
 using Project.Spells;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project
@@ -8,6 +9,9 @@ namespace Project
     public class PlayerController : Entity
     {
         [SerializeField] private PCPlayerRefs _refs;
+
+        private int _currentAnimationHash;
+        [ShowInInspector] private GRPC_NetworkVariable<int> _currentAnimation  = new GRPC_NetworkVariable<int>("CurrentAnimation");
 
         public override int TeamIndex => _refs.TeamIndex;
 
@@ -32,6 +36,8 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
+            _currentAnimation.Initialize();
+            
             if (IsServer)
             {
                 _stats.health.OnValueChanged += OnHealthChanged_CheckIfDead;
@@ -42,9 +48,23 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
+            _currentAnimation.Reset();
+            
             if (IsServer) _stats.health.OnValueChanged -= OnHealthChanged_CheckIfDead;
         }
-    
+        
+        private void Update()
+        {
+            if (IsServer == false) return;
+            
+            // Shit
+            int animationHash = _refs.Animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+            if (animationHash == _currentAnimationHash) return;
+            
+            _currentAnimationHash = animationHash;
+            _currentAnimation.Value = AnimatorStates.grpcHash[_currentAnimationHash];
+        }
+
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {

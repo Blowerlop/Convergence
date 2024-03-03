@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using Project.Extensions;
 using Project.Spells.Casters;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace Project.Spells
@@ -68,5 +70,16 @@ namespace Project.Spells
             
             return s;
         }
+        
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (spellPrefab != null)
+            {
+                spellPrefab.Data = this;
+                
+            }
+        }
+        #endif
     }
 }

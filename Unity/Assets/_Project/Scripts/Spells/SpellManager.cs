@@ -48,7 +48,7 @@ namespace Project.Spells
         private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellInstance = SpawnSpell(spell, results, playerRefs);
-            spellInstance.Init(results, spell, playerRefs.TeamIndex);
+            spellInstance.Init(results, playerRefs.TeamIndex);
         }
 
         [Server]

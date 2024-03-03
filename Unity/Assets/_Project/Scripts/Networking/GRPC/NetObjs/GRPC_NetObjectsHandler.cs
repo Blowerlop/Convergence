@@ -44,7 +44,6 @@ namespace Project
             try
             {
                 processed.value = false;
-                Debug.Log("NetObj send");
                 
                 // Fast fix, need to find how to Lock an await
                 write:
@@ -57,8 +56,16 @@ namespace Project
                     goto write;
                 }
 
-                await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
-                processed.value = true;
+                read:
+                try
+                {
+                    await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
+                    processed.value = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    goto read;
+                }
             }
             catch (IOException)
             {

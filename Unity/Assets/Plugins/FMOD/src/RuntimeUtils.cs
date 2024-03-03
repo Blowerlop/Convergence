@@ -575,7 +575,9 @@ namespace FMODUnity
 
         public static void DebugLogError(string message)
         {
-            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
+            if(message.Contains("Device was unplugged!"))
+                return;
+            if (Settings.Instance == null || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR )
             {
                 Debug.LogError(message);
             }

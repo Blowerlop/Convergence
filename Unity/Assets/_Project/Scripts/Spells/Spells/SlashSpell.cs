@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Project._Project.Scripts.Managers;
 using Project.Extensions;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return;
             }
-            
+
             CheckForDamage(GetCollisions());
             Invoke(nameof(KillSpell), 3);
         }
@@ -76,6 +77,13 @@ namespace Project.Spells
                     damageable.TryDamage(Data.baseDamage, CasterTeamIndex);
                 }
             }
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
         }
 
         [Server]
