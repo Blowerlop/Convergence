@@ -73,7 +73,9 @@ namespace Project._Project.TESTT_REBIND
 
         private void OnValidate()
         {
+            #if UNITY_EDITOR
             if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+            #endif
             
             if (inputActionReference == null) return; 
             
