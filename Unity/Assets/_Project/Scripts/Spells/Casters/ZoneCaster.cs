@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace Project.Spells.Casters
 {
     public class ZoneCaster : SpellCaster
     {
+        public override Type CastResultType => typeof(SingleVectorResults);
+        
         [SerializeField] private Transform aimVisual;
         [SerializeField] private Transform zoneVisual;
         

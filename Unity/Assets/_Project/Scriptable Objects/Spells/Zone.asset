@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd61ab76d014bb2a04cc5c468583d48, type: 3}
   m_Name: Zone
   m_EditorClassIdentifier: 
-  spellId: zone
-  spellIdHash: 162900
+  resultTypeSelection: Project.Spells.SingleVectorResults
   requiredCaster: {fileID: 2732994462002990536, guid: 55dc4e10969599d4784bac0821ca0ff5,
     type: 3}
-  requiredResultType: 0
+  spellId: zone
+  spellIdHash: 162900
   spellPrefab: {fileID: 7774840793179866475, guid: 2d656620d4c6696439f5ab0d2fc58415,
     type: 3}
   cooldown: 10
   channelingTime: 0.25
-  baseDamage: 30
+  effects: []
   limitRadius: 5
   zoneRadius: 1.5
+  references:
+    version: 2
+    RefIds: []

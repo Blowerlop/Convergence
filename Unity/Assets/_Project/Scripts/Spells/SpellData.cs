@@ -13,19 +13,26 @@ namespace Project.Spells
     {        
         public const int CharacterSpellsCount = 4;
 
-        [OnValueChanged("UpdateHash")] public string spellId;
-        [DisableIf("@true")] public int spellIdHash;
+        // Ugly but working
+        // Find a way to get rid of magic string
+        [FoldoutGroup("Caster"), Required, SerializeField, 
+         ValueDropdown("@ICastResult.AllResultTypesAsString"), OnValueChanged(nameof(CheckCasterValidity))]
+        private string resultTypeSelection;
         
-        [BoxGroup("Caster")] public SpellCaster requiredCaster;
-        [BoxGroup("Caster")] public CastResultType requiredResultType;
+        [FoldoutGroup("Caster"), HideIf(nameof(NeedCaster)), OnValueChanged(nameof(CheckCasterValidity))] 
+        public SpellCaster requiredCaster;
         
-        [BoxGroup("Spell")] public Spell spellPrefab;
-        [BoxGroup("Spell")] public float cooldown;
-        [BoxGroup("Spell")] public float channelingTime;
+        [FoldoutGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
+        [FoldoutGroup("Spell"), DisableIf("@true")] public int spellIdHash;
+        [FoldoutGroup("Spell")] public Spell spellPrefab;
+        [FoldoutGroup("Spell")] public float cooldown;
+        [FoldoutGroup("Spell")] public float channelingTime;
 
-        [BoxGroup("Spell")] public int baseDamage;
+        [Space(40)]
+        
+        [SerializeReference, PropertyOrder(999)] public Effect[] effects;
 
-        [SerializeReference] public Effect[] effects;
+        public Type RequiredResultType => resultTypeSelection != null ? Type.GetType(resultTypeSelection) : null;
         
         void Awake()
         {
@@ -34,6 +41,8 @@ namespace Project.Spells
         
         private void UpdateHash()
         {
+            if (spellId == null) return;
+            
             spellIdHash = spellId.ToHashIsSameAlgoOnUnreal();
         }
 
@@ -81,5 +90,33 @@ namespace Project.Spells
             }
         }
         #endif
+
+        #region Utilities
+        
+        private void CheckCasterValidity()
+        {
+            if (requiredCaster == null) return;
+
+            if (resultTypeSelection == null)
+            {
+                Debug.LogError("You need to define <b>resultTypeSelection</b> before defining a caster!");
+                
+                requiredCaster = null;
+                return;
+            }
+
+            if (RequiredResultType != requiredCaster.CastResultType)
+            {
+                Debug.LogError($"Selected caster <color=red>{requiredCaster.gameObject.name}</color> has a different CastResultType " +
+                               $"than the one required by this spell! Required: <color=red>{RequiredResultType}</color>, Caster: " +
+                               $"<color=red>{requiredCaster.CastResultType}</color>");
+                
+                requiredCaster = null;
+            }
+        }
+
+        private bool NeedCaster() => RequiredResultType != null && RequiredResultType == typeof(EmptyResults);
+        
+        #endregion
     }
 }

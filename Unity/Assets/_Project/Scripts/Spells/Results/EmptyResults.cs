@@ -1,6 +1,5 @@
 using GRPCClient;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace Project.Spells
 {

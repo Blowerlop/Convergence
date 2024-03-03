@@ -74,7 +74,7 @@ namespace Project.Spells
             {
                 if (hit != null && hit.TryGetComponent<IDamageable>(out var damageable))
                 {
-                    damageable.TryDamage(Data.baseDamage, CasterTeamIndex);
+                    //damageable.TryDamage(Data.baseDamage, CasterTeamIndex);
                 }
             }
         }

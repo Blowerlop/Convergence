@@ -1,10 +1,16 @@
+using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells.Casters
 {
     public abstract class SpellCaster : MonoBehaviour
     {
-        [field: SerializeField] public CastResultType CastResultType { get; private set; }
+        public abstract Type CastResultType { get; }
+
+        [ShowInInspector, ReadOnly, PropertyOrder(-1), LabelText("Cast Result Type")] 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 15)]
+        private string CastResultTypeAsString => CastResultType.Name;
         
         public bool IsCasting { get; private set; }
 

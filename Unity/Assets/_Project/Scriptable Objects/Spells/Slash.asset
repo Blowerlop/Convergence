@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbe1702efa8447c9785b28d0a1086fe, type: 3}
   m_Name: Slash
   m_EditorClassIdentifier: 
-  spellId: slash
-  spellIdHash: 7955549
+  resultTypeSelection: Project.Spells.SingleVectorResults
   requiredCaster: {fileID: 2448168163828857503, guid: 5962c61f43786d54c9cb84587494855b,
     type: 3}
-  requiredResultType: 0
+  spellId: slash
+  spellIdHash: 7955549
   spellPrefab: {fileID: -1109545128596132378, guid: c27509c7eb3e174408054fa7af9dcad7,
     type: 3}
   cooldown: 2
   channelingTime: 0.25
-  baseDamage: 50
+  effects: []
   limitRadius: 4
   zoneSize: 1
+  references:
+    version: 2
+    RefIds: []

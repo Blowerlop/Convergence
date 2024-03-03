@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace Project.Spells.Casters
 {
     public class SkillShotCaster : SpellCaster
     {
+        public override Type CastResultType => typeof(SingleVectorResults);
+        
         [SerializeField] private Transform visual;
         
         [SerializeField] private LayerMask groundLayerMask;
