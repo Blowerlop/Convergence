@@ -7,6 +7,24 @@
       "dependencies": {},
       "hash": "3c2e1453653b86a43bcb2b436ddcf4e34f0e4c3a"
     },
+    "com.mewlist.mew-weaver": {
+      "version": "https://github.com/mewlist/MewWeaver.git?path=Assets/MewWeaver",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.11.4"
+      },
+      "hash": "34aeca774d80ef46e36596fb084f952d45a6c4b3"
+    },
+    "com.unity.ai.navigation": {
+      "version": "1.1.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.burst": {
       "version": "1.8.7",
       "depth": 1,
@@ -53,7 +71,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.6.1",
+      "version": "1.6.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {

@@ -1,3 +1,4 @@
+using System;
 using GRPCClient;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -29,15 +30,16 @@ namespace Project
 #endif
             }
         }
-        
-        public Event onClientStartedEvent = new Event(nameof(onClientStartedEvent));
-        public Event onClientStopEvent => networkTransport.onClientStopEvent;
-        public Event onClientEndedEvent = new Event(nameof(onClientEndedEvent));
+
+        public event Action onClientStartedEvent;
+        public event Action onClientStopEvent;
+        public event Action onClientEndedEvent;
 
 
         protected override void Awake()
         {
             networkTransport = GetComponent<FU_GRPC_Transport>();
+            networkTransport.onClientStopEvent += onClientStopEvent;
         }
 
         [Button]
@@ -47,7 +49,7 @@ namespace Project
             if (connectionState)
             {
                 //Instantiate(player);
-                onClientStartedEvent.Invoke(this, true);
+                onClientStartedEvent?.Invoke();
             }
         }
 
@@ -56,7 +58,7 @@ namespace Project
         {
             if (networkTransport.StopClient())
             {
-                onClientEndedEvent.Invoke(this, true);
+                onClientEndedEvent?.Invoke();
             }
         }
     }

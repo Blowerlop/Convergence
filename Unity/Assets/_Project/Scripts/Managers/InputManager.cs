@@ -14,10 +14,16 @@ namespace Project
     public class InputManager : MonoSingleton<InputManager>
     {
         #region Variables
+
         private PlayerInputAction _inputAction;
+        public PlayerInputAction inputAction
+        {
+            get { return _inputAction ??= new PlayerInputAction(); }
+        }
         
         [HideInInspector] public string _defaultInputActionMap;
         public InputActionMap currentActionMap { get; private set; }
+        public InputActionMap previousActionMap { get; private set; }
         
         [Title("Parameters")]
         [ShowInInspector, PropertyOrder(1), LabelText("Current Action Map")]
@@ -26,16 +32,31 @@ namespace Project
         {
             get
             {
-                if (currentActionMap == null) return _defaultInputActionMap;
+                if (currentActionMap == null) return string.Empty;
                 return currentActionMap.name;
             }
         }
-        #endif
+
+        [ShowInInspector, PropertyOrder(1), LabelText("Previous Action Map")]
+        private string _previousActionMapEditor
+        {
+            get
+            {
+                if (previousActionMap == null) return string.Empty;
+                return previousActionMap.name;
+            }
+        }
+#endif
+        
         
         [Title("Inputs Handler")]
-        public InputAction onMouseButton0 => _inputAction.Player.MouseButton0;
-        public InputAction onMouseButton1 => _inputAction.Player.MouseButton1;
-        public InputAction onConsoleKey => _inputAction.Persistant.Console;
+        public InputAction onMouseButton0 => inputAction.Player.MouseButton0;
+        public InputAction onMouseButton1 => inputAction.Player.MouseButton1;
+        public InputAction onConsoleKey => inputAction.Persistant.Console;
+        public InputAction onCenterCamera => inputAction.Player.CenterCamera;
+        public InputAction onLockCamera => inputAction.Player.LockCamera;
+        public InputAction onMenuKey => inputAction.Persistant.Menu;
+        public InputAction onEmotesWheel => inputAction.Player.EmotesWheel;
 
         // Spells
         private InputAction[] _spellInputs;
@@ -48,23 +69,21 @@ namespace Project
         
         #endregion
         
+        
         #region Updates
         protected override void Awake()
         {
             dontDestroyOnLoad = false;
             base.Awake();
             
-            _inputAction = new PlayerInputAction();
-            
             InitInputAction();
-            
+
             SwitchActionMap(_defaultInputActionMap);
+            previousActionMap = currentActionMap;
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             foreach (var spellAction in _spellInputs)
             {
                 spellAction.started -= SpellInputStarted;
@@ -79,22 +98,22 @@ namespace Project
         private void InitInputAction()
         {
             // Move
-            _inputAction.Player.Move.started += context => move = context.ReadValue<Vector2>();
-            _inputAction.Player.Move.performed += context => move = context.ReadValue<Vector2>();
-            _inputAction.Player.Move.canceled += context => move = Vector2.zero;
+            inputAction.Player.Move.started += context => move = context.ReadValue<Vector2>();
+            inputAction.Player.Move.performed += context => move = context.ReadValue<Vector2>();
+            inputAction.Player.Move.canceled += _ => move = Vector2.zero;
             
             // Look
-            _inputAction.Player.Look.started += context => look = context.ReadValue<Vector2>();
-            _inputAction.Player.Look.performed += context => look = context.ReadValue<Vector2>();
-            _inputAction.Player.Look.canceled += context => look = Vector2.zero;
+            inputAction.Player.Look.started += context => look = context.ReadValue<Vector2>();
+            inputAction.Player.Look.performed += context => look = context.ReadValue<Vector2>();
+            inputAction.Player.Look.canceled += _ => look = Vector2.zero;
             
             // Spells
             _spellInputs = new[]
             {
-                _inputAction.Player.Spell1,
-                _inputAction.Player.Spell2,
-                _inputAction.Player.Spell3,
-                _inputAction.Player.Spell4
+                inputAction.Player.Spell1,
+                inputAction.Player.Spell2,
+                inputAction.Player.Spell3,
+                inputAction.Player.Spell4
             };
             
             foreach (var spellAction in _spellInputs)
@@ -104,10 +123,24 @@ namespace Project
             }
         }
         
+        [ButtonGroup]
+        public void Enable()
+        {
+            SwitchActionMap(currentActionMap);
+            Debug.Log("Inputs enabled !");
+        }
+
+        [ButtonGroup]
+        public void Disable()
+        {
+            inputAction.Disable();
+            Debug.Log("Inputs disabled !");
+        }
+        
         [Title("Button"),PropertyOrder(0), Button]
         public void SwitchActionMap(string actionMapName)
         {
-            InputActionMap actionMap = _inputAction.asset.FindActionMap(actionMapName);
+            InputActionMap actionMap = inputAction.asset.FindActionMap(actionMapName);
             if (actionMap == null)
             {
                 Debug.LogError($"There is no action map with the name : {actionMapName}");
@@ -117,19 +150,29 @@ namespace Project
             SwitchActionMap(actionMap);
         }
         
-        private void SwitchActionMap(InputActionMap actionMap)
+        public void SwitchActionMap(InputActionMap actionMap)
         {
-            if (actionMap == null) return;
+            if (actionMap == null)
+            {
+                Debug.LogError("Action map is null");
+                return;
+            }
             if (currentActionMap == actionMap && actionMap.enabled) return;
 
-            _inputAction.Disable();
-        
-            if (currentActionMap != null) Debug.Log($"Switching action map : {currentActionMap.name} To {actionMap.name}");
-            else Debug.Log($"Setting action map : {actionMap.name}");
+            inputAction.Disable();
+
+            Debug.Log(currentActionMap != null
+                ? $"Switching action map : {currentActionMap.name} To {actionMap.name}"
+                : $"Setting action map : {actionMap.name}");
+
+            previousActionMap = currentActionMap;
             currentActionMap = actionMap;
-            currentActionMap.Enable();
-             
-            _inputAction.Persistant.Enable();
+
+            Utilities.StartWaitForFramesAndDoActionCoroutine(this, 1, () =>
+            {
+                currentActionMap.Enable();
+                inputAction.Persistant.Enable();
+            });
         }
 
         private void SpellInputStarted(InputAction.CallbackContext _)
@@ -159,9 +202,8 @@ namespace Project
             base.OnInspectorGUI();
             InputManager t = target as InputManager;
             if (t == null) return;
-
-
-            PlayerInputAction inputAction = new PlayerInputAction();
+            
+            PlayerInputAction inputAction = t.inputAction;
 
             SerializedProperty actionMapProperty = serializedObject.FindProperty("_defaultInputActionMap");
             if (actionMapProperty == null) return;

@@ -11,16 +11,16 @@ namespace Project._Project.Scripts
             UserInstanceManager.instance.GetUserInstance(clientId).SetCharacter(data.id);
         }
         
-        [Button("Set Team")]
-        public void SetTeam(int clientId, int teamId)
+        [Button("Set Mobile Spell")]
+        public void SetCharacter(int clientId, int spellHash, int slot)
         {
-            TeamManager.instance.TrySetTeam(clientId, teamId, PlayerPlatform.Pc);
+            UserInstanceManager.instance.GetUserInstance(clientId).SetMobileSpell(slot, spellHash);
         }
         
-        [Button("Spawn Player")]
-        public void SpawnPlayer(SOCharacter data, int team)
+        [Button("Set Team")]
+        public void SetTeam(int clientId, int teamId, PlayerPlatform platform)
         {
-            PlayerManager.instance.SpawnPlayer(team, data);
+            TeamManager.instance.TrySetTeam(clientId, teamId, platform);
         }
     }
 }

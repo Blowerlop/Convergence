@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace Project
 {
+    public class BoolWrapper
+    {
+        public bool value;
+    }
+    
     [AddComponentMenu("GRPC/NetworkObject Syncer")]
     [RequireComponent(typeof(NetworkObject))]
     public class GRPC_NetworkObjectSyncer : NetworkBehaviour
@@ -14,48 +19,40 @@ namespace Project
         private string prefabId;
 
         [HideInInspector] public string UnrealOwnerAddress;
-        public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
+        [ShowInInspector] public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
 
-        
-        private void Start()
+        public readonly BoolWrapper hasBeenProcessed = new BoolWrapper();
+
+        public override void OnNetworkSpawn()
         {
-            if (!IsServer && !IsHost) return;
+            base.OnNetworkSpawn();
 
+            if (!IsServer) return;
             
             if (GRPC_NetworkManager.instance.isConnected)
             {
                 OnGrpcConnection_NetworkObjectSync();
             }
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, OnGrpcConnection_NetworkObjectSync);
+            GRPC_NetworkManager.instance.onClientStartedEvent += OnGrpcConnection_NetworkObjectSync;
+        }
+        
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
 
-            if (IsOwnedByUnrealClient)
+            if (!IsServer) return;
+            
+            if (GRPC_NetworkManager.instance.isConnected)
             {
-                GRPC_NetworkManager.instance.onUnrealClientDisconnect.Subscribe(this, _ => OnGrpDisconnection_NetworkObjectUnSync());
+                OnGrpDisconnection_NetworkObjectUnSync();
             }
-            else
+
+            if (GRPC_NetworkManager.IsInstanceAlive())
             {
-                GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, OnGrpDisconnection_NetworkObjectUnSync);
+                GRPC_NetworkManager.instance.onClientStartedEvent -= OnGrpcConnection_NetworkObjectSync;
             }
         }
-
-        // public override void OnDestroy()
-        // {
-        //     base.OnDestroy();
-        //
-        //     if (GRPC_NetworkManager.isBeingDestroyed == false)
-        //     {
-        //         GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpcConnection_NetworkObjectSync);
-        //         if (IsOwnedByUnrealClient)
-        //         {
-        //             GRPC_NetworkManager.instance.onUnrealClientDisconnect.Unsubscribe(_ => OnGrpDisconnection_NetworkObjectUnSync());
-        //         }
-        //         else
-        //         {
-        //             GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(OnGrpDisconnection_NetworkObjectUnSync);
-        //         }
-        //     }
-        // }
-
+        
         private void OnGrpcConnection_NetworkObjectSync()
         {
             if (!EnsureInit()) return;
@@ -64,10 +61,12 @@ namespace Project
             {
                 NetId = (int)NetworkObject.NetworkObjectId, 
                 Type = GRPC_NetObjUpdateType.New, 
-                PrefabId = prefabId
+                PrefabId = prefabId,
+                Position = Utilities.UnityToGrpcVector3(transform.position),
+                Rotation = Utilities.UnityToGrpcVector3(transform.rotation.eulerAngles)
             };
 
-            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update, hasBeenProcessed);
         }
 
         private void OnGrpDisconnection_NetworkObjectUnSync()
@@ -80,7 +79,7 @@ namespace Project
                 Type = GRPC_NetObjUpdateType.Destroy
             };
             
-            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update, hasBeenProcessed);
 
             if (IsOwnedByUnrealClient)
             {
@@ -96,7 +95,7 @@ namespace Project
                 return false;
             }
 
-            if (!GRPC_NetObjectsHandler.instance)
+            if (GRPC_NetObjectsHandler.IsInstanceAlive() == false)
             {
                 Debug.LogError($"Trying to sync NetworkObject {prefabId} without an instance of GRPC_NetObjectsHandler.");
                 return false;

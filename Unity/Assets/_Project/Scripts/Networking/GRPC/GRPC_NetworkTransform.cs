@@ -5,9 +5,7 @@ using UnityEngine;
 namespace Project
 {
     
-    [DefaultExecutionOrder(100000)] // this is needed to catch the update time after the transform was updated by user scripts
-    // SERVER AUTHORITATIVE
-    // BECAUSE ITS SERVER AUTHORITATIVE, THE INNER STATE IS NOT UPDATE SO THE OnNetworkTransformStateUpdated IS NOT CALLED, SO THE GRPC_NETWORKVARIABLE ARE NOT UPDATED
+    [DefaultExecutionOrder(100000)] // This is needed to catch the update time after the transform was updated by user scripts
     public class GRPC_NetworkTransform : NetworkTransform
     {
         #region Variables
@@ -18,9 +16,10 @@ namespace Project
 
         
         #region Updates
-        
-        private void Start()
+
+        public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             InitializeNetworkVariables();
         }
 
@@ -37,56 +36,113 @@ namespace Project
         
         private void InitializeNetworkVariables()
         {
-            _position.Initialize();
-            _rotation.Initialize();
-            _scale.Initialize();
+            if (SyncPositionX || SyncPositionY || SyncPositionZ)
+            {
+                _position.Initialize();
+            }
+            
+            if (SyncRotAngleX || SyncRotAngleY || SyncRotAngleZ)
+            {
+                _rotation.Initialize();
+            }
+            
+            if (SyncScaleX || SyncScaleY || SyncScaleZ)
+            {
+                _scale.Initialize();
+            }
         }
         
         private void ResetNetworkVariables()
         {
-            _position.Reset();
-            _rotation.Reset();
-            _scale.Reset();
-        }
-
-        protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)
-        {
-            if (IsOwner == false) return;
+            if (SyncPositionX || SyncPositionY || SyncPositionZ)
+            {
+                _position.Reset();
+            }
             
-            if (newState.HasPositionChange)
+            if (SyncRotAngleX || SyncRotAngleY || SyncRotAngleZ)
             {
-                UpdatePositionOnGRPCServerRpc(newState.GetPosition());
+                _rotation.Reset();
             }
-
-            if (newState.HasRotAngleChange)
+            
+            if (SyncScaleX || SyncScaleY || SyncScaleZ)
             {
-                UpdateRotationOnGRPCServerRpc(newState.GetRotation().eulerAngles);
-            }
-
-            if (newState.HasScaleChange)
-            {
-                UpdateScaleOnGRPCServerRpc(newState.GetScale());
+                _scale.Reset();
             }
         }
         
+        protected override void OnAuthorityPushTransformState(ref NetworkTransformState networkTransformState)
+        {
+            base.OnAuthorityPushTransformState(ref networkTransformState);
+            
+            if (networkTransformState.HasPositionChange)
+            {
+                UpdatePositionOnGrpcServer(networkTransformState.GetPosition());
+            }
+
+            if (networkTransformState.HasRotAngleChange)
+            {
+                UpdateRotationOnGrpcServer(networkTransformState.GetRotation().eulerAngles);
+            }
+
+            if (networkTransformState.HasScaleChange)
+            {
+                UpdateScaleOnGrpcServer(networkTransformState.GetScale());
+            }
+        }
+
+        private void UpdatePositionOnGrpcServer(Vector3 newPosition)
+        {
+            if (IsServer) UpdatePositionOnGrpcServer_Srv(newPosition);
+            else UpdatePositionOnGrpcServer_ServerRpc(newPosition);
+        }
+        
+        [Server]
+        private void UpdatePositionOnGrpcServer_Srv(Vector3 newPosition)
+        {
+            _position.Value = new NetworkVector3Simplified(newPosition);
+        }
+
         [ServerRpc]
-        private void UpdatePositionOnGRPCServerRpc(Vector3 newPosition)
+        private void UpdatePositionOnGrpcServer_ServerRpc(Vector3 newPosition)
         {
             _position.Value = new NetworkVector3Simplified(newPosition);
         }
         
+        private void UpdateRotationOnGrpcServer(Vector3 newRotation)
+        {
+            if (IsServer) UpdateRotationOnGrpcServer_Srv(newRotation);
+            else UpdateRotationOnGrpcServer_ServerRpc(newRotation);
+        }
+        
+        [Server]
+        private void UpdateRotationOnGrpcServer_Srv(Vector3 newRotation)
+        {
+            _rotation.Value = new NetworkVector3Simplified(newRotation);
+        }
+
         [ServerRpc]
-        private void UpdateRotationOnGRPCServerRpc(Vector3 newRotation)
+        private void UpdateRotationOnGrpcServer_ServerRpc(Vector3 newRotation)
         {
             _rotation.Value = new NetworkVector3Simplified(newRotation);
         }
         
+        private void UpdateScaleOnGrpcServer(Vector3 newScale)
+        {
+            if (IsServer) UpdateScaleOnGrpcServer_Srv(newScale);
+            else UpdateScaleOnGrpcServer_ServerRpc(newScale);
+        }
+        
+        [Server]
+        private void UpdateScaleOnGrpcServer_Srv(Vector3 newScale)
+        {
+            _scale.Value = new NetworkVector3Simplified(newScale);
+        }
+
         [ServerRpc]
-        private void UpdateScaleOnGRPCServerRpc(Vector3 newScale)
+        private void UpdateScaleOnGrpcServer_ServerRpc(Vector3 newScale)
         {
             _scale.Value = new NetworkVector3Simplified(newScale);
         }
         #endregion
-        
     }
 }

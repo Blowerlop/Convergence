@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4645af361e12ba45a545aeb3aa65164, type: 3}
+  m_Name: SO References Cache
+  m_EditorClassIdentifier: 
+  <autoFetchInPlaymode>k__BackingField: 1
+  _scriptableObjectsCache:
+  - <typeName>k__BackingField: EmoteData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 311fd77ffb3937243ba40fdd1beed494, type: 2}
+    - {fileID: 11400000, guid: bfccfeb78b0d2214d8a2e488bdbdc950, type: 2}
+    - {fileID: 11400000, guid: 9cef1a8c7c8986b4398bc4d828e34db0, type: 2}
+    - {fileID: 11400000, guid: f591a104b9b4ef74dab2f2ce45b4dc23, type: 2}
+  - <typeName>k__BackingField: SOCharacter
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}
+    - {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
+    - {fileID: 11400000, guid: 09489626d3af5374fb9aa68680bc4db8, type: 2}
+    - {fileID: 11400000, guid: e016bfecaf6bfcc40844d5eada51d91f, type: 2}
+  - <typeName>k__BackingField: SOGameSettings
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: dac479bbb367c4046b09f19998826fc1, type: 2}
+  - <typeName>k__BackingField: FacingZoneSpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
+  - <typeName>k__BackingField: ZoneSpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
+  - <typeName>k__BackingField: SpellData
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 5895892d18a0d2a408b7c331d1bda849, type: 2}
+    - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}

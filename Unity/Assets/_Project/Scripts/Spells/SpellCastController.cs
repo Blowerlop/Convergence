@@ -1,4 +1,5 @@
 using System.Linq;
+using Project._Project.Scripts.Spells;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,31 +7,34 @@ namespace Project.Spells.Casters
 {
     public class SpellCastController : MonoBehaviour
     {
-        [SerializeField] private ScriptableObjectReferencesCache _scriptableObjectReferencesCache;
-        
-        [SerializeField] private SpellCastersList spellCastersList;
-        
         private PlayerRefs _player;
         private CooldownController _cooldowns;
+        private ChannelingController _channelingController;
         
         private SpellData[] _spells;
         private SpellCaster[] _spellCasters;
         
-        private int? _currentChannelingIndex;
+        private int? _currentCastingIndex;
+
+        private bool _needInit = true;
         
         public void Init(PlayerRefs p)
         {
             _player = p;
             
             // Pc user should be player owner
-            if (!_player.IsOwner)
+            if (_player.OwnerId != UserInstance.Me.ClientId)
             {
                 // Can cast spell only from local player
-                Destroy(gameObject);
+                gameObject.SetActive(false);
                 return;
             }
-
-            _cooldowns = _player.GetCooldownController(PlayerPlatform.Pc);
+            
+            if (!_needInit) return;
+            _needInit = false;
+            
+            _cooldowns = _player.Cooldowns;
+            _channelingController = _player.Channeling;
 
             if (!InitSpells()) return;
             InitSpellCasters();
@@ -39,23 +43,25 @@ namespace Project.Spells.Casters
         
         private void OnDestroy()
         {
-            if (InputManager.isBeingDestroyed || InputManager.instance == null) return;
+            if (InputManager.IsInstanceAlive() == false) return;
             
-            InputManager.instance.OnSpellInputStarted -= StartChanneling;
-            InputManager.instance.OnOnSpellInputCanceled -= StopChanneling;
-            InputManager.instance.onMouseButton0.started -= StopChanneling;
+            InputManager.instance.OnSpellInputStarted -= StartCasting;
+            InputManager.instance.OnOnSpellInputCanceled -= StopCasting;
+            InputManager.instance.onMouseButton0.started -= StopCasting;
+            InputManager.instance.onMouseButton1.started -= CancelCasting;
         }
 
         private void InitInputs()
         {
-            InputManager.instance.OnSpellInputStarted += StartChanneling;
-            InputManager.instance.OnOnSpellInputCanceled += StopChanneling;
-            InputManager.instance.onMouseButton0.started += StopChanneling;
+            InputManager.instance.OnSpellInputStarted += StartCasting;
+            InputManager.instance.OnOnSpellInputCanceled += StopCasting;
+            InputManager.instance.onMouseButton0.started += StopCasting;
+            InputManager.instance.onMouseButton1.started += CancelCasting;
         }
         
         private bool InitSpells()
         {
-            SOCharacter.TryGetCharacter(_scriptableObjectReferencesCache, UserInstance.Me.CharacterId, out var character);
+            SOCharacter.TryGetCharacter(UserInstance.Me.CharacterId, out var character);
             if(character == null)
             {
                 Debug.LogError($"SpellCastController > Can't InitSpells because character {UserInstance.Me.CharacterId} can't be found.");
@@ -74,12 +80,18 @@ namespace Project.Spells.Casters
             {
                 var spellData = _spells[i];
 
-                var prefab = spellCastersList.Get(spellData.castingType);
+                var prefab = spellData.requiredCaster;
 
                 if (prefab == null)
                 {
-                    Debug.LogError($"Spell {spellData.spellId} require a SpellCaster of type {spellData.castingType} " +
-                                   $"but it can't be found. Please add one to the SpellCastersList.");
+                    Debug.LogError($"SpellCaster of spell {spellData.spellId} is null!");
+                    continue;
+                }
+                
+                if(prefab.CastResultType != spellData.requiredResultType)
+                {
+                    Debug.LogError($"Spell {spellData.spellId}'s requiredResultType and SpellCaster prefab's ChannelingResultType are different!\n" +
+                                   $"Maybe you forgot to set the requiredResultType or you picked a SpellCaster prefab that doesn't return the right type.");
                     continue;
                 }
 
@@ -89,7 +101,7 @@ namespace Project.Spells.Casters
             }
         }
 
-        private void StartChanneling(int spellIndex)
+        private void StartCasting(int spellIndex)
         {
             if (spellIndex < 0 || spellIndex >= _spells.Length)
             {
@@ -97,11 +109,13 @@ namespace Project.Spells.Casters
                 return;
             }
             
-            if (_spellCasters.Any(x => x.IsChanneling)) return;
-
+            if(_channelingController.IsChanneling) return;
+            
+            if (_spellCasters.Any(x => x.IsCasting)) return;
+            
             if (_cooldowns.IsInCooldown(spellIndex)) return;
             
-            _currentChannelingIndex = spellIndex;
+            _currentCastingIndex = spellIndex;
             _spellCasters[spellIndex].StartChanneling();
             
             //If the spell is instant, get the results right away
@@ -109,14 +123,14 @@ namespace Project.Spells.Casters
                 //Ask SpellManager to spawn the according spell with the results
         }
 
-        private void StopChanneling(InputAction.CallbackContext _)
+        private void StopCasting(InputAction.CallbackContext _)
         {
-            if (!_currentChannelingIndex.HasValue) return;
+            if (!_currentCastingIndex.HasValue) return;
             
-            StopChanneling(_currentChannelingIndex.Value);
+            StopCasting(_currentCastingIndex.Value);
         }
         
-        private void StopChanneling(int spellIndex)
+        private void StopCasting(int spellIndex)
         {
             if(spellIndex < 0 || spellIndex >= _spells.Length)            
             {
@@ -126,9 +140,9 @@ namespace Project.Spells.Casters
             
             var caster = _spellCasters[spellIndex];
             
-            if (!caster.IsChanneling) return;
+            if (!caster.IsCasting) return;
 
-            _currentChannelingIndex = null;
+            _currentCastingIndex = null;
             
             caster.StopChanneling();
             caster.EvaluateResults();
@@ -136,6 +150,19 @@ namespace Project.Spells.Casters
             caster.TryCast(spellIndex);
             
             _cooldowns.StartLocalCooldown(spellIndex, _spells[spellIndex].cooldown);
+        }
+        
+        private void CancelCasting(InputAction.CallbackContext _)
+        {
+            if (!_currentCastingIndex.HasValue) return;
+            
+            var caster = _spellCasters[_currentCastingIndex.Value];
+            
+            if (!caster.IsCasting) return;
+
+            _currentCastingIndex = null;
+            
+            caster.StopChanneling();
         }
     }
 }

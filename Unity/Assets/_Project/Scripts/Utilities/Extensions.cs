@@ -1,11 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
+
+public enum EAxis
+{
+    X,
+    Y,
+    Z
+}
 
 namespace Project.Extensions
 {
@@ -82,6 +90,11 @@ namespace Project.Extensions
             return false;
         }
         
+        public static void DestroyChildren(this GameObject gameObject)
+        {
+            gameObject.transform.DestroyChildren();
+        }
+        
         public static void DestroyChildren(this Transform transform)
         {
             for (int i = transform.childCount - 1; i >= 0; i--)
@@ -117,12 +130,53 @@ namespace Project.Extensions
             }
         }
 
+        public static void ForEach<T>(this IList<T> target, Action<T, int> action)
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                action.Invoke(target[i], i);
+            }
+        }
+
         public static void ForEach<T1, T2>(this Dictionary<T1, T2> target, Action<T1, T2> action)
         {
             foreach (KeyValuePair<T1, T2> kvp in target)
             {
                 action.Invoke(kvp.Key, kvp.Value);
             }
+        }
+
+        public static void Debug<T>(this IList<T> target, string textToInsertBefore = "")
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                UnityEngine.Debug.Log(textToInsertBefore + target[i]);
+            }
+        }
+        
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector)
+        {
+            return _(); IEnumerable<TSource> _()
+            {
+                var knownKeys = new HashSet<TKey>();
+                foreach (var element in source)
+                {
+                    if (knownKeys.Add(keySelector(element)))
+                        yield return element;
+                }
+            }
+        }
+
+        public static int FindIndex<T>(this T[] array, Predicate<T> match)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (match(array[i]))
+                    return i;
+            }
+
+            return -1;
         }
     }
 
@@ -180,6 +234,17 @@ namespace Project.Extensions
                 pPow = (pPow * p) % m;
             }
             return (int)hashValue; 
+        }
+        
+        public static string ConvertToValidIdentifier(this string input, bool isPath = false)
+        {
+            if (isPath) input = Path.GetFileNameWithoutExtension(input);
+            
+            // Replace all invalid characters
+            input = Regex.Replace(input, "[^a-zA-Z0-9_]", "_", RegexOptions.Compiled);
+            if (input.EndsWith('_')) input = input.Remove(input.Length - 1);
+            
+            return input;
         }
     }
 
@@ -240,5 +305,35 @@ namespace Project.Extensions
         {
             return @object == null ? null : @object;
         }
+    }
+
+    public static class VectorExtensions
+    {
+        public static Vector3 ResetAxis(this Vector3 vector3, EAxis axis)
+        {
+            switch (axis)
+            {
+                case EAxis.X:
+                    vector3.x = 0.0f;
+                    break;
+                
+                case EAxis.Y:
+                    vector3.y = 0.0f;
+                    break;
+                
+                case EAxis.Z:
+                    vector3.z = 0.0f;
+                    break;
+            }
+
+            return vector3;
+        }
+    }
+
+    public static class BooleanExtensions
+    {
+        public static int ToInt(this bool boolean) => boolean ? 1 : 0;
+
+        public static bool ToBool(this int @int) => @int == 1 ? true : false;
     }
 }

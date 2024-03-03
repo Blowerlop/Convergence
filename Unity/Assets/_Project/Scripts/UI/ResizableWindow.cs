@@ -43,13 +43,13 @@ namespace Project
         private RectTransform _rectTransform;
         public Vector2 _defaultAnchorPosition;
         public Vector2 _defaultSizeDelta;
-        
+
         [Title("Events")]
         // [SerializeField] private UnityEvent _onPointerEnterEvent = new UnityEvent();
         // [SerializeField] private UnityEvent _onPointerExitEvent = new UnityEvent();
         // [SerializeField] private Event _onPointerExitEventergergerg = new Event(nameof(_onPointerExitEventergergerg));
-        private Event _onPointerEnterEvent = new Event(nameof(_onPointerEnterEvent), false);
-        private Event _onPointerExitEvent = new Event(nameof(_onPointerExitEvent), false);
+        private Action _onPointerEnterEvent;
+        private Action _onPointerExitEvent;
 
 
         [ClearOnReload] private static bool _dragged = false;
@@ -82,8 +82,8 @@ namespace Project
         {
             if (_autoUpdateCursorVisual)
             {
-                _onPointerEnterEvent.Subscribe(this, UpdateCursorVisualOnPointerEnter);
-                _onPointerExitEvent.Subscribe(this, CursorManager.Release);
+                _onPointerEnterEvent += UpdateCursorVisualOnPointerEnter;
+                _onPointerExitEvent += CursorManager.Release;
             }
         }
 
@@ -91,8 +91,8 @@ namespace Project
         {
             if (_autoUpdateCursorVisual)
             {
-                _onPointerEnterEvent.Unsubscribe(UpdateCursorVisualOnPointerEnter);
-                _onPointerExitEvent.Unsubscribe(CursorManager.Release);
+                _onPointerEnterEvent -= UpdateCursorVisualOnPointerEnter;
+                _onPointerExitEvent -= CursorManager.Release;
             }
         }
 
@@ -102,8 +102,8 @@ namespace Project
             
             _rectTransform.sizeDelta = _defaultSizeDelta;
             _rectTransform.anchoredPosition = _defaultAnchorPosition;
-            
-            _onPointerEnterEvent.Invoke(this, false);
+
+            _onPointerEnterEvent?.Invoke();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -113,7 +113,7 @@ namespace Project
             _rectTransform.sizeDelta = _defaultSizeDelta;
             _rectTransform.anchoredPosition = _defaultAnchorPosition;
             
-            _onPointerExitEvent.Invoke(this, false);
+            _onPointerExitEvent?.Invoke();
         }
         
         public void OnDrag(PointerEventData eventData)

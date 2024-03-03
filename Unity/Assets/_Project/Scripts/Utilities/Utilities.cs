@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
+using GRPCClient;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +11,9 @@ namespace Project
 {
     public class Utilities : MonoBehaviour
     {
+        // DeclaredOnly, Instance, Static, Public, NonPublic
+        public const BindingFlags BINDING_FLAGS_DEBUG = (BindingFlags)62;
+        
         public static IEnumerator LerpInTimeCoroutine(float timeInSeconds, float from, float to, Action<float> callback, Action onFinishCallback = null)
         {
             float timer = 0.0f;
@@ -120,6 +125,16 @@ namespace Project
             position = Vector3.zero;
             return false;
         }
+
+        public static Vector3 GrpcToUnityVector3(GRPC_Vector3 vector)
+        {
+            return new Vector3(vector.X, vector.Y, vector.Z);
+        }
+        
+        public static GRPC_Vector3 UnityToGrpcVector3(Vector3 vector)
+        {
+            return new GRPC_Vector3() { X = vector.x, Y = vector.y, Z = vector.z };
+        }
         
         #if UNITY_EDITOR
         /// <summary>
@@ -144,7 +159,8 @@ namespace Project
         /// <param name="type"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T[] FindAssetsByType<T>() where T : UnityEngine.Object {
+        public static T[] FindAssetsByType<T>() where T : UnityEngine.Object 
+        {
             string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
             
             return guids.Select(AssetDatabase.GUIDToAssetPath)

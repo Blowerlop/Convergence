@@ -70,7 +70,7 @@ namespace Project
             _stringBuilder.Clear();
         }
         
-        [ConsoleCommand("export_logs", "Send the current logs to the discord")]
+        [ConsoleCommand("logs_export", "Send the current logs to the discord")]
         [Button]
         public static void ExportLogToDiscord()
         {
@@ -94,6 +94,26 @@ namespace Project
         private static TimeSpan StripMilliseconds(TimeSpan time)
         {
             return new TimeSpan(time.Days, time.Hours, time.Minutes, time.Seconds);
+        }
+
+        public static Color GetLogColor(LogType logType)
+        {
+            switch (logType)
+            {
+                case LogType.Log:
+                    return logColor;
+
+                case LogType.Warning:
+                    return logWarningColor;
+                
+                case LogType.Error:
+                case LogType.Assert:
+                case LogType.Exception:
+                    return logErrorColor;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(logType), logType, null);
+            }
         }
         #endregion
     }

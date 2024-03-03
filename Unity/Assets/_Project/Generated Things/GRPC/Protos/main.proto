@@ -21,18 +21,21 @@ service MainService {
 	//Used to send unreal clients connection / disconnection to netcode server
 	rpc GRPC_SrvClientUpdate (GRPC_EmptyMsg) returns (stream GRPC_ClientUpdate);
 
-	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (GRPC_EmptyMsg);
+	rpc GRPC_SrvNetObjUpdate (stream GRPC_NetObjUpdate) returns (stream GRPC_EmptyMsg);
 	rpc GRPC_CliNetObjUpdate (GRPC_EmptyMsg) returns (stream GRPC_NetObjUpdate);
 
 	rpc GRPC_SrvNetVarUpdate (stream GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
 	rpc GRPC_CliNetNetVarUpdate (GRPC_GenericValue) returns (stream GRPC_NetVarUpdate);
 
-	rpc GRPC_RequestNetVarUpdateUnrealToGrpc (GRPC_NetVarUpdate) returns (GRPC_EmptyMsg);
-	//rpc GRPC_RequestNetVarUpdateUnrealToGrpc (stream GRPC_NetVarUpdate) returns (GRPC_NetVarUpdate);
-	rpc GRPC_RequestNetVarUpdateGrpcToNetcode (GRPC_NetVarUpdate) returns (stream GRPC_NetVarUpdate);
-
 	rpc GRPC_TeamSelectionUnrealToGrpc (stream GRPC_Team) returns (stream GRPC_TeamResponse);
 	rpc GRPC_TeamSelectionGrpcToNetcode (stream GRPC_TeamResponse) returns (stream GRPC_Team);
+	
+	//Spells
+	rpc GRPC_SetUnrealSpellUnrealToGrpc (GRPC_SpellSlot) returns (GRPC_EmptyMsg);
+	rpc GRPC_SetUnrealSpellGrpcToNetcode (GRPC_EmptyMsg) returns (stream GRPC_SpellSlot);
+	
+	rpc GRPC_SpellCastRequestUnrealToGrpc (GRPC_SpellCastRequest) returns (GRPC_EmptyMsg);
+	rpc GRPC_SpellCastRequestGrpcToNetcode (GRPC_EmptyMsg) returns (stream GRPC_SpellCastRequest);
 }
 
 //Handshake
@@ -66,6 +69,8 @@ message GRPC_NetObjUpdate {
 	GRPC_NetObjUpdateType type = 1;
 	int32 netId = 2;
 	string prefabId = 3;
+	GRPC_Vector3 position = 4;
+	GRPC_Vector3 rotation = 5;
 }
 
 enum GRPC_NetObjUpdateType {
@@ -125,4 +130,23 @@ message GRPC_Team{
 message GRPC_TeamResponse{
 	GRPC_Team team = 1;
 	bool response = 2;
+}
+
+message GRPC_SpellSlot {
+	int32 index = 1;
+	int32 spellHash = 2;
+
+	// Set by GRPC server automatically when a request is received
+	// If a field is not set in a request, it will not be serialized and won't take space
+	int32 clientId = 3;
+}
+
+message GRPC_SpellCastRequest {
+	int32 spellIndex = 1;
+	repeated GRPC_Vector3 vectorParams = 2;
+	repeated float floatParams = 3;
+	
+	// Set by GRPC server automatically when a request is received
+	// If a field is not set in a request, it will not be serialized and won't take space
+	int32 clientId = 4;
 }

@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 9108643096029049375}
   - component: {fileID: 8107871613094103825}
   - component: {fileID: 7774840793179866475}
+  - component: {fileID: 4839899725849509034}
   m_Layer: 0
   m_Name: DefaultZone
   m_TagString: Untagged
@@ -303,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3580281955
+  GlobalObjectIdHash: 4254404552
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -323,10 +324,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1450cfb12863409685a425374204f574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellData: {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &4839899725849509034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792876422846460502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: ZoneSpell
+  UnrealOwnerAddress: 
 --- !u!1 &9021965395715004859
 GameObject:
   m_ObjectHideFlags: 0

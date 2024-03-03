@@ -26,7 +26,7 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
-            TeamManager.instance.onTeamSetEvent.Subscribe(this, OnTeamSet_UpdateButtonText);
+            TeamManager.instance.onTeamSetEvent += OnTeamSet_UpdateButtonText;
 
             // Because right now in testing this network spawn might fired first, we have a null ref on our UserInstance.
             // But in the final game, the UserInstance will be the first thing ever fired in the network (normally)
@@ -48,9 +48,9 @@ namespace Project
 
         public override void OnNetworkDespawn()
         {
-            if (TeamManager.isBeingDestroyed == false)
+            if (TeamManager.IsInstanceAlive())
             {
-                TeamManager.instance.onTeamSetEvent.Unsubscribe(OnTeamSet_UpdateButtonText);
+                TeamManager.instance.onTeamSetEvent -= OnTeamSet_UpdateButtonText;
             }
 
             if (UserInstance.Me != null)

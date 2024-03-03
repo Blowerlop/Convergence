@@ -12,6 +12,9 @@ namespace Networking
         public List<IServerStreamWriter<GRPC_TeamResponse>> teamSelectionResponseStream = new List<IServerStreamWriter<GRPC_TeamResponse>>();
         public Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate> requestNetvarUpdateStream = new Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate>();
 
+        public IServerStreamWriter<GRPC_SpellCastRequest>? SpellCastRequestStream = null;
+        public IServerStreamWriter<GRPC_SpellSlot>? SetUnrealSpellStream = null;
+        
         public NetcodeServer(string ad) : base(ad) { }
 
         public override void Disconnect()
@@ -42,14 +45,17 @@ namespace Networking
         
         private void NewNetObject(GRPC_NetObjUpdate update)
         {
-            Console.WriteLine("New NetworkObject: NetID: " + update.NetId + ", PrefabID: " + update.PrefabId + "\n");
+            Debug.Log("New NetworkObject: NetID: " + update.NetId + ", PrefabID: " + update.PrefabId + "\n");
             NetObjs.Add(update.NetId, new NetworkObject(update.NetId, update.PrefabId));
         }
         
         private void DestroyNetObject(GRPC_NetObjUpdate update)
         {
-            Console.WriteLine("Destroy NetworkObject: NetID: " + update.NetId + "\n");
-            NetObjs.Remove(update.NetId);
+            lock (NetObjs)
+            {
+                Debug.Log("Destroy NetworkObject: NetID: " + update.NetId + "\n");
+                NetObjs.Remove(update.NetId);
+            }
         }
 
         public List<GRPC_NetObjUpdate> GetNetworkObjectsAsUpdates()

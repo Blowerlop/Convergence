@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -18,14 +20,7 @@ namespace Project
     {
         [SerializeField] private Pager _pager;
         private ELobbyState _lobbyState = ELobbyState.TeamSelection;
-        public readonly Event onAllPlayersReadyEvent = new Event(nameof(onAllPlayersReadyEvent));
-
-
-        protected override void Awake()
-        {
-            dontDestroyOnLoad = false;
-            base.Awake();
-        }
+        public readonly Action onAllPlayersReadyEvent;
 
         private void Start()
         {
@@ -64,7 +59,7 @@ namespace Project
 
         private void CheckIfAllPlayersReady()
         {
-            if (UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady) ==
+            if (UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady || x.IsMobile) ==
                 UserInstanceManager.instance.count)
             {
                 OnAllPlayersReady();
@@ -91,8 +86,8 @@ namespace Project
                     Debug.LogError("Lobby invalid state");
                     break;
             }
-            
-            onAllPlayersReadyEvent.Invoke(this, true);
+
+            onAllPlayersReadyEvent?.Invoke();
         }
 
         // Don't need to be a RPC because it will be executed at the Start
@@ -102,11 +97,15 @@ namespace Project
             _lobbyState = ELobbyState.TeamSelection;
         }
 
-        private void GoToCharacterSelectionPage()
+        private async void GoToCharacterSelectionPage()
         {
-            UserInstanceManager.instance.GetUsersInstance().ForEach(x => x.SetIsReady(false));
+            foreach (UserInstance x in UserInstanceManager.instance.GetUsersInstance())
+            {
+                await Task.Delay(100);
+                x.SetIsReady(false);
+            }
 
-            if (IsServer && IsHost == false)
+            if (IsServer)
             {
                 GoToCharacterSelectionPageLocal();
             }
@@ -128,7 +127,7 @@ namespace Project
 
         private void GoToGameScene()
         {
-            Project.SceneManager.Network_LoadSceneAsync("Game", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
+            Project.SceneManager.Network_LoadSceneAsync("Spell", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
         }
     }
 }

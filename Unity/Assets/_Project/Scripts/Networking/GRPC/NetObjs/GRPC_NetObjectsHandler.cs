@@ -15,22 +15,22 @@ namespace Project
         public NetworkObject playerPrefab;
 
         private CancellationTokenSource _netObjsStreamCancelSrc;
-        private AsyncClientStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
+        private AsyncDuplexStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
         
         private void OnEnable()
         {
-            GRPC_Transport.instance.onClientStopEvent.Subscribe(this, TokenCancel);
-            GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, GetNetObjsUpdateStream);
-            GRPC_NetworkManager.instance.onClientStoppedEvent.Subscribe(this, Dispose);
+            GRPC_Transport.instance.onClientStopEvent += TokenCancel;
+            GRPC_NetworkManager.instance.onClientStartedEvent += GetNetObjsUpdateStream;
+            GRPC_NetworkManager.instance.onClientStoppedEvent += Dispose;
         }
 
         private void OnDisable()
         {
-            if (GRPC_NetworkManager.isBeingDestroyed) return;
+            if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
-            GRPC_Transport.instance.onClientStopEvent.Unsubscribe(TokenCancel);
-            GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(GetNetObjsUpdateStream);
-            GRPC_NetworkManager.instance.onClientStoppedEvent.Unsubscribe(Dispose);
+            GRPC_Transport.instance.onClientStopEvent -= TokenCancel;
+            GRPC_NetworkManager.instance.onClientStartedEvent -= GetNetObjsUpdateStream;
+            GRPC_NetworkManager.instance.onClientStoppedEvent -= Dispose;
         }
 
         private void GetNetObjsUpdateStream()
@@ -39,13 +39,33 @@ namespace Project
             _netObjsStream = GRPC_Transport.instance.client.GRPC_SrvNetObjUpdate();
         }
         
-        public async void SendNetObjsUpdate(GRPC_NetObjUpdate update)
+        public async void SendNetObjsUpdate(GRPC_NetObjUpdate update, BoolWrapper processed)
         {
-            if (_netObjsStream == null) return;
-            
             try
             {
-                await _netObjsStream.RequestStream.WriteAsync(update);
+                processed.value = false;
+                
+                // Fast fix, need to find how to Lock an await
+                write:
+                try
+                {
+                    await _netObjsStream.RequestStream.WriteAsync(update);
+                }
+                catch (InvalidOperationException)
+                {
+                    goto write;
+                }
+
+                read:
+                try
+                {
+                    await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
+                    processed.value = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    goto read;
+                }
             }
             catch (IOException)
             {
