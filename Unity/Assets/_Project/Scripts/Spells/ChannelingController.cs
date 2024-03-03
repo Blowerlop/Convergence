@@ -56,6 +56,13 @@ namespace Project._Project.Scripts.Spells
         [Server]
         public void StartServerChanneling(float channelingTime, Action channelingDoneAction = null)
         {
+            // Bypass entering channeling state and exiting it instantly if we have no channeling time
+            if (channelingTime == 0)
+            {
+                channelingDoneAction?.Invoke();
+                return;
+            }
+            
             ChangeState(new CastingState());
             
             _isChanneling.Value = true;

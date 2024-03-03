@@ -19,12 +19,13 @@ namespace Project.Spells
          ValueDropdown("@ICastResult.AllResultTypesAsString"), OnValueChanged(nameof(CheckCasterValidity))]
         private string resultTypeSelection;
         
-        [FoldoutGroup("Caster"), HideIf(nameof(NeedCaster)), OnValueChanged(nameof(CheckCasterValidity))] 
+        [FoldoutGroup("Caster"), OnValueChanged(nameof(CheckCasterValidity))] 
         public SpellCaster requiredCaster;
         
         [FoldoutGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
         [FoldoutGroup("Spell"), DisableIf("@true")] public int spellIdHash;
         [FoldoutGroup("Spell")] public Spell spellPrefab;
+        [FoldoutGroup("Spell")] public bool isInstant;
         [FoldoutGroup("Spell")] public float cooldown;
         [FoldoutGroup("Spell")] public float channelingTime;
 
@@ -114,8 +115,6 @@ namespace Project.Spells
                 requiredCaster = null;
             }
         }
-
-        private bool NeedCaster() => RequiredResultType != null && RequiredResultType == typeof(EmptyResults);
         
         #endregion
     }

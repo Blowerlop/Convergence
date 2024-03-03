@@ -8,7 +8,7 @@ namespace Project.Spells.Casters
         
         private EmptyResults _currentResults = new();
         
-        protected override void UpdateChanneling() { }
+        protected override void UpdateCasting() { }
 
         public override void EvaluateResults() { }
 

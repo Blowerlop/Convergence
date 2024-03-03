@@ -78,14 +78,7 @@ namespace Project.Spells
         {
             if (!hit.transform.TryGetComponent(out PlayerRefs player)) return;
 
-            int appliedNb = 0;
-            
-            foreach (var effect in Data.effects)
-            {
-                if (effect.TryApply(player)) appliedNb++;
-            }
-
-            if (appliedNb > 0) KillSpell();
+            if (TryApplyEffects(player)) KillSpell();
         }
 
         public override void OnNetworkSpawn()

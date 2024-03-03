@@ -13,13 +13,21 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: 
   resultTypeSelection: Project.Spells.EmptyResults
-  requiredCaster: {fileID: 0}
-  spellId: 
-  spellIdHash: 0
-  spellPrefab: {fileID: 0}
-  cooldown: 0
+  requiredCaster: {fileID: -3331929095968915761, guid: 1785605496ef8ea4d9a6818397486ff5,
+    type: 3}
+  spellId: heal
+  spellIdHash: 358616
+  spellPrefab: {fileID: 4072781175783423226, guid: c09f9c93f89aa2c4393aef531c06ffbf,
+    type: 3}
+  isInstant: 1
+  cooldown: 5
   channelingTime: 0
-  effects: []
+  effects:
+  - rid: 2778044860083994625
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2778044860083994625
+      type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        DamageAmount: 25

@@ -117,11 +117,11 @@ namespace Project.Spells.Casters
             if (_cooldowns.IsInCooldown(spellIndex)) return;
             
             _currentCastingIndex = spellIndex;
-            _spellCasters[spellIndex].StartChanneling();
-            
-            //If the spell is instant, get the results right away
-                //var results = _spellCasters[spellIndex].GetResults();
-                //Ask SpellManager to spawn the according spell with the results
+            _spellCasters[spellIndex].StartCasting();
+
+            // Instant spells should be casted immediately
+            if (_spells[spellIndex].isInstant)
+                StopCasting(_currentCastingIndex.Value);
         }
 
         private void StopCasting(InputAction.CallbackContext _)
@@ -145,7 +145,7 @@ namespace Project.Spells.Casters
 
             _currentCastingIndex = null;
             
-            caster.StopChanneling();
+            caster.StopCasting();
             caster.EvaluateResults();
             
             caster.TryCast(spellIndex);
@@ -163,7 +163,7 @@ namespace Project.Spells.Casters
 
             _currentCastingIndex = null;
             
-            caster.StopChanneling();
+            caster.StopCasting();
         }
     }
 }
