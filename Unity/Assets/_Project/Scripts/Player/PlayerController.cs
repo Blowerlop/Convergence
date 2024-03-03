@@ -55,8 +55,9 @@ namespace Project
         
         private void Update()
         {
+            if (IsServer == false) return;
+            
             // Shit
-
             int animationHash = _refs.Animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
             if (animationHash == _currentAnimationHash) return;
             
