@@ -201,8 +201,6 @@ namespace Project
                     NetId = _netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
 
-                Debug.Log("NetVar Send");
-                
                 await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
                 // Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
             }

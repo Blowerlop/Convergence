@@ -44,7 +44,6 @@ namespace Project
             try
             {
                 processed.value = false;
-                Debug.Log("NetObj send");
                 
                 // Fast fix, need to find how to Lock an await
                 write:
