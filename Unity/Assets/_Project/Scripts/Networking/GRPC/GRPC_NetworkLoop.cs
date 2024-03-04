@@ -1,29 +1,42 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Grpc.Core;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Project
 {
-    public class GRPC_Message
+    public abstract class GRPC_Message
     {
-        private readonly Func<Task> _message;
+        public abstract Task WriteAsync();
+    }
+    
+    public class GRPC_Message<T> : GRPC_Message
+    {
+        private readonly IClientStreamWriter<T> _streamWriter;
+        private readonly T _message;
+        private readonly CancellationTokenSource _cancellationTokenSource;
         
-        public GRPC_Message(Func<Task> cache)
+        
+        public GRPC_Message(IClientStreamWriter<T> streamWriter, T message, CancellationTokenSource cancellationTokenSource)
         {
-            _message = cache;
+            _streamWriter = streamWriter;
+            _message = message;
+            _cancellationTokenSource = cancellationTokenSource;
         }
-            
-        public Task WriteAsync()
+        
+        public override Task WriteAsync()
         {
-            return _message.Invoke();
+            return _streamWriter.WriteAsync(_message, _cancellationTokenSource.Token);
         }
     }
     
     public class GRPC_NetworkLoop : NetworkSingleton<GRPC_NetworkLoop>, INetworkUpdateSystem 
     {
-        private static readonly Stack<GRPC_Message> _messages;
+        private static readonly Stack<GRPC_Message> _messages = new Stack<GRPC_Message>();
 
         
         public override void OnNetworkSpawn()
@@ -48,7 +61,14 @@ namespace Project
             {
                 while (_messages.Any())
                 {
-                    await _messages.Pop().WriteAsync();
+                    try
+                    {
+                        await _messages.Pop().WriteAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("GRPC NetworkLoop exception: " + e);
+                    }
                 }
             }
         }
