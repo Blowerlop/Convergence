@@ -45,16 +45,7 @@ namespace Project
             {
                 processed.value = false;
                 
-                // Fast fix, need to find how to Lock an await
-                write:
-                try
-                {
-                    await _netObjsStream.RequestStream.WriteAsync(update);
-                }
-                catch (InvalidOperationException)
-                {
-                    goto write;
-                }
+                GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetObjUpdate>(_netObjsStream.RequestStream, update, new CancellationTokenSource()));
 
                 read:
                 try
