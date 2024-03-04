@@ -289,21 +289,9 @@ namespace Project
             return _teams[teamIndex];
         }
         
-        private async void Write(GRPC_TeamResponse response)
+        private void Write(GRPC_TeamResponse response)
         {
-            try
-            {
-                await _teamManagerStream.RequestStream.WriteAsync(response, _cancellationTokenSource.Token);
-                Debug.Log("Team message send");
-            }
-            catch (IOException e)
-            {
-                if (GRPC_NetworkManager.instance.isConnected)
-                {
-                    Debug.LogError(e);
-                    GRPC_NetworkManager.instance.StopClient();
-                }
-            }
+            GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_TeamResponse>(_teamManagerStream.RequestStream, response, _cancellationTokenSource));
         }
         
         private async void Read()

@@ -134,7 +134,7 @@ namespace Project
             UpdateVariableOnGrpc(_lastValue);
         }
         
-        private async void UpdateVariableOnGrpc(T newValue)
+        private void UpdateVariableOnGrpc(T newValue)
         {
             if (GRPC_NetworkManager.instance.isConnected == false) return;
             
@@ -201,8 +201,7 @@ namespace Project
                     NetId = _netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
 
-                await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
-                // Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
+                GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetVarUpdate>(_sendStream.RequestStream, result, _sendStreamCancellationTokenSource));
             }
             catch (IOException)
             {
