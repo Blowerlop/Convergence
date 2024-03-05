@@ -19,7 +19,7 @@ namespace Project
         [ShowInInspector] public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
 
         public bool hasBeenSpawnedOnGrpc;
-        public Action onNetworkObjectHasSpawnedOnGrpc;
+        public Action<bool> onNetworkObjectHasSpawnedOnGrpc;
 
         public override void OnNetworkSpawn()
         {

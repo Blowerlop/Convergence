@@ -114,7 +114,7 @@ namespace Project
             if (syncer.IsOwnedByUnrealClient)
             {
                 Debug.Log("Unreal client connected, sync vars");
-                Sync();
+                // Sync();
             }
         }
 
@@ -146,6 +146,11 @@ namespace Project
             }
         }
 
+        public void Sync(bool value)
+        {
+            if (value) Sync();
+        }
+        
         public void Sync()
         {
             UpdateVariableOnGrpc(Value);

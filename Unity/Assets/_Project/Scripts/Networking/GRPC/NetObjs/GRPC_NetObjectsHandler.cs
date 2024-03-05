@@ -75,7 +75,11 @@ namespace Project
                     GRPC_NetObjUpdate response = _netObjsCallbackStream.ResponseStream.Current;
                     GRPC_NetworkObjectSyncer networkObjectSyncer = _processNetObjs[response.NetId];
                     networkObjectSyncer.hasBeenSpawnedOnGrpc = true;
-                    networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke();
+                    if (response.Type == GRPC_NetObjUpdateType.New)
+                    {
+                        networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke(true);
+                    }
+                    else networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke(false);
                     _processNetObjs.Remove(response.NetId);
                 }
             }
