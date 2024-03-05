@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,10 +18,16 @@ namespace Project
         private CancellationTokenSource _netObjsStreamCancelSrc;
         private AsyncDuplexStreamingCall<GRPC_NetObjUpdate, GRPC_EmptyMsg> _netObjsStream;
         
+        private CancellationTokenSource _netObjsStreamCallbackCancelSrc;
+        private AsyncServerStreamingCall<GRPC_NetObjUpdate> _netObjsCallbackStream;
+        
+        public Dictionary<int, GRPC_NetworkObjectSyncer> _processNetObjs = new Dictionary<int, GRPC_NetworkObjectSyncer>();
+        
         private void OnEnable()
         {
             GRPC_Transport.instance.onClientStopEvent += TokenCancel;
             GRPC_NetworkManager.instance.onClientStartedEvent += GetNetObjsUpdateStream;
+            GRPC_NetworkManager.instance.onClientStartedEvent += GetNetObjsUpdate;
             GRPC_NetworkManager.instance.onClientStoppedEvent += Dispose;
         }
 
@@ -30,6 +37,7 @@ namespace Project
             
             GRPC_Transport.instance.onClientStopEvent -= TokenCancel;
             GRPC_NetworkManager.instance.onClientStartedEvent -= GetNetObjsUpdateStream;
+            GRPC_NetworkManager.instance.onClientStartedEvent -= GetNetObjsUpdate;
             GRPC_NetworkManager.instance.onClientStoppedEvent -= Dispose;
         }
 
@@ -37,25 +45,38 @@ namespace Project
         {
             _netObjsStreamCancelSrc = new CancellationTokenSource();
             _netObjsStream = GRPC_Transport.instance.client.GRPC_SrvNetObjUpdate();
+
+            _netObjsStreamCallbackCancelSrc = new CancellationTokenSource();
+            _netObjsCallbackStream = GRPC_Transport.instance.client.GRPC_CliNetObjUpdate(new GRPC_EmptyMsg());
         }
         
-        public async void SendNetObjsUpdate(GRPC_NetObjUpdate update, BoolWrapper processed)
+        public void SendNetObjsUpdate(GRPC_NetObjUpdate update, GRPC_NetworkObjectSyncer networkObjectSyncer)
         {
             try
             {
-                processed.value = false;
+                networkObjectSyncer.hasBeenSpawnedOnGrpc = false;
                 
                 GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetObjUpdate>(_netObjsStream.RequestStream, update, new CancellationTokenSource()));
+                _processNetObjs.Add(update.NetId, networkObjectSyncer);
+            }
+            catch (IOException)
+            {
+                if (GRPC_NetworkManager.instance.isConnected)
+                    GRPC_NetworkManager.instance.StopClient();
+            }
+        }
 
-                read:
-                try
+        private async void GetNetObjsUpdate()
+        {
+            try
+            {
+                while (await _netObjsCallbackStream.ResponseStream.MoveNext(_netObjsStreamCallbackCancelSrc.Token))
                 {
-                    await _netObjsStream.ResponseStream.MoveNext(new CancellationToken());
-                    processed.value = true;
-                }
-                catch (InvalidOperationException)
-                {
-                    goto read;
+                    GRPC_NetObjUpdate response = _netObjsCallbackStream.ResponseStream.Current;
+                    GRPC_NetworkObjectSyncer networkObjectSyncer = _processNetObjs[response.NetId];
+                    networkObjectSyncer.hasBeenSpawnedOnGrpc = true;
+                    networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke();
+                    _processNetObjs.Remove(response.NetId);
                 }
             }
             catch (IOException)
@@ -68,6 +89,7 @@ namespace Project
         private void TokenCancel()
         {
             _netObjsStreamCancelSrc?.Cancel();
+            _netObjsStreamCallbackCancelSrc?.Cancel();
         }
         
         public void Dispose()
@@ -76,6 +98,11 @@ namespace Project
             _netObjsStream?.Dispose();
 
             _netObjsStream = null;
+            
+            _netObjsStreamCallbackCancelSrc?.Dispose();
+            _netObjsCallbackStream?.Dispose();
+
+            _netObjsCallbackStream = null;
         }
         
         #region Debug
