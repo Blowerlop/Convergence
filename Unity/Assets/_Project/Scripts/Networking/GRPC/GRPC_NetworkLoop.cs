@@ -36,7 +36,7 @@ namespace Project
     
     public class GRPC_NetworkLoop : NetworkSingleton<GRPC_NetworkLoop>, INetworkUpdateSystem 
     {
-        private static readonly Stack<GRPC_Message> _messages = new Stack<GRPC_Message>();
+        private readonly Stack<GRPC_Message> _messages = new Stack<GRPC_Message>();
 
         
         public override void OnNetworkSpawn()
@@ -61,13 +61,15 @@ namespace Project
             {
                 while (_messages.Any())
                 {
+                    GRPC_Message message = _messages.Pop();
                     try
                     {
-                        await _messages.Pop().WriteAsync();
+                        await message.WriteAsync();
                     }
                     catch (Exception e)
                     {
                         Debug.LogError("GRPC NetworkLoop exception: " + e);
+                        await Task.Delay(10);
                     }
                 }
             }
