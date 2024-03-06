@@ -107,10 +107,10 @@ namespace Project
             
             if (!IsServer && !IsHost) return;
 
-            DisposeGrpcStream();
             
             if (GRPC_NetworkManager.IsInstanceAlive())
             {
+                DisposeGrpcStream();
                 GRPC_NetworkManager.instance.onClientStartedEvent -= InitGrpcStream;
                 GRPC_NetworkManager.instance.onClientStopEvent -=DisposeGrpcStream;
             }
@@ -126,11 +126,11 @@ namespace Project
         
         public void DisposeGrpcStream()
         {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
             
-            _teamManagerStream.Dispose();
+            _teamManagerStream?.Dispose();
             _teamManagerStream = null;
         }
         

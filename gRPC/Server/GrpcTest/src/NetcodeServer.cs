@@ -9,6 +9,8 @@ namespace Networking
         public Dictionary<int, NetworkObject> NetObjs = new();
         public IServerStreamWriter<GRPC_ClientUpdate> ClientUpdateStream = null!;
 
+        public IServerStreamWriter<GRPC_NetObjUpdate> NetObjectsStream;
+        
         public List<IServerStreamWriter<GRPC_TeamResponse>> teamSelectionResponseStream = new List<IServerStreamWriter<GRPC_TeamResponse>>();
         public Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate> requestNetvarUpdateStream = new Dictionary<IServerStreamWriter<GRPC_NetVarUpdate>, GRPC_NetVarUpdate>();
 
