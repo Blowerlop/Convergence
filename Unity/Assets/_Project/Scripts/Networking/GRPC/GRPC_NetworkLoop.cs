@@ -42,7 +42,7 @@ namespace Project
     
     public class GRPC_NetworkLoop : NetworkSingleton<GRPC_NetworkLoop>, INetworkUpdateSystem 
     {
-        private readonly Stack<GRPC_Message> _messages = new Stack<GRPC_Message>();
+        private readonly Queue<GRPC_Message> _messages = new Queue<GRPC_Message>();
         private int _currentTick;
 
         
@@ -59,7 +59,7 @@ namespace Project
         
         public void AddMessage(GRPC_Message message)
         {
-            _messages.Push(message);
+            _messages.Enqueue(message);
         }
 
         public async void NetworkUpdate(NetworkUpdateStage updateStage)
@@ -69,9 +69,9 @@ namespace Project
                 _currentTick++;
                 int currentTick = _currentTick;
                 
-                while (_messages.Any() || currentTick == _currentTick)
+                while (_messages.Any() && currentTick == _currentTick)
                 {
-                    GRPC_Message message = _messages.Pop();
+                    GRPC_Message message = _messages.Dequeue();
                     try
                     {
                         await message.WriteAsync();
