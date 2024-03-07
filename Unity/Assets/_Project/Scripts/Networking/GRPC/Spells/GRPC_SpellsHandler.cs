@@ -64,11 +64,7 @@ namespace Project
             }
             catch (RpcException e)
             {
-                if (GRPC_NetworkManager.instance.isConnected)
-                {
-                    Debug.LogError(e);
-                    GRPC_NetworkManager.instance.StopClient();
-                }
+                Debug.LogError(e);
             }
         }
 
@@ -153,11 +149,7 @@ namespace Project
             }
             catch (RpcException e)
             {
-                if (GRPC_NetworkManager.instance.isConnected)
-                {
-                    Debug.LogError(e);
-                    GRPC_NetworkManager.instance.StopClient();
-                }
+                Debug.LogError(e);
             }
         }
 

@@ -140,9 +140,9 @@ namespace Project
 
                 GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetVarUpdate>(_sendStream.RequestStream, result, _sendStreamCancellationTokenSource));
             }
-            catch (IOException)
+            catch (IOException e)
             {
-                GRPC_NetworkManager.instance.StopClient(); 
+                Debug.LogError(e);
             }
         }
 

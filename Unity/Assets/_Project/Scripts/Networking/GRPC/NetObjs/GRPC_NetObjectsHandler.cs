@@ -59,10 +59,9 @@ namespace Project
                 GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetObjUpdate>(_netObjsStream.RequestStream, update, new CancellationTokenSource()));
                 _processNetObjs.Add(update.NetId, networkObjectSyncer);
             }
-            catch (IOException)
+            catch (IOException e)
             {
-                if (GRPC_NetworkManager.instance.isConnected)
-                    GRPC_NetworkManager.instance.StopClient();
+                Debug.LogError(e);
             }
         }
 
@@ -83,10 +82,9 @@ namespace Project
                     _processNetObjs.Remove(response.NetId);
                 }
             }
-            catch (IOException)
+            catch (IOException e)
             {
-                if (GRPC_NetworkManager.instance.isConnected)
-                    GRPC_NetworkManager.instance.StopClient();
+                Debug.LogError(e);
             }
         }
         
