@@ -28,6 +28,9 @@ namespace Project
         
         // Stats
         [field: SerializeField, BoxGroup("Stats")] public int BaseHealth { get; private set; }
+        [field: SerializeField, BoxGroup("Stats")] public int BaseAttackDamage { get; private set; }
+        [field: SerializeField, BoxGroup("Stats"), SuffixLabel("seconds")] public float BaseAttackSpeed { get; private set; }
+        [field: SerializeField, BoxGroup("Stats"), SuffixLabel("metters")] public float BaseAttackRange { get; private set; }
 
         public static SOCharacter[] GetAllCharacters()
         {

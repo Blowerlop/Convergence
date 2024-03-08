@@ -25,3 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
   - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
   <BaseHealth>k__BackingField: 100
+  <BaseAttackDamage>k__BackingField: 20
+  <BaseAttackSpeed>k__BackingField: 0.5
+  <BaseAttackRange>k__BackingField: 5

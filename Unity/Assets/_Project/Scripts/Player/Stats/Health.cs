@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project
 {
-    public class Health : NetworkBehaviour, IStat
+    public class Health : NetworkBehaviour, IStat<int>
     {
         private readonly GRPC_NetworkVariable<int> _maxHealth = new GRPC_NetworkVariable<int>("MaxHealth", 1);
         private readonly GRPC_NetworkVariable<int> _health = new GRPC_NetworkVariable<int>("Health", 1);

@@ -2,12 +2,17 @@ using System;
 
 namespace Project
 {
-    public interface IStat
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T">Value type: int, float, long, etc...</typeparam>
+    public interface IStat<T> where T : struct, IComparable, IFormattable, IConvertible 
     {
-        public int DefaultValue { get; set; }
-        public int Value { get; set; }
-        public int MaxValue { get; set; }
+        public T DefaultValue { get; set; }
+        public T Value { get; set; }
+        public T MaxValue { get; set; }
         public void SetToMaxValue();
-        public event Action<int, int> OnValueChanged;
+        // ReSharper disable once EventNeverSubscribedTo.Global
+        public event Action<T, T> OnValueChanged;
     }
 }

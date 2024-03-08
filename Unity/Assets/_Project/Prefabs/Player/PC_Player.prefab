@@ -138,6 +138,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
   <health>k__BackingField: {fileID: 6358870901761440058}
+  <attackDamage>k__BackingField:
+    rid: 8967663209137045506
+  <attackSpeed>k__BackingField:
+    rid: -2
+  <attackRange>k__BackingField:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8967663209137045506
+      type: {class: AttackDamage, ns: Project, asm: Assembly-CSharp}
 --- !u!114 &6358870901761440058
 MonoBehaviour:
   m_ObjectHideFlags: 0

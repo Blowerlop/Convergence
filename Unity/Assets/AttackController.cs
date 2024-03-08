@@ -8,8 +8,7 @@ namespace Project
     {
         private PCPlayerRefs _playerRefs;
         private Camera _camera;
-        [ShowInInspector, ReadOnly] private readonly Timer _attackCooldown = new Timer();
-        [ShowInInspector, ReadOnly] private readonly Timer _castingTimer = new Timer();
+        [ShowInInspector, ReadOnly] private readonly Timer _attackTime = new Timer();
         
         
         private void Awake()
@@ -32,51 +31,55 @@ namespace Project
         private void OnAttackRequest(InputAction.CallbackContext _)
         {
             if (CanAttack() == false) return;
-            
-            if (Utilities.GetMouseWorldHit(_camera, Constants.LayersMask.Entity, out RaycastHit hitInfo))
-            {
-                if (hitInfo.transform.TryGetComponent(out IDamageable damageable))
-                {
-                    Debug.Log("Attack request");
+            if (!Utilities.GetMouseWorldHit(_camera, Constants.LayersMask.Entity, out RaycastHit hitInfo)) return;
+            if (IsInRange(hitInfo)) return;
+            if (IsDamageable(hitInfo, out IDamageable damageable)) return;
 
-                    if (damageable.CanDamage(_playerRefs.TeamIndex))
-                    {
-                        if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.castingState))
-                        {
-                            StartCast(damageable);
-                        }
-                        else
-                        {
-                            StopCast();
-                        }
-                    }
-                }
+            Debug.Log("Attack request");
+
+            if (!damageable.CanDamage(_playerRefs.TeamIndex)) return;
+            if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.castingState))
+            {
+                StartCast(damageable);
             }
+            else
+            {
+                StopCast();
+            }
+        }
+
+        private static bool IsDamageable(RaycastHit hitInfo, out IDamageable damageable)
+        {
+            return !hitInfo.transform.TryGetComponent(out damageable);
+        }
+
+        private bool IsInRange(RaycastHit hitInfo)
+        {
+            return (hitInfo.transform.position - _playerRefs.PlayerTransform.position).sqrMagnitude > _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
         }
 
         private void StartCast(IDamageable damageable)
         {
             StopCast();
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.castingState);
-            _castingTimer.StartTimerWithCallback(this, 0.5f, () => Hit(damageable));
+            _attackTime.StartTimerWithCallback(this, _playerRefs.Entity.Stats.attackSpeed.Value, () => Hit(damageable));
         }
 
         private void StopCast()
         {
-            _castingTimer.StopTimer();
+            _attackTime.StopTimer();
         }
 
 
         private void Hit(IDamageable damageable)
         {
-            damageable.Damage(20);
-            _attackCooldown.StartSimpleTimerScaled(this, 5);
+            damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
         }
 
         private bool CanAttack()
         {
-            return !_castingTimer.isTimerRunning && !_attackCooldown.isTimerRunning;
+            return !_attackTime.isTimerRunning;
         }
         
     }
