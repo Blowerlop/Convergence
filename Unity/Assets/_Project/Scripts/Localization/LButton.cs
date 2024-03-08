@@ -52,6 +52,11 @@ namespace Project.Localization
                             (LocalizationManager.ActualLanguageKey == null) ||
                             (x == LocalizationManager.ActualLanguageKey)),
                         languages)).ToString();
+                var language = LocalizationManager.GetBank();
+                targetMenuButton.translationKey = language.GetKey(EditorGUILayout.Popup("Label",
+                    language.GetIndex(language.LanguageDict
+                        .FirstOrDefault(x => x.Key == targetMenuButton.translationKey).Key),
+                    language.LanguageDict.Keys.ToArray()));
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();
