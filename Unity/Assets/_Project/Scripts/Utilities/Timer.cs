@@ -110,7 +110,7 @@ namespace Project
             callback?.Invoke();
         }
 
-        private void StopTimer()
+        public void StopTimer()
         {
             if (_monoBehaviour != null && _timerCoroutine != null)
             {

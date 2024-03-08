@@ -390,6 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabId: PCPlayer
   UnrealOwnerAddress: 
+  hasBeenSpawnedOnGrpc: 0
 --- !u!114 &8181632595643541411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,6 +524,7 @@ GameObject:
   - component: {fileID: 992961472255295090}
   - component: {fileID: 7705115614709501380}
   - component: {fileID: 3582799549502680765}
+  - component: {fileID: 1999360482284583967}
   m_Layer: 6
   m_Name: Controllers
   m_TagString: Untagged
@@ -570,6 +572,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55e5a92309d2a13468a4b57fab2d7794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1999360482284583967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778132152995368324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &4260038339187715518
