@@ -1,4 +1,3 @@
-using System;
 using Project._Project.Scripts.UI.Settings;
 using Project.Extensions;
 using Sirenix.OdinInspector;
@@ -94,6 +93,12 @@ namespace Project
         {
             if (_border == null)
             {
+                _border = GameObject.FindGameObjectWithTag(Constants.Tags.Border)?.GetComponent<Collider>();
+            }
+            
+            
+            if (_border == null)
+            {
                 Debug.LogWarning("No border assigned, camera will have no movement limit");
                 
                 _minX = float.MinValue;
@@ -101,7 +106,6 @@ namespace Project
 
                 _minZ = _minX;
                 _maxZ = _maxX;
-
             }
             else
             {
@@ -113,8 +117,6 @@ namespace Project
                 _minZ = borderBounds.min.z;
                 _maxZ = borderBounds.max.z;
             }
-            
-            
         }
 
         private void CalculateCameraOffset()

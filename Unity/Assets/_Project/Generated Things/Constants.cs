@@ -164,6 +164,10 @@ namespace Project
             /// GameController
             /// </summary>
             public const string GameController = "GameController";
+            /// <summary>
+            /// Border
+            /// </summary>
+            public const string Border = "Border";
         }
         
     }
