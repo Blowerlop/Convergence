@@ -1,46 +1,69 @@
+using Project.Extensions;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Project
 {
-    public class AttackController : MonoBehaviour
+    public class AttackController : NetworkBehaviour
     {
         private PCPlayerRefs _playerRefs;
         private Camera _camera;
         [ShowInInspector, ReadOnly] private readonly Timer _attackTime = new Timer();
-        
-        
+
+
         private void Awake()
         {
-            _camera = Camera.main;
             _playerRefs = GetComponentInParent<PCPlayerRefs>();
+            _camera = Camera.main;
+
         }
 
-        private void OnEnable()
+        public override void OnNetworkSpawn()
         {
-            InputManager.instance.onMouseButton1.performed += OnAttackRequest;
+            if (IsOwner)
+            {
+                InputManager.instance.onMouseButton1.performed += OnMouseButton1_AttackRequest;
+            }
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+
+            if (IsOwner)
+            {
+                InputManager.instance.onMouseButton1.performed -= OnMouseButton1_AttackRequest;
+            }
         }
         
-        private void OnDisable()
+        private void OnMouseButton1_AttackRequest(InputAction.CallbackContext _)
         {
-            InputManager.instance.onMouseButton1.performed -= OnAttackRequest;
+            if (!Utilities.GetMouseWorldHit(_camera, Constants.LayersMask.Entity, out RaycastHit target)) return;
+            if (!IsDamageable(target.transform, out IDamageable damageable)) return;
+            if (!damageable.CanDamage(_playerRefs.TeamIndex)) return;
+
+            TryToAttackServerRpc(target.transform.GetComponentInParent<NetworkObject>());
         }
-        
-        
-        private void OnAttackRequest(InputAction.CallbackContext _)
+
+        [ServerRpc]
+        private void TryToAttackServerRpc(NetworkObjectReference networkObjectReference)
         {
             if (CanAttack() == false) return;
-            if (!Utilities.GetMouseWorldHit(_camera, Constants.LayersMask.Entity, out RaycastHit hitInfo)) return;
-            if (IsInRange(hitInfo)) return;
-            if (IsDamageable(hitInfo, out IDamageable damageable)) return;
+
+            NetworkObject targetNetObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectReference.NetworkObjectId];
+            
+            if (IsInRange(targetNetObject.transform.position)) return;
+            
 
             Debug.Log("Attack request");
 
-            if (!damageable.CanDamage(_playerRefs.TeamIndex)) return;
+            IDamageable damageable = targetNetObject.GetComponentInChildren<IDamageable>();
+            
             if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.castingState))
             {
-                StartCast(damageable);
+                StartCast(targetNetObject.transform.position, damageable);
             }
             else
             {
@@ -48,20 +71,21 @@ namespace Project
             }
         }
 
-        private static bool IsDamageable(RaycastHit hitInfo, out IDamageable damageable)
+        private bool IsDamageable(Transform target, out IDamageable damageable)
         {
-            return !hitInfo.transform.TryGetComponent(out damageable);
+            return target.TryGetComponent(out damageable);
         }
 
-        private bool IsInRange(RaycastHit hitInfo)
+        private bool IsInRange(Vector3 targetPosition)
         {
-            return (hitInfo.transform.position - _playerRefs.PlayerTransform.position).sqrMagnitude > _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
+            return (targetPosition - _playerRefs.PlayerTransform.position).sqrMagnitude > _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
         }
 
-        private void StartCast(IDamageable damageable)
+        private void StartCast(Vector3 targetPosition, IDamageable damageable)
         {
             StopCast();
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.castingState);
+            _playerRefs.PlayerTransform.rotation = Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).normalized);
             _attackTime.StartTimerWithCallback(this, _playerRefs.Entity.Stats.attackSpeed.Value, () => Hit(damageable));
         }
 
