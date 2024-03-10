@@ -31,6 +31,7 @@ namespace Project
         [field: SerializeField, BoxGroup("Stats")] public int BaseAttackDamage { get; private set; }
         [field: SerializeField, BoxGroup("Stats"), SuffixLabel("seconds")] public float BaseAttackSpeed { get; private set; }
         [field: SerializeField, BoxGroup("Stats"), SuffixLabel("metters")] public float BaseAttackRange { get; private set; }
+        [SerializeField] public AnimatorOverrideController _animatorOverrideController;
 
         public static SOCharacter[] GetAllCharacters()
         {
@@ -66,7 +67,7 @@ namespace Project
         {
             return spells;
         }
-        
+
         #region Editor
 #if UNITY_EDITOR
         private void RenameAssetByName()

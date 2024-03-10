@@ -78,12 +78,13 @@ namespace Project
 
         private bool IsInRange(Vector3 targetPosition)
         {
-            return (targetPosition - _playerRefs.PlayerTransform.position).sqrMagnitude > _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
+            return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude > _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
         }
 
         private void StartCast(Vector3 targetPosition, IDamageable damageable)
         {
             StopCast();
+            _playerRefs.Animator.runtimeAnimatorController = ((PlayerController)_playerRefs.Entity)._attackOverrideController;
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.castingState);
             _playerRefs.PlayerTransform.rotation = Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).normalized);
             _attackTime.StartTimerWithCallback(this, _playerRefs.Entity.Stats.attackSpeed.Value, () => Hit(damageable));
@@ -98,6 +99,7 @@ namespace Project
         private void Hit(IDamageable damageable)
         {
             damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
+            
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
         }
 
