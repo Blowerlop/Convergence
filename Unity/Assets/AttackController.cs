@@ -1,3 +1,6 @@
+using System.Collections;
+using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -10,21 +13,32 @@ namespace Project
     {
         private PCPlayerRefs _playerRefs;
         private Camera _camera;
-        [ShowInInspector, ReadOnly] private readonly Timer _attackTime = new Timer();
+        [ShowInInspector, ReadOnly] private readonly Timer _attackTimer = new Timer();
+        private NetworkObject _targetNetworkObject;
+        private bool _isAttacking;
 
+
+        [SerializeField] private float _in = 0.5f;
+        [SerializeField] private float _out = 0.2f;
+        [SerializeField] private float _transitionTime = 0.2f;
+        
 
         private void Awake()
         {
             _playerRefs = GetComponentInParent<PCPlayerRefs>();
-            _camera = Camera.main;
-
         }
 
         public override void OnNetworkSpawn()
         {
             if (IsOwner)
             {
-                InputManager.instance.onMouseButton1.performed += OnMouseButton1_AttackRequest;
+                _playerRefs.PlayerMouse.OnMouseClick += OnMouseButton1_AttackRequest;
+                InputManager.instance.onCastCancel.performed += OnCastCancel_StopCast;
+            }
+
+            if (IsServer)
+            {
+                _playerRefs.StateMachine.OnStateExit += OnStateExit_StopCast;
             }
         }
 
@@ -34,41 +48,95 @@ namespace Project
 
             if (IsOwner)
             {
-                InputManager.instance.onMouseButton1.performed -= OnMouseButton1_AttackRequest;
+                _playerRefs.PlayerMouse.OnMouseClick -= OnMouseButton1_AttackRequest;
+                if (InputManager.IsInstanceAlive()) InputManager.instance.onCastCancel.performed -= OnCastCancel_StopCast;
+            }
+            
+            if (IsServer)
+            {
+                _playerRefs.StateMachine.OnStateExit -= OnStateExit_StopCast;
             }
         }
-        
-        private void OnMouseButton1_AttackRequest(InputAction.CallbackContext _)
+
+        private void Update()
         {
-            if (!Utilities.GetMouseWorldHit(_camera, Constants.LayersMask.Entity, out RaycastHit target)) return;
-            if (!IsDamageable(target.transform, out IDamageable damageable)) return;
+            if (IsServer && _targetNetworkObject != null)
+            {
+                if (IsInRange(_targetNetworkObject.transform.position))
+                {
+                    SrvTryToAttack(_targetNetworkObject);
+                }
+                else GoToContact(_targetNetworkObject.transform);
+            }
+        }
+
+        private void OnMouseButton1_AttackRequest(RaycastHit hitInfo, int layer)
+        {
+            if (layer != Constants.Layers.EntityIndex)
+            {
+                if (_targetNetworkObject != null)
+                {
+                    _targetNetworkObject = null;
+                    RemoveTargetServerRpc();
+                }
+                return;
+            }
+            
+            if (!IsDamageable(hitInfo.transform, out IDamageable damageable)) return;
             if (!damageable.CanDamage(_playerRefs.TeamIndex)) return;
 
-            TryToAttackServerRpc(target.transform.GetComponentInParent<NetworkObject>());
+            _targetNetworkObject = hitInfo.transform.GetComponentInParent<NetworkObject>();
+            if (_targetNetworkObject == null)
+            {
+                Debug.LogError("Target to attack is not a network object");
+                return;
+            }
+            
+            TryToAttackServerRpc(_targetNetworkObject);
+        }
+
+        [Server]
+        private void GoToContact(Transform target)
+        {
+            _playerRefs.MovementCOntroller.SrvGoTo(target.position);
         }
 
         [ServerRpc]
         private void TryToAttackServerRpc(NetworkObjectReference networkObjectReference)
         {
-            if (CanAttack() == false) return;
+            SrvTryToAttack(networkObjectReference);
+        }
 
-            NetworkObject targetNetObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectReference.NetworkObjectId];
+        [Server]
+        private void SrvTryToAttack(NetworkObjectReference networkObjectReference)
+        {
+            networkObjectReference.TryGet(out _targetNetworkObject);
+            if (_targetNetworkObject == null)
+            {
+                Debug.LogError("Not NetworkObject found for the networkObjectReference id " + networkObjectReference.NetworkObjectId);
+                return;
+            }
             
-            if (IsInRange(targetNetObject.transform.position)) return;
+            if (IsInRange(_targetNetworkObject.transform.position) == false) return;
+            if (IsAttacking())
+            {
+                if (_targetNetworkObject.NetworkObjectId == networkObjectReference.NetworkObjectId) return;
+                
+                StopAttack();
+            }
             
-
-            Debug.Log("Attack request");
-
-            IDamageable damageable = targetNetObject.GetComponentInChildren<IDamageable>();
+            IDamageable damageable = _targetNetworkObject.GetComponentInChildren<IDamageable>();
             
             if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.castingState))
             {
-                StartCast(targetNetObject.transform.position, damageable);
+                StartAttack(_targetNetworkObject.transform.position, damageable);
             }
-            else
-            {
-                StopCast();
-            }
+        }
+        
+        [ServerRpc]
+        private void RemoveTargetServerRpc()
+        {
+            _targetNetworkObject = null;
         }
 
         private bool IsDamageable(Transform target, out IDamageable damageable)
@@ -76,37 +144,71 @@ namespace Project
             return target.TryGetComponent(out damageable);
         }
 
+        [Server]
         private bool IsInRange(Vector3 targetPosition)
         {
-            return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude > _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
+            return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude < _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
         }
 
-        private void StartCast(Vector3 targetPosition, IDamageable damageable)
+        [Server]
+        private void StartAttack(Vector3 targetPosition, IDamageable damageable)
         {
-            StopCast();
+            _isAttacking = true;
             _playerRefs.Animator.runtimeAnimatorController = ((PlayerController)_playerRefs.Entity)._attackOverrideController;
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.castingState);
             _playerRefs.PlayerTransform.rotation = Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).normalized);
-            _attackTime.StartTimerWithCallback(this, _playerRefs.Entity.Stats.attackSpeed.Value, () => Hit(damageable));
+            _attackTimer.StartTimerWithCallback(this, _in, () => Hit(damageable));
         }
 
-        private void StopCast()
+        private void EndAttack()
         {
-            _attackTime.StopTimer();
+            _attackTimer.StartTimerWithCallback(this, _out, StopAttack);
         }
 
+        [Server]
+        private void StopAttack()
+        {
+            _attackTimer.StopTimer();
+            if (_playerRefs.StateMachine.currentState is CastingState)
+            {
+                _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
+            }
 
+            Timer.StartTimerWithCallbackScaled(this, _transitionTime, () => _isAttacking = false);
+        }
+        
+        [Server]
         private void Hit(IDamageable damageable)
         {
             damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
-            
-            _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
+            EndAttack();
         }
 
-        private bool CanAttack()
+        [Server]
+        private bool IsAttacking()
         {
-            return !_attackTime.isTimerRunning;
+            return _isAttacking;
         }
         
+        [Server]
+        private void OnStateExit_StopCast(BaseStateMachine exitState)
+        {
+            if (exitState is CastingState)
+            {
+                StopAttack();
+            }
+        }
+        
+        private void OnCastCancel_StopCast(InputAction.CallbackContext _)
+        {
+            SopCastServerRpc();
+        }
+
+        [ServerRpc]
+        private void SopCastServerRpc()
+        {
+            _targetNetworkObject = null;
+            StopAttack();
+        }
     }
 }

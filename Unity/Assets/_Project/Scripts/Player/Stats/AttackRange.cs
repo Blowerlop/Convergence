@@ -14,4 +14,4 @@ namespace Project
 
         public event Action<float, float> OnValueChanged;
     }
-}
+} 

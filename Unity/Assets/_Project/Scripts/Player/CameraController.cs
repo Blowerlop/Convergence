@@ -20,7 +20,7 @@ namespace Project
         [Title("Settings")]
         [SerializeField] private float _speed = 40.0f;
         [SerializeField, ReadOnly] private bool _cameraLock;
-        private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
+        private const int _GROUND_LAYER_MASK = Constants.Layers.GroundMask;
 
         [Title("References")]
         [SerializeField] private Collider _border;

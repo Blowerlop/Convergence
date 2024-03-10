@@ -138,19 +138,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
   <health>k__BackingField: {fileID: 6358870901761440058}
-  <attackDamage>k__BackingField:
-    rid: 8967663209137045506
-  <attackSpeed>k__BackingField:
-    rid: -2
-  <attackRange>k__BackingField:
-    rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 8967663209137045506
-      type: {class: AttackDamage, ns: Project, asm: Assembly-CSharp}
 --- !u!114 &6358870901761440058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +497,8 @@ MonoBehaviour:
   _stateMachine: {fileID: 1449511127484038279}
   _networkAnimator: {fileID: 8279106846831332330}
   _navMeshAgent: {fileID: 7105107927145916266}
+  _playerMouse: {fileID: 9136715108103689386}
+  _movementController: {fileID: 3582799549502680765}
   spellCastController: {fileID: 5111047068020737362}
   emoteController: {fileID: 8472965482039663037}
 --- !u!114 &7568465784921170700
@@ -538,6 +527,7 @@ GameObject:
   - component: {fileID: 7705115614709501380}
   - component: {fileID: 3582799549502680765}
   - component: {fileID: 1999360482284583967}
+  - component: {fileID: 9136715108103689386}
   m_Layer: 6
   m_Name: Controllers
   m_TagString: Untagged
@@ -599,6 +589,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9136715108103689386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778132152995368324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e3e733c60044f68a5f92cd98a47251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 192
 --- !u!1001 &4260038339187715518
 PrefabInstance:
   m_ObjectHideFlags: 0

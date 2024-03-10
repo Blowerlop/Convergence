@@ -39,13 +39,16 @@ namespace Project._Project.Scripts.StateMachine
         [Server]
         public void ChangeState(BaseStateMachine to)
         {
+            if (to == currentState) return;
+            
             BaseStateMachine previousState = currentState;
+            currentState = to;
+            
             OnStateExit?.Invoke(previousState);
             previousState.Exit();
             
             Debug.Log($"<color=#00D8FF>[{_playerRefs.PlayerTransform.name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{to}</color>");
             
-            currentState = to;
             currentState.Enter(_playerRefs);
             OnStateEnter?.Invoke(currentState);
         }

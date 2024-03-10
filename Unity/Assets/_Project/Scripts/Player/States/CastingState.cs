@@ -17,7 +17,7 @@ namespace Project._Project.Scripts.Player.States
         
         public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
         {
-            return newStateMachine is IdleState;
+            return newStateMachine is IdleState or MoveState;
         }
 
         public override string ToString()
