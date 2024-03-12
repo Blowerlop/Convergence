@@ -1,28 +1,28 @@
 using Project._Project.Scripts.StateMachine;
-using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class CastingState : BaseStateMachine
+    public class AttackState : BaseStateMachine
     {
         protected override void OnEnter()
         {
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Channeling, true);
+            playerRefs.Animator.ResetTrigger(Constants.AnimatorsParam.EndAttackInstant);
+            playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.Attack);
         }
-        
+
         protected override void OnExit()
         {
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Channeling, false);
+            playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.EndAttackInstant);
         }
-        
+
         public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
         {
-            return newStateMachine is IdleState;
+            return newStateMachine is IdleState or MoveState;
         }
 
         public override string ToString()
         {
-            return "Casting";
+            return "Attack";
         }
     }
 }

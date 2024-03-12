@@ -10,5 +10,6 @@ namespace Project._Project.Scripts.Player.States
         public readonly MoveState moveState = new MoveState();
         public readonly DeadState deadState = new DeadState();
         public readonly CastingState castingState = new CastingState();
+        public readonly AttackState attackState = new AttackState();
     }
 }

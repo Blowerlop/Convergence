@@ -12,7 +12,7 @@ namespace Project
 
         private int _currentAnimationHash;
         [ShowInInspector] private GRPC_NetworkVariable<int> _currentAnimation  = new GRPC_NetworkVariable<int>("CurrentAnimation");
-        public AnimatorOverrideController _attackOverrideController => ((SOCharacter)_data)._animatorOverrideController;
+        public AnimatorOverrideController _attackOverrideController => ((SOCharacter)_data)._attackOverrideController;
 
         public override int TeamIndex => _refs.TeamIndex;
 

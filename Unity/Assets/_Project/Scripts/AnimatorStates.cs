@@ -14,6 +14,7 @@ namespace Project
             [UnityAnimatorStringToHash("Idle4")] = "Idle4".ToHashIsSameAlgoOnUnreal(),
             [UnityAnimatorStringToHash("Movement")] = "Movement".ToHashIsSameAlgoOnUnreal(),
             [UnityAnimatorStringToHash("Channeling")] = "Channeling".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Attack")] = "Attack".ToHashIsSameAlgoOnUnreal(),
             [UnityAnimatorStringToHash("Emote1")] = "Emote1".ToHashIsSameAlgoOnUnreal(),
             [UnityAnimatorStringToHash("Emote2")] = "Emote2".ToHashIsSameAlgoOnUnreal(),
             [UnityAnimatorStringToHash("Emote3")] = "Emote3".ToHashIsSameAlgoOnUnreal(),

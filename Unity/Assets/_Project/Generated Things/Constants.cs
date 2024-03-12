@@ -64,6 +64,14 @@ namespace Project
             /// EmoteIndex : Int
             /// </summary>
             public const int EmoteIndex = -126835265;
+            /// <summary>
+            /// Attack : Trigger
+            /// </summary>
+            public const int Attack = 1080829965;
+            /// <summary>
+            /// EndAttackInstant : Trigger
+            /// </summary>
+            public const int EndAttackInstant = 17244484;
         }
         
         public static class Layers

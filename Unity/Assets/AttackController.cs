@@ -1,4 +1,3 @@
-using System.Collections;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
@@ -13,15 +12,10 @@ namespace Project
     {
         private PCPlayerRefs _playerRefs;
         private Camera _camera;
-        [ShowInInspector, ReadOnly] private readonly Timer _attackTimer = new Timer();
         private NetworkObject _targetNetworkObject;
         private bool _isAttacking;
+        private IDamageable _damageable;
 
-
-        [SerializeField] private float _in = 0.5f;
-        [SerializeField] private float _out = 0.2f;
-        [SerializeField] private float _transitionTime = 0.2f;
-        
 
         private void Awake()
         {
@@ -33,12 +27,12 @@ namespace Project
             if (IsOwner)
             {
                 _playerRefs.PlayerMouse.OnMouseClick += OnMouseButton1_AttackRequest;
-                InputManager.instance.onCastCancel.performed += OnCastCancel_StopCast;
+                InputManager.instance.onCancellation.performed += OnCancellation_StopAttack;
             }
 
             if (IsServer)
             {
-                _playerRefs.StateMachine.OnStateExit += OnStateExit_StopCast;
+                _playerRefs.StateMachine.OnStateExit += OnStateExit_EndAttack;
             }
         }
 
@@ -49,16 +43,17 @@ namespace Project
             if (IsOwner)
             {
                 _playerRefs.PlayerMouse.OnMouseClick -= OnMouseButton1_AttackRequest;
-                if (InputManager.IsInstanceAlive()) InputManager.instance.onCastCancel.performed -= OnCastCancel_StopCast;
+                if (InputManager.IsInstanceAlive())
+                    InputManager.instance.onCancellation.performed -= OnCancellation_StopAttack;
             }
-            
+
             if (IsServer)
             {
-                _playerRefs.StateMachine.OnStateExit -= OnStateExit_StopCast;
+                _playerRefs.StateMachine.OnStateExit -= OnStateExit_EndAttack;
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (IsServer && _targetNetworkObject != null)
             {
@@ -70,6 +65,7 @@ namespace Project
             }
         }
 
+        // [Owner]
         private void OnMouseButton1_AttackRequest(RaycastHit hitInfo, int layer)
         {
             if (layer != Constants.Layers.EntityIndex)
@@ -79,9 +75,10 @@ namespace Project
                     _targetNetworkObject = null;
                     RemoveTargetServerRpc();
                 }
+
                 return;
             }
-            
+
             if (!IsDamageable(hitInfo.transform, out IDamageable damageable)) return;
             if (!damageable.CanDamage(_playerRefs.TeamIndex)) return;
 
@@ -91,14 +88,8 @@ namespace Project
                 Debug.LogError("Target to attack is not a network object");
                 return;
             }
-            
-            TryToAttackServerRpc(_targetNetworkObject);
-        }
 
-        [Server]
-        private void GoToContact(Transform target)
-        {
-            _playerRefs.MovementCOntroller.SrvGoTo(target.position);
+            TryToAttackServerRpc(_targetNetworkObject);
         }
 
         [ServerRpc]
@@ -113,26 +104,86 @@ namespace Project
             networkObjectReference.TryGet(out _targetNetworkObject);
             if (_targetNetworkObject == null)
             {
-                Debug.LogError("Not NetworkObject found for the networkObjectReference id " + networkObjectReference.NetworkObjectId);
+                Debug.LogError("Not NetworkObject found for the networkObjectReference id " +
+                               networkObjectReference.NetworkObjectId);
                 return;
             }
-            
-            if (IsInRange(_targetNetworkObject.transform.position) == false) return;
+
             if (IsAttacking())
             {
                 if (_targetNetworkObject.NetworkObjectId == networkObjectReference.NetworkObjectId) return;
-                
-                StopAttack();
+
+                // We switch of target
+                EndAttack();
             }
-            
+
+            if (IsInRange(_targetNetworkObject.transform.position) == false) return;
+
             IDamageable damageable = _targetNetworkObject.GetComponentInChildren<IDamageable>();
-            
-            if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.castingState))
+
+            if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.attackState))
             {
                 StartAttack(_targetNetworkObject.transform.position, damageable);
             }
         }
-        
+
+        [Server]
+        private void StartAttack(Vector3 targetPosition, IDamageable damageable)
+        {
+            _isAttacking = true;
+            _playerRefs.Animator.runtimeAnimatorController =
+                ((PlayerController)_playerRefs.Entity)._attackOverrideController;
+            _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.attackState);
+            _playerRefs.PlayerTransform.rotation =
+                Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
+                    .normalized);
+            _damageable = damageable;
+        }
+
+        [Server]
+        private void EndAttack()
+        {
+            if (_playerRefs.StateMachine.currentState is AttackState)
+            {
+                _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
+            }
+
+            _isAttacking = false;
+        }
+
+        [Server]
+        private void Hit(IDamageable damageable)
+        {
+            damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
+            EndAttack();
+        }
+
+        // Called by animation event
+        public void Hit()
+        {
+            if (IsServer == false) return;
+
+            Hit(_damageable);
+        }
+
+        private void OnCancellation_StopAttack(InputAction.CallbackContext _)
+        {
+            StopAttackServerRpc();
+        }
+
+        [ServerRpc]
+        private void StopAttackServerRpc()
+        {
+            _targetNetworkObject = null;
+            EndAttack();
+        }
+
+        [Server]
+        private void GoToContact(Transform target)
+        {
+            _playerRefs.MovementCOntroller.SrvGoTo(target.position);
+        }
+
         [ServerRpc]
         private void RemoveTargetServerRpc()
         {
@@ -147,41 +198,8 @@ namespace Project
         [Server]
         private bool IsInRange(Vector3 targetPosition)
         {
-            return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude < _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
-        }
-
-        [Server]
-        private void StartAttack(Vector3 targetPosition, IDamageable damageable)
-        {
-            _isAttacking = true;
-            _playerRefs.Animator.runtimeAnimatorController = ((PlayerController)_playerRefs.Entity)._attackOverrideController;
-            _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.castingState);
-            _playerRefs.PlayerTransform.rotation = Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).normalized);
-            _attackTimer.StartTimerWithCallback(this, _in, () => Hit(damageable));
-        }
-
-        private void EndAttack()
-        {
-            _attackTimer.StartTimerWithCallback(this, _out, StopAttack);
-        }
-
-        [Server]
-        private void StopAttack()
-        {
-            _attackTimer.StopTimer();
-            if (_playerRefs.StateMachine.currentState is CastingState)
-            {
-                _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
-            }
-
-            Timer.StartTimerWithCallbackScaled(this, _transitionTime, () => _isAttacking = false);
-        }
-        
-        [Server]
-        private void Hit(IDamageable damageable)
-        {
-            damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
-            EndAttack();
+            return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude <
+                   _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
         }
 
         [Server]
@@ -189,26 +207,18 @@ namespace Project
         {
             return _isAttacking;
         }
-        
-        [Server]
-        private void OnStateExit_StopCast(BaseStateMachine exitState)
-        {
-            if (exitState is CastingState)
-            {
-                StopAttack();
-            }
-        }
-        
-        private void OnCastCancel_StopCast(InputAction.CallbackContext _)
-        {
-            SopCastServerRpc();
-        }
 
-        [ServerRpc]
-        private void SopCastServerRpc()
+        [Server]
+        private void OnStateExit_EndAttack(BaseStateMachine exitState)
         {
-            _targetNetworkObject = null;
-            StopAttack();
+            // In case we want to move the moment we're attacking. Cancel the attack and move
+            if (exitState is AttackState)
+            {
+                if (IsAttacking())
+                {
+                    EndAttack();
+                }
+            }
         }
     }
 }
