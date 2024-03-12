@@ -23,8 +23,6 @@ namespace Project
                 return;
             }
             
-            Debug.Log("Here");
-            
             events[id]?.Invoke();
         }
     }

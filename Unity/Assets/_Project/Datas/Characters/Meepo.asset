@@ -28,5 +28,5 @@ MonoBehaviour:
   <BaseAttackDamage>k__BackingField: 20
   <BaseAttackSpeed>k__BackingField: 0.5
   <BaseAttackRange>k__BackingField: 2
-  _animatorOverrideController: {fileID: 22100000, guid: 06c1f18185b7e82418a4090cf48de0f3,
+  _attackOverrideController: {fileID: 22100000, guid: 06c1f18185b7e82418a4090cf48de0f3,
     type: 2}

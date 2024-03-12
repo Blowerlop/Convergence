@@ -1,3 +1,4 @@
+using System.Collections;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
@@ -141,13 +142,15 @@ namespace Project
         }
 
         [Server]
-        private void EndAttack()
+        private IEnumerator EndAttack()
         {
+            yield return null;
+            
             if (_playerRefs.StateMachine.currentState is AttackState)
             {
                 _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
             }
-
+            
             _isAttacking = false;
         }
 
@@ -155,7 +158,7 @@ namespace Project
         private void Hit(IDamageable damageable)
         {
             damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
-            EndAttack();
+            StartCoroutine(EndAttack());
         }
 
         // Called by animation event
@@ -175,7 +178,7 @@ namespace Project
         private void StopAttackServerRpc()
         {
             _targetNetworkObject = null;
-            EndAttack();
+            StartCoroutine(EndAttack());
         }
 
         [Server]
@@ -216,7 +219,7 @@ namespace Project
             {
                 if (IsAttacking())
                 {
-                    EndAttack();
+                    StartCoroutine(EndAttack());
                 }
             }
         }
