@@ -23,11 +23,11 @@ MonoBehaviour:
   cooldown: 5
   channelingTime: 0
   effects:
-  - rid: 2778044860083994625
+  - rid: 2778045131098685440
   references:
     version: 2
     RefIds:
-    - rid: 2778044860083994625
-      type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
+    - rid: 2778045131098685440
+      type: {class: HealEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        DamageAmount: 25
+        HealAmount: 50
