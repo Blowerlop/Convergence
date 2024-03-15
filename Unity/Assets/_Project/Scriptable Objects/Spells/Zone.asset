@@ -19,6 +19,7 @@ MonoBehaviour:
   spellIdHash: 162900
   spellPrefab: {fileID: 7774840793179866475, guid: 2d656620d4c6696439f5ab0d2fc58415,
     type: 3}
+  isInstant: 0
   cooldown: 10
   channelingTime: 0.25
   effects: []

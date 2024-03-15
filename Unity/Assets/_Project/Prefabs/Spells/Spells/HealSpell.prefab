@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2657542927
+  GlobalObjectIdHash: 2223790798
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -196,4 +196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab4ddda9eec1cd1459bdef75c32aa1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Data>k__BackingField: {fileID: 0}
+  <Data>k__BackingField: {fileID: 11400000, guid: 6ec28a5f5a72a5e48907798daba5f913,
+    type: 2}
+  duration: 2

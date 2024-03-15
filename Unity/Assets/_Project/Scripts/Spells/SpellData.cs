@@ -82,13 +82,19 @@ namespace Project.Spells
         }
         
         #if UNITY_EDITOR
-        private void OnValidate()
+
+        [PropertySpace, Button(ButtonSizes.Large, ButtonStyle.Box, ButtonHeight = 30, Name = "Force Link To Prefab")]
+        private void ForceLinkToPrefab()
         {
-            if (spellPrefab != null)
-            {
-                spellPrefab.Data = this;
-                
-            }
+            if (spellPrefab == null) return;
+            
+            GameObject contentsRoot = spellPrefab.gameObject;
+
+            spellPrefab.Data = this;
+
+            PrefabUtility.SavePrefabAsset(contentsRoot);
+            
+            Debug.Log($"<color=lime>Linked</color>");
         }
         #endif
 
