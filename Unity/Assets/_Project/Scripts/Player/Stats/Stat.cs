@@ -25,7 +25,8 @@ namespace Project
             get => _value;
             set
             {
-                _value = value;
+                if (Equals(_value, value)) return;
+                
                 OnValueChanged?.Invoke(_value, _maxValue);
             }
         }
@@ -36,6 +37,8 @@ namespace Project
             get => _maxValue;
             set
             {
+                if (Equals(_maxValue, value)) return;
+                
                 _maxValue = value;
                 OnValueChanged?.Invoke(_value, _maxValue);
             }
@@ -57,7 +60,7 @@ namespace Project
 
         private void SetValue(T value)
         {
-            _value = value;
+            this.value = value;
         }
     }
 }
