@@ -22,17 +22,17 @@ namespace Project._Project.Scripts
         
         public void Heal(int modifier)
         {
-            _stats.health.Value += modifier;
+            _stats.nHealthStat.Value += modifier;
         }
 
         public void MaxHeal()
         {
-            _stats.health.SetToMaxValue();
+            _stats.nHealthStat.SetToMaxValue();
         }
 
         public void Damage(int modifier)
         {
-            _stats.health.Value -= modifier;
+            _stats.nHealthStat.Value -= modifier;
         }
 
         public bool CanDamage(int teamIndex)

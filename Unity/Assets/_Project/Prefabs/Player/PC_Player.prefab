@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6101706236419395280}
   - component: {fileID: 42682067660215488}
-  - component: {fileID: 6358870901761440058}
+  - component: {fileID: 7502236223278126093}
   m_Layer: 6
   m_Name: Stats
   m_TagString: Untagged
@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
-  <health>k__BackingField: {fileID: 6358870901761440058}
---- !u!114 &6358870901761440058
+  <nHealthStat>k__BackingField: {fileID: 7502236223278126093}
+--- !u!114 &7502236223278126093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,11 +147,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296427854538218746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93bcbde75755ee444a05cfa2c49f336a, type: 3}
+  m_Script: {fileID: 11500000, guid: 91e86332e8f04e488436867df1860d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DefaultValue>k__BackingField: 100
-  _debug: 1
+  _playerStats: {fileID: 42682067660215488}
+  _debug: 0
 --- !u!1 &2007026922932564193
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,11 +224,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6101706236419395280}
   - {fileID: 3490958754586719391}
   - {fileID: 7498701418951860559}
   - {fileID: 2242298826837601606}
   - {fileID: 992961472255295090}
-  - {fileID: 6101706236419395280}
   - {fileID: 1674897335312341898}
   m_Father: {fileID: 4124437638980882131}
   m_RootOrder: -1
@@ -589,9 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _in: 0.5
-  _out: 0.2
-  _transitionTime: 0.2
 --- !u!114 &9136715108103689386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +713,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1080829965
+    DestinationState: 229373857
+    TransitionDuration: 0.2
+    TriggerNameHash: 17244484
+    TransitionIndex: 3
   m_Animator: {fileID: 7670799931884736559}
 --- !u!114 &8583798711595545617
 MonoBehaviour:

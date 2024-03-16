@@ -26,13 +26,10 @@ namespace Project
         [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
-        // Stats
-        [field: SerializeField, BoxGroup("Stats")] public int BaseHealth { get; private set; }
-        [field: SerializeField, BoxGroup("Stats")] public int BaseAttackDamage { get; private set; }
-        [field: SerializeField, BoxGroup("Stats"), SuffixLabel("seconds")] public float BaseAttackSpeed { get; private set; }
-        [field: SerializeField, BoxGroup("Stats"), SuffixLabel("metters")] public float BaseAttackRange { get; private set; }
+        [field: SerializeReference, ListDrawerSettings(ShowIndexLabels = false)] public StatBase[] stats;
         [SerializeField] public AnimatorOverrideController _attackOverrideController;
 
+        
         public static SOCharacter[] GetAllCharacters()
         {
             return SOScriptableObjectReferencesCache.GetScriptableObjects<SOCharacter>();

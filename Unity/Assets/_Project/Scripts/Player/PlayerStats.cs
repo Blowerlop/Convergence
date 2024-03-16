@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using Project.Extensions;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,27 +12,29 @@ namespace Project
         [SerializeField] private PlayerRefs playerRefs;
         public PlayerRefs PlayerRefs => playerRefs;
         
-        [field: SerializeReference] public Health health { get; private set; }
-        public readonly AttackDamage attackDamage = new AttackDamage();
-        public readonly AttackSpeed attackSpeed = new AttackSpeed();
-        public readonly AttackRange attackRange = new AttackRange();
-
+        [ShowInInspector, ListDrawerSettings(IsReadOnly = true)] private Dictionary<Type, StatBase> _stats = new Dictionary<Type, StatBase>();
+        [field: SerializeReference] public NetworkHealth nHealthStat { get; private set; }
+        
+        public event Action OnStatsInitialized;
+        
         [Server]
         public void ServerInit(SOEntity entity)
         {
             SOCharacter character = (SOCharacter)entity;
             
-            health.MaxValue = character.BaseHealth;
-            health.Value = character.BaseHealth;
+            character.stats.ForEach(stat =>
+            {
+                _stats.Add(stat.GetType(), (StatBase)stat.Clone());
+            });
             
-            attackDamage.MaxValue = character.BaseAttackDamage;
-            attackDamage.Value = character.BaseAttackDamage;
-
-            attackSpeed.MaxValue = character.BaseAttackSpeed;
-            attackSpeed.Value = character.BaseAttackSpeed;
+            nHealthStat.Init();
             
-            attackRange.MaxValue = character.BaseAttackRange;
-            attackRange.Value = character.BaseAttackRange;
+            OnStatsInitialized?.Invoke();
+        }
+        
+        public T Get<T>() where T : StatBase
+        {
+            return (T)_stats[typeof(T)];
         }
     }
 }

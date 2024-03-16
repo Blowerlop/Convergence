@@ -17,7 +17,7 @@ namespace Project
             
             if (!_stats) return;
             
-            _stats.health.OnValueChanged -= OnHealthChanged;
+            _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged;
         }
         
         private void Setup(PlayerRefs refs)
@@ -26,12 +26,17 @@ namespace Project
             
             _stats = _refs.Entity.Stats;
             
-            _stats.health.OnValueChanged += OnHealthChanged;
+            _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
         }
 
         private void OnHealthChanged(int currentHealth, int maxHealth)
         {
             SetFillAmount(currentHealth, maxHealth);
+        }
+        
+        private void OnStatsInitialized_HookHealth()
+        {
+            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged;
         }
     }
 }

@@ -133,7 +133,7 @@ namespace Project
             _isAttacking = true;
             _playerRefs.Animator.runtimeAnimatorController =
                 ((PlayerController)_playerRefs.Entity)._attackOverrideController;
-            _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.attackSpeed.Value);
+            _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.attackState);
             _playerRefs.PlayerTransform.rotation =
                 Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
@@ -158,7 +158,7 @@ namespace Project
         [Server]
         private void Hit(IDamageable damageable)
         {
-            damageable.Damage(_playerRefs.Entity.Stats.attackDamage.Value);
+            damageable.Damage(_playerRefs.Entity.Stats.Get<AttackDamageStat>().value);
             StartCoroutine(EndAttack());
         }
 
@@ -203,7 +203,7 @@ namespace Project
         private bool IsInRange(Vector3 targetPosition)
         {
             return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude <
-                   _playerRefs.Entity.Stats.attackRange.Value * _playerRefs.Entity.Stats.attackRange.Value;
+                   _playerRefs.Entity.Stats.Get<AttackRangeStat>().value * _playerRefs.Entity.Stats.Get<AttackRangeStat>().value;
         }
 
         [Server]
