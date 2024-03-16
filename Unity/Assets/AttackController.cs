@@ -2,7 +2,6 @@ using System.Collections;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
-using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -115,7 +114,7 @@ namespace Project
                 if (_targetNetworkObject.NetworkObjectId == networkObjectReference.NetworkObjectId) return;
 
                 // We switch of target
-                EndAttack();
+                StartCoroutine(EndAttack());
             }
 
             if (IsInRange(_targetNetworkObject.transform.position) == false) return;
@@ -134,6 +133,7 @@ namespace Project
             _isAttacking = true;
             _playerRefs.Animator.runtimeAnimatorController =
                 ((PlayerController)_playerRefs.Entity)._attackOverrideController;
+            _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.attackSpeed.Value);
             _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.attackState);
             _playerRefs.PlayerTransform.rotation =
                 Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
@@ -141,6 +141,7 @@ namespace Project
             _damageable = damageable;
         }
 
+        // Ca ne se passe pas bien dans l'animator si on ne skip pas une frame :)
         [Server]
         private IEnumerator EndAttack()
         {

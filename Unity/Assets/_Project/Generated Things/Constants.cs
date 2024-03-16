@@ -72,6 +72,10 @@ namespace Project
             /// EndAttackInstant : Trigger
             /// </summary>
             public const int EndAttackInstant = 17244484;
+            /// <summary>
+            /// AttackSpeed : Float
+            /// </summary>
+            public const int AttackSpeed = -498733101;
         }
         
         public static class Layers
