@@ -178,6 +178,7 @@ namespace Project
         public void Hit()
         {
             if (IsServer == false) return;
+            if (targetNetworkObject == null) return;
 
             if (_isRanged)
             {
