@@ -25,7 +25,7 @@ namespace Project._Project.Scripts.Player.States
         protected override void OnExit()
         {
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
-            playerRefs.Entity.Stats.health.SetToMaxValue();
+            playerRefs.Entity.Stats.nHealthStat.SetToMaxValue();
         }
 
         public override void Dispose()

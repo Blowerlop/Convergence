@@ -13,8 +13,6 @@ namespace Project
         private Transform _player;
         private PlayerStateMachineController _stateMachineController;
         
-        private Camera _camera;
-        private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
         private NavMeshAgent _agent;
 
         private const float _DESTINATION_REACHED_OFFSET = 0.1f;
@@ -23,7 +21,6 @@ namespace Project
         
         private void Awake()
         {
-            _camera = Camera.main;
             _stateMachineController = GetComponentInParent<PlayerStateMachineController>();
         }
 
@@ -53,7 +50,7 @@ namespace Project
 
             if (IsOwner)
             {
-                InputManager.instance.onMouseButton1.started += TryGoToPosition;
+                playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
             }
         }
 
@@ -61,9 +58,10 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-            if (IsOwner && InputManager.IsInstanceAlive())
+            if (IsOwner)
             {
-                InputManager.instance.onMouseButton1.started -= TryGoToPosition;
+                PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
+                playerRefs.PlayerMouse.OnMouseClick -= TryGoToPosition;
             }
         }
         
@@ -90,16 +88,22 @@ namespace Project
             }
         }
 
-        private void TryGoToPosition(InputAction.CallbackContext _)
+        private void TryGoToPosition(RaycastHit hitInfo, int layer)
         {
-            if (Utilities.GetMouseWorldPosition(_camera, _GROUND_LAYER_MASK, out Vector3 position))
+            if (layer == Constants.Layers.GroundIndex)
             {
-                GoToServerRpc(position);
+                GoToServerRpc(hitInfo.point);
             }
         }
 
         [ServerRpc]
         private void GoToServerRpc(Vector3 position)
+        {
+            SrvGoTo(position);
+        }
+
+        [Server]
+        public void SrvGoTo(Vector3 position)
         {
             if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo(_stateMachineController.moveState))
             {

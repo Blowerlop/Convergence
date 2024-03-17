@@ -14,7 +14,8 @@ namespace Project
         [SerializeField] private PlayerStateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
-        
+        [SerializeField] private PlayerMouse _playerMouse;
+        [SerializeField] private MovementController _movementController;
         [SerializeField] private SpellCastController spellCastController;
 
         [SerializeField] private EmoteController emoteController;
@@ -23,6 +24,8 @@ namespace Project
         public PlayerStateMachineController StateMachine => _stateMachine;
         public Animator Animator => _networkAnimator.Animator;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
+        public PlayerMouse PlayerMouse => _playerMouse;
+        public MovementController MovementCOntroller => _movementController;
 
         public EmoteController EmoteController => emoteController;
         

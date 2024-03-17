@@ -33,20 +33,22 @@ namespace Project._Project.Scripts.StateMachine
         }
 
         /// <summary>
-        /// <para>Switch this state with another: <paramref name="newStateMachine"/> </para>
-        /// /!\ do a <see cref="CanChangeStateTo"/> before
+        /// <para>Switch this state with another: <paramref name="to"/> </para>
         /// </summary>
-        /// <param name="newStateMachine">new player state</param>
+        /// <param name="to">new player state</param>
         [Server]
-        public void ChangeState(BaseStateMachine newStateMachine)
+        public void ChangeState(BaseStateMachine to)
         {
+            if (to == currentState) return;
+            
             BaseStateMachine previousState = currentState;
+            currentState = to;
+            
             OnStateExit?.Invoke(previousState);
             previousState.Exit();
             
-            Debug.Log($"<color=#00D8FF>[{_playerRefs.PlayerTransform.name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{newStateMachine}</color>");
+            Debug.Log($"<color=#00D8FF>[{_playerRefs.PlayerTransform.name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{to}</color>");
             
-            currentState = newStateMachine;
             currentState.Enter(_playerRefs);
             OnStateEnter?.Invoke(currentState);
         }
@@ -54,6 +56,17 @@ namespace Project._Project.Scripts.StateMachine
         public bool CanChangeStateTo(BaseStateMachine newStateMachine)
         {
             return currentState.CanChangeStateTo(newStateMachine);
+        }
+        
+        public bool TryChangeState(BaseStateMachine newStateMachine)
+        {
+            if (CanChangeStateTo(newStateMachine))
+            {
+                ChangeState(newStateMachine);
+                return true;
+            }
+
+            return false;
         }
     }
 }
