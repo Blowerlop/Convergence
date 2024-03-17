@@ -23,12 +23,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
   - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
   - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
-  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
+  - {fileID: 11400000, guid: 6ec28a5f5a72a5e48907798daba5f913, type: 2}
   stats:
   - rid: 8967663378920636439
   - rid: 8967663378920636440
   - rid: 8967663378920636441
   - rid: 8967663378920636442
+  - rid: 2778045172259749888
   <attackType>k__BackingField: 1
   projectileData: {fileID: 11400000, guid: ea5f7947448615a4ab5e6580f97c5004, type: 2}
   _attackOverrideController: {fileID: 22100000, guid: 06c1f18185b7e82418a4090cf48de0f3,
@@ -36,6 +37,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 2778045172259749888
+      type: {class: MoveSpeedStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 5
+        _value: 5
+        _minValue: 0
+        _maxValue: 999
     - rid: 8967663378920636439
       type: {class: HealthStat, ns: Project, asm: Assembly-CSharp}
       data:

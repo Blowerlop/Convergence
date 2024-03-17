@@ -4,12 +4,13 @@ using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
+        private PCPlayerRefs _playerRefs;
+        
         private Transform _player;
         private PlayerStateMachineController _stateMachineController;
         
@@ -24,24 +25,34 @@ namespace Project
             _stateMachineController = GetComponentInParent<PlayerStateMachineController>();
         }
 
+        private void Start()
+        {
+            if (!IsServer) return;
+            
+            // Can't put this in OnNetworkSpawn because stats
+            // are initialized after in Entity.ServerInit
+            
+            var moveSpeed = _playerRefs.Entity.Stats.Get<MoveSpeedStat>();
+
+            OnSpeedChanged(moveSpeed.value, moveSpeed.maxValue);
+            moveSpeed.OnValueChanged += OnSpeedChanged;
+        }
+
         public override void OnNetworkSpawn()
         {
             enabled = IsServer;
             
-            PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
-            NavMeshAgent agent = playerRefs.NavMeshAgent;
+            _playerRefs = GetComponentInParent<PCPlayerRefs>();
+            NavMeshAgent agent = _playerRefs.NavMeshAgent;
             
             if (IsServer)
             {
-                _player = playerRefs.PlayerTransform;
+                _player = _playerRefs.PlayerTransform;
 
                 _agent = agent;
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
-                
-                var moveSpeed = playerRefs.Entity.Stats.Get<MoveSpeedStat>();
-                moveSpeed.OnValueChanged += OnSpeedChanged;
             }
             else
             {
@@ -50,7 +61,7 @@ namespace Project
 
             if (IsOwner)
             {
-                playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
+                _playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
             }
         }
 

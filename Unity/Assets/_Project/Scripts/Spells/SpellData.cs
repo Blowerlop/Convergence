@@ -15,19 +15,19 @@ namespace Project.Spells
 
         // Ugly but working
         // Find a way to get rid of magic string
-        [FoldoutGroup("Caster"), Required, SerializeField, 
+        [BoxGroup("Caster"), Required, SerializeField, 
          ValueDropdown("@ICastResult.AllResultTypesAsString"), OnValueChanged(nameof(CheckCasterValidity))]
         private string resultTypeSelection;
         
-        [FoldoutGroup("Caster"), OnValueChanged(nameof(CheckCasterValidity))] 
+        [BoxGroup("Caster"), OnValueChanged(nameof(CheckCasterValidity))] 
         public SpellCaster requiredCaster;
         
-        [FoldoutGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
-        [FoldoutGroup("Spell"), DisableIf("@true")] public int spellIdHash;
-        [FoldoutGroup("Spell")] public Spell spellPrefab;
-        [FoldoutGroup("Spell")] public bool isInstant;
-        [FoldoutGroup("Spell")] public float cooldown;
-        [FoldoutGroup("Spell")] public float channelingTime;
+        [BoxGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
+        [BoxGroup("Spell"), DisableIf("@true")] public int spellIdHash;
+        [BoxGroup("Spell")] public Spell spellPrefab;
+        [BoxGroup("Spell")] public bool isInstant;
+        [BoxGroup("Spell")] public float cooldown;
+        [BoxGroup("Spell")] public float channelingTime;
 
         [Space(40)]
         
