@@ -329,6 +329,8 @@ namespace GRPCServer.Services
                     
                     await responseStream.WriteAsync(new GRPC_EmptyMsg());
                     
+                    await netcodeServer.NetObjectsStream.WriteAsync(requestStream.Current);
+                    
                     foreach (var client in unrealClients)
                     {
                         //If client has just connected and doesn't have a stream yet,
@@ -345,6 +347,8 @@ namespace GRPCServer.Services
                         }
                     }
 
+                    
+
                     Debug.Log("GRPC_SrvNetObjUpdate > Update sent to all unreal clients.\n");
                 }
             }
@@ -359,16 +363,23 @@ namespace GRPCServer.Services
 
         public override async Task GRPC_CliNetObjUpdate(GRPC_EmptyMsg request, IServerStreamWriter<GRPC_NetObjUpdate> responseStream, ServerCallContext context)
         {
-            if (!unrealClients.ContainsKey(context.Peer))
+            if (netcodeServer.Adress == context.Peer)
             {
-                Debug.LogError(
-                    $"GRPC_CliNetObjUpdate > Client {context.Peer} is trying to get NetworkObjects update stream without being registered.");
-                return;
+                netcodeServer.NetObjectsStream = responseStream;
             }
+            else
+            {
+                if (!unrealClients.ContainsKey(context.Peer))
+                {
+                    Debug.LogError(
+                        $"GRPC_CliNetObjUpdate > Client {context.Peer} is trying to get NetworkObjects update stream without being registered.");
+                    return;
+                }
 
-            Debug.Log($"GRPC_CliNetObjUpdate > Client NetObject stream opened");
-            unrealClients[context.Peer].NetObjectsStream = responseStream;
-
+                Debug.Log($"GRPC_CliNetObjUpdate > Client NetObject stream opened");
+                unrealClients[context.Peer].NetObjectsStream = responseStream;
+            }
+            
             try
             {
                 await Task.Delay(-1, context.CancellationToken);
@@ -381,7 +392,7 @@ namespace GRPCServer.Services
 
             Debug.Log($"GRPC_CliNetObjUpdate > NetObj Client NetObject stream closed");
         }
-        
+
         public override async Task<GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(IAsyncStreamReader<GRPC_NetVarUpdate> requestStream, ServerCallContext context)
         {
             Debug.Log($"GRPC_SrvNetVarUpdate > NetVar writing stream opened");

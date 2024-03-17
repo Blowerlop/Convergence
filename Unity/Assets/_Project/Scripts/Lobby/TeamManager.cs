@@ -74,65 +74,13 @@ namespace Project
         private CancellationTokenSource _cancellationTokenSource;
 
         public Action<int, string, PlayerPlatform> onTeamSetEvent;
-        public Action<int, string, PlayerPlatform> onPlayerReadyEvent;
-        public Action onAllPlayersReadyEvent;
-
+        
+        
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
-            
-/*#if UNITY_EDITOR
-            // Unreal side
-            FU_GRPC_NetworkManager.instance.onClientStartedEvent.Subscribe(this, FU_InitGrpcStream);
-            FU_GRPC_NetworkManager.instance.onClientStopEvent.Subscribe(this, FU_DisposeGrpcStream);
-#endif*/
-            
             InitializeTeamsData();
-            
-            if (!IsServer && !IsHost) return;
-            
-            GRPC_NetworkManager.instance.onClientStartedEvent += InitGrpcStream;
-            GRPC_NetworkManager.instance.onClientStopEvent +=DisposeGrpcStream;
-        }
-
-        public override void OnNetworkDespawn()
-        {
-            base.OnNetworkDespawn();
-            
-/*#if UNITY_EDITOR
-            // Unreal side
-            FU_GRPC_NetworkManager.instance.onClientStartedEvent.Unsubscribe(FU_InitGrpcStream);
-            FU_GRPC_NetworkManager.instance.onClientStopEvent.Unsubscribe(FU_DisposeGrpcStream);
-#endif*/
-            
-            if (!IsServer && !IsHost) return;
-
-            DisposeGrpcStream();
-            
-            if (GRPC_NetworkManager.IsInstanceAlive())
-            {
-                GRPC_NetworkManager.instance.onClientStartedEvent -= InitGrpcStream;
-                GRPC_NetworkManager.instance.onClientStopEvent -=DisposeGrpcStream;
-            }
-        }
-
-        
-        private void InitGrpcStream()
-        {
-            _teamManagerStream = _client.GRPC_TeamSelectionGrpcToNetcode();
-            _cancellationTokenSource = new CancellationTokenSource();
-            Read();
         }
         
-        public void DisposeGrpcStream()
-        {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
-            _cancellationTokenSource = null;
-            
-            _teamManagerStream.Dispose();
-            _teamManagerStream = null;
-        }
         
         private void InitializeTeamsData()
         {
@@ -148,6 +96,7 @@ namespace Project
                 _teams[i] = teamData;
             }
         }
+
 
         public bool TryGetTeam(int teamIndex, out TeamData teamData)
         {
@@ -287,33 +236,6 @@ namespace Project
         public TeamData GetTeamData(int teamIndex)
         {
             return _teams[teamIndex];
-        }
-        
-        private void Write(GRPC_TeamResponse response)
-        {
-            GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_TeamResponse>(_teamManagerStream.RequestStream, response, _cancellationTokenSource));
-        }
-        
-        private async void Read()
-        {
-            try
-            {
-                while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))
-                {
-                    Debug.Log("Team message received");
-                    GRPC_Team messageReceived = _teamManagerStream.ResponseStream.Current;
-                    bool response = TrySetTeam(messageReceived.ClientId, messageReceived.TeamIndex, PlayerPlatform.Mobile);
-                    Write(new GRPC_TeamResponse {Team = messageReceived, Response = response});
-                }
-            }
-            catch (RpcException e)
-            {
-                if (GRPC_NetworkManager.instance.isConnected)
-                {
-                    Debug.LogError(e);
-                    GRPC_NetworkManager.instance.StopClient();
-                }
-            }   
         }
     }
 }
