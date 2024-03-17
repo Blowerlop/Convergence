@@ -1,4 +1,5 @@
 using System.Collections;
+using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
@@ -12,10 +13,12 @@ namespace Project
     {
         private PCPlayerRefs _playerRefs;
         private Camera _camera;
-        private NetworkObject _targetNetworkObject;
+        public NetworkObject targetNetworkObject;
         private bool _isAttacking;
         private IDamageable _damageable;
-
+        private bool _isRanged;
+        [SerializeField] private Projectile _projectile;
+        [SerializeField] private SOProjectile _projectileData;
 
         private void Awake()
         {
@@ -28,6 +31,8 @@ namespace Project
             {
                 _playerRefs.PlayerMouse.OnMouseClick += OnMouseButton1_AttackRequest;
                 InputManager.instance.onCancellation.performed += OnCancellation_StopAttack;
+
+                _playerRefs.Entity.onEntityInit += OnEntityInit;
             }
 
             if (IsServer)
@@ -55,14 +60,21 @@ namespace Project
 
         private void FixedUpdate()
         {
-            if (IsServer && _targetNetworkObject != null)
+            if (IsServer && targetNetworkObject != null)
             {
-                if (IsInRange(_targetNetworkObject.transform.position))
+                if (IsInRange(targetNetworkObject.transform.position))
                 {
-                    SrvTryToAttack(_targetNetworkObject);
+                    SrvTryToAttack(targetNetworkObject);
                 }
-                else GoToContact(_targetNetworkObject.transform);
+                else GoToContact(targetNetworkObject.transform);
             }
+        }
+
+        private void OnEntityInit()
+        {
+            SOCharacter characterData = (SOCharacter)_playerRefs.Entity.data;
+            _isRanged = characterData.attackType == EAttackType.Ranged;
+            if (_isRanged) _projectileData = characterData.projectileData;
         }
 
         // [Owner]
@@ -70,26 +82,25 @@ namespace Project
         {
             if (layer != Constants.Layers.EntityIndex)
             {
-                if (_targetNetworkObject != null)
+                if (targetNetworkObject != null)
                 {
-                    _targetNetworkObject = null;
+                    targetNetworkObject = null;
                     RemoveTargetServerRpc();
                 }
 
                 return;
             }
 
-            if (!IsDamageable(hitInfo.transform, out IDamageable damageable)) return;
-            if (!damageable.CanDamage(_playerRefs.TeamIndex)) return;
+            if (!IsDamageable(hitInfo.transform, out IDamageable _)) return;
 
-            _targetNetworkObject = hitInfo.transform.GetComponentInParent<NetworkObject>();
-            if (_targetNetworkObject == null)
+            targetNetworkObject = hitInfo.transform.GetComponentInParent<NetworkObject>();
+            if (targetNetworkObject == null)
             {
                 Debug.LogError("Target to attack is not a network object");
                 return;
             }
 
-            TryToAttackServerRpc(_targetNetworkObject);
+            TryToAttackServerRpc(targetNetworkObject);
         }
 
         [ServerRpc]
@@ -101,8 +112,8 @@ namespace Project
         [Server]
         private void SrvTryToAttack(NetworkObjectReference networkObjectReference)
         {
-            networkObjectReference.TryGet(out _targetNetworkObject);
-            if (_targetNetworkObject == null)
+            networkObjectReference.TryGet(out targetNetworkObject);
+            if (targetNetworkObject == null)
             {
                 Debug.LogError("Not NetworkObject found for the networkObjectReference id " +
                                networkObjectReference.NetworkObjectId);
@@ -111,19 +122,19 @@ namespace Project
 
             if (IsAttacking())
             {
-                if (_targetNetworkObject.NetworkObjectId == networkObjectReference.NetworkObjectId) return;
+                if (targetNetworkObject.NetworkObjectId == networkObjectReference.NetworkObjectId) return;
 
                 // We switch of target
                 StartCoroutine(EndAttack());
             }
 
-            if (IsInRange(_targetNetworkObject.transform.position) == false) return;
+            if (IsInRange(targetNetworkObject.transform.position) == false) return;
 
-            IDamageable damageable = _targetNetworkObject.GetComponentInChildren<IDamageable>();
+            IDamageable damageable = targetNetworkObject.GetComponentInChildren<IDamageable>();
 
             if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.attackState))
             {
-                StartAttack(_targetNetworkObject.transform.position, damageable);
+                StartAttack(targetNetworkObject.transform.position, damageable);
             }
         }
 
@@ -156,10 +167,11 @@ namespace Project
         }
 
         [Server]
-        private void Hit(IDamageable damageable)
+        public void Hit(IDamageable damageable)
         {
             damageable.Damage(_playerRefs.Entity.Stats.Get<AttackDamageStat>().value);
-            StartCoroutine(EndAttack());
+            
+            if (_isRanged == false) StartCoroutine(EndAttack());
         }
 
         // Called by animation event
@@ -167,9 +179,21 @@ namespace Project
         {
             if (IsServer == false) return;
 
-            Hit(_damageable);
-        }
+            if (_isRanged)
+            {
+                Projectile projectileInstance = Instantiate(_projectile, transform.position, transform.rotation);
+                projectileInstance.Init(this, _projectileData);
+                projectileInstance.GetComponent<NetworkObject>().Spawn(true);
 
+                StartCoroutine(EndAttack());
+            }
+            else
+            {
+                Hit(_damageable);
+            }
+
+        }
+        
         private void OnCancellation_StopAttack(InputAction.CallbackContext _)
         {
             StopAttackServerRpc();
@@ -178,7 +202,7 @@ namespace Project
         [ServerRpc]
         private void StopAttackServerRpc()
         {
-            _targetNetworkObject = null;
+            targetNetworkObject = null;
             StartCoroutine(EndAttack());
         }
 
@@ -191,12 +215,12 @@ namespace Project
         [ServerRpc]
         private void RemoveTargetServerRpc()
         {
-            _targetNetworkObject = null;
+            targetNetworkObject = null;
         }
 
-        private bool IsDamageable(Transform target, out IDamageable damageable)
+        public bool IsDamageable(Transform target, out IDamageable damageable)
         {
-            return target.TryGetComponent(out damageable);
+            return target.TryGetComponent(out damageable) && damageable.CanDamage(_playerRefs.TeamIndex);
         }
 
         [Server]

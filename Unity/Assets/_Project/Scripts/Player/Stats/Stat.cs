@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace Project
     [Serializable]
     public abstract class Stat<T> : StatBase where T : struct, IComparable, IFormattable, IConvertible
     {
-        [SerializeField, OnValueChanged("SetValue")] private T _defaultValue;
+        [SerializeField, OnValueChanged("SetValue"), MinValue("_minValue"), MaxValue("_maxValue")] private T _defaultValue;
         
         [SerializeField, ReadOnly] private T _value;
         public T value
@@ -27,20 +26,22 @@ namespace Project
             set
             {
                 // Return if the value is equal to the current value
-                if (_equalityComparer.Equals(_value, value)) return;
-                
-                _value = value;
+                if (_value.CompareTo(value) == 0) return;
+
+                _value = Clamp(value, _minValue, maxValue);
                 OnValueChanged?.Invoke(_value, _maxValue);
             }
         }
 
+        [SerializeField] private T _minValue;
+        
         [SerializeField] private T _maxValue;
         public T maxValue
         {
             get => _maxValue;
             set
             {
-                if (_equalityComparer.Equals(_maxValue, value)) return;
+                if (_maxValue.CompareTo(value) == 0) return;
                 
                 _maxValue = value;
                 OnValueChanged?.Invoke(_value, _maxValue);
@@ -50,9 +51,7 @@ namespace Project
         // Value / MaxValue
         public event Action<T, T> OnValueChanged;
         
-        private EqualityComparer<T> _equalityComparer = EqualityComparer<T>.Default;
-        
-        
+
         public void SetToMaxValue()
         {
             value = maxValue;
@@ -64,9 +63,19 @@ namespace Project
         }
 
         [Button]
-        private void SetValue(T value)
+        private void SetValue(T val)
         {
-            this.value = value;
+            value = val;
+        }
+
+        public T Clamp(T val, T min, T max)
+        {
+            if (min.CompareTo(max) == 1 || max.CompareTo(min) == -1) throw new InvalidOperationException();
+
+            if (value.CompareTo(min) == -1) return min;
+            if (value.CompareTo(max) == 1) return max;
+
+            return val;
         }
     }
 }

@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
   <nHealthStat>k__BackingField: {fileID: 7502236223278126093}
+  isInitialized: 0
 --- !u!114 &7502236223278126093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,6 +590,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetNetworkObject: {fileID: 0}
+  _projectile: {fileID: 6651257460859228941, guid: eadb81407221c9445ae10cf907fe8c5a,
+    type: 3}
+  _projectileData: {fileID: 0}
 --- !u!114 &9136715108103689386
 MonoBehaviour:
   m_ObjectHideFlags: 0

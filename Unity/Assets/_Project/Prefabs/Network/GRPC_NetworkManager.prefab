@@ -589,8 +589,8 @@ GameObject:
   - component: {fileID: 3968622199516114195}
   - component: {fileID: 5498144619231742176}
   - component: {fileID: 4757458289940318876}
-  - component: {fileID: 8067001660470044231}
   - component: {fileID: 946086810717450723}
+  - component: {fileID: 8067001660470044231}
   m_Layer: 0
   m_Name: GRPC_NetworkManager
   m_TagString: Untagged
@@ -656,18 +656,6 @@ MonoBehaviour:
     type: 3}
   playerPrefab: {fileID: 2751269076351150778, guid: 4ac19e52d770fe347a64b8a79077aa56,
     type: 3}
---- !u!114 &8067001660470044231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6492969946738803048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9243318f7254ea9aed4b0efa7cd8f89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &946086810717450723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 985958408
+  GlobalObjectIdHash: 3429183179
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
   ActiveSceneSynchronization: 0
@@ -688,6 +676,18 @@ MonoBehaviour:
   SpawnWithObservers: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &8067001660470044231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6492969946738803048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9243318f7254ea9aed4b0efa7cd8f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7314675655710957290
 GameObject:
   m_ObjectHideFlags: 0

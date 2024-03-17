@@ -24,17 +24,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
   - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
   - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
-  <BaseHealth>k__BackingField: 100
-  <BaseAttackDamage>k__BackingField: 20
-  <BaseAttackSpeed>k__BackingField: 1
-  <BaseAttackRange>k__BackingField: 2
-  _attackOverrideController: {fileID: 22100000, guid: 06c1f18185b7e82418a4090cf48de0f3,
-    type: 2}
   stats:
   - rid: 8967663378920636439
   - rid: 8967663378920636440
   - rid: 8967663378920636441
   - rid: 8967663378920636442
+  <attackType>k__BackingField: 1
+  projectileData: {fileID: 11400000, guid: ea5f7947448615a4ab5e6580f97c5004, type: 2}
+  _attackOverrideController: {fileID: 22100000, guid: 06c1f18185b7e82418a4090cf48de0f3,
+    type: 2}
   references:
     version: 2
     RefIds:
@@ -43,22 +41,26 @@ MonoBehaviour:
       data:
         _defaultValue: 100
         _value: 100
+        _minValue: 0
         _maxValue: 100
     - rid: 8967663378920636440
       type: {class: AttackDamageStat, ns: Project, asm: Assembly-CSharp}
       data:
         _defaultValue: 20
         _value: 20
-        _maxValue: 20
+        _minValue: 0
+        _maxValue: 50
     - rid: 8967663378920636441
       type: {class: AttackRangeStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 2
-        _value: 2
-        _maxValue: 2
+        _defaultValue: 5
+        _value: 5
+        _minValue: 0
+        _maxValue: 8
     - rid: 8967663378920636442
       type: {class: AttackSpeedStat, ns: Project, asm: Assembly-CSharp}
       data:
         _defaultValue: 1
         _value: 1
-        _maxValue: 1
+        _minValue: 0
+        _maxValue: 2

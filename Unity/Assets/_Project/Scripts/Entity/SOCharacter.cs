@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Project._Project.Scripts;
 using Project.Extensions;
 using Project.Spells;
 using Sirenix.OdinInspector;
@@ -10,10 +11,16 @@ using UnityEngine;
 
 namespace Project
 {
+    public enum EAttackType
+    {
+        Melee,
+        Ranged
+    }
+    
     [CreateAssetMenu(menuName = "Scriptable Objects/Character")]
     public class SOCharacter : SOEntity
     {
-        [ShowInInspector, PropertyOrder(-1)] public int id = -1;
+        [ShowInInspector, PropertyOrder(-1), ReadOnly] public int id = -1;
 
         [field: SerializeField, AssetsOnly, Required]
         [field: OnValueChanged("RenameAssetByName", InvokeOnInitialize = false, InvokeOnUndoRedo = true)]
@@ -26,7 +33,10 @@ namespace Project
         [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
-        [field: SerializeReference, ListDrawerSettings(ShowIndexLabels = false)] public StatBase[] stats;
+        [field: SerializeReference, ListDrawerSettings(ShowIndexLabels = false, DraggableItems = false)] public StatBase[] stats;
+        [field: SerializeField] public EAttackType attackType { get; private set; }
+        [field: SerializeField, ShowIf("attackType", EAttackType.Ranged)] public SOProjectile projectileData;
+        
         [SerializeField] public AnimatorOverrideController _attackOverrideController;
 
         
@@ -78,6 +88,8 @@ namespace Project
         {
             id = characterName.ToHashIsSameAlgoOnUnreal();
         }
+        
+        private void IsRanged() => attackType = EAttackType.Ranged;
         
 #if UNITY_EDITOR
         [Button]
