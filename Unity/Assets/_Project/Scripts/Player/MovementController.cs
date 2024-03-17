@@ -40,7 +40,7 @@ namespace Project
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
                 
-                var moveSpeed = playerRefs.Entity.Stats.moveSpeed;
+                var moveSpeed = playerRefs.Entity.Stats.Get<MoveSpeedStat>();
                 moveSpeed.OnValueChanged += OnSpeedChanged;
             }
             else

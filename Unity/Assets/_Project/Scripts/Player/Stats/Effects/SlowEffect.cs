@@ -10,12 +10,14 @@ namespace Project.Effects
         {
             if(player is not PCPlayerRefs pcPlayer)
                 return false;
+
+            MoveSpeedStat stat = pcPlayer.Entity.Stats.Get<MoveSpeedStat>();
             
-            var slowedValue = pcPlayer.Entity.Stats.moveSpeed.Slow(SlowAmount);
+            var slowedValue = stat.Slow(SlowAmount);
             
             player.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, () =>
             {
-                pcPlayer.Entity.Stats.moveSpeed.Value += slowedValue;
+                stat.Value += slowedValue;
             }));
             
             return false;
