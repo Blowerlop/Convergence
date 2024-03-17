@@ -14,11 +14,9 @@ namespace Project.Effects
             MoveSpeedStat stat = pcPlayer.Entity.Stats.Get<MoveSpeedStat>();
             
             var slowedValue = stat.Slow(SlowAmount);
-            
-            player.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, () =>
-            {
-                stat.Value += slowedValue;
-            }));
+
+            player.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, 
+                    () => { stat.value += slowedValue; }));
             
             return false;
         }
