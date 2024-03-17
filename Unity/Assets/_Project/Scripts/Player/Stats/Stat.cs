@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -25,8 +26,10 @@ namespace Project
             get => _value;
             set
             {
-                if (Equals(_value, value)) return;
+                // Return if the value is equal to the current value
+                if (_equalityComparer.Equals(_value, value)) return;
                 
+                _value = value;
                 OnValueChanged?.Invoke(_value, _maxValue);
             }
         }
@@ -37,7 +40,7 @@ namespace Project
             get => _maxValue;
             set
             {
-                if (Equals(_maxValue, value)) return;
+                if (_equalityComparer.Equals(_maxValue, value)) return;
                 
                 _maxValue = value;
                 OnValueChanged?.Invoke(_value, _maxValue);
@@ -46,6 +49,8 @@ namespace Project
 
         // Value / MaxValue
         public event Action<T, T> OnValueChanged;
+        
+        private EqualityComparer<T> _equalityComparer = EqualityComparer<T>.Default;
         
         
         public void SetToMaxValue()
@@ -58,6 +63,7 @@ namespace Project
             return (Stat<T>)MemberwiseClone();
         }
 
+        [Button]
         private void SetValue(T value)
         {
             this.value = value;

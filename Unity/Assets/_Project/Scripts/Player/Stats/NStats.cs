@@ -50,13 +50,14 @@ namespace Project
             _nValue.Initialize();
             _nMaxValue.Initialize();
 
-            _nValue.OnValueChanged += HealthValueChanged;
-            _nMaxValue.OnValueChanged += HealthValueChanged;
-            
-            _nMaxValue.Value = _stat.maxValue;
-            SetToMaxValue();
-            Debug.Log("Value: " + _stat.value);
-            Debug.Log("Value: " + _stat.value);
+            _nValue.OnValueChanged += OnValueChanged_UpdateStatValues;
+            _nMaxValue.OnValueChanged += OnValueChanged_UpdateStatValues;
+
+            if (IsServer)
+            {
+                _nMaxValue.Value = _stat.maxValue;
+                SetToMaxValue();
+            }
         }
 
         public override void OnNetworkDespawn()
@@ -66,11 +67,11 @@ namespace Project
             _nValue.Reset();
             _nMaxValue.Reset();
         
-            _nValue.OnValueChanged -= HealthValueChanged;
-            _nMaxValue.OnValueChanged -= HealthValueChanged;
+            _nValue.OnValueChanged -= OnValueChanged_UpdateStatValues;
+            _nMaxValue.OnValueChanged -= OnValueChanged_UpdateStatValues;
         }
     
-        private void HealthValueChanged(T _, T __)
+        private void OnValueChanged_UpdateStatValues(T _, T __)
         {
             if (_debug) Debug.Log($"[Player {OwnerClientId}] Health value changed : Hp {_nValue.Value} / Max health {_nMaxValue.Value}");
 

@@ -16,24 +16,45 @@ namespace Project
         [field: SerializeReference] public NetworkHealth nHealthStat { get; private set; }
         
         public event Action OnStatsInitialized;
+        public bool isInitialized;
         
         [Server]
         public void ServerInit(SOEntity entity)
         {
-            SOCharacter character = (SOCharacter)entity;
+            SOCharacter characterData = (SOCharacter)entity;
+
+            if (IsHost == false)
+            {
+                InitLocal(characterData);
+            }
             
-            character.stats.ForEach(stat =>
+            InitClientRpc(characterData.id);
+        }
+
+        [ClientRpc]
+        private void InitClientRpc(int characterDataId)
+        {
+            InitLocal(SOCharacter.GetCharacter(characterDataId));
+        }
+        
+        
+        private void InitLocal(SOCharacter characterData)
+        {
+            characterData.stats.ForEach(stat =>
             {
                 _stats.Add(stat.GetType(), (StatBase)stat.Clone());
             });
-            
+
             nHealthStat.Init();
             
             OnStatsInitialized?.Invoke();
+            isInitialized = true;
         }
         
         public T Get<T>() where T : StatBase
         {
+            if (!_stats.ContainsKey(typeof(T))) throw new Exception($"Stat of type {typeof(T)} not found");
+            
             return (T)_stats[typeof(T)];
         }
     }

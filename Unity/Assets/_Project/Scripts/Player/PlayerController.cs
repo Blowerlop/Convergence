@@ -41,7 +41,11 @@ namespace Project
             
             if (IsServer)
             {
-                _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
+                if (_stats.isInitialized)
+                {
+                    OnStatsInitialized_HookHealth();
+                }
+                else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
             }
         }
 
@@ -75,6 +79,7 @@ namespace Project
         private void OnStatsInitialized_HookHealth()
         {
             _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged_CheckIfDead;
+            _stats.OnStatsInitialized -= OnStatsInitialized_HookHealth;
         }
     }
 }

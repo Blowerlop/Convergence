@@ -38,7 +38,11 @@ namespace Project._Project.Scripts.Managers
             SoundManager.instance.PlayGlobalSound("Kultiran", "music", SoundManager.EventType.Music);
             StartCoroutine(NextTrackCoroutine());
             
-            _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
+            if (_stats.isInitialized)
+            {
+                OnStatsInitialized_HookHealth();
+            }
+            else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
         }
 
         void HpChanged(int current, int max)
@@ -110,6 +114,7 @@ namespace Project._Project.Scripts.Managers
         private void OnStatsInitialized_HookHealth()
         {
             _stats.Get<HealthStat>().OnValueChanged += HpChanged;
+            _stats.OnStatsInitialized -= OnStatsInitialized_HookHealth;
         }
     }
 }
