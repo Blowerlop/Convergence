@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Project
 {
     public class HealthFillBar : FillBar
@@ -17,7 +19,7 @@ namespace Project
             
             if (!_stats) return;
             
-            _stats.health.OnValueChanged -= OnHealthChanged;
+            _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged;
         }
         
         private void Setup(PlayerRefs refs)
@@ -25,13 +27,23 @@ namespace Project
             if (refs is not PCPlayerRefs _refs) return;
             
             _stats = _refs.Entity.Stats;
-            
-            _stats.health.OnValueChanged += OnHealthChanged;
-        }
 
+            if (_stats.isInitialized)
+            {
+                OnStatsInitialized_HookHealth();
+            }
+            else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
+        }
+        
         private void OnHealthChanged(int currentHealth, int maxHealth)
         {
             SetFillAmount(currentHealth, maxHealth);
+        }
+        
+        private void OnStatsInitialized_HookHealth()
+        {
+            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged;
+            _stats.OnStatsInitialized -= OnStatsInitialized_HookHealth;
         }
     }
 }

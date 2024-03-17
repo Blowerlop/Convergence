@@ -13,8 +13,6 @@ namespace Project
 
         private void OnEnable()
         {
-            if (NetworkManager.Singleton.IsServer == false) return;
-            
             GRPC_NetworkManager.instance.onClientStartedEvent += InitGrpcStream;
             GRPC_NetworkManager.instance.onClientStopEvent += DisposeGrpcStream;
         }
@@ -33,6 +31,8 @@ namespace Project
 
         private void InitGrpcStream()
         {
+            if (NetworkManager.Singleton.IsServer == false) return;
+            
             _teamManagerStream = GRPC_NetworkManager.instance.client.GRPC_TeamSelectionGrpcToNetcode();
             _cancellationTokenSource = new CancellationTokenSource();
             
@@ -41,12 +41,14 @@ namespace Project
 
         private void DisposeGrpcStream()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
-            _cancellationTokenSource = null;
+            if (NetworkManager.Singleton.IsServer == false) return;
             
-            _teamManagerStream?.Dispose();
-            _teamManagerStream = null;
+            // _cancellationTokenSource?.Cancel();
+            // _cancellationTokenSource?.Dispose();
+            // _cancellationTokenSource = null;
+            
+            // _teamManagerStream?.Dispose();
+            // _teamManagerStream = null;
         }
 
         private void Write(GRPC_TeamResponse response)
