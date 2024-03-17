@@ -1,4 +1,5 @@
 using Project._Project.Scripts;
+using Sirenix.OdinInspector;
 
 namespace Project.Effects
 {
@@ -6,7 +7,7 @@ namespace Project.Effects
     {
         public int ShieldAmount;
         public bool HasDuration;
-        public float Duration;
+        [ShowIf(nameof(HasDuration))] public float Duration;
         
         [Server]
         public override bool TryApply(PlayerRefs player)
