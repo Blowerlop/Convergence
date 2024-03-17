@@ -1,12 +1,11 @@
-using DG.Tweening;
 using Project._Project.Scripts.Managers;
-using Project.Extensions;
 using UnityEngine;
 
 namespace Project.Spells
 {
     public class SelfTargetSpell : Spell
     {
+        [SerializeField] private bool followPlayer;
         [SerializeField] private float duration = 2f;
         
         protected override void Init(ICastResult castResult)
@@ -52,7 +51,14 @@ namespace Project.Spells
             
             return player.PlayerTransform.forward;
         }
-        
+
+        private void LateUpdate()
+        {
+            if (!followPlayer) return;
+            
+            transform.position = Caster.PlayerTransform.position;
+        }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();

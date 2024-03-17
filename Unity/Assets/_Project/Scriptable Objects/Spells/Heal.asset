@@ -21,9 +21,10 @@ MonoBehaviour:
     type: 3}
   isInstant: 1
   cooldown: 5
-  channelingTime: 0
+  channelingTime: 0.5
   effects:
   - rid: 2778045131098685440
+  animatorOverrideController: {fileID: 0}
   references:
     version: 2
     RefIds:
