@@ -14,6 +14,7 @@ namespace Project
         
         [ShowInInspector, ListDrawerSettings(IsReadOnly = true)] private Dictionary<Type, StatBase> _stats = new Dictionary<Type, StatBase>();
         [field: SerializeReference] public NetworkHealth nHealthStat { get; private set; }
+        [field: SerializeReference] public NetworkShield nShieldStat { get; private set; }
         
         public event Action OnStatsInitialized;
         public bool isInitialized;
@@ -46,6 +47,7 @@ namespace Project
             });
 
             nHealthStat.Init();
+            nShieldStat.Init();
             
             OnStatsInitialized?.Invoke();
             isInitialized = true;

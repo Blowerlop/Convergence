@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Project._Project.Scripts
 {
-    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable/*, ITargetable*/
+    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable, IShieldable/*, ITargetable*/
     {
         [field: ShowInInspector, ReadOnly, ServerField] public SOEntity data { get; private set; }
         [SerializeField] protected PlayerStats _stats;
@@ -28,8 +28,6 @@ namespace Project._Project.Scripts
             }
             remove => _onEntityInit -= value;
         }
-        
-        private List<Effect> _appliedEffects = new();
 
         [Server]
         public void ServerInit(SOEntity entityData)
@@ -62,9 +60,17 @@ namespace Project._Project.Scripts
             return TeamIndex != teamIndex;
         }
         
-        public void ApplyEffect(Effect effect)
+        public int Shield(int modifier)
         {
-            _appliedEffects.Add(effect);
+            var shield = new ShieldData(modifier);
+            
+            _stats.nShieldStat.AddShield(shield);
+            return shield.ID;
+        }
+
+        public void UnShield(int shieldId)
+        {
+            _stats.nShieldStat.RemoveShield(shieldId);
         }
     }
 }

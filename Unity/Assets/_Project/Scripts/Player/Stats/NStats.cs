@@ -14,7 +14,7 @@ namespace Project
         public abstract GRPC_NetworkVariable<T> _nMaxValue { get; set; }
         
 
-        [ShowInInspector, ReadOnly] public T Value
+        [ShowInInspector, ReadOnly] public virtual T Value
         {
             get
             {
