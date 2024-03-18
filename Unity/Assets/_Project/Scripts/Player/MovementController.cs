@@ -25,19 +25,6 @@ namespace Project
             _stateMachineController = GetComponentInParent<PlayerStateMachineController>();
         }
 
-        private void Start()
-        {
-            if (!IsServer) return;
-            
-            // Can't put this in OnNetworkSpawn because stats
-            // are initialized after in Entity.ServerInit
-            
-            var moveSpeed = _playerRefs.Entity.Stats.Get<MoveSpeedStat>();
-
-            OnSpeedChanged(moveSpeed.value, moveSpeed.maxValue);
-            moveSpeed.OnValueChanged += OnSpeedChanged;
-        }
-
         public override void OnNetworkSpawn()
         {
             enabled = IsServer;
@@ -53,6 +40,9 @@ namespace Project
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
+
+                if (_playerRefs.Entity.Stats.isInitialized) OnStatsInitialized();
+                else _playerRefs.Entity.Stats.OnStatsInitialized += OnStatsInitialized;
             }
             else
             {
@@ -63,6 +53,16 @@ namespace Project
             {
                 _playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
             }
+        }
+
+        private void OnStatsInitialized()
+        {
+            _playerRefs.Entity.Stats.OnStatsInitialized -= OnStatsInitialized;
+            
+            var moveSpeed = _playerRefs.Entity.Stats.Get<MoveSpeedStat>();
+
+            OnSpeedChanged(moveSpeed.value, moveSpeed.maxValue);
+            moveSpeed.OnValueChanged += OnSpeedChanged;
         }
 
         public override void OnNetworkDespawn()

@@ -10,6 +10,8 @@ namespace Project
         [SerializeField] private PlayerStats _playerStats;
         private Stat<T> _stat;
 
+        [SerializeField] private bool maxOnInit = true;
+        
         public abstract GRPC_NetworkVariable<T> _nValue { get; set; }
         public abstract GRPC_NetworkVariable<T> _nMaxValue { get; set; }
         
@@ -56,7 +58,7 @@ namespace Project
             if (IsServer)
             {
                 _nMaxValue.Value = _stat.maxValue;
-                SetToMaxValue();
+                if (maxOnInit) SetToMaxValue();
             }
         }
 

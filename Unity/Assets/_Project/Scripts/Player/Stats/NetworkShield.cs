@@ -25,6 +25,8 @@ namespace Project
         
         private List<ShieldData> _appliedShields = new();
         
+        public bool HasShield => Value > 0;
+        
         [ShowInInspector, ReadOnly] public override int Value
         {
             get => base.Value;
@@ -37,7 +39,7 @@ namespace Project
                 {
                     if (_appliedShields.Count == 0) return;
                     
-                    var shield = _appliedShields[^1];
+                    var shield = _appliedShields[0];
                         
                     shield.Amount += diff;
                     if (shield.Amount <= 0)

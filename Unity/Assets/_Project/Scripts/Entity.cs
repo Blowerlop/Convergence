@@ -52,9 +52,22 @@ namespace Project._Project.Scripts
 
         public void Damage(int modifier)
         {
+            CheckForShieldDamage(ref modifier);
+            
             _stats.nHealthStat.Value -= modifier;
         }
 
+        private void CheckForShieldDamage(ref int modifier)
+        {
+            if (!_stats.nShieldStat.HasShield) return;
+
+            var lastValue = _stats.nShieldStat.Value;
+            _stats.nShieldStat.Value -= modifier;
+            
+            modifier -= lastValue;
+            if(modifier < 0) modifier = 0;
+        }
+        
         public bool CanDamage(int teamIndex)
         {
             return TeamIndex != teamIndex;
