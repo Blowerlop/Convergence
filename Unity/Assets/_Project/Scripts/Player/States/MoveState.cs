@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class MoveState : BaseStateMachine
+    public class MoveState : BaseStateMachineBehaviour
     {
         protected override void OnEnter()
         {
@@ -20,7 +20,7 @@ namespace Project._Project.Scripts.Player.States
             navMeshAgent.ResetPath();
         }
 
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
             return true;
         }

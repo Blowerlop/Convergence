@@ -132,7 +132,7 @@ namespace Project
 
             IDamageable damageable = targetNetworkObject.GetComponentInChildren<IDamageable>();
 
-            if (_playerRefs.StateMachine.CanChangeStateTo(_playerRefs.StateMachine.attackState))
+            if (_playerRefs.StateMachine.CanChangeStateTo<AttackState>())
             {
                 StartAttack(targetNetworkObject.transform.position, damageable);
             }
@@ -145,7 +145,7 @@ namespace Project
             _playerRefs.Animator.runtimeAnimatorController =
                 ((PlayerController)_playerRefs.Entity)._attackOverrideController;
             _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
-            _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.attackState);
+            _playerRefs.StateMachine.ChangeStateTo<AttackState>();
             _playerRefs.PlayerTransform.rotation =
                 Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
                     .normalized);
@@ -160,7 +160,7 @@ namespace Project
             
             if (_playerRefs.StateMachine.currentState is AttackState)
             {
-                _playerRefs.StateMachine.ChangeState(_playerRefs.StateMachine.idleState);
+                _playerRefs.StateMachine.ChangeStateTo<IdleState>();
             }
             
             _isAttacking = false;
@@ -237,7 +237,7 @@ namespace Project
         }
 
         [Server]
-        private void OnStateExit_EndAttack(BaseStateMachine exitState)
+        private void OnStateExit_EndAttack(BaseStateMachineBehaviour exitState)
         {
             // In case we want to move the moment we're attacking. Cancel the attack and move
             if (exitState is AttackState)

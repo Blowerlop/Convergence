@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class CastingState : BaseStateMachine
+    public class CastingState : BaseStateMachineBehaviour
     {
         protected override void OnEnter()
         {
@@ -15,9 +15,9 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.Animator.SetBool(Constants.AnimatorsParam.Channeling, false);
         }
         
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
-            return newStateMachine is IdleState;
+            return typeof(T) == typeof(IdleState);
         }
 
         public override string ToString()

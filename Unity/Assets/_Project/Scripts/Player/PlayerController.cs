@@ -1,5 +1,6 @@
 using System;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace Project
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
-            if (currentHealth <= 0) _refs.StateMachine.ChangeState(_refs.StateMachine.deadState);
+            if (currentHealth <= 0) _refs.StateMachine.ChangeStateTo<DeadState>();
         }
 
         private void OnStatsInitialized_HookHealth()

@@ -56,24 +56,24 @@ namespace Project._Project.Scripts.Spells
         [Server]
         public void StartServerChanneling(float channelingTime, Action channelingDoneAction = null)
         {
-            ChangeState(new CastingState());
+            ChangeState<CastingState>();
             
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {
-                ChangeState(new IdleState());
+                ChangeState<IdleState>();
                 
                 channelingDoneAction?.Invoke();
                 _isChanneling.Value = false;
             });
 
-            void ChangeState(BaseStateMachine state)
+            void ChangeState<T>() where T : BaseStateMachineBehaviour
             {
                 if (playerRefs is not PCPlayerRefs pcRefs) return;
                 
-                if (pcRefs.StateMachine.CanChangeStateTo(state))
+                if (pcRefs.StateMachine.CanChangeStateTo<T>())
                 {
-                    pcRefs.StateMachine.ChangeState(state);
+                    pcRefs.StateMachine.ChangeStateTo<T>();
                 }
             }
         }

@@ -1,5 +1,6 @@
 using System;
 using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Project
     public class MovementController : NetworkBehaviour
     {
         private Transform _player;
-        private PlayerStateMachineController _stateMachineController;
+        private StateMachineController _stateMachineController;
         
         private NavMeshAgent _agent;
 
@@ -22,7 +23,7 @@ namespace Project
         
         private void Awake()
         {
-            _stateMachineController = GetComponentInParent<PlayerStateMachineController>();
+            _stateMachineController = GetComponentInParent<StateMachineController>();
         }
 
         public override void OnNetworkSpawn()
@@ -103,9 +104,9 @@ namespace Project
         [Server]
         public void SrvGoTo(Vector3 position)
         {
-            if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo(_stateMachineController.moveState))
+            if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo<MoveState>())
             {
-                _stateMachineController.ChangeState(_stateMachineController.moveState);
+                _stateMachineController.ChangeStateTo<MoveState>();
             }
 
             if (_stateMachineController.currentState is MoveState)
@@ -116,9 +117,9 @@ namespace Project
 
         private void OnPositionReached_UpdateState()
         {
-            if (_stateMachineController.CanChangeStateTo(_stateMachineController.idleState))
+            if (_stateMachineController.CanChangeStateTo<IdleState>())
             {
-                _stateMachineController.ChangeState(_stateMachineController.idleState);
+                _stateMachineController.ChangeStateTo<IdleState>();
             }
         }
     }

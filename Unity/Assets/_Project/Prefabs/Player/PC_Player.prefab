@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 8181632595643541411}
   - component: {fileID: 7105107927145916266}
   - component: {fileID: 644639759059225341}
-  - component: {fileID: 1449511127484038279}
+  - component: {fileID: 8716894832332392838}
   - component: {fileID: 6215435937847373130}
   - component: {fileID: 7568465784921170700}
   m_Layer: 6
@@ -467,7 +467,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1449511127484038279
+--- !u!114 &8716894832332392838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -476,9 +476,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 8566652343378925700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe55804c3234cac428da503cfb51e2fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 6713f93b6a18e074dbfd550ea01851cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultState:
+    rid: 8967663463420657664
+  <currentState>k__BackingField:
+    rid: -2
+  _states:
+  - rid: 8967663463420657672
+  - rid: 8967663463420657673
+  - rid: 8967663463420657674
+  - rid: 8967663463420657675
+  - rid: 8967663463420657676
+  - rid: 8967663463420657677
+  - rid: 8967663463420657678
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8967663463420657664
+      type: {class: IdleState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 8967663463420657672
+      type: {class: AttackState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 8967663463420657673
+      type: {class: CastingState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 8967663463420657674
+      type: {class: AirState, ns: Project._Project.Scripts.Player.State.PlayerState.Base.Air,
+        asm: Assembly-CSharp}
+    - rid: 8967663463420657675
+      type: {class: DeadState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 8967663463420657676
+      type: {class: MoveState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 8967663463420657677
+      type: {class: AirState, ns: Project._Project.Scripts.Player.State.PlayerState.Base.Air,
+        asm: Assembly-CSharp}
+    - rid: 8967663463420657678
+      type: {class: AttackState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
 --- !u!114 &6215435937847373130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,7 +530,7 @@ MonoBehaviour:
   cooldowns: {fileID: 1430276818711062553}
   channeling: {fileID: 2923043460446806746}
   _entity: {fileID: 7568465784921170700}
-  _stateMachine: {fileID: 1449511127484038279}
+  _stateMachine: {fileID: 8716894832332392838}
   _networkAnimator: {fileID: 8279106846831332330}
   _navMeshAgent: {fileID: 7105107927145916266}
   _playerMouse: {fileID: 9136715108103689386}
