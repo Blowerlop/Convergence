@@ -1,8 +1,9 @@
+using System;
 using Project._Project.Scripts.StateMachine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class AttackState : BaseStateMachine
+    public class AttackState : BaseStateMachineBehaviour
     {
         protected override void OnEnter()
         {
@@ -15,9 +16,10 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.EndAttackInstant);
         }
 
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
-            return newStateMachine is IdleState or MoveState;
+            Type type = typeof(T);
+            return type == typeof(IdleState) || type == typeof(MoveState);
         }
 
         public override string ToString()

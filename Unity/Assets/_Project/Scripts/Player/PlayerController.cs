@@ -1,5 +1,6 @@
 using System;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -75,7 +76,7 @@ namespace Project
         {
             if (currentHealth <= 0)
             {
-                _refs.StateMachine.ChangeState(_refs.StateMachine.deadState);
+                _refs.StateMachine.ChangeStateTo<DeadState>();
             }
         }
 
