@@ -1,3 +1,5 @@
+using Project._Project.Scripts;
+
 namespace Project.Effects
 {
     public class HealEffect : Effect
@@ -5,12 +7,9 @@ namespace Project.Effects
         public int HealAmount;
         
         [Server]
-        public override bool TryApply(PlayerRefs player)
+        public override bool TryApply(Entity entity)
         {
-            if(player is not PCPlayerRefs pcPlayer)
-                return false;
-            
-            pcPlayer.Entity.Heal(HealAmount);
+            entity.Heal(HealAmount);
             return true;
         }
     }

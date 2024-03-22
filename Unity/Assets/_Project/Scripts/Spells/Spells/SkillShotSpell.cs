@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Project.Spells
         [SerializeField] private float speed = 3f;
         [SerializeField] private float duration = 2f;
         
-        SingleVectorResults _results;
+        private SingleVectorResults _results;
         
         [SerializeField] private LayerMask _layerMask;
 
@@ -76,9 +77,9 @@ namespace Project.Spells
 
         private void OnCollision(RaycastHit hit)
         {
-            if (!hit.transform.TryGetComponent(out PlayerRefs player)) return;
+            if (!hit.transform.TryGetComponent(out Entity entity)) return;
 
-            if (TryApplyEffects(player)) KillSpell();
+            if (TryApplyEffects(entity)) KillSpell();
         }
 
         public override void OnNetworkSpawn()

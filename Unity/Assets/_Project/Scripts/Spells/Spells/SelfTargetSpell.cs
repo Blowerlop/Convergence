@@ -23,7 +23,7 @@ namespace Project.Spells
                 return;
             }
             
-            TryApplyEffects(pcPlayerRefs);
+            TryApplyEffects(pcPlayerRefs.Entity);
 
             StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, () => NetworkObject.Despawn()));
         }

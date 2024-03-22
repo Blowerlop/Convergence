@@ -22,6 +22,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f591a104b9b4ef74dab2f2ce45b4dc23, type: 2}
   - <typeName>k__BackingField: SOCharacter
     <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: 50730f13322551c45847420a0503358a, type: 2}
     - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}
     - {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
     - {fileID: 11400000, guid: 09489626d3af5374fb9aa68680bc4db8, type: 2}

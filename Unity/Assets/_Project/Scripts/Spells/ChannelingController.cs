@@ -4,7 +4,7 @@ using Project._Project.Scripts.StateMachine;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells
 {
     public class ChannelingController : NetworkBehaviour
     { 

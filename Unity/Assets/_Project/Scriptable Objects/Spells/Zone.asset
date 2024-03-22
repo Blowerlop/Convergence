@@ -22,9 +22,15 @@ MonoBehaviour:
   isInstant: 0
   cooldown: 10
   channelingTime: 0.25
-  effects: []
+  effects:
+  - rid: 2778045279059050498
+  animatorOverrideController: {fileID: 0}
   limitRadius: 5
   zoneRadius: 1.5
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2778045279059050498
+      type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        DamageAmount: 50

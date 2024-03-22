@@ -1,4 +1,5 @@
 using System.Linq;
+using Project._Project.Scripts;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,9 +29,9 @@ namespace Project.Spells
         
         public abstract Vector3 GetDirection(ICastResult castResult, PlayerRefs player);
 
-        public virtual bool TryApplyEffects(PlayerRefs player)
+        protected virtual bool TryApplyEffects(Entity entity)
         {
-            int appliedEffects = Data.effects.Count(effect => effect.TryApply(player));
+            int appliedEffects = Data.effects.Count(effect => effect.TryApply(entity));
             return appliedEffects > 0;
         }
     }

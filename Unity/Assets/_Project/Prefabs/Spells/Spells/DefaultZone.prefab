@@ -77,7 +77,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: damage
+      Data: effects
     - Name: $v
       Entry: 7
       Data: 2|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
@@ -99,10 +99,10 @@ MonoBehaviour:
       Data: 0
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: Project.Spells.DefaultZone, Assembly-CSharp
+      Data: Project.Spells.ZoneSpell, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: CheckForDamage
+      Data: CheckForEffects
     - Name: m_Mode
       Entry: 3
       Data: 1
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3580281955
+  GlobalObjectIdHash: 4254404552
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -343,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabId: ZoneSpell
   UnrealOwnerAddress: 
+  hasBeenSpawnedOnGrpc: 0
 --- !u!1 &9021965395715004859
 GameObject:
   m_ObjectHideFlags: 0

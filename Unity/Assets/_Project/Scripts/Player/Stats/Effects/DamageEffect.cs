@@ -1,3 +1,5 @@
+using Project._Project.Scripts;
+
 namespace Project.Effects
 {
     public class DamageEffect : Effect
@@ -5,14 +7,11 @@ namespace Project.Effects
         public int DamageAmount;
         
         [Server]
-        public override bool TryApply(PlayerRefs player)
+        public override bool TryApply(Entity entity)
         {
-            if(player is not PCPlayerRefs pcPlayer)
-                return false;
-
-            if (!pcPlayer.Entity.CanDamage(player.TeamIndex))
+            if (!entity.CanDamage(entity.TeamIndex))
             {
-                pcPlayer.Entity.Damage(DamageAmount);
+                entity.Damage(DamageAmount);
                 return true;
             }
 

@@ -59,5 +59,17 @@ namespace Project
             
             return (T)_stats[typeof(T)];
         }
+        
+        public bool TryGet<T>(out T stat) where T : StatBase
+        {
+            if (!_stats.ContainsKey(typeof(T)))
+            {
+                stat = default;
+                return false;
+            }
+            
+            stat = (T)_stats[typeof(T)];
+            return true;
+        }
     }
 }

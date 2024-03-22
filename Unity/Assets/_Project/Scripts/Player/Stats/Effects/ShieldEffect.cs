@@ -10,18 +10,13 @@ namespace Project.Effects
         [ShowIf(nameof(HasDuration))] public float Duration;
         
         [Server]
-        public override bool TryApply(PlayerRefs player)
+        public override bool TryApply(Entity entity)
         {
-            if(player is not PCPlayerRefs pcPlayer)
-                return false;
-
-            Entity entity = pcPlayer.Entity;
-            
             int shieldId = entity.Shield(ShieldAmount);
 
             if (!HasDuration) return true;
             
-            player.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, 
+            entity.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, 
                     () => { entity.UnShield(shieldId); }));
             
             return true;

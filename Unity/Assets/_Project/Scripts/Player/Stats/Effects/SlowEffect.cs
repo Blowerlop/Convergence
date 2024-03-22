@@ -1,3 +1,6 @@
+using Project._Project.Scripts;
+using UnityEngine;
+
 namespace Project.Effects
 {
     public class SlowEffect : Effect 
@@ -6,16 +9,18 @@ namespace Project.Effects
         public float Duration;
         
         [Server]
-        public override bool TryApply(PlayerRefs player)
+        public override bool TryApply(Entity entity)
         {
-            if(player is not PCPlayerRefs pcPlayer)
+            if (!entity.Stats.TryGet(out MoveSpeedStat stat))
+            {
+                Debug.LogWarning(
+                    $"Can't apply SlowEffect on Entity {entity.data.name} because it doesn't have a MoveSpeedStat");
                 return false;
-
-            MoveSpeedStat stat = pcPlayer.Entity.Stats.Get<MoveSpeedStat>();
+            }
             
             var slowedValue = stat.Slow(SlowAmount);
 
-            player.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, 
+            entity.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, 
                     () => { stat.value += slowedValue; }));
             
             return false;

@@ -1,6 +1,3 @@
-using Project._Project.Scripts;
-using Project._Project.Scripts.Player.States;
-using Project._Project.Scripts.Spells;
 using Project.Spells;
 using Unity.Netcode;
 using UnityEngine;
