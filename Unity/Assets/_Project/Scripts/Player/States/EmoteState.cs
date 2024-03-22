@@ -1,8 +1,9 @@
 using Project._Project.Scripts.StateMachine;
+using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class EmoteState : BaseStateMachine
+    public class EmoteState : BaseStateMachineBehaviour
     {
         private int emoteIndex;
 
@@ -21,7 +22,7 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.Animator.SetInteger(Constants.AnimatorsParam.EmoteIndex, -1);
         }
 
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
             return true;
         }
@@ -29,6 +30,13 @@ namespace Project._Project.Scripts.Player.States
         public override string ToString()
         {
             return "Emote State";
+        }
+
+        public override bool Equals<T>(T obj)
+        {
+            // ReSharper disable once PossibleNullReferenceException
+            // Pas possible d'avoir une null ref on check le type dans le base 
+            return base.Equals(obj) && emoteIndex == (obj as EmoteState).emoteIndex;
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class DeadState : BaseStateMachine
+    public class DeadState : BaseStateMachineBehaviour
     {
         [ShowInInspector] private Timer _deathTimer;
         private Vector3 _position;
@@ -15,7 +15,7 @@ namespace Project._Project.Scripts.Player.States
             _deathTimer = new Timer();
             _deathTimer.StartTimerWithCallback(playerRefs.StateMachine, GameSettings.instance.deathTime, () =>
             {
-                playerRefs.StateMachine.ChangeState(playerRefs.StateMachine.idleState);
+                playerRefs.StateMachine.ChangeStateTo<IdleState>();
             });
 
             _position = playerRefs.PlayerTransform.position;
@@ -28,14 +28,12 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.Entity.Stats.nHealthStat.SetToMaxValue();
         }
 
-        public override void Dispose()
+        public override void OnDispose()
         {
-            base.Dispose();
-            
             _deathTimer = null;
         }
         
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
             return false;
         }
