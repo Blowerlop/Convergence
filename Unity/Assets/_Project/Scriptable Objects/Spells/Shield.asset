@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90674e77ea264a1fb266c299f817de8b, type: 3}
-  m_Name: Heal
+  m_Name: Shield
   m_EditorClassIdentifier: 
   resultTypeSelection: Project.Spells.EmptyResults
   requiredCaster: {fileID: -3331929095968915761, guid: 1785605496ef8ea4d9a6818397486ff5,
     type: 3}
-  spellId: heal
-  spellIdHash: 358616
-  spellPrefab: {fileID: 4072781175783423226, guid: c09f9c93f89aa2c4393aef531c06ffbf,
+  spellId: shield
+  spellIdHash: 125756727
+  spellPrefab: {fileID: 5062626919631026114, guid: 94253597b80421446861be5a2e5a48fb,
     type: 3}
   isInstant: 1
   cooldown: 0.2
   channelingTime: 0.5
   effects:
-  - rid: 2778045304719278080
+  - rid: 2778045199733227521
   animatorOverrideController: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 2778045304719278080
-      type: {class: HealEffect, ns: Project.Effects, asm: Assembly-CSharp}
+    - rid: 2778045199733227521
+      type: {class: ShieldEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        HealAmount: 25
+        ShieldAmount: 100
+        HasDuration: 1
+        Duration: 3
