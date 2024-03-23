@@ -59,7 +59,7 @@ namespace Project._Project.Scripts
 
         private void CheckForShieldDamage(ref int modifier)
         {
-            if (!_stats.nShieldStat.HasShield) return;
+            if (_stats.nShieldStat == null || !_stats.nShieldStat.HasShield) return;
 
             var lastValue = _stats.nShieldStat.Value;
             _stats.nShieldStat.Value -= modifier;

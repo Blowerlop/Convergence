@@ -41,8 +41,8 @@ MonoBehaviour:
     - rid: 2778045172259749888
       type: {class: MoveSpeedStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 5
-        _value: 5
+        _defaultValue: 3
+        _value: 3
         _minValue: 0
         _maxValue: 999
     - rid: 2778045199733227520

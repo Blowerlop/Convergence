@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2750632199022461628}
   - component: {fileID: 5843258121250937041}
   - component: {fileID: 2704709795825547557}
-  - component: {fileID: 4104787636591295057}
   m_Layer: 6
   m_Name: Stats
   m_TagString: Untagged
@@ -48,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 0}
   <nHealthStat>k__BackingField: {fileID: 2704709795825547557}
-  <nShieldStat>k__BackingField: {fileID: 4104787636591295057}
+  <nShieldStat>k__BackingField: {fileID: 0}
   isInitialized: 0
 --- !u!114 &2704709795825547557
 MonoBehaviour:
@@ -64,21 +63,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerStats: {fileID: 5843258121250937041}
   maxOnInit: 1
-  _debug: 0
---- !u!114 &4104787636591295057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053674572226713673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 998138dd3a444cae95f7e7851b1c4268, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerStats: {fileID: 5843258121250937041}
-  maxOnInit: 0
   _debug: 0
 --- !u!1 &1466602634112899824
 GameObject:
@@ -197,7 +181,7 @@ Transform:
   - {fileID: 103279117667219172}
   - {fileID: 2750632199022461628}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!136 &5991668759253798515
 CapsuleCollider:
@@ -234,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 742196174
+  GlobalObjectIdHash: 3975077528
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

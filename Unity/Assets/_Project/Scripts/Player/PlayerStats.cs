@@ -46,8 +46,8 @@ namespace Project
                 _stats.Add(stat.GetType(), (StatBase)stat.Clone());
             });
 
-            nHealthStat.Init();
-            nShieldStat.Init();
+            if (nHealthStat) nHealthStat.Init();
+            if (nShieldStat) nShieldStat.Init();
             
             OnStatsInitialized?.Invoke();
             isInitialized = true;
