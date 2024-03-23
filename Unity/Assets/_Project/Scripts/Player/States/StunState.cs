@@ -1,30 +1,29 @@
-using System;
 using Project._Project.Scripts.StateMachine;
 using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class CastingState : BaseStateMachineBehaviour
+    public class StunState : BaseStateMachineBehaviour
     {
         protected override void OnEnter()
         {
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Channeling, true);
+            // Set silenced
+            // Stop player + 0 ms
+            //
         }
         
         protected override void OnExit()
         {
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Channeling, false);
         }
         
         public override bool CanChangeStateTo<T>()
         {
-            Type type = typeof(T);
-            return type == typeof(IdleState) || type == typeof(MoveState);
+            return false;
         }
 
         public override string ToString()
         {
-            return "Casting";
+            return "Stun";
         }
     }
 }

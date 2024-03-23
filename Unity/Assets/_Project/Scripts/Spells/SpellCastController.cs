@@ -1,4 +1,5 @@
 using System.Linq;
+using Project._Project.Scripts.Player.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -108,6 +109,8 @@ namespace Project.Spells.Casters
                 Debug.LogError($"Spell index {spellIndex} is out of range.");
                 return;
             }
+
+            if (!CanSwitchState()) return;
             
             if(_channelingController.IsChanneling) return;
             
@@ -138,6 +141,8 @@ namespace Project.Spells.Casters
                 return;
             }
             
+            if (!CanSwitchState()) return;
+            
             var caster = _spellCasters[spellIndex];
             
             if (!caster.IsCasting) return;
@@ -164,5 +169,8 @@ namespace Project.Spells.Casters
             
             caster.StopCasting();
         }
+        
+        private bool CanSwitchState() => _player is not PCPlayerRefs pcPlayer
+                                        || pcPlayer.StateMachine.CanChangeStateTo<CastingState>();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Project._Project.Scripts.Player.States;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -26,8 +27,10 @@ namespace Project.Spells
             }
 
             if (!TryGetSpellData(user, spellIndex, out var spell)) return;
-            
-            PlayerPlatform platform = user.GetPlatform();
+
+            if (playerRefs is PCPlayerRefs refs 
+                && !refs.StateMachine.CanChangeStateTo<CastingState>()) 
+                return;
             
             ChannelingController channelingController = playerRefs.Channeling;
             if (channelingController.IsChanneling) return;
