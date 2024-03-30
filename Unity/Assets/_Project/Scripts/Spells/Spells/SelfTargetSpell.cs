@@ -54,6 +54,7 @@ namespace Project.Spells
 
         private void LateUpdate()
         {
+            if (!IsServer) return;
             if (!followPlayer) return;
             
             transform.position = Caster.PlayerTransform.position;
