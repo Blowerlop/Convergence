@@ -208,13 +208,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb,
     type: 2}
+  _movingObject: {fileID: 1226572752951974000}
   _castOffset: {x: 0, y: 0, z: 0.5}
   _castRadius: 0.5
-  speed: 6
-  duration: 0.25
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
+  speed: 17.5
+  moveDuration: 1
+  hasImpactPhase: 0
+  _impactObject: {fileID: 0}
+  _impactDuration: 1
 --- !u!114 &-5190282394034715347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabId: SkillshotSpell
   UnrealOwnerAddress: 
+  hasBeenSpawnedOnGrpc: 0
 --- !u!114 &173338008607415805
 MonoBehaviour:
   m_ObjectHideFlags: 0
