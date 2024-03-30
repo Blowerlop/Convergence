@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Project._Project.Scripts
 {
-    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable, IShieldable/*, ITargetable*/
+    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable, IShieldable, IEffectable/*, ITargetable*/
     {
         [field: ShowInInspector, ReadOnly, ServerField] public SOEntity data { get; private set; }
         [SerializeField] protected PlayerStats _stats;
@@ -14,6 +15,9 @@ namespace Project._Project.Scripts
 
         public virtual int TeamIndex => -1;
 
+        public Entity AffectedEntity => this;
+        public IList<Effect> AppliedEffects { get; } = new List<Effect>();
+        
         private bool _isInit;
         private event Action _onEntityInit;
         public event Action onEntityInit
@@ -85,5 +89,45 @@ namespace Project._Project.Scripts
         {
             _stats.nShieldStat.RemoveShield(shieldId);
         }
+        
+        #region Effects
+        
+        [Server]
+        public bool SrvTryApplyEffects(IList<Effect> effects) => 
+            effects.Count(effect => effect.TryApply(this)) > 0;
+        
+        [Server]
+        public void SrvAddEffect(Effect effect)
+        {
+            AppliedEffects.Add(effect);
+        }
+        
+        [Server]
+        public void SrvRemoveEffect(Effect effect)
+        {
+            AppliedEffects.Remove(effect);
+        }
+        
+        [Server]
+        public void SrvCleanse()
+        {
+            KillEffectsOfType(EffectType.Bad);
+        }
+
+        [Server]
+        public void SrvDebuff()
+        {
+            KillEffectsOfType(EffectType.Good);
+        }
+
+        private void KillEffectsOfType(EffectType type)
+        {
+            foreach (var appliedEffect in AppliedEffects.Where(appliedEffect => appliedEffect.Type == type))
+            {
+                appliedEffect.KillEffect();
+            }
+        }
+        
+        #endregion
     }
 }

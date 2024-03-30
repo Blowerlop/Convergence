@@ -7,23 +7,43 @@ namespace Project.Effects
     {
         public int SlowAmount;
         public float Duration;
+
+        public override EffectType Type => EffectType.Bad;
+
+        private MoveSpeedStat _stat;
+        private Coroutine _appliedCoroutine;
+        
+        private int _slowedValue;
         
         [Server]
-        public override bool TryApply(Entity entity)
+        protected override bool TryApply_Internal(IEffectable effectable)
         {
-            if (!entity.Stats.TryGet(out MoveSpeedStat stat))
+            var entity = effectable.AffectedEntity;
+            
+            if (!entity.Stats.TryGet(out _stat))
             {
                 Debug.LogWarning(
                     $"Can't apply SlowEffect on Entity {entity.data.name} because it doesn't have a MoveSpeedStat");
                 return false;
             }
             
-            var slowedValue = stat.Slow(SlowAmount);
+            _slowedValue = _stat.Slow(SlowAmount);
 
-            entity.StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(Duration, 
-                    () => { stat.value += slowedValue; }));
+            _appliedCoroutine = AffectedEffectable.AffectedEntity.StartCoroutine(
+                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, RemoveSlow));
             
             return false;
+        }
+
+        public override void KillEffect()
+        {
+            RemoveSlow();
+            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+        }
+        
+        private void RemoveSlow()
+        {
+            _stat.value += _slowedValue;
         }
     }
 }

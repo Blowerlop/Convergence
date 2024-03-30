@@ -1,14 +1,16 @@
-using Project._Project.Scripts;
-
 namespace Project.Effects
 {
     public class DamageEffect : Effect
     {
+        public override EffectType Type => EffectType.Bad;
+        
         public int DamageAmount;
         
         [Server]
-        public override bool TryApply(Entity entity)
+        protected override bool TryApply_Internal(IEffectable effectable)
         {
+            var entity = effectable.AffectedEntity;
+            
             if (!entity.CanDamage(entity.TeamIndex))
             {
                 entity.Damage(DamageAmount);
@@ -17,5 +19,7 @@ namespace Project.Effects
 
             return false;
         }
+
+        public override void KillEffect() { }
     }
 }

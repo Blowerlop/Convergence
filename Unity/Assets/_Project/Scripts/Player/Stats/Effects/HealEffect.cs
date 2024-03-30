@@ -1,16 +1,20 @@
-using Project._Project.Scripts;
-
 namespace Project.Effects
 {
     public class HealEffect : Effect
     {
+        public override EffectType Type => EffectType.Good;
+       
         public int HealAmount;
-        
+
         [Server]
-        public override bool TryApply(Entity entity)
+        protected override bool TryApply_Internal(IEffectable effectable)
         {
+            var entity = effectable.AffectedEntity;
+            
             entity.Heal(HealAmount);
             return true;
         }
+
+        public override void KillEffect() { }
     }
 }
