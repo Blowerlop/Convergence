@@ -29,6 +29,9 @@ MonoBehaviour:
   - <typeName>k__BackingField: SOGameSettings
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: dac479bbb367c4046b09f19998826fc1, type: 2}
+  - <typeName>k__BackingField: SOUIManager
+    <scriptableObjects>k__BackingField:
+    - {fileID: 11400000, guid: aa4c7a6d98c754e4a88376fd476f6d5d, type: 2}
   - <typeName>k__BackingField: FacingZoneSpellData
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
