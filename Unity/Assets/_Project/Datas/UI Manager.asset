@@ -19,5 +19,3 @@ MonoBehaviour:
   negativeColor: {r: 1, g: 0.023529412, b: 0.023529412, a: 1}
   titleFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   contentFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  hoverSound: {fileID: 8300000, guid: 90a5352fb45a11c45aa486e283d1a8d4, type: 3}
-  clickSound: {fileID: 8300000, guid: aa936319559177c42af8dac866959bf8, type: 3}

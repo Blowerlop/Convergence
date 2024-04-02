@@ -25,11 +25,12 @@ namespace Project.Scripts.UIFramework
         [ColorUsage(false), OnValueChanged("@UIManager.UpdateUI()")] public Color negativeColor = Color.white;
         
         [Title("Font")]
-        public TMP_FontAsset titleFont;
-        public TMP_FontAsset contentFont;
+        [OnValueChanged("@UIManager.UpdateUI()")] public TMP_FontAsset titleFont;
+        [OnValueChanged("@UIManager.UpdateUI()")] public TMP_FontAsset contentFont;
         
-        [Title("Sounds")]
-        public AudioClip hoverSound;
-        public AudioClip clickSound;
+        // No longer used. Hard coded in InteractibleUIElement.cs
+        // [Title("Sounds")]
+        // public AudioClip hoverSound;
+        // public AudioClip clickSound;
     }
 }
