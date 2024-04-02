@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project._Project.Scripts.Player.States;
 using Project.Extensions;
-using Sirenix.OdinInspector;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Project._Project.Scripts.StateMachine
     public class StateMachineController : NetworkBehaviour
     {
         [SerializeReference] protected BaseStateMachineBehaviour defaultState;
-        [field: SerializeReference, ReadOnly] public BaseStateMachineBehaviour currentState { get; private set; }
+        [field: SerializeReference, Sirenix.OdinInspector.ReadOnly] public BaseStateMachineBehaviour currentState { get; private set; }
         [SerializeReference] protected List<BaseStateMachineBehaviour> _states;
         private readonly Dictionary<Type, BaseStateMachineBehaviour> _statesCache = new Dictionary<Type, BaseStateMachineBehaviour>();
         
@@ -20,6 +21,12 @@ namespace Project._Project.Scripts.StateMachine
         public event Action<BaseStateMachineBehaviour> OnStateEnter;
         public event Action<BaseStateMachineBehaviour> OnStateExit;
 
+        private readonly GRPC_NetworkVariable<FixedString32Bytes> _currentStateType = new("currentStateType");
+
+        private void Start()
+        {
+            _currentStateType.Initialize();
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -36,7 +43,16 @@ namespace Project._Project.Scripts.StateMachine
             else if (this.IsClientOnly())
             {
                 enabled = false;
+                
+                _currentStateType.OnValueChanged += OnCurrentStateTypeChanged;
             }
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            if (!this.IsClientOnly()) return;
+                
+            _currentStateType.OnValueChanged -= OnCurrentStateTypeChanged;
         }
 
         private void Update()
@@ -77,6 +93,8 @@ namespace Project._Project.Scripts.StateMachine
             
             currentState.Enter(_playerRefs);
             OnStateEnter?.Invoke(currentState);
+            
+            _currentStateType.Value = currentState.GetType().Name;
         }
 
         public bool CanChangeStateTo<T>() where T : BaseStateMachineBehaviour
@@ -117,5 +135,38 @@ namespace Project._Project.Scripts.StateMachine
             _states.ForEach(state => _statesCache.Add(state.GetType(), state));
             // _states = null;
         }
+        
+        #region ClientSide
+        
+        /// <summary>
+        /// Update current state on client using type. Not activating any logic on clients.
+        /// Just letting them know if they can switch state or not.
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="newType"></param>
+        private void OnCurrentStateTypeChanged(FixedString32Bytes _, FixedString32Bytes newType)
+        {
+            // TODO: Find something better to get an instance, maybe an index or idk
+            var fullName = typeof(AttackState).Namespace + "." + newType;
+            var type = Type.GetType(fullName);
+            
+            if (type == null)
+            {
+                Debug.LogError($"Type {newType} not found.");
+                return;
+            }
+            
+            currentState = Activator.CreateInstance(type) as BaseStateMachineBehaviour;
+            
+            if(currentState == null)
+            {
+                Debug.LogError($"Type {newType} is not a BaseStateMachineBehaviour.");
+                return;
+            }
+            
+            //Debug.Log("Changed State " + currentState.GetType().Name);
+        }
+        
+        #endregion
     }
 }
