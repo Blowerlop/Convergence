@@ -1,3 +1,4 @@
+using System;
 using Project._Project.Scripts;
 
 namespace Project
@@ -15,7 +16,7 @@ namespace Project
         public abstract EffectType Type { get; }
         
         protected IEffectable AffectedEffectable { get; private set; }
-
+        
         public bool TryApply(IEffectable effectable)
         {
             AffectedEffectable = effectable;
@@ -36,5 +37,7 @@ namespace Project
         {
             AffectedEffectable.SrvRemoveEffect(this);
         }
+
+        public abstract Effect GetInstance();
     }
 }

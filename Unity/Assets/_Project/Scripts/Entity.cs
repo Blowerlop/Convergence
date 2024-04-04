@@ -122,7 +122,8 @@ namespace Project._Project.Scripts
 
         private void KillEffectsOfType(EffectType type)
         {
-            foreach (var appliedEffect in AppliedEffects.Where(appliedEffect => appliedEffect.Type == type))
+            var copy = new List<Effect>(AppliedEffects);
+            foreach (var appliedEffect in copy.Where(effect => effect.Type == type))
             {
                 appliedEffect.KillEffect();
             }

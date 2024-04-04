@@ -45,5 +45,14 @@ namespace Project.Effects
         {
             _stat.value += _slowedValue;
         }
+        
+        public override Effect GetInstance()
+        {
+            return new SlowEffect()
+            {
+                SlowAmount = SlowAmount, 
+                Duration = Duration
+            };
+        }
     }
 }

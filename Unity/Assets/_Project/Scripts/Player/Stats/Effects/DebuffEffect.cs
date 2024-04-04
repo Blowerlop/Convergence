@@ -1,17 +1,12 @@
 namespace Project.Effects
 {
-    public class HealEffect : Effect
+    public class DebuffEffect : Effect
     {
-        public override EffectType Type => EffectType.Good;
-       
-        public int HealAmount;
-
-        [Server]
+        public override EffectType Type => EffectType.Bad;
+        
         protected override bool TryApply_Internal(IEffectable effectable)
         {
-            var entity = effectable.AffectedEntity;
-            
-            entity.Heal(HealAmount);
+            effectable.SrvDebuff();
             return true;
         }
 

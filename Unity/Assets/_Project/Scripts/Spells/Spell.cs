@@ -31,7 +31,7 @@ namespace Project.Spells
 
         protected virtual bool TryApplyEffects(Entity entity)
         {
-            int appliedEffects = Data.effects.Count(effect => effect.TryApply(entity));
+            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity));
             return appliedEffects > 0;
         }
     }

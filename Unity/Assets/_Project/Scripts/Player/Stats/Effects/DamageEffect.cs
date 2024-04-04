@@ -21,5 +21,10 @@ namespace Project.Effects
         }
 
         public override void KillEffect() { }
+        
+        public override Effect GetInstance()
+        {
+            return this;
+        }
     }
 }

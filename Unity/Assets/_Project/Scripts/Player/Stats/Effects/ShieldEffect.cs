@@ -37,6 +37,8 @@ namespace Project.Effects
         {
             if (!HasDuration) return;
 
+            Debug.Log("Kill shield effect");
+            
             RemoveFromEffectable();
             
             RemoveShield();
@@ -46,6 +48,16 @@ namespace Project.Effects
         private void RemoveShield()
         {
             AffectedEffectable.AffectedEntity.UnShield(_shieldId);
+        }
+        
+        public override Effect GetInstance()
+        {
+            return new ShieldEffect()
+            {
+                ShieldAmount = ShieldAmount, 
+                HasDuration = HasDuration, 
+                Duration = Duration
+            };
         }
     }
 }

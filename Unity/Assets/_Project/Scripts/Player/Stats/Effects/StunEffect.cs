@@ -48,5 +48,13 @@ namespace Project.Effects
         {
             _affectedPlayer.StateMachine.ChangeStateTo<IdleState>();
         }
+        
+        public override Effect GetInstance()
+        {
+            return new StunEffect()
+            {
+                Duration = Duration
+            };
+        }
     }
 }
