@@ -30,13 +30,13 @@ namespace Project.Scripts.UIFramework
         
         [TabGroup("Group", "References")]
         // Toggle off
+        [SerializeField, BoxGroup("Group/References/ToggleOff")] private HorizontalLayoutGroup _horizontalLayoutGroupOff;
         [SerializeField, BoxGroup("Group/References/ToggleOff")] private TMP_Text _textOff;
         [SerializeField, BoxGroup("Group/References/ToggleOff")] private Image _imageOff;
-        [SerializeField, BoxGroup("Group/References/ToggleOff")] private HorizontalLayoutGroup _horizontalLayoutGroupOff;
         // Toggle on
+        [SerializeField, BoxGroup("Group/References/ToggleOn")] private HorizontalLayoutGroup _horizontalLayoutGroupOn;
         [SerializeField, BoxGroup("Group/References/ToggleOn")] private TMP_Text _textOn;
         [SerializeField, BoxGroup("Group/References/ToggleOn")] private Image _imageOn;
-        [SerializeField, BoxGroup("Group/References/ToggleOn")] private HorizontalLayoutGroup _horizontalLayoutGroupOn;
 
         [SerializeField, TabGroup("Group", "Events")] public UnityEvent<bool> _onToggle = new UnityEvent<bool>();
         [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onToggleOn = new UnityEvent();
@@ -45,7 +45,7 @@ namespace Project.Scripts.UIFramework
         [SerializeField, FoldoutGroup("Group/Events/Animations", 999)] public UnityEvent _onToggleAnimation = new UnityEvent();
         [SerializeField, FoldoutGroup("Group/Events/Animations", 999)] public UnityEvent _onToggleOnAnimation = new UnityEvent();
         [SerializeField, FoldoutGroup("Group/Events/Animations", 999)] public UnityEvent _onToggleOffAnimation = new UnityEvent();
-
+        
 
         private void Start()
         {

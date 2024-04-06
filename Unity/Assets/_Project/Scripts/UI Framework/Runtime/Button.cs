@@ -22,14 +22,15 @@ namespace Project.Scripts.UIFramework
         
         // References
         [TabGroup("Group", "References")]
-        [SerializeField, BoxGroup("Group/References/Normal")] private CanvasGroup _normal;
+        [SerializeField, BoxGroup("Group/References/Normal")] private HorizontalLayoutGroup _normalHorizontalLayoutGroup;
         [SerializeField, BoxGroup("Group/References/Normal")] private TMP_Text _normalButtonText;
         [SerializeField, BoxGroup("Group/References/Normal")] private Image _normalButtonIcon;
-        [SerializeField, BoxGroup("Group/References/Normal")] private HorizontalLayoutGroup _normalHorizontalLayoutGroup;
         
-        [SerializeField, BoxGroup("Group/References/Hover")] private CanvasGroup _hover;
+        [SerializeField, BoxGroup("Group/References/Hover")] private HorizontalLayoutGroup _hoverHorizontalLayoutGroup;
+        [SerializeField, BoxGroup("Group/References/Hover")] private TMP_Text _hoverButtonText;
+        [SerializeField, BoxGroup("Group/References/Hover")] private Image _hoverButtonIcon;
 
-
+        
         protected virtual void OnValidate()
         {
             SetupIcon();
@@ -37,17 +38,24 @@ namespace Project.Scripts.UIFramework
             if (_enableText && _enableIcon)
             {
                 _normalHorizontalLayoutGroup.spacing = _space;
+                _hoverHorizontalLayoutGroup.spacing = _space;
             }
         }
 
         protected virtual void SetupIcon()
         {
             _normalButtonIcon.gameObject.SetActive(_enableIcon);
+            _hoverButtonIcon.gameObject.SetActive(_enableIcon);
             
             if (_enableIcon)
             {
                 _normalButtonIcon.sprite = _icon;
                 LayoutElement buttonIconLayoutElement = _normalButtonIcon.GetComponent<LayoutElement>();
+                buttonIconLayoutElement.preferredHeight = _size;
+                buttonIconLayoutElement.preferredWidth = _size;
+                
+                _hoverButtonIcon.sprite = _icon;
+                buttonIconLayoutElement = _hoverButtonIcon.GetComponent<LayoutElement>();
                 buttonIconLayoutElement.preferredHeight = _size;
                 buttonIconLayoutElement.preferredWidth = _size;
             }
@@ -56,15 +64,25 @@ namespace Project.Scripts.UIFramework
         protected virtual void SetupText()
         {
             _normalButtonText.gameObject.SetActive(_enableText);
+            _hoverButtonText.gameObject.SetActive(_enableText);
             
             if (_enableText)
             {
                 _normalButtonText.text = _text;
-                if (_textSizeAuto) _normalButtonText.enableAutoSizing = true;
+                _hoverButtonText.text = _text;
+                
+                if (_textSizeAuto)
+                {
+                    _normalButtonText.enableAutoSizing = true;
+                    _hoverButtonText.enableAutoSizing = true;
+                }
                 else
                 {
                     _normalButtonText.enableAutoSizing = false;
                     _normalButtonText.fontSize = _size;
+                    
+                    _hoverButtonText.enableAutoSizing = false;
+                    _hoverButtonText.fontSize = _size;
                 }
             }
         }

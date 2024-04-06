@@ -16,12 +16,12 @@ namespace Project
 
         private void OnEnable()
         {
-            InputManager.instance.onMenuKey.performed += Toggle;
+            InputManager.instance.onEscapeKey.performed += Toggle;
         }
         
         private void OnDisable()
         {
-            InputManager.instance.onMenuKey.performed -= Toggle;
+            InputManager.instance.onEscapeKey.performed -= Toggle;
         }
 
 

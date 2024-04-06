@@ -4,21 +4,21 @@ using UnityEngine.Events;
 
 namespace Project.Scripts.UIFramework
 {
-    public class NavigationElementUI : MonoBehaviour
+    public class UiNavigable : MonoBehaviour
     {
-        [SerializeField, Required] private NavigationUI _navigator;
-        [field: SerializeField] public uint hierarchyDepth { get; private set; }
+        [SerializeField, Required] private UiNavigator _uiNavigator;
+        [field: SerializeField, ReadOnly] public uint hierarchyDepth { get; private set; }
         [SerializeField] private UnityEvent _onShow = new UnityEvent();
         [SerializeField] private UnityEvent _onHide = new UnityEvent();
         
         private void OnEnable()
         {
-            _navigator.Register(this);
+            _uiNavigator.Register(this);
         }
         
         private void OnDisable()
         {
-            _navigator.UnRegister(this);
+            _uiNavigator.UnRegister(this);
         }
 
         private void OnValidate()

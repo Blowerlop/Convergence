@@ -8,43 +8,42 @@ using UnityEngine.InputSystem;
 
 namespace Project.Scripts.UIFramework
 {
-    public class NavigationUI : MonoBehaviour, IPointerClickHandler
+    public class UiNavigator : MonoBehaviour, IPointerClickHandler
     {
-        public static List<NavigationUI> _navigators = new List<NavigationUI>();
-        [ShowInInspector] private List<NavigationElementUI> _navigation = new List<NavigationElementUI>();
+        public static List<UiNavigator> _navigators = new List<UiNavigator>();
+        [ShowInInspector, ReadOnly] private List<UiNavigable> _navigation = new List<UiNavigable>();
 
 
         private void OnEnable()
         {
             if (_navigators.Any() == false)
             {
-                // Show cursor
+                CursorManager.Request(CursorLockMode.Confined, true);
             }
             
             _navigators.Add(this);
+
+            InputManager.instance.onEscapeKey.performed += CloseElement;
         }
 
         private void OnDisable()
         {
             if (_navigators.Any() == false)
             {
-                // Revert cursor
+                CursorManager.Release();
             }
             
             _navigators.Remove(this);
-        }
 
-        private void Update()
-        {
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            if (InputManager.IsInstanceAlive())
             {
-                CloseElement();
+                InputManager.instance.onEscapeKey.performed -= CloseElement;
             }
         }
-
+        
         public void OnPointerClick(PointerEventData eventData)
         {
-            CloseElement();
+            CloseElement(default);
         }
 
         private bool IsNavigating()
@@ -52,22 +51,22 @@ namespace Project.Scripts.UIFramework
             return _navigation.Count > 0;
         }
         
-        public void Register(NavigationElementUI element)
+        public void Register(UiNavigable element)
         {
             _navigation.Add(element);
             _navigation = _navigation.OrderBy(x => x.hierarchyDepth).ToList();
         }
         
-        public void UnRegister(NavigationElementUI element)
+        public void UnRegister(UiNavigable element)
         {
             _navigation.Remove(element);
         }
 
-        private void CloseElement()
+        private void CloseElement(InputAction.CallbackContext _)
         {
             if (IsNavigating() == false)
             {
-                Debug.LogError("Not navigation while trying to navigate. This is a bug.");
+                Debug.LogError("Not navigating while trying to navigate. This is a bug.");
                 return;
             }
 

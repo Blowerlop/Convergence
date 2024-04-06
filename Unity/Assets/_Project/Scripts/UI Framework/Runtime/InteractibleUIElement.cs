@@ -11,7 +11,6 @@ namespace Project.Scripts.UIFramework
         // Settings
         [SerializeField, BoxGroup("Group/Settings/Sound")] private bool _playHoverSound = true;
         [SerializeField, BoxGroup("Group/Settings/Sound")] private bool _playClickSound = true;
-
         
         // Events
         [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onHover = new UnityEvent();
@@ -25,7 +24,17 @@ namespace Project.Scripts.UIFramework
         [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickDownAnimation = new UnityEvent();
         [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickUpAnimation = new UnityEvent();
         [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickAnimation = new UnityEvent();
+
+
+        protected virtual void OnEnable()
+        {
+            _onUnHoverAnimation.Invoke();
+        }
         
+        protected virtual void OnDisable()
+        {
+            _onUnHoverAnimation.Invoke();
+        }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
