@@ -17,8 +17,8 @@ namespace Project.Scripts.UIFramework
         [SerializeField, BoxGroup("Group/Settings/Text"), ShowIf("_enableText")] private bool _textSizeAuto;
         
         // Global settings
-        [SerializeField, BoxGroup("Group/Settings/Global settings"), ShowIf("@_enableIcon || _enableText")] private float _size = 24;
-        [SerializeField, BoxGroup("Group/Settings/Global settings"), ShowIf("@_enableIcon && _enableText")] private float _space = 10;
+        [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon || _enableText")] private float _size = 24;
+        [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon && _enableText")] private float _space = 10;
         
         // References
         [TabGroup("Group", "References")]

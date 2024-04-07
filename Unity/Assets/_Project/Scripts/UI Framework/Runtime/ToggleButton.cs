@@ -25,8 +25,8 @@ namespace Project.Scripts.UIFramework
         [SerializeField, BoxGroup("Group/Settings/Toggle")] private bool _callbackOnStart;
         [SerializeField, BoxGroup("Group/Settings/Toggle"), ReadOnly] private bool _toggle;
         // Global settings
-        [SerializeField, BoxGroup("Group/Settings/Global settings"), ShowIf("@_enableIcon || _enableText")] private float _size = 24;
-        [SerializeField, BoxGroup("Group/Settings/Global settings"), ShowIf("@_enableIcon && _enableText")] private float _space = 10;
+        [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon || _enableText")] private float _size = 24;
+        [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon && _enableText")] private float _space = 10;
         
         [TabGroup("Group", "References")]
         // Toggle off

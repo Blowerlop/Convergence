@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Project.Scripts.UIFramework
 {
-    public abstract class InteractibleUIElement : UIElement, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public abstract class InteractibleUIElement : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         // Settings
         [SerializeField, BoxGroup("Group/Settings/Sound")] private bool _playHoverSound = true;
