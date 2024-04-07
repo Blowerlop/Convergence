@@ -88,7 +88,7 @@ namespace Project.Scripts.UIFramework
             SetToggle(!_toggle);
         }
 
-        private void SetToggle(bool state)
+        public void SetToggle(bool state)
         {
             if (_toggle == state) return;
             
