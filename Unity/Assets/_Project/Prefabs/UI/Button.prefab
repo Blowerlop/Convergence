@@ -490,12 +490,12 @@ MonoBehaviour:
   _textSizeAuto: 0
   _size: 24
   _space: 10
+  _normalHorizontalLayoutGroup: {fileID: 3740791705152824052}
   _normalButtonText: {fileID: 6387468009397326614}
   _normalButtonIcon: {fileID: 5444037602112601249}
-  _normalHorizontalLayoutGroup: {fileID: 3740791705152824052}
+  _hoverHorizontalLayoutGroup: {fileID: 7709011844621381055}
   _hoverButtonText: {fileID: 634765528202599258}
   _hoverButtonIcon: {fileID: 888493408685111450}
-  _hoverHorizontalLayoutGroup: {fileID: 7709011844621381055}
 --- !u!1 &3016883511073334033
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.5921569, b: 0.3529412, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1218,7 +1218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.5921569, b: 0.3529412, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
