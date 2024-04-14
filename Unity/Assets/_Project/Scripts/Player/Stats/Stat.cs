@@ -72,8 +72,8 @@ namespace Project
         {
             if (min.CompareTo(max) == 1 || max.CompareTo(min) == -1) throw new InvalidOperationException();
 
-            if (value.CompareTo(min) == -1) return min;
-            if (value.CompareTo(max) == 1) return max;
+            if (val.CompareTo(min) == -1) return min;
+            if (val.CompareTo(max) == 1) return max;
 
             return val;
         }

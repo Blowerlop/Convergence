@@ -29,7 +29,7 @@ namespace Project.Spells
             if (!TryGetSpellData(user, spellIndex, out var spell)) return;
 
             if (playerRefs is PCPlayerRefs refs 
-                && !refs.StateMachine.CanChangeStateTo<CastingState>()) 
+                && (!refs.StateMachine.CanChangeStateTo<CastingState>() || refs.Entity.IsSilenced)) 
                 return;
             
             ChannelingController channelingController = playerRefs.Channeling;

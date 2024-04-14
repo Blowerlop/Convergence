@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3843953381
+  GlobalObjectIdHash: 2890608846
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   moveDuration: 1
   hasImpactPhase: 1
   _impactObject: {fileID: 6851326278088444375}
-  _impactDuration: 4
+  _impactDuration: 2
 --- !u!114 &4378435209445225498
 MonoBehaviour:
   m_ObjectHideFlags: 0

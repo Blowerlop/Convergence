@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1919485121446949645}
   - component: {fileID: 6587469655808249683}
   m_Layer: 0
-  m_Name: DebuffZone_Visual
+  m_Name: SlowZone_Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 7774840793179866475}
   - component: {fileID: 4839899725849509034}
   m_Layer: 0
-  m_Name: DebuffSpell
+  m_Name: SlowSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1371562031
+  GlobalObjectIdHash: 2883453061
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1450cfb12863409685a425374204f574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Data>k__BackingField: {fileID: 11400000, guid: bdbd41bec2ec6604f932f40cf4dc7415,
+  <Data>k__BackingField: {fileID: 11400000, guid: aff1ad33ede6f6a4a888971e38171c08,
     type: 2}
   _layerMask:
     serializedVersion: 2
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: DebuffSpell
+  prefabId: SlowSpell
   UnrealOwnerAddress: 
   hasBeenSpawnedOnGrpc: 0
 --- !u!1 &9021965395715004859
@@ -405,7 +405,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad3f98c866a3ed942a4fe2c1882e3c6b, type: 2}
+  - {fileID: 2100000, guid: 2017655a191d7604eaecfc393062a58d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

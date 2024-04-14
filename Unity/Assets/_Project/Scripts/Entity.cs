@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Project._Project.Scripts
 {
-    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable, IShieldable, IEffectable/*, ITargetable*/
+    public abstract class Entity : NetworkBehaviour, IHealable, IDamageable, IShieldable, IEffectable, ISilenceable/*, ITargetable*/
     {
         [field: ShowInInspector, ReadOnly, ServerField] public SOEntity data { get; private set; }
         [SerializeField] protected PlayerStats _stats;
@@ -17,6 +17,10 @@ namespace Project._Project.Scripts
 
         public Entity AffectedEntity => this;
         public IList<Effect> AppliedEffects { get; } = new List<Effect>();
+        
+        public bool IsSilenced => _isSilenced.Value;
+        private GRPC_NetworkVariable<bool> _isSilenced = new GRPC_NetworkVariable<bool>("IsSilenced");
+        public event Action<bool> OnSilenceChanged;
         
         private bool _isInit;
         private event Action _onEntityInit;
@@ -31,6 +35,24 @@ namespace Project._Project.Scripts
                 else _onEntityInit += value;
             }
             remove => _onEntityInit -= value;
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            _isSilenced.Initialize();
+            
+            SilenceChanged(false, _isSilenced.Value);
+            _isSilenced.OnValueChanged += SilenceChanged;
+        }
+        
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            
+            _isSilenced.OnValueChanged -= SilenceChanged;
+            _isSilenced.Reset();
         }
 
         [Server]
@@ -130,5 +152,21 @@ namespace Project._Project.Scripts
         }
         
         #endregion
+
+
+        public void Silence()
+        {
+            _isSilenced.Value = true;
+        }
+
+        public void Unsilence()
+        {
+            _isSilenced.Value = false;
+        }
+
+        private void SilenceChanged(bool oldValue, bool newValue)
+        {
+            OnSilenceChanged?.Invoke(newValue);
+        }
     }
 }

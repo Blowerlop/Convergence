@@ -38,12 +38,15 @@ namespace Project._Project.Scripts.StateMachine
                 
                 currentState = defaultState;
                 currentState.Enter(_playerRefs);
+                
+                _currentStateType.Value = currentState.GetType().Name;
                 Debug.Log($"<color=#00D8FF>[{_playerRefs.PlayerTransform.name}]</color> <color=orange>Entered default state '{currentState}'</color>");
             }
             else if (this.IsClientOnly())
             {
                 enabled = false;
                 
+                OnCurrentStateTypeChanged(default, _currentStateType.Value);
                 _currentStateType.OnValueChanged += OnCurrentStateTypeChanged;
             }
         }

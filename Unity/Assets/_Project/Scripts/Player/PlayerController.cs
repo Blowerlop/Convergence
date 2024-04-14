@@ -38,6 +38,8 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             _currentAnimation.Initialize();
             
             if (IsServer)

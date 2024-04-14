@@ -36,8 +36,6 @@ namespace Project.Effects
         public override void KillEffect()
         {
             if (!HasDuration) return;
-
-            Debug.Log("Kill shield effect");
             
             RemoveFromEffectable();
             

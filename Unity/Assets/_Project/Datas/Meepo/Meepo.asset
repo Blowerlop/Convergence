@@ -20,10 +20,10 @@ MonoBehaviour:
     type: 3}
   <model>k__BackingField: {fileID: 0}
   spells:
-  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
-  - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
   - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
-  - {fileID: 11400000, guid: 6ec28a5f5a72a5e48907798daba5f913, type: 2}
+  - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
+  - {fileID: 11400000, guid: 1f033f4f62b63e9459a07a9d2e357ba8, type: 2}
+  - {fileID: 11400000, guid: 83d8c652c61a3a040af16cf4816dba96, type: 2}
   stats:
   - rid: 8967663378920636439
   - rid: 8967663378920636440
@@ -43,7 +43,7 @@ MonoBehaviour:
       data:
         _defaultValue: 3
         _value: 3
-        _minValue: 0
+        _minValue: 1
         _maxValue: 999
     - rid: 2778045199733227520
       type: {class: ShieldStat, ns: Project, asm: Assembly-CSharp}

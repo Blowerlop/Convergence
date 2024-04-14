@@ -72,8 +72,6 @@ namespace Project
             var shield = _appliedShields.Find(s => s != null && s.ID == id);
             if (shield == null) return;
             
-            Debug.Log("Removing shield: " + shield.ID);
-            
             _nValue.Value -= shield.Amount;
             _appliedShields.Remove(shield);
         }
