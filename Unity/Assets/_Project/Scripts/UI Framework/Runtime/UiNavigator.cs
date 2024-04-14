@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -10,31 +9,18 @@ namespace Project.Scripts.UIFramework
 {
     public class UiNavigator : MonoBehaviour, IPointerClickHandler
     {
-        public static List<UiNavigator> _navigators = new List<UiNavigator>();
-        [ShowInInspector, ReadOnly] private List<UiNavigable> _navigation = new List<UiNavigable>();
+        [ShowInInspector, ReadOnly] private static List<UiNavigable> _navigables = new List<UiNavigable>();
 
-
-        private void OnEnable()
+        
+        private void Initialized()
         {
-            if (_navigators.Any() == false)
-            {
-                CursorManager.Request(CursorLockMode.Confined, true);
-            }
-            
-            _navigators.Add(this);
-
+            CursorManager.Request(CursorLockMode.Confined, true);
             InputManager.instance.onEscapeKey.performed += CloseElement;
         }
 
-        private void OnDisable()
+        private void UnInitialized()
         {
-            if (_navigators.Any() == false)
-            {
-                CursorManager.Release();
-            }
-            
-            _navigators.Remove(this);
-
+            CursorManager.Release();
             if (InputManager.IsInstanceAlive())
             {
                 InputManager.instance.onEscapeKey.performed -= CloseElement;
@@ -46,31 +32,36 @@ namespace Project.Scripts.UIFramework
             CloseElement(default);
         }
 
-        private bool IsNavigating()
+        public static bool IsNavigating()
         {
-            return _navigation.Count > 0;
+            return _navigables.Any();
         }
         
         public void Register(UiNavigable element)
         {
-            _navigation.Add(element);
-            _navigation = _navigation.OrderBy(x => x.hierarchyDepth).ToList();
+            _navigables.Add(element);
+            _navigables = _navigables.OrderBy(x => x.hierarchyDepth).ToList();
+
+            
+            if (_navigables.Count == 1) Initialized();
         }
         
         public void UnRegister(UiNavigable element)
         {
-            _navigation.Remove(element);
+            _navigables.Remove(element);
+            
+            if (_navigables.Count == 0) UnInitialized();
         }
 
         private void CloseElement(InputAction.CallbackContext _)
         {
             if (IsNavigating() == false)
             {
-                Debug.LogError("Not navigating while trying to navigate. This is a bug.");
+                Debug.LogError("Trying to close an element where the is no more registered. This is a bug.");
                 return;
             }
 
-            _navigation[^1].Close();
+            _navigables[^1].Close();
         }
     }
 }

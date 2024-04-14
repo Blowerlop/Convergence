@@ -21,7 +21,7 @@ namespace Project._Project.Scripts.UI.Settings
         [ShowInInspector, HideIf("@gameplaySettings == null")] private bool value => gameplaySettings is { value: true };
 #endif
 
-        [SerializeField, HideInInspector] private string key;
+        [SerializeField, HideInInspector] private string _key;
         [HideInInspector] public GameplaySettings gameplaySettings;
         [ClearOnReload] private static IEnumerable<GameplaySettings> _gameplaySettingsFields;
 
@@ -65,7 +65,7 @@ namespace Project._Project.Scripts.UI.Settings
                     .Cast<GameplaySettings>();
             }
 
-            gameplaySettings = _gameplaySettingsFields.First(x => x.key == key);
+            gameplaySettings = _gameplaySettingsFields.First(x => x.key == _key);
         }
     }
 

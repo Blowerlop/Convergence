@@ -1,3 +1,4 @@
+using Project.Scripts.UIFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,8 @@ namespace Project
 
         private void Toggle(InputAction.CallbackContext _)
         {
+            if (UiNavigator.IsNavigating()) return;
+            
             bool active = !_menu.activeSelf;
             _menu.SetActive(active);
             

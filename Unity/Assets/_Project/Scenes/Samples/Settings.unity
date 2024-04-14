@@ -2802,7 +2802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b7057f10d470d4ebf27d7339c92322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiNavigator: {fileID: 1439883789}
+  _navigator: {fileID: 1439883789}
   <hierarchyDepth>k__BackingField: 2
   _onShow:
     m_PersistentCalls:
@@ -8847,7 +8847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b7057f10d470d4ebf27d7339c92322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiNavigator: {fileID: 1439883789}
+  _navigator: {fileID: 1439883789}
   <hierarchyDepth>k__BackingField: 3
   _onShow:
     m_PersistentCalls:
