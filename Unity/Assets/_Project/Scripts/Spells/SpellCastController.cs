@@ -1,5 +1,5 @@
 using System.Linq;
-using Project._Project.Scripts.Spells;
+using Project._Project.Scripts.Player.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -88,7 +88,8 @@ namespace Project.Spells.Casters
                     continue;
                 }
                 
-                if(prefab.CastResultType != spellData.requiredResultType)
+                // This should not happen, but just in case
+                if(prefab.CastResultType != spellData.RequiredResultType)
                 {
                     Debug.LogError($"Spell {spellData.spellId}'s requiredResultType and SpellCaster prefab's ChannelingResultType are different!\n" +
                                    $"Maybe you forgot to set the requiredResultType or you picked a SpellCaster prefab that doesn't return the right type.");
@@ -108,6 +109,8 @@ namespace Project.Spells.Casters
                 Debug.LogError($"Spell index {spellIndex} is out of range.");
                 return;
             }
+
+            if (!CanSwitchState()) return;
             
             if(_channelingController.IsChanneling) return;
             
@@ -116,11 +119,11 @@ namespace Project.Spells.Casters
             if (_cooldowns.IsInCooldown(spellIndex)) return;
             
             _currentCastingIndex = spellIndex;
-            _spellCasters[spellIndex].StartChanneling();
-            
-            //If the spell is instant, get the results right away
-                //var results = _spellCasters[spellIndex].GetResults();
-                //Ask SpellManager to spawn the according spell with the results
+            _spellCasters[spellIndex].StartCasting();
+
+            // Instant spells should be casted immediately
+            if (_spells[spellIndex].isInstant)
+                StopCasting(_currentCastingIndex.Value);
         }
 
         private void StopCasting(InputAction.CallbackContext _)
@@ -138,13 +141,15 @@ namespace Project.Spells.Casters
                 return;
             }
             
+            if (!CanSwitchState()) return;
+            
             var caster = _spellCasters[spellIndex];
             
             if (!caster.IsCasting) return;
 
             _currentCastingIndex = null;
             
-            caster.StopChanneling();
+            caster.StopCasting();
             caster.EvaluateResults();
             
             caster.TryCast(spellIndex);
@@ -162,7 +167,10 @@ namespace Project.Spells.Casters
 
             _currentCastingIndex = null;
             
-            caster.StopChanneling();
+            caster.StopCasting();
         }
+        
+        private bool CanSwitchState() => _player is not PCPlayerRefs pcPlayer
+                                        || (pcPlayer.StateMachine.CanChangeStateTo<CastingState>() && !pcPlayer.Entity.IsSilenced);
     }
 }

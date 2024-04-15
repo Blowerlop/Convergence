@@ -38,6 +38,8 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             _currentAnimation.Initialize();
             
             if (IsServer)
@@ -74,7 +76,10 @@ namespace Project
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
-            if (currentHealth <= 0) _refs.StateMachine.ChangeStateTo<DeadState>();
+            if (currentHealth <= 0)
+            {
+                _refs.StateMachine.ChangeStateTo<DeadState>();
+            }
         }
 
         private void OnStatsInitialized_HookHealth()

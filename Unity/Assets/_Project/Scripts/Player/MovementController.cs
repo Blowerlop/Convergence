@@ -5,12 +5,13 @@ using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
+        private PCPlayerRefs _playerRefs;
+        
         private Transform _player;
         private StateMachineController _stateMachineController;
         
@@ -19,7 +20,6 @@ namespace Project
         private const float _DESTINATION_REACHED_OFFSET = 0.1f;
         
         public event Action OnPositionReached;
-
         
         private void Awake()
         {
@@ -30,17 +30,20 @@ namespace Project
         {
             enabled = IsServer;
             
-            PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
-            NavMeshAgent agent = playerRefs.NavMeshAgent; 
-                
+            _playerRefs = GetComponentInParent<PCPlayerRefs>();
+            NavMeshAgent agent = _playerRefs.NavMeshAgent;
+            
             if (IsServer)
             {
-                _player = playerRefs.PlayerTransform;
+                _player = _playerRefs.PlayerTransform;
 
                 _agent = agent;
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
+
+                if (_playerRefs.Entity.Stats.isInitialized) OnStatsInitialized();
+                else _playerRefs.Entity.Stats.OnStatsInitialized += OnStatsInitialized;
             }
             else
             {
@@ -49,9 +52,19 @@ namespace Project
 
             if (IsOwner)
             {
-                playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
+                _playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
             }
-        } 
+        }
+
+        private void OnStatsInitialized()
+        {
+            _playerRefs.Entity.Stats.OnStatsInitialized -= OnStatsInitialized;
+            
+            var moveSpeed = _playerRefs.Entity.Stats.Get<MoveSpeedStat>();
+
+            OnSpeedChanged(moveSpeed.value, moveSpeed.maxValue);
+            moveSpeed.OnValueChanged += OnSpeedChanged;
+        }
 
         public override void OnNetworkDespawn()
         {
@@ -121,6 +134,12 @@ namespace Project
             {
                 _stateMachineController.ChangeStateTo<IdleState>();
             }
+        }
+        
+        [Server]
+        private void OnSpeedChanged(int current, int max)
+        {
+            _agent.speed = current;
         }
     }
 }

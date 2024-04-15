@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 6101706236419395280}
   - component: {fileID: 42682067660215488}
   - component: {fileID: 7502236223278126093}
+  - component: {fileID: 7682710341091089194}
   m_Layer: 6
   m_Name: Stats
   m_TagString: Untagged
@@ -138,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
   <nHealthStat>k__BackingField: {fileID: 7502236223278126093}
+  <nShieldStat>k__BackingField: {fileID: 7682710341091089194}
   isInitialized: 0
 --- !u!114 &7502236223278126093
 MonoBehaviour:
@@ -152,6 +154,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerStats: {fileID: 42682067660215488}
+  maxOnInit: 1
+  _debug: 0
+--- !u!114 &7682710341091089194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296427854538218746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998138dd3a444cae95f7e7851b1c4268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerStats: {fileID: 42682067660215488}
+  maxOnInit: 0
   _debug: 0
 --- !u!1 &2007026922932564193
 GameObject:

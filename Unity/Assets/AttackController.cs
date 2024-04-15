@@ -178,6 +178,9 @@ namespace Project
         public void Hit()
         {
             if (IsServer == false) return;
+            
+            // We have lost the target during the attack because we wanted to cancel the attack but the animation transition made it to this point
+            if (targetNetworkObject == null) return;
 
             if (_isRanged)
             {

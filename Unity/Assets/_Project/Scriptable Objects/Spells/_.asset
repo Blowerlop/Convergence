@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90674e77ea264a1fb266c299f817de8b, type: 3}
   m_Name: _
   m_EditorClassIdentifier: 
+  resultTypeSelection: 
+  requiredCaster: {fileID: 0}
   spellId: _
   spellIdHash: -1
-  requiredCaster: {fileID: 0}
-  requiredResultType: 0
   spellPrefab: {fileID: 0}
+  isInstant: 0
   cooldown: 0
   channelingTime: 0
-  baseDamage: 0
+  effects: []
+  references:
+    version: 2
+    RefIds: []
