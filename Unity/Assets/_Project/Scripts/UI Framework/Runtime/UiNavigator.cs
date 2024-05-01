@@ -16,6 +16,7 @@ namespace Project.Scripts.UIFramework
         {
             CursorManager.Request(CursorLockMode.Confined, true);
             InputManager.instance.onEscapeKey.performed += CloseElement;
+            if (InputManager.instance.currentActionMap.name != "UI") InputManager.instance.SwitchActionMap("UI");
         }
 
         private void UnInitialized()
@@ -24,6 +25,7 @@ namespace Project.Scripts.UIFramework
             if (InputManager.IsInstanceAlive())
             {
                 InputManager.instance.onEscapeKey.performed -= CloseElement;
+                InputManager.instance.SwitchActionMap(InputManager.instance.previousActionMap);
             }
         }
         

@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Project.Extensions;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +9,6 @@ namespace Project.Scripts.UIFramework
 {
     public class Setting : InteractibleUIElement
     {
-        [TabGroup("Group", "Settings")] 
         [SerializeField, BoxGroup("Group/Settings/Text")] private string _content;
         [SerializeField, BoxGroup("Group/Settings/Text")] private bool _textSizeAuto;
         [SerializeField, BoxGroup("Group/Settings/Text"), HideIf("@_textSizeAuto")] private float _size = 24;

@@ -50,7 +50,6 @@ namespace Project._Project.Scripts.UI.Settings
         private void SetValue(bool state)
         {
             gameplaySettings.value = state;
-            Debug.Log(state);
         }
 
         private void LinkReference()
@@ -120,7 +119,7 @@ namespace Project._Project.Scripts.UI.Settings
             
             t.gameplaySettings = _gameplaySettingsContainers[index];
 
-            var keySerialized = serializedObject.FindProperty("key");
+            var keySerialized = serializedObject.FindProperty("_key");
             keySerialized.stringValue = _key;
             serializedObject.ApplyModifiedProperties(); 
         }

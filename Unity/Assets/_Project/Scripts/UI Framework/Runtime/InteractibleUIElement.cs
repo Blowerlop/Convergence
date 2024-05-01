@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+
 namespace Project.Scripts.UIFramework
 {
     public abstract class InteractibleUIElement : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         // Settings
+        [TabGroup("Group", "Settings")] 
         [SerializeField, BoxGroup("Group/Settings/Sound")] private bool _playHoverSound = true;
         [SerializeField, BoxGroup("Group/Settings/Sound")] private bool _playClickSound = true;
         
@@ -24,6 +26,7 @@ namespace Project.Scripts.UIFramework
         [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickDownAnimation = new UnityEvent();
         [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickUpAnimation = new UnityEvent();
         [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickAnimation = new UnityEvent();
+        
 
 
         protected virtual void OnEnable()

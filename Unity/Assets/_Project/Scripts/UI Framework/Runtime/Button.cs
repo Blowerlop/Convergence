@@ -8,7 +8,6 @@ namespace Project.Scripts.UIFramework
     public class Button : InteractibleUIElement
     {
         // Icon
-        [TabGroup("Group", "Settings")]
         [SerializeField, BoxGroup("Group/Settings/Icon")] private bool _enableIcon = true;
         [SerializeField, BoxGroup("Group/Settings/Icon"), ShowIf("_enableIcon")] private Sprite _icon;
         // Text
@@ -19,9 +18,14 @@ namespace Project.Scripts.UIFramework
         // Global settings
         [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon || _enableText")] private float _size = 24;
         [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon && _enableText")] private float _space = 10;
+        // [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon && _enableText")] private EColorType _textIconColorType = EColorType.Secondary;
+        [SerializeField, BoxGroup("Group/Settings/Global")] private bool _enableBackground = true;
+        // [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableBackground")] private EColorType _backgroundColorType = EColorType.Primary;
         
         // References
         [TabGroup("Group", "References")]
+        [SerializeField, BoxGroup("Group/References/Background")] private Image _background;
+        
         [SerializeField, BoxGroup("Group/References/Normal")] private HorizontalLayoutGroup _normalHorizontalLayoutGroup;
         [SerializeField, BoxGroup("Group/References/Normal")] private TMP_Text _normalButtonText;
         [SerializeField, BoxGroup("Group/References/Normal")] private Image _normalButtonIcon;
@@ -29,6 +33,7 @@ namespace Project.Scripts.UIFramework
         [SerializeField, BoxGroup("Group/References/Hover")] private HorizontalLayoutGroup _hoverHorizontalLayoutGroup;
         [SerializeField, BoxGroup("Group/References/Hover")] private TMP_Text _hoverButtonText;
         [SerializeField, BoxGroup("Group/References/Hover")] private Image _hoverButtonIcon;
+        
 
         
         protected virtual void OnValidate()
@@ -40,6 +45,8 @@ namespace Project.Scripts.UIFramework
                 _normalHorizontalLayoutGroup.spacing = _space;
                 _hoverHorizontalLayoutGroup.spacing = _space;
             }
+            
+            _background.gameObject.SetActive(_enableBackground);
         }
 
         protected virtual void SetupIcon()

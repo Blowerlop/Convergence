@@ -490,6 +490,8 @@ MonoBehaviour:
   _textSizeAuto: 0
   _size: 24
   _space: 10
+  _enableBackground: 1
+  _background: {fileID: 7677000644041745445}
   _normalHorizontalLayoutGroup: {fileID: 3740791705152824052}
   _normalButtonText: {fileID: 6387468009397326614}
   _normalButtonIcon: {fileID: 5444037602112601249}
@@ -854,7 +856,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 161.36145, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1632187939394947175
@@ -1287,7 +1289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 161.36145, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2722487293918724028

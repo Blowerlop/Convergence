@@ -130,48 +130,73 @@ namespace Project
     [Serializable]
     public class QualitySettingsUI
     {
-        [SerializeField] private Button _lowQualityButton;
-        [SerializeField] private Button _mediumQualityButton;
-        [SerializeField] private Button _HighButton;
+        // [SerializeField] private Button _lowQualityButton;
+        // [SerializeField] private Button _mediumQualityButton;
+        // [SerializeField] private Button _HighButton;
+        
+        
+        // public void Start()
+        // {
+        //     switch (VideoSettingsManager.quality.currentQualityIndex)
+        //     {
+        //         case 0:
+        //             _lowQualityButton.Select();
+        //             break;
+        //         
+        //         case 1:
+        //             _mediumQualityButton.Select();
+        //             break;
+        //         
+        //         case 2:
+        //             _HighButton.Select();
+        //             break;
+        //     }
+        // }
 
+        // public void Enable()
+        // {
+        //     _lowQualityButton.onClick.AddListener(SetLowQuality);
+        //     _mediumQualityButton.onClick.AddListener(SetMediumQuality);
+        //     _HighButton.onClick.AddListener(SetHighQuality);
+        // }
+        //
+        // public void Disable()
+        // {
+        //     _lowQualityButton.onClick.RemoveListener(SetLowQuality);
+        //     _mediumQualityButton.onClick.RemoveListener(SetMediumQuality);
+        //     _HighButton.onClick.RemoveListener(SetHighQuality);
+        // }
 
-        public void Start()
+        
+        public void SetQuality(int index)
         {
-            switch (VideoSettingsManager.quality.currentQualityIndex)
+            switch (index)
             {
-                case 0:
-                    _lowQualityButton.Select();
-                    break;
-                
                 case 1:
-                    _mediumQualityButton.Select();
+                    SetLowQuality();
                     break;
                 
                 case 2:
-                    _HighButton.Select();
+                    SetMediumQuality();
                     break;
+                
+                case 3:
+                    SetHighQuality();
+                    break;
+                
+                case 4:
+                    SetCustomQuality();
+                    break;
+                
+                default:
+                    throw new IndexOutOfRangeException();
             }
         }
-
-        public void Enable()
-        {
-            _lowQualityButton.onClick.AddListener(SetLowQuality);
-            _mediumQualityButton.onClick.AddListener(SetMediumQuality);
-            _HighButton.onClick.AddListener(SetHighQuality);
-        }
         
-        public void Disable()
-        {
-            _lowQualityButton.onClick.RemoveListener(SetLowQuality);
-            _mediumQualityButton.onClick.RemoveListener(SetMediumQuality);
-            _HighButton.onClick.RemoveListener(SetHighQuality);
-        }
-
-
-        private void SetLowQuality() => VideoSettingsManager.quality.SetLowQuality();
-        private void SetMediumQuality() => VideoSettingsManager.quality.SetMediumQuality();
-        private void SetHighQuality() => VideoSettingsManager.quality.SetHighQuality();
-        private void SetCustomQuality() => VideoSettingsManager.quality.SetCustomQuality();
+        public void SetLowQuality() => VideoSettingsManager.quality.SetLowQuality();
+        public void SetMediumQuality() => VideoSettingsManager.quality.SetMediumQuality();
+        public void SetHighQuality() => VideoSettingsManager.quality.SetHighQuality();
+        public void SetCustomQuality() => VideoSettingsManager.quality.SetCustomQuality();
     }
 
     [Serializable]
@@ -239,21 +264,21 @@ namespace Project
         private void Start()
         {
             _resolutionSettingsUISettingsUI.Start();
-            _qualitySettingsUI.Start();
+            // _qualitySettingsUI.Start();
             _frameRateSettingsUI.Start();
         }
         
         private void OnEnable()
         {
             _resolutionSettingsUISettingsUI.Enable();
-            _qualitySettingsUI.Enable();
+            // _qualitySettingsUI.Enable();
             _frameRateSettingsUI.Enable();
         }
         
         private void OnDisable()
         {
             _resolutionSettingsUISettingsUI.Disable();
-            _qualitySettingsUI.Disable();
+            // _qualitySettingsUI.Disable();
             _frameRateSettingsUI.Disable();
         }
     }

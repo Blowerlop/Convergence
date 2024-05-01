@@ -10,7 +10,6 @@ namespace Project.Scripts.UIFramework
 {
     public class ToggleButton : InteractibleUIElement
     {
-        [TabGroup("Group", "Settings")]
         // Icon
         [SerializeField, BoxGroup("Group/Settings/Icon")] private bool _enableIcon = true;
         [SerializeField, BoxGroup("Group/Settings/Icon"), ShowIf("_enableIcon")] private Sprite _toggleOffIcon;
@@ -28,8 +27,8 @@ namespace Project.Scripts.UIFramework
         [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon || _enableText")] private float _size = 24;
         [SerializeField, BoxGroup("Group/Settings/Global"), ShowIf("@_enableIcon && _enableText")] private float _space = 10;
         
-        [TabGroup("Group", "References")]
         // Toggle off
+        [TabGroup("Group", "References")]
         [SerializeField, BoxGroup("Group/References/ToggleOff")] private HorizontalLayoutGroup _horizontalLayoutGroupOff;
         [SerializeField, BoxGroup("Group/References/ToggleOff")] private TMP_Text _textOff;
         [SerializeField, BoxGroup("Group/References/ToggleOff")] private Image _imageOff;
