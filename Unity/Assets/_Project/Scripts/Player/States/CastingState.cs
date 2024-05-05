@@ -1,9 +1,10 @@
+using System;
 using Project._Project.Scripts.StateMachine;
 using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class CastingState : BaseStateMachine
+    public class CastingState : BaseStateMachineBehaviour
     {
         protected override void OnEnter()
         {
@@ -15,9 +16,10 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.Animator.SetBool(Constants.AnimatorsParam.Channeling, false);
         }
         
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
-            return newStateMachine is IdleState;
+            Type type = typeof(T);
+            return type == typeof(IdleState) || type == typeof(MoveState);
         }
 
         public override string ToString()

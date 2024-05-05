@@ -1,6 +1,8 @@
 using System;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
 using Project.Spells;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project
@@ -8,6 +10,10 @@ namespace Project
     public class PlayerController : Entity
     {
         [SerializeField] private PCPlayerRefs _refs;
+
+        private int _currentAnimationHash;
+        [ShowInInspector] private GRPC_NetworkVariable<int> _currentAnimation  = new GRPC_NetworkVariable<int>("CurrentAnimation");
+        public AnimatorOverrideController _attackOverrideController => ((SOCharacter)data)._attackOverrideController;
 
         public override int TeamIndex => _refs.TeamIndex;
 
@@ -32,9 +38,17 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
+            _currentAnimation.Initialize();
+            
             if (IsServer)
             {
-                _stats.health.OnValueChanged += OnHealthChanged_CheckIfDead;
+                if (_stats.isInitialized)
+                {
+                    OnStatsInitialized_HookHealth();
+                }
+                else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
             }
         }
 
@@ -42,13 +56,36 @@ namespace Project
         {
             base.OnNetworkDespawn();
             
-            if (IsServer) _stats.health.OnValueChanged -= OnHealthChanged_CheckIfDead;
+            _currentAnimation.Reset();
+            
+            if (IsServer) _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged_CheckIfDead;
         }
-    
+        
+        private void Update()
+        {
+            if (IsServer == false) return;
+            
+            // Shit
+            int animationHash = _refs.Animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+            if (animationHash == _currentAnimationHash) return;
+            
+            _currentAnimationHash = animationHash;
+            _currentAnimation.Value = AnimatorStates.grpcHash[_currentAnimationHash];
+        }
+
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
-            if (currentHealth <= 0) _refs.StateMachine.ChangeState(_refs.StateMachine.deadState);
+            if (currentHealth <= 0)
+            {
+                _refs.StateMachine.ChangeStateTo<DeadState>();
+            }
+        }
+
+        private void OnStatsInitialized_HookHealth()
+        {
+            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged_CheckIfDead;
+            _stats.OnStatsInitialized -= OnStatsInitialized_HookHealth;
         }
     }
 }

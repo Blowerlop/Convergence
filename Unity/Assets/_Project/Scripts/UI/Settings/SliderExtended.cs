@@ -7,11 +7,7 @@ namespace Project._Project.Scripts.UI.Settings
     public class SliderExtended : Slider
     {
         [SerializeField] private SliderEvent m_OnPointerUp = new SliderEvent();
-        public SliderEvent onPointerUp
-        {
-            get => m_OnPointerUp;
-            set => m_OnPointerUp = value;
-        }
+        public SliderEvent onPointerUp => m_OnPointerUp;
 
         public override void OnPointerUp(PointerEventData eventData)
         {

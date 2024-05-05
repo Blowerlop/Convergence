@@ -142,9 +142,9 @@ namespace Project
                     HandleUnrealClientUpdate(_unrealClientStream.ResponseStream.Current);
                 }
             }
-            catch (RpcException)
+            catch (RpcException e)
             {
-                if (isConnected) StopClient();
+                Debug.LogError(e);
             }
         }
 

@@ -27,8 +27,10 @@ namespace Project
         [ShowInInspector] private readonly int _variableHashName;
         private GRPC_GenericType _currentType = GRPC_GenericType.Isnull;
         private int _netId;
+        private NetworkBehaviour _networkBehaviour;
 
         private bool _isGrpcSync;
+        private GRPC_NetworkObjectSyncer _netObjectSyncer;
 
         
         public GRPC_NetworkVariable(string variableName, T value = default,
@@ -47,8 +49,8 @@ namespace Project
 
         public void Initialize()
         {
-            NetworkBehaviour networkBehaviour = GetBehaviour();
-            if (!networkBehaviour.IsServer && !networkBehaviour.IsHost) return;
+            _networkBehaviour = GetBehaviour();
+            if (!_networkBehaviour.IsServer && !_networkBehaviour.IsHost) return;
             
             if (GRPC_NetworkManager.instance.isConnected)
             {
@@ -81,9 +83,12 @@ namespace Project
             _netId = (int)networkBehaviour.GetComponentInParent<NetworkObject>().NetworkObjectId;
             
             _currentType = GetGrpcGenericType();
+            _netObjectSyncer = networkBehaviour.GetComponentInParent<GRPC_NetworkObjectSyncer>();
+            _netObjectSyncer.onNetworkObjectHasSpawnedOnGrpc += Sync;
             
             _sendStream = _client.GRPC_SrvNetVarUpdate();
             _sendStreamCancellationTokenSource = new CancellationTokenSource();
+            
             
             Sync();
             GetBehaviour().StartCoroutine(WaitAndTrySyncNewUnrealClient());
@@ -109,7 +114,7 @@ namespace Project
             if (syncer.IsOwnedByUnrealClient)
             {
                 Debug.Log("Unreal client connected, sync vars");
-                Sync();
+                // Sync();
             }
         }
 
@@ -117,76 +122,89 @@ namespace Project
         {
             UpdateVariableOnGrpc(newValue);
         }
-        
-        private async void UpdateVariableOnGrpc(T newValue)
+
+        private void UpdateVariableOnGrpc(T newValue)
         {
             if (GRPC_NetworkManager.instance.isConnected == false) return;
+
+            if (_netObjectSyncer.hasBeenSpawnedOnGrpc == false) return;
             
             try
             {
-                object valueToEncodeInJson;
-                bool autoJsonSerialization = true;
-                
-                if (newValue is FixedString32Bytes or FixedString64Bytes or FixedString128Bytes)
-                {
-                    if (newValue is FixedString32Bytes string32Bytes)
-                    {
-                        valueToEncodeInJson = string32Bytes.Value;
-                    }
-                    else if (newValue is FixedString64Bytes string64Bytes)
-                    {
-                        valueToEncodeInJson = string64Bytes.Value;
-                    }
-                    else if (newValue is FixedString128Bytes string128Bytes)
-                    {
-                        valueToEncodeInJson = string128Bytes.Value;
-                    }
-                    else
-                    {
-                        valueToEncodeInJson = null;
-                    }
-                }
-                else if (newValue is NetworkVector3Simplified)
-                {
-                    autoJsonSerialization = false;
-                    NetworkVector3Simplified networkString = (NetworkVector3Simplified)Convert.ChangeType(newValue, typeof(NetworkVector3Simplified));
-                    valueToEncodeInJson = $"X={networkString.x},Y={networkString.y},Z={networkString.z}";
-                }
-                else
-                {
-                    valueToEncodeInJson = newValue;
-                }
-                
-                string jsonEncode;
-                if (autoJsonSerialization)
-                {
-                    jsonEncode = JsonConvert.SerializeObject(valueToEncodeInJson, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    });
-                }
-                else
-                {
-                    jsonEncode = (string)valueToEncodeInJson;
-                }
+                string jsonEncode = ValueToJson(newValue);
                 
                 GRPC_NetVarUpdate result = new GRPC_NetVarUpdate()
                 {
                     NetId = _netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
 
-                await _sendStream.RequestStream.WriteAsync(result, _sendStreamCancellationTokenSource.Token);
-                // Debug.Log($"Network Variable updated, send info to the grpcServer... Value : {newValue}");
+                GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetVarUpdate>(_sendStream.RequestStream, result, _sendStreamCancellationTokenSource));
             }
-            catch (IOException)
+            catch (IOException e)
             {
-                GRPC_NetworkManager.instance.StopClient(); 
+                Debug.LogError(e);
             }
         }
 
+        public void Sync(bool value)
+        {
+            if (value) Sync();
+        }
+        
         public void Sync()
         {
             UpdateVariableOnGrpc(Value);
+        }
+
+        private string ValueToJson(T newValue)
+        {
+            object valueToEncodeInJson;
+            bool autoJsonSerialization = true;
+                
+            if (newValue is FixedString32Bytes or FixedString64Bytes or FixedString128Bytes)
+            {
+                if (newValue is FixedString32Bytes string32Bytes)
+                {
+                    valueToEncodeInJson = string32Bytes.Value;
+                }
+                else if (newValue is FixedString64Bytes string64Bytes)
+                {
+                    valueToEncodeInJson = string64Bytes.Value;
+                }
+                else if (newValue is FixedString128Bytes string128Bytes)
+                {
+                    valueToEncodeInJson = string128Bytes.Value;
+                }
+                else
+                {
+                    valueToEncodeInJson = null;
+                }
+            }
+            else if (newValue is NetworkVector3Simplified)
+            {
+                autoJsonSerialization = false;
+                NetworkVector3Simplified networkString = (NetworkVector3Simplified)Convert.ChangeType(newValue, typeof(NetworkVector3Simplified));
+                valueToEncodeInJson = $"X={networkString.x},Y={networkString.y},Z={networkString.z}";
+            }
+            else
+            {
+                valueToEncodeInJson = newValue;
+            }
+                
+            string jsonEncode;
+            if (autoJsonSerialization)
+            {
+                jsonEncode = JsonConvert.SerializeObject(valueToEncodeInJson, Formatting.Indented, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+            }
+            else
+            {
+                jsonEncode = (string)valueToEncodeInJson;
+            }
+
+            return jsonEncode;
         }
 
         private static GRPC_GenericType GetGrpcGenericType()
@@ -235,6 +253,8 @@ namespace Project
             {
                 OnValueChanged -= OnValueChange_WriteInStream;
             }
+
+            _netObjectSyncer.onNetworkObjectHasSpawnedOnGrpc -= Sync;
             
             _sendStreamCancellationTokenSource?.Cancel();
             _sendStreamCancellationTokenSource?.Dispose();

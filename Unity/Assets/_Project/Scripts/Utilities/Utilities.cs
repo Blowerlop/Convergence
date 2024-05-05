@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 using GRPCClient;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +11,9 @@ namespace Project
 {
     public class Utilities : MonoBehaviour
     {
+        // DeclaredOnly, Instance, Static, Public, NonPublic
+        public const BindingFlags BINDING_FLAGS_DEBUG = (BindingFlags)62;
+        
         public static IEnumerator LerpInTimeCoroutine(float timeInSeconds, float from, float to, Action<float> callback, Action onFinishCallback = null)
         {
             float timer = 0.0f;
@@ -106,6 +110,15 @@ namespace Project
             action.Invoke();
         }
 
+        public static bool GetMouseWorldHit(Camera camera, LayerMask layerMask, out RaycastHit hitInfo)
+        {
+            Vector3 mousePosition = Mouse.current.position.value;
+            mousePosition.z = camera.nearClipPlane;
+            
+            Ray ray = camera.ScreenPointToRay(mousePosition);
+            return Physics.Raycast(ray, out hitInfo, 100, layerMask);
+        }
+
         public static bool GetMouseWorldPosition(Camera camera, LayerMask layerMask, out Vector3 position)
         {
             Vector3 mousePosition = Mouse.current.position.value;
@@ -155,7 +168,8 @@ namespace Project
         /// <param name="type"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T[] FindAssetsByType<T>() where T : UnityEngine.Object {
+        public static T[] FindAssetsByType<T>() where T : UnityEngine.Object 
+        {
             string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
             
             return guids.Select(AssetDatabase.GUIDToAssetPath)

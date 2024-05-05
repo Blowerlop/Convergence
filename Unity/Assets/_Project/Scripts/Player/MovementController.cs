@@ -1,48 +1,49 @@
 using System;
 using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.StateMachine;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
-        private Transform _player;
-        private PlayerStateMachineController _stateMachineController;
+        private PCPlayerRefs _playerRefs;
         
-        private Camera _camera;
-        private const int _GROUND_LAYER_MASK = Constants.LayersMask.Ground;
+        private Transform _player;
+        private StateMachineController _stateMachineController;
+        
         private NavMeshAgent _agent;
 
         private const float _DESTINATION_REACHED_OFFSET = 0.1f;
         
         public event Action OnPositionReached;
-
         
         private void Awake()
         {
-            _camera = Camera.main;
-            _stateMachineController = GetComponentInParent<PlayerStateMachineController>();
+            _stateMachineController = GetComponentInParent<StateMachineController>();
         }
 
         public override void OnNetworkSpawn()
         {
             enabled = IsServer;
             
-            PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
-            NavMeshAgent agent = playerRefs.NavMeshAgent; 
-                
+            _playerRefs = GetComponentInParent<PCPlayerRefs>();
+            NavMeshAgent agent = _playerRefs.NavMeshAgent;
+            
             if (IsServer)
             {
-                _player = playerRefs.PlayerTransform;
+                _player = _playerRefs.PlayerTransform;
 
                 _agent = agent;
                 _agent.updatePosition = false;
                 _agent.updateRotation = false;
                 OnPositionReached += OnPositionReached_UpdateState;
+
+                if (_playerRefs.Entity.Stats.isInitialized) OnStatsInitialized();
+                else _playerRefs.Entity.Stats.OnStatsInitialized += OnStatsInitialized;
             }
             else
             {
@@ -51,17 +52,28 @@ namespace Project
 
             if (IsOwner)
             {
-                InputManager.instance.onMouseButton1.started += TryGoToPosition;
+                _playerRefs.PlayerMouse.OnMouseClick += TryGoToPosition;
             }
-        } 
+        }
+
+        private void OnStatsInitialized()
+        {
+            _playerRefs.Entity.Stats.OnStatsInitialized -= OnStatsInitialized;
+            
+            var moveSpeed = _playerRefs.Entity.Stats.Get<MoveSpeedStat>();
+
+            OnSpeedChanged(moveSpeed.value, moveSpeed.maxValue);
+            moveSpeed.OnValueChanged += OnSpeedChanged;
+        }
 
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
             
-            if (IsOwner && InputManager.IsInstanceAlive())
+            if (IsOwner)
             {
-                InputManager.instance.onMouseButton1.started -= TryGoToPosition;
+                PCPlayerRefs playerRefs = GetComponentInParent<PCPlayerRefs>();
+                playerRefs.PlayerMouse.OnMouseClick -= TryGoToPosition;
             }
         }
         
@@ -88,20 +100,26 @@ namespace Project
             }
         }
 
-        private void TryGoToPosition(InputAction.CallbackContext _)
+        private void TryGoToPosition(RaycastHit hitInfo, int layer)
         {
-            if (Utilities.GetMouseWorldPosition(_camera, _GROUND_LAYER_MASK, out Vector3 position))
+            if (layer == Constants.Layers.GroundIndex)
             {
-                GoToServerRpc(position);
+                GoToServerRpc(hitInfo.point);
             }
         }
 
         [ServerRpc]
         private void GoToServerRpc(Vector3 position)
         {
-            if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo(_stateMachineController.moveState))
+            SrvGoTo(position);
+        }
+
+        [Server]
+        public void SrvGoTo(Vector3 position)
+        {
+            if (_stateMachineController.currentState is not MoveState && _stateMachineController.CanChangeStateTo<MoveState>())
             {
-                _stateMachineController.ChangeState(_stateMachineController.moveState);
+                _stateMachineController.ChangeStateTo<MoveState>();
             }
 
             if (_stateMachineController.currentState is MoveState)
@@ -112,10 +130,16 @@ namespace Project
 
         private void OnPositionReached_UpdateState()
         {
-            if (_stateMachineController.CanChangeStateTo(_stateMachineController.idleState))
+            if (_stateMachineController.CanChangeStateTo<IdleState>())
             {
-                _stateMachineController.ChangeState(_stateMachineController.idleState);
+                _stateMachineController.ChangeStateTo<IdleState>();
             }
+        }
+        
+        [Server]
+        private void OnSpeedChanged(int current, int max)
+        {
+            _agent.speed = current;
         }
     }
 }

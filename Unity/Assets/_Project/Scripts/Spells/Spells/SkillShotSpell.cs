@@ -1,22 +1,54 @@
+using System;
 using DG.Tweening;
+using Project._Project.Scripts;
+using Project._Project.Scripts.Managers;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells
 {
     public class SkillShotSpell : Spell
     {
+        private GRPC_NetworkVariable<bool> _impact = new GRPC_NetworkVariable<bool>("Impact");
+        
+        [Title("Moving Phase")]
+        
+        [SerializeField] private GameObject _movingObject;
+        
         [SerializeField] private Vector3 _castOffset;
         [SerializeField] private float _castRadius;
-
-        [SerializeField] private float speed = 3f;
-        [SerializeField] private float duration = 2f;
-        
-        SingleVectorResults _results;
         
         [SerializeField] private LayerMask _layerMask;
+        
+        [SerializeField] private float speed = 3f;
+        [SerializeField] private float moveDuration = 2f;
 
+        [Title("Impact Phase")] 
+        
+        [SerializeField] private bool hasImpactPhase;
+        
+        [SerializeField, ShowIf(nameof(hasImpactPhase))] private GameObject _impactObject;
+        [SerializeField, ShowIf(nameof(hasImpactPhase))] private float _impactDuration = 1f;
+
+        private Transform _impactHitTransform;
+        private bool _isOnImpactPhase;
+        
+        private SingleVectorResults _results;
         private Sequence _moveSeq;
         
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            InitAudio();
+            
+            _movingObject.SetActive(true);
+            if (hasImpactPhase) _impactObject.SetActive(false);
+            
+            _impact.Initialize();
+            _impact.OnValueChanged += OnImpactChanged;
+        }
+
         protected override void Init(ICastResult castResult)
         {
             if (castResult is not SingleVectorResults results)
@@ -27,9 +59,9 @@ namespace Project.Spells
             }
 
             _results = results;
-            
+
             _moveSeq = DOTween.Sequence();
-            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, duration).SetEase(Ease.Linear));
+            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, moveDuration).SetEase(Ease.Linear));
             _moveSeq.OnComplete(() => NetworkObject.Despawn());
         }
 
@@ -61,7 +93,14 @@ namespace Project.Spells
         {
             if (!IsServer && !IsHost) return;
 
-            if (IsColliding(out var hit)) OnCollision(hit);
+            if (_isOnImpactPhase)
+            {
+                transform.position = _impactHitTransform.position;
+                
+                return;
+            }
+            
+            if (IsColliding(out var hit)) SrvOnCollision(hit);
         }
         
         private bool IsColliding(out RaycastHit hit)
@@ -73,20 +112,56 @@ namespace Project.Spells
                     out hit, 0.5f, _layerMask);
         }
 
-        private void OnCollision(RaycastHit hit)
+        [Server]
+        private void SrvOnCollision(RaycastHit hit)
         {
-            if (!hit.transform.TryGetComponent(out IDamageable damageable)) return;
+            if (!hit.transform.TryGetComponent(out Entity entity)) return;
 
-            if (damageable.TryDamage(Data.baseDamage, CasterTeamIndex))
+            if (TryApplyEffects(entity))
             {
-                KillSpell();
+                if (!SrvCheckForImpactPhase(entity.transform))
+                    KillSpell();
             }
         }
 
+        [Server]
+        private bool SrvCheckForImpactPhase(Transform target)
+        {
+            if (!hasImpactPhase) return false;
+            
+            // Set impact phase on all observers
+            _impact.Value = true;
+            
+            _isOnImpactPhase = true;
+            _impactHitTransform = target;
+            
+            _moveSeq.Kill();
+            
+            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(_impactDuration, KillSpell));
+            return true;
+        }
+
+        private void OnImpactChanged(bool oldValue, bool newValue)
+        {
+            if (!newValue) return;
+            
+            _movingObject.SetActive(false);
+            _impactObject.SetActive(true);
+        }
+        
         private void KillSpell()
         {
             _moveSeq.Kill();
             NetworkObject.Despawn();
         }
+        
+        #region Audio
+
+        private void InitAudio()
+        {
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
+        }
+        
+        #endregion
     }
 }

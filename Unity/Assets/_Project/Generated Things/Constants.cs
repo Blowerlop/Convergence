@@ -60,38 +60,72 @@ namespace Project
             /// Channeling : Bool
             /// </summary>
             public const int Channeling = -888734683;
+            /// <summary>
+            /// EmoteIndex : Int
+            /// </summary>
+            public const int EmoteIndex = -126835265;
+            /// <summary>
+            /// Attack : Trigger
+            /// </summary>
+            public const int Attack = 1080829965;
+            /// <summary>
+            /// EndAttackInstant : Trigger
+            /// </summary>
+            public const int EndAttackInstant = 17244484;
+            /// <summary>
+            /// AttackSpeed : Float
+            /// </summary>
+            public const int AttackSpeed = -498733101;
+            /// <summary>
+            /// Stunned : Bool
+            /// </summary>
+            public const int Stunned = -449490811;
         }
         
-        public static class LayersMask
+        public static class Layers
         {
             /// <summary>
             /// Default
             /// </summary>
-            public const int Default = 1;
+            public const int DefaultMask = 1;
+            public const int DefaultIndex = 0;
+            public const string DefaultName = "Default";
             /// <summary>
             /// TransparentFX
             /// </summary>
-            public const int TransparentFX = 2;
+            public const int TransparentFXMask = 2;
+            public const int TransparentFXIndex = 1;
+            public const string TransparentFXName = "TransparentFX";
             /// <summary>
             /// Ignore Raycast
             /// </summary>
-            public const int Ignore_Raycast = 4;
+            public const int Ignore_RaycastMask = 4;
+            public const int Ignore_RaycastIndex = 2;
+            public const string Ignore_RaycastName = "Ignore Raycast";
             /// <summary>
             /// Water
             /// </summary>
-            public const int Water = 16;
+            public const int WaterMask = 16;
+            public const int WaterIndex = 4;
+            public const string WaterName = "Water";
             /// <summary>
             /// UI
             /// </summary>
-            public const int UI = 32;
+            public const int UIMask = 32;
+            public const int UIIndex = 5;
+            public const string UIName = "UI";
             /// <summary>
             /// Entity
             /// </summary>
-            public const int Entity = 64;
+            public const int EntityMask = 64;
+            public const int EntityIndex = 6;
+            public const string EntityName = "Entity";
             /// <summary>
             /// Ground
             /// </summary>
-            public const int Ground = 128;
+            public const int GroundMask = 128;
+            public const int GroundIndex = 7;
+            public const string GroundName = "Ground";
         }
         
         public static class Resources
@@ -160,6 +194,10 @@ namespace Project
             /// GameController
             /// </summary>
             public const string GameController = "GameController";
+            /// <summary>
+            /// Border
+            /// </summary>
+            public const string Border = "Border";
         }
         
     }

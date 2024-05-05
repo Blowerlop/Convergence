@@ -1,5 +1,6 @@
 using DG.Tweening;
-using Project.Extensions;
+using Project._Project.Scripts;
+using Project._Project.Scripts.Managers;
 using UnityEngine;
 
 namespace Project.Spells
@@ -55,7 +56,7 @@ namespace Project.Spells
             return dir;
         }
 
-        public void CheckForDamage()
+        public void CheckForEffects()
         {
             if (!IsServer && !IsHost) return;
 
@@ -64,9 +65,9 @@ namespace Project.Spells
             {
                 foreach (var hit in hits)
                 {
-                    if (hit.TryGetComponent(out IDamageable damageable))
+                    if (hit.TryGetComponent(out Entity entity))
                     {
-                        damageable.TryDamage(ZoneData.baseDamage, CasterTeamIndex);
+                        TryApplyEffects(entity);
                     }
                 }
             }
@@ -77,6 +78,13 @@ namespace Project.Spells
             if (!IsServer && !IsHost) return;
             
             NetworkObject.Despawn();
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
         }
     }
 }

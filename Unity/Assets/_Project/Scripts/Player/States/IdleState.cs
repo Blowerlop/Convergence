@@ -2,14 +2,14 @@ using Project._Project.Scripts.StateMachine;
 
 namespace Project._Project.Scripts.Player.States
 {
-    public class IdleState : BaseStateMachine
+    public class IdleState : BaseStateMachineBehaviour
     {
         protected override void OnEnter()
         {
             playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, false);
         }
 
-        public override bool CanChangeStateTo(BaseStateMachine newStateMachine)
+        public override bool CanChangeStateTo<T>()
         {
             return true;
         }

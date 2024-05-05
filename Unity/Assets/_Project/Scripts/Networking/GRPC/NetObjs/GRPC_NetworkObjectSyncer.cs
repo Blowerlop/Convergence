@@ -1,3 +1,4 @@
+using System;
 using GRPCClient;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 namespace Project
 {
+    
     [AddComponentMenu("GRPC/NetworkObject Syncer")]
     [RequireComponent(typeof(NetworkObject))]
     public class GRPC_NetworkObjectSyncer : NetworkBehaviour
@@ -15,6 +17,9 @@ namespace Project
 
         [HideInInspector] public string UnrealOwnerAddress;
         [ShowInInspector] public bool IsOwnedByUnrealClient => !string.IsNullOrEmpty(UnrealOwnerAddress);
+
+        public bool hasBeenSpawnedOnGrpc;
+        public Action<bool> onNetworkObjectHasSpawnedOnGrpc;
 
         public override void OnNetworkSpawn()
         {
@@ -59,7 +64,7 @@ namespace Project
                 Rotation = Utilities.UnityToGrpcVector3(transform.rotation.eulerAngles)
             };
 
-            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update, this);
         }
 
         private void OnGrpDisconnection_NetworkObjectUnSync()
@@ -72,7 +77,7 @@ namespace Project
                 Type = GRPC_NetObjUpdateType.Destroy
             };
             
-            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update);
+            GRPC_NetObjectsHandler.instance.SendNetObjsUpdate(update, this);
 
             if (IsOwnedByUnrealClient)
             {

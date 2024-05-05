@@ -300,8 +300,9 @@ namespace GRPCServer.Services
         #endregion
         
         #region NetObjects / NetVars Update
-
-        public override async Task<GRPC_EmptyMsg> GRPC_SrvNetObjUpdate(IAsyncStreamReader<GRPC_NetObjUpdate> requestStream, ServerCallContext context)
+        
+        public override async Task<GRPC_EmptyMsg> GRPC_SrvNetObjUpdate(IAsyncStreamReader<GRPC_NetObjUpdate> requestStream, IServerStreamWriter<GRPC_EmptyMsg> responseStream,
+            ServerCallContext context)
         {
             if (netcodeServer == null)
             {
@@ -316,11 +317,19 @@ namespace GRPCServer.Services
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
+                    
                     Debug.Log("GRPC_SrvNetObjUpdate > Got new NetworkObject update: type " + requestStream.Current.Type + ", netId " +
                                       requestStream.Current.NetId + ", prefabId " + requestStream.Current.PrefabId +
                                       "\n");
+
+                    lock (NetworkObject.Locker)
+                    {
+                        netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                    }
                     
-                    netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                    await responseStream.WriteAsync(new GRPC_EmptyMsg());
+                    
+                    await netcodeServer.NetObjectsStream.WriteAsync(requestStream.Current);
                     
                     foreach (var client in unrealClients)
                     {
@@ -338,6 +347,8 @@ namespace GRPCServer.Services
                         }
                     }
 
+                    
+
                     Debug.Log("GRPC_SrvNetObjUpdate > Update sent to all unreal clients.\n");
                 }
             }
@@ -352,16 +363,23 @@ namespace GRPCServer.Services
 
         public override async Task GRPC_CliNetObjUpdate(GRPC_EmptyMsg request, IServerStreamWriter<GRPC_NetObjUpdate> responseStream, ServerCallContext context)
         {
-            if (!unrealClients.ContainsKey(context.Peer))
+            if (netcodeServer.Adress == context.Peer)
             {
-                Debug.LogError(
-                    $"GRPC_CliNetObjUpdate > Client {context.Peer} is trying to get NetworkObjects update stream without being registered.");
-                return;
+                netcodeServer.NetObjectsStream = responseStream;
             }
+            else
+            {
+                if (!unrealClients.ContainsKey(context.Peer))
+                {
+                    Debug.LogError(
+                        $"GRPC_CliNetObjUpdate > Client {context.Peer} is trying to get NetworkObjects update stream without being registered.");
+                    return;
+                }
 
-            Debug.Log($"GRPC_CliNetObjUpdate > Client NetObject stream opened");
-            unrealClients[context.Peer].NetObjectsStream = responseStream;
-
+                Debug.Log($"GRPC_CliNetObjUpdate > Client NetObject stream opened");
+                unrealClients[context.Peer].NetObjectsStream = responseStream;
+            }
+            
             try
             {
                 await Task.Delay(-1, context.CancellationToken);
@@ -374,7 +392,7 @@ namespace GRPCServer.Services
 
             Debug.Log($"GRPC_CliNetObjUpdate > NetObj Client NetObject stream closed");
         }
-        
+
         public override async Task<GRPC_EmptyMsg> GRPC_SrvNetVarUpdate(IAsyncStreamReader<GRPC_NetVarUpdate> requestStream, ServerCallContext context)
         {
             Debug.Log($"GRPC_SrvNetVarUpdate > NetVar writing stream opened");
@@ -383,17 +401,16 @@ namespace GRPCServer.Services
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    Debug.Log($"GRPC_SrvNetVarUpdate > NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value}");
-
-                    if (netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.ContainsKey(requestStream.Current.HashName))
+                    if (netcodeServer.NetObjs.ContainsKey(requestStream.Current.NetId) == false)
                     {
-                        netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
-                    }
-                    else
-                    {
-                        netcodeServer.NetObjs[requestStream.Current.NetId].NetVars.Add(requestStream.Current.HashName, requestStream.Current.NewValue);
+                        Debug.LogError("Net id not present : " + requestStream.Current.NetId);
+                        continue;
                     }
 
+                    Debug.Log($"GRPC_SrvNetVarUpdate > NetVar received for HashName : {requestStream.Current.HashName} / Type {requestStream.Current.NewValue.Type} / New Value : {requestStream.Current.NewValue.Value} / Net id : {requestStream.Current.NetId}");
+
+                    netcodeServer.NetObjs[requestStream.Current.NetId].NetVars[requestStream.Current.HashName] = requestStream.Current.NewValue;
+                    
                     foreach (KeyValuePair<string, UnrealClient> unrealClient in unrealClients)
                     {
                         //There could be a problem if a client does GRPC_CliNetNetVarUpdate

@@ -4,7 +4,7 @@ using Project._Project.Scripts.StateMachine;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Project._Project.Scripts.Spells
+namespace Project.Spells
 {
     public class ChannelingController : NetworkBehaviour
     { 
@@ -56,24 +56,31 @@ namespace Project._Project.Scripts.Spells
         [Server]
         public void StartServerChanneling(float channelingTime, Action channelingDoneAction = null)
         {
-            ChangeState(new CastingState());
+            // Bypass entering channeling state and exiting it instantly if we have no channeling time
+            if (channelingTime == 0)
+            {
+                channelingDoneAction?.Invoke();
+                return;
+            }
+            
+            ChangeState<CastingState>();
             
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {
-                ChangeState(new IdleState());
+                ChangeState<IdleState>();
                 
                 channelingDoneAction?.Invoke();
                 _isChanneling.Value = false;
             });
 
-            void ChangeState(BaseStateMachine state)
+            void ChangeState<T>() where T : BaseStateMachineBehaviour
             {
                 if (playerRefs is not PCPlayerRefs pcRefs) return;
                 
-                if (pcRefs.StateMachine.CanChangeStateTo(state))
+                if (pcRefs.StateMachine.CanChangeStateTo<T>())
                 {
-                    pcRefs.StateMachine.ChangeState(state);
+                    pcRefs.StateMachine.ChangeStateTo<T>();
                 }
             }
         }

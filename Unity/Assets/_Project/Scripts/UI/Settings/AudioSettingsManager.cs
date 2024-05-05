@@ -8,46 +8,25 @@ namespace Project._Project.Scripts.UI.Settings
 {
     public static class AudioSettingsManager
     {
-        private static AudioMixer _audioMixer;
-        private static AudioMixer audioMixer
-        {
-            get
-            {
-                if (_audioMixer == null) _audioMixer = Resources.Load<AudioMixer>("AudioMixer");
-
-                return _audioMixer;
-            }
-        }
-
         public const string KEY_MASTER = "MasterBus";
         public const string KEY_MUSIC = "MasterBus/Music";
         public const string KEY_AMBIENCE = "MasterBus/Ambience";
         public const string KEY_SFX = "MasterBus/SFX";
         
         private static readonly string _logPrefix = "[AudioManager]";
-        
-        
-        private static float GetDb(string exposedVolumeName) => PlayerPrefs.GetFloat(exposedVolumeName, Convert01ToDb(0.5f));
-        public static float Get01(string exposedVolumeName) => ConvertDbTo01(GetDb(exposedVolumeName));
+
+
+        public static float Get(string exposedVolumeName) => PlayerPrefs.GetFloat(exposedVolumeName, 0.5f);
 
         public static void Set(string exposedVolumeName, float value01)
         {
-            float realVolume = Convert01ToDb(value01);
-            
             SetWithoutNotify(exposedVolumeName, value01);
-            OnSave(exposedVolumeName, realVolume);
+            Save(exposedVolumeName, value01);
         }
 
         private static void SetWithoutNotify(string exposedVolumeName, float value01)
         {
-            float realVolume = Convert01ToDb(value01);
-            audioMixer.SetFloat(exposedVolumeName, realVolume);
             SoundManager.instance.SetBusVolume(value01, exposedVolumeName);
-        }
-
-        private static void OnSave(string exposedVolumeName, float realVolume)
-        {
-            Save(exposedVolumeName, realVolume);
         }
 
         private static void Save(string exposedVolumeName, float volume)
@@ -55,33 +34,26 @@ namespace Project._Project.Scripts.UI.Settings
             PlayerPrefs.SetFloat(exposedVolumeName, volume);
             PlayerPrefs.Save();
             
-            Debug.Log($"{_logPrefix} Saved : {exposedVolumeName} ({volume}dB)");
+            Debug.Log($"{_logPrefix} Saved : {exposedVolumeName} ({volume})");
         }
         
-        private static float Convert01ToDb(float value01)
+        public static void Load()
         {
-            return Mathf.Log10(Mathf.Clamp(value01, 0.0001f, 1f)) * (20.0f);
-        }
-
-        private static float ConvertDbTo01(float volume)
-        {
-            return Mathf.Round(Mathf.Pow(10, volume / 20) * 100) / 100;
-        }
-        
-        public static async void Load()
-        {
-            await Task.Delay(100);
+            float master = Get(KEY_MASTER);
+            float music = Get(KEY_MUSIC);
+            float ambience = Get(KEY_AMBIENCE);
+            float sfx = Get(KEY_SFX);
             
-            SetWithoutNotify(KEY_MASTER, Get01(KEY_MASTER));
-            SetWithoutNotify(KEY_MUSIC,Get01(KEY_MUSIC));
-            SetWithoutNotify(KEY_AMBIENCE,Get01(KEY_AMBIENCE));
-            SetWithoutNotify(KEY_SFX, Get01(KEY_SFX));
+            SetWithoutNotify(KEY_MASTER, master);
+            SetWithoutNotify(KEY_MUSIC,music);
+            SetWithoutNotify(KEY_AMBIENCE,ambience);
+            SetWithoutNotify(KEY_SFX, sfx);
             
             Debug.Log($"{_logPrefix} Volumes loaded : \n " +
-                      $"- {KEY_MASTER} {GetDb(KEY_MASTER)} dB \n " +
-                      $"- {KEY_MUSIC} {GetDb(KEY_MUSIC)} dB \n " +
-                      $"- {KEY_MUSIC} {GetDb(KEY_AMBIENCE)} dB \n " +
-                      $"- {KEY_SFX} {GetDb(KEY_SFX)} dB");
+                      $"- {KEY_MASTER} {master} \n " +
+                      $"- {KEY_MUSIC} {music} \n " +
+                      $"- {KEY_AMBIENCE} {ambience} \n " +
+                      $"- {KEY_SFX} {sfx} ");
         }
         
         

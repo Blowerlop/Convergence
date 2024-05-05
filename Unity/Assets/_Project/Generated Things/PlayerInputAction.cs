@@ -116,6 +116,24 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""MultiTap(tapDelay=0.25)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EmotesWheel"",
+                    ""type"": ""Button"",
+                    ""id"": ""ad53a320-67d4-44a4-bf1a-165ebec19865"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancellation"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e3b19e9-f426-413f-8d40-7aabf34e669a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -358,6 +376,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LockCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64813dfe-f703-4ecf-83dd-b515e9757322"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""EmotesWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d660236c-fa01-498b-8328-17188b3c4bfe"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Cancellation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -871,6 +911,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Spell4 = m_Player.FindAction("Spell4", throwIfNotFound: true);
         m_Player_CenterCamera = m_Player.FindAction("CenterCamera", throwIfNotFound: true);
         m_Player_LockCamera = m_Player.FindAction("LockCamera", throwIfNotFound: true);
+        m_Player_EmotesWheel = m_Player.FindAction("EmotesWheel", throwIfNotFound: true);
+        m_Player_Cancellation = m_Player.FindAction("Cancellation", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -958,6 +1000,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Spell4;
     private readonly InputAction m_Player_CenterCamera;
     private readonly InputAction m_Player_LockCamera;
+    private readonly InputAction m_Player_EmotesWheel;
+    private readonly InputAction m_Player_Cancellation;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -972,6 +1016,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Spell4 => m_Wrapper.m_Player_Spell4;
         public InputAction @CenterCamera => m_Wrapper.m_Player_CenterCamera;
         public InputAction @LockCamera => m_Wrapper.m_Player_LockCamera;
+        public InputAction @EmotesWheel => m_Wrapper.m_Player_EmotesWheel;
+        public InputAction @Cancellation => m_Wrapper.m_Player_Cancellation;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1011,6 +1057,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @LockCamera.started += instance.OnLockCamera;
             @LockCamera.performed += instance.OnLockCamera;
             @LockCamera.canceled += instance.OnLockCamera;
+            @EmotesWheel.started += instance.OnEmotesWheel;
+            @EmotesWheel.performed += instance.OnEmotesWheel;
+            @EmotesWheel.canceled += instance.OnEmotesWheel;
+            @Cancellation.started += instance.OnCancellation;
+            @Cancellation.performed += instance.OnCancellation;
+            @Cancellation.canceled += instance.OnCancellation;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1045,6 +1097,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @LockCamera.started -= instance.OnLockCamera;
             @LockCamera.performed -= instance.OnLockCamera;
             @LockCamera.canceled -= instance.OnLockCamera;
+            @EmotesWheel.started -= instance.OnEmotesWheel;
+            @EmotesWheel.performed -= instance.OnEmotesWheel;
+            @EmotesWheel.canceled -= instance.OnEmotesWheel;
+            @Cancellation.started -= instance.OnCancellation;
+            @Cancellation.performed -= instance.OnCancellation;
+            @Cancellation.canceled -= instance.OnCancellation;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1264,6 +1322,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnSpell4(InputAction.CallbackContext context);
         void OnCenterCamera(InputAction.CallbackContext context);
         void OnLockCamera(InputAction.CallbackContext context);
+        void OnEmotesWheel(InputAction.CallbackContext context);
+        void OnCancellation(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -1,5 +1,4 @@
 using DG.Tweening;
-using Project._Project.Scripts.Spells;
 using UnityEngine;
 
 namespace Project.Spells

@@ -62,10 +62,9 @@ namespace Project
                     HandleSpellCastRequest(request);
                 }
             }
-            catch (RpcException)
-            { 
-                if (GRPC_NetworkManager.instance.isConnected)
-                    GRPC_NetworkManager.instance.StopClient();
+            catch (RpcException e)
+            {
+                Debug.LogError(e);
             }
         }
 
@@ -105,7 +104,15 @@ namespace Project
         {
             if (!IsRequestValid(request, out var spell)) return;
             
-            ICastResult result = ICastResult.TypeToInstance(spell.requiredResultType);
+            ICastResult result = Activator.CreateInstance(spell.RequiredResultType) as ICastResult;
+
+            // This should never happen
+            if (result == null)
+            {
+                Debug.LogError($"For some reason spell.RequiredResultType is not ICastResult. " +
+                               $"Actual type: {spell.RequiredResultType}");
+                return;
+            }
             
             if (!result.TryFromCastRequest(request))
             {
@@ -148,10 +155,9 @@ namespace Project
                     HandleSpellSlotUpdate(spellSlot);
                 }
             }
-            catch (RpcException)
-            { 
-                if (GRPC_NetworkManager.instance.isConnected)
-                    GRPC_NetworkManager.instance.StopClient();
+            catch (RpcException e)
+            {
+                Debug.LogError(e);
             }
         }
 

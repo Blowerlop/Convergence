@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Linq;
 using GRPCClient;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 
 namespace Project.Spells
@@ -8,13 +11,9 @@ namespace Project.Spells
     {
         public bool TryFromCastRequest(GRPC_SpellCastRequest request);
         
-        public static ICastResult TypeToInstance(CastResultType type)
-        {
-            return type switch
-            {
-                CastResultType.SingleVector => new SingleVectorResults(),
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-            };
-        }
+        public static IEnumerable AllResultTypesAsString = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(s => s.GetTypes())
+            .Where(p => p != typeof(ICastResult) && typeof(ICastResult).IsAssignableFrom(p))
+            .Select(p => new ValueDropdownItem() {Text = p.Name, Value = p.FullName});
     }
 }

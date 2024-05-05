@@ -1,10 +1,16 @@
+using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells.Casters
 {
     public abstract class SpellCaster : MonoBehaviour
     {
-        [field: SerializeField] public CastResultType CastResultType { get; private set; }
+        public abstract Type CastResultType { get; }
+
+        [ShowInInspector, ReadOnly, PropertyOrder(-1), LabelText("Cast Result Type")] 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 15)]
+        private string CastResultTypeAsString => CastResultType.Name;
         
         public bool IsCasting { get; private set; }
 
@@ -15,14 +21,14 @@ namespace Project.Spells.Casters
             CasterTransform = casterTransform;
         }
         
-        public virtual void StartChanneling()
+        public virtual void StartCasting()
         {
             if (IsCasting) return;
             
             IsCasting = true;
         }
         
-        public virtual void StopChanneling()
+        public virtual void StopCasting()
         {
             if (!IsCasting) return;
             
@@ -34,14 +40,14 @@ namespace Project.Spells.Casters
             if (!IsCasting) return;
             
             EvaluateResults();
-            UpdateChanneling();
+            UpdateCasting();
         }
 
         /// <summary>
         /// Called every frame if this caster is channeling.
         /// Called after EvaluateResults().
         /// </summary>
-        protected abstract void UpdateChanneling();
+        protected abstract void UpdateCasting();
 
         /// <summary>
         /// Should evaluate current results based on user inputs and other factors. Then update _currentResults.
