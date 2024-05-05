@@ -3,77 +3,7 @@ guid: 19ee20d61da09ed42bce703e4abc6ae9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_frost_sword2_color_psd_7d40f6
-    second: {fileID: 2800000, guid: 304ad23656d17f9409174367758ba4cc, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_frost_sword2_normal_psd_f56ee56c
-    second: {fileID: 2800000, guid: bae6f6ea00bc0f34a9358524e2529562, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_arms_color_psd_41001baf
-    second: {fileID: 2800000, guid: b623562e4cd0ddc48b257fffdc192236, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_arms_normal_psd_a64b2754
-    second: {fileID: 2800000, guid: e57e688cf087b9144b895938796d1e4e, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_cape_color_psd_280bdc95
-    second: {fileID: 2800000, guid: 9e7763bd13e861f4e8b4bcdb695336aa, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_cape_normal_psd_28aec447
-    second: {fileID: 2800000, guid: ac112a01da6646f47b65d07bd7305f39, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_chest_color_psd_5b86eae
-    second: {fileID: 2800000, guid: ba95a18eb86d69d4494fd4286cd31a2c, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_chest_normal_psd_d4bfcd35
-    second: {fileID: 2800000, guid: 3f683585fa4f2e04c914b6fdd1ef2455, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_color_psd_b2854f6f
-    second: {fileID: 2800000, guid: 402e2ed7cbce3b34b94ec35ebf9115bf, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_helmet_color_psd_6d8ae308
-    second: {fileID: 2800000, guid: d89687d496292c94eb2b9160d601fdae, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_helmet_normal_psd_4c35894c
-    second: {fileID: 2800000, guid: 589b135734cdd4545890056dc40a7178, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_normal_psd_dc0e42fc
-    second: {fileID: 2800000, guid: 72f36100c464d4349a0a995cccf2ff47, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_shoulder_color_psd_b63bc690
-    second: {fileID: 2800000, guid: 5643951643ec7474cba8d90424f75c20, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: wraith_king_shoulder_normal_psd_1644e5c0
-    second: {fileID: 2800000, guid: 5fac271a08df90f4dbcd5b8c2616d059, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -114,7 +44,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -369,6 +299,35 @@ ModelImporter:
       internalID: 6200578666267062213
       firstFrame: 0
       lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Tourbilol
+      takeName: Tourbilol
+      internalID: 2221079868524588604
+      firstFrame: 0
+      lastFrame: 8
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
