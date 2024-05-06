@@ -5,7 +5,7 @@ namespace Project.Effects
 {
     public class NextAutoEffect : Effect
     {
-        public override EffectType Type => EffectType.Good;
+        public override EffectType Type => EffectType.Neutral;
 
         [SerializeReference, SerializeField] private List<Effect> _effectsOnAuto = new();
 
