@@ -2,6 +2,7 @@ using System.Collections;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
+using Project.Effects;
 using Project.Extensions;
 using Unity.Netcode;
 using UnityEngine;
@@ -170,6 +171,20 @@ namespace Project
         public void Hit(IDamageable damageable)
         {
             damageable.Damage(_playerRefs.Entity.Stats.Get<AttackDamageStat>().value);
+            
+            if(damageable is IEffectable hitEffectable)
+            {
+                IEffectable ownEffectable = _playerRefs.Entity;
+                
+                for (int i = ownEffectable.AppliedEffects.Count - 1; i >= 0; i--)
+                {
+                    var effect = ownEffectable.AppliedEffects[i];
+                    if (effect is not NextAutoEffect nextAutoEffect) continue;
+                    
+                    nextAutoEffect.TryApplyChildEffects(hitEffectable);
+                    nextAutoEffect.KillEffect();
+                }
+            }
             
             if (_isRanged == false) StartCoroutine(EndAttack());
         }
