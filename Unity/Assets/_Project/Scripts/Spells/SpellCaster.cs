@@ -14,11 +14,13 @@ namespace Project.Spells.Casters
         
         public bool IsCasting { get; private set; }
 
+        protected PlayerRefs Caster { get; private set; }
         protected Transform CasterTransform { get; private set; }
         
-        public virtual void Init(Transform casterTransform, SpellData spell)
+        public virtual void Init(PlayerRefs caster, SpellData spell)
         {
-            CasterTransform = casterTransform;
+            Caster = caster;
+            CasterTransform = caster.PlayerTransform;
         }
         
         public virtual void StartCasting()
@@ -59,6 +61,6 @@ namespace Project.Spells.Casters
         /// Ask SpellManager to spawn the desired spell with caster current results.
         /// </summary>
         /// <param name="casterIndex"></param>
-        public abstract void TryCast(int casterIndex);
+        public abstract bool TryCast(int casterIndex);
     }
 }

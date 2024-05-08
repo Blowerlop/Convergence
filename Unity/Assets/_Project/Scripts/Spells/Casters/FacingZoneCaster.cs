@@ -24,9 +24,9 @@ namespace Project.Spells.Casters
             aimVisual.gameObject.SetActive(false);
         }
 
-        public override void Init(Transform casterTransform, SpellData spell)
+        public override void Init(PlayerRefs caster, SpellData spell)
         {
-            base.Init(casterTransform, spell);
+            base.Init(caster, spell);
             
             var zoneSpell = spell as FacingZoneSpellData;
 
@@ -84,9 +84,10 @@ namespace Project.Spells.Casters
             _currentResults.VectorProp = position;
         }
 
-        public override void TryCast(int casterIndex)
+        public override bool TryCast(int casterIndex)
         {
             SpellManager.instance.TryCastSpellServerRpc(casterIndex, _currentResults);
+            return true;
         }
     }
 }

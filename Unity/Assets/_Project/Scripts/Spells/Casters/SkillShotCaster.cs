@@ -52,9 +52,10 @@ namespace Project.Spells.Casters
             _currentResults.VectorProp = (position - playerPos).normalized;
         }
 
-        public override void TryCast(int casterIndex)
+        public override bool TryCast(int casterIndex)
         {
             SpellManager.instance.TryCastSpellServerRpc(casterIndex, _currentResults);
+            return true;
         }
     }
 }

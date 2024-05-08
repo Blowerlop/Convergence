@@ -137,6 +137,12 @@ namespace Project.Spells
         {
             TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
         }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void TryCastSpellServerRpc(int spellIndex, IntResults results, ServerRpcParams serverRpcParams = default)
+        {
+            TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
+        }
 
         #endregion
 

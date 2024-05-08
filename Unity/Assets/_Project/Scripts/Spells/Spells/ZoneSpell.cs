@@ -1,6 +1,8 @@
+using System;
 using DG.Tweening;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells
@@ -10,9 +12,12 @@ namespace Project.Spells
         private ZoneSpellData _zoneData = null;
         private ZoneSpellData ZoneData => _zoneData ??= Data as ZoneSpellData;
         
-        SingleVectorResults _results;
+        [SerializeField] private ApplyType applyType;
+        [SerializeField] private KillType killType;
+
+        [SerializeField, ShowIf(nameof(IsTimed))] private float duration;
         
-        [SerializeField] private LayerMask _layerMask;
+        private SingleVectorResults _results;
         
         private Sequence _moveSeq;
 
@@ -24,8 +29,14 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return;
             }
-
+            
             _results = results;
+            
+            if (applyType == ApplyType.OnStart)
+                CheckForEffects();
+            
+            if (killType == KillType.Timed)
+                StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, AnimEnd));
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -56,11 +67,12 @@ namespace Project.Spells
             return dir;
         }
 
+        [Server]
         public void CheckForEffects()
         {
             if (!IsServer && !IsHost) return;
 
-            var hits = Physics.OverlapSphere(_results.VectorProp, ZoneData.zoneRadius, _layerMask);
+            var hits = Physics.OverlapSphere(_results.VectorProp, ZoneData.zoneRadius, Constants.Layers.EntityMask);
             if (hits.Length > 0)
             {
                 foreach (var hit in hits)
@@ -73,10 +85,9 @@ namespace Project.Spells
             }
         }
 
+        [Server]
         public void AnimEnd()
         {
-            if (!IsServer && !IsHost) return;
-            
             NetworkObject.Despawn();
         }
         
@@ -86,5 +97,19 @@ namespace Project.Spells
             
             SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
         }
+        
+        private enum ApplyType
+        {
+            AnimationDriven,
+            OnStart
+        }
+        
+        private enum KillType
+        {
+            AnimationDriven,
+            Timed
+        }
+        
+        private bool IsTimed() => killType == KillType.Timed;
     }
 }

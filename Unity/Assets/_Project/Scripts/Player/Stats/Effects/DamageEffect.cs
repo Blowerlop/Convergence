@@ -17,10 +17,10 @@ namespace Project.Effects
         public int DamageAmount;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable)
+        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
         {
             var entity = effectable.AffectedEntity;
-            if (entity.CanDamage(entity.TeamIndex)) return false;
+            if (!entity.CanDamage(applierTeamIndex)) return false;
             
             int amount;
 

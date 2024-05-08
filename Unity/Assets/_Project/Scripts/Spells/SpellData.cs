@@ -24,7 +24,9 @@ namespace Project.Spells
         
         [BoxGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
         [BoxGroup("Spell"), DisableIf("@true")] public int spellIdHash;
-        [BoxGroup("Spell")] public Spell spellPrefab;
+        [Space(15)]
+        [BoxGroup("Spell"), InlineEditor] public Spell spellPrefab;
+        [Space(15)]
         [BoxGroup("Spell")] public bool isInstant;
         [BoxGroup("Spell")] public float cooldown;
         [BoxGroup("Spell")] public float channelingTime;

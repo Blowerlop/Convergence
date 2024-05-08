@@ -7,7 +7,7 @@ namespace Project.Effects
         public int HealAmount;
 
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable)
+        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
         {
             var entity = effectable.AffectedEntity;
             
