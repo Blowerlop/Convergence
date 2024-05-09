@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{f3c3987b-ddc8-4943-901b-597a7d251b8d}">
 		<property name="name">
-			<value>slash</value>
+			<value>inst_slash</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>

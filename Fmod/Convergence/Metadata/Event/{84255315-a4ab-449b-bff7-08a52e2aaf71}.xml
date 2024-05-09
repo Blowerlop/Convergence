@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{84255315-a4ab-449b-bff7-08a52e2aaf71}">
 		<property name="name">
-			<value>shield</value>
+			<value>inst_shield</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>
