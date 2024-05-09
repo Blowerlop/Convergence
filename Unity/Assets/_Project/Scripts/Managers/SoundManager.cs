@@ -52,6 +52,7 @@ namespace Project._Project.Scripts.Managers
             Ambiance,
             PlayerAction,
             SFX,
+            Spell,
             Snapshot,
         }
 
@@ -365,6 +366,9 @@ namespace Project._Project.Scripts.Managers
                 case EventType.SFX:
                     eventName = "event:/SFX/" + eventName;
                     break;
+                case EventType.Spell:
+                    eventName = "event:/SFX/Spell/" + eventName;
+                    break;
                 default:
                     eventName = "event:/" + eventName;
                     break;
@@ -379,6 +383,7 @@ namespace Project._Project.Scripts.Managers
                     return false;
                 case RESULT.ERR_EVENT_NOTFOUND:
                 case RESULT.ERR_FILE_NOTFOUND:
+                case RESULT.ERR_INVALID_HANDLE:
                     Debug.LogWarning("Fmod: Event: " + info + " does not exist prévenir Guillaume");
                     return false;
                 default:

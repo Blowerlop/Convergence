@@ -83,7 +83,7 @@ namespace Project.Spells
         {
             base.OnNetworkSpawn();
             
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
+            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
 
         [Server]
