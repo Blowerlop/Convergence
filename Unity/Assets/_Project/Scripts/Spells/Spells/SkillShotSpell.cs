@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
@@ -17,8 +16,6 @@ namespace Project.Spells
         
         [SerializeField] private Vector3 _castOffset;
         [SerializeField] private float _castRadius;
-        
-        [SerializeField] private LayerMask _layerMask;
         
         [SerializeField] private float speed = 3f;
         [SerializeField] private float moveDuration = 2f;
@@ -62,7 +59,7 @@ namespace Project.Spells
 
             _moveSeq = DOTween.Sequence();
             _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, moveDuration).SetEase(Ease.Linear));
-            _moveSeq.OnComplete(() => NetworkObject.Despawn());
+            _moveSeq.OnComplete(KillSpell);
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -109,7 +106,7 @@ namespace Project.Spells
             Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
             
             return Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
-                    out hit, 0.5f, _layerMask);
+                    out hit, 0.5f, Constants.Layers.EntityMask);
         }
 
         [Server]
@@ -144,6 +141,8 @@ namespace Project.Spells
         private void OnImpactChanged(bool oldValue, bool newValue)
         {
             if (!newValue) return;
+            
+            if(!hasImpactPhase) return;
             
             _movingObject.SetActive(false);
             _impactObject.SetActive(true);

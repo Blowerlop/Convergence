@@ -8,9 +8,6 @@ namespace Project.Spells
 {
     public class SlashSpell : Spell
     {
-        private FacingZoneSpellData _facingZoneData = null;
-        private FacingZoneSpellData FacingZoneData => _facingZoneData ??= Data as FacingZoneSpellData;
-        
         [SerializeField] private BoxCollider collision;
         [SerializeField] private LayerMask layerMask;
         
@@ -84,14 +81,6 @@ namespace Project.Spells
             base.OnNetworkSpawn();
             
             SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
-        }
-
-        [Server]
-        private void KillSpell()
-        {
-            if (NetworkObject == null) return;
-            
-            NetworkObject.Despawn();
         }
     }
 }

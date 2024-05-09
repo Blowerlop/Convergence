@@ -130,12 +130,12 @@ namespace Project.Spells
                 Debug.LogError($"Designed target for TargetSpell {gameObject.name} does not have an Entity component!");
         }
         
-        private void KillSpell()
+        protected override void KillSpell()
         {
             if (applyEffectType == ApplyEffectType.OnKill)
                 ApplyEffectsOnTarget();
             
-            NetworkObject.Despawn();
+            base.KillSpell();
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)

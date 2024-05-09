@@ -6,16 +6,15 @@ namespace Project.Spells.Casters
     public class ZoneCaster : SpellCaster
     {
         public override Type CastResultType => typeof(SingleVectorResults);
-        
+        public override Type SpellDataType => typeof(ZoneSpellData);
+
         [SerializeField] private Transform aimVisual;
         [SerializeField] private Transform zoneVisual;
         
-        [SerializeField] private LayerMask groundLayerMask;
         private Camera _camera;
+        private ZoneSpellData _zoneSpellData;
         
         private SingleVectorResults _currentResults = new();
-
-        ZoneSpellData _zoneSpellData;
         
         private void Start()
         {
@@ -67,11 +66,20 @@ namespace Project.Spells.Casters
             pos.y = aimVisual.position.y;
             
             aimVisual.position = pos;
+            
+            if (_zoneSpellData.lookAtCenter)
+            {
+                var dir = pos - zoneVisual.position;
+                dir.y = 0;
+                dir.Normalize();
+                
+                aimVisual.rotation = Quaternion.LookRotation(dir);
+            }
         }
 
         public override void EvaluateResults()
         {
-            Utilities.GetMouseWorldPosition(_camera, groundLayerMask, out Vector3 position);
+            Utilities.GetMouseWorldPosition(_camera, Constants.Layers.GroundMask, out Vector3 position);
             
             var zoneCenter = zoneVisual.position;
             position = zoneCenter + Vector3.ClampMagnitude(position - zoneCenter, _zoneSpellData.limitRadius);

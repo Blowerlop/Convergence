@@ -7,6 +7,7 @@ namespace Project.Spells.Casters
     public class TargetCaster : SpellCaster
     {
         public override Type CastResultType => typeof(IntResults);
+        public override Type SpellDataType => typeof(TargetSpellData);
         
         [SerializeField] private Transform zoneVisual;
         

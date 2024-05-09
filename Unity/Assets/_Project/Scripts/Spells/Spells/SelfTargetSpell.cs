@@ -25,7 +25,7 @@ namespace Project.Spells
             
             TryApplyEffects(pcPlayerRefs.Entity);
 
-            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, () => NetworkObject.Despawn()));
+            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)

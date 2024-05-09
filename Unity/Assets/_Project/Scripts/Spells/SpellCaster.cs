@@ -7,10 +7,13 @@ namespace Project.Spells.Casters
     public abstract class SpellCaster : MonoBehaviour
     {
         public abstract Type CastResultType { get; }
-
+        public abstract Type SpellDataType { get; }
+        
         [ShowInInspector, ReadOnly, PropertyOrder(-1), LabelText("Cast Result Type")] 
-        [PropertySpace(SpaceBefore = 0, SpaceAfter = 15)]
         private string CastResultTypeAsString => CastResultType.Name;
+        [ShowInInspector, ReadOnly, PropertyOrder(-1), LabelText("Spell Data Type")] 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 15)]
+        private string SpellDataTypeAsString => SpellDataType.Name;
         
         public bool IsCasting { get; private set; }
 

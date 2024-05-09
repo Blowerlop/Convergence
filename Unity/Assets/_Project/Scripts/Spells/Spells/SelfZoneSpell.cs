@@ -41,12 +41,12 @@ namespace Project.Spells
             StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }
         
-        private void KillSpell()
+        protected override void KillSpell()
         {
             if (applyType == ApplyType.OnKill)
                 CheckForEffects();
             
-            NetworkObject.Despawn();
+            base.KillSpell();
         }
 
         #region Effects

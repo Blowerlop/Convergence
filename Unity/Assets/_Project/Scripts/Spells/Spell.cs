@@ -34,5 +34,10 @@ namespace Project.Spells
             int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
             return appliedEffects > 0;
         }
+
+        protected virtual void KillSpell()
+        {
+            NetworkObject.Despawn();
+        }
     }
 }
