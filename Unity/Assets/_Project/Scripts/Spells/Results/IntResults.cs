@@ -1,6 +1,5 @@
 using GRPCClient;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace Project.Spells
 {
@@ -15,10 +14,7 @@ namespace Project.Spells
 
         public bool TryFromCastRequest(GRPC_SpellCastRequest request)
         {
-            /*if(request. is not { Count: 1 })
-                return false;
-            
-            IntProp = ;*/
+            IntProp = request.IntParam;
             return true;
         }
     }
