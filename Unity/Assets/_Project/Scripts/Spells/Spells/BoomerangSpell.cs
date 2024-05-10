@@ -10,6 +10,8 @@ namespace Project.Spells
         [SerializeField] private AnimationCurve firstHalfEase, secondHalfEase;
         
         private SingleVectorResults _results;
+        private Vector3 _castDir;
+        
         private float _timer;
         
         protected override void Init(ICastResult castResult)
@@ -22,6 +24,7 @@ namespace Project.Spells
             }
             
             _results = results;
+            _castDir = GetDirection(castResult, Caster);
         }
 
         private void Update()
@@ -33,7 +36,7 @@ namespace Project.Spells
             if (_timer < firstHalfDuration)
             {
                 var easeFactor = firstHalfEase.Evaluate(_timer / firstHalfDuration);
-                transform.position += _results.VectorProp * (moveSpeed * easeFactor * Time.deltaTime);
+                transform.position += _castDir * (moveSpeed * easeFactor * Time.deltaTime);
             }
             else
             {
@@ -59,7 +62,7 @@ namespace Project.Spells
                 return default;
             }
             
-            return (player.PlayerTransform.position, Quaternion.LookRotation(results.VectorProp));
+            return (player.PlayerTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
@@ -71,7 +74,11 @@ namespace Project.Spells
                 return default;
             }
             
-            return results.VectorProp;
+            var dir = results.VectorProp - player.PlayerTransform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            return dir;
         }
     }
 }

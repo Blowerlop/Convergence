@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Project._Project.Scripts;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -85,7 +83,11 @@ namespace Project.Spells
                 return default;
             }
             
-            return results.VectorProp;
+            var dir = results.VectorProp - player.PlayerTransform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            return dir;
         }
     }
 }

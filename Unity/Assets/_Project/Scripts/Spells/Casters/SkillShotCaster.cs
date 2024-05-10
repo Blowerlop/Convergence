@@ -65,18 +65,19 @@ namespace Project.Spells.Casters
         
         protected override void UpdateCasting()
         {
-            visualParent.rotation = Quaternion.LookRotation(_currentResults.VectorProp);
+            var dir = _currentResults.VectorProp - CasterTransform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            visualParent.rotation = Quaternion.LookRotation(dir);
         }
 
         public override void EvaluateResults()
         {
             Utilities.GetMouseWorldPosition(_camera, groundLayerMask, out Vector3 position);
             position.y = 0;
-
-            var playerPos = CasterTransform.position;
-            playerPos.y = 0;
             
-            _currentResults.VectorProp = (position - playerPos).normalized;
+            _currentResults.VectorProp = position;
         }
 
         public override bool TryCast(int casterIndex)

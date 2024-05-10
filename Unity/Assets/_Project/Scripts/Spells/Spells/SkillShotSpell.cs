@@ -58,7 +58,10 @@ namespace Project.Spells
             _results = results;
 
             _moveSeq = DOTween.Sequence();
-            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, moveDuration).SetEase(Ease.Linear));
+            
+            var dir = GetDirection(castResult, Caster);
+            
+            _moveSeq.Join(transform.DOMove(transform.position + dir * speed, moveDuration).SetEase(Ease.Linear));
             _moveSeq.OnComplete(KillSpell);
         }
 
@@ -71,7 +74,7 @@ namespace Project.Spells
                 return default;
             }
             
-            return (player.PlayerTransform.position, Quaternion.LookRotation(results.VectorProp));
+            return (player.PlayerTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
@@ -83,7 +86,11 @@ namespace Project.Spells
                 return default;
             }
             
-            return results.VectorProp;
+            var dir = results.VectorProp - player.PlayerTransform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            return dir;
         }
 
         private void Update()
