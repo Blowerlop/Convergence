@@ -172,7 +172,7 @@ namespace Project._Project.Scripts.Managers
             _staticSoundList.Add(eventAlias, new SoundInstance(eventName, type, eventInstance));
         }
         
-        public void PlayStaticSound(string eventName, GameObject target, EventType type)
+        public void PlaySingleSound(string eventName, GameObject target, EventType type)
         {
             GetPath(ref eventName, type);
 

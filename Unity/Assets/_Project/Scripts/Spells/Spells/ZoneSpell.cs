@@ -84,7 +84,7 @@ namespace Project.Spells
         {
             base.OnNetworkSpawn();
             
-            SoundManager.instance.PlayStaticSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
     }
 }

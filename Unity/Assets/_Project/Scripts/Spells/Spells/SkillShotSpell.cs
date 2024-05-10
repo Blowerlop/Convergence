@@ -161,13 +161,13 @@ namespace Project.Spells
 
         private void InitAudio()
         {
-            SoundManager.instance.PlayStaticSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
 
         [ClientRpc]
         private void PlayDestroySoundClientRpc(bool hit = false)
         {
-            SoundManager.instance.PlayStaticSound((hit ? "hit_" : "destroy_") + Data.spellId, gameObject, SoundManager.EventType.Spell);
+            SoundManager.instance.PlaySingleSound((hit ? "hit_" : "destroy_") + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
         
         #endregion
