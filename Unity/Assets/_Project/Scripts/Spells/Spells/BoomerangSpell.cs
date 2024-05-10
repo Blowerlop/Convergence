@@ -5,8 +5,10 @@ namespace Project.Spells
     public class BoomerangSpell : Spell
     {
         [SerializeField] private float moveSpeed;
-        [SerializeField] private float halfDuration;
+        [SerializeField] private float firstHalfDuration, secondHalfEaseDuration;
 
+        [SerializeField] private AnimationCurve firstHalfEase, secondHalfEase;
+        
         private SingleVectorResults _results;
         private float _timer;
         
@@ -26,10 +28,12 @@ namespace Project.Spells
         {
             if (!IsServer) return;
             
-            if (_timer < halfDuration)
+            _timer += Time.deltaTime;
+            
+            if (_timer < firstHalfDuration)
             {
-                _timer += Time.deltaTime;
-                transform.position += _results.VectorProp * (moveSpeed * Time.deltaTime);
+                var easeFactor = firstHalfEase.Evaluate(_timer / firstHalfDuration);
+                transform.position += _results.VectorProp * (moveSpeed * easeFactor * Time.deltaTime);
             }
             else
             {
@@ -38,7 +42,8 @@ namespace Project.Spells
                 
                 var normalizedDir = dir.normalized;
 
-                transform.position += normalizedDir * (moveSpeed * Time.deltaTime);
+                var easeFactor = secondHalfEase.Evaluate((_timer - firstHalfDuration) / secondHalfEaseDuration);
+                transform.position += normalizedDir * (moveSpeed * easeFactor * Time.deltaTime);
                 
                 if(dir.magnitude < 0.1f) 
                     KillSpell();
