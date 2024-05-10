@@ -53,6 +53,7 @@ namespace Project._Project.Scripts.Managers
             PlayerAction,
             SFX,
             Spell,
+            UI,
             Snapshot,
         }
 
@@ -368,6 +369,9 @@ namespace Project._Project.Scripts.Managers
                     break;
                 case EventType.Spell:
                     eventName = "event:/SFX/Spell/" + eventName;
+                    break;
+                case EventType.UI:
+                    eventName = "event:/SFX/UI/" + eventName;
                     break;
                 default:
                     eventName = "event:/" + eventName;
