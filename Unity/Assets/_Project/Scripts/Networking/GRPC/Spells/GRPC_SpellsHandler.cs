@@ -121,6 +121,8 @@ namespace Project
                 return;
             }
             
+            Debug.Log($"HandleSpellCastRequest {request.ClientId} / {request.SpellIndex}");
+            
             SpellManager.instance.TryCastSpell(request.ClientId, request.SpellIndex, result);
         }
         

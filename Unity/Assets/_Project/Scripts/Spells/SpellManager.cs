@@ -28,6 +28,8 @@ namespace Project.Spells
 
             if (!TryGetSpellData(user, spellIndex, out var spell)) return;
 
+            Debug.Log($"Trying to cast spell {spell.spellId} for {user.ClientId} at index {spellIndex}.");
+            
             CooldownController cooldownController = playerRefs.Cooldowns;
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
