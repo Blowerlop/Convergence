@@ -20,12 +20,14 @@ namespace Project._Project.Scripts.Player.States
 
             _position = playerRefs.PlayerTransform.position;
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
+            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Dead, true);
         }
 
         protected override void OnExit()
         {
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
             playerRefs.Entity.Stats.nHealthStat.SetToMaxValue();
+            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Dead, false);
         }
 
         public override void OnDispose()

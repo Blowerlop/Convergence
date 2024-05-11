@@ -54,7 +54,7 @@ namespace Project.Spells
         }
         
         [Server]
-        public void StartServerChanneling(float channelingTime, Action channelingDoneAction = null)
+        public void StartServerChanneling(float channelingTime, byte index, Action channelingDoneAction = null)
         {
             // Bypass entering channeling state and exiting it instantly if we have no channeling time
             if (channelingTime == 0)
@@ -63,24 +63,30 @@ namespace Project.Spells
                 return;
             }
             
-            ChangeState<CastingState>();
+            ChangeState(new ChannelingState((byte)(index + 1)));
             
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {
-                ChangeState<IdleState>();
+                if (playerRefs is PCPlayerRefs pcRefs)
+                {
+                    if (pcRefs.StateMachine.CanChangeStateTo<IdleState>())
+                    {
+                        pcRefs.StateMachine.ChangeStateTo<IdleState>();
+                    }
+                }
                 
                 channelingDoneAction?.Invoke();
                 _isChanneling.Value = false;
             });
 
-            void ChangeState<T>() where T : BaseStateMachineBehaviour
+            void ChangeState(ChannelingState channelingState)
             {
                 if (playerRefs is not PCPlayerRefs pcRefs) return;
                 
-                if (pcRefs.StateMachine.CanChangeStateTo<T>())
+                if (pcRefs.StateMachine.CanChangeStateTo<ChannelingState>())
                 {
-                    pcRefs.StateMachine.ChangeStateTo<T>();
+                    pcRefs.StateMachine.ChangeStateTo(channelingState);
                 }
             }
         }

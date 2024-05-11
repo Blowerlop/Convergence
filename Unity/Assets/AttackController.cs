@@ -144,7 +144,7 @@ namespace Project
         {
             _isAttacking = true;
             _playerRefs.Animator.runtimeAnimatorController =
-                ((PlayerController)_playerRefs.Entity)._attackOverrideController;
+                ((PlayerController)_playerRefs.Entity).animatorOverrideController;
             _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
             _playerRefs.StateMachine.ChangeStateTo<AttackState>();
             _playerRefs.PlayerTransform.rotation =

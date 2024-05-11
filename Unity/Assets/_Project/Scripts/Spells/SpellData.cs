@@ -37,8 +37,15 @@ namespace Project.Spells
         
         [SerializeReference, PropertyOrder(999)] public Effect[] effects;
 
-        public Type RequiredResultType => resultTypeSelection != null ? Type.GetType(resultTypeSelection) : null;
-        
+        public Type RequiredResultType
+        {
+            get
+            {
+                Debug.Log($"Result type selection : {resultTypeSelection}");
+                return resultTypeSelection != null ? Type.GetType(resultTypeSelection) : null;
+            }
+        }
+
         [InfoBox("Replace casting animation with the animation of the spell")]
         [BoxGroup("Spell")] public AnimatorOverrideController animatorOverrideController;
         

@@ -171,6 +171,6 @@ namespace Project.Spells.Casters
         }
         
         private bool CanSwitchState() => _player is not PCPlayerRefs pcPlayer
-                                        || (pcPlayer.StateMachine.CanChangeStateTo<CastingState>() && !pcPlayer.Entity.IsSilenced);
+                                        || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() && !pcPlayer.Entity.IsSilenced);
     }
 }

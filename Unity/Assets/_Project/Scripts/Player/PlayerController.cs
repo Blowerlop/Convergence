@@ -1,6 +1,7 @@
 using System;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
+using Project.Extensions;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Project
 
         private int _currentAnimationHash;
         [ShowInInspector] private GRPC_NetworkVariable<int> _currentAnimation  = new GRPC_NetworkVariable<int>("CurrentAnimation");
-        public AnimatorOverrideController _attackOverrideController => ((SOCharacter)data)._attackOverrideController;
+        public AnimatorOverrideController animatorOverrideController => ((SOCharacter)data)._animatorOverrideController;
 
         public override int TeamIndex => _refs.TeamIndex;
 
@@ -71,6 +72,7 @@ namespace Project
             
             _currentAnimationHash = animationHash;
             _currentAnimation.Value = AnimatorStates.grpcHash[_currentAnimationHash];
+            Debug.Log("Update current animation : " + _currentAnimation.Value);
         }
 
 

@@ -498,40 +498,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultState:
-    rid: 8967663463420657664
+    rid: 4765142919618494464
   <currentState>k__BackingField:
     rid: -2
   _states:
-  - rid: 8967663463420657672
-  - rid: 8967663463420657673
-  - rid: 8967663463420657674
-  - rid: 8967663463420657675
-  - rid: 8967663463420657676
-  - rid: 8967663463420657677
-  - rid: 8967663463420657678
+  - rid: 4765142919618494465
+  - rid: 4765142919618494466
+  - rid: 4765142919618494467
+  - rid: 4765142919618494468
+  - rid: 4765142919618494469
+  - rid: 4765142919618494470
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8967663463420657664
+    - rid: 4765142919618494464
       type: {class: IdleState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
-    - rid: 8967663463420657672
-      type: {class: AttackState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
-    - rid: 8967663463420657673
-      type: {class: CastingState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
-    - rid: 8967663463420657674
+    - rid: 4765142919618494465
       type: {class: AirState, ns: Project._Project.Scripts.Player.State.PlayerState.Base.Air,
         asm: Assembly-CSharp}
-    - rid: 8967663463420657675
+    - rid: 4765142919618494466
+      type: {class: AttackState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 4765142919618494467
       type: {class: DeadState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
-    - rid: 8967663463420657676
+    - rid: 4765142919618494468
+      type: {class: IdleState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 4765142919618494469
       type: {class: MoveState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
-    - rid: 8967663463420657677
-      type: {class: AirState, ns: Project._Project.Scripts.Player.State.PlayerState.Base.Air,
-        asm: Assembly-CSharp}
-    - rid: 8967663463420657678
-      type: {class: AttackState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
+    - rid: 4765142919618494470
+      type: {class: StunState, ns: Project._Project.Scripts.Player.States, asm: Assembly-CSharp}
 --- !u!114 &6215435937847373130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,9 +770,16 @@ MonoBehaviour:
   TransitionStateInfoList:
   - IsCrossFadeExit: 0
     Layer: 0
-    OriginatingState: 1080829965
+    OriginatingState: -1936938822
     DestinationState: 229373857
     TransitionDuration: 0.2
+    TriggerNameHash: 17244484
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1936938822
+    DestinationState: 2081823275
+    TransitionDuration: 0.25
     TriggerNameHash: 17244484
     TransitionIndex: 3
   m_Animator: {fileID: 7670799931884736559}

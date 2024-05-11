@@ -8,6 +8,7 @@ using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Project
 {
@@ -37,7 +38,7 @@ namespace Project
         [field: SerializeField] public EAttackType attackType { get; private set; }
         [field: SerializeField, ShowIf("attackType", EAttackType.Ranged)] public SOProjectile projectileData;
         
-        [SerializeField] public AnimatorOverrideController _attackOverrideController;
+        [FormerlySerializedAs("_attackOverrideController")] [SerializeField] public AnimatorOverrideController _animatorOverrideController;
 
         
         public static SOCharacter[] GetAllCharacters()

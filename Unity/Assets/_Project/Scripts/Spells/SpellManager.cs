@@ -34,7 +34,7 @@ namespace Project.Spells
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
             if (playerRefs is PCPlayerRefs refs
-                && (!refs.StateMachine.CanChangeStateTo<CastingState>() || refs.Entity.IsSilenced))
+                && (!refs.StateMachine.CanChangeStateTo<ChannelingState>() || refs.Entity.IsSilenced))
             {
                 UnableToCastCallback();
                 return;
@@ -49,7 +49,7 @@ namespace Project.Spells
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
             
-            channelingController.StartServerChanneling(spell.channelingTime,
+            channelingController.StartServerChanneling(spell.channelingTime, (byte)spellIndex,
                 () => OnChannelingEnded(spell, results, playerRefs));
             
             OnChannelingStarted?.Invoke(playerRefs, spell.spellPrefab.GetDirection(results, playerRefs));
