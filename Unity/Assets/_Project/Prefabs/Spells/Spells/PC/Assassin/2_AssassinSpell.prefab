@@ -207,9 +207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 9db5a6720783c6749a8602f4d44a8f12,
     type: 2}
-  moveSpeed: 13
-  firstHalfDuration: 0.9
-  secondHalfEaseDuration: 0.9
+  moveSpeed: 18
+  firstHalfDuration: 1.25
+  secondHalfEaseDuration: 1.25
   firstHalfEase:
     serializedVersion: 2
     m_Curve:
@@ -258,6 +258,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  hitRadius: 0.5
 --- !u!114 &2087446521909062772
 MonoBehaviour:
   m_ObjectHideFlags: 0

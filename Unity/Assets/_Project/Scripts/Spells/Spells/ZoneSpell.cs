@@ -79,8 +79,6 @@ namespace Project.Spells
         [Server]
         public void CheckForEffects()
         {
-            if (!IsServer && !IsHost) return;
-
             var results = new Collider[5];
 
             var size = hitZoneShape switch
