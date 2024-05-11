@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{f38168c3-82f2-4746-81e7-85e73eb846cd}">
+		<property name="assetPath">
+			<value>Spells/Mobile/Cleanse/spell_mk_statueheal_04.ogg</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>22.0499992</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>3.3727437641723355</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{6d482be1-744e-4512-8cf4-a507dedf0b91}</destination>
+		</relationship>
+	</object>
+</objects>
