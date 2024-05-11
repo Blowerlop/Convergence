@@ -8,17 +8,16 @@ namespace Project
     {
         public static Dictionary<int, int> grpcHash = new Dictionary<int, int>
         {
-            [UnityAnimatorStringToHash("Idle1")] = "Idle1".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Idle2")] = "Idle2".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Idle3")] = "Idle3".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Idle4")] = "Idle4".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Idle")] = "Idle".ToHashIsSameAlgoOnUnreal(),
             [UnityAnimatorStringToHash("Movement")] = "Movement".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Channeling")] = "Channeling".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Attack")] = "Attack".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Emote1")] = "Emote1".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Emote2")] = "Emote2".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Emote3")] = "Emote3".ToHashIsSameAlgoOnUnreal(),
-            [UnityAnimatorStringToHash("Emote4")] = "Emote4".ToHashIsSameAlgoOnUnreal()
+            [UnityAnimatorStringToHash("AutoAttack")] = "AutoAttack".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Cast1")] = "Cast1".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Cast2")] = "Cast2".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Cast3")] = "Cast3".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Cast4")] = "Cast4".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Death")] = "Death".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Emote")] = "Emote".ToHashIsSameAlgoOnUnreal(),
+            [UnityAnimatorStringToHash("Stun")] = "Stun".ToHashIsSameAlgoOnUnreal(),
         };
 
 
