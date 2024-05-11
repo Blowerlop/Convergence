@@ -27,10 +27,12 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 0}
   limitRadius: 5
   zoneRadius: 1.5
+  lookAtCenter: 0
   references:
     version: 2
     RefIds:
     - rid: 2778045279059050498
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
+        DamageType: 0
         DamageAmount: 50

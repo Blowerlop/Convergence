@@ -28,6 +28,7 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 0}
   limitRadius: 5
   zoneRadius: 2
+  lookAtCenter: 0
   references:
     version: 2
     RefIds:
