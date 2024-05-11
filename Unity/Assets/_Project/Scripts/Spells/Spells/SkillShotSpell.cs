@@ -3,6 +3,7 @@ using DG.Tweening;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project.Spells
@@ -62,7 +63,7 @@ namespace Project.Spells
 
             _moveSeq = DOTween.Sequence();
             _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, moveDuration).SetEase(Ease.Linear));
-            _moveSeq.OnComplete(() => NetworkObject.Despawn());
+            if(IsServer) _moveSeq.OnComplete(() => KillSpell());
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -120,7 +121,7 @@ namespace Project.Spells
             if (TryApplyEffects(entity))
             {
                 if (!SrvCheckForImpactPhase(entity.transform))
-                    KillSpell();
+                    KillSpell(true);
             }
         }
 
@@ -137,7 +138,7 @@ namespace Project.Spells
             
             _moveSeq.Kill();
             
-            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(_impactDuration, KillSpell));
+            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(_impactDuration, () => KillSpell()));
             return true;
         }
 
@@ -149,8 +150,9 @@ namespace Project.Spells
             _impactObject.SetActive(true);
         }
         
-        private void KillSpell()
+        private void KillSpell(bool hit = false)
         {
+            PlayDestroySoundClientRpc(hit);
             _moveSeq.Kill();
             NetworkObject.Despawn();
         }
@@ -159,7 +161,13 @@ namespace Project.Spells
 
         private void InitAudio()
         {
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
+        }
+
+        [ClientRpc]
+        private void PlayDestroySoundClientRpc(bool hit = false)
+        {
+            SoundManager.instance.PlaySingleSound((hit ? "hit_" : "destroy_") + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
         
         #endregion
