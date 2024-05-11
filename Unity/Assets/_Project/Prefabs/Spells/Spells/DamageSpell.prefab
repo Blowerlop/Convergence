@@ -212,9 +212,6 @@ MonoBehaviour:
   _movingObject: {fileID: 1226572752951974000}
   _castOffset: {x: 0, y: 0, z: 0.5}
   _castRadius: 0.5
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 64
   speed: 17.5
   moveDuration: 1
   hasImpactPhase: 0

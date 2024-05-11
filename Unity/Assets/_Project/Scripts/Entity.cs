@@ -115,10 +115,6 @@ namespace Project._Project.Scripts
         #region Effects
         
         [Server]
-        public bool SrvTryApplyEffects(IList<Effect> effects) => 
-            effects.Count(effect => effect.TryApply(this)) > 0;
-        
-        [Server]
         public void SrvAddEffect(Effect effect)
         {
             AppliedEffects.Add(effect);

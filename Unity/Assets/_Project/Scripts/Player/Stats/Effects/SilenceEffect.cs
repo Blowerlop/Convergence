@@ -10,7 +10,7 @@ namespace Project.Effects
         
         private Coroutine _appliedCoroutine;
         
-        protected override bool TryApply_Internal(IEffectable effectable)
+        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
         {
             effectable.AffectedEntity.Silence();
             

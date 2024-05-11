@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
@@ -18,8 +17,6 @@ namespace Project.Spells
         
         [SerializeField] private Vector3 _castOffset;
         [SerializeField] private float _castRadius;
-        
-        [SerializeField] private LayerMask _layerMask;
         
         [SerializeField] private float speed = 3f;
         [SerializeField] private float moveDuration = 2f;
@@ -62,8 +59,11 @@ namespace Project.Spells
             _results = results;
 
             _moveSeq = DOTween.Sequence();
-            _moveSeq.Join(transform.DOMove(transform.position + results.VectorProp * speed, moveDuration).SetEase(Ease.Linear));
-            if(IsServer) _moveSeq.OnComplete(() => KillSpell());
+            
+            var dir = GetDirection(castResult, Caster);
+            
+            _moveSeq.Join(transform.DOMove(transform.position + dir * speed, moveDuration).SetEase(Ease.Linear));
+            _moveSeq.OnComplete(KillSpell);
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -75,7 +75,7 @@ namespace Project.Spells
                 return default;
             }
             
-            return (player.PlayerTransform.position, Quaternion.LookRotation(results.VectorProp));
+            return (player.PlayerTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
@@ -87,7 +87,11 @@ namespace Project.Spells
                 return default;
             }
             
-            return results.VectorProp;
+            var dir = results.VectorProp - player.PlayerTransform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            return dir;
         }
 
         private void Update()
@@ -110,7 +114,7 @@ namespace Project.Spells
             Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
             
             return Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
-                    out hit, 0.5f, _layerMask);
+                    out hit, 0.5f, Constants.Layers.EntityMask);
         }
 
         [Server]
@@ -145,6 +149,8 @@ namespace Project.Spells
         private void OnImpactChanged(bool oldValue, bool newValue)
         {
             if (!newValue) return;
+            
+            if(!hasImpactPhase) return;
             
             _movingObject.SetActive(false);
             _impactObject.SetActive(true);

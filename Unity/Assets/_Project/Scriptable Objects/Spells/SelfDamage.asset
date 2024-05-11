@@ -31,4 +31,5 @@ MonoBehaviour:
     - rid: 2778045199733227522
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
+        DamageType: 0
         DamageAmount: 50

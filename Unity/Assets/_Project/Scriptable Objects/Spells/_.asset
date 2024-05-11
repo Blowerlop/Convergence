@@ -21,6 +21,7 @@ MonoBehaviour:
   cooldown: 0
   channelingTime: 0
   effects: []
+  animatorOverrideController: {fileID: 0}
   references:
     version: 2
     RefIds: []

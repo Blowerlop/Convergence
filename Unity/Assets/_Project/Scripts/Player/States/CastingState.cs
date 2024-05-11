@@ -19,7 +19,7 @@ namespace Project._Project.Scripts.Player.States
         public override bool CanChangeStateTo<T>()
         {
             Type type = typeof(T);
-            return type == typeof(IdleState) || type == typeof(MoveState);
+            return type == typeof(IdleState);
         }
 
         public override string ToString()

@@ -13,14 +13,21 @@ namespace Project._Project.Scripts
         {
             base.OnNetworkSpawn();
 
+            _stats.OnStatsInitialized += OnStatsInitialized;
+            
             if (IsServer)
             {
                 ServerInit(entityData);
             }
-            
-            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged;
         }
 
+        
+        private void OnStatsInitialized()
+        {
+            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged;
+            _stats.OnStatsInitialized -= OnStatsInitialized;
+        }
+        
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();

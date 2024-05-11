@@ -98,7 +98,7 @@ namespace Project.Spells.Casters
 
                 var ownTransform = transform;
                 _spellCasters[i] = Instantiate(prefab, ownTransform.position, Quaternion.identity, ownTransform);
-                _spellCasters[i].Init(_player.PlayerTransform, _spells[i]);
+                _spellCasters[i].Init(_player, _spells[i]);
             }
         }
 
@@ -151,8 +151,8 @@ namespace Project.Spells.Casters
             
             caster.StopCasting();
             caster.EvaluateResults();
-            
-            caster.TryCast(spellIndex);
+
+            if (!caster.TryCast(spellIndex)) return;
             
             _cooldowns.StartLocalCooldown(spellIndex, _spells[spellIndex].cooldown);
         }
