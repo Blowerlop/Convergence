@@ -20,15 +20,17 @@ MonoBehaviour:
     type: 3}
   <model>k__BackingField: {fileID: 0}
   spells:
-  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
-  - {fileID: 11400000, guid: 1341f367abee49a4e91db81a4a3576dd, type: 2}
-  - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
-  - {fileID: 11400000, guid: ba965525e97681f4fa45f692d402e9cb, type: 2}
+  - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
+  - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
+  - {fileID: 11400000, guid: 1f033f4f62b63e9459a07a9d2e357ba8, type: 2}
+  - {fileID: 11400000, guid: 83d8c652c61a3a040af16cf4816dba96, type: 2}
   stats:
   - rid: 8967663378920636439
   - rid: 8967663378920636440
   - rid: 8967663378920636441
   - rid: 8967663378920636442
+  - rid: 2778045172259749888
+  - rid: 2778045199733227520
   <attackType>k__BackingField: 1
   projectileData: {fileID: 11400000, guid: ea5f7947448615a4ab5e6580f97c5004, type: 2}
   _attackOverrideController: {fileID: 22100000, guid: 06c1f18185b7e82418a4090cf48de0f3,
@@ -36,6 +38,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 2778045172259749888
+      type: {class: MoveSpeedStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 3
+        _value: 3
+        _minValue: 1
+        _maxValue: 999
+    - rid: 2778045199733227520
+      type: {class: ShieldStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 0
+        _value: 0
+        _minValue: 0
+        _maxValue: 999
     - rid: 8967663378920636439
       type: {class: HealthStat, ns: Project, asm: Assembly-CSharp}
       data:

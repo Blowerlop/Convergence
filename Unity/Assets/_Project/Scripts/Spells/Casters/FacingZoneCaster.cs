@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace Project.Spells.Casters
 {
     public class FacingZoneCaster : SpellCaster
     {
+        public override Type CastResultType => typeof(SingleVectorResults);
+        
         [SerializeField] private Transform aimVisual;
         [SerializeField] private Transform zoneVisual;
         
@@ -40,25 +43,25 @@ namespace Project.Spells.Casters
             aimVisual.localScale = Vector3.one * zoneSpell.zoneSize;
         }
         
-        public override void StartChanneling()
+        public override void StartCasting()
         {
             if (IsCasting) return;
             
-            base.StartChanneling();
+            base.StartCasting();
             zoneVisual.gameObject.SetActive(true);
             aimVisual.gameObject.SetActive(true);
         }
         
-        public override void StopChanneling()
+        public override void StopCasting()
         {
             if (!IsCasting) return;
             
-            base.StopChanneling();
+            base.StopCasting();
             zoneVisual.gameObject.SetActive(false);
             aimVisual.gameObject.SetActive(false);
         }
         
-        protected override void UpdateChanneling()
+        protected override void UpdateCasting()
         {
             var pos = _currentResults.VectorProp;
             pos.y = aimVisual.position.y;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -154,7 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b474d3a3f7fa4bdab9a957efa4b01246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  _stats: {fileID: 0}
+  entityData: {fileID: 0}
 --- !u!114 &265739185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +447,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b474d3a3f7fa4bdab9a957efa4b01246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  _stats: {fileID: 0}
+  entityData: {fileID: 0}
 --- !u!114 &432661979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,7 +1376,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b474d3a3f7fa4bdab9a957efa4b01246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  _stats: {fileID: 0}
+  entityData: {fileID: 0}
 --- !u!114 &1873134662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,7 +1680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b474d3a3f7fa4bdab9a957efa4b01246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  _stats: {fileID: 0}
+  entityData: {fileID: 0}
 --- !u!114 &919132147959747857
 MonoBehaviour:
   m_ObjectHideFlags: 0

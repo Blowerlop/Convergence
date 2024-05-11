@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90674e77ea264a1fb266c299f817de8b, type: 3}
+  m_Name: Damage
+  m_EditorClassIdentifier: 
+  resultTypeSelection: Project.Spells.SingleVectorResults
+  requiredCaster: {fileID: 6659489374371741918, guid: 0e857f00997a879418d612dd4d69bd73,
+    type: 3}
+  spellId: damage
+  spellIdHash: 149652721
+  spellPrefab: {fileID: 7716055719088318621, guid: 834c28b73428d254ab583194a1dfbe64,
+    type: 3}
+  isInstant: 0
+  cooldown: 5
+  channelingTime: 0.25
+  effects:
+  - rid: 2921934589571366912
+  animatorOverrideController: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2921934589571366912
+      type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        DamageAmount: 25

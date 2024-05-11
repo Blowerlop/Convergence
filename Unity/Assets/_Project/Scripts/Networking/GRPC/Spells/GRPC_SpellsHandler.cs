@@ -104,7 +104,15 @@ namespace Project
         {
             if (!IsRequestValid(request, out var spell)) return;
             
-            ICastResult result = ICastResult.TypeToInstance(spell.requiredResultType);
+            ICastResult result = Activator.CreateInstance(spell.RequiredResultType) as ICastResult;
+
+            // This should never happen
+            if (result == null)
+            {
+                Debug.LogError($"For some reason spell.RequiredResultType is not ICastResult. " +
+                               $"Actual type: {spell.RequiredResultType}");
+                return;
+            }
             
             if (!result.TryFromCastRequest(request))
             {

@@ -76,6 +76,10 @@ namespace Project
             /// AttackSpeed : Float
             /// </summary>
             public const int AttackSpeed = -498733101;
+            /// <summary>
+            /// Stunned : Bool
+            /// </summary>
+            public const int Stunned = -449490811;
         }
         
         public static class Layers

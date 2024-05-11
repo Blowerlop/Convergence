@@ -1,3 +1,4 @@
+using System;
 using Project._Project.Scripts.StateMachine;
 using UnityEngine;
 
@@ -17,7 +18,8 @@ namespace Project._Project.Scripts.Player.States
         
         public override bool CanChangeStateTo<T>()
         {
-            return typeof(T) == typeof(IdleState);
+            Type type = typeof(T);
+            return type == typeof(IdleState) || type == typeof(MoveState);
         }
 
         public override string ToString()

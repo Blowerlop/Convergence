@@ -74,7 +74,7 @@ namespace Project.Spells
             {
                 if (hit != null && hit.TryGetComponent<IDamageable>(out var damageable))
                 {
-                    damageable.TryDamage(Data.baseDamage, CasterTeamIndex);
+                    //damageable.TryDamage(Data.baseDamage, CasterTeamIndex);
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace Project.Spells
         {
             base.OnNetworkSpawn();
             
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
 
         [Server]
