@@ -2,6 +2,7 @@ using DG.Tweening;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project.Spells
@@ -124,7 +125,7 @@ namespace Project.Spells
             if (TryApplyEffects(entity))
             {
                 if (!SrvCheckForImpactPhase(entity.transform))
-                    KillSpell();
+                    KillSpell(true);
             }
         }
 
@@ -141,7 +142,7 @@ namespace Project.Spells
             
             _moveSeq.Kill();
             
-            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(_impactDuration, KillSpell));
+            StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(_impactDuration, () => KillSpell()));
             return true;
         }
 
@@ -155,8 +156,9 @@ namespace Project.Spells
             _impactObject.SetActive(true);
         }
         
-        private void KillSpell()
+        private void KillSpell(bool hit = false)
         {
+            PlayDestroySoundClientRpc(hit);
             _moveSeq.Kill();
             NetworkObject.Despawn();
         }
@@ -165,7 +167,13 @@ namespace Project.Spells
 
         private void InitAudio()
         {
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
+        }
+
+        [ClientRpc]
+        private void PlayDestroySoundClientRpc(bool hit = false)
+        {
+            SoundManager.instance.PlaySingleSound((hit ? "hit_" : "destroy_") + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
         
         #endregion

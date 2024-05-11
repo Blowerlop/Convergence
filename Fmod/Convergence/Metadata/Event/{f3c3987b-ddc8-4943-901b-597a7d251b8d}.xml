@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{f3c3987b-ddc8-4943-901b-597a7d251b8d}">
 		<property name="name">
-			<value>slash</value>
+			<value>inst_slash</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>
 		</property>
 		<relationship name="folder">
-			<destination>{49c5840e-300f-4d8d-831f-4a9639c40779}</destination>
+			<destination>{fd07751d-8d3e-4499-919f-737a6995e3d6}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{158bb5a2-a518-46c0-a4e5-b12132f080f8}</destination>
