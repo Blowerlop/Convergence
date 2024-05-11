@@ -131,6 +131,20 @@ namespace Project.Spells
             }
         }
         
+        #if UNITY_EDITOR
+        
+        [Button]
+        [Tooltip("Sometimes Github don't detect the changes made on the ScriptableObject, so we need to force the write on the disk")]
+        [ParrelSyncIgnore]
+        private void ForceSaveOnDisk()
+        {
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+        
+        #endif
+        
         #endregion
     }
 }
