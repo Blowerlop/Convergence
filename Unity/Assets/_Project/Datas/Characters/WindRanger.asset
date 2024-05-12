@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a933036e9ac32488c84340715fd6e3, type: 3}
   m_Name: WindRanger
   m_EditorClassIdentifier: 
-  id: 708491605
-  <characterName>k__BackingField: WindRanger
+  id: 520184093
+  <characterName>k__BackingField: Archer
   <avatar>k__BackingField: {fileID: 21300000, guid: c08c612b5abb6e04f8fefc87c7cd672d,
     type: 3}
   <prefab>k__BackingField: {fileID: 8863939365101282980, guid: 5dc2c30715e95bb49b528967857327dc,
     type: 3}
-  <model>k__BackingField: {fileID: 0}
   spells:
   - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
   - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
@@ -33,8 +32,6 @@ MonoBehaviour:
   - rid: 2778045199733227520
   <attackType>k__BackingField: 1
   projectileData: {fileID: 11400000, guid: ea5f7947448615a4ab5e6580f97c5004, type: 2}
-  _animatorOverrideController: {fileID: 22100000, guid: 51ac542c0f299284f8c09e2e1631912f,
-    type: 2}
   references:
     version: 2
     RefIds:
