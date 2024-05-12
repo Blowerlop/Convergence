@@ -105,10 +105,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1849431562472469695, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: prefabId
+      value: PCPlayer_Chevalier
+      objectReference: {fileID: 0}
     - target: {fileID: 4031822796035881096, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 962018133
+      value: 2020221660
       objectReference: {fileID: 0}
     - target: {fileID: 4124437638980882131, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
@@ -173,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 8566652343378925700, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: m_Name
-      value: PC_Player-WraithKing Variant
+      value: PC_Player-WraithKing
       objectReference: {fileID: 0}
     - target: {fileID: 8583798711595545617, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
