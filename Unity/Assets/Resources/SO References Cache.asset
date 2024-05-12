@@ -22,11 +22,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f591a104b9b4ef74dab2f2ce45b4dc23, type: 2}
   - <typeName>k__BackingField: SOCharacter
     <scriptableObjects>k__BackingField:
-    - {fileID: 11400000, guid: 50730f13322551c45847420a0503358a, type: 2}
-    - {fileID: 11400000, guid: 7a539fab3f7e72c4b9ef7a5f02dd418a, type: 2}
+    - {fileID: 11400000, guid: 89c740dc06931d343ac4e4b92799e804, type: 2}
+    - {fileID: 11400000, guid: 217a86e625ac12e469fa10bb7b24d400, type: 2}
     - {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
+    - {fileID: 11400000, guid: 559d3b67b20ec394fab1cfa6b789bb7c, type: 2}
+    - {fileID: 11400000, guid: 50730f13322551c45847420a0503358a, type: 2}
     - {fileID: 11400000, guid: 09489626d3af5374fb9aa68680bc4db8, type: 2}
-    - {fileID: 11400000, guid: e016bfecaf6bfcc40844d5eada51d91f, type: 2}
   - <typeName>k__BackingField: SOGameSettings
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: dac479bbb367c4046b09f19998826fc1, type: 2}

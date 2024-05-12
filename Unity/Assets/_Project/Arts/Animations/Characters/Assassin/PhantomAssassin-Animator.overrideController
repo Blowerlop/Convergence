@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PhantomAssassin-Animator
+  m_Controller: {fileID: 9100000, guid: 5438498f1f0a0af4fbd21bc9b459305b, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 9496441e4debddc4bb8c7796f3dbc24b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b7b0c2576d252e440b54cb2256f4b7ea, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: aed02e33c553283438c0f7bedcf8c7db, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3fc384840cdcee246b5e6768310b2020, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d5af4f0061f638e40b987d8528fa3cf0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 05605ec9093b4a9429350ec9470a90a1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9e0d927f272504c49a7e9521378b0a61, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e4642168eef418242b8145f21ff1722b, type: 2}

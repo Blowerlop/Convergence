@@ -46,9 +46,6 @@ namespace Project.Spells
             }
         }
 
-        [InfoBox("Replace casting animation with the animation of the spell")]
-        [BoxGroup("Spell")] public AnimatorOverrideController animatorOverrideController;
-        
         void Awake()
         {
             UpdateHash();
