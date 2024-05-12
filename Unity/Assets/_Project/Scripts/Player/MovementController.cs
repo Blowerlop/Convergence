@@ -17,7 +17,7 @@ namespace Project
         
         private NavMeshAgent _agent;
 
-        private const float _DESTINATION_REACHED_OFFSET = 0.1f;
+        private const float _DESTINATION_REACHED_OFFSET = 3.0f;
         
         public event Action OnPositionReached;
         
