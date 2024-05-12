@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3084006248
+  GlobalObjectIdHash: 2134523557
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -770,16 +770,9 @@ MonoBehaviour:
   TransitionStateInfoList:
   - IsCrossFadeExit: 0
     Layer: 0
-    OriginatingState: -1936938822
+    OriginatingState: 1080829965
     DestinationState: 229373857
     TransitionDuration: 0.2
-    TriggerNameHash: 17244484
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -1936938822
-    DestinationState: 2081823275
-    TransitionDuration: 0.25
     TriggerNameHash: 17244484
     TransitionIndex: 3
   m_Animator: {fileID: 7670799931884736559}
