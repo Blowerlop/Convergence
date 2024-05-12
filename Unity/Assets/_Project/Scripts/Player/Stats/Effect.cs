@@ -17,14 +17,14 @@ namespace Project
         
         protected IEffectable AffectedEffectable { get; private set; }
         
-        public bool TryApply(IEffectable effectable)
+        public bool TryApply(IEffectable effectable, int applierTeamIndex)
         {
             AffectedEffectable = effectable;
             
-            return TryApply_Internal(effectable);
+            return TryApply_Internal(effectable, applierTeamIndex);
         }
 
-        protected abstract bool TryApply_Internal(IEffectable effectable);
+        protected abstract bool TryApply_Internal(IEffectable effectable, int applierTeamIndex);
         
         public abstract void KillEffect();
         

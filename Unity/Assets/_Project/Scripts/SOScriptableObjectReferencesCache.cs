@@ -40,10 +40,17 @@ namespace Project
         [Title("Data")]
         // I can't make it dictionary because Unity can't serialize them 
         [field: SerializeField, ReadOnly] private List<SOCacheEntry> _scriptableObjectsCache;
-        
+
         public static T[] GetScriptableObjects<T>()
         {
-            return instance._scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name).scriptableObjects.Cast<T>().ToArray();
+            return instance._scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name)
+                .scriptableObjects.Cast<T>().ToArray();
+        }
+        
+        public static ScriptableObject[] GetScriptableObjects(Type type)
+        {
+            return instance._scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == type.Name)
+                .scriptableObjects;
         }
         
         #if UNITY_EDITOR

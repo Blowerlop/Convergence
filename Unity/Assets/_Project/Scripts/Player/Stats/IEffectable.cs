@@ -9,8 +9,6 @@ namespace Project
         
         public IList<Effect> AppliedEffects { get; }
         
-        public bool SrvTryApplyEffects(IList<Effect> effects);
-        
         public void SrvAddEffect(Effect effect);
         public void SrvRemoveEffect(Effect effect);
         

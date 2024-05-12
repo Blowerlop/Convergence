@@ -4985,7 +4985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: HealSpell
+  prefabId: SelfDamageSpell
   UnrealOwnerAddress: 
   hasBeenSpawnedOnGrpc: 0
 --- !u!114 &4072781175783423226

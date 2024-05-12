@@ -4,7 +4,7 @@ namespace Project.Effects
     {
         public override EffectType Type => EffectType.Bad;
         
-        protected override bool TryApply_Internal(IEffectable effectable)
+        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
         {
             effectable.SrvDebuff();
             return true;

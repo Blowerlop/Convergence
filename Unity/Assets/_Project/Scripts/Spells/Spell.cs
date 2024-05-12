@@ -31,8 +31,13 @@ namespace Project.Spells
 
         protected virtual bool TryApplyEffects(Entity entity)
         {
-            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity));
+            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
             return appliedEffects > 0;
+        }
+
+        protected virtual void KillSpell()
+        {
+            NetworkObject.Despawn();
         }
     }
 }

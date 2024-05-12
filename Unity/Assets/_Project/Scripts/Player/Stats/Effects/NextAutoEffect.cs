@@ -9,7 +9,7 @@ namespace Project.Effects
 
         [SerializeReference, SerializeField] private List<Effect> _effectsOnAuto = new();
 
-        protected override bool TryApply_Internal(IEffectable effectable)
+        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
         {
             AddToEffectable();
             return true;
@@ -20,13 +20,13 @@ namespace Project.Effects
             RemoveFromEffectable();
         }
 
-        public bool TryApplyChildEffects(IEffectable effectable)
+        public bool TryApplyChildEffects(IEffectable effectable, int applierTeamIndex)
         {
             int appliedEffects = 0;
             
             foreach (var effect in _effectsOnAuto)
             {
-                if (effect.TryApply(effectable))
+                if (effect.TryApply(effectable, applierTeamIndex))
                     appliedEffects++;
             }
 

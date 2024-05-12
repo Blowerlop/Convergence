@@ -143,8 +143,6 @@ namespace Project
         private void StartAttack(Vector3 targetPosition, IDamageable damageable)
         {
             _isAttacking = true;
-            _playerRefs.Animator.runtimeAnimatorController =
-                ((PlayerController)_playerRefs.Entity)._attackOverrideController;
             _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
             _playerRefs.StateMachine.ChangeStateTo<AttackState>();
             _playerRefs.PlayerTransform.rotation =
@@ -181,7 +179,7 @@ namespace Project
                     var effect = ownEffectable.AppliedEffects[i];
                     if (effect is not NextAutoEffect nextAutoEffect) continue;
                     
-                    nextAutoEffect.TryApplyChildEffects(hitEffectable);
+                    nextAutoEffect.TryApplyChildEffects(hitEffectable, _playerRefs.TeamIndex);
                     nextAutoEffect.KillEffect();
                 }
             }

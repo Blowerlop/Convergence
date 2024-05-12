@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90674e77ea264a1fb266c299f817de8b, type: 3}
+  m_Script: {fileID: 11500000, guid: a08e456fbec44e5db6e30ed6a7d6145d, type: 3}
   m_Name: SkillShot
   m_EditorClassIdentifier: 
   resultTypeSelection: Project.Spells.SingleVectorResults
@@ -25,12 +25,15 @@ MonoBehaviour:
   effects:
   - rid: 2921934589571366912
   - rid: 2921934589586046976
+  animatorOverrideController: {fileID: 0}
+  length: 6
   references:
     version: 2
     RefIds:
     - rid: 2921934589571366912
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
+        DamageType: 0
         DamageAmount: 25
     - rid: 2921934589586046976
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}

@@ -16,7 +16,7 @@ namespace Project.Effects
         private int _slowedValue;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable)
+        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
         {
             var entity = effectable.AffectedEntity;
             

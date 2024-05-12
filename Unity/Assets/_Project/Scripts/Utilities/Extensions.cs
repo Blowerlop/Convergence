@@ -204,6 +204,8 @@ namespace Project.Extensions
         
         public static int ToHashIsSameAlgoOnUnreal(this string stringToHash)
         {
+            stringToHash = stringToHash.ToLower();
+            
             const int p = 31;
             const long m = (long)1e9 + 9;
             long hashValue = 0;

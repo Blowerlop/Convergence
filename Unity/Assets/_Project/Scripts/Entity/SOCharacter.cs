@@ -8,6 +8,7 @@ using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Project
 {
@@ -28,7 +29,7 @@ namespace Project
         public string characterName { get;  set; }
         [field: SerializeField, AssetsOnly, Required, PreviewField(75)] public Sprite avatar { get; private set; }
         [field: SerializeField, AssetsOnly, Required] public GameObject prefab { get; private set; }
-        [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
+        // [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
 
         [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
@@ -37,8 +38,6 @@ namespace Project
         [field: SerializeField] public EAttackType attackType { get; private set; }
         [field: SerializeField, ShowIf("attackType", EAttackType.Ranged)] public SOProjectile projectileData;
         
-        [SerializeField] public AnimatorOverrideController _attackOverrideController;
-
         
         public static SOCharacter[] GetAllCharacters()
         {
@@ -79,8 +78,8 @@ namespace Project
 #if UNITY_EDITOR
         private void RenameAssetByName()
         {
-            string path = AssetDatabase.GetAssetPath(GetInstanceID());
-            AssetDatabase.RenameAsset(path, characterName);
+            // string path = AssetDatabase.GetAssetPath(GetInstanceID());
+            // AssetDatabase.RenameAsset(path, characterName);
         }
 #endif
         
