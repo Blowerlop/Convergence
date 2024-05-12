@@ -44,7 +44,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cast 3
+  m_Name: Cast3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -273,7 +273,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Channeling 3
+  m_Name: Channeling3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -502,7 +502,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cast 2
+  m_Name: Cast2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -581,7 +581,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Channeling 2
+  m_Name: Channeling2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -658,7 +658,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Channeling 4
+  m_Name: Channeling4
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1306,7 +1306,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cast 4
+  m_Name: Cast4
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1345,7 +1345,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Channeling 1
+  m_Name: Channeling1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1679,7 +1679,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cast 1
+  m_Name: Cast1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
