@@ -33,6 +33,8 @@ namespace Project.Spells
         [BoxGroup("Spell")] public float cooldown;
         [BoxGroup("Spell")] public float channelingTime;
 
+        [BoxGroup("Spell")] public float castAnimationDuration;
+        
         [Space(40)]
         
         [SerializeReference, PropertyOrder(999)] public Effect[] effects;

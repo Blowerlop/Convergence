@@ -110,7 +110,7 @@ namespace Project.Spells.Casters
                 return;
             }
 
-            if (!CanSwitchState()) return;
+            if (!SpellManager.CanCastSpell(_player)) return;
             
             if(_channelingController.IsChanneling) return;
             
@@ -141,7 +141,7 @@ namespace Project.Spells.Casters
                 return;
             }
             
-            if (!CanSwitchState()) return;
+            if (!SpellManager.CanCastSpell(_player)) return;
             
             var caster = _spellCasters[spellIndex];
             
@@ -169,8 +169,5 @@ namespace Project.Spells.Casters
             
             caster.StopCasting();
         }
-        
-        private bool CanSwitchState() => _player is not PCPlayerRefs pcPlayer
-                                        || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() && !pcPlayer.Entity.IsSilenced);
     }
 }
