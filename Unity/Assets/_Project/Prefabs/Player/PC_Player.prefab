@@ -46,6 +46,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
   channelingNetVarName: IsChanneling
+--- !u!1 &233584245640403952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3028027891906969767}
+  - component: {fileID: 9122649814116459540}
+  m_Layer: 6
+  m_Name: InCastController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3028027891906969767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233584245640403952}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7834158997003778491}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9122649814116459540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233584245640403952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dc738d4ec24024857b0590bd5afecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRefs: {fileID: 6215435937847373130}
 --- !u!1 &458406308534564621
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007026922932564193}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -247,6 +292,7 @@ Transform:
   - {fileID: 3490958754586719391}
   - {fileID: 7498701418951860559}
   - {fileID: 2242298826837601606}
+  - {fileID: 3028027891906969767}
   - {fileID: 992961472255295090}
   - {fileID: 1674897335312341898}
   m_Father: {fileID: 4124437638980882131}
@@ -543,13 +589,14 @@ MonoBehaviour:
   playerTransform: {fileID: 4124437638980882131}
   cooldowns: {fileID: 1430276818711062553}
   channeling: {fileID: 2923043460446806746}
+  _networkAnimator: {fileID: 8279106846831332330}
   _entity: {fileID: 7568465784921170700}
   _stateMachine: {fileID: 8716894832332392838}
-  _networkAnimator: {fileID: 8279106846831332330}
   _navMeshAgent: {fileID: 7105107927145916266}
   _playerMouse: {fileID: 9136715108103689386}
   _movementController: {fileID: 3582799549502680765}
   spellCastController: {fileID: 5111047068020737362}
+  inCastController: {fileID: 9122649814116459540}
   emoteController: {fileID: 8472965482039663037}
 --- !u!114 &7568465784921170700
 MonoBehaviour:

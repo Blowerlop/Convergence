@@ -19,12 +19,13 @@ MonoBehaviour:
   spellIdHash: -529952656
   spellPrefab: {fileID: 3732644935445707112, guid: 8d83bab3cc299b24d815937ca32caecd,
     type: 3}
-  isInstant: 0
+  isInstant: 1
   cooldown: 5
-  channelingTime: 1
+  channelingTime: 0.5
+  castingFlags: 0
+  castAnimationDuration: 0
   effects:
   - rid: 1951814773975023617
-  animatorOverrideController: {fileID: 0}
   length: 3.5
   references:
     version: 2

@@ -29,10 +29,13 @@ namespace Project.Spells
         [Space(15)]
         [BoxGroup("Spell"), InlineEditor] public Spell spellPrefab;
         [Space(15)]
-        [BoxGroup("Spell")] public bool isInstant;
+        [BoxGroup("Spell"), Tooltip("If true, this spell won't have any aim phase")] public bool isInstant;
         [BoxGroup("Spell")] public float cooldown;
         [BoxGroup("Spell")] public float channelingTime;
-
+        
+        [Space(15)]
+        
+        [BoxGroup("Spell"), EnumToggleButtons()] public CastingFlags castingFlags;
         [BoxGroup("Spell")] public float castAnimationDuration;
         
         [Space(40)]
@@ -61,7 +64,7 @@ namespace Project.Spells
         }
 
         private static List<SpellData> _spellsCache;
-        
+
         public static SpellData GetSpell(int spellIdHash)
         {
             if (_spellsCache == null || _spellsCache.Count == 0)

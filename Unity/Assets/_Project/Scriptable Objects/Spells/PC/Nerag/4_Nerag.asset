@@ -21,13 +21,14 @@ MonoBehaviour:
     type: 3}
   isInstant: 0
   cooldown: 5
-  channelingTime: 0.25
+  channelingTime: 0
+  castingFlags: 0
+  castAnimationDuration: 0.6
   effects:
   - rid: 1951814709268185093
   - rid: 1951814709268185094
-  animatorOverrideController: {fileID: 0}
   targetType: 0
-  limitRadius: 3
+  limitRadius: 6
   references:
     version: 2
     RefIds:

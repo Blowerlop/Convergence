@@ -78,7 +78,20 @@ namespace Project.Spells
             var boolName = "Cast " + (spellIndex + 1);
             
             playerRefs.Animator.SetBool(boolName, true);
-            DOVirtual.DelayedCall(spell.castAnimationDuration, () => playerRefs.Animator.SetBool(boolName, false));
+            
+            var pcPlayer = playerRefs as PCPlayerRefs;
+            if (pcPlayer) pcPlayer.InCastController.SrvSetInCast(spellIndex);
+            
+            DOVirtual.DelayedCall(spell.castAnimationDuration, OnCastEnd);
+
+            return;
+
+            void OnCastEnd()
+            {
+                playerRefs.Animator.SetBool(boolName, false);
+                
+                if (pcPlayer) pcPlayer.InCastController.SrvResetInCast();
+            }
         }
 
         [Server]
@@ -141,7 +154,9 @@ namespace Project.Spells
         public static bool CanCastSpell(PlayerRefs refs)
         {
             return refs is not PCPlayerRefs pcPlayer
-                   || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() && !pcPlayer.Entity.IsSilenced);
+                   || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() 
+                       && !pcPlayer.Entity.IsSilenced 
+                       && !pcPlayer.InCastController.IsCasting);
         }
         
         #endregion
