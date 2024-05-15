@@ -23,7 +23,7 @@ MonoBehaviour:
   cooldown: 5
   channelingTime: 0.5
   castingFlags: 0
-  castAnimationDuration: 0
+  castAnimationDuration: 0.66
   effects:
   - rid: 1951814773975023617
   length: 3.5

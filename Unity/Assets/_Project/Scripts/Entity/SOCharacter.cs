@@ -31,7 +31,7 @@ namespace Project
         [field: SerializeField, AssetsOnly, Required] public GameObject prefab { get; private set; }
         // [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
 
-        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
+        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField, InlineEditor]
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
         [field: SerializeReference, ListDrawerSettings(ShowIndexLabels = false, DraggableItems = false)] public StatBase[] stats;
