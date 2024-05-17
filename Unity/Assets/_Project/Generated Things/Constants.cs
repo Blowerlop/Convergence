@@ -53,49 +53,147 @@ namespace Project
         public static class AnimatorsParam
         {
             /// <summary>
+            /// Idle : Trigger
+            /// </summary>
+            public const int Idle = 2081823275;
+            /// <summary>
+            /// Run : Trigger
+            /// </summary>
+            public const int Run = 1748754976;
+            /// <summary>
+            /// AutoAttack : Trigger
+            /// </summary>
+            public const int AutoAttack = -1936938822;
+            /// <summary>
+            /// Death : Trigger
+            /// </summary>
+            public const int Death = 646380074;
+            /// <summary>
+            /// Victory : Trigger
+            /// </summary>
+            public const int Victory = -1090111034;
+            /// <summary>
+            /// Cast1 : Trigger
+            /// </summary>
+            public const int Cast1 = 382807843;
+            /// <summary>
+            /// Cast2 : Trigger
+            /// </summary>
+            public const int Cast2 = -1881637223;
+            /// <summary>
+            /// Cast3 : Trigger
+            /// </summary>
+            public const int Cast3 = -119583217;
+            /// <summary>
+            /// Cast4 : Trigger
+            /// </summary>
+            public const int Cast4 = 1723587500;
+            /// <summary>
             /// Movement : Bool
             /// </summary>
             public const int Movement = 229373857;
             /// <summary>
-            /// Channeling : Bool
+            /// Attack : Trigger
             /// </summary>
-            public const int Channeling = -888734683;
+            public const int Attack = 1080829965;
+            /// <summary>
+            /// AttackSpeed : Float
+            /// </summary>
+            public const int AttackSpeed = -498733101;
+            /// <summary>
+            /// EndAttackInstant : Trigger
+            /// </summary>
+            public const int EndAttackInstant = 17244484;
+            /// <summary>
+            /// Stunned : Bool
+            /// </summary>
+            public const int Stunned = -449490811;
+            /// <summary>
+            /// Channeling 1 : Bool
+            /// </summary>
+            public const int Channeling_1 = -646212687;
+            /// <summary>
+            /// Channeling 2 : Bool
+            /// </summary>
+            public const int Channeling_2 = 1081262603;
+            /// <summary>
+            /// Channeling 3 : Bool
+            /// </summary>
+            public const int Channeling_3 = 930476701;
+            /// <summary>
+            /// Channeling 4 : Bool
+            /// </summary>
+            public const int Channeling_4 = -1458477250;
+            /// <summary>
+            /// Cast 1 : Bool
+            /// </summary>
+            public const int Cast_1 = 1920232698;
+            /// <summary>
+            /// Cast 2 : Bool
+            /// </summary>
+            public const int Cast_2 = -344113856;
+            /// <summary>
+            /// Cast 3 : Bool
+            /// </summary>
+            public const int Cast_3 = -1669722666;
+            /// <summary>
+            /// Cast 4 : Bool
+            /// </summary>
+            public const int Cast_4 = 35559541;
+            /// <summary>
+            /// Dead : Bool
+            /// </summary>
+            public const int Dead = 1293411866;
             /// <summary>
             /// EmoteIndex : Int
             /// </summary>
             public const int EmoteIndex = -126835265;
         }
         
-        public static class LayersMask
+        public static class Layers
         {
             /// <summary>
             /// Default
             /// </summary>
-            public const int Default = 1;
+            public const int DefaultMask = 1;
+            public const int DefaultIndex = 0;
+            public const string DefaultName = "Default";
             /// <summary>
             /// TransparentFX
             /// </summary>
-            public const int TransparentFX = 2;
+            public const int TransparentFXMask = 2;
+            public const int TransparentFXIndex = 1;
+            public const string TransparentFXName = "TransparentFX";
             /// <summary>
             /// Ignore Raycast
             /// </summary>
-            public const int Ignore_Raycast = 4;
+            public const int Ignore_RaycastMask = 4;
+            public const int Ignore_RaycastIndex = 2;
+            public const string Ignore_RaycastName = "Ignore Raycast";
             /// <summary>
             /// Water
             /// </summary>
-            public const int Water = 16;
+            public const int WaterMask = 16;
+            public const int WaterIndex = 4;
+            public const string WaterName = "Water";
             /// <summary>
             /// UI
             /// </summary>
-            public const int UI = 32;
+            public const int UIMask = 32;
+            public const int UIIndex = 5;
+            public const string UIName = "UI";
             /// <summary>
             /// Entity
             /// </summary>
-            public const int Entity = 64;
+            public const int EntityMask = 64;
+            public const int EntityIndex = 6;
+            public const string EntityName = "Entity";
             /// <summary>
             /// Ground
             /// </summary>
-            public const int Ground = 128;
+            public const int GroundMask = 128;
+            public const int GroundIndex = 7;
+            public const string GroundName = "Ground";
         }
         
         public static class Resources
@@ -164,6 +262,10 @@ namespace Project
             /// GameController
             /// </summary>
             public const string GameController = "GameController";
+            /// <summary>
+            /// Border
+            /// </summary>
+            public const string Border = "Border";
         }
         
     }

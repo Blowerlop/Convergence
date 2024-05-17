@@ -1,5 +1,7 @@
 using System;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
+using Project.Extensions;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -36,11 +38,17 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             _currentAnimation.Initialize();
             
             if (IsServer)
             {
-                _stats.health.OnValueChanged += OnHealthChanged_CheckIfDead;
+                if (_stats.isInitialized)
+                {
+                    OnStatsInitialized_HookHealth();
+                }
+                else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
             }
         }
 
@@ -50,7 +58,7 @@ namespace Project
             
             _currentAnimation.Reset();
             
-            if (IsServer) _stats.health.OnValueChanged -= OnHealthChanged_CheckIfDead;
+            if (IsServer) _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged_CheckIfDead;
         }
         
         private void Update()
@@ -58,17 +66,28 @@ namespace Project
             if (IsServer == false) return;
             
             // Shit
-            int animationHash = _refs.Animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+            int animationHash = _refs.Animator.GetNextAnimatorStateInfo(0).shortNameHash;
             if (animationHash == _currentAnimationHash) return;
+            if (animationHash == 0) return;
             
             _currentAnimationHash = animationHash;
             _currentAnimation.Value = AnimatorStates.grpcHash[_currentAnimationHash];
+            Debug.Log("Update current animation : " + _currentAnimation.Value);
         }
 
 
         private void OnHealthChanged_CheckIfDead(int currentHealth, int maxHealth)
         {
-            if (currentHealth <= 0) _refs.StateMachine.ChangeState(_refs.StateMachine.deadState);
+            if (currentHealth <= 0)
+            {
+                _refs.StateMachine.ChangeStateTo<DeadState>();
+            }
+        }
+
+        private void OnStatsInitialized_HookHealth()
+        {
+            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged_CheckIfDead;
+            _stats.OnStatsInitialized -= OnStatsInitialized_HookHealth;
         }
     }
 }

@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a933036e9ac32488c84340715fd6e3, type: 3}
+  m_Name: PhantomAssassin
+  m_EditorClassIdentifier: 
+  id: 725676554
+  <characterName>k__BackingField: Assassin
+  <avatar>k__BackingField: {fileID: 21300000, guid: 3d920f7952d744f49bee0579e846b8d5,
+    type: 3}
+  <prefab>k__BackingField: {fileID: 2165045143848194405, guid: a45584d80a061544381499f18b920768,
+    type: 3}
+  spells:
+  - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
+  - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
+  - {fileID: 11400000, guid: 1f033f4f62b63e9459a07a9d2e357ba8, type: 2}
+  - {fileID: 11400000, guid: 83d8c652c61a3a040af16cf4816dba96, type: 2}
+  stats:
+  - rid: 8967663378920636439
+  - rid: 8967663378920636440
+  - rid: 8967663378920636441
+  - rid: 8967663378920636442
+  - rid: 2778045172259749888
+  - rid: 2778045199733227520
+  <attackType>k__BackingField: 1
+  projectileData: {fileID: 11400000, guid: ea5f7947448615a4ab5e6580f97c5004, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2778045172259749888
+      type: {class: MoveSpeedStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 8
+        _value: 8
+        _minValue: 1
+        _maxValue: 15
+    - rid: 2778045199733227520
+      type: {class: ShieldStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 0
+        _value: 0
+        _minValue: 0
+        _maxValue: 999
+    - rid: 8967663378920636439
+      type: {class: HealthStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 100
+        _value: 100
+        _minValue: 0
+        _maxValue: 100
+    - rid: 8967663378920636440
+      type: {class: AttackDamageStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 20
+        _value: 20
+        _minValue: 0
+        _maxValue: 50
+    - rid: 8967663378920636441
+      type: {class: AttackRangeStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 5
+        _value: 5
+        _minValue: 0
+        _maxValue: 8
+    - rid: 8967663378920636442
+      type: {class: AttackSpeedStat, ns: Project, asm: Assembly-CSharp}
+      data:
+        _defaultValue: 1
+        _value: 1
+        _minValue: 0
+        _maxValue: 2

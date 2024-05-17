@@ -2,18 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Project._Project.Scripts;
 using Project.Extensions;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Project
 {
+    public enum EAttackType
+    {
+        Melee,
+        Ranged
+    }
+    
     [CreateAssetMenu(menuName = "Scriptable Objects/Character")]
     public class SOCharacter : SOEntity
     {
-        [ShowInInspector, PropertyOrder(-1)] public int id = -1;
+        [ShowInInspector, PropertyOrder(-1), ReadOnly] public int id = -1;
 
         [field: SerializeField, AssetsOnly, Required]
         [field: OnValueChanged("RenameAssetByName", InvokeOnInitialize = false, InvokeOnUndoRedo = true)]
@@ -21,14 +29,16 @@ namespace Project
         public string characterName { get;  set; }
         [field: SerializeField, AssetsOnly, Required, PreviewField(75)] public Sprite avatar { get; private set; }
         [field: SerializeField, AssetsOnly, Required] public GameObject prefab { get; private set; }
-        [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
+        // [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
 
         [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
-        // Stats
-        [field: SerializeField, BoxGroup("Stats")] public int BaseHealth { get; private set; }
-
+        [field: SerializeReference, ListDrawerSettings(ShowIndexLabels = false, DraggableItems = false)] public StatBase[] stats;
+        [field: SerializeField] public EAttackType attackType { get; private set; }
+        [field: SerializeField, ShowIf("attackType", EAttackType.Ranged)] public SOProjectile projectileData;
+        
+        
         public static SOCharacter[] GetAllCharacters()
         {
             return SOScriptableObjectReferencesCache.GetScriptableObjects<SOCharacter>();
@@ -63,13 +73,13 @@ namespace Project
         {
             return spells;
         }
-        
+
         #region Editor
 #if UNITY_EDITOR
         private void RenameAssetByName()
         {
-            string path = AssetDatabase.GetAssetPath(GetInstanceID());
-            AssetDatabase.RenameAsset(path, characterName);
+            // string path = AssetDatabase.GetAssetPath(GetInstanceID());
+            // AssetDatabase.RenameAsset(path, characterName);
         }
 #endif
         
@@ -77,6 +87,8 @@ namespace Project
         {
             id = characterName.ToHashIsSameAlgoOnUnreal();
         }
+        
+        private void IsRanged() => attackType = EAttackType.Ranged;
         
 #if UNITY_EDITOR
         [Button]

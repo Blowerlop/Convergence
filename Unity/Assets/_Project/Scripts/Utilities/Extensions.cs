@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
@@ -225,6 +226,8 @@ namespace Project.Extensions
         
         public static int ToHashIsSameAlgoOnUnreal(this string stringToHash)
         {
+            stringToHash = stringToHash.ToLower();
+            
             const int p = 31;
             const long m = (long)1e9 + 9;
             long hashValue = 0;
@@ -335,5 +338,18 @@ namespace Project.Extensions
         public static int ToInt(this bool boolean) => boolean ? 1 : 0;
 
         public static bool ToBool(this int @int) => @int == 1 ? true : false;
+    }
+
+    public static class NetcodeExtensions
+    {
+        public static bool IsClientOnly(this NetworkBehaviour networkBehaviour)
+        {
+            return networkBehaviour.IsServer == false && networkBehaviour.IsClient;
+        }
+        
+        public static bool IsServerOnly(this NetworkBehaviour networkBehaviour)
+        {
+            return networkBehaviour.IsServer && networkBehaviour.IsClient == false;
+        }
     }
 }

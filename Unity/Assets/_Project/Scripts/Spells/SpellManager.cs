@@ -1,5 +1,5 @@
 using System;
-using Project._Project.Scripts.Spells;
+using Project._Project.Scripts.Player.States;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -27,28 +27,46 @@ namespace Project.Spells
             }
 
             if (!TryGetSpellData(user, spellIndex, out var spell)) return;
-            
-            PlayerPlatform platform = user.GetPlatform();
-            
-            ChannelingController channelingController = playerRefs.Channeling;
-            if (channelingController.IsChanneling) return;
+
+            Debug.Log($"Trying to cast spell {spell.spellId} for {user.ClientId} at index {spellIndex}.");
             
             CooldownController cooldownController = playerRefs.Cooldowns;
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
+            if (playerRefs is PCPlayerRefs refs
+                && (!refs.StateMachine.CanChangeStateTo<ChannelingState>() || refs.Entity.IsSilenced))
+            {
+                UnableToCastCallback();
+                return;
+            }
+            
+            ChannelingController channelingController = playerRefs.Channeling;
+            if (channelingController.IsChanneling)
+            {
+                UnableToCastCallback();
+                return;
+            }
+            
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
             
-            channelingController.StartServerChanneling(spell.channelingTime,
+            channelingController.StartServerChanneling(spell.channelingTime, (byte)spellIndex,
                 () => OnChannelingEnded(spell, results, playerRefs));
             
             OnChannelingStarted?.Invoke(playerRefs, spell.spellPrefab.GetDirection(results, playerRefs));
+
+            return;
+
+            void UnableToCastCallback()
+            {
+                cooldownController.ChangeNegativeValue(spellIndex);
+            }
         }
 
         [Server]
         private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellInstance = SpawnSpell(spell, results, playerRefs);
-            spellInstance.Init(results, playerRefs.TeamIndex);
+            spellInstance.Init(results, playerRefs);
         }
 
         [Server]
@@ -112,6 +130,18 @@ namespace Project.Spells
         
         [ServerRpc(RequireOwnership = false)]
         public void TryCastSpellServerRpc(int spellIndex, SingleVectorResults results, ServerRpcParams serverRpcParams = default)
+        {
+            TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void TryCastSpellServerRpc(int spellIndex, EmptyResults results, ServerRpcParams serverRpcParams = default)
+        {
+            TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void TryCastSpellServerRpc(int spellIndex, IntResults results, ServerRpcParams serverRpcParams = default)
         {
             TryCastSpell((int)serverRpcParams.Receive.SenderClientId, spellIndex, results);
         }

@@ -1,5 +1,6 @@
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.StateMachine;
 using Project.Spells.Casters;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -11,18 +12,21 @@ namespace Project
     {
         [SerializeField] private Entity _entity;
         
-        [SerializeField] private PlayerStateMachineController _stateMachine;
+        [SerializeField] private StateMachineController _stateMachine;
         [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
-        
+        [SerializeField] private PlayerMouse _playerMouse;
+        [SerializeField] private MovementController _movementController;
         [SerializeField] private SpellCastController spellCastController;
 
         [SerializeField] private EmoteController emoteController;
         
         public Entity Entity => _entity;
-        public PlayerStateMachineController StateMachine => _stateMachine;
+        public StateMachineController StateMachine => _stateMachine;
         public Animator Animator => _networkAnimator.Animator;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
+        public PlayerMouse PlayerMouse => _playerMouse;
+        public MovementController MovementCOntroller => _movementController;
 
         public EmoteController EmoteController => emoteController;
         

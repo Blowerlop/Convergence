@@ -64,11 +64,7 @@ namespace Project
             }
             catch (RpcException e)
             {
-                if (GRPC_NetworkManager.instance.isConnected)
-                {
-                    Debug.LogError(e);
-                    GRPC_NetworkManager.instance.StopClient();
-                }
+                Debug.LogError(e);
             }
         }
 
@@ -94,12 +90,16 @@ namespace Project
                 Debug.LogError($"GRPC_SpellsHandler > Client {request.ClientId} has an invalid character ID {user.CharacterId}.");
                 return false;
             }
+
+            int spellIndex = user.GetMobileSpell(request.SpellIndex);
+            spell = SpellData.GetSpell(spellIndex);
             
-            if (!character.TryGetSpell(request.SpellIndex, out spell))
+            if (spell == null)
             {
                 Debug.LogError($"GRPC_SpellsHandler > Client {request.ClientId} has an invalid spell index {request.SpellIndex}.");
                 return false;
             }
+            
 
             return true;
         }
@@ -108,7 +108,16 @@ namespace Project
         {
             if (!IsRequestValid(request, out var spell)) return;
             
-            ICastResult result = ICastResult.TypeToInstance(spell.requiredResultType);
+            Debug.Log("HandleSpellCastRequest " + request.ClientId + " " + request.SpellIndex + " " + spell.RequiredResultType);
+            ICastResult result = Activator.CreateInstance(spell.RequiredResultType) as ICastResult;
+
+            // This should never happen
+            if (result == null)
+            {
+                Debug.LogError($"For some reason spell.RequiredResultType is not ICastResult. " +
+                               $"Actual type: {spell.RequiredResultType}");
+                return;
+            }
             
             if (!result.TryFromCastRequest(request))
             {
@@ -116,6 +125,8 @@ namespace Project
                     $"GRPC_SpellsHandler > Client {request.ClientId} has invalid spell cast result params in his request.");
                 return;
             }
+            
+            Debug.Log($"HandleSpellCastRequest {request.ClientId} / {request.SpellIndex}");
             
             SpellManager.instance.TryCastSpell(request.ClientId, request.SpellIndex, result);
         }
@@ -153,11 +164,7 @@ namespace Project
             }
             catch (RpcException e)
             {
-                if (GRPC_NetworkManager.instance.isConnected)
-                {
-                    Debug.LogError(e);
-                    GRPC_NetworkManager.instance.StopClient();
-                }
+                Debug.LogError(e);
             }
         }
 

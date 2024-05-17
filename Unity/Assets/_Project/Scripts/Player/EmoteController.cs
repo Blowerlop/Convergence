@@ -16,9 +16,9 @@ namespace Project
         public void TryPlayEmote(int emoteIndex)
         {
             var state = new EmoteState(emoteIndex);
-            if (refs.StateMachine.CanChangeStateTo(state))
+            if (refs.StateMachine.CanChangeStateTo<EmoteState>())
             {
-                refs.StateMachine.ChangeState(state);
+                refs.StateMachine.ChangeStateTo(state);
             }
         }
         

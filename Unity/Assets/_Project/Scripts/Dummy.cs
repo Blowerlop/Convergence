@@ -1,46 +1,38 @@
 using DG.Tweening;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Project._Project.Scripts
 {
-    public class Dummy : NetworkBehaviour, IDamageable, IHealable
+    public class Dummy : Entity
     {
-        [SerializeField] private int maxHealth;
+        [SerializeField] private SOEntity entityData;
         
-        private NetworkVariable<int> _health = new NetworkVariable<int>();
-
         private Sequence _shakeSeq;
-        
-        public void Damage(int modifier)
-        {
-            _health.Value -= modifier;
-            if (_health.Value < 0) _health.Value = 0;
-        }
-
-        public bool CanDamage(int attackerTeamIndex)
-        {
-            return true;
-        }
-
-        public void Heal(int modifier)
-        {
-            _health.Value += modifier;
-            if (_health.Value > maxHealth) _health.Value= maxHealth;
-        }
-
-        public void MaxHeal() => Heal(maxHealth);
 
         public override void OnNetworkSpawn()
         {
-            if (IsServer || IsHost) _health.Value = maxHealth;
+            base.OnNetworkSpawn();
+
+            _stats.OnStatsInitialized += OnStatsInitialized;
             
-            _health.OnValueChanged += OnHealthChanged;
+            if (IsServer)
+            {
+                ServerInit(entityData);
+            }
         }
 
+        
+        private void OnStatsInitialized()
+        {
+            _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged;
+            _stats.OnStatsInitialized -= OnStatsInitialized;
+        }
+        
         public override void OnNetworkDespawn()
         {
-            _health.OnValueChanged -= OnHealthChanged;
+            base.OnNetworkDespawn();
+            
+            _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged;
         }
         
         private void OnHealthChanged(int oldValue, int newValue)

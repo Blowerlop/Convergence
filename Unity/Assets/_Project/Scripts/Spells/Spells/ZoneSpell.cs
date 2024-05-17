@@ -1,6 +1,8 @@
+using System;
 using DG.Tweening;
+using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
-using Project.Extensions;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells
@@ -10,9 +12,16 @@ namespace Project.Spells
         private ZoneSpellData _zoneData = null;
         private ZoneSpellData ZoneData => _zoneData ??= Data as ZoneSpellData;
         
-        SingleVectorResults _results;
+        [SerializeField] private ApplyType applyType;
+        [SerializeField] private KillType killType;
+
+        [SerializeField, ShowIf(nameof(IsTimed))] private float duration;
         
-        [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private HitZoneShape hitZoneShape;
+        
+        [SerializeField, ShowIf(nameof(IsBoxShape))] private BoxCollider boxCollider;
+        
+        private SingleVectorResults _results;
         
         private Sequence _moveSeq;
 
@@ -24,8 +33,14 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return;
             }
-
+            
             _results = results;
+            
+            if (applyType == ApplyType.OnStart)
+                CheckForEffects();
+            
+            if (killType == KillType.Timed)
+                StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -36,8 +51,13 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(ZoneSpell)}!");
                 return default;
             }
+
+            Quaternion rotation = Quaternion.identity;
+
+            if (ZoneData.lookAtCenter)
+                rotation = Quaternion.LookRotation(GetDirection(castResult, player));
             
-            return (results.VectorProp, Quaternion.identity);
+            return (results.VectorProp, rotation);
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
@@ -56,35 +76,61 @@ namespace Project.Spells
             return dir;
         }
 
-        public void CheckForDamage()
+        [Server]
+        public void CheckForEffects()
         {
-            if (!IsServer && !IsHost) return;
+            var results = new Collider[5];
 
-            var hits = Physics.OverlapSphere(_results.VectorProp, ZoneData.zoneRadius, _layerMask);
-            if (hits.Length > 0)
+            var size = hitZoneShape switch
             {
-                foreach (var hit in hits)
+                HitZoneShape.Default => Physics.OverlapSphereNonAlloc(_results.VectorProp, ZoneData.zoneRadius, results,
+                    Constants.Layers.EntityMask),
+                HitZoneShape.Box => Physics.OverlapBoxNonAlloc(transform.position + boxCollider.center,
+                    boxCollider.size / 2, results, boxCollider.transform.rotation, Constants.Layers.EntityMask),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            for(int i = 0; i < size; i++)
+            {
+                if(results[i].TryGetComponent(out Entity entity))
                 {
-                    if (hit.TryGetComponent(out IDamageable damageable))
-                    {
-                        damageable.TryDamage(ZoneData.baseDamage, CasterTeamIndex);
-                    }
+                    TryApplyEffects(entity);
                 }
             }
         }
 
+        [Server]
         public void AnimEnd()
         {
-            if (!IsServer && !IsHost) return;
-            
-            NetworkObject.Despawn();
+            KillSpell();
         }
         
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-            SoundManager.instance.PlayStaticSound(Data.spellId, gameObject, SoundManager.EventType.SFX);
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
+        
+        private enum ApplyType
+        {
+            AnimationDriven,
+            OnStart
+        }
+        
+        private enum KillType
+        {
+            AnimationDriven,
+            Timed
+        }
+
+        private enum HitZoneShape
+        {
+            Default,
+            Box
+        }
+        
+        private bool IsTimed() => killType == KillType.Timed;
+        private bool IsBoxShape() => hitZoneShape == HitZoneShape.Box;
     }
 }

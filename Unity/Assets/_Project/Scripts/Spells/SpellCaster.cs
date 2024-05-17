@@ -1,28 +1,39 @@
+using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Spells.Casters
 {
     public abstract class SpellCaster : MonoBehaviour
     {
-        [field: SerializeField] public CastResultType CastResultType { get; private set; }
+        public abstract Type CastResultType { get; }
+        public abstract Type SpellDataType { get; }
+        
+        [ShowInInspector, ReadOnly, PropertyOrder(-1), LabelText("Cast Result Type")] 
+        private string CastResultTypeAsString => CastResultType.Name;
+        [ShowInInspector, ReadOnly, PropertyOrder(-1), LabelText("Spell Data Type")] 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 15)]
+        private string SpellDataTypeAsString => SpellDataType.Name;
         
         public bool IsCasting { get; private set; }
 
+        protected PlayerRefs Caster { get; private set; }
         protected Transform CasterTransform { get; private set; }
         
-        public virtual void Init(Transform casterTransform, SpellData spell)
+        public virtual void Init(PlayerRefs caster, SpellData spell)
         {
-            CasterTransform = casterTransform;
+            Caster = caster;
+            CasterTransform = caster.PlayerTransform;
         }
         
-        public virtual void StartChanneling()
+        public virtual void StartCasting()
         {
             if (IsCasting) return;
             
             IsCasting = true;
         }
         
-        public virtual void StopChanneling()
+        public virtual void StopCasting()
         {
             if (!IsCasting) return;
             
@@ -34,14 +45,14 @@ namespace Project.Spells.Casters
             if (!IsCasting) return;
             
             EvaluateResults();
-            UpdateChanneling();
+            UpdateCasting();
         }
 
         /// <summary>
         /// Called every frame if this caster is channeling.
         /// Called after EvaluateResults().
         /// </summary>
-        protected abstract void UpdateChanneling();
+        protected abstract void UpdateCasting();
 
         /// <summary>
         /// Should evaluate current results based on user inputs and other factors. Then update _currentResults.
@@ -53,6 +64,6 @@ namespace Project.Spells.Casters
         /// Ask SpellManager to spawn the desired spell with caster current results.
         /// </summary>
         /// <param name="casterIndex"></param>
-        public abstract void TryCast(int casterIndex);
+        public abstract bool TryCast(int casterIndex);
     }
 }

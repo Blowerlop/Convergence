@@ -52,6 +52,8 @@ namespace Project._Project.Scripts.Managers
             Ambiance,
             PlayerAction,
             SFX,
+            Spell,
+            UI,
             Snapshot,
         }
 
@@ -171,7 +173,7 @@ namespace Project._Project.Scripts.Managers
             _staticSoundList.Add(eventAlias, new SoundInstance(eventName, type, eventInstance));
         }
         
-        public void PlayStaticSound(string eventName, GameObject target, EventType type)
+        public void PlaySingleSound(string eventName, GameObject target, EventType type)
         {
             GetPath(ref eventName, type);
 
@@ -365,6 +367,12 @@ namespace Project._Project.Scripts.Managers
                 case EventType.SFX:
                     eventName = "event:/SFX/" + eventName;
                     break;
+                case EventType.Spell:
+                    eventName = "event:/SFX/Spell/" + eventName;
+                    break;
+                case EventType.UI:
+                    eventName = "event:/SFX/UI/" + eventName;
+                    break;
                 default:
                     eventName = "event:/" + eventName;
                     break;
@@ -379,6 +387,7 @@ namespace Project._Project.Scripts.Managers
                     return false;
                 case RESULT.ERR_EVENT_NOTFOUND:
                 case RESULT.ERR_FILE_NOTFOUND:
+                case RESULT.ERR_INVALID_HANDLE:
                     Debug.LogWarning("Fmod: Event: " + info + " does not exist prévenir Guillaume");
                     return false;
                 default:

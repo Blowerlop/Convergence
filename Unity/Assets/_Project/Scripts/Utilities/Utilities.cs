@@ -110,6 +110,15 @@ namespace Project
             action.Invoke();
         }
 
+        public static bool GetMouseWorldHit(Camera camera, LayerMask layerMask, out RaycastHit hitInfo)
+        {
+            Vector3 mousePosition = Mouse.current.position.value;
+            mousePosition.z = camera.nearClipPlane;
+            
+            Ray ray = camera.ScreenPointToRay(mousePosition);
+            return Physics.Raycast(ray, out hitInfo, 100, layerMask);
+        }
+
         public static bool GetMouseWorldPosition(Camera camera, LayerMask layerMask, out Vector3 position)
         {
             Vector3 mousePosition = Mouse.current.position.value;

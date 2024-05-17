@@ -58,7 +58,13 @@ namespace Project.Spells
                 cd.OnValueChanged += (x, newValue) =>
                 {
                     OnServerCooldownUpdated?.Invoke(temp, newValue);
-                    if (newValue <= 0) OnServerCooldownEnded?.Invoke(temp);
+                    if (newValue <= 0)
+                    {
+                        if(_timers[temp].isTimerRunning)
+                            _timers[temp].StopTimer();
+
+                        OnServerCooldownEnded?.Invoke(temp);
+                    }
                 };
             }
         }
@@ -126,6 +132,15 @@ namespace Project.Spells
 
             OnServerCooldownStarted?.Invoke(index, time);
             _timers[index].StartTimerWithUpdateCallback(this, time, TimerUpdate, TimerEnd, TimeType.Unscaled, ceiled: true);
+        }
+
+        [Server]
+        public void ChangeNegativeValue(int index)
+        {
+            if (index < 0 || index >= _timers.Length) return;
+
+            var cooldown = _cooldowns[index];
+            cooldown.Value = cooldown.Value == -1 ? 0 : -1;
         }
         
         /// <summary>
