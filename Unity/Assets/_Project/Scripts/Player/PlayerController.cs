@@ -66,8 +66,9 @@ namespace Project
             if (IsServer == false) return;
             
             // Shit
-            int animationHash = _refs.Animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+            int animationHash = _refs.Animator.GetNextAnimatorStateInfo(0).shortNameHash;
             if (animationHash == _currentAnimationHash) return;
+            if (animationHash == 0) return;
             
             _currentAnimationHash = animationHash;
             _currentAnimation.Value = AnimatorStates.grpcHash[_currentAnimationHash];
