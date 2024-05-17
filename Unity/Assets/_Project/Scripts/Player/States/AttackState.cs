@@ -24,7 +24,9 @@ namespace Project._Project.Scripts.Player.States
 
         public override bool CanEnterState(PCPlayerRefs refs)
         {
-            return true;
+            // Can't attack if is casting a spell
+            var inCastController = refs.InCastController;
+            return !inCastController.IsCasting;
         }
 
         public override string ToString()
