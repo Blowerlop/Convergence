@@ -208,12 +208,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 83d8c652c61a3a040af16cf4816dba96,
     type: 2}
+  CanHitSelf: 0
   _movingObject: {fileID: 1226572752951974000}
   _castOffset: {x: 0, y: 0, z: 0.5}
   _castRadius: 0.5
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 64
   speed: 17.5
   moveDuration: 1
   hasImpactPhase: 0

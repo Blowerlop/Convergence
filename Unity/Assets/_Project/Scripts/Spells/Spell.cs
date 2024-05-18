@@ -13,6 +13,8 @@ namespace Project.Spells
             
         [field: SerializeField, ReadOnly] public SpellData Data { get; set; }
         
+        [SerializeField] protected bool CanHitSelf;
+        
         // Called by Server
         // Used to set field that are common for every spell before calling overriden Init
         [Server]
@@ -31,6 +33,9 @@ namespace Project.Spells
 
         protected virtual bool TryApplyEffects(Entity entity)
         {
+            if (!CanHitSelf && Caster is PCPlayerRefs pcPlayerRefs && pcPlayerRefs.Entity == entity)
+                return false;
+            
             int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
             return appliedEffects > 0;
         }

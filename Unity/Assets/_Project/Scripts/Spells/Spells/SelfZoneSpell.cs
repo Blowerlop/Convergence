@@ -12,8 +12,6 @@ namespace Project.Spells
         [SerializeField] private float duration = 2f;
 
         [SerializeField] private float zoneRadius;
-
-        [SerializeField] private bool includeCaster;
         
         [SerializeField] private ApplyType applyType;
         [SerializeField, ShowIf(nameof(IsTimedApplyType))] private float timeBetweenApplies;
@@ -54,15 +52,12 @@ namespace Project.Spells
         private void CheckForEffects()
         {
             var size = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, _hits, Constants.Layers.EntityMask);
-            if(size == 0) return;
+            if (size == 0) return;
             
             for (int i = 0; i < size; i++)
             {
                 if (_hits[i].TryGetComponent(out Entity entity))
                 {
-                    if(!includeCaster && _casterEntity && entity == _casterEntity) 
-                        continue;
-                    
                     TryApplyEffects(entity);
                 }
             }
