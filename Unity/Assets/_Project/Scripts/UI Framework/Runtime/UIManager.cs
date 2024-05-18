@@ -16,11 +16,12 @@ namespace Project.Scripts.UIFramework
             instance = SOScriptableObjectReferencesCache.GetScriptableObjects<SOUIManager>()[0];
         }
 
-        
+        #if UNITY_EDITOR
         public static void UpdateUI()
         {
             Object.FindObjectsOfType<SkinUI>().ForEach(x => x.OnValidate());
         }
+        #endif
 
         public static Color GetColorByType(EColorType type)
         {

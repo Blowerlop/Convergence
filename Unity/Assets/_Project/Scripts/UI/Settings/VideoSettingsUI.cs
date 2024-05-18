@@ -6,8 +6,6 @@ using Project.Scripts.UIFramework;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Button = Project.Scripts.UIFramework.Button;
 
 namespace Project
 {
