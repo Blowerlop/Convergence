@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Project._Project.Scripts.UI.Settings;
+using Project.Scripts.UIFramework;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Button = Project.Scripts.UIFramework.Button;
 
 namespace Project
 {
@@ -202,24 +204,25 @@ namespace Project
     public class FrameRateSettingsUI
     {
         [SerializeField] private TMP_InputField _frameRateInputField;
-        [SerializeField] private Button _vSyncButton;
+        [SerializeField] private ToggleButton _vSyncButton;
 
 
         public void Start()
         {
             _frameRateInputField.SetTextWithoutNotify(VideoSettingsManager.frameRate.ToString());
+            _vSyncButton.SetToggle(VideoSettingsManager.frameRate.GetVSync());
         }
 
         public void OnEnable()
         {
-            _frameRateInputField.onDeselect.AddListener(SetSetFrameRate);
-            _vSyncButton.onClick.AddListener(ToggleVsync);
+            _frameRateInputField.onEndEdit.AddListener(SetSetFrameRate);
+            _vSyncButton._onToggle.AddListener(SetVsync);
         }
         
         public void OnDisable()
         {
-            _frameRateInputField.onDeselect.RemoveListener(SetSetFrameRate);
-            _vSyncButton.onClick.RemoveListener(ToggleVsync);
+            _frameRateInputField.onEndEdit.RemoveListener(SetSetFrameRate);
+            _vSyncButton._onToggle.RemoveListener(SetVsync);
         }
         
 
@@ -246,9 +249,9 @@ namespace Project
             }
         }
 
-        private void ToggleVsync()
+        private void SetVsync(bool state)
         {
-            VideoSettingsManager.frameRate.SetSync(!VideoSettingsManager.frameRate.GetVSync());
+            VideoSettingsManager.frameRate.SetSync(state);
         }
     }
 
