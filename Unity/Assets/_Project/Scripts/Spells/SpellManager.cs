@@ -51,8 +51,12 @@ namespace Project.Spells
 
             channelingController.StartServerChanneling(spell.channelingTime, (byte)spellIndex,
                 () => OnChannelingEnded(spell, spellIndex, results, playerRefs));
+
+            var dir = spell.spellPrefab != null ? 
+                spell.spellPrefab.GetDirection(results, playerRefs) 
+                : playerRefs.PlayerTransform.forward;
             
-            OnChannelingStarted?.Invoke(playerRefs, spell.spellPrefab.GetDirection(results, playerRefs));
+            OnChannelingStarted?.Invoke(playerRefs, dir);
 
             return;
 
@@ -65,12 +69,31 @@ namespace Project.Spells
         [Server]
         private void OnChannelingEnded(SpellData spell, int spellIndex, ICastResult results, PlayerRefs playerRefs)
         {
-            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
-            spellInstance.Init(results, playerRefs);
-            
+            if(spell.spellPrefab != null) 
+                HandlePrefabSpell(spell, results, playerRefs);
+            else 
+                HandleNoPrefabSpell(spell, playerRefs);
+
             HandleCastAnimation(spell, spellIndex, playerRefs);
         }
 
+        [Server]
+        private void HandlePrefabSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        {
+            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
+            spellInstance.Init(results, playerRefs);
+        }
+        
+        [Server]
+        private void HandleNoPrefabSpell(SpellData spell, PlayerRefs playerRefs)
+        {
+            var playerEntity = playerRefs.GetPC().Entity;
+            
+            foreach (var effect in spell.effects)
+                effect.GetInstance().TryApply(playerEntity, playerEntity.TeamIndex);
+        }
+        
+        [Server]
         private void HandleCastAnimation(SpellData spell, int spellIndex, PlayerRefs playerRefs)
         {
             if (spell.castAnimationDuration <= 0) return;
