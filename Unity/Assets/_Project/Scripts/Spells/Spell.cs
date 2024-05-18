@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Project._Project.Scripts;
 using Sirenix.OdinInspector;
@@ -33,7 +34,14 @@ namespace Project.Spells
 
         protected virtual bool TryApplyEffects(Entity entity)
         {
-            if (!CanHitSelf && Caster is PCPlayerRefs pcPlayerRefs && pcPlayerRefs.Entity == entity)
+            var refs = Caster switch
+            {
+                MobilePlayerRefs mobilePlayerRefs => mobilePlayerRefs.PCPlayerRefs,
+                PCPlayerRefs pcPlayerRefs => pcPlayerRefs,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            
+            if (!CanHitSelf && refs.Entity == entity)
                 return false;
             
             int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
