@@ -362,34 +362,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playHoverSound: 0
   _playClickSound: 1
-  _onHover:
+  onHover:
     m_PersistentCalls:
       m_Calls: []
-  _onUnHover:
+  onUnHover:
     m_PersistentCalls:
       m_Calls: []
-  _onClickDown:
+  onClickDown:
     m_PersistentCalls:
       m_Calls: []
-  _onClickUp:
+  onClickUp:
     m_PersistentCalls:
       m_Calls: []
-  _onClick:
+  onClick:
     m_PersistentCalls:
       m_Calls: []
-  _onHoverAnimation:
+  onHoverAnimation:
     m_PersistentCalls:
       m_Calls: []
-  _onUnHoverAnimation:
+  onUnHoverAnimation:
     m_PersistentCalls:
       m_Calls: []
-  _onClickDownAnimation:
+  onClickDownAnimation:
     m_PersistentCalls:
       m_Calls: []
-  _onClickUpAnimation:
+  onClickUpAnimation:
     m_PersistentCalls:
       m_Calls: []
-  _onClickAnimation:
+  onClickAnimation:
     m_PersistentCalls:
       m_Calls: []
   _content: VSYNC
@@ -460,6 +460,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.03529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280647519536483330, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1280647519536483330, guid: 50cc3b4844769f74db45af49683960f8,
         type: 3}
@@ -613,6 +618,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4165245754634689509, guid: 50cc3b4844769f74db45af49683960f8,
         type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165245754634689509, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
       propertyPath: m_fontColor.b
       value: 0.15686275
       objectReference: {fileID: 0}
@@ -625,6 +635,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontColor.r
       value: 0.03529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165245754634689509, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4165245754634689509, guid: 50cc3b4844769f74db45af49683960f8,
         type: 3}
