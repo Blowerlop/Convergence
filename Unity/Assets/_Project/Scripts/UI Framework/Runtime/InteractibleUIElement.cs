@@ -72,7 +72,7 @@ namespace Project.Scripts.UIFramework
             onClick.Invoke();
         }
 
-        protected void PlayHoverSound() => SoundManager.instance.PlayGlobalSound("hover", "sfx", SoundManager.EventType.SFX);
-        protected void PlayClickSound() => SoundManager.instance.PlayGlobalSound("click", "sfx", SoundManager.EventType.SFX);
+        protected void PlayHoverSound() => SoundManager.instance.PlayGlobalSound("hover", "Menu", SoundManager.EventType.UI);
+        protected void PlayClickSound() => SoundManager.instance.PlayGlobalSound("click", "Menu", SoundManager.EventType.UI);
     }
 }
