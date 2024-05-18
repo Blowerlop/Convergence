@@ -102,7 +102,7 @@ namespace Project._Project.Scripts.StateMachine
 
         public bool CanChangeStateTo<T>() where T : BaseStateMachineBehaviour
         {
-            return currentState.CanChangeStateTo<T>();
+            return currentState.CanChangeStateTo<T>() && GetState<T>().CanEnterState(_playerRefs);
         }
         
         [Server]

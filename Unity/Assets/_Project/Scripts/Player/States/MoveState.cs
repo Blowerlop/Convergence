@@ -1,4 +1,5 @@
 using Project._Project.Scripts.StateMachine;
+using Project.Spells;
 using UnityEngine;
 
 namespace Project._Project.Scripts.Player.States
@@ -23,6 +24,12 @@ namespace Project._Project.Scripts.Player.States
         public override bool CanChangeStateTo<T>()
         {
             return true;
+        }
+
+        public override bool CanEnterState(PCPlayerRefs refs)
+        {
+            var inCastController = refs.InCastController;
+            return !inCastController.IsCasting || inCastController.CastingFlags.HasFlag(CastingFlags.EnableMovements);
         }
 
         public override string ToString()

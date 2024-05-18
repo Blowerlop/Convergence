@@ -20,11 +20,12 @@ MonoBehaviour:
   spellPrefab: {fileID: 4381795126638224029, guid: a686116b68b681b4790818f52ae41651,
     type: 3}
   isInstant: 0
-  cooldown: 25
-  channelingTime: 1
+  cooldown: 2
+  channelingTime: 1.29
+  castingFlags: 0
+  castAnimationDuration: 0.41
   effects:
   - rid: 1951814749556572169
-  animatorOverrideController: {fileID: 0}
   targetType: 0
   limitRadius: 30
   references:

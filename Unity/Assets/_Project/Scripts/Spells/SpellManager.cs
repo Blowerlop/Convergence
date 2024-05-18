@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project._Project.Scripts.Player.States;
 using Unity.Netcode;
 using UnityEngine;
@@ -33,8 +34,7 @@ namespace Project.Spells
             CooldownController cooldownController = playerRefs.Cooldowns;
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
-            if (playerRefs is PCPlayerRefs refs
-                && (!refs.StateMachine.CanChangeStateTo<ChannelingState>() || refs.Entity.IsSilenced))
+            if (!CanCastSpell(playerRefs))
             {
                 UnableToCastCallback();
                 return;
@@ -48,9 +48,9 @@ namespace Project.Spells
             }
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
-            
+
             channelingController.StartServerChanneling(spell.channelingTime, (byte)spellIndex,
-                () => OnChannelingEnded(spell, results, playerRefs));
+                () => OnChannelingEnded(spell, spellIndex, results, playerRefs));
             
             OnChannelingStarted?.Invoke(playerRefs, spell.spellPrefab.GetDirection(results, playerRefs));
 
@@ -63,10 +63,35 @@ namespace Project.Spells
         }
 
         [Server]
-        private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        private void OnChannelingEnded(SpellData spell, int spellIndex, ICastResult results, PlayerRefs playerRefs)
         {
             Spell spellInstance = SpawnSpell(spell, results, playerRefs);
             spellInstance.Init(results, playerRefs);
+            
+            HandleCastAnimation(spell, spellIndex, playerRefs);
+        }
+
+        private void HandleCastAnimation(SpellData spell, int spellIndex, PlayerRefs playerRefs)
+        {
+            if (spell.castAnimationDuration <= 0) return;
+            
+            var boolName = "Cast " + (spellIndex + 1);
+            
+            playerRefs.Animator.SetBool(boolName, true);
+            
+            var pcPlayer = playerRefs as PCPlayerRefs;
+            if (pcPlayer) pcPlayer.InCastController.SrvSetInCast(spellIndex);
+            
+            DOVirtual.DelayedCall(spell.castAnimationDuration, OnCastEnd);
+
+            return;
+
+            void OnCastEnd()
+            {
+                playerRefs.Animator.SetBool(boolName, false);
+                
+                if (pcPlayer) pcPlayer.InCastController.SrvResetInCast();
+            }
         }
 
         [Server]
@@ -124,6 +149,18 @@ namespace Project.Spells
             return spellInstance;
         }
 
+        #region Utils
+
+        public static bool CanCastSpell(PlayerRefs refs)
+        {
+            return refs is not PCPlayerRefs pcPlayer
+                   || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() 
+                       && !pcPlayer.Entity.IsSilenced 
+                       && !pcPlayer.InCastController.IsCasting);
+        }
+        
+        #endregion
+        
         #region TryCast Interface
 
         //Since Netcode doesn't really handle polymorphism, we need to create a TryCast method for each channeling results
@@ -147,6 +184,5 @@ namespace Project.Spells
         }
 
         #endregion
-
     }
 }

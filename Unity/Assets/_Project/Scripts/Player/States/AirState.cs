@@ -9,6 +9,11 @@ namespace Project._Project.Scripts.Player.State.PlayerState.Base.Air
             return true;
         }
 
+        public override bool CanEnterState(PCPlayerRefs refs)
+        {
+            return true;
+        }
+
         public override string ToString()
         {
             return "Air";

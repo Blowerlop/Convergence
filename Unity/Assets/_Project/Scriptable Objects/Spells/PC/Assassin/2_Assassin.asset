@@ -21,11 +21,12 @@ MonoBehaviour:
     type: 3}
   isInstant: 0
   cooldown: 5
-  channelingTime: 0.25
+  channelingTime: 0.29
+  castingFlags: 0
+  castAnimationDuration: 0.4
   effects:
   - rid: 1951814749556572177
-  animatorOverrideController: {fileID: 0}
-  length: 6
+  length: 11
   references:
     version: 2
     RefIds:

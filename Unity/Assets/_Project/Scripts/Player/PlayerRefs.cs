@@ -1,5 +1,6 @@
 using Project.Spells;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 namespace Project
@@ -14,6 +15,8 @@ namespace Project
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
         
+        [SerializeField] private NetworkAnimator _networkAnimator;
+        
         public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
@@ -21,6 +24,8 @@ namespace Project
         
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
+        
+        public Animator Animator => _networkAnimator.Animator;
 
         #region Team Linking
         

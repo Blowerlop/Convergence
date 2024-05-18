@@ -22,14 +22,15 @@ MonoBehaviour:
   isInstant: 1
   cooldown: 5
   channelingTime: 0.25
+  castingFlags: 0
+  castAnimationDuration: 0
   effects:
   - rid: 1951814749556572166
-  animatorOverrideController: {fileID: 0}
   references:
     version: 2
     RefIds:
     - rid: 1951814749556572166
       type: {class: RangeEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        _rangeAmount: 4
+        _rangeAmount: 8
         _duration: 3
