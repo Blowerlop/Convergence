@@ -446,6 +446,16 @@ PrefabInstance:
       propertyPath: toggleTransition
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1119595766723097133, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1119595766723097133, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1167934106453788946, guid: 50cc3b4844769f74db45af49683960f8,
         type: 3}
       propertyPath: m_Color.b
@@ -656,6 +666,11 @@ PrefabInstance:
       propertyPath: _colorType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5285770599770785718, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.49999905
+      objectReference: {fileID: 0}
     - target: {fileID: 5398067104228881630, guid: 50cc3b4844769f74db45af49683960f8,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -665,6 +680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0.81333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 5505534288315933121, guid: 50cc3b4844769f74db45af49683960f8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7225079151370700653, guid: 50cc3b4844769f74db45af49683960f8,
         type: 3}
