@@ -18,14 +18,7 @@ namespace Project.Spells
                 return;
             }
 
-            var refs = Caster switch
-            {
-                MobilePlayerRefs mobilePlayerRefs => mobilePlayerRefs.PCPlayerRefs,
-                PCPlayerRefs pcPlayerRefs => pcPlayerRefs,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-
-            TryApplyEffects(refs.Entity);
+            TryApplyEffects(Caster.GetPC().Entity);
 
             StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }

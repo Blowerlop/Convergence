@@ -34,14 +34,7 @@ namespace Project.Spells
 
         protected virtual bool TryApplyEffects(Entity entity)
         {
-            var refs = Caster switch
-            {
-                MobilePlayerRefs mobilePlayerRefs => mobilePlayerRefs.PCPlayerRefs,
-                PCPlayerRefs pcPlayerRefs => pcPlayerRefs,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            
-            if (!CanHitSelf && refs.Entity == entity)
+            if (!CanHitSelf && Caster.GetPC().Entity == entity)
                 return false;
             
             int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));

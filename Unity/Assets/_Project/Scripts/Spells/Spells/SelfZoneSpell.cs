@@ -19,8 +19,6 @@ namespace Project.Spells
         private readonly Collider[] _hits = new Collider[10];
         private float _applyTimer;
         
-        private Entity _casterEntity;
-        
         protected override void Init(ICastResult castResult)
         {
             if (castResult is not EmptyResults)
@@ -29,9 +27,6 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(SelfTargetSpell)}!");
                 return;
             }
-            
-            if (Caster is PCPlayerRefs playerRefs)
-                _casterEntity = playerRefs.Entity;
             
             if (applyType == ApplyType.OnStart)
                 CheckForEffects();

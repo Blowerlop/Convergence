@@ -31,7 +31,9 @@ namespace Project
         public InCastController InCastController => inCastController;
         
         public EmoteController EmoteController => emoteController;
-        
+
+        public override PCPlayerRefs GetPC() => this;
+
         [Server]
         public override void ServerInit(int team, int ownerId, SOEntity entity)
         {

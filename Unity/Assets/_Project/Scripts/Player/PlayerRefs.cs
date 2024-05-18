@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project
 {
-    public class PlayerRefs : NetworkBehaviour
+    public abstract class PlayerRefs : NetworkBehaviour
     {
         private GRPC_NetworkVariable<int> _assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
@@ -26,6 +26,13 @@ namespace Project
         public ChannelingController Channeling => channeling;
         
         public Animator Animator => _networkAnimator.Animator;
+        
+        /// <returns>
+        /// PCPlayerRefs linked to this PlayerRefs.
+        /// If this is a mobile, this will return linked PC.
+        /// If this is a PC, this will return itself.
+        /// </returns>
+        public abstract PCPlayerRefs GetPC();
 
         #region Team Linking
         
