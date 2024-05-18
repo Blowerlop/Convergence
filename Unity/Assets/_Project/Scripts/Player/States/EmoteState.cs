@@ -7,6 +7,8 @@ namespace Project._Project.Scripts.Player.States
     {
         private int emoteIndex;
 
+        public EmoteState() { }
+        
         public EmoteState(int emoteIndex)
         {
             this.emoteIndex = emoteIndex;
