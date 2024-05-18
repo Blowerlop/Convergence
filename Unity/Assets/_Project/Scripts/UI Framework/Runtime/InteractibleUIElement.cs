@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 
 namespace Project.Scripts.UIFramework
@@ -15,60 +16,60 @@ namespace Project.Scripts.UIFramework
         [SerializeField, BoxGroup("Group/Settings/Sound")] private bool _playClickSound = true;
         
         // Events
-        [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onHover = new UnityEvent();
-        [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onUnHover = new UnityEvent();
-        [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onClickDown = new UnityEvent();
-        [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onClickUp = new UnityEvent();
-        [SerializeField, TabGroup("Group", "Events")] public UnityEvent _onClick = new UnityEvent();
+        [FormerlySerializedAs("_onHover")] [SerializeField, TabGroup("Group", "Events")] public UnityEvent onHover = new UnityEvent();
+        [FormerlySerializedAs("_onUnHover")] [SerializeField, TabGroup("Group", "Events")] public UnityEvent onUnHover = new UnityEvent();
+        [FormerlySerializedAs("_onClickDown")] [SerializeField, TabGroup("Group", "Events")] public UnityEvent onClickDown = new UnityEvent();
+        [FormerlySerializedAs("_onClickUp")] [SerializeField, TabGroup("Group", "Events")] public UnityEvent onClickUp = new UnityEvent();
+        [FormerlySerializedAs("_onClick")] [SerializeField, TabGroup("Group", "Events")] public UnityEvent onClick = new UnityEvent();
         
-        [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onHoverAnimation = new UnityEvent();
-        [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onUnHoverAnimation = new UnityEvent();
-        [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickDownAnimation = new UnityEvent();
-        [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickUpAnimation = new UnityEvent();
-        [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent _onClickAnimation = new UnityEvent();
+        [FormerlySerializedAs("_onHoverAnimation")] [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent onHoverAnimation = new UnityEvent();
+        [FormerlySerializedAs("_onUnHoverAnimation")] [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent onUnHoverAnimation = new UnityEvent();
+        [FormerlySerializedAs("_onClickDownAnimation")] [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent onClickDownAnimation = new UnityEvent();
+        [FormerlySerializedAs("_onClickUpAnimation")] [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent onClickUpAnimation = new UnityEvent();
+        [FormerlySerializedAs("_onClickAnimation")] [SerializeField, FoldoutGroup("Group/Events/Animations")] public UnityEvent onClickAnimation = new UnityEvent();
         
 
 
         protected virtual void OnEnable()
         {
-            _onUnHoverAnimation.Invoke();
+            onUnHoverAnimation.Invoke();
         }
         
         protected virtual void OnDisable()
         {
-            _onUnHoverAnimation.Invoke();
+            onUnHoverAnimation.Invoke();
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
             if (_playHoverSound) PlayHoverSound();
-            _onHoverAnimation.Invoke();
-            _onHover.Invoke();
+            onHoverAnimation.Invoke();
+            onHover.Invoke();
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
-            _onUnHoverAnimation.Invoke();
-            _onUnHover.Invoke();
+            onUnHoverAnimation.Invoke();
+            onUnHover.Invoke();
         }
         
         public virtual void OnPointerDown(PointerEventData eventData)
         {
             if (_playClickSound) PlayClickSound();
-            _onClickDownAnimation.Invoke();
-            _onClickDown.Invoke();
+            onClickDownAnimation.Invoke();
+            onClickDown.Invoke();
         }
         
         public virtual void OnPointerUp(PointerEventData eventData)
         {
-            _onClickUpAnimation.Invoke();
-            _onClickUp.Invoke();
+            onClickUpAnimation.Invoke();
+            onClickUp.Invoke();
         }
         
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            _onClickAnimation.Invoke();
-            _onClick.Invoke();
+            onClickAnimation.Invoke();
+            onClick.Invoke();
         }
 
         protected void PlayHoverSound() => SoundManager.instance.PlayGlobalSound("hover", "sfx", SoundManager.EventType.SFX);

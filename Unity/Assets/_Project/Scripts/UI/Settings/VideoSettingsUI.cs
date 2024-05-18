@@ -21,7 +21,7 @@ namespace Project
         
         [SerializeField] private TMP_Dropdown _resolutionDropdown;
         [SerializeField] private TMP_Dropdown _displayModeDropdown;
-        [SerializeField] private Button _applyButton;
+        [SerializeField] private Scripts.UIFramework.Button _applyButton;
 
         [LabelText("Current Resolution"), ShowInInspector, ReadOnly] private string _currentResolutionName => VideoSettingsManager.resolution.currentResolutionName;
         [ShowInInspector, ReadOnly] private int _selectedResolutionIndex;
@@ -38,7 +38,7 @@ namespace Project
             DropdownSelectCurrentDisplayMode();
         }
 
-        public void Enable()
+        public void OnEnable()
         {
             // DropdownSelectCurrentResolution();
             // DropdownSelectCurrentDisplayMode();
@@ -49,7 +49,7 @@ namespace Project
             _applyButton.onClick.AddListener(ApplyResolution);
         }
         
-        public void Disable()
+        public void OnDisable()
         {
             _resolutionDropdown.onValueChanged.RemoveListener(OnResolutionDropdownValueChanged_CacheIndex);
             _displayModeDropdown.onValueChanged.RemoveListener(OnDisplayModeDropdownValueChanged_CacheIndex);
@@ -65,12 +65,16 @@ namespace Project
 
         private void FillResolutionDropDown()
         {
+            _resolutionDropdown.ClearOptions();
+            
             var resolutionsName = Screen.resolutions.Select(resolution => $"{resolution.width} x {resolution.height}").Distinct().Reverse().ToList();
             _resolutionDropdown.AddOptions(resolutionsName);
         }
         
         private void FillDisplayModeDropDown()
         {
+            _displayModeDropdown.ClearOptions();
+            
             List<string> fullScreenModeNames = Enum.GetNames(typeof(ECustomFullScreenModeLabel)).ToList();
             _displayModeDropdown.AddOptions(fullScreenModeNames); 
         }
@@ -130,61 +134,56 @@ namespace Project
     [Serializable]
     public class QualitySettingsUI
     {
-        // [SerializeField] private Button _lowQualityButton;
-        // [SerializeField] private Button _mediumQualityButton;
-        // [SerializeField] private Button _HighButton;
-        
-        
-        // public void Start()
-        // {
-        //     switch (VideoSettingsManager.quality.currentQualityIndex)
-        //     {
-        //         case 0:
-        //             _lowQualityButton.Select();
-        //             break;
-        //         
-        //         case 1:
-        //             _mediumQualityButton.Select();
-        //             break;
-        //         
-        //         case 2:
-        //             _HighButton.Select();
-        //             break;
-        //     }
-        // }
+        [SerializeField] private TMP_Dropdown _dropdown;
 
-        // public void Enable()
-        // {
-        //     _lowQualityButton.onClick.AddListener(SetLowQuality);
-        //     _mediumQualityButton.onClick.AddListener(SetMediumQuality);
-        //     _HighButton.onClick.AddListener(SetHighQuality);
-        // }
-        //
-        // public void Disable()
-        // {
-        //     _lowQualityButton.onClick.RemoveListener(SetLowQuality);
-        //     _mediumQualityButton.onClick.RemoveListener(SetMediumQuality);
-        //     _HighButton.onClick.RemoveListener(SetHighQuality);
-        // }
+        
+        public void Start()
+        {
+            FillDropDown();
+            DropdownSelectCurrentQuality();
+        }
+        
+        public void OnEnable()
+        {
+            _dropdown.onValueChanged.AddListener(SetQuality);
+        }
+        
+        public void OnDisable()
+        {
+            _dropdown.onValueChanged.RemoveListener(SetQuality);
+        }
+        
 
+        private void FillDropDown()
+        {
+            _dropdown.ClearOptions();
+            
+            List<string> names = QualitySettings.names.ToList();
+            _dropdown.AddOptions(names);
+        }
+        
+        private void DropdownSelectCurrentQuality()
+        {
+            _dropdown.value = QualitySettingsManager.instance.currentQualityIndex;
+        }
         
         public void SetQuality(int index)
         {
             switch (index)
             {
-                case 1:
+                case 0:
                     SetLowQuality();
                     break;
                 
-                case 2:
+                case 1:
                     SetMediumQuality();
                     break;
                 
-                case 3:
+                case 2:
                     SetHighQuality();
                     break;
                 
-                case 4:
+                case 3:
                     SetCustomQuality();
                     break;
                 
@@ -211,13 +210,13 @@ namespace Project
             _frameRateInputField.SetTextWithoutNotify(VideoSettingsManager.frameRate.ToString());
         }
 
-        public void Enable()
+        public void OnEnable()
         {
             _frameRateInputField.onDeselect.AddListener(SetSetFrameRate);
             _vSyncButton.onClick.AddListener(ToggleVsync);
         }
         
-        public void Disable()
+        public void OnDisable()
         {
             _frameRateInputField.onDeselect.RemoveListener(SetSetFrameRate);
             _vSyncButton.onClick.RemoveListener(ToggleVsync);
@@ -257,29 +256,29 @@ namespace Project
     public class VideoSettingsUI : MonoBehaviour
     {
         [SerializeField] private ResolutionSettingsUI _resolutionSettingsUISettingsUI = new ResolutionSettingsUI();
-        [SerializeField] private FrameRateSettingsUI _frameRateSettingsUI = new FrameRateSettingsUI();
         [SerializeField] private QualitySettingsUI _qualitySettingsUI = new QualitySettingsUI();
+        [SerializeField] private FrameRateSettingsUI _frameRateSettingsUI = new FrameRateSettingsUI();
         
         
         private void Start()
         {
             _resolutionSettingsUISettingsUI.Start();
-            // _qualitySettingsUI.Start();
+            _qualitySettingsUI.Start();
             _frameRateSettingsUI.Start();
         }
         
         private void OnEnable()
         {
-            _resolutionSettingsUISettingsUI.Enable();
-            // _qualitySettingsUI.Enable();
-            _frameRateSettingsUI.Enable();
+            _resolutionSettingsUISettingsUI.OnEnable();
+            _qualitySettingsUI.OnEnable();
+            _frameRateSettingsUI.OnEnable();
         }
         
         private void OnDisable()
         {
-            _resolutionSettingsUISettingsUI.Disable();
-            // _qualitySettingsUI.Disable();
-            _frameRateSettingsUI.Disable();
+            _resolutionSettingsUISettingsUI.OnDisable();
+            _qualitySettingsUI.OnDisable();
+            _frameRateSettingsUI.OnDisable();
         }
     }
 }
