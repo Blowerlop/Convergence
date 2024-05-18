@@ -1242,6 +1242,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -18.64
       objectReference: {fileID: 0}
+    - target: {fileID: 9097795672120274330, guid: b8b2e485be091524299119113f331c7d,
+        type: 3}
+      propertyPath: _crossFadeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9219716700237273666, guid: b8b2e485be091524299119113f331c7d,
         type: 3}
       propertyPath: m_AnchorMax.y
