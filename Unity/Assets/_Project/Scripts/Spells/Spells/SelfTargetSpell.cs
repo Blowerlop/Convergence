@@ -1,3 +1,4 @@
+using System;
 using Project._Project.Scripts.Managers;
 using UnityEngine;
 
@@ -17,13 +18,14 @@ namespace Project.Spells
                 return;
             }
 
-            if (Caster is not PCPlayerRefs pcPlayerRefs)
+            var refs = Caster switch
             {
-                Debug.LogError($"Can't cast {nameof(SelfTargetSpell)} on a player that is not a PC!");
-                return;
-            }
-            
-            TryApplyEffects(pcPlayerRefs.Entity);
+                MobilePlayerRefs mobilePlayerRefs => mobilePlayerRefs.PCPlayerRefs,
+                PCPlayerRefs pcPlayerRefs => pcPlayerRefs,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            TryApplyEffects(refs.Entity);
 
             StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }
