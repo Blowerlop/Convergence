@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 920619134606290125}
+  - {fileID: 7254488725486216640}
   m_Father: {fileID: 8981545866887172034}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -153,7 +153,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 0
   SlerpPosition: 0
---- !u!1001 &1513126051288382110
+--- !u!1001 &8976827541908288403
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -219,16 +219,16 @@ PrefabInstance:
     - target: {fileID: 6857172002690128496, guid: b911dd591c271944bb25c1d380b96211,
         type: 3}
       propertyPath: m_Name
-      value: Tourbilol_VFX
+      value: VFX_Spell3_Tourbilol
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b911dd591c271944bb25c1d380b96211, type: 3}
---- !u!4 &920619134606290125 stripped
+--- !u!4 &7254488725486216640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1745433038663997011, guid: b911dd591c271944bb25c1d380b96211,
     type: 3}
-  m_PrefabInstance: {fileID: 1513126051288382110}
+  m_PrefabInstance: {fileID: 8976827541908288403}
   m_PrefabAsset: {fileID: 0}
