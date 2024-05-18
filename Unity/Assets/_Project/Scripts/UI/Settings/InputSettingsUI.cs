@@ -15,7 +15,7 @@ namespace Project._Project.Scripts.UI.Settings
         [field: Title("Binds")]
         [field: SerializeField, LabelText("Input Action Reference"), OnValueChanged(nameof(UpdateInputBinding))] public InputActionReference inputActionReference { get; private set; }
         #if UNITY_EDITOR
-        [SerializeField, ValueDropdown("inputActionReference.action.bindings")] private InputBinding _inputBinding;
+        [SerializeField, ValueDropdown("@inputActionReference.action.bindings")] private InputBinding _inputBinding;
         #endif
         [SerializeField, HideInInspector] private int _bindingIndex;
         private string _actionName;
