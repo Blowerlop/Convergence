@@ -115,6 +115,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 809603639940519267}
     m_Modifications:
+    - target: {fileID: 2708403356871210758, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708403356871210758, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2708403356871210758, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.9974991
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735835767950786521, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735835767950786521, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735835767950786521, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.9125825
+      objectReference: {fileID: 0}
     - target: {fileID: 5290458143175919447, guid: c8212bfecba96d941adfe7a5e5d5c09f,
         type: 3}
       propertyPath: m_RootOrder
@@ -170,10 +200,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7708327855240360730, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708327855240360730, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708327855240360730, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.94708157
+      objectReference: {fileID: 0}
     - target: {fileID: 7882435007950119782, guid: c8212bfecba96d941adfe7a5e5d5c09f,
         type: 3}
       propertyPath: m_Name
       value: VFX_Spell2_Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 7882435007950119782, guid: c8212bfecba96d941adfe7a5e5d5c09f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -202,7 +252,7 @@ PrefabInstance:
     - target: {fileID: 4031822796035881096, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2020221660
+      value: 3138256324
       objectReference: {fileID: 0}
     - target: {fileID: 4124437638980882131, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
@@ -410,6 +460,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Spell1_SwordGlow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343542405212899049, guid: 5cff5906ea7e8a04e9ee9f6016e0e2d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6997700915102264383, guid: 5cff5906ea7e8a04e9ee9f6016e0e2d5,
         type: 3}
