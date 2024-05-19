@@ -21,12 +21,12 @@ PrefabInstance:
     - target: {fileID: 4031822796035881096, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2915289472
+      value: 2797230086
       objectReference: {fileID: 0}
     - target: {fileID: 4124437638980882131, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4124437638980882131, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
@@ -126,6 +126,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Spell2_SpeedBuff
+      objectReference: {fileID: 0}
+    - target: {fileID: 130746456193680030, guid: 76afbc45a49a91a478857b0f4d055ad7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5507556040425593967, guid: 76afbc45a49a91a478857b0f4d055ad7,
         type: 3}
@@ -400,6 +405,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Spell2_ArrowGlow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567464057116332789, guid: fc04f73aa7844814e8381b819be0daa8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8048538949073023234, guid: fc04f73aa7844814e8381b819be0daa8,
         type: 3}
