@@ -10,6 +10,13 @@ using UnityEngine;
 
 namespace Project.Spells
 {
+    public enum SpellInstantiationType
+    {
+        NetworkObject,
+        ServerOnly,
+        None
+    }
+    
     [CreateAssetMenu(fileName = "New SpellData", menuName = "Spells/Data/Default", order = -10)]
     public class SpellData : ScriptableObject, IScriptableObjectSerializeReference
     {        
@@ -27,7 +34,8 @@ namespace Project.Spells
         [BoxGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
         [BoxGroup("Spell"), DisableIf("@true")] public int spellIdHash;
         [Space(15)]
-        [BoxGroup("Spell"), InlineEditor] public Spell spellPrefab;
+        [BoxGroup("Spell")] public SpellInstantiationType instantiationType;
+        [BoxGroup("Spell"), InlineEditor, ShowIf(nameof(IsInstantiated))] public Spell spellPrefab;
         [Space(15)]
         [BoxGroup("Spell"), Tooltip("If true, this spell won't have any aim phase")] public bool isInstant;
         [BoxGroup("Spell")] public float cooldown;
@@ -150,6 +158,11 @@ namespace Project.Spells
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+        
+        private bool IsInstantiated()
+        {
+            return instantiationType != SpellInstantiationType.None;
         }
         
         #endif

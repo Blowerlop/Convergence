@@ -11,6 +11,11 @@ namespace Project.Spells
     {
         protected PlayerRefs Caster { get; private set; }
         protected int CasterTeamIndex => Caster.TeamIndex;
+        
+        protected bool IsServerOnly { get; private set; }
+        
+        // Must use this instead of NetworkBehaviour.IsServer to account for server only spells
+        protected bool IsOnServer => IsServerOnly || IsServer;
             
         [field: SerializeField, ReadOnly] public SpellData Data { get; set; }
         
@@ -18,10 +23,10 @@ namespace Project.Spells
         
         // Called by Server
         // Used to set field that are common for every spell before calling overriden Init
-        [Server]
-        public void Init(ICastResult castResult, PlayerRefs player)
+        public void Init(ICastResult castResult, PlayerRefs player, bool serverOnly)
         {
             Caster = player;
+            IsServerOnly = serverOnly;
             
             Init(castResult);
         }
@@ -43,7 +48,8 @@ namespace Project.Spells
 
         protected virtual void KillSpell()
         {
-            NetworkObject.Despawn();
+            if (IsServerOnly) Destroy(gameObject);
+            else NetworkObject.Despawn();
         }
     }
 }

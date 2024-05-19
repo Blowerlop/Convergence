@@ -64,7 +64,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             if (!IsTimedApplyType()) return;
             
             _applyTimer -= Time.deltaTime;
@@ -78,7 +78,7 @@ namespace Project.Spells
 
         private void LateUpdate()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             if (!followPlayer) return;
             
             transform.position = Caster.PlayerTransform.position;

@@ -100,7 +100,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer && !IsHost) return;
+            if (!IsOnServer) return;
 
             if (_isOnImpactPhase)
             {

@@ -52,9 +52,9 @@ namespace Project.Spells
             channelingController.StartServerChanneling(spell.channelingTime, (byte)spellIndex,
                 () => OnChannelingEnded(spell, spellIndex, results, playerRefs));
 
-            var dir = spell.spellPrefab != null ? 
-                spell.spellPrefab.GetDirection(results, playerRefs) 
-                : playerRefs.PlayerTransform.forward;
+            var dir = spell.instantiationType == SpellInstantiationType.None ? 
+                playerRefs.PlayerTransform.forward 
+                : spell.spellPrefab.GetDirection(results, playerRefs);
             
             OnChannelingStarted?.Invoke(playerRefs, dir);
 
@@ -69,28 +69,44 @@ namespace Project.Spells
         [Server]
         private void OnChannelingEnded(SpellData spell, int spellIndex, ICastResult results, PlayerRefs playerRefs)
         {
-            if(spell.spellPrefab != null) 
-                HandlePrefabSpell(spell, results, playerRefs);
-            else 
-                HandleNoPrefabSpell(spell, playerRefs);
+            switch (spell.instantiationType)
+            {
+                case SpellInstantiationType.NetworkObject:
+                    HandleNetworkObjectSpawn();
+                    break;
+                case SpellInstantiationType.ServerOnly:
+                    HandleServerOnlySpawn();
+                    break;
+                case SpellInstantiationType.None:
+                    HandleNoPrefabSpell();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             HandleCastAnimation(spell, spellIndex, playerRefs);
-        }
 
-        [Server]
-        private void HandlePrefabSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
-        {
-            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
-            spellInstance.Init(results, playerRefs);
-        }
-        
-        [Server]
-        private void HandleNoPrefabSpell(SpellData spell, PlayerRefs playerRefs)
-        {
-            var playerEntity = playerRefs.GetPC().Entity;
+            return;
             
-            foreach (var effect in spell.effects)
-                effect.GetInstance().TryApply(playerEntity, playerEntity.TeamIndex);
+            void HandleNetworkObjectSpawn()
+            {
+                Spell spellInstance = SpawnSpell(spell, results, playerRefs);
+                spellInstance.Init(results, playerRefs, serverOnly: false);
+            }
+            
+            void HandleServerOnlySpawn()
+            {
+                Spell spellInstance = SpawnSpell(spell, results, playerRefs, onNetwork: false);
+                spellInstance.Init(results, playerRefs, serverOnly: true);
+            }
+            
+            void HandleNoPrefabSpell()
+            {
+                var playerEntity = playerRefs.GetPC().Entity;
+            
+                foreach (var effect in spell.effects)
+                    effect.GetInstance().TryApply(playerEntity, playerEntity.TeamIndex);
+            }
         }
         
         [Server]
@@ -160,14 +176,14 @@ namespace Project.Spells
         }
         
         [Server]
-        private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs, bool onNetwork = true)
         {
             Spell spellPrefab = spell.spellPrefab;
             
             (Vector3 pos, Quaternion rot) trans = spellPrefab.GetDefaultTransform(results, playerRefs);
             
             Spell spellInstance = Instantiate(spellPrefab, trans.pos, trans.rot);
-            spellInstance.NetworkObject.Spawn();
+            if (onNetwork) spellInstance.NetworkObject.Spawn();
             
             return spellInstance;
         }

@@ -41,7 +41,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             
             HandleMovement(_target.transform);
             HandleDeath();

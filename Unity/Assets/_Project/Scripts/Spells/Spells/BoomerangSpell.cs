@@ -38,7 +38,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             
             _timer += Time.deltaTime;
             

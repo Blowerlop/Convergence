@@ -17,6 +17,7 @@ MonoBehaviour:
     type: 3}
   spellId: nerag_2
   spellIdHash: -847286212
+  instantiationType: 2
   spellPrefab: {fileID: 0}
   isInstant: 1
   cooldown: 5
