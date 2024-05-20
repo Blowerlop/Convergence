@@ -178,5 +178,10 @@ namespace Project
 
             return null;
         }
+
+        public Dictionary<int, UserInstance>.ValueCollection All()
+        {
+            return _userInstances.Values;
+        }
     }
 }

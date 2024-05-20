@@ -26,7 +26,9 @@ namespace Project
 
         public override void OnNetworkSpawn()
         {
-            TeamManager.instance.onTeamSetEvent += OnTeamSet_UpdateButtonText;
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientStarted_UpdateUi;
+            
+            TeamManager.instance.onTeamSet += OnTeamSet_UpdateButtonText;
 
             // Because right now in testing this network spawn might fired first, we have a null ref on our UserInstance.
             // But in the final game, the UserInstance will be the first thing ever fired in the network (normally)
@@ -50,20 +52,25 @@ namespace Project
         {
             if (TeamManager.IsInstanceAlive())
             {
-                TeamManager.instance.onTeamSetEvent -= OnTeamSet_UpdateButtonText;
+                TeamManager.instance.onTeamSet -= OnTeamSet_UpdateButtonText;
             }
 
             if (UserInstance.Me != null)
             {
                 UserInstance.Me._networkIsReady.OnValueChanged -= OnPlayerReady_UpdateButtonTextColor;
             }   
+            
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.OnClientConnectedCallback -= OnClientStarted_UpdateUi;
+            }
         }
 
         private void CheckTeamIndexValidity()
         {
             if (TeamManager.instance.IsTeamIndexValid(_teamIndex) == false)
             {
-                Debug.LogError("Team index is invalid");
+                Debug.LogError("Team index is invalid : " + _teamIndex);
             }
 
             #if UNITY_EDITOR
@@ -84,7 +91,7 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SetTeamServerRpc(int teamIndex, ulong ownerClientId)
         {
-            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance((int)ownerClientId);
+            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance((int)ownerClientId); 
             if (userInstance == null)
             {
                 Debug.LogError("User instance is null");
@@ -114,9 +121,21 @@ namespace Project
         {
             _pcButtonText.text = clientName;
         }
+        
+        [ClientRpc]
+        private void UpdatePcButtonTextClientRpc(string clientName, ClientRpcParams clientRpcParams)
+        {
+            _pcButtonText.text = clientName;
+        }
 
         [ClientRpc]
         private void UpdateMobileButtonTextClientRpc(string clientName)
+        {
+            _mobileButtonText.text = clientName;
+        }
+        
+        [ClientRpc]
+        private void UpdateMobileButtonTextClientRpc(string clientName, ClientRpcParams clientRpcParams)
         {
             _mobileButtonText.text = clientName;
         }
@@ -129,6 +148,8 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void OnPlayerReady_UpdateButtonTextColorServerRpc(int clientId, bool readyState)
         {
+            if (_teamIndex == TeamManager.UNASSIGNED_TEAM_INDEX) return;
+            
             TeamData teamData = TeamManager.instance.GetTeamData(_teamIndex);
 
             if (teamData.pcPlayerOwnerClientId == clientId)
@@ -150,11 +171,68 @@ namespace Project
         }
         
         [ClientRpc]
+        private void UpdatePcButtonTextColorClientRpc(int teamIndex, bool state, ClientRpcParams clientRpcParams)
+        {
+            if (teamIndex != _teamIndex) return;
+         
+            _pcButtonText.color = state ? Color.green : Color.black;
+            Debug.Log("Update state : " + state);
+        }
+        
+        [ClientRpc]
         private void UpdateMobileButtonTextColorClientRpc(int teamIndex, bool state)
         {
             if (teamIndex != _teamIndex) return;
             
             _mobileButtonText.color = state ? Color.green : Color.black;
+        }
+        
+        [ClientRpc]
+        private void UpdateMobileButtonTextColorClientRpc(int teamIndex, bool state, ClientRpcParams clientRpcParams)
+        {
+            if (teamIndex != _teamIndex) return;
+            
+            _mobileButtonText.color = state ? Color.green : Color.black;
+        }
+        
+        private void OnClientStarted_UpdateUi(ulong clientId)
+        {
+            if (NetworkManager.Singleton.LocalClientId == clientId) return;
+            
+            Debug.Log("OnClientStarted_UpdateUi");
+            
+            ClientRpcParams sendParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new[] { clientId }
+                }
+            };
+
+            UpdatePcButtonTextClientRpc(_pcButtonText.text, sendParams);
+            UpdateMobileButtonTextClientRpc(_mobileButtonText.text, sendParams);
+            
+
+            
+            if (_teamIndex == TeamManager.UNASSIGNED_TEAM_INDEX) return;
+            
+            TeamData teamData = TeamManager.instance.GetTeamData(_teamIndex);
+
+            if (UserInstanceManager.instance.TryGetUserInstance(teamData.pcPlayerOwnerClientId, out UserInstance pcUserInstance))
+            {
+                if (_teamIndex == pcUserInstance.Team && pcUserInstance.IsReady)
+                {
+                    UpdatePcButtonTextColorClientRpc(_teamIndex, true, sendParams);
+                }
+            }
+            
+            if (UserInstanceManager.instance.TryGetUserInstance(teamData.mobilePlayerOwnerClientId, out UserInstance mobileUserInstance))
+            {
+                if (_teamIndex == mobileUserInstance.Team && mobileUserInstance.IsReady)
+                {
+                    UpdateMobileButtonTextColorClientRpc(_teamIndex, true, sendParams);
+                }
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Project
 
         private void OnDisable()
         {
-            if (NetworkManager.Singleton.IsServer == false) return;
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer == false) return;
             
             if (GRPC_NetworkManager.IsInstanceAlive())
             {

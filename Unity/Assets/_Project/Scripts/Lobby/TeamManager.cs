@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Grpc.Core;
 using GRPCClient;
@@ -20,8 +21,8 @@ namespace Project
         public int pcPlayerOwnerClientId;
         public int mobilePlayerOwnerClientId;
 
-        public bool HasPC => pcPlayerOwnerClientId != int.MaxValue;
-        public bool HasMobile => mobilePlayerOwnerClientId != int.MaxValue;
+        public bool HasPC => pcPlayerOwnerClientId != TeamManager.UNASSIGNED_TEAM_INDEX;
+        public bool HasMobile => mobilePlayerOwnerClientId != TeamManager.UNASSIGNED_TEAM_INDEX;
         
         public UserInstance GetUserInstance(PlayerPlatform platform)
         {
@@ -43,11 +44,11 @@ namespace Project
             switch (platform)
             {
                 case PlayerPlatform.Pc:
-                    if (pcPlayerOwnerClientId == int.MaxValue) return false;
+                    if (pcPlayerOwnerClientId == TeamManager.UNASSIGNED_TEAM_INDEX) return false;
                     clientId = pcPlayerOwnerClientId;
                     break;
                 case PlayerPlatform.Mobile:
-                    if (mobilePlayerOwnerClientId == int.MaxValue) return false;
+                    if (mobilePlayerOwnerClientId == TeamManager.UNASSIGNED_TEAM_INDEX) return false;
                     clientId = mobilePlayerOwnerClientId;
                     break;
                 default:
@@ -64,6 +65,7 @@ namespace Project
         
         public const uint MAX_TEAM = 3;
         public const uint MAX_PLAYER = MAX_TEAM * 2;
+        public const int UNASSIGNED_TEAM_INDEX = -1;
         // I cant ShowInInspector this array. It weirdly override my value set by the script
         private readonly TeamData[] _teams = new TeamData[MAX_TEAM];
 
@@ -73,7 +75,7 @@ namespace Project
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public Action<int, string, PlayerPlatform> onTeamSetEvent;
+        public Action<int, string, PlayerPlatform> onTeamSet;
         
         
         public override void OnNetworkSpawn()
@@ -89,8 +91,8 @@ namespace Project
             {
                 TeamData teamData = new TeamData
                 {
-                    pcPlayerOwnerClientId = int.MaxValue,
-                    mobilePlayerOwnerClientId = int.MaxValue
+                    pcPlayerOwnerClientId = UNASSIGNED_TEAM_INDEX,
+                    mobilePlayerOwnerClientId = UNASSIGNED_TEAM_INDEX
                 };
 
                 _teams[i] = teamData;
@@ -142,21 +144,29 @@ namespace Project
             
             int previousUserTeamIndex = userInstance.Team;
             // Reset previous team slot if valid
-            if (IsTeamIndexValid(previousUserTeamIndex))
+            if (IsTeamIndexValid(previousUserTeamIndex) && previousUserTeamIndex != UNASSIGNED_TEAM_INDEX)
             {
                 ResetTeamSlot(previousUserTeamIndex, playerPlatform);
                 OnTeamSet(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? _DEFAULT_PC_SLOT : _DEFAULT_MOBILE_SLOT, playerPlatform);
             }
             
-            RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
+            if (teamIndex != UNASSIGNED_TEAM_INDEX) RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
             userInstance.SetTeam(teamIndex);
             
             OnTeamSet(teamIndex, userInstance.PlayerName, playerPlatform);
-            
-            Debug.Log("Team recap :\n" +
-                      $"Index : {teamIndex}\n" +
-                      $"Pc : {_teams[teamIndex].pcPlayerOwnerClientId}\n" +
-                      $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
+
+            if (teamIndex == UNASSIGNED_TEAM_INDEX)
+            {
+                Debug.Log("Team recap:\n" +
+                          $"Client id {ownerClientId} unassigned from team index {previousUserTeamIndex}");
+            }
+            else
+            {
+                Debug.Log("Team recap :\n" +
+                          $"Index : {teamIndex}\n" +
+                          $"Pc : {_teams[teamIndex].pcPlayerOwnerClientId}\n" +
+                          $"Mobile : {_teams[teamIndex].mobilePlayerOwnerClientId}");
+            }
         }
 
         private void RegisterToTeamSlotLocal(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
@@ -174,7 +184,7 @@ namespace Project
         {
             var platform = user.IsMobile ? PlayerPlatform.Mobile : PlayerPlatform.Pc;
             
-            if (IsTeamIndexValid(oldTeam))
+            if (IsTeamIndexValid(oldTeam) && oldTeam != UNASSIGNED_TEAM_INDEX)
             {
                 ResetTeamSlot(oldTeam, platform);
             }
@@ -185,21 +195,23 @@ namespace Project
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
         {
             TeamData teamData = _teams[teamIndex];
-            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = int.MaxValue;
-            else teamData.mobilePlayerOwnerClientId = int.MaxValue;
+            if (playerPlatform == PlayerPlatform.Pc) teamData.pcPlayerOwnerClientId = UNASSIGNED_TEAM_INDEX;
+            else teamData.mobilePlayerOwnerClientId = UNASSIGNED_TEAM_INDEX;
             _teams[teamIndex] = teamData;
         }
 
         public bool IsTeamPlayerSlotAvailable(int teamIndex, PlayerPlatform playerPlatform)
         {
+            if (teamIndex == UNASSIGNED_TEAM_INDEX) return true;
+            
             if (TryGetTeam(teamIndex, out TeamData teamData))
             {
                 if (playerPlatform == PlayerPlatform.Pc)
                 {
-                    return teamData.pcPlayerOwnerClientId == int.MaxValue;
+                    return teamData.pcPlayerOwnerClientId == UNASSIGNED_TEAM_INDEX;
                 }
 
-                return teamData.mobilePlayerOwnerClientId == int.MaxValue;
+                return teamData.mobilePlayerOwnerClientId == UNASSIGNED_TEAM_INDEX;
             }
 
             return false;
@@ -207,7 +219,8 @@ namespace Project
 
         public bool IsTeamIndexValid(int teamIndex)
         {
-            return !(teamIndex < 0 || teamIndex >= _teams.Length);
+            // Valid if teamIndex is in the range of the  or is unassigned
+            return (teamIndex >= 0 && teamIndex < _teams.Length) || teamIndex == UNASSIGNED_TEAM_INDEX;
         }
         
         private void OnTeamSet(int teamIndex, string playerName, PlayerPlatform playerPlatform)
@@ -224,7 +237,12 @@ namespace Project
 
         private void OnTeamSetLocal(int teamIndex, string playerName, PlayerPlatform playerPlatform)
         {
-            onTeamSetEvent?.Invoke(teamIndex, playerName, playerPlatform);
+            if (teamIndex == UNASSIGNED_TEAM_INDEX)
+            {
+                playerName = string.Join(" / ", UserInstanceManager.instance.All().Where(x => x.Team == UNASSIGNED_TEAM_INDEX).Select(x => x.PlayerName));
+            }
+            
+            onTeamSet?.Invoke(teamIndex, playerName, playerPlatform);
         }
 
         public TeamData[] GetTeamsData()
