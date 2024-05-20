@@ -28,6 +28,8 @@ namespace Project.Spells
             Caster = player;
             IsServerOnly = serverOnly;
             
+            ApplyOnCasterEffects();
+            
             Init(castResult);
         }
         
@@ -44,6 +46,14 @@ namespace Project.Spells
             
             int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
             return appliedEffects > 0;
+        }
+
+        private void ApplyOnCasterEffects()
+        {
+            foreach (var onCasterEffect in Data.onCasterEffects)
+            {
+                onCasterEffect.GetInstance().TryApply(Caster.GetPC().Entity, Caster.TeamIndex);
+            }
         }
 
         protected virtual void KillSpell()

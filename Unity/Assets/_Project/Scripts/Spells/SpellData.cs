@@ -43,12 +43,16 @@ namespace Project.Spells
         
         [Space(15)]
         
-        [BoxGroup("Spell"), EnumToggleButtons()] public CastingFlags castingFlags;
+        [BoxGroup("Spell"), EnumToggleButtons] public CastingFlags castingFlags;
         [BoxGroup("Spell")] public float castAnimationDuration;
         
         [Space(40)]
         
+        // Effects applied on a defined target when spell asks for it
         [SerializeReference, PropertyOrder(999)] public Effect[] effects;
+        
+        // Effects applied on caster when spell is cast
+        [SerializeReference, PropertyOrder(1000)] public Effect[] onCasterEffects;
 
         public Type RequiredResultType
         {

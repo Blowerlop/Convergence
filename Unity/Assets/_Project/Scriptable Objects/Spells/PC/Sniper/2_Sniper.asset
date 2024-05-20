@@ -17,15 +17,17 @@ MonoBehaviour:
     type: 3}
   spellId: sniper_2
   spellIdHash: -947313321
+  instantiationType: 2
   spellPrefab: {fileID: 4032526782687921832, guid: 3358c38594496724dbecb95ef16690c9,
     type: 3}
   isInstant: 1
   cooldown: 5
-  channelingTime: 0.25
+  channelingTime: 0.2
   castingFlags: 0
   castAnimationDuration: 0
   effects:
   - rid: 1951814749556572166
+  onCasterEffects: []
   references:
     version: 2
     RefIds:
@@ -33,4 +35,4 @@ MonoBehaviour:
       type: {class: RangeEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         _rangeAmount: 8
-        _duration: 3
+        _duration: 5

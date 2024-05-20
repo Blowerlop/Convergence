@@ -119,7 +119,21 @@ namespace Project.Spells
             playerRefs.Animator.SetBool(boolName, true);
             
             var pcPlayer = playerRefs as PCPlayerRefs;
-            if (pcPlayer) pcPlayer.InCastController.SrvSetInCast(spellIndex);
+            if (pcPlayer)
+            {
+                pcPlayer.InCastController.SrvSetInCast(spellIndex);
+                
+                // Stop player if cast doesn't allow movements
+                // or if player can move during cast but is not actually moving
+                if (!spell.castingFlags.HasFlag(CastingFlags.EnableMovements) 
+                    || pcPlayer.StateMachine.currentState is not MoveState)
+                {
+                    if (pcPlayer.StateMachine.CanChangeStateTo<IdleState>())
+                    {
+                        pcPlayer.StateMachine.ChangeStateTo<IdleState>();
+                    }
+                }
+            }
             
             DOVirtual.DelayedCall(spell.castAnimationDuration, OnCastEnd);
 

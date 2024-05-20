@@ -17,6 +17,7 @@ MonoBehaviour:
     type: 3}
   spellId: assassin_2
   spellIdHash: -773798087
+  instantiationType: 0
   spellPrefab: {fileID: 6644908066795306404, guid: 7fd9923724057f14589028b353d887af,
     type: 3}
   isInstant: 0
@@ -26,6 +27,7 @@ MonoBehaviour:
   castAnimationDuration: 0.4
   effects:
   - rid: 1951814749556572177
+  onCasterEffects: []
   length: 11
   references:
     version: 2

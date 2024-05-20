@@ -275,8 +275,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6033606272947498176, guid: 63b6f82b24a9b9a428bb5d2088db116f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4367939782247812867}
   m_SourcePrefab: {fileID: 100100000, guid: 63b6f82b24a9b9a428bb5d2088db116f, type: 3}
+--- !u!1 &3468623622890940635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6033606272947498176, guid: 63b6f82b24a9b9a428bb5d2088db116f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7176673192170996763}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4367939782247812867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3468623622890940635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c957b463c2cc4c9a8a0784a4926bc9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  handlers: []
 --- !u!4 &4280907163003597409 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6408759006729008762, guid: 63b6f82b24a9b9a428bb5d2088db116f,
@@ -289,7 +321,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 7176673192170996763}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3468623622890940635}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}

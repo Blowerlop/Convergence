@@ -59,8 +59,6 @@ namespace Project.Spells
             // Bypass entering channeling state and exiting it instantly if we have no channeling time
             if (channelingTime == 0)
             {
-                GoToIdle();
-                
                 channelingDoneAction?.Invoke();
                 return;
             }
