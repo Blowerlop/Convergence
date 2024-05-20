@@ -5,6 +5,36 @@ ModelImporter:
   internalIDToNameTable: []
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: invoker_bracer_color
+    second: {fileID: 2100000, guid: d50b6bd9f261ec74ab1bd53d79ee245c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: invoker_cape_color
+    second: {fileID: 2100000, guid: 28c1e1ec29f8efc4c831f89f64253ddf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: invoker_color
+    second: {fileID: 2100000, guid: 9375e29d86cefd4419755e572c01bee6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: invoker_dress_color
+    second: {fileID: 2100000, guid: fa2db52e772218043b77336a1e662cdd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: invoker_hair_color
+    second: {fileID: 2100000, guid: f122a7e0dac0fdf45b1832d4b2522382, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: invoker_head_color
+    second: {fileID: 2100000, guid: 1e9cbef665201f949b0d0583c7241912, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: invoker_bracer_color_psd_e68dac0b
