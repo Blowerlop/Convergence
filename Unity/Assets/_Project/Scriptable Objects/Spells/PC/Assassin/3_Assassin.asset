@@ -17,13 +17,16 @@ MonoBehaviour:
     type: 3}
   spellId: assassin_3
   spellIdHash: -151875367
+  instantiationType: 2
   spellPrefab: {fileID: 2724967599326280920, guid: 0872ab5e09d460245b493cc1799cc71b,
     type: 3}
   isInstant: 1
   cooldown: 1
   channelingTime: 0
+  castingFlags: 0
+  castAnimationDuration: 0
   effects: []
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   references:
     version: 2
     RefIds: []

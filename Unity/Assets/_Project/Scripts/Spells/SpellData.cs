@@ -10,6 +10,13 @@ using UnityEngine;
 
 namespace Project.Spells
 {
+    public enum SpellInstantiationType
+    {
+        NetworkObject,
+        ServerOnly,
+        None
+    }
+    
     [CreateAssetMenu(fileName = "New SpellData", menuName = "Spells/Data/Default", order = -10)]
     public class SpellData : ScriptableObject, IScriptableObjectSerializeReference
     {        
@@ -27,15 +34,25 @@ namespace Project.Spells
         [BoxGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
         [BoxGroup("Spell"), DisableIf("@true")] public int spellIdHash;
         [Space(15)]
-        [BoxGroup("Spell"), InlineEditor] public Spell spellPrefab;
+        [BoxGroup("Spell")] public SpellInstantiationType instantiationType;
+        [BoxGroup("Spell"), InlineEditor, ShowIf(nameof(IsInstantiated))] public Spell spellPrefab;
         [Space(15)]
-        [BoxGroup("Spell")] public bool isInstant;
+        [BoxGroup("Spell"), Tooltip("If true, this spell won't have any aim phase")] public bool isInstant;
         [BoxGroup("Spell")] public float cooldown;
         [BoxGroup("Spell")] public float channelingTime;
-
+        
+        [Space(15)]
+        
+        [BoxGroup("Spell"), EnumToggleButtons] public CastingFlags castingFlags;
+        [BoxGroup("Spell")] public float castAnimationDuration;
+        
         [Space(40)]
         
+        // Effects applied on a defined target when spell asks for it
         [SerializeReference, PropertyOrder(999)] public Effect[] effects;
+        
+        // Effects applied on caster when spell is cast
+        [SerializeReference, PropertyOrder(1000)] public Effect[] onCasterEffects;
 
         public Type RequiredResultType
         {
@@ -59,7 +76,7 @@ namespace Project.Spells
         }
 
         private static List<SpellData> _spellsCache;
-        
+
         public static SpellData GetSpell(int spellIdHash)
         {
             if (_spellsCache == null || _spellsCache.Count == 0)
@@ -145,6 +162,11 @@ namespace Project.Spells
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+        
+        private bool IsInstantiated()
+        {
+            return instantiationType != SpellInstantiationType.None;
         }
         
         #endif

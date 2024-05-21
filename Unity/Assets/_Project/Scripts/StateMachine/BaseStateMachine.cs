@@ -37,7 +37,7 @@ namespace Project._Project.Scripts.StateMachine
         /// </returns>
         public abstract bool CanChangeStateTo<T>() where T : BaseStateMachineBehaviour;
         
-        
+        public abstract bool CanEnterState(PCPlayerRefs refs);
         
         public void Dispose()
         {

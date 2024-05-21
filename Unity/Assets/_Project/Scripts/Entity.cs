@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Project.Spells;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -46,7 +47,7 @@ namespace Project._Project.Scripts
             SilenceChanged(false, _isSilenced.Value);
             _isSilenced.OnValueChanged += SilenceChanged;
         }
-        
+
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
@@ -149,7 +150,8 @@ namespace Project._Project.Scripts
         
         #endregion
 
-
+        #region Silence
+        
         public void Silence()
         {
             _isSilenced.Value = true;
@@ -164,5 +166,7 @@ namespace Project._Project.Scripts
         {
             OnSilenceChanged?.Invoke(newValue);
         }
+        
+        #endregion
     }
 }

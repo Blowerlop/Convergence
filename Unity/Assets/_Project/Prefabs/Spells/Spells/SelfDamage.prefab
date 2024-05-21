@@ -5002,6 +5002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 91b7b83eff50a814f9c94f318a555950,
     type: 2}
+  CanHitSelf: 1
   followPlayer: 1
   duration: 2
 --- !u!1 &5460678548040319032

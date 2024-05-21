@@ -17,14 +17,15 @@ MonoBehaviour:
     type: 3}
   spellId: nerag_2
   spellIdHash: -847286212
-  spellPrefab: {fileID: 3149529187632127365, guid: 0ef7228799f530d4c8c6eee4bea4cfd3,
-    type: 3}
+  instantiationType: 2
+  spellPrefab: {fileID: 0}
   isInstant: 1
   cooldown: 5
-  channelingTime: 0
+  channelingTime: 0.75
+  castingFlags: 0
+  castAnimationDuration: 0
   effects:
   - rid: 1951814709268185091
-  animatorOverrideController: {fileID: 0}
   references:
     version: 2
     RefIds:

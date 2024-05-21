@@ -17,15 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: assassin_2
   spellIdHash: -773798087
+  instantiationType: 0
   spellPrefab: {fileID: 6644908066795306404, guid: 7fd9923724057f14589028b353d887af,
     type: 3}
   isInstant: 0
   cooldown: 5
-  channelingTime: 0.25
+  channelingTime: 0.29
+  castingFlags: 0
+  castAnimationDuration: 0.4
   effects:
   - rid: 1951814749556572177
-  animatorOverrideController: {fileID: 0}
-  length: 6
+  onCasterEffects: []
+  length: 11
   references:
     version: 2
     RefIds:

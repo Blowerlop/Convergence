@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{5645e023-ac28-44ef-9fe0-5b2a08810bcb}">
 		<property name="name">
-			<value>Heal</value>
+			<value>inst_heal</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>
 		</property>
 		<relationship name="folder">
-			<destination>{72727f19-f0a6-4108-905b-48e17965faba}</destination>
+			<destination>{fd07751d-8d3e-4499-919f-737a6995e3d6}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{ee67c164-b68f-4e70-b1f8-9fc07f8ff761}</destination>

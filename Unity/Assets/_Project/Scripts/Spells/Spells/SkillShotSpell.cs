@@ -63,7 +63,11 @@ namespace Project.Spells
             var dir = GetDirection(castResult, Caster);
             
             _moveSeq.Join(transform.DOMove(transform.position + dir * speed, moveDuration).SetEase(Ease.Linear));
-            _moveSeq.OnComplete(KillSpell);
+            _moveSeq.OnComplete(() =>
+            {
+                PlayDestroySoundClientRpc();
+                KillSpell();
+            });
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -96,7 +100,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer && !IsHost) return;
+            if (!IsOnServer) return;
 
             if (_isOnImpactPhase)
             {

@@ -1,10 +1,11 @@
 using Project.Spells;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 namespace Project
 {
-    public class PlayerRefs : NetworkBehaviour
+    public abstract class PlayerRefs : NetworkBehaviour
     {
         private GRPC_NetworkVariable<int> _assignedTeam = new GRPC_NetworkVariable<int>("AssignedTeam", value: -1);
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
@@ -14,6 +15,8 @@ namespace Project
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
         
+        [SerializeField] private NetworkAnimator _networkAnimator;
+        
         public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
@@ -21,6 +24,15 @@ namespace Project
         
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
+        
+        public Animator Animator => _networkAnimator.Animator;
+        
+        /// <returns>
+        /// PCPlayerRefs linked to this PlayerRefs.
+        /// If this is a mobile, this will return linked PC.
+        /// If this is a PC, this will return itself.
+        /// </returns>
+        public abstract PCPlayerRefs GetPC();
 
         #region Team Linking
         

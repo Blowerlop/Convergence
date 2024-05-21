@@ -68,13 +68,7 @@ namespace Project.Spells
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {
-                if (playerRefs is PCPlayerRefs pcRefs)
-                {
-                    if (pcRefs.StateMachine.CanChangeStateTo<IdleState>())
-                    {
-                        pcRefs.StateMachine.ChangeStateTo<IdleState>();
-                    }
-                }
+                GoToIdle();
                 
                 channelingDoneAction?.Invoke();
                 _isChanneling.Value = false;
@@ -87,6 +81,16 @@ namespace Project.Spells
                 if (pcRefs.StateMachine.CanChangeStateTo<ChannelingState>())
                 {
                     pcRefs.StateMachine.ChangeStateTo(channelingState);
+                }
+            }
+
+            void GoToIdle()
+            {
+                if (playerRefs is not PCPlayerRefs pcRefs) return;
+                
+                if (pcRefs.StateMachine.CanChangeStateTo<IdleState>())
+                {
+                    pcRefs.StateMachine.ChangeStateTo<IdleState>();
                 }
             }
         }

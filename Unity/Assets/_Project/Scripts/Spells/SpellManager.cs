@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project._Project.Scripts.Player.States;
 using Unity.Netcode;
 using UnityEngine;
@@ -33,8 +34,7 @@ namespace Project.Spells
             CooldownController cooldownController = playerRefs.Cooldowns;
             if (cooldownController.IsInCooldown(spellIndex)) return;
             
-            if (playerRefs is PCPlayerRefs refs
-                && (!refs.StateMachine.CanChangeStateTo<ChannelingState>() || refs.Entity.IsSilenced))
+            if (!CanCastSpell(playerRefs))
             {
                 UnableToCastCallback();
                 return;
@@ -48,11 +48,15 @@ namespace Project.Spells
             }
             
             cooldownController.StartServerCooldown(spellIndex, spell.cooldown);
-            
+
             channelingController.StartServerChanneling(spell.channelingTime, (byte)spellIndex,
-                () => OnChannelingEnded(spell, results, playerRefs));
+                () => OnChannelingEnded(spell, spellIndex, results, playerRefs));
+
+            var dir = spell.instantiationType == SpellInstantiationType.None ? 
+                playerRefs.PlayerTransform.forward 
+                : spell.spellPrefab.GetDirection(results, playerRefs);
             
-            OnChannelingStarted?.Invoke(playerRefs, spell.spellPrefab.GetDirection(results, playerRefs));
+            OnChannelingStarted?.Invoke(playerRefs, dir);
 
             return;
 
@@ -63,10 +67,84 @@ namespace Project.Spells
         }
 
         [Server]
-        private void OnChannelingEnded(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        private void OnChannelingEnded(SpellData spell, int spellIndex, ICastResult results, PlayerRefs playerRefs)
         {
-            Spell spellInstance = SpawnSpell(spell, results, playerRefs);
-            spellInstance.Init(results, playerRefs);
+            switch (spell.instantiationType)
+            {
+                case SpellInstantiationType.NetworkObject:
+                    HandleNetworkObjectSpawn();
+                    break;
+                case SpellInstantiationType.ServerOnly:
+                    HandleServerOnlySpawn();
+                    break;
+                case SpellInstantiationType.None:
+                    HandleNoPrefabSpell();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            HandleCastAnimation(spell, spellIndex, playerRefs);
+
+            return;
+            
+            void HandleNetworkObjectSpawn()
+            {
+                Spell spellInstance = SpawnSpell(spell, results, playerRefs);
+                spellInstance.Init(results, playerRefs, serverOnly: false);
+            }
+            
+            void HandleServerOnlySpawn()
+            {
+                Spell spellInstance = SpawnSpell(spell, results, playerRefs, onNetwork: false);
+                spellInstance.Init(results, playerRefs, serverOnly: true);
+            }
+            
+            void HandleNoPrefabSpell()
+            {
+                var playerEntity = playerRefs.GetPC().Entity;
+            
+                foreach (var effect in spell.effects)
+                    effect.GetInstance().TryApply(playerEntity, playerEntity.TeamIndex);
+            }
+        }
+        
+        [Server]
+        private void HandleCastAnimation(SpellData spell, int spellIndex, PlayerRefs playerRefs)
+        {
+            if (spell.castAnimationDuration <= 0) return;
+            
+            var boolName = "Cast " + (spellIndex + 1);
+            
+            playerRefs.Animator.SetBool(boolName, true);
+            
+            var pcPlayer = playerRefs as PCPlayerRefs;
+            if (pcPlayer)
+            {
+                pcPlayer.InCastController.SrvSetInCast(spellIndex);
+                
+                // Stop player if cast doesn't allow movements
+                // or if player can move during cast but is not actually moving
+                if (!spell.castingFlags.HasFlag(CastingFlags.EnableMovements) 
+                    || pcPlayer.StateMachine.currentState is not MoveState)
+                {
+                    if (pcPlayer.StateMachine.CanChangeStateTo<IdleState>())
+                    {
+                        pcPlayer.StateMachine.ChangeStateTo<IdleState>();
+                    }
+                }
+            }
+            
+            DOVirtual.DelayedCall(spell.castAnimationDuration, OnCastEnd);
+
+            return;
+
+            void OnCastEnd()
+            {
+                playerRefs.Animator.SetBool(boolName, false);
+                
+                if (pcPlayer) pcPlayer.InCastController.SrvResetInCast();
+            }
         }
 
         [Server]
@@ -112,18 +190,30 @@ namespace Project.Spells
         }
         
         [Server]
-        private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs)
+        private Spell SpawnSpell(SpellData spell, ICastResult results, PlayerRefs playerRefs, bool onNetwork = true)
         {
             Spell spellPrefab = spell.spellPrefab;
             
             (Vector3 pos, Quaternion rot) trans = spellPrefab.GetDefaultTransform(results, playerRefs);
             
             Spell spellInstance = Instantiate(spellPrefab, trans.pos, trans.rot);
-            spellInstance.NetworkObject.Spawn();
+            if (onNetwork) spellInstance.NetworkObject.Spawn();
             
             return spellInstance;
         }
 
+        #region Utils
+
+        public static bool CanCastSpell(PlayerRefs refs)
+        {
+            return refs is not PCPlayerRefs pcPlayer
+                   || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() 
+                       && !pcPlayer.Entity.IsSilenced 
+                       && !pcPlayer.InCastController.IsCasting);
+        }
+        
+        #endregion
+        
         #region TryCast Interface
 
         //Since Netcode doesn't really handle polymorphism, we need to create a TryCast method for each channeling results
@@ -147,6 +237,5 @@ namespace Project.Spells
         }
 
         #endregion
-
     }
 }

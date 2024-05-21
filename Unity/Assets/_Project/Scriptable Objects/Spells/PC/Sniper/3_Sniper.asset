@@ -17,19 +17,28 @@ MonoBehaviour:
     type: 3}
   spellId: sniper_3
   spellIdHash: -434699453
+  instantiationType: 0
   spellPrefab: {fileID: 9140298656200164716, guid: 49deba1de7e9598459986f31fce7af22,
     type: 3}
   isInstant: 0
   cooldown: 5
-  channelingTime: 0.25
+  channelingTime: 0.33
+  castingFlags: 0
+  castAnimationDuration: 0.15
   effects:
   - rid: 1951814749556572167
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects:
+  - rid: 611475172293607424
   targetType: 0
-  limitRadius: 5
+  limitRadius: 10
   references:
     version: 2
     RefIds:
+    - rid: 611475172293607424
+      type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        SlowAmount: -2
+        Duration: 1.5
     - rid: 1951814749556572167
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:

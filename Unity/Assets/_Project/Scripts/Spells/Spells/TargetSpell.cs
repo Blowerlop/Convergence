@@ -14,6 +14,8 @@ namespace Project.Spells
 
         [SerializeField] private float moveSpeed;
 
+        [SerializeField] private RotationType rotationType;
+        
         [SerializeField] private DieType dieType;
 
         [SerializeField, ShowIf(nameof(IsTimed))] private float aliveTime;
@@ -39,7 +41,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             
             HandleMovement(_target.transform);
             HandleDeath();
@@ -68,6 +70,21 @@ namespace Project.Spells
             direction.Normalize();
             
             transform.position += direction * (moveSpeed * Time.deltaTime);
+            HandleRotation(target, direction);
+        }
+
+        private void HandleRotation(Transform target, Vector3 direction)
+        {
+            switch (rotationType)
+            {
+                case RotationType.None:
+                    break;
+                case RotationType.Movement:
+                    transform.rotation = Quaternion.LookRotation(direction);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void HandleDeath()
@@ -110,7 +127,7 @@ namespace Project.Spells
                 var impactPosition = impactTarget.position;
                 impactPosition.y = 0;
                 
-                if (Vector3.Distance(spellPosition, impactPosition) < 0.1f)
+                if (Vector3.Distance(spellPosition, impactPosition) < moveSpeed * Time.deltaTime + 0.1f)
                     KillSpell();
             }
 
@@ -192,6 +209,12 @@ namespace Project.Spells
             None,
             ToTarget,
             ToCaster
+        }
+        
+        private enum RotationType
+        {
+            None,
+            Movement
         }
 
         private enum DieType

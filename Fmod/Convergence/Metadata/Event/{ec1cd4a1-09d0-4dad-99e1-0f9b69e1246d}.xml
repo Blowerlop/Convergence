@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{ec1cd4a1-09d0-4dad-99e1-0f9b69e1246d}">
 		<property name="name">
-			<value>Debuff</value>
+			<value>inst_debuff</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>
 		</property>
 		<relationship name="folder">
-			<destination>{72727f19-f0a6-4108-905b-48e17965faba}</destination>
+			<destination>{fd07751d-8d3e-4499-919f-737a6995e3d6}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{4d0dbbcd-47e8-4528-87c6-75f0c9d529d8}</destination>
