@@ -9,7 +9,6 @@ namespace Project._Project.Scripts.Player.States
         protected override void OnEnter()
         {
             playerRefs.NavMeshAgent.isStopped = false;
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, true);
         }
 
         protected override void OnExit()
@@ -19,6 +18,13 @@ namespace Project._Project.Scripts.Player.States
             navMeshAgent.velocity = Vector3.zero;
             navMeshAgent.isStopped = true;
             navMeshAgent.ResetPath();
+            
+            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, false); 
+        }
+
+        public override void Update()
+        {
+            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, true);
         }
 
         public override bool CanChangeStateTo<T>()
