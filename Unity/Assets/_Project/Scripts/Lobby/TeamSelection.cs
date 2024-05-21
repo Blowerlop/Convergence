@@ -41,7 +41,7 @@ namespace Project
 
         private void DisposeGrpcStream()
         {
-            if (NetworkManager.Singleton.IsServer == false) return;
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer == false) return;
             
             // _cancellationTokenSource?.Cancel();
             // _cancellationTokenSource?.Dispose();
