@@ -4,7 +4,7 @@ namespace Project.Effects
     {
         public override EffectType Type => EffectType.Good;
         
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
         {
             effectable.SrvCleanse();
             return true;

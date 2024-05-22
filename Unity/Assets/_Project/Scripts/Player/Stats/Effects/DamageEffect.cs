@@ -1,3 +1,4 @@
+using Project._Project.Scripts;
 using UnityEngine;
 
 namespace Project.Effects
@@ -17,10 +18,10 @@ namespace Project.Effects
         public int DamageAmount;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
         {
             var entity = effectable.AffectedEntity;
-            if (!entity.CanDamage(applierTeamIndex)) return false;
+            if (!entity.CanDamage(applier.TeamIndex)) return false;
             
             int amount;
 

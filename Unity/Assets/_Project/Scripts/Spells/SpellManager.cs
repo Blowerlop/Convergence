@@ -105,7 +105,7 @@ namespace Project.Spells
                 var playerEntity = playerRefs.GetPC().Entity;
             
                 foreach (var effect in spell.effects)
-                    effect.GetInstance().TryApply(playerEntity, playerEntity.TeamIndex);
+                    effect.GetInstance().TryApply(playerEntity, applier: playerRefs);
             }
         }
         

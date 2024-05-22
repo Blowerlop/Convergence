@@ -13,7 +13,7 @@ namespace Project.Effects
 
         private float _value;
         
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
         {
             if (!effectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat))
             {

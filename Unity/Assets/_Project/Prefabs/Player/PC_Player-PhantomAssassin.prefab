@@ -8,6 +8,66 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3040306771645786400}
     m_Modifications:
+    - target: {fileID: 2696179910806537343, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696179910806537343, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696179910806537343, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995859037351353589, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995859037351353589, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995859037351353589, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114823596391245649, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114823596391245649, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114823596391245649, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668216938693032010, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668216938693032010, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668216938693032010, guid: bf46becb15972ef4890cadd3bb67ce3c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5770124721370186057, guid: bf46becb15972ef4890cadd3bb67ce3c,
         type: 3}
       propertyPath: m_Name
@@ -16,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 5770124721370186057, guid: bf46becb15972ef4890cadd3bb67ce3c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6687080766704776472, guid: bf46becb15972ef4890cadd3bb67ce3c,
         type: 3}
@@ -78,6 +138,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf46becb15972ef4890cadd3bb67ce3c, type: 3}
+--- !u!198 &21976012688281938 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2696179910806537343, guid: bf46becb15972ef4890cadd3bb67ce3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2676495290209817901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8784722758593323061 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6687080766704776472, guid: bf46becb15972ef4890cadd3bb67ce3c,
@@ -1183,6 +1249,11 @@ MonoBehaviour:
     - <FX>k__BackingField: {fileID: 6424629452105944731}
       <DisableType>k__BackingField: 2
       <DisableTime>k__BackingField: 0
+  - <StateName>k__BackingField: Cast3
+    <FXs>k__BackingField:
+    - <FX>k__BackingField: {fileID: 21976012688281938}
+      <DisableType>k__BackingField: 1
+      <DisableTime>k__BackingField: 2
 --- !u!4 &9087773058463445828 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5538514458209383129, guid: f98e313c38016e2489ef4ee09e20ae3b,

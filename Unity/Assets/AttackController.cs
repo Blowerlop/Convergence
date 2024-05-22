@@ -178,7 +178,7 @@ namespace Project
                     var effect = ownEffectable.AppliedEffects[i];
                     if (effect is not NextAutoEffect nextAutoEffect) continue;
                     
-                    nextAutoEffect.TryApplyChildEffects(hitEffectable, _playerRefs.TeamIndex);
+                    nextAutoEffect.TryApplyChildEffects(hitEffectable, _playerRefs);
                     nextAutoEffect.KillEffect();
                 }
             }
