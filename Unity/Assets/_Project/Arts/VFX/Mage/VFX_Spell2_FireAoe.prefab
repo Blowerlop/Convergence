@@ -38,7 +38,7 @@ Transform:
   - {fileID: 2186896992708807697}
   - {fileID: 5741692700509994295}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &4694220035927048683
 ParticleSystem:
@@ -3857,7 +3857,7 @@ ParticleSystem:
     radiusScale: 0.0001
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 128
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
