@@ -40,7 +40,7 @@ namespace Project._Project.Scripts.Player.States
 
         public override string ToString()
         {
-            return "Casting";
+            return "Channeling";
         }
 
         public override bool Equals<T>(T obj)
