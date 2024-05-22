@@ -66,10 +66,10 @@ MonoBehaviour:
     - rid: 8967663378920636441
       type: {class: AttackRangeStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 5
-        _value: 5
+        _defaultValue: 10
+        _value: 10
         _minValue: 0
-        _maxValue: 8
+        _maxValue: 30
     - rid: 8967663378920636442
       type: {class: AttackSpeedStat, ns: Project, asm: Assembly-CSharp}
       data:

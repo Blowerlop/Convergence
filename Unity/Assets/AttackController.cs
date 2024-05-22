@@ -18,8 +18,7 @@ namespace Project
         private bool _isAttacking;
         private IDamageable _damageable;
         private bool _isRanged;
-        [SerializeField] private Projectile _projectile;
-        [SerializeField] private SOProjectile _projectileData;
+        private SOProjectile _projectileData;
 
         private void Awake()
         {
@@ -197,7 +196,7 @@ namespace Project
 
             if (_isRanged)
             {
-                Projectile projectileInstance = Instantiate(_projectile, transform.position, transform.rotation);
+                Projectile projectileInstance = Instantiate(_projectileData.prefab, transform.position, transform.rotation);
                 projectileInstance.Init(this, _projectileData);
                 projectileInstance.GetComponent<NetworkObject>().Spawn(true);
 
@@ -242,8 +241,9 @@ namespace Project
         [Server]
         private bool IsInRange(Vector3 targetPosition)
         {
+            float attackRange = _playerRefs.Entity.Stats.Get<AttackRangeStat>().value;
             return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude <
-                   _playerRefs.Entity.Stats.Get<AttackRangeStat>().value * _playerRefs.Entity.Stats.Get<AttackRangeStat>().value;
+                   attackRange * attackRange;
         }
 
         [Server]
