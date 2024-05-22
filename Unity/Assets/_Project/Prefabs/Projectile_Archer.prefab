@@ -90,7 +90,7 @@ PrefabInstance:
     - target: {fileID: 2155998097808121052, guid: eadb81407221c9445ae10cf907fe8c5a,
         type: 3}
       propertyPath: prefabId
-      value: ProjetileArcher
+      value: ProjectileArcher
       objectReference: {fileID: 0}
     - target: {fileID: 5836200704995256017, guid: eadb81407221c9445ae10cf907fe8c5a,
         type: 3}
@@ -155,7 +155,7 @@ PrefabInstance:
     - target: {fileID: 7614386318495035356, guid: eadb81407221c9445ae10cf907fe8c5a,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1777257584
+      value: 2858226893
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
