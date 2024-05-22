@@ -5036,6 +5036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 9db5a6720783c6749a8602f4d44a8f12,
     type: 2}
+  CanHitSelf: 0
   moveSpeed: 36
   firstHalfDuration: 1.25
   secondHalfEaseDuration: 1.25

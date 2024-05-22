@@ -17,14 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: debuff
   spellIdHash: 177943724
+  instantiationType: 0
   spellPrefab: {fileID: 7774840793179866475, guid: 0a3fe19a10adb8146b2559df00e521cd,
     type: 3}
   isInstant: 0
   cooldown: 10
   channelingTime: 0.25
+  castingFlags: 0
+  castAnimationDuration: 0
+  spellIcon: {fileID: 21300000, guid: 84ad1f469715ccf4e9089e82f657a2a0, type: 3}
   effects:
   - rid: 6173595388760555521
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   limitRadius: 5
   zoneRadius: 1.5
   lookAtCenter: 0

@@ -17,14 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: heal
   spellIdHash: 358616
+  instantiationType: 0
   spellPrefab: {fileID: 4072781175783423226, guid: c09f9c93f89aa2c4393aef531c06ffbf,
     type: 3}
   isInstant: 1
   cooldown: 0.2
   channelingTime: 0.5
+  castingFlags: 0
+  castAnimationDuration: 0
+  spellIcon: {fileID: 21300000, guid: 16fc69256dead1144b5c638b01dc75b9, type: 3}
   effects:
   - rid: 2778045304719278080
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   references:
     version: 2
     RefIds:

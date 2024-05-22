@@ -24,8 +24,10 @@ MonoBehaviour:
   channelingTime: 0.75
   castingFlags: 0
   castAnimationDuration: 0
+  spellIcon: {fileID: 21300000, guid: 0e9d106e10eb6bc46b5b80d7c37c65bb, type: 3}
   effects:
   - rid: 1951814709268185091
+  onCasterEffects: []
   references:
     version: 2
     RefIds:

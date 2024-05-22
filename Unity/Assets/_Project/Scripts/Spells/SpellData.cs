@@ -45,7 +45,9 @@ namespace Project.Spells
         
         [BoxGroup("Spell"), EnumToggleButtons] public CastingFlags castingFlags;
         [BoxGroup("Spell")] public float castAnimationDuration;
-        
+
+        [BoxGroup("Spell")] public Sprite spellIcon;
+
         [Space(40)]
         
         // Effects applied on a defined target when spell asks for it

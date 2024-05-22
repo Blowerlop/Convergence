@@ -24614,7 +24614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2913726921
+  GlobalObjectIdHash: 3362320371
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -24636,6 +24636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 8cd64b0282ca4f34eb9299e511e279f7,
     type: 2}
+  CanHitSelf: 0
   duration: 3
   collidersParent: {fileID: 6551267723949546172}
 --- !u!114 &8337384830150516227

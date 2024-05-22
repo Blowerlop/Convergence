@@ -70,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 7b4b586f84c0c9643b9403bf7c833e53,
     type: 2}
+  CanHitSelf: 0
   spawnType: 1
   moveType: 1
   moveSpeed: 40

@@ -17,14 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: stun
   spellIdHash: 437894
+  instantiationType: 0
   spellPrefab: {fileID: -678743547542117003, guid: 1792710597f0c0140afba6e002a6da78,
     type: 3}
   isInstant: 0
   cooldown: 5
   channelingTime: 0.25
+  castingFlags: 0
+  castAnimationDuration: 0
+  spellIcon: {fileID: 21300000, guid: 64b53f4106fb7154e80a7bfcc5189a09, type: 3}
   effects:
   - rid: 2778045437568614402
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   length: 6
   references:
     version: 2

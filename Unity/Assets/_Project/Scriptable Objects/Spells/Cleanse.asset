@@ -17,14 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: cleanse
   spellIdHash: 994436503
+  instantiationType: 0
   spellPrefab: {fileID: 4072781175783423226, guid: c5c8cbdd7a402e54993b24bbcd7b1ba8,
     type: 3}
   isInstant: 1
   cooldown: 0.2
   channelingTime: 0.5
+  castingFlags: 0
+  castAnimationDuration: 0
+  spellIcon: {fileID: 21300000, guid: 3b82d601564fd164d8db8367e60ae9b4, type: 3}
   effects:
   - rid: 6173595173914935296
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   references:
     version: 2
     RefIds:

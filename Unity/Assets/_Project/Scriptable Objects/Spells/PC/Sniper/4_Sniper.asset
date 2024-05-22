@@ -25,8 +25,10 @@ MonoBehaviour:
   channelingTime: 1.29
   castingFlags: 0
   castAnimationDuration: 0.2083
+  spellIcon: {fileID: 21300000, guid: a3f78131207186b4791ac3df71e0553c, type: 3}
   effects:
   - rid: 1951814749556572169
+  onCasterEffects: []
   targetType: 0
   limitRadius: 30
   references:

@@ -17,14 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: self_damage
   spellIdHash: 307776932
+  instantiationType: 0
   spellPrefab: {fileID: 4072781175783423226, guid: 51947ef2a5f7a7249a22ee39841a16e7,
     type: 3}
   isInstant: 1
   cooldown: 0.2
   channelingTime: 0.5
+  castingFlags: 0
+  castAnimationDuration: 0
+  spellIcon: {fileID: 0}
   effects:
   - rid: 2778045199733227522
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   references:
     version: 2
     RefIds:
