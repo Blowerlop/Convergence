@@ -74,6 +74,54 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
         type: 3}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"events.{\"Hit\"}","value":{"$id":0,"$type":"UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule","m_PersistentCalls":{"$id":1,"$type":"UnityEngine.Events.PersistentCallGroup,
+        UnityEngine.CoreModule","m_Calls":{"$id":2,"$type":"System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib","$rlength":1,"$rcontent":[{"$id":3,"$type":"UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule","m_Target":$eref:0,"m_TargetAssemblyTypeName":"Project.AttackController,
+        Assembly-CSharp","m_MethodName":"Hit","m_Mode":1,"m_Arguments":{"$id":4,"$type":"UnityEngine.Events.ArgumentCache,
+        UnityEngine.CoreModule","m_ObjectArgument":$eref:1,"m_ObjectArgumentAssemblyTypeName":"UnityEngine.Object,
+        UnityEngine","m_IntArgument":0,"m_FloatArgument":0,"m_StringArgument":"","m_BoolArgument":false},"m_CallState":2}]}}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[1]
+      value: '"path":"events.{\"Hit\"}.m_PersistentCalls.m_Calls.[0].m_Arguments.m_ObjectArgument","value":$eref:1'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"events.{\"Hit\"}.m_PersistentCalls.m_Calls.[0].m_MethodName","value":{"$id":0,"$type":"System.String,
+        mscorlib","Hit"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[3]
+      value: '"path":"events.{\"Hit\"}.m_PersistentCalls.m_Calls.[0].m_Target","value":$eref:0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 5934388476143503805}
+    - target: {fileID: 6866714582025548418, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -417,6 +465,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5324390707185726882}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5934388476143503805 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1999360482284583967, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5324390707185726882}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6910103276924387721
 PrefabInstance:
   m_ObjectHideFlags: 0
