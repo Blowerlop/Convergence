@@ -71,5 +71,20 @@ namespace Project
             stat = (T)_stats[typeof(T)];
             return true;
         }
+        
+        [Server]
+        public void SrvResetStats()
+        {
+            foreach (var stat in _stats)
+            {
+                //Networked stats
+                if (stat.Key == typeof(HealthStat) || stat.Key == typeof(ShieldStat)) continue;
+                
+                stat.Value.SetToDefaultValue();
+            }
+            
+            nHealthStat.SetToMaxValue();
+            nShieldStat.SetToMinValue();
+        }
     }
 }

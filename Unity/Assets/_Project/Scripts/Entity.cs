@@ -168,5 +168,17 @@ namespace Project._Project.Scripts
         }
         
         #endregion
+
+        public void SrvResetEntity()
+        {
+            _stats.SrvResetStats();
+            
+            _isSilenced.Value = false;
+
+            foreach (var effect in AppliedEffects.ToList())
+            {
+                effect.KillEffect();
+            }
+        }
     }
 }

@@ -8,6 +8,8 @@ namespace Project
     public abstract class StatBase : ICloneable
     {
         public abstract object Clone();
+
+        public abstract void SetToDefaultValue();
     }
     
     /// <summary>
@@ -76,6 +78,11 @@ namespace Project
             if (val.CompareTo(max) == 1) return max;
 
             return val;
+        }
+
+        public override void SetToDefaultValue()
+        {
+            value = _defaultValue;
         }
     }
 }

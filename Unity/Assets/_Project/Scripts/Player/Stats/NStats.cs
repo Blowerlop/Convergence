@@ -84,6 +84,8 @@ namespace Project
 
         public void SetToMaxValue() => Value = MaxValue;
 
+        public void SetToMinValue() => Value = default;
+        
         public object Clone()
         {
             return this;

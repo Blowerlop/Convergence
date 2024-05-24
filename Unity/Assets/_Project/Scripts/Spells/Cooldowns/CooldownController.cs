@@ -165,5 +165,19 @@ namespace Project.Spells
             
             OnLocalCooldownStarted?.Invoke(index, time);
         }
+
+        [Server]
+        public void SrvResetCooldowns()
+        {
+            for (var i = 0; i < _timers.Length; i++)
+            {
+                var temp = i;
+                
+                if(_timers[temp].isTimerRunning)
+                    _timers[temp].StopTimer();
+
+                OnServerCooldownEnded?.Invoke(temp);
+            }
+        }
     }
 }

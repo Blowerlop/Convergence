@@ -1,4 +1,5 @@
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Spells;
 using Project.Spells.Casters;
@@ -52,6 +53,14 @@ namespace Project
             
             spellCastController.Init(this);
             GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
+        }
+
+        public override void SrvResetPlayer()
+        {
+            base.SrvResetPlayer();
+            
+            _entity.SrvResetEntity();
+            _stateMachine.ChangeStateTo<IdleState>();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)

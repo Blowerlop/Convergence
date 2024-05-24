@@ -84,5 +84,12 @@ namespace Project
         }
         
         #endregion
+
+        [Server]
+        public virtual void SrvResetPlayer()
+        {
+            channeling.SrvResetChanneling();
+            cooldowns.SrvResetCooldowns();
+        }
     }
 }
