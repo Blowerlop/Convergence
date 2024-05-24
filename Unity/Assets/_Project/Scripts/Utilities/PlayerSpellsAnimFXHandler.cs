@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Project._Project.Scripts.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -23,6 +24,9 @@ namespace Project
                 foreach (var wrapper in FXs)
                 {
                     wrapper.FX.Play();
+
+                    SoundManager.instance.PlaySingleSound(wrapper.Sfx, wrapper.FX.gameObject,
+                        SoundManager.EventType.Spell);
 
                     switch (wrapper.DisableType)
                     {
@@ -66,6 +70,8 @@ namespace Project
             [field: SerializeField] public FXDisableType DisableType { get; private set; }
             
             [field: SerializeField, ShowIf(nameof(IsTimed))] public float DisableTime { get; private set; }
+            
+            [field: SerializeField] public string Sfx { get; private set; }
             
             private bool IsTimed => DisableType == FXDisableType.Timed;
         }

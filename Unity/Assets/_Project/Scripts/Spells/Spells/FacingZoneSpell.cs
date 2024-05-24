@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Managers;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -88,6 +89,11 @@ namespace Project.Spells
             dir.Normalize();
             
             return dir;
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
     }
 }

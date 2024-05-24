@@ -7,7 +7,7 @@ namespace Project
     {
         public void PlayStaticSound(string eventId)
         {
-            SoundManager.instance.PlaySingleSound(eventId, gameObject, SoundManager.EventType.SFX);
+            SoundManager.instance.PlaySingleSound(eventId, gameObject, SoundManager.EventType.Spell);
         }
     }
 }

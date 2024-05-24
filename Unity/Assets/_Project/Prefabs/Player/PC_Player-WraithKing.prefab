@@ -134,6 +134,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2305819678970451150}
+    - targetCorrespondingSourceObject: {fileID: 6010882323663221475, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2185999719184821207}
   m_SourcePrefab: {fileID: 100100000, guid: 51d4bd8232cbc9b419dff7285ddc8fc1, type: 3}
 --- !u!4 &2824664096754202116 stripped
 Transform:
@@ -181,16 +185,31 @@ MonoBehaviour:
     - <FX>k__BackingField: {fileID: 504234948784621195}
       <DisableType>k__BackingField: 2
       <DisableTime>k__BackingField: 0
+      <Sfx>k__BackingField: 
   - <StateName>k__BackingField: Channeling2
     <FXs>k__BackingField:
     - <FX>k__BackingField: {fileID: 1680967734822791525}
       <DisableType>k__BackingField: 1
       <DisableTime>k__BackingField: 5
+      <Sfx>k__BackingField: 
   - <StateName>k__BackingField: Cast3
     <FXs>k__BackingField:
     - <FX>k__BackingField: {fileID: 2657631533590908253}
       <DisableType>k__BackingField: 0
       <DisableTime>k__BackingField: 0
+      <Sfx>k__BackingField: 
+--- !u!114 &2185999719184821207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5496987771145276582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a691456021f9874418a093a3de4a71ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7230919677132249118 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8897612863863039579, guid: 51d4bd8232cbc9b419dff7285ddc8fc1,
