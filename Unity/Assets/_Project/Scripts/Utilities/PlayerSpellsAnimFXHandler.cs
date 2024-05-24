@@ -51,7 +51,7 @@ namespace Project
             {
                 foreach (var fx in _nextAutoFxs)
                 {
-                    fx.Stop();
+                    fx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 }
                 
                 _nextAutoFxs.Clear();
@@ -79,6 +79,8 @@ namespace Project
         
         private Dictionary<int, Handler> _handlers = new();
 
+        [SerializeField] private PCPlayerRefs _playerRefs;
+        
         [SerializeField, ListDrawerSettings(ShowFoldout = false, ShowIndexLabels = false)] private List<Handler> handlers = new();
 
         private void Awake()
@@ -87,6 +89,13 @@ namespace Project
             {
                 _handlers.Add(Animator.StringToHash(handler.StateName), handler);
             }
+            
+            _playerRefs.AttackController.OnHit += OnAutoAttack;
+        }
+
+        private void OnDestroy()
+        {
+            _playerRefs.AttackController.OnHit -= OnAutoAttack;
         }
 
         public void OnStateEnter(int fullHash)
@@ -107,6 +116,14 @@ namespace Project
             }
             
             _handlers[fullHash].OnStateExit();
+        }
+        
+        public void OnAutoAttack()
+        {
+            foreach (var handler in _handlers)
+            {
+                handler.Value.OnAutoAttack();
+            }
         }
     }
 }

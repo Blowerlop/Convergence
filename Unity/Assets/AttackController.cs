@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
@@ -20,6 +21,8 @@ namespace Project
         private bool _isRanged;
         private SOProjectile _projectileData;
 
+        public event Action OnHit;
+        
         private void Awake()
         {
             _playerRefs = GetComponentInParent<PCPlayerRefs>();
@@ -187,6 +190,8 @@ namespace Project
                     nextAutoEffect.KillEffect();
                 }
             }
+            
+            OnHit?.Invoke();
             
             if (_isRanged == false) StartCoroutine(EndAttack());
         }

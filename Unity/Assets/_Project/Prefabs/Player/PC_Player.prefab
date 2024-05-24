@@ -598,6 +598,7 @@ MonoBehaviour:
   spellCastController: {fileID: 5111047068020737362}
   inCastController: {fileID: 9122649814116459540}
   emoteController: {fileID: 8472965482039663037}
+  attackController: {fileID: 1999360482284583967}
 --- !u!114 &7568465784921170700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,9 +688,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetNetworkObject: {fileID: 0}
-  _projectile: {fileID: 6651257460859228941, guid: eadb81407221c9445ae10cf907fe8c5a,
-    type: 3}
-  _projectileData: {fileID: 0}
 --- !u!114 &9136715108103689386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,14 +823,14 @@ MonoBehaviour:
     DestinationState: 229373857
     TransitionDuration: 0.2
     TriggerNameHash: 17244484
-    TransitionIndex: 1
+    TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: -1936938822
     DestinationState: 2081823275
     TransitionDuration: 0.25
     TriggerNameHash: 17244484
-    TransitionIndex: 3
+    TransitionIndex: 2
   m_Animator: {fileID: 7670799931884736559}
 --- !u!114 &8583798711595545617
 MonoBehaviour:
@@ -977,6 +975,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  _playerRefs: {fileID: 0}
   handlers: []
 --- !u!4 &4365126248178469461 stripped
 Transform:

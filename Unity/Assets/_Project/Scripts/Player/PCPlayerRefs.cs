@@ -22,6 +22,8 @@ namespace Project
         
         [SerializeField] private EmoteController emoteController;
         
+        [SerializeField] private AttackController attackController;
+        
         public Entity Entity => _entity;
         public StateMachineController StateMachine => _stateMachine;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
@@ -31,7 +33,9 @@ namespace Project
         public InCastController InCastController => inCastController;
         
         public EmoteController EmoteController => emoteController;
-
+        
+        public AttackController AttackController => attackController;
+        
         public override PCPlayerRefs GetPC() => this;
 
         [Server]
