@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{08dd2d52-3b43-4644-8250-8166b55492cc}">
+		<property name="color">
+			<value>Purple</value>
+		</property>
 		<property name="name">
 			<value>loopref_assassin_1</value>
 		</property>
@@ -8,7 +11,10 @@
 			<value>0</value>
 		</property>
 		<relationship name="folder">
-			<destination>{72727f19-f0a6-4108-905b-48e17965faba}</destination>
+			<destination>{fd07751d-8d3e-4499-919f-737a6995e3d6}</destination>
+		</relationship>
+		<relationship name="tags">
+			<destination>{ecd0490e-c812-4007-81c4-2f79a08d2861}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{02036b22-7495-4b47-b7c6-e5b7824074a6}</destination>
