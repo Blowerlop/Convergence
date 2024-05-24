@@ -13,6 +13,7 @@ namespace Project._Project.Scripts.Player.States
 
         protected override void OnExit()
         {
+            playerRefs.Animator.ResetTrigger(Constants.AnimatorsParam.Attack);
             playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.EndAttackInstant);
         }
 

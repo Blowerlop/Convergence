@@ -160,7 +160,12 @@ namespace Project
             {
                 _playerRefs.StateMachine.ChangeStateTo<IdleState>();
             }
-            
+
+            ResetAttack();
+        }
+
+        private void ResetAttack()
+        {
             _isAttacking = false;
         }
 

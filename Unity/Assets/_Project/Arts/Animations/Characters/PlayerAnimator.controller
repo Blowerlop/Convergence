@@ -1245,10 +1245,10 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 1035351933957043343}
   - {fileID: 6474843344638189449}
-  - {fileID: 7346695858148800468}
+  - {fileID: 1035351933957043343}
   - {fileID: 2824806231231028992}
+  - {fileID: 7346695858148800468}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -1348,11 +1348,11 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Movement
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: EndAttackInstant
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Movement
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 407122509000876971}
@@ -1682,10 +1682,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Movement
+    m_ConditionEvent: EndAttackInstant
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: EndAttackInstant
+    m_ConditionEvent: Movement
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7592303463021498740}
