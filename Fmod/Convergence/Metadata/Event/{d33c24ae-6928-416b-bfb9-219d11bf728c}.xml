@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{d33c24ae-6928-416b-bfb9-219d11bf728c}">
+		<property name="color">
+			<value>Purple</value>
+		</property>
 		<property name="name">
 			<value>inst_assassin_4</value>
 		</property>
@@ -9,6 +12,9 @@
 		</property>
 		<relationship name="folder">
 			<destination>{fd07751d-8d3e-4499-919f-737a6995e3d6}</destination>
+		</relationship>
+		<relationship name="tags">
+			<destination>{ecd0490e-c812-4007-81c4-2f79a08d2861}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{19e08063-7af1-4480-9379-676cca9f0653}</destination>
