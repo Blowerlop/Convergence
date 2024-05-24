@@ -95,13 +95,6 @@ namespace Project
             {
                 _handlers.Add(Animator.StringToHash(handler.StateName), handler);
             }
-            
-            _playerRefs.AttackController.OnHit += OnAutoAttack;
-        }
-
-        private void OnDestroy()
-        {
-            _playerRefs.AttackController.OnHit -= OnAutoAttack;
         }
 
         public void OnStateEnter(int fullHash)

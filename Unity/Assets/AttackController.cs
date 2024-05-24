@@ -20,8 +20,6 @@ namespace Project
         private IDamageable _damageable;
         private bool _isRanged;
         private SOProjectile _projectileData;
-
-        public event Action OnHit;
         
         private void Awake()
         {
@@ -190,8 +188,6 @@ namespace Project
                     nextAutoEffect.KillEffect();
                 }
             }
-            
-            OnHit?.Invoke();
             
             if (_isRanged == false) StartCoroutine(EndAttack());
         }
