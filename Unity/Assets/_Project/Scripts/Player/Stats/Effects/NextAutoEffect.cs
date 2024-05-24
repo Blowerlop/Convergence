@@ -9,7 +9,7 @@ namespace Project.Effects
 
         [SerializeReference, SerializeField] private List<Effect> _effectsOnAuto = new();
 
-        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             AddToEffectable();
             return true;
@@ -26,7 +26,7 @@ namespace Project.Effects
             
             foreach (var effect in _effectsOnAuto)
             {
-                if (effect.TryApply(effectable, applier))
+                if (effect.TryApply(effectable, applier, default))
                     appliedEffects++;
             }
 

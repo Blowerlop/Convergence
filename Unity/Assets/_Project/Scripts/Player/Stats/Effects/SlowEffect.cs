@@ -16,7 +16,7 @@ namespace Project.Effects
         private int _slowedValue;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
             

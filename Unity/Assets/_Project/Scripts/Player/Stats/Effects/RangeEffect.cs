@@ -13,7 +13,7 @@ namespace Project.Effects
 
         private float _value;
         
-        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             if (!effectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat))
             {

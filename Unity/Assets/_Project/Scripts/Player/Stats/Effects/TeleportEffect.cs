@@ -10,11 +10,9 @@ namespace Project.Effects
 
         [SerializeField] private float _distanceToTarget;
         
-        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
-            var targetTransform = effectable.AffectedEntity.transform;
-            
-            var dirToTarget = targetTransform.position - applier.PlayerTransform.position;
+            var dirToTarget = applyPosition - applier.PlayerTransform.position;
             dirToTarget.y = 0;
             
             dirToTarget -= dirToTarget.normalized * _distanceToTarget;
@@ -22,15 +20,17 @@ namespace Project.Effects
             var pos = applier.PlayerTransform.position + dirToTarget;
             int maxAttemps = 20;
 
+            float distanceOffsetPerTry = 0.2f;
+
             var index = 0;
             NavMeshHit hit;
             
             while (!NavMesh.SamplePosition(pos, out hit, 0.5f, NavMesh.AllAreas) && index < maxAttemps)
             {
-                var dir = Random.insideUnitCircle.normalized * _distanceToTarget;
+                var dir = Random.insideUnitCircle.normalized * (_distanceToTarget + distanceOffsetPerTry * index);
                 var toV3 = new Vector3(dir.x, 0, dir.y);
                 
-                pos = targetTransform.position + toV3;
+                pos = applyPosition + toV3;
                 index++;
             }
             
@@ -41,7 +41,7 @@ namespace Project.Effects
             }
             
             applier.PlayerTransform.GetComponent<NetworkTransform>()
-                .Teleport(hit.position, Quaternion.LookRotation(targetTransform.position - hit.position), Vector3.one);
+                .Teleport(hit.position, Quaternion.LookRotation(applyPosition - hit.position), Vector3.one);
 
             var navMeshAgent = applier.GetPC().NavMeshAgent;
             

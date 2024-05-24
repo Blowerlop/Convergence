@@ -18,7 +18,7 @@ namespace Project.Effects
         public int DamageAmount;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
             if (!entity.CanDamage(applier.TeamIndex)) return false;

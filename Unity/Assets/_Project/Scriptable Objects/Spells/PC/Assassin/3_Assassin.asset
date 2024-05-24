@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f5fb379806b4752ad601298d3801915, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fd61ab76d014bb2a04cc5c468583d48, type: 3}
   m_Name: 3_Assassin
   m_EditorClassIdentifier: 
-  resultTypeSelection: Project.Spells.IntResults
-  requiredCaster: {fileID: -3665153243824835686, guid: a055cf036774de84594cb432236bf128,
+  resultTypeSelection: Project.Spells.SingleVectorResults
+  requiredCaster: {fileID: 2732994462002990536, guid: 55dc4e10969599d4784bac0821ca0ff5,
     type: 3}
   spellId: assassin_3
   spellIdHash: -151875367
   instantiationType: 1
-  spellPrefab: {fileID: 5622078733344781437, guid: 0872ab5e09d460245b493cc1799cc71b,
+  spellPrefab: {fileID: -5568349316116306161, guid: 0872ab5e09d460245b493cc1799cc71b,
     type: 3}
   isInstant: 0
   cooldown: 1
@@ -26,11 +26,22 @@ MonoBehaviour:
   castingFlags: 0
   castAnimationDuration: 0.35
   spellIcon: {fileID: 21300000, guid: 26c5c8f3c3c76c04781f60f80ad6218d, type: 3}
-  effects: [{rid: 611475219954794496}]
-  onCasterEffects: []
-  targetType: 0
+  effects:
+  - rid: 611475241524527104
+  onCasterEffects:
+  - rid: 611475241524527105
   limitRadius: 10
+  zoneRadius: 4
+  lookAtCenter: 0
   references:
     version: 2
-    RefIds: [{rid: 611475219954794496, type: {class: TeleportEffect, ns: Project.Effects,
-          asm: Assembly-CSharp}, data: {_distanceToTarget: 3}}]
+    RefIds:
+    - rid: 611475241524527104
+      type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        DamageType: 0
+        DamageAmount: 15
+    - rid: 611475241524527105
+      type: {class: TeleportEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        _distanceToTarget: 0.25

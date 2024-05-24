@@ -1,5 +1,6 @@
 using System;
 using Project._Project.Scripts;
+using UnityEngine;
 
 namespace Project
 {
@@ -17,14 +18,14 @@ namespace Project
         
         protected IEffectable AffectedEffectable { get; private set; }
         
-        public bool TryApply(IEffectable effectable, PlayerRefs applier)
+        public bool TryApply(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             AffectedEffectable = effectable;
             
-            return TryApply_Internal(effectable, applier);
+            return TryApply_Internal(effectable, applier, applyPosition);
         }
 
-        protected abstract bool TryApply_Internal(IEffectable effectable, PlayerRefs applier);
+        protected abstract bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition);
         
         public abstract void KillEffect();
         

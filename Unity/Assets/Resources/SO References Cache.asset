@@ -41,13 +41,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
   - <typeName>k__BackingField: TargetSpellData
     <scriptableObjects>k__BackingField:
-    - {fileID: 11400000, guid: 8263e7152f73a0a4ea3c69f44ff3fa6c, type: 2}
     - {fileID: 11400000, guid: 07a638d92fe3d774bb49609e794557b9, type: 2}
     - {fileID: 11400000, guid: 8c6e1dd8e37c41b498e9c4ab78e898cd, type: 2}
     - {fileID: 11400000, guid: 7b4b586f84c0c9643b9403bf7c833e53, type: 2}
   - <typeName>k__BackingField: ZoneSpellData
     <scriptableObjects>k__BackingField:
     - {fileID: 11400000, guid: bdbd41bec2ec6604f932f40cf4dc7415, type: 2}
+    - {fileID: 11400000, guid: 8263e7152f73a0a4ea3c69f44ff3fa6c, type: 2}
     - {fileID: 11400000, guid: 9829ef442e9f5c14380e6fb98799e04a, type: 2}
     - {fileID: 11400000, guid: 8858fc646cfe3354f8ea34400f6d2b06, type: 2}
     - {fileID: 11400000, guid: aff1ad33ede6f6a4a888971e38171c08, type: 2}

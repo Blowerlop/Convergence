@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1547165325317951460}
   - component: {fileID: 188618609405034333}
-  - component: {fileID: 5622078733344781437}
+  - component: {fileID: -5568349316116306161}
   - component: {fileID: 2541366772262591164}
   - component: {fileID: 4474108745008664244}
   m_Layer: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5622078733344781437
+--- !u!114 &-5568349316116306161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,20 +96,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2390629528148955670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b846d36a07754c5188ced15c695cc233, type: 3}
+  m_Script: {fileID: 11500000, guid: 1450cfb12863409685a425374204f574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 8263e7152f73a0a4ea3c69f44ff3fa6c,
     type: 2}
   CanHitSelf: 0
-  CanHitSelf: 0
-  spawnType: 0
-  moveType: 0
-  moveSpeed: 0
-  rotationType: 0
-  dieType: 1
-  aliveTime: 0.1
-  applyEffectType: 1
+  applyType: 1
+  killType: 1
+  duration: 2
+  hitZoneShape: 0
+  boxCollider: {fileID: 0}
 --- !u!114 &2541366772262591164
 MonoBehaviour:
   m_ObjectHideFlags: 0

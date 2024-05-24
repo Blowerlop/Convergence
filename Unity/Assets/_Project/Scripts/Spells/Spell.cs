@@ -44,7 +44,7 @@ namespace Project.Spells
             if (!CanHitSelf && Caster.GetPC().Entity == entity)
                 return false;
             
-            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, applier: Caster));
+            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, applier: Caster, applyPosition: transform.position));
             return appliedEffects > 0;
         }
 
@@ -54,7 +54,7 @@ namespace Project.Spells
             
             foreach (var onCasterEffect in Data.onCasterEffects)
             {
-                onCasterEffect.GetInstance().TryApply(entity, applier: Caster);
+                onCasterEffect.GetInstance().TryApply(entity, applier: Caster, applyPosition: transform.position);
             }
         }
 
