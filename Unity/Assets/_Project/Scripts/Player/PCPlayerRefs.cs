@@ -51,6 +51,7 @@ namespace Project
             base.OnOwnerChanged(oldId, newId);
             
             spellCastController.Init(this);
+            GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)

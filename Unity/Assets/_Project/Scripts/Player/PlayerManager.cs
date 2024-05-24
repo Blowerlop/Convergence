@@ -11,6 +11,8 @@ namespace Project
         // Used to destroy all players when game ends
         [ServerField] private List<PlayerRefs> _players = new();
         
+        [SerializeField] private List<Transform> spawnPoints = new();
+        
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -57,17 +59,21 @@ namespace Project
         { 
             if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData)) return;
 
-            Vector3 pos = Random.insideUnitSphere * 4f;
-            pos.y = 1;
+            var spawnPoint = GetSpawnPoint(_players.Count);
 
-            var obj = Instantiate(characterData.prefab, pos, Quaternion.identity);
-            obj.name = "Player " + clientId;
+            var obj = Instantiate(characterData.prefab, spawnPoint.position, Quaternion.identity);
+            obj.name = "Player " + (user.IsMobile ? "(Mobile) " : "(PC) ") + clientId;
             obj.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
 
             var refs = obj.GetComponent<PlayerRefs>();
             _players.Add(refs);
             
             refs.ServerInit(user.Team, user.ClientId, characterData);
+        }
+
+        private Transform GetSpawnPoint(int index)
+        {
+            return spawnPoints[index % spawnPoints.Count];
         }
     }
 }
