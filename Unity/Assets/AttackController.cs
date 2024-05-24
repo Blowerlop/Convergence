@@ -265,7 +265,7 @@ namespace Project
             {
                 if (IsAttacking())
                 {
-                    StartCoroutine(EndAttack());
+                    ResetAttack();
                 }
             }
         }
