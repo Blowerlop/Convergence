@@ -1,5 +1,6 @@
 using System;
 using Project._Project.Scripts.Player.States;
+using Project.Spells;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -79,6 +80,11 @@ namespace Project
         private void StartNewRound()
         {
             Debug.LogError($"StartNewRound");
+            
+            var spellManager = SpellManager.instance;
+            
+            spellManager.SrvResetSpells();
+            spellManager.SrvResetCasts();
             
             var playerManager = PlayerManager.instance;
             

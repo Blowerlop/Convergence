@@ -60,6 +60,16 @@ namespace Project
                 
                 _nextAutoFxs.Clear();
             }
+
+            public void Reset()
+            {
+                foreach (var wrapper in FXs)
+                {
+                    wrapper.FX.Stop();
+                }
+                
+                _nextAutoFxs.Clear();
+            }
         }
 
         [Serializable]
@@ -122,6 +132,15 @@ namespace Project
             foreach (var handler in _handlers)
             {
                 handler.Value.OnAutoAttack();
+            }
+        }
+
+        [Server]
+        public void SrvReset()
+        {
+            foreach (var handler in _handlers)
+            {
+                handler.Value.Reset();
             }
         }
     }

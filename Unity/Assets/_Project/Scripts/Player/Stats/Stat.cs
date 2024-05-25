@@ -31,6 +31,8 @@ namespace Project
                 if (_value.CompareTo(value) == 0) return;
 
                 _value = Clamp(value, _minValue, maxValue);
+                
+                Debug.Log("value changed to: " + _value + " for " + GetType().Name);
                 OnValueChanged?.Invoke(_value, _maxValue);
             }
         }
@@ -46,6 +48,7 @@ namespace Project
                 if (_maxValue.CompareTo(value) == 0) return;
                 
                 _maxValue = value;
+
                 OnValueChanged?.Invoke(_value, _maxValue);
             }
         }

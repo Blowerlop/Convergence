@@ -83,6 +83,7 @@ namespace Project
                 stat.Value.SetToDefaultValue();
             }
             
+            Debug.Log($"Stats reset for {gameObject.name}");
             nHealthStat.SetToMaxValue();
             nShieldStat.SetToMinValue();
         }

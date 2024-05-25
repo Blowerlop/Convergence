@@ -83,6 +83,11 @@ PrefabInstance:
       propertyPath: _networkAnimator
       value: 
       objectReference: {fileID: 1271087980110800593}
+    - target: {fileID: 6215435937847373130, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: playerSpellsAnimFxHandler
+      value: 
+      objectReference: {fileID: 651708915683247935}
     - target: {fileID: 8566652343378925700, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: m_Name

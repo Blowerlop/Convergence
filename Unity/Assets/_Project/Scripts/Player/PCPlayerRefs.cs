@@ -55,6 +55,7 @@ namespace Project
             GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
         }
 
+        [Server]
         public override void SrvResetPlayer()
         {
             base.SrvResetPlayer();
@@ -62,6 +63,7 @@ namespace Project
             _entity.SrvResetEntity();
             _stateMachine.ChangeStateTo<IdleState>();
             attackController.SrvForceReset();
+            inCastController.SrvResetInCast();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)
