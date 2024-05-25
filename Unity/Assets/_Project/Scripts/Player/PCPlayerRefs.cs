@@ -52,7 +52,9 @@ namespace Project
             base.OnOwnerChanged(oldId, newId);
             
             spellCastController.Init(this);
-            GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
+            
+            if(UserInstance.Me.ClientId == newId)
+                GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
         }
 
         [Server]
