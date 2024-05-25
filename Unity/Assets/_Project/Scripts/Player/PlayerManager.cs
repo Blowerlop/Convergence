@@ -18,6 +18,7 @@ namespace Project
         
         [SerializeField] private List<Transform> spawnPoints = new();
 
+        public static event Action OnAllPlayersReady;
         public static event Action<PlayerRefs> OnPlayerDied;
         
         public override void OnNetworkSpawn()
@@ -118,6 +119,17 @@ namespace Project
             foreach (var player in players)
             {
                 player.SrvResetPlayer();
+            }
+        }
+
+        public void SetPlayerReady()
+        {
+            var users = UserInstanceManager.instance.GetUsersInstance();
+            
+            // All users have a player linked
+            if (users.All(user => user.LinkedPlayer))
+            {
+                OnAllPlayersReady?.Invoke();
             }
         }
     }

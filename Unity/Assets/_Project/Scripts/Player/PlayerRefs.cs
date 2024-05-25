@@ -83,6 +83,8 @@ namespace Project
             {
                 newUser.LinkPlayer(this);
             }
+            
+            PlayerManager.instance.SetPlayerReady();
         }
         
         #endregion
@@ -92,12 +94,22 @@ namespace Project
         {
             // Force reset all animator
             Animator.Rebind();
-            
+
             if (playerSpellsAnimFxHandler)
+            {
                 playerSpellsAnimFxHandler.SrvReset();
+                ResetFXClientRpc();
+            }
             
             channeling.SrvResetChanneling();
             cooldowns.SrvResetCooldowns();
+        }
+
+        [ClientRpc]
+        private void ResetFXClientRpc()
+        {
+            if (playerSpellsAnimFxHandler)
+                playerSpellsAnimFxHandler.SrvReset();
         }
     }
 }

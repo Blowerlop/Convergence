@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project._Project.Scripts.Player.States;
 using Project.Spells;
 using Unity.Netcode;
@@ -6,13 +7,18 @@ using UnityEngine;
 
 namespace Project
 {
-    public class Gameloop : NetworkBehaviour
+    public class Gameloop : NetworkSingleton<Gameloop>
     {
+        private readonly NetworkVariable<bool> _isGameRunning = new NetworkVariable<bool>(false);
+        
+        public static bool IsGameRunning => instance._isGameRunning.Value;
+        
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
             
             PlayerManager.OnPlayerDied += OnPlayerDied;
+            PlayerManager.OnAllPlayersReady += StartNewRound;
         }
 
         public override void OnNetworkDespawn()
@@ -26,7 +32,7 @@ namespace Project
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
-                StartNewRound();
+                EndCurrentRound();
             }
         }
 
@@ -58,7 +64,6 @@ namespace Project
 
             if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
             {
-                
                 pcUser.WinCount.Value++;
             }
             else
@@ -66,21 +71,25 @@ namespace Project
                 Debug.LogError("No PC user");
             }
             
-            Debug.LogError(team.HasPC);
-            Debug.LogError(team.mobilePlayerOwnerClientId);
-            Debug.LogError(team.pcPlayerOwnerClientId);
-            Debug.LogError(team.HasMobile);
-            
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
                 mobileUser.WinCount.Value++;
             
-            StartNewRound();
+            EndCurrentRound();
         }
 
-        private void StartNewRound()
+        private void EndCurrentRound()
         {
-            Debug.LogError($"StartNewRound");
+            _isGameRunning.Value = false;
             
+            DOVirtual.DelayedCall(3, () =>
+            {
+                ResetRound();
+                StartNewRound();
+            });
+        }
+
+        private void ResetRound()
+        {
             var spellManager = SpellManager.instance;
             
             spellManager.SrvResetSpells();
@@ -90,6 +99,14 @@ namespace Project
             
             playerManager.ResetPlayers();
             playerManager.PlacePlayers();
+        }
+        
+        private void StartNewRound()
+        {
+            DOVirtual.DelayedCall(5f, () =>
+            {
+                _isGameRunning.Value = true;
+            });
         }
     }
 }

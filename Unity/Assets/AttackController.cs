@@ -81,6 +81,8 @@ namespace Project
         // [Owner]
         private void OnMouseButton1_AttackRequest(RaycastHit hitInfo, int layer)
         {
+            if (!Gameloop.IsGameRunning) return;
+            
             if (layer != Constants.Layers.EntityIndex)
             {
                 if (targetNetworkObject != null)
@@ -113,6 +115,8 @@ namespace Project
         [Server]
         private void SrvTryToAttack(NetworkObjectReference networkObjectReference)
         {
+            if (!Gameloop.IsGameRunning) return;
+            
             networkObjectReference.TryGet(out targetNetworkObject);
             if (targetNetworkObject == null)
             {

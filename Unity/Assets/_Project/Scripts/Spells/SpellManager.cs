@@ -222,10 +222,10 @@ namespace Project.Spells
 
         public static bool CanCastSpell(PlayerRefs refs)
         {
-            return refs is not PCPlayerRefs pcPlayer
+            return Gameloop.IsGameRunning && (refs is not PCPlayerRefs pcPlayer
                    || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() 
                        && !pcPlayer.Entity.IsSilenced 
-                       && !pcPlayer.InCastController.IsCasting);
+                       && !pcPlayer.InCastController.IsCasting));
         }
 
         [Server]
