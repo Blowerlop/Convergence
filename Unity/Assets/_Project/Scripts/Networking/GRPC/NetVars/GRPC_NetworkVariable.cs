@@ -66,7 +66,7 @@ namespace Project
             if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
             GRPC_NetworkManager.instance.onClientStartedEvent -= GRPC_NetworkVariable_Initialization;
-            GRPC_NetworkManager.instance.onClientStopEvent -= OnClientStop;
+            //GRPC_NetworkManager.instance.onClientStopEvent -= OnClientStop;
 
             // OnClientStop();
         }
