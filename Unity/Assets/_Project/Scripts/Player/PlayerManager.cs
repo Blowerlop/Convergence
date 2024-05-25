@@ -67,7 +67,9 @@ namespace Project
         { 
             if (!SOCharacter.TryGetCharacter(user.CharacterId, out var characterData)) return;
 
-            var spawnPoint = GetSpawnPoint(players.Count);
+            var pcCount = players.Count(player => player is PCPlayerRefs);
+            
+            var spawnPoint = GetSpawnPoint(pcCount);
 
             var obj = Instantiate(characterData.prefab, spawnPoint.position, Quaternion.identity);
             obj.name = "Player " + (user.IsMobile ? "(Mobile) " : "(PC) ") + clientId;
@@ -91,13 +93,15 @@ namespace Project
 
         public void PlacePlayers()
         {
-            for(int i = 0; i < players.Count; i++)
+            var pcCount = 0;
+
+            foreach (var player in players)
             {
-                var player = players[i];
-                
                 if (player is PCPlayerRefs refs)
                 {
-                    var pos = GetSpawnPoint(i).position;
+                    var temp = pcCount;
+                    
+                    var pos = GetSpawnPoint(temp).position;
                     
                     refs.PlayerTransform.GetComponent<NetworkTransform>()
                         .Teleport(pos, Quaternion.identity, Vector3.one);
@@ -109,6 +113,7 @@ namespace Project
                     navMeshAgent.ResetPath();
             
                     navMeshAgent.Warp(pos);
+                    pcCount++;
                 }
             }
         }
