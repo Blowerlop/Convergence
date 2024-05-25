@@ -21,7 +21,7 @@ MonoBehaviour:
   spellPrefab: {fileID: -678743547542117003, guid: 1792710597f0c0140afba6e002a6da78,
     type: 3}
   isInstant: 0
-  cooldown: 5
+  cooldown: 0.2
   channelingTime: 0.25
   castingFlags: 0
   castAnimationDuration: 0
@@ -36,4 +36,4 @@ MonoBehaviour:
     - rid: 2778045437568614402
       type: {class: StunEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        Duration: 2
+        Duration: 2.5

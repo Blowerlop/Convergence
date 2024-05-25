@@ -21,7 +21,7 @@ MonoBehaviour:
   spellPrefab: {fileID: 7716055719088318621, guid: 7ef1127cceaedde4eaf8df85b1fc9044,
     type: 3}
   isInstant: 0
-  cooldown: 5
+  cooldown: 0.2
   channelingTime: 0.25
   castingFlags: 0
   castAnimationDuration: 0
@@ -36,4 +36,4 @@ MonoBehaviour:
     - rid: 6173595388760555522
       type: {class: SilenceEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        Duration: 2
+        Duration: 2.5

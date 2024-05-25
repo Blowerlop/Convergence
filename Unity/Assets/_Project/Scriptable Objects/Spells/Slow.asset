@@ -21,7 +21,7 @@ MonoBehaviour:
   spellPrefab: {fileID: 7774840793179866475, guid: 71456acd1c5897b4a85a5ec3298bada1,
     type: 3}
   isInstant: 0
-  cooldown: 10
+  cooldown: 0.2
   channelingTime: 0.25
   castingFlags: 0
   castAnimationDuration: 0

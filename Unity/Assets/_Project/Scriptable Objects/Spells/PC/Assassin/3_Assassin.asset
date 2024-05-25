@@ -21,7 +21,7 @@ MonoBehaviour:
   spellPrefab: {fileID: -5568349316116306161, guid: 0872ab5e09d460245b493cc1799cc71b,
     type: 3}
   isInstant: 0
-  cooldown: 1
+  cooldown: 12
   channelingTime: 0.5
   castingFlags: 0
   castAnimationDuration: 0.35
@@ -30,7 +30,7 @@ MonoBehaviour:
   - rid: 611475241524527104
   onCasterEffects:
   - rid: 611475241524527105
-  limitRadius: 10
+  limitRadius: 17
   zoneRadius: 4
   lookAtCenter: 0
   references:
@@ -40,7 +40,7 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 15
+        DamageAmount: 225
     - rid: 611475241524527105
       type: {class: TeleportEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:

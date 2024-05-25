@@ -21,7 +21,7 @@ MonoBehaviour:
   spellPrefab: {fileID: 9140298656200164716, guid: 49deba1de7e9598459986f31fce7af22,
     type: 3}
   isInstant: 0
-  cooldown: 5
+  cooldown: 15
   channelingTime: 0.33
   castingFlags: 0
   castAnimationDuration: 0.15
@@ -44,4 +44,4 @@ MonoBehaviour:
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         SlowAmount: 2
-        Duration: 1
+        Duration: 1.5

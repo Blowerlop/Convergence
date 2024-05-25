@@ -35,4 +35,4 @@ MonoBehaviour:
     - rid: 2778045304719278080
       type: {class: HealEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        HealAmount: 25
+        HealAmount: 190
