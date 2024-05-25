@@ -123,7 +123,9 @@ namespace Project
         {
             Timer timer = new Timer();
             
+            /*
             OnRoundStartClientRpc();
+            */
             
             timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
             {
@@ -135,6 +137,7 @@ namespace Project
             }, ceiled: true);
         }
         
+        /*
         // Maybe not that great but flemme to netvar
         [ClientRpc]
         private void OnRoundStartClientRpc()
@@ -150,6 +153,6 @@ namespace Project
             {
                 PlaceholderLabel.instance.SetText("");
             }, ceiled: true);
-        }
+        }*/
     }
 }
