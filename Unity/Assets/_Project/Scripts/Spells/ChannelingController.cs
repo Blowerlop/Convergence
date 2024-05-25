@@ -94,5 +94,12 @@ namespace Project.Spells
                 }
             }
         }
+
+        [Server]
+        public void SrvResetChanneling()
+        {
+            _channelingTimer.StopTimer();
+            _isChanneling.Value = false;
+        }
     }
 }

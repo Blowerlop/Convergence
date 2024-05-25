@@ -19,6 +19,8 @@ namespace Project.Effects
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
+         
+            AddToEffectable();
             
             if (!entity.Stats.TryGet(out _stat))
             {
@@ -37,6 +39,8 @@ namespace Project.Effects
 
         public override void KillEffect()
         {
+            RemoveFromEffectable();
+            
             RemoveSlow();
             AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }

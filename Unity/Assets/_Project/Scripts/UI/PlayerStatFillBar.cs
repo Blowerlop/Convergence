@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Project
 {
     public class PlayerStatFillBar<T> : FillBar where T : Stat<int>
@@ -41,6 +43,7 @@ namespace Project
         
         private void OnValueChanged(int currentValue, int maxValue)
         {
+            Debug.Log($"Current Value: {currentValue}, Max Value: {maxValue}");
             SetFillAmount(currentValue, maxValue);
         }
     }

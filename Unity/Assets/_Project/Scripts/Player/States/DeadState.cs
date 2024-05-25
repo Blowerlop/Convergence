@@ -12,15 +12,17 @@ namespace Project._Project.Scripts.Player.States
 
         protected override void OnEnter()
         {
-            _deathTimer = new Timer();
+            /*_deathTimer = new Timer();
             _deathTimer.StartTimerWithCallback(playerRefs.StateMachine, GameSettings.instance.deathTime, () =>
             {
                 playerRefs.StateMachine.ChangeStateTo<IdleState>();
-            });
+            });*/
 
             _position = playerRefs.PlayerTransform.position;
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
             playerRefs.Animator.SetBool(Constants.AnimatorsParam.Dead, true);
+            
+            PlayerManager.instance.OnDeath(playerRefs);
         }
 
         protected override void OnExit()

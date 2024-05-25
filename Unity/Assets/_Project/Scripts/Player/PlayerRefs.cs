@@ -17,6 +17,8 @@ namespace Project
         
         [SerializeField] private NetworkAnimator _networkAnimator;
         
+        [SerializeField] private PlayerSpellsAnimFXHandler playerSpellsAnimFxHandler;
+        
         public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
@@ -81,8 +83,33 @@ namespace Project
             {
                 newUser.LinkPlayer(this);
             }
+            
+            PlayerManager.instance.SetPlayerReady();
         }
         
         #endregion
+
+        [Server]
+        public virtual void SrvResetPlayer()
+        {
+            // Force reset all animator
+            Animator.Rebind();
+
+            if (playerSpellsAnimFxHandler)
+            {
+                playerSpellsAnimFxHandler.ResetFX();
+                ResetFXClientRpc();
+            }
+            
+            channeling.SrvResetChanneling();
+            cooldowns.SrvResetCooldowns();
+        }
+
+        [ClientRpc]
+        private void ResetFXClientRpc()
+        {
+            if (playerSpellsAnimFxHandler)
+                playerSpellsAnimFxHandler.ResetFX();
+        }
     }
 }

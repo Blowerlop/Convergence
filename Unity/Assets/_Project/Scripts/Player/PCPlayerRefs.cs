@@ -1,4 +1,5 @@
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Spells;
 using Project.Spells.Casters;
@@ -51,6 +52,20 @@ namespace Project
             base.OnOwnerChanged(oldId, newId);
             
             spellCastController.Init(this);
+            
+            if(UserInstance.Me.ClientId == newId)
+                GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
+        }
+
+        [Server]
+        public override void SrvResetPlayer()
+        {
+            base.SrvResetPlayer();
+            
+            _entity.SrvResetEntity();
+            _stateMachine.ChangeStateTo<IdleState>();
+            attackController.SrvForceReset();
+            inCastController.SrvResetInCast();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)

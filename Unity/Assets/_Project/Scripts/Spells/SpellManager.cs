@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using Project._Project.Scripts.Player.States;
 using Unity.Netcode;
@@ -9,6 +10,8 @@ namespace Project.Spells
     public class SpellManager : NetworkSingleton<SpellManager>
     {
         public static event Action<PlayerRefs, Vector3> OnChannelingStarted;
+        
+        private List<Timer> _runningCasts = new();
         
         [Server]
         public void TryCastSpell(int clientId, int spellIndex, ICastResult results)
@@ -134,9 +137,11 @@ namespace Project.Spells
                     }
                 }
             }
-            
-            DOVirtual.DelayedCall(spell.castAnimationDuration, OnCastEnd);
 
+            var timer = GetCastTimer();
+            
+            timer.StartTimerWithCallback(this, spell.castAnimationDuration, OnCastEnd);
+            
             return;
 
             void OnCastEnd()
@@ -145,6 +150,17 @@ namespace Project.Spells
                 
                 if (pcPlayer) pcPlayer.InCastController.SrvResetInCast();
             }
+        }
+
+        private Timer GetCastTimer()
+        {
+            foreach (var timer in _runningCasts)
+                if (!timer.isTimerRunning) return timer;
+            
+            Timer newTimer = new Timer();
+            _runningCasts.Add(newTimer);
+            
+            return newTimer;
         }
 
         [Server]
@@ -206,10 +222,33 @@ namespace Project.Spells
 
         public static bool CanCastSpell(PlayerRefs refs)
         {
-            return refs is not PCPlayerRefs pcPlayer
+            return Gameloop.IsGameRunning && (refs is not PCPlayerRefs pcPlayer
                    || (pcPlayer.StateMachine.CanChangeStateTo<ChannelingState>() 
                        && !pcPlayer.Entity.IsSilenced 
-                       && !pcPlayer.InCastController.IsCasting);
+                       && !pcPlayer.InCastController.IsCasting));
+        }
+
+        [Server]
+        public void SrvResetSpells()
+        {
+            var spells = FindObjectsByType<Spell>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+            foreach (var spell in spells)
+            {
+                if(spell.NetworkObject.IsSpawned)
+                    spell.NetworkObject.Despawn();
+                else
+                    Destroy(spell.gameObject);
+            }
+        }
+
+        [Server]
+        public void SrvResetCasts()
+        {
+            foreach (var castTimer in _runningCasts)
+            {
+                castTimer.StopTimer();
+            }
         }
         
         #endregion

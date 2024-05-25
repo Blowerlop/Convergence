@@ -31,6 +31,9 @@ namespace Project
             
             playerTransform = pcUser.LinkedPlayer.PlayerTransform;
             _pc = pcUser.LinkedPlayer as PCPlayerRefs;
+            
+            transform.parent = playerTransform;
+            transform.position = playerTransform.position;
         }
     }
 }
