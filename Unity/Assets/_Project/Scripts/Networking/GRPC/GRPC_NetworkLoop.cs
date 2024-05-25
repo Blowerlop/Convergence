@@ -31,6 +31,9 @@ namespace Project
         
         public override Task WriteAsync()
         {
+            if (_cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested ||
+                _streamWriter == null) return Task.CompletedTask;
+            
             return _streamWriter.WriteAsync(_message, _cancellationTokenSource.Token);
         }
 

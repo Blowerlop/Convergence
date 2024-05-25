@@ -18,7 +18,7 @@ namespace Project
 {
     public class GRPC_NetworkVariable<T> : NetworkVariable<T>  where T : struct
     {
-        private static MainService.MainServiceClient _client => GRPC_Transport.instance.client;
+        private MainService.MainServiceClient _client => GRPC_Transport.instance.client;
         
         private AsyncClientStreamingCall<GRPC_NetVarUpdate, GRPC_EmptyMsg> _sendStream;
         private CancellationTokenSource _sendStreamCancellationTokenSource;
@@ -40,11 +40,12 @@ namespace Project
             _variableHashName = variableName.ToLower().ToHashIsSameAlgoOnUnreal();
         }
 
-        ~GRPC_NetworkVariable()
-        {
-            //Reset();
-            OnClientStop();
-        }
+        // NOT WORKING ! WHY ?
+        // ~GRPC_NetworkVariable()
+        // {
+        //     //Reset();
+        //     OnClientStop();
+        // }
 
 
         public void Initialize()
@@ -68,7 +69,7 @@ namespace Project
             GRPC_NetworkManager.instance.onClientStartedEvent -= GRPC_NetworkVariable_Initialization;
             //GRPC_NetworkManager.instance.onClientStopEvent -= OnClientStop;
 
-            // OnClientStop();
+            OnClientStop();
         }
 
         
@@ -138,7 +139,11 @@ namespace Project
                     NetId = _netId, HashName = _variableHashName, NewValue = new GRPC_GenericValue {Type = _currentType, Value = jsonEncode }
                 };
 
-                GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetVarUpdate>(_sendStream.RequestStream, result, _sendStreamCancellationTokenSource));
+                if (_sendStream is { RequestStream: not null } 
+                    && _sendStreamCancellationTokenSource is { IsCancellationRequested: false })
+                {
+                    GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetVarUpdate>(_sendStream.RequestStream, result, _sendStreamCancellationTokenSource));
+                }
             }
             catch (IOException e)
             {
@@ -247,7 +252,7 @@ namespace Project
 
         //Can't use dispose because it is called on
         //NetworkVariables by Netcode when a NetworkObject is despawned
-        private void OnClientStop()
+        private async void OnClientStop()
         {
             if (_isGrpcSync)
             {
@@ -256,14 +261,65 @@ namespace Project
 
             _netObjectSyncer.onNetworkObjectHasSpawnedOnGrpc -= Sync;
             
-            _sendStreamCancellationTokenSource?.Cancel();
-            _sendStreamCancellationTokenSource?.Dispose();
-            _sendStreamCancellationTokenSource = null;
+            Debug.Log($"Start dispose : Hash {_variableHashName} / Net id {_netId}");
             
-            _sendStream?.Dispose();
+            await _sendStream.RequestStream.CompleteAsync();
+            await Task.Delay(5);
+            
+            _sendStreamCancellationTokenSource.Cancel();
+            
+            // try
+            // {
+            //     Debug.Log($"Net var disposed : status {_sendStream.GetStatus()} 3");
+            // }
+            // catch
+            // {
+            //     Debug.Log($"Net var disposed : status not complete 33");
+            // }
+            
+            _sendStreamCancellationTokenSource.Dispose();
+            // try
+            // {
+            //     Debug.Log($"Net var disposed : status {_sendStream.GetStatus()} 4");
+            // }
+            // catch
+            // {
+            //     Debug.Log($"Net var disposed : status not complete 4");
+            // }
+            
+            _sendStreamCancellationTokenSource = null;
+            // try
+            // {
+            //     Debug.Log($"Net var disposed : status {_sendStream.GetStatus()} 5");
+            // }
+            // catch
+            // {
+            //     Debug.Log($"Net var disposed : status not complete 5");
+            // }
+
+            _sendStream.Dispose();
+            // try
+            // {
+            //     Debug.Log($"Net var disposed : status {_sendStream.GetStatus()} 6");
+            // }
+            // catch
+            // {
+            //     Debug.Log($"Net var disposed : status not complete 6");
+            // }
+            
             _sendStream = null;
+            // try
+            // {
+            //     Debug.Log($"Net var disposed : status {_sendStream.GetStatus()} 7");
+            // }
+            // catch
+            // {
+            //     Debug.Log($"Net var disposed : status not rthnrthrnth 7");
+            // }
 
             _isGrpcSync = false;
+            
+            Debug.Log($"End dispose : Hash {_variableHashName} / Net id {_netId}");
         }
     }
 }
