@@ -270,5 +270,12 @@ namespace Project
                 }
             }
         }
+
+        [Server]
+        public void SrvForceReset()
+        {
+            targetNetworkObject = null;
+            ResetAttack();
+        }
     }
 }

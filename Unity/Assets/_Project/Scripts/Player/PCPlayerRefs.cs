@@ -61,6 +61,7 @@ namespace Project
             
             _entity.SrvResetEntity();
             _stateMachine.ChangeStateTo<IdleState>();
+            attackController.SrvForceReset();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)

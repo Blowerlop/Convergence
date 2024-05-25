@@ -175,6 +175,8 @@ namespace Project.Spells
                 
                 if(_timers[temp].isTimerRunning)
                     _timers[temp].StopTimer();
+                
+                _cooldowns[temp].Value = 0;
 
                 OnServerCooldownEnded?.Invoke(temp);
             }

@@ -21,6 +21,14 @@ namespace Project
             PlayerManager.OnPlayerDied -= OnPlayerDied;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                StartNewRound();
+            }
+        }
+
         private void OnPlayerDied(PlayerRefs refs)
         {
             Debug.LogError("OnPlayerDied");
