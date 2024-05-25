@@ -60,23 +60,11 @@ namespace Project.Spells
 
             group.alpha = 0;
 
-            try
+            if (SOCharacter.TryGetCharacter(UserInstanceManager.instance.GetUserInstance((int) NetworkManager.Singleton.LocalClientId).CharacterId, out var character))
             {
-                PCPlayerRefs PCplayer = (PCPlayerRefs)refs;
-                PlayerController playerController = (PlayerController)PCplayer.Entity;
-                void SetUpSprite()
-                {
-                    SOCharacter character = (SOCharacter)playerController.data;
-                    SpellData spellData;
-                    if (character.TryGetSpell(id, out spellData)) spellIcon.sprite = spellData.spellIcon;
-                    playerController.onEntityInit -= SetUpSprite;
-                }
-                playerController.onEntityInit += SetUpSprite; 
+                if (character.TryGetSpell(id, out var spellData)) spellIcon.sprite = spellData.spellIcon;
             }
-            catch(Exception e)
-            {
-                Debug.LogError("rien à foutre");
-            }
+            
         }
         
         private void OnCooldownStarted(int index, float time)
