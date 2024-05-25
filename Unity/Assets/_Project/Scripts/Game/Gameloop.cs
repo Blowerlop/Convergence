@@ -41,7 +41,7 @@ namespace Project
         {
             var players = PlayerManager.instance.players;
             
-            var alivePlayers = players.FindAll(p => p.GetPC().StateMachine.currentState is not DeadState);
+            var alivePlayers = players.FindAll(p => p is PCPlayerRefs pcPlayerRefs && pcPlayerRefs.StateMachine.currentState is not DeadState);
             
             if (alivePlayers.Count != 1) return;
             
