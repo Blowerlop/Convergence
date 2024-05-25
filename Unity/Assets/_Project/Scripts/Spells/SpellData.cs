@@ -154,6 +154,11 @@ namespace Project.Spells
             }
         }
         
+        private bool IsInstantiated()
+        {
+            return instantiationType != SpellInstantiationType.None;
+        }
+        
         #if UNITY_EDITOR
         
         [Button]
@@ -164,11 +169,6 @@ namespace Project.Spells
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-        }
-        
-        private bool IsInstantiated()
-        {
-            return instantiationType != SpellInstantiationType.None;
         }
         
         #endif
