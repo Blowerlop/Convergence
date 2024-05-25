@@ -23,7 +23,6 @@ namespace Project._Project.Scripts.Player.States
             playerRefs.Animator.SetBool(Constants.AnimatorsParam.Dead, true);
             
             PlayerManager.instance.OnDeath(playerRefs);
-            Debug.LogError("Enter death state");
         }
 
         protected override void OnExit()

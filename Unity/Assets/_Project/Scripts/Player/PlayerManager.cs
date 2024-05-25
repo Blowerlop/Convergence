@@ -86,7 +86,6 @@ namespace Project
         
         public void OnDeath(PlayerRefs refs)
         {
-            Debug.LogError("OnDeath");
             OnPlayerDied?.Invoke(refs);
         }
 

@@ -10,7 +10,7 @@ namespace Project
     public class Gameloop : NetworkSingleton<Gameloop>
     {
         private readonly NetworkVariable<bool> _isGameRunning = new NetworkVariable<bool>(false);
-        
+
         public static bool IsGameRunning => instance._isGameRunning.Value;
         
         public override void OnNetworkSpawn()
@@ -38,12 +38,9 @@ namespace Project
 
         private void OnPlayerDied(PlayerRefs refs)
         {
-            Debug.LogError("OnPlayerDied");
             var players = PlayerManager.instance.players;
             
             var alivePlayers = players.FindAll(p => p.GetPC().StateMachine.currentState is not DeadState);
-
-            Debug.LogError($"{alivePlayers.Count}");
             
             if (alivePlayers.Count != 1) return;
             
@@ -52,36 +49,44 @@ namespace Project
 
         private void OnLastPlayerAlive(PlayerRefs refs)
         {
-            Debug.LogError($"preeee OnLastPlayerAlive");
-            
             if (!TeamManager.instance.TryGetTeam(refs.TeamIndex, out var team))
             {
                 // ???
                 return;
             }
-
-            Debug.LogError($"OnLastPlayerAlive");
-
+            
             if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
             {
                 pcUser.WinCount.Value++;
-            }
-            else
-            {
-                Debug.LogError("No PC user");
             }
             
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
                 mobileUser.WinCount.Value++;
             
+            ShowWinText(refs.TeamIndex);
+            
             EndCurrentRound();
+            OnRoundEndedClientRpc(refs.TeamIndex);
+        }
+
+        [ClientRpc]
+        private void OnRoundEndedClientRpc(int teamIndex)
+        {
+            if (IsHost) return;
+            
+            ShowWinText(teamIndex);
+        }
+
+        private void ShowWinText(int teamIndex)
+        {
+            PlaceholderLabel.instance.SetText($"Team {teamIndex} wins this round!", 1.9f);
         }
 
         private void EndCurrentRound()
         {
             _isGameRunning.Value = false;
             
-            DOVirtual.DelayedCall(3, () =>
+            DOVirtual.DelayedCall(2, () =>
             {
                 ResetRound();
                 StartNewRound();
@@ -103,10 +108,35 @@ namespace Project
         
         private void StartNewRound()
         {
-            DOVirtual.DelayedCall(5f, () =>
+            Timer timer = new Timer();
+            
+            OnRoundStartClientRpc();
+            
+            timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
+            {
+                PlaceholderLabel.instance.SetText($"Round starting in {value}");
+            }, () =>
             {
                 _isGameRunning.Value = true;
-            });
+                PlaceholderLabel.instance.SetText("");
+            }, ceiled: true);
+        }
+        
+        // Maybe not that great but flemme to netvar
+        [ClientRpc]
+        private void OnRoundStartClientRpc()
+        {
+            if (IsHost) return;
+            
+            Timer timer = new Timer();
+            
+            timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
+            {
+                PlaceholderLabel.instance.SetText($"Round starting in {value}");
+            }, () =>
+            {
+                PlaceholderLabel.instance.SetText("");
+            }, ceiled: true);
         }
     }
 }

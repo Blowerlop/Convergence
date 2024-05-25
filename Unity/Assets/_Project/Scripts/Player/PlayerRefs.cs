@@ -97,7 +97,7 @@ namespace Project
 
             if (playerSpellsAnimFxHandler)
             {
-                playerSpellsAnimFxHandler.SrvReset();
+                playerSpellsAnimFxHandler.ResetFX();
                 ResetFXClientRpc();
             }
             
@@ -109,7 +109,7 @@ namespace Project
         private void ResetFXClientRpc()
         {
             if (playerSpellsAnimFxHandler)
-                playerSpellsAnimFxHandler.SrvReset();
+                playerSpellsAnimFxHandler.ResetFX();
         }
     }
 }

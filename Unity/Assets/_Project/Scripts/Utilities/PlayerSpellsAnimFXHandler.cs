@@ -134,9 +134,8 @@ namespace Project
                 handler.Value.OnAutoAttack();
             }
         }
-
-        [Server]
-        public void SrvReset()
+        
+        public void ResetFX()
         {
             foreach (var handler in _handlers)
             {
