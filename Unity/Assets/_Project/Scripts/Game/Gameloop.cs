@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using DG.Tweening;
 using Project._Project.Scripts.Player.States;
 using Project.Spells;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Project
 {
@@ -32,7 +34,7 @@ namespace Project
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
-                EndCurrentRound();
+                EndCurrentRound(false);
             }
         }
 
@@ -55,9 +57,13 @@ namespace Project
                 return;
             }
             
+            bool endGame = false;
+            
             if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
             {
                 pcUser.WinCount.Value++;
+                
+                endGame = pcUser.WinCount.Value >= 2;
             }
             
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
@@ -65,7 +71,7 @@ namespace Project
             
             ShowWinText(refs.TeamIndex);
             
-            EndCurrentRound();
+            EndCurrentRound(endGame);
             OnRoundEndedClientRpc(refs.TeamIndex);
         }
 
@@ -82,12 +88,19 @@ namespace Project
             PlaceholderLabel.instance.SetText($"Team {teamIndex} wins this round!", 1.9f);
         }
 
-        private void EndCurrentRound()
+        private void EndCurrentRound(bool endGame)
         {
             _isGameRunning.Value = false;
             
             DOVirtual.DelayedCall(2, () =>
             {
+                if (endGame)
+                {
+                    // TODO: Need to reset some managers
+                    SceneManager.Network_LoadSceneAsync("Lobby", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
+                    return;
+                }
+                
                 ResetRound();
                 StartNewRound();
             });
