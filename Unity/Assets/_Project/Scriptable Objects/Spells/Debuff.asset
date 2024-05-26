@@ -30,7 +30,7 @@ MonoBehaviour:
   - rid: 6173595388760555521
   onCasterEffects: []
   limitRadius: 5
-  zoneRadius: 1.5
+  zoneRadius: 3
   lookAtCenter: 0
   references:
     version: 2
