@@ -113,7 +113,7 @@ namespace Project
             
             if (syncer.IsOwnedByUnrealClient)
             {
-                Debug.Log("Unreal client connected, sync vars");
+                // Debug.Log("Unreal client connected, sync vars");
                 // Sync();
             }
         }

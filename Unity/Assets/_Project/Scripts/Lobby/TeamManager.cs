@@ -69,14 +69,14 @@ namespace Project
         // I cant ShowInInspector this array. It weirdly override my value set by the script
         private readonly TeamData[] _teams = new TeamData[MAX_TEAM];
 
-        private const string _DEFAULT_PC_SLOT = "Click to join";
-        private const string _DEFAULT_MOBILE_SLOT = "Empty";
+        public const string DEFAULT_PC_SLOT_TEXT = "CLICK TO JOIN";
+        public const string DEFAULT_MOBILE_SLOT_TEXT = "<i>Mobile  -  EMPTY</i>"; 
 
         private AsyncDuplexStreamingCall<GRPC_TeamResponse, GRPC_Team> _teamManagerStream;
         private CancellationTokenSource _cancellationTokenSource;
 
         public Action<int, string, PlayerPlatform> onTeamSet;
-        
+
         
         public override void OnNetworkSpawn()
         {
@@ -135,7 +135,7 @@ namespace Project
 
             Debug.Log("Try set team ok");
             SetTeam(ownerClientId, teamIndex, playerPlatform);
-            return true;;
+            return true;
         }
         
         private void SetTeam(int ownerClientId, int teamIndex, PlayerPlatform playerPlatform)
@@ -144,16 +144,24 @@ namespace Project
             
             int previousUserTeamIndex = userInstance.Team;
             // Reset previous team slot if valid
-            if (IsTeamIndexValid(previousUserTeamIndex) && previousUserTeamIndex != UNASSIGNED_TEAM_INDEX)
+            if (IsTeamIndexValid(previousUserTeamIndex))
             {
-                ResetTeamSlot(previousUserTeamIndex, playerPlatform);
-                OnTeamSet(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? _DEFAULT_PC_SLOT : _DEFAULT_MOBILE_SLOT, playerPlatform);
+                if (previousUserTeamIndex != UNASSIGNED_TEAM_INDEX) ResetTeamSlot(previousUserTeamIndex, playerPlatform);
+                
+                OnTeamSet(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT_TEXT : DEFAULT_MOBILE_SLOT_TEXT, playerPlatform);
             }
             
             if (teamIndex != UNASSIGNED_TEAM_INDEX) RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
             userInstance.SetTeam(teamIndex);
+
+            if (teamIndex == UNASSIGNED_TEAM_INDEX)
+            {
+                bool shouldBeMobile = playerPlatform == PlayerPlatform.Mobile;                  
+                string playersName = string.Join(" / ", UserInstanceManager.instance.All().Where(x => x.Team == UNASSIGNED_TEAM_INDEX && x.IsMobile == shouldBeMobile).Select(x => x.PlayerName));
+                OnTeamSet(teamIndex, playersName, playerPlatform);
+            }
+            else OnTeamSet(teamIndex, userInstance.PlayerName, playerPlatform);
             
-            OnTeamSet(teamIndex, userInstance.PlayerName, playerPlatform);
 
             if (teamIndex == UNASSIGNED_TEAM_INDEX)
             {
@@ -237,11 +245,6 @@ namespace Project
 
         private void OnTeamSetLocal(int teamIndex, string playerName, PlayerPlatform playerPlatform)
         {
-            if (teamIndex == UNASSIGNED_TEAM_INDEX)
-            {
-                playerName = string.Join(" / ", UserInstanceManager.instance.All().Where(x => x.Team == UNASSIGNED_TEAM_INDEX).Select(x => x.PlayerName));
-            }
-            
             onTeamSet?.Invoke(teamIndex, playerName, playerPlatform);
         }
 

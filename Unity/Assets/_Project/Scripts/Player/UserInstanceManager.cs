@@ -48,11 +48,14 @@ namespace Project
             }
 
             // Spawn UserInstance 
+            Debug.Log("[UserInstanceManager] Create Unity UserInstance");
+            
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
-            userInstance.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             userInstance.SetClientId((int)clientId);
-                
+            
             _userInstances.Add((int)clientId, userInstance);
+            
+            userInstance.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
         }
         
         private void CreateUnrealUserInstance(UnrealClient unrealClient)
@@ -64,16 +67,19 @@ namespace Project
                 Debug.LogError($"The client {clientId} has already a userInstance registered");
                 return;
             }
+            
+            Debug.Log("[UserInstanceManager] Create Unreal UserInstance");
 
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
-            userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
             userInstance.SetClientId(clientId);
             userInstance.SetName(unrealClient.name);
             userInstance.SetIsMobile(true);
             userInstance.SetCharacter(SOCharacter.GetMobileCharacterData().id);
-                
+            
             _userInstances.Add(clientId, userInstance);
+            
+            userInstance.GetComponent<NetworkObject>().SpawnWithUnrealOwnership(unrealClient, false);
         }
 
         private void DestroyUnrealUserInstance(UnrealClient unrealClient)
@@ -85,11 +91,13 @@ namespace Project
                 Debug.LogError($"The client {clientId} has no userInstance registered");
                 return;
             }
+            
+            Debug.Log("[UserInstanceManager] Destroy Unreal UserInstance");
         
             UserInstance userInstance = _userInstances[clientId];
-            userInstance.GetComponent<NetworkObject>().Despawn(true);
-            
             _userInstances.Remove(clientId);
+            
+            userInstance.GetComponent<NetworkObject>().Despawn(true);
         }
         
         
@@ -100,11 +108,13 @@ namespace Project
                 Debug.LogError($"The client {clientId} has no userInstance registered");
                 return;
             }
+            
+            Debug.Log("[UserInstanceManager] Destroy Unity UserInstance");
         
             UserInstance userInstance = _userInstances[(int)clientId];
-            userInstance.GetComponent<NetworkObject>().Despawn(true);
-            
             _userInstances.Remove((int)clientId);
+            
+            userInstance.GetComponent<NetworkObject>().Despawn(true);
         }
  
         public void ClientRegisterUserInstance(UserInstance inst)
