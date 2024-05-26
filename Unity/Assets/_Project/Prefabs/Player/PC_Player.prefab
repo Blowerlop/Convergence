@@ -380,6 +380,37 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9cef1a8c7c8986b4398bc4d828e34db0, type: 2}
   - {fileID: 11400000, guid: bfccfeb78b0d2214d8a2e488bdbdc950, type: 2}
   - {fileID: 11400000, guid: 311fd77ffb3937243ba40fdd1beed494, type: 2}
+--- !u!1 &8562804423460829439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2072215384067644693}
+  m_Layer: 6
+  m_Name: ShootTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2072215384067644693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562804423460829439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8566652343378925700
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +449,7 @@ Transform:
   m_Children:
   - {fileID: 4816673588955750593}
   - {fileID: 7834158997003778491}
+  - {fileID: 2072215384067644693}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -587,9 +619,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 4124437638980882131}
+  shootTransform: {fileID: 2072215384067644693}
   cooldowns: {fileID: 1430276818711062553}
   channeling: {fileID: 2923043460446806746}
   _networkAnimator: {fileID: 8279106846831332330}
+  playerSpellsAnimFxHandler: {fileID: 0}
   _entity: {fileID: 7568465784921170700}
   _stateMachine: {fileID: 8716894832332392838}
   _navMeshAgent: {fileID: 7105107927145916266}
@@ -598,6 +632,7 @@ MonoBehaviour:
   spellCastController: {fileID: 5111047068020737362}
   inCastController: {fileID: 9122649814116459540}
   emoteController: {fileID: 8472965482039663037}
+  attackController: {fileID: 1999360482284583967}
 --- !u!114 &7568465784921170700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,6 +660,7 @@ GameObject:
   - component: {fileID: 3582799549502680765}
   - component: {fileID: 1999360482284583967}
   - component: {fileID: 9136715108103689386}
+  - component: {fileID: 9206370382974102298}
   m_Layer: 6
   m_Name: Controllers
   m_TagString: Untagged
@@ -674,6 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e5a92309d2a13468a4b57fab2d7794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveFXs: {fileID: 9206370382974102298}
 --- !u!114 &1999360482284583967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,9 +724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetNetworkObject: {fileID: 0}
-  _projectile: {fileID: 6651257460859228941, guid: eadb81407221c9445ae10cf907fe8c5a,
-    type: 3}
-  _projectileData: {fileID: 0}
 --- !u!114 &9136715108103689386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +739,21 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 192
+--- !u!114 &9206370382974102298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778132152995368324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc927e79f014c6e9a486d1453552540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveFXPrefab: {fileID: 3051244586905412054, guid: 34ba00aead6526c479f4eeed81994ebe,
+    type: 3}
+  offset: {x: 0, y: 0.1, z: 0}
 --- !u!1001 &4260038339187715518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -799,6 +848,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7784511782857900586}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: edd53595261caa046ae87d569770e9a3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9042399540455648557}
   m_SourcePrefab: {fileID: 100100000, guid: edd53595261caa046ae87d569770e9a3, type: 3}
 --- !u!1 &4026178060940808431 stripped
 GameObject:
@@ -825,14 +878,14 @@ MonoBehaviour:
     DestinationState: 229373857
     TransitionDuration: 0.2
     TriggerNameHash: 17244484
-    TransitionIndex: 1
+    TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: -1936938822
     DestinationState: 2081823275
     TransitionDuration: 0.25
     TriggerNameHash: 17244484
-    TransitionIndex: 3
+    TransitionIndex: 2
   m_Animator: {fileID: 7670799931884736559}
 --- !u!114 &8583798711595545617
 MonoBehaviour:
@@ -846,116 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f673e9e651e86643b25a176194671c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 1999360482284583967}
-    - {fileID: 0}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: events
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Events.UnityEvent,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Hit
-    - Name: $v
-      Entry: 7
-      Data: 2|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
-    - Name: m_PersistentCalls
-      Entry: 7
-      Data: 3|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
-    - Name: m_Calls
-      Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 5|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
-    - Name: m_Target
-      Entry: 10
-      Data: 0
-    - Name: m_TargetAssemblyTypeName
-      Entry: 1
-      Data: Project.AttackController, Assembly-CSharp
-    - Name: m_MethodName
-      Entry: 1
-      Data: Hit
-    - Name: m_Mode
-      Entry: 3
-      Data: 1
-    - Name: m_Arguments
-      Entry: 7
-      Data: 6|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
-    - Name: m_ObjectArgument
-      Entry: 10
-      Data: 1
-    - Name: m_ObjectArgumentAssemblyTypeName
-      Entry: 1
-      Data: UnityEngine.Object, UnityEngine
-    - Name: m_IntArgument
-      Entry: 3
-      Data: 0
-    - Name: m_FloatArgument
-      Entry: 4
-      Data: 0
-    - Name: m_StringArgument
-      Entry: 1
-      Data: 
-    - Name: m_BoolArgument
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_CallState
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+  wrappers: []
 --- !u!114 &7784511782857900586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,7 +921,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  _playerRefs: {fileID: 0}
   handlers: []
+--- !u!114 &9042399540455648557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026178060940808431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a691456021f9874418a093a3de4a71ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4365126248178469461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: edd53595261caa046ae87d569770e9a3,

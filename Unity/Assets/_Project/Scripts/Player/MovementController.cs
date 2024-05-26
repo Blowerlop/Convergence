@@ -10,6 +10,8 @@ namespace Project
 {
     public class MovementController : NetworkBehaviour
     {
+        [SerializeField] private MoveFXs moveFXs;
+        
         private PCPlayerRefs _playerRefs;
         
         private Transform _player;
@@ -104,6 +106,7 @@ namespace Project
         {
             if (layer == Constants.Layers.GroundIndex)
             {
+                moveFXs.PlayFX(hitInfo.point);
                 GoToServerRpc(hitInfo.point);
             }
         }

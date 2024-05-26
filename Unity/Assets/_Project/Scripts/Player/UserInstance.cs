@@ -31,6 +31,8 @@ namespace Project
         [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
         
+        [ShowInInspector] public GRPC_NetworkVariable<int> WinCount { get; private set; } = new("WinCount");
+        
         private GRPC_NetworkVariable<int>[] _mobileSpells = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
         private GRPC_NetworkVariable<int> _ms1 = new("MobileSpell_0"), _ms2 = new("MobileSpell_1"), _ms3 = new("MobileSpell_2"), _ms4 = new("MobileSpell_3");
         
@@ -98,13 +100,6 @@ namespace Project
             Me = null;
         }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            ResetNetworkVariables();
-        }
-
         private void CreateNetVarInstance()
         {
             string prefix = "MobileSpell_";
@@ -124,6 +119,7 @@ namespace Project
             _networkIsMobile.Initialize();
             _networkIsReady.Initialize();
             _networkCharacterId.Initialize();
+            WinCount.Initialize();
 
             _mobileSpells[0] = _ms1;
             _mobileSpells[1] = _ms2;
@@ -145,6 +141,7 @@ namespace Project
             _networkIsMobile.Reset();
             _networkIsReady.Reset();
             _networkCharacterId.Reset();
+            WinCount.Reset();
             
             for (var i = 0; i < _mobileSpells.Length; i++)
             {

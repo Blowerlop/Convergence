@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Project.Effects
 {
     public class HealEffect : Effect
@@ -7,7 +9,7 @@ namespace Project.Effects
         public int HealAmount;
 
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
             

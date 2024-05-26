@@ -40,10 +40,7 @@ namespace Project
         {
             _playerCamera = Camera.main;
             _player = transform;
-        }
-
-        private void Start()
-        {
+            
             CalculateDirectionalsVectors();
             CalculateCameraOffset();
             CalculateMinMaxAuthorizedCameraPosition();
@@ -190,7 +187,7 @@ namespace Project
         }
 
         [Button]
-        private void CenterCameraOnPlayer()
+        public void CenterCameraOnPlayer()
         {
             _playerCamera.transform.position = new Vector3(_player.transform.position.x, _playerCamera.transform.position.y, _player.transform.position.z) + _offset;
         }

@@ -1,4 +1,5 @@
 using Project._Project.Scripts;
+using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
 using Project.Spells;
 using Project.Spells.Casters;
@@ -22,6 +23,8 @@ namespace Project
         
         [SerializeField] private EmoteController emoteController;
         
+        [SerializeField] private AttackController attackController;
+        
         public Entity Entity => _entity;
         public StateMachineController StateMachine => _stateMachine;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
@@ -31,7 +34,9 @@ namespace Project
         public InCastController InCastController => inCastController;
         
         public EmoteController EmoteController => emoteController;
-
+        
+        public AttackController AttackController => attackController;
+        
         public override PCPlayerRefs GetPC() => this;
 
         [Server]
@@ -47,6 +52,20 @@ namespace Project
             base.OnOwnerChanged(oldId, newId);
             
             spellCastController.Init(this);
+            
+            if(UserInstance.Me.ClientId == newId)
+                GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
+        }
+
+        [Server]
+        public override void SrvResetPlayer()
+        {
+            base.SrvResetPlayer();
+            
+            _entity.SrvResetEntity();
+            _stateMachine.ChangeStateTo<IdleState>();
+            attackController.SrvForceReset();
+            inCastController.SrvResetInCast();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)

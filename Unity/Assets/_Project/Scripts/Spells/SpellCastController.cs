@@ -109,7 +109,7 @@ namespace Project.Spells.Casters
                 Debug.LogError($"Spell index {spellIndex} is out of range.");
                 return;
             }
-
+            
             if (!SpellManager.CanCastSpell(_player)) return;
             
             if(_channelingController.IsChanneling) return;

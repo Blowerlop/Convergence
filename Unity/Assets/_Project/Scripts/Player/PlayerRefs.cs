@@ -11,16 +11,20 @@ namespace Project
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
 
         [SerializeField] protected Transform playerTransform;
-
+        [SerializeField] protected Transform shootTransform;
+        
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
         
         [SerializeField] private NetworkAnimator _networkAnimator;
         
+        [SerializeField] private PlayerSpellsAnimFXHandler playerSpellsAnimFxHandler;
+        
         public int TeamIndex => _assignedTeam.Value;
         public int OwnerId => _ownerId.Value;
         
         public Transform PlayerTransform => playerTransform;
+        public Transform ShootTransform => shootTransform;
         
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
@@ -81,8 +85,33 @@ namespace Project
             {
                 newUser.LinkPlayer(this);
             }
+            
+            PlayerManager.instance.SetPlayerReady();
         }
         
         #endregion
+
+        [Server]
+        public virtual void SrvResetPlayer()
+        {
+            // Force reset all animator
+            Animator.Rebind();
+
+            if (playerSpellsAnimFxHandler)
+            {
+                playerSpellsAnimFxHandler.ResetFX();
+                ResetFXClientRpc();
+            }
+            
+            channeling.SrvResetChanneling();
+            cooldowns.SrvResetCooldowns();
+        }
+
+        [ClientRpc]
+        private void ResetFXClientRpc()
+        {
+            if (playerSpellsAnimFxHandler)
+                playerSpellsAnimFxHandler.ResetFX();
+        }
     }
 }

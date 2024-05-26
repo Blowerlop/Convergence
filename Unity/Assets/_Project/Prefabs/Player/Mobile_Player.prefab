@@ -225,9 +225,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
+  shootTransform: {fileID: 0}
   cooldowns: {fileID: 9017225376331183656}
   channeling: {fileID: 2923043460446806746}
   _networkAnimator: {fileID: 2599821034016253233}
+  playerSpellsAnimFxHandler: {fileID: 0}
 --- !u!114 &1849431562472469695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,14 +313,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: DarkWillow
       objectReference: {fileID: 0}
-    - target: {fileID: 8647636484079570528, guid: 25336943ba1acf149bc298115dd5627c,
-        type: 3}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 8647636484079570528, guid: 25336943ba1acf149bc298115dd5627c,
-        type: 3}
-    m_RemovedComponents:
-    - {fileID: 8647636484079570528, guid: 25336943ba1acf149bc298115dd5627c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

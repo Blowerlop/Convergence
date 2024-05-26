@@ -17,14 +17,18 @@ MonoBehaviour:
     type: 3}
   spellId: zone
   spellIdHash: 162900
+  instantiationType: 0
   spellPrefab: {fileID: 7774840793179866475, guid: 2d656620d4c6696439f5ab0d2fc58415,
     type: 3}
   isInstant: 0
   cooldown: 10
-  channelingTime: 0.25
+  channelingTime: 0
+  castingFlags: 0
+  castAnimationDuration: 0
+  spellIcon: {fileID: 0}
   effects:
   - rid: 2778045279059050498
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   limitRadius: 5
   zoneRadius: 1.5
   lookAtCenter: 0

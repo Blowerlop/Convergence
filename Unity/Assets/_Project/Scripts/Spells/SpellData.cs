@@ -45,7 +45,9 @@ namespace Project.Spells
         
         [BoxGroup("Spell"), EnumToggleButtons] public CastingFlags castingFlags;
         [BoxGroup("Spell")] public float castAnimationDuration;
-        
+
+        [BoxGroup("Spell")] public Sprite spellIcon;
+
         [Space(40)]
         
         // Effects applied on a defined target when spell asks for it
@@ -152,6 +154,11 @@ namespace Project.Spells
             }
         }
         
+        private bool IsInstantiated()
+        {
+            return instantiationType != SpellInstantiationType.None;
+        }
+        
         #if UNITY_EDITOR
         
         [Button]
@@ -162,11 +169,6 @@ namespace Project.Spells
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-        }
-        
-        private bool IsInstantiated()
-        {
-            return instantiationType != SpellInstantiationType.None;
         }
         
         #endif

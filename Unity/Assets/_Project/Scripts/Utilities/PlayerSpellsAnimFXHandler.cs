@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Project._Project.Scripts.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -23,6 +24,9 @@ namespace Project
                 foreach (var wrapper in FXs)
                 {
                     wrapper.FX.Play();
+
+                    SoundManager.instance.PlaySingleSound(wrapper.Sfx, wrapper.FX.gameObject,
+                        SoundManager.EventType.Spell);
 
                     switch (wrapper.DisableType)
                     {
@@ -51,7 +55,17 @@ namespace Project
             {
                 foreach (var fx in _nextAutoFxs)
                 {
-                    fx.Stop();
+                    fx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                }
+                
+                _nextAutoFxs.Clear();
+            }
+
+            public void Reset()
+            {
+                foreach (var wrapper in FXs)
+                {
+                    wrapper.FX.Stop();
                 }
                 
                 _nextAutoFxs.Clear();
@@ -67,6 +81,8 @@ namespace Project
             
             [field: SerializeField, ShowIf(nameof(IsTimed))] public float DisableTime { get; private set; }
             
+            [field: SerializeField] public string Sfx { get; private set; }
+            
             private bool IsTimed => DisableType == FXDisableType.Timed;
         }
         
@@ -79,6 +95,8 @@ namespace Project
         
         private Dictionary<int, Handler> _handlers = new();
 
+        [SerializeField] private PCPlayerRefs _playerRefs;
+        
         [SerializeField, ListDrawerSettings(ShowFoldout = false, ShowIndexLabels = false)] private List<Handler> handlers = new();
 
         private void Awake()
@@ -107,6 +125,22 @@ namespace Project
             }
             
             _handlers[fullHash].OnStateExit();
+        }
+        
+        public void OnAutoAttack()
+        {
+            foreach (var handler in _handlers)
+            {
+                handler.Value.OnAutoAttack();
+            }
+        }
+        
+        public void ResetFX()
+        {
+            foreach (var handler in _handlers)
+            {
+                handler.Value.Reset();
+            }
         }
     }
 }

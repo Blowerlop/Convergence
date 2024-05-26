@@ -44,15 +44,17 @@ namespace Project.Spells
             if (!CanHitSelf && Caster.GetPC().Entity == entity)
                 return false;
             
-            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
+            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, applier: Caster, applyPosition: transform.position));
             return appliedEffects > 0;
         }
 
         private void ApplyOnCasterEffects()
         {
+            var entity = Caster.GetPC().Entity;
+            
             foreach (var onCasterEffect in Data.onCasterEffects)
             {
-                onCasterEffect.GetInstance().TryApply(Caster.GetPC().Entity, Caster.TeamIndex);
+                onCasterEffect.GetInstance().TryApply(entity, applier: Caster, applyPosition: transform.position);
             }
         }
 

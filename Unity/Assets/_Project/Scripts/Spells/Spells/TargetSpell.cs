@@ -163,7 +163,7 @@ namespace Project.Spells
             return spawnType switch
             {
                 SpawnType.OnTarget => new(target.transform.position, Quaternion.identity),
-                SpawnType.OnCaster => new(player.PlayerTransform.position, Quaternion.identity),
+                SpawnType.OnCaster => new(player.ShootTransform.position, Quaternion.identity),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

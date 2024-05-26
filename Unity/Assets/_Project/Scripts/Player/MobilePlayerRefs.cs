@@ -30,7 +30,11 @@ namespace Project
             }
             
             playerTransform = pcUser.LinkedPlayer.PlayerTransform;
+            shootTransform = pcUser.LinkedPlayer.ShootTransform;
             _pc = pcUser.LinkedPlayer as PCPlayerRefs;
+            
+            transform.parent = playerTransform;
+            transform.position = playerTransform.position;
         }
     }
 }

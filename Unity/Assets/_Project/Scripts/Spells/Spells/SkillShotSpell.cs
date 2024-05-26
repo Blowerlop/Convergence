@@ -79,7 +79,7 @@ namespace Project.Spells
                 return default;
             }
             
-            return (player.PlayerTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
+            return (player.ShootTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)

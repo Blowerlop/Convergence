@@ -14,7 +14,7 @@ namespace Project.Effects
         private Coroutine _appliedCoroutine;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
             

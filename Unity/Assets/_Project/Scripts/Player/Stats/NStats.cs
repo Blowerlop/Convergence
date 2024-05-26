@@ -75,15 +75,22 @@ namespace Project
     
         private void OnValueChanged_UpdateStatValues(T _, T __)
         {
-            if (_debug) Debug.Log($"[Player {OwnerClientId}] Health value changed : Hp {_nValue.Value} / Max health {_nMaxValue.Value}");
+            /*if (_debug) */
+            Debug.Log($"[Player {OwnerClientId}] Stat value changed : {_nValue.Value} / Max {_nMaxValue.Value} for {GetType().Name}");
 
             _stat.value = _nValue.Value;
             _stat.maxValue = _nMaxValue.Value;
             // OnValueChanged?.Invoke(_nValue.Value, _nMaxValue.Value);
         }
 
-        public void SetToMaxValue() => Value = MaxValue;
+        public void SetToMaxValue()
+        {
+            Debug.Log($"[Player {OwnerClientId}] Setting to max value {MaxValue} for {GetType().Name}");
+            Value = MaxValue;
+        }
 
+        public void SetToMinValue() => Value = default;
+        
         public object Clone()
         {
             return this;

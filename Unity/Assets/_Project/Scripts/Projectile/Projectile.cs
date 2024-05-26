@@ -20,28 +20,25 @@ namespace Project._Project.Scripts
         {
             if (IsSpawned == false) return;
             
-            Vector3 direction = (_target.position - transform.position).normalized;
-            
-            transform.position += direction * (Time.fixedDeltaTime * _speed);
             transform.LookAt(_target);
+            Vector3 direction = _target.position - transform.position;
+            Vector3 directionNormalized = direction.normalized;
+            
+            transform.position += directionNormalized * (Time.fixedDeltaTime * _speed); 
+            if (direction.sqrMagnitude < SOProjectile.HIT_RANGE * SOProjectile.HIT_RANGE || (directionNormalized * (Time.fixedDeltaTime * _speed)).magnitude > direction.magnitude)
+            {
+                // Projectile follow an IDamageable target. Don't need to check if it's null.
+                _attackController.Hit(_target.GetComponent<IDamageable>());
+                GetComponent<NetworkObject>().Despawn();
+            }
         }
         
         
         public void Init(AttackController attackController, SOProjectile projectileData)
         {
-            Instantiate(projectileData.modelPrefab, transform);
             _attackController = attackController;
             _target = attackController.targetNetworkObject.transform;
             _speed = projectileData._speed;
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (_attackController.IsDamageable(other.transform, out IDamageable damageable))
-            {
-                _attackController.Hit(damageable);
-                GetComponent<NetworkObject>().Despawn(true);
-            }
         }
     }
 }
