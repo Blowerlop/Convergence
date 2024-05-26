@@ -660,6 +660,7 @@ GameObject:
   - component: {fileID: 3582799549502680765}
   - component: {fileID: 1999360482284583967}
   - component: {fileID: 9136715108103689386}
+  - component: {fileID: 9206370382974102298}
   m_Layer: 6
   m_Name: Controllers
   m_TagString: Untagged
@@ -709,6 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e5a92309d2a13468a4b57fab2d7794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveFXs: {fileID: 9206370382974102298}
 --- !u!114 &1999360482284583967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,6 +739,21 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 192
+--- !u!114 &9206370382974102298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778132152995368324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc927e79f014c6e9a486d1453552540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveFXPrefab: {fileID: 3051244586905412054, guid: 34ba00aead6526c479f4eeed81994ebe,
+    type: 3}
+  offset: {x: 0, y: 0.1, z: 0}
 --- !u!1001 &4260038339187715518
 PrefabInstance:
   m_ObjectHideFlags: 0
