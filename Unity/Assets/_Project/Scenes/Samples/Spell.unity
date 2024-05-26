@@ -609,6 +609,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: dummy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1614347152873501165, guid: e85edf8eb351ad34d8fe8852ffab3009,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3379189516707755604, guid: e85edf8eb351ad34d8fe8852ffab3009,
         type: 3}
       propertyPath: m_RootOrder
@@ -686,6 +691,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: dummy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1614347152873501165, guid: e85edf8eb351ad34d8fe8852ffab3009,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3379189516707755604, guid: e85edf8eb351ad34d8fe8852ffab3009,
         type: 3}
@@ -1514,8 +1524,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.8947308, y: 3.2688775, z: 2.906464}
-  m_Center: {x: 0.066644505, y: -1.2345862, z: 0.051103454}
+  m_Size: {x: 1.54, y: 3.268, z: 2.03}
+  m_Center: {x: 0.067, y: -1.235, z: 0.051}
 --- !u!1 &676298253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,11 +1605,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.447, y: 1.6340001, z: 1.4530001}
+  m_Extents: {x: 0.805, y: 1.6340001, z: 1.05}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0.067, y: -1.235, z: 0.051000003}
+  m_Center: {x: -0.01, y: -1.235, z: 0.15}
   m_TimeToStationary: 0.5
 --- !u!1 &709205283
 GameObject:
@@ -1845,6 +1855,16 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 640041234010016057, guid: 2ad78860ada5a17449b25aeb8bba71bc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 835615473228015109, guid: 2ad78860ada5a17449b25aeb8bba71bc,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 1375101827004529818, guid: 2ad78860ada5a17449b25aeb8bba71bc,
         type: 3}
       propertyPath: m_RootOrder
@@ -1947,7 +1967,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2668102133577582719, guid: 2ad78860ada5a17449b25aeb8bba71bc,
+        type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1436968365}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3486168371697297361, guid: 2ad78860ada5a17449b25aeb8bba71bc,
         type: 3}
@@ -2100,8 +2124,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.645599, y: 5.8265905, z: 5.6273017}
-  m_Center: {x: -0.18992987, y: -2.5547009, z: -0.15335622}
+  m_Size: {x: 5.21, y: 5.826, z: 4.42}
+  m_Center: {x: -0.19, y: -2.555, z: -0.153}
 --- !u!65 &750668974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2121,8 +2145,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.9978738, y: 2.3260221, z: 4.4421763}
-  m_Center: {x: 0.45177233, y: -1.1006862, z: 0.12470366}
+  m_Size: {x: 3.78, y: 2.31, z: 3.81}
+  m_Center: {x: 0.452, y: -1.101, z: 0.093}
 --- !u!208 &750668975
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -2149,7 +2173,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 2.8230002, y: 2.913, z: 2.8140001}
+  m_Extents: {x: 2.605, y: 2.913, z: 2.21}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -2165,7 +2189,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.9990001, y: 1.1630001, z: 2.253}
+  m_Extents: {x: 1.89, y: 1.155, z: 1.905}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -2296,6 +2320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c69137d25355349837bc8687a4085f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundEndTime: 2
+  roundStartTime: 3
 --- !u!4 &799927322
 Transform:
   m_ObjectHideFlags: 0
@@ -2341,11 +2367,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.82100004, y: 1.4890001, z: 1.0250001}
+  m_Extents: {x: 0.23, y: 1.4890001, z: 0.24}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.33100003, y: -1.4790001, z: -0.082}
+  m_Center: {x: 0.04, y: -1.4790001, z: 0.15}
   m_TimeToStationary: 0.5
 --- !u!208 &850880631
 NavMeshObstacle:
@@ -2357,11 +2383,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.98800004, y: 0.94600004, z: 1.023}
+  m_Extents: {x: 0.15, y: 0.985, z: 0.245}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.25500003, y: -0.94100004, z: 0.365}
+  m_Center: {x: 0.07, y: -0.94100004, z: 0.14}
   m_TimeToStationary: 0.5
 --- !u!65 &916046699
 BoxCollider:
@@ -2382,8 +2408,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.6428466, y: 2.9788303, z: 2.0499313}
-  m_Center: {x: -0.33066913, y: -1.4793913, z: -0.08248358}
+  m_Size: {x: 0.46, y: 2.978, z: 0.48}
+  m_Center: {x: 0.04, y: -1.479, z: 0.15}
 --- !u!1 &983342396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,54 +2441,6 @@ Transform:
   m_Father: {fileID: 1551694903}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!28 &985195774
-Texture2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 2
-  m_Width: 256
-  m_Height: 1
-  m_CompleteImageSize: 2044
-  m_MipsStripped: 0
-  m_TextureFormat: 4
-  m_MipCount: 9
-  m_IsReadable: 1
-  m_IsPreProcessed: 0
-  m_IgnoreMipmapLimit: 0
-  m_MipmapLimitGroupName: 
-  m_StreamingMipmaps: 0
-  m_StreamingMipmapsPriority: 0
-  m_VTOnly: 0
-  m_AlphaIsTransparency: 0
-  m_ImageCount: 1
-  m_TextureDimension: 2
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_LightmapFormat: 0
-  m_ColorSpace: 1
-  m_PlatformBlob: 
-  image data: 2044
-  _typelessdata: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!21 &999077575
 Material:
   serializedVersion: 8
@@ -2488,7 +2466,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _GradientTex:
-        m_Texture: {fileID: 985195774}
+        m_Texture: {fileID: 2059888370}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -3097,7 +3075,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.8333333
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: c97db7cda2c3ae44699460ac483dd75e, type: 2}
   m_BuildHeightMesh: 0
@@ -3449,7 +3427,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 35
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3475,7 +3453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395886778}
   m_LocalRotation: {x: 0.46193978, y: 0.33141357, z: -0.19134171, w: 0.8001032}
-  m_LocalPosition: {x: -13.55, y: 34.2, z: -13.55}
+  m_LocalPosition: {x: -28.13, y: 34.2, z: -28.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3539,6 +3517,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!1 &1436968364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1436968365}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1436968365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436968364}
+  m_LocalRotation: {x: 0.27664235, y: -0.65074503, z: 0.650745, w: -0.27664226}
+  m_LocalPosition: {x: -0.2698026, y: -0.19870678, z: -0.009694404}
+  m_LocalScale: {x: 0.05073712, y: 0.050737116, z: 0.050737124}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1890710830}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1451817457
 GameObject:
   m_ObjectHideFlags: 0
@@ -3760,7 +3769,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.447, y: 1.6340001, z: 1.4530001}
+  m_Extents: {x: 0.77, y: 1.6340001, z: 1.015}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -3953,8 +3962,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.975857, y: 1.8919562, z: 2.0467649}
-  m_Center: {x: -0.2546657, y: -0.941082, z: 0.36517254}
+  m_Size: {x: 0.3, y: 1.97, z: 0.49}
+  m_Center: {x: 0.07, y: -0.941, z: 0.14}
 --- !u!1 &1743223869
 GameObject:
   m_ObjectHideFlags: 0
@@ -4359,6 +4368,12 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!4 &1890710830 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2668102133577582719, guid: 2ad78860ada5a17449b25aeb8bba71bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 750668968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1975868453
 GameObject:
   m_ObjectHideFlags: 0
@@ -4586,6 +4601,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: dummy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1614347152873501165, guid: e85edf8eb351ad34d8fe8852ffab3009,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3379189516707755604, guid: e85edf8eb351ad34d8fe8852ffab3009,
         type: 3}
       propertyPath: m_RootOrder
@@ -4711,6 +4731,54 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!28 &2059888370
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 2
+  m_Width: 256
+  m_Height: 1
+  m_CompleteImageSize: 2044
+  m_MipsStripped: 0
+  m_TextureFormat: 4
+  m_MipCount: 9
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 2044
+  _typelessdata: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &2062040337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5198,8 +5266,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.8947308, y: 3.2688775, z: 2.906464}
-  m_Center: {x: 0.066647366, y: -1.2345862, z: 0.05110274}
+  m_Size: {x: 1.61, y: 3.268, z: 2.1}
+  m_Center: {x: -0.01, y: -1.2345862, z: 0.15}
 --- !u!65 &2141635168
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5240,8 +5308,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0962352, y: 1.9084786, z: 2.9504914}
-  m_Center: {x: -0.019233156, y: 0.36437112, z: 0.093085654}
+  m_Size: {x: 0.42, y: 1.908, z: 2.69}
+  m_Center: {x: -0.019, y: 0.364, z: 0.08}
 --- !u!65 &2141635170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5261,8 +5329,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0962352, y: 1.9084785, z: 2.9504912}
-  m_Center: {x: -0.01923341, y: 0.36437112, z: 0.09308529}
+  m_Size: {x: 0.43, y: 1.908, z: 2.72}
+  m_Center: {x: -0.019, y: 0.364, z: 0.02}
 --- !u!65 &2141635171
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5282,7 +5350,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.4401784, y: 3.503266, z: 3.3801212}
+  m_Size: {x: 3.76, y: 3.504, z: 2.34}
   m_Center: {x: 0.40739086, y: -1.583894, z: -0.027045775}
 --- !u!208 &2141635172
 NavMeshObstacle:
@@ -5294,11 +5362,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.54800004, y: 0.95400006, z: 1.475}
+  m_Extents: {x: 0.21, y: 0.95400006, z: 1.345}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.019000001, y: 0.36400002, z: 0.093}
+  m_Center: {x: -0.019000001, y: 0.36400002, z: 0.08}
   m_TimeToStationary: 0.5
 --- !u!208 &2141635173
 NavMeshObstacle:
@@ -5310,11 +5378,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.54800004, y: 0.95400006, z: 1.475}
+  m_Extents: {x: 0.215, y: 0.95400006, z: 1.36}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.019000001, y: 0.36400002, z: 0.093}
+  m_Center: {x: -0.019000001, y: 0.36400002, z: 0.02}
   m_TimeToStationary: 0.5
 --- !u!208 &2141635174
 NavMeshObstacle:
@@ -5326,7 +5394,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 2.22, y: 1.7520001, z: 1.69}
+  m_Extents: {x: 1.88, y: 1.7520001, z: 1.17}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -5477,6 +5545,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1614347152873501165, guid: e85edf8eb351ad34d8fe8852ffab3009,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3379189516707755604, guid: e85edf8eb351ad34d8fe8852ffab3009,
         type: 3}
