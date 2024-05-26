@@ -14,6 +14,9 @@ namespace Project
         private readonly NetworkVariable<bool> _isGameRunning = new NetworkVariable<bool>(false);
 
         public static bool IsGameRunning => instance._isGameRunning.Value;
+
+        [SerializeField] private float roundEndTime = 2f;
+        [SerializeField] private float roundStartTime = 3f;
         
         public override void OnNetworkSpawn()
         {
@@ -91,7 +94,7 @@ namespace Project
         {
             _isGameRunning.Value = false;
             
-            DOVirtual.DelayedCall(2, () =>
+            DOVirtual.DelayedCall(roundEndTime, () =>
             {
                 if (endGame)
                 {
@@ -124,7 +127,7 @@ namespace Project
             
             OnRoundStartClientRpc();
             
-            timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
+            timer.StartTimerWithUpdateCallback(this, roundStartTime, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
