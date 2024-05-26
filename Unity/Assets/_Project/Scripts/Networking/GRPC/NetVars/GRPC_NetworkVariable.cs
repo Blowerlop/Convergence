@@ -64,6 +64,9 @@ namespace Project
 
         public void Reset()
         {
+            if (!GRPC_NetworkManager.instance.isConnected) return;
+            if (!_networkBehaviour.IsServer && !_networkBehaviour.IsHost) return;
+            
             if (GRPC_NetworkManager.IsInstanceAlive() == false) return;
             
             GRPC_NetworkManager.instance.onClientStartedEvent -= GRPC_NetworkVariable_Initialization;
@@ -261,7 +264,7 @@ namespace Project
 
             _netObjectSyncer.onNetworkObjectHasSpawnedOnGrpc -= Sync;
             
-            Debug.Log($"Start dispose : Hash {_variableHashName} / Net id {_netId}");
+            Debug.Log($"Start dispose : Hash {_variableHashName} / {_networkBehaviour.GetType()} / {_networkBehaviour.gameObject.name} / Net id {_netId}", _networkBehaviour);
             
             await _sendStream.RequestStream.CompleteAsync();
             await Task.Delay(5);
