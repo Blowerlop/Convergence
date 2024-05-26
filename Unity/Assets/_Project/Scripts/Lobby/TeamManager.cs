@@ -146,9 +146,27 @@ namespace Project
             // Reset previous team slot if valid
             if (IsTeamIndexValid(previousUserTeamIndex))
             {
-                if (previousUserTeamIndex != UNASSIGNED_TEAM_INDEX) ResetTeamSlot(previousUserTeamIndex, playerPlatform);
+                string playerName = string.Empty;
                 
-                OnTeamSet(previousUserTeamIndex, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT_TEXT : DEFAULT_MOBILE_SLOT_TEXT, playerPlatform);
+                if (previousUserTeamIndex == UNASSIGNED_TEAM_INDEX)
+                {
+                    bool shouldBeMobile = playerPlatform == PlayerPlatform.Mobile;
+                    playerName = string.Join(" / ", UserInstanceManager.instance.All().Where(x => x.Team == UNASSIGNED_TEAM_INDEX && x.IsMobile == shouldBeMobile && x.ClientId != ownerClientId).Select(x => x.PlayerName));
+                    
+                    if (string.IsNullOrEmpty(playerName))
+                        playerName = playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT_TEXT : DEFAULT_MOBILE_SLOT_TEXT;
+                }
+                else
+                {
+                    ResetTeamSlot(previousUserTeamIndex, playerPlatform);
+                }
+                
+                // Always empty if previous team was unassigned
+                if (string.IsNullOrEmpty(playerName))
+                    playerName = playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT_TEXT : DEFAULT_MOBILE_SLOT_TEXT;
+                
+                
+                OnTeamSet(previousUserTeamIndex, playerName, playerPlatform);
             }
             
             if (teamIndex != UNASSIGNED_TEAM_INDEX) RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
@@ -156,8 +174,9 @@ namespace Project
 
             if (teamIndex == UNASSIGNED_TEAM_INDEX)
             {
-                bool shouldBeMobile = playerPlatform == PlayerPlatform.Mobile;                  
+                bool shouldBeMobile = playerPlatform == PlayerPlatform.Mobile;
                 string playersName = string.Join(" / ", UserInstanceManager.instance.All().Where(x => x.Team == UNASSIGNED_TEAM_INDEX && x.IsMobile == shouldBeMobile).Select(x => x.PlayerName));
+                
                 OnTeamSet(teamIndex, playersName, playerPlatform);
             }
             else OnTeamSet(teamIndex, userInstance.PlayerName, playerPlatform);
@@ -190,14 +209,16 @@ namespace Project
         /// </summary>
         public void ClientOnTeamChanged(UserInstance user, int oldTeam, int newTeam)
         {
-            var platform = user.IsMobile ? PlayerPlatform.Mobile : PlayerPlatform.Pc;
+            var playerPlatform = user.IsMobile ? PlayerPlatform.Mobile : PlayerPlatform.Pc;
             
-            if (IsTeamIndexValid(oldTeam) && oldTeam != UNASSIGNED_TEAM_INDEX)
+            if (IsTeamIndexValid(oldTeam))
             {
-                ResetTeamSlot(oldTeam, platform);
+                if (oldTeam != UNASSIGNED_TEAM_INDEX) ResetTeamSlot(oldTeam, playerPlatform);
+                
+                OnTeamSet(oldTeam, playerPlatform == PlayerPlatform.Pc ? DEFAULT_PC_SLOT_TEXT : DEFAULT_MOBILE_SLOT_TEXT, playerPlatform);
             }
             
-            RegisterToTeamSlotLocal(user.ClientId, newTeam, platform);
+            if (newTeam != UNASSIGNED_TEAM_INDEX) RegisterToTeamSlotLocal(user.ClientId, newTeam, playerPlatform);
         }
         
         private void ResetTeamSlot(int teamIndex, PlayerPlatform playerPlatform)
