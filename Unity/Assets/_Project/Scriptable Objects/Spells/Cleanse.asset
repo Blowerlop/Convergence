@@ -22,7 +22,7 @@ MonoBehaviour:
     type: 3}
   isInstant: 1
   cooldown: 0.2
-  channelingTime: 0.5
+  channelingTime: 0
   castingFlags: 0
   castAnimationDuration: 0
   spellIcon: {fileID: 21300000, guid: 3b82d601564fd164d8db8367e60ae9b4, type: 3}
