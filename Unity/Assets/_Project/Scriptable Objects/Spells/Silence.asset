@@ -36,4 +36,4 @@ MonoBehaviour:
     - rid: 6173595388760555522
       type: {class: SilenceEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        Duration: 2.5
+        Duration: 1.5

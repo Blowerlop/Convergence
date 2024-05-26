@@ -36,4 +36,4 @@ MonoBehaviour:
     - rid: 2778045437568614402
       type: {class: StunEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        Duration: 2.5
+        Duration: 1.5
