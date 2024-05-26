@@ -206,7 +206,7 @@ namespace Project
 
             if (_isRanged)
             {
-                Projectile projectileInstance = Instantiate(_projectileData.prefab, transform.position, transform.rotation);
+                Projectile projectileInstance = Instantiate(_projectileData.prefab, _playerRefs.ShootTransform.position, _playerRefs.ShootTransform.rotation);
                 projectileInstance.Init(this, _projectileData);
                 projectileInstance.GetComponent<NetworkObject>().Spawn(true);
 

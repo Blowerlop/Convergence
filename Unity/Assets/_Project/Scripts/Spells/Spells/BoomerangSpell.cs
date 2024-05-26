@@ -12,7 +12,7 @@ namespace Project.Spells
 
         [SerializeField] private AnimationCurve firstHalfEase, secondHalfEase;
 
-        [SerializeField] private float hitRadius;
+        [SerializeField] private BoxCollider hitCollider;
 
         private List<Entity> _hitEntities = new List<Entity>();
         
@@ -79,9 +79,12 @@ namespace Project.Spells
             var normalizedDir = dir.normalized;
 
             var easeFactor = secondHalfEase.Evaluate((_timer) / secondHalfEaseDuration);
-            transform.position += normalizedDir * (moveSpeed * easeFactor * Time.deltaTime);
+
+            var speed = moveSpeed * easeFactor * Time.deltaTime;
+            
+            transform.position += normalizedDir * speed;
                 
-            if(dir.magnitude < 0.1f) 
+            if(dir.magnitude < speed + 0.1f) 
                 KillSpell();
         }
         
@@ -90,8 +93,7 @@ namespace Project.Spells
         {
             var results = new Collider[5];
 
-            var size = Physics.OverlapSphereNonAlloc(transform.position, hitRadius, results,
-                Constants.Layers.EntityMask);
+            var size = Physics.OverlapBoxNonAlloc(transform.position, hitCollider.bounds.extents, results, hitCollider.transform.rotation, Constants.Layers.EntityMask);
 
             for(int i = 0; i < size; i++)
             {
@@ -111,7 +113,7 @@ namespace Project.Spells
                 return default;
             }
             
-            return (player.PlayerTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
+            return (player.ShootTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)

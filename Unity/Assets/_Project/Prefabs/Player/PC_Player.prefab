@@ -380,6 +380,37 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9cef1a8c7c8986b4398bc4d828e34db0, type: 2}
   - {fileID: 11400000, guid: bfccfeb78b0d2214d8a2e488bdbdc950, type: 2}
   - {fileID: 11400000, guid: 311fd77ffb3937243ba40fdd1beed494, type: 2}
+--- !u!1 &8562804423460829439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2072215384067644693}
+  m_Layer: 6
+  m_Name: ShootTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2072215384067644693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562804423460829439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124437638980882131}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8566652343378925700
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +449,7 @@ Transform:
   m_Children:
   - {fileID: 4816673588955750593}
   - {fileID: 7834158997003778491}
+  - {fileID: 2072215384067644693}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -433,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2134523557
+  GlobalObjectIdHash: 3084006248
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -587,6 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 4124437638980882131}
+  shootTransform: {fileID: 2072215384067644693}
   cooldowns: {fileID: 1430276818711062553}
   channeling: {fileID: 2923043460446806746}
   _networkAnimator: {fileID: 8279106846831332330}

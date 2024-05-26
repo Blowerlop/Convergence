@@ -11,7 +11,8 @@ namespace Project
         private GRPC_NetworkVariable<int> _ownerId = new GRPC_NetworkVariable<int>("OwnerId", value: int.MaxValue);
 
         [SerializeField] protected Transform playerTransform;
-
+        [SerializeField] protected Transform shootTransform;
+        
         [SerializeField] private CooldownController cooldowns;
         [SerializeField] private ChannelingController channeling;
         
@@ -23,6 +24,7 @@ namespace Project
         public int OwnerId => _ownerId.Value;
         
         public Transform PlayerTransform => playerTransform;
+        public Transform ShootTransform => shootTransform;
         
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
