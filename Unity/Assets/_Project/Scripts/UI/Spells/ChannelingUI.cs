@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project.Spells
@@ -11,6 +12,8 @@ namespace Project.Spells
         
         private void Awake()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             UserInstance.Me.OnPlayerLinked += Setup;
             
             group.alpha = 0;
@@ -18,6 +21,7 @@ namespace Project.Spells
         
         private void OnDestroy()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
             if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_channelingController) return;

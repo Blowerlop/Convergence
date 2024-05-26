@@ -1,5 +1,6 @@
 using System.Linq;
 using Project._Project.Scripts.Player.States;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,8 @@ namespace Project.Spells.Casters
         
         public void Init(PlayerRefs p)
         {
+            if (!NetworkManager.Singleton.IsClient) return;
+            
             _player = p;
             
             // Pc user should be player owner
@@ -43,6 +46,7 @@ namespace Project.Spells.Casters
         
         private void OnDestroy()
         {
+            if (!NetworkManager.Singleton.IsClient) return;
             if (InputManager.IsInstanceAlive() == false) return;
             
             InputManager.instance.OnSpellInputStarted -= StartCasting;

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project
@@ -8,6 +9,8 @@ namespace Project
         
         private void Awake()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             UserInstance.Me.OnPlayerLinked += Setup;
             
             SetFillAmount(1);
@@ -15,6 +18,7 @@ namespace Project
 
         private void OnDestroy()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
             if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_stats) return;

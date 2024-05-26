@@ -51,6 +51,8 @@ namespace Project
         {
             base.OnOwnerChanged(oldId, newId);
             
+            if (!IsClient) return;
+            
             spellCastController.Init(this);
             
             if(UserInstance.Me.ClientId == newId)

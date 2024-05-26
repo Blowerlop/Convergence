@@ -21,11 +21,14 @@ namespace Project.Spells
         
         private void Awake()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             UserInstance.Me.OnPlayerLinked += Setup;
         }
 
         private void OnDestroy()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
             if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_cooldowns) return;
