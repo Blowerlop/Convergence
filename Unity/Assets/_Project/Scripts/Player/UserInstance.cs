@@ -91,13 +91,6 @@ namespace Project
             Me = null;
         }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            ResetNetworkVariables();
-        }
-
         private void CreateNetVarInstance()
         {
             string prefix = "MobileSpell_";
