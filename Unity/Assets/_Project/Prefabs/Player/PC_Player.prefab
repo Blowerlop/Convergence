@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6215435937847373130}
-  channelingNetVarName: IsChanneling
 --- !u!1 &233584245640403952
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3084006248
+  GlobalObjectIdHash: 2134523557
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

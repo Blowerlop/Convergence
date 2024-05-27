@@ -13,6 +13,9 @@ namespace Project.Spells
         private ZoneSpellData ZoneData => _zoneData ??= Data as ZoneSpellData;
         
         [SerializeField] private ApplyType applyType;
+        [SerializeField, ShowIf(nameof(IsApplyTimed))] private float applyTime;
+        [SerializeField, ShowIf(nameof(IsApplyTick))] private float tickRate;
+        
         [SerializeField] private KillType killType;
 
         [SerializeField, ShowIf(nameof(IsTimed))] private float duration;
@@ -24,7 +27,10 @@ namespace Project.Spells
         private SingleVectorResults _results;
         
         private Sequence _moveSeq;
+        private float _lastTickTime;
 
+        private Collider[] _resultsBuffer = new Collider[5];
+        
         protected override void Init(ICastResult castResult)
         {
             if (castResult is not SingleVectorResults results)
@@ -36,8 +42,15 @@ namespace Project.Spells
             
             _results = results;
             
-            if (applyType == ApplyType.OnStart)
-                CheckForEffects();
+            switch (applyType)
+            {
+                case ApplyType.OnStart:
+                    CheckForEffects();
+                    break;
+                case ApplyType.Timed:
+                    DOVirtual.DelayedCall(applyTime, CheckForEffects);
+                    break;
+            }
             
             if (killType == KillType.Timed)
                 StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
@@ -76,23 +89,33 @@ namespace Project.Spells
             return dir;
         }
 
-        [Server]
-        public void CheckForEffects()
+        private void Update()
         {
-            var results = new Collider[5];
-
+            if (!IsServer) return;
+            if (!IsApplyTick()) return;
+            
+            if (Time.time - _lastTickTime >= tickRate)
+            {
+                CheckForEffects();
+                _lastTickTime = Time.time;
+            }
+        }
+        
+        [Server]
+        private void CheckForEffects()
+        {
             var size = hitZoneShape switch
             {
-                HitZoneShape.Default => Physics.OverlapSphereNonAlloc(_results.VectorProp, ZoneData.zoneRadius, results,
+                HitZoneShape.Default => Physics.OverlapSphereNonAlloc(_results.VectorProp, ZoneData.zoneRadius, _resultsBuffer,
                     Constants.Layers.EntityMask),
                 HitZoneShape.Box => Physics.OverlapBoxNonAlloc(transform.position + boxCollider.center,
-                    boxCollider.size / 2, results, boxCollider.transform.rotation, Constants.Layers.EntityMask),
+                    boxCollider.size / 2, _resultsBuffer, boxCollider.transform.rotation, Constants.Layers.EntityMask),
                 _ => throw new ArgumentOutOfRangeException()
             };
 
             for(int i = 0; i < size; i++)
             {
-                if(results[i].TryGetComponent(out Entity entity))
+                if(_resultsBuffer[i].TryGetComponent(out Entity entity))
                 {
                     TryApplyEffects(entity);
                 }
@@ -115,7 +138,9 @@ namespace Project.Spells
         private enum ApplyType
         {
             AnimationDriven,
-            OnStart
+            OnStart,
+            Timed,
+            Tick
         }
         
         private enum KillType
@@ -130,6 +155,8 @@ namespace Project.Spells
             Box
         }
         
+        private bool IsApplyTimed() => applyType == ApplyType.Timed;
+        private bool IsApplyTick() => applyType == ApplyType.Tick;
         private bool IsTimed() => killType == KillType.Timed;
         private bool IsBoxShape() => hitZoneShape == HitZoneShape.Box;
     }

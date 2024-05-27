@@ -19,10 +19,10 @@ MonoBehaviour:
   <prefab>k__BackingField: {fileID: 4483217773061159242, guid: 7fe3d9d2242d2fb48b458d3f8f3d0cb5,
     type: 3}
   spells:
-  - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
-  - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
-  - {fileID: 11400000, guid: 1f033f4f62b63e9459a07a9d2e357ba8, type: 2}
-  - {fileID: 11400000, guid: 83d8c652c61a3a040af16cf4816dba96, type: 2}
+  - {fileID: 11400000, guid: f7ae66851cf3d3241afa9e28fb62375f, type: 2}
+  - {fileID: 11400000, guid: b618ae1b95c0a9549b3011a81874ad5e, type: 2}
+  - {fileID: 11400000, guid: 1fba36bfbbc9c424a86a4a9bc43eb482, type: 2}
+  - {fileID: 11400000, guid: ba300de25e0d3a9408e8df8127846988, type: 2}
   stats:
   - rid: 8967663378920636439
   - rid: 8967663378920636440

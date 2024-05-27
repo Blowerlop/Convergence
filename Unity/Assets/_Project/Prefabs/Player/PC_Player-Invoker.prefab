@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 2072215384067644693, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.4
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 4031822796035881096, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
@@ -169,7 +169,17 @@ PrefabInstance:
     - target: {fileID: 330965895212304576, guid: 67c0cc64cdc29144ca1d47e452717bfb,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1117615611409553179, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1117615611409553179, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2595762088475420690, guid: 67c0cc64cdc29144ca1d47e452717bfb,
         type: 3}
@@ -226,11 +236,67 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5126863870371833449, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126863870371833449, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126863870371833449, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382461959771419767, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382461959771419767, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504642597334427875, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504642597334427875, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504642597334427875, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924444025809909586, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924444025809909586, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67c0cc64cdc29144ca1d47e452717bfb, type: 3}
+--- !u!198 &6490560525664692506 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1117615611409553179, guid: 67c0cc64cdc29144ca1d47e452717bfb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6165862278367673857}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8184294855801116179 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2595762088475420690, guid: 67c0cc64cdc29144ca1d47e452717bfb,
@@ -569,7 +635,13 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _playerRefs: {fileID: 2203632585745075332}
-  handlers: []
+  handlers:
+  - <StateName>k__BackingField: Channeling3
+    <FXs>k__BackingField:
+    - <FX>k__BackingField: {fileID: 6490560525664692506}
+      <DisableType>k__BackingField: 1
+      <DisableTime>k__BackingField: 3
+      <Sfx>k__BackingField: 
 --- !u!114 &5871569596065690416
 MonoBehaviour:
   m_ObjectHideFlags: 0

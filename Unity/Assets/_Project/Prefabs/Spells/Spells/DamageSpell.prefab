@@ -176,7 +176,7 @@ Transform:
   - {fileID: 424222234728226997}
   - {fileID: 6696697580919237924}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1134584407861169612
 MonoBehaviour:
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2979630342
+  GlobalObjectIdHash: 2540486483
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -214,8 +214,7 @@ MonoBehaviour:
     type: 2}
   CanHitSelf: 0
   _movingObject: {fileID: 1226572752951974000}
-  _castOffset: {x: 0, y: 0, z: 0.5}
-  _castRadius: 0.5
+  boxCollider: {fileID: 6444498480560955018}
   speed: 17.5
   moveDuration: 1
   hasImpactPhase: 0
@@ -15036,11 +15035,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.25, y: 1, z: 1}
+  m_Size: {x: 1.25, y: 10, z: 1}
   m_Center: {x: 0, y: 0, z: 0.5}
 --- !u!1001 &4146760795947184191
 PrefabInstance:

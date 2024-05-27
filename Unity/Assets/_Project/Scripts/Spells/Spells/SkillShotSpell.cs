@@ -15,8 +15,7 @@ namespace Project.Spells
         
         [SerializeField] private GameObject _movingObject;
         
-        [SerializeField] private Vector3 _castOffset;
-        [SerializeField] private float _castRadius;
+        [SerializeField] private BoxCollider boxCollider;
         
         [SerializeField] private float speed = 3f;
         [SerializeField] private float moveDuration = 2f;
@@ -114,11 +113,10 @@ namespace Project.Spells
         
         private bool IsColliding(out RaycastHit hit)
         {
-            var forward = transform.forward;
-            Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
+            var pos = boxCollider.transform.rotation * boxCollider.center + boxCollider.transform.position;
             
-            return Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
-                    out hit, 0.5f, Constants.Layers.EntityMask);
+            return Physics.BoxCast(pos, boxCollider.size / 2, GetDirection(_results, Caster), 
+                    out hit, boxCollider.transform.rotation, 0.5f, Constants.Layers.EntityMask);
         }
 
         [Server]
