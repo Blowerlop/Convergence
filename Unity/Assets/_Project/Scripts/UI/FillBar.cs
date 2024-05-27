@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,10 @@ namespace Project
     public class FillBar : MonoBehaviour
     {
         [SerializeField] private Image _fillImage;
-        [SerializeField] private 
+        
+        [SerializeField] private bool useSecondFill;
+        [SerializeField, ShowIf(nameof(useSecondFill))] private Image secondFillImage;
+        [SerializeField, ShowIf(nameof(useSecondFill))] private float secondFillDelay;
         
         [SerializeField] private float _fillAnimDuration = 0.25f;
         [SerializeField] private Ease _fillEase;
@@ -35,13 +39,16 @@ namespace Project
             else
             {
                 _fillSequence.Append(_fillImage.DOFillAmount(normalizedValue, _fillAnimDuration).SetEase(_fillEase));
+                
+                if(useSecondFill)
+                    _fillSequence.Join(secondFillImage.DOFillAmount(normalizedValue, _fillAnimDuration).SetEase(_fillEase).SetDelay(secondFillDelay));
             }
         }
         
         public void SetFillAmount(float current, float max, bool instant = false)
         {
             float normalized = current / max;
-            SetFillAmount(normalized);
+            SetFillAmount(normalized, instant);
         }
     }
 }

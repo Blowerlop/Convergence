@@ -162,7 +162,7 @@ RectTransform:
   m_GameObject: {fileID: 1237316844295176284}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3273448442394965941}
@@ -171,7 +171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.565}
+  m_AnchoredPosition: {x: 0, y: 5.88}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6668862004940039620
@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 3273448442394965941}
   - component: {fileID: 2037699060962005493}
   - component: {fileID: 3414953063987298225}
+  - component: {fileID: 3948040592546437085}
   m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
@@ -378,6 +379,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3948040592546437085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831082263301864369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e30fbb144f5409898db1c9f8ca071a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fillImage: {fileID: 7376111215819400221}
+  useSecondFill: 1
+  secondFillImage: {fileID: 9125878129049865671}
+  secondFillDelay: 0.35
+  _fillAnimDuration: 0.25
+  _fillEase: 7
+  getFromUserInstance: 0
+  refs: {fileID: 6215435937847373130}
 --- !u!1 &2007026922932564193
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3084006248
+  GlobalObjectIdHash: 2134523557
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

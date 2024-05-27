@@ -1,3 +1,5 @@
+using Project._Project.Scripts;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,13 +7,17 @@ namespace Project
 {
     public class PlayerStatFillBar<T> : FillBar where T : Stat<int>
     {
+        [SerializeField] private bool getFromUserInstance = true;
+        [SerializeField, HideIf(nameof(getFromUserInstance))] private PlayerRefs refs;
+        
         private PlayerStats _stats;
         
         private void Awake()
         {
             if (NetworkManager.Singleton is { IsClient: false }) return;
             
-            UserInstance.Me.OnPlayerLinked += Setup;
+            if (getFromUserInstance) UserInstance.Me.OnPlayerLinked += Setup;
+            else Setup(refs);
             
             SetFillAmount(1);
         }
@@ -19,7 +25,9 @@ namespace Project
         private void OnDestroy()
         {
             if (NetworkManager.Singleton is { IsClient: false }) return;
-            if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
+            
+            if (getFromUserInstance && UserInstance.Me != null) 
+                UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_stats) return;
             
