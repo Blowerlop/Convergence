@@ -7,7 +7,8 @@ namespace Project
     public class FillBar : MonoBehaviour
     {
         [SerializeField] private Image _fillImage;
-
+        [SerializeField] private 
+        
         [SerializeField] private float _fillAnimDuration = 0.25f;
         [SerializeField] private Ease _fillEase;
 
