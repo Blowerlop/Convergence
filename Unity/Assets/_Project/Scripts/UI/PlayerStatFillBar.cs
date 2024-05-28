@@ -2,6 +2,7 @@ using Project._Project.Scripts;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project
 {
@@ -11,6 +12,8 @@ namespace Project
         [SerializeField, HideIf(nameof(getFromUserInstance))] private PlayerRefs refs;
 
         [SerializeField] private bool useColors;
+
+        [SerializeField, ShowIf(nameof(useColors))] private Graphic mainColoredImage, secondColoredImage; 
         
         [SerializeField, FoldoutGroup("Ally"), ShowIf(nameof(useColors))] 
         private Color allyMainColor, allySecondColor;
@@ -73,7 +76,7 @@ namespace Project
             _stats.OnStatsInitialized -= OnStatsInitialized;
         }
         
-        private void OnValueChanged(int currentValue, int maxValue)
+        protected virtual void OnValueChanged(int currentValue, int maxValue)
         {
             Debug.Log($"Current Value: {currentValue}, Max Value: {maxValue}");
             SetFillAmount(currentValue, maxValue);
@@ -91,8 +94,8 @@ namespace Project
 
         private void SetColors(Color c0, Color c1)
         {
-            _fillImage.color = c0;
-            secondFillImage.color = c1;
+            mainColoredImage.color = c0;
+            secondColoredImage.color = c1;
         }
     }
 }
