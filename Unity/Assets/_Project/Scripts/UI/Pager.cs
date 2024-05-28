@@ -15,6 +15,7 @@ namespace Project
         [ReadOnly] public CanvasGroup canvasGroup;
         public int pageIndex;
         public UnityEvent onPageSelectedEvent = new UnityEvent();
+        public UnityEvent onPageUnSelectedEvent = new UnityEvent();
 
         public Page(string gameObjectName, CanvasGroup canvasGroup, int pageIndex)
         {
@@ -72,7 +73,8 @@ namespace Project
                 CrossFadePages();   
             }
 
-            GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
+            // GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
+            GoToPage(_currentPageIndex);
         }
 
         [Button]
@@ -101,7 +103,8 @@ namespace Project
                 CrossFadePages();
             }
             
-            GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
+            // GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
+            GoToPage(_currentPageIndex);
         }
 
         [Button]
@@ -146,14 +149,15 @@ namespace Project
             {
                 if (GetPage(i).canvasGroup == canvasGroup)
                 {
-                    _previousPageIndex = _currentPageIndex;
-                    _currentPageIndex = i;
-
-                    GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-                    if (crossFadePages)
-                    {
-                        CrossFadePages();
-                    }
+                    GoToPage(i);
+                    // _previousPageIndex = _currentPageIndex;
+                    // _currentPageIndex = i;
+                    //
+                    // GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
+                    // if (crossFadePages)
+                    // {
+                    //     CrossFadePages();
+                    // }
                     break;
                 }
             }
@@ -172,6 +176,7 @@ namespace Project
                     _previousPageIndex = _currentPageIndex;
                     _currentPageIndex = i;
 
+                    GetPage(_previousPageIndex).onPageUnSelectedEvent.Invoke();
                     GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
                     if (crossFadePages)
                     {

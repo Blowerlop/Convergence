@@ -39,7 +39,8 @@ namespace Project._Project.TESTT_REBIND
             if (actionToRebind == null || bindingIndex < 0)
                 return;
 
-            statusText.text = $"Press a {actionToRebind.expectedControlType}";
+            // statusText.text = $"Press a {actionToRebind.expectedControlType}";
+            statusText.text = $"Press a key";
 
             bool actionWasEnabled = actionToRebind.enabled;
             actionToRebind.Disable();

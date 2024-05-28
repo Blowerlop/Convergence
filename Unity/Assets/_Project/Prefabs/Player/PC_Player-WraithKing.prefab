@@ -359,19 +359,19 @@ MonoBehaviour:
     - <FX>k__BackingField: {fileID: 504234948784621195}
       <DisableType>k__BackingField: 2
       <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
+      <Sfx>k__BackingField: inst_nerag_1
   - <StateName>k__BackingField: Channeling2
     <FXs>k__BackingField:
     - <FX>k__BackingField: {fileID: 1680967734822791525}
       <DisableType>k__BackingField: 1
       <DisableTime>k__BackingField: 2.75
-      <Sfx>k__BackingField: 
+      <Sfx>k__BackingField: inst_nerag_2
   - <StateName>k__BackingField: Cast3
     <FXs>k__BackingField:
     - <FX>k__BackingField: {fileID: 2657631533590908253}
       <DisableType>k__BackingField: 0
       <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
+      <Sfx>k__BackingField: inst_nerag_3
 --- !u!114 &2185999719184821207
 MonoBehaviour:
   m_ObjectHideFlags: 0

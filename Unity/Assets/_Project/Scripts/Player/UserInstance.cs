@@ -16,6 +16,8 @@ namespace Project
         /// Reference to the local client's UserInstance.
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
+        public static event Action<UserInstance> OnSpawned;
+        public static event Action<UserInstance> OnDespawned;
 
         public PlayerRefs LinkedPlayer { get; private set; }
         public event Action<PlayerRefs> OnPlayerLinked;
@@ -49,6 +51,8 @@ namespace Project
         
         public override void OnNetworkSpawn()
         {
+            Debug.Log("[UserInstance] Start spawn", gameObject);
+
             InitializeNetworkVariables();
 
             if (IsClient && !IsHost)
@@ -68,6 +72,8 @@ namespace Project
                 SetScene(currentSceneName);
             }
             
+            OnSpawned?.Invoke(this);
+            Debug.Log("[UserInstance] End spawn", gameObject);
             if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
 
             Me = this;
@@ -77,6 +83,7 @@ namespace Project
         
         public override void OnNetworkDespawn()
         {
+            Debug.Log("[UserInstance] Start despawn", gameObject);
             ResetNetworkVariables();
 
             if (IsClient)
@@ -86,6 +93,8 @@ namespace Project
                 _networkTeam.OnValueChanged -= OnTeamChanged;
             }
             
+            OnDespawned?.Invoke(this);
+            Debug.Log("[UserInstance] End despawn", gameObject);
             if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
 
             Me = null;
@@ -258,5 +267,13 @@ namespace Project
             
             _mobileSpells[index].Value = spellId;
         }
+        
+        #if UNITY_EDITOR
+        [ExecuteOnReload]
+        private static void StaticClear()
+        {
+            OnSpawned = null;
+        }
+        #endif
     }
 }

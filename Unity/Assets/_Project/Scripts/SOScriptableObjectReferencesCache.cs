@@ -43,8 +43,11 @@ namespace Project
 
         public static T[] GetScriptableObjects<T>()
         {
-            return instance._scriptableObjectsCache.Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name)
-                .scriptableObjects.Cast<T>().ToArray();
+            return instance._scriptableObjectsCache
+                .Find(soCacheEntry => soCacheEntry.typeName == typeof(T).Name)?
+                .scriptableObjects
+                .Cast<T>()
+                .ToArray();
         }
         
         public static ScriptableObject[] GetScriptableObjects(Type type)

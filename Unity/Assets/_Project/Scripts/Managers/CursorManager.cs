@@ -24,7 +24,7 @@ namespace Project
     
     public static class CursorManager
     {
-        [ClearOnReload(assignNewTypeInstance: true)] private static Stack<CursorState> _cursorStates = new Stack<CursorState>();
+        [ClearOnReload(assignNewTypeInstance: true)] private static readonly Stack<CursorState> _cursorStates = new Stack<CursorState>();
         [ClearOnReload] private static CursorState _currentCursorState;
 
         

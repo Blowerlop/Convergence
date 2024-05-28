@@ -55,7 +55,7 @@ namespace Project
         public InputAction onConsoleKey => inputAction.Persistant.Console;
         public InputAction onCenterCamera => inputAction.Player.CenterCamera;
         public InputAction onLockCamera => inputAction.Player.LockCamera;
-        public InputAction onMenuKey => inputAction.Persistant.Menu;
+        public InputAction onEscapeKey => inputAction.Persistant.Escape;
         public InputAction onEmotesWheel => inputAction.Player.EmotesWheel;
         public InputAction onCancellation => inputAction.Player.Cancellation;
 

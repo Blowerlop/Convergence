@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Managers;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -153,6 +154,11 @@ namespace Project.Spells
                 ApplyEffectsOnTarget();
             
             base.KillSpell();
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
