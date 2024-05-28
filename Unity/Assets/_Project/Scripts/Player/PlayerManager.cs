@@ -140,11 +140,14 @@ namespace Project
         [ConsoleCommand("spawn_dummy", "Spawns a dummy at position 5, 0, 5.")]
         public static void DebugSpawnDummy()
         {
-            var dummy = Resources.FindObjectsOfTypeAll<Dummy>();
+            var dummy = Resources.LoadAll<Dummy>("");
+            
+            Debug.Log($"Found {dummy.Length} dummy in resources.");
             
             if (dummy.Length > 0)
             {
                 Instantiate(dummy[0], new Vector3(5, 0, 5), Quaternion.identity).GetComponent<NetworkObject>().Spawn();
+                Debug.Log("Dummy spawned!");
             }
         }
         
