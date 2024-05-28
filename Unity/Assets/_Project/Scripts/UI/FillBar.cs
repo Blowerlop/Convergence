@@ -1,4 +1,6 @@
+using System;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +8,12 @@ namespace Project
 {
     public class FillBar : MonoBehaviour
     {
-        [SerializeField] private Image _fillImage;
-
+        [SerializeField] protected Image _fillImage;
+        
+        [SerializeField] private bool useSecondFill;
+        [SerializeField, ShowIf(nameof(useSecondFill))] protected Image secondFillImage;
+        [SerializeField, ShowIf(nameof(useSecondFill))] private float secondFillDelay;
+        
         [SerializeField] private float _fillAnimDuration = 0.25f;
         [SerializeField] private Ease _fillEase;
 
@@ -23,7 +29,8 @@ namespace Project
             _fillSequence = DOTween.Sequence();
         }
         
-        public void SetFillAmount(float normalizedValue, bool instant = false)
+        [Button]
+        protected void SetFillAmount(float normalizedValue, bool instant = false)
         {
             InitSequence();
             
@@ -33,14 +40,18 @@ namespace Project
             }
             else
             {
-                _fillSequence.Append(_fillImage.DOFillAmount(normalizedValue, _fillAnimDuration).SetEase(_fillEase));
+                _fillSequence.Append(_fillImage.DOFillAmount(normalizedValue, useSecondFill ? 0 : _fillAnimDuration).SetEase(_fillEase));
+                
+                if (useSecondFill)
+                    _fillSequence.Join(secondFillImage.DOFillAmount(normalizedValue, _fillAnimDuration).SetEase(_fillEase).SetDelay(secondFillDelay));
             }
         }
         
-        public void SetFillAmount(float current, float max, bool instant = false)
+
+        protected void SetFillAmount(float current, float max, bool instant = false)
         {
             float normalized = current / max;
-            SetFillAmount(normalized);
+            SetFillAmount(normalized, instant);
         }
     }
 }

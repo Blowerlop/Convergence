@@ -559,6 +559,51 @@ PrefabInstance:
       propertyPath: prefabId
       value: PCPlayerChevalier
       objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: mainFillColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: mainFillColor.b
+      value: 0.07058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: mainFillColor.g
+      value: 0.73333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: mainFillColor.r
+      value: 0.23137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: secondFillDelay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: secondFillColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: secondFillColor.b
+      value: 0.21568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: secondFillColor.g
+      value: 0.19215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948040592546437085, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: secondFillColor.r
+      value: 0.83137256
+      objectReference: {fileID: 0}
     - target: {fileID: 4031822796035881096, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: GlobalObjectIdHash
