@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Unity.Netcode;
@@ -27,7 +28,7 @@ namespace Project.Extensions
 
         public static List<Transform> GetChildrenRecursively(this Transform transform, List<Transform> children = null)
         {
-            return GetComponentsInChildrenRecursivelyWithoutTheParent<Transform>(transform);
+            return GetComponentsInChildrenWithoutParent<Transform>(transform);
         }
 
         public static List<T> GetComponentsInChildrenFirstDepthWithoutTheParent<T>(this Transform transform)
@@ -46,19 +47,19 @@ namespace Project.Extensions
             return children;
         }
 
-        public static List<T> GetComponentsInChildrenRecursivelyWithoutTheParent<T>(this Transform transform) where T : Object
+        public static List<T> GetComponentsInChildrenWithoutParent<T>(this Transform transform) where T : Object
         {
-            return GetComponentsInChildrenRecursivelyWithoutTheParent(transform, new List<T>());
+            return GetComponentsInChildrenWithoutParent(transform, new List<T>());
         }
         
-        private static List<T> GetComponentsInChildrenRecursivelyWithoutTheParent<T>(this Transform transform,
+        private static List<T> GetComponentsInChildrenWithoutParent<T>(this Transform transform,
             List<T> children) where T : Object
         {
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
 
-                child.GetComponentsInChildrenRecursivelyWithoutTheParent(children);
+                child.GetComponentsInChildrenWithoutParent(children);
                 if (child.TryGetComponent(out T tChild))
                 {
                     children.Add(tChild);
@@ -66,29 +67,6 @@ namespace Project.Extensions
             }
 
             return children;
-        }
-
-        public static bool TryGetComponentInChildren<T>(this Transform transform, out T component)
-        {
-            Queue<Transform> queue = new Queue<Transform>();
-            queue.Enqueue(transform);
-            while (queue.Count != 0)
-            {
-                Transform tempNode = queue.Dequeue();
-                if (tempNode.TryGetComponent(out T tChild))
-                {
-                    component = tChild;
-                    return true;
-                }
-
-                for (int i = 0; i < tempNode.childCount; i++)
-                {
-                    queue.Enqueue(tempNode.GetChild(i));
-                }
-            }
-
-            component = default;
-            return false;
         }
         
         public static void DestroyChildren(this GameObject gameObject)
@@ -299,6 +277,54 @@ namespace Project.Extensions
 #else
                     unityEvent.RemoveListener(call);
 #endif
+        }
+
+
+        public static List<UnityAction> CopyPersistentEvents(this UnityEvent source)
+        {
+            List<UnityAction> actions = new List<UnityAction>();
+            
+            for (int i = 0; i < source.GetPersistentEventCount(); i++)
+            {
+                Object target = source.GetPersistentTarget(i);
+                string methodName = source.GetPersistentMethodName(i);
+                Debug.Log("Target: " + target + " MethodName: " + methodName);
+
+                MethodInfo methodInfo = UnityEventBase.GetValidMethodInfo(target, methodName, null);
+                
+                UnityAction execute = Delegate.CreateDelegate(typeof(UnityAction), methodInfo) as UnityAction;
+                 
+                actions.Add(execute);
+            }
+
+            return actions;
+        }
+        
+        public static void PastePersistentEvents(this UnityEvent target, List<UnityAction> actions)
+        {
+            for (int i = 0; i < actions.Count; i++)
+            {
+                target.AddListenerExtended(actions[i]);
+            }
+            
+            for (int i = 0; i < actions.Count; i++)
+            {
+                // if (target.GetPersistentEventCount() == 0)
+                // {
+                //     UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(target, events[i]);
+                //     UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(target.gameObject.scene);
+                // }
+                // else
+                // {
+                //     UnityEditor.Events.UnityEventTools.RegisterVoidPersistentListener(target, 0, events[i]);
+                //     UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(target.gameObject.scene);
+                // }
+            }
+        }
+        
+        public static void CopyPastePersistentEvents(this UnityEvent from, UnityEvent to)
+        {
+            to.PastePersistentEvents(from.CopyPersistentEvents());
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -18,15 +19,30 @@ namespace Project
         [ClearOnReload(assignNewTypeInstance: true)] private static readonly List<int> _commonTeamIndex = new List<int>((int)TeamManager.MAX_TEAM);
         #endif
 
-        
+
+        private void Awake()
+        {
+            UserInstance.OnSpawned += OnClientStarted_UpdateUi;
+            UserInstance.OnDespawned += OnClientStarted_UpdateUi;
+        }
+
         private void Start()
         {
             CheckTeamIndexValidity();
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            UserInstance.OnSpawned -= OnClientStarted_UpdateUi;
+            UserInstance.OnDespawned -= OnClientStarted_UpdateUi;
+        }
+
         public override void OnNetworkSpawn()
         {
-            TeamManager.instance.onTeamSetEvent += OnTeamSet_UpdateButtonText;
+            
+            TeamManager.instance.onTeamSet += OnTeamSet_UpdateButtonText;
 
             // Because right now in testing this network spawn might fired first, we have a null ref on our UserInstance.
             // But in the final game, the UserInstance will be the first thing ever fired in the network (normally)
@@ -50,7 +66,7 @@ namespace Project
         {
             if (TeamManager.IsInstanceAlive())
             {
-                TeamManager.instance.onTeamSetEvent -= OnTeamSet_UpdateButtonText;
+                TeamManager.instance.onTeamSet -= OnTeamSet_UpdateButtonText;
             }
 
             if (UserInstance.Me != null)
@@ -58,12 +74,18 @@ namespace Project
                 UserInstance.Me._networkIsReady.OnValueChanged -= OnPlayerReady_UpdateButtonTextColor;
             }   
         }
+        
+        private void OnValidate()
+        {
+            _pcButtonText.text = TeamManager.DEFAULT_PC_SLOT_TEXT;
+            _mobileButtonText.text = TeamManager.DEFAULT_MOBILE_SLOT_TEXT;
+        }
 
         private void CheckTeamIndexValidity()
         {
             if (TeamManager.instance.IsTeamIndexValid(_teamIndex) == false)
             {
-                Debug.LogError("Team index is invalid");
+                Debug.LogError("Team index is invalid : " + _teamIndex);
             }
 
             #if UNITY_EDITOR
@@ -84,7 +106,7 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SetTeamServerRpc(int teamIndex, ulong ownerClientId)
         {
-            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance((int)ownerClientId);
+            UserInstance userInstance = UserInstanceManager.instance.GetUserInstance((int)ownerClientId); 
             if (userInstance == null)
             {
                 Debug.LogError("User instance is null");
@@ -112,11 +134,33 @@ namespace Project
         [ClientRpc]
         private void UpdatePcButtonTextClientRpc(string clientName)
         {
+            UpdatePcButtonTextLocal(clientName);
+        }
+        
+        [ClientRpc]
+        private void UpdatePcButtonTextClientRpc(string clientName, ClientRpcParams clientRpcParams)
+        {
+            UpdatePcButtonTextLocal(clientName);
+        }
+
+        private void UpdatePcButtonTextLocal(string clientName)
+        {
             _pcButtonText.text = clientName;
         }
 
         [ClientRpc]
         private void UpdateMobileButtonTextClientRpc(string clientName)
+        {
+            UpdateMobileButtonTextLocal(clientName);
+        }
+        
+        [ClientRpc]
+        private void UpdateMobileButtonTextClientRpc(string clientName, ClientRpcParams clientRpcParams)
+        {
+            UpdateMobileButtonTextLocal(clientName);
+        }
+        
+        private void UpdateMobileButtonTextLocal(string clientName)
         {
             _mobileButtonText.text = clientName;
         }
@@ -129,6 +173,8 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void OnPlayerReady_UpdateButtonTextColorServerRpc(int clientId, bool readyState)
         {
+            if (_teamIndex == TeamManager.UNASSIGNED_TEAM_INDEX) return;
+            
             TeamData teamData = TeamManager.instance.GetTeamData(_teamIndex);
 
             if (teamData.pcPlayerOwnerClientId == clientId)
@@ -144,6 +190,17 @@ namespace Project
         [ClientRpc]
         private void UpdatePcButtonTextColorClientRpc(int teamIndex, bool state)
         {
+            UpdatePcButtonTextColorLocal(teamIndex, state);
+        }
+        
+        [ClientRpc]
+        private void UpdatePcButtonTextColorClientRpc(int teamIndex, bool state, ClientRpcParams clientRpcParams)
+        {
+            UpdatePcButtonTextColorLocal(teamIndex, state);
+        }
+
+        private void UpdatePcButtonTextColorLocal(int teamIndex, bool state)
+        {
             if (teamIndex != _teamIndex) return;
          
             _pcButtonText.color = state ? Color.green : Color.black;
@@ -152,9 +209,68 @@ namespace Project
         [ClientRpc]
         private void UpdateMobileButtonTextColorClientRpc(int teamIndex, bool state)
         {
+            UpdateMobileButtonTextColorLocal(teamIndex, state);
+        }
+        
+        [ClientRpc]
+        private void UpdateMobileButtonTextColorClientRpc(int teamIndex, bool state, ClientRpcParams clientRpcParams)
+        {
+            UpdateMobileButtonTextColorLocal(teamIndex, state);
+        }
+        
+        private void UpdateMobileButtonTextColorLocal(int teamIndex, bool state)
+        {
             if (teamIndex != _teamIndex) return;
             
             _mobileButtonText.color = state ? Color.green : Color.black;
+        }
+        
+        private void OnClientStarted_UpdateUi(UserInstance userInstance)
+        {
+            ulong clientId = userInstance.OwnerClientId;
+            
+            if (!IsServer) return;
+            
+            Debug.Log("OnClientStarted_UpdateUi : " + userInstance.IsMobile);
+            
+            ClientRpcParams sendParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new[] { clientId }
+                }
+            };
+
+            if (_teamIndex == TeamManager.UNASSIGNED_TEAM_INDEX)
+            {
+                var unassignedUserInstances = UserInstanceManager.instance.All().Where(x => x.Team == TeamManager.UNASSIGNED_TEAM_INDEX).ToArray();
+                
+                string pcPlayersName = string.Join(" / ", unassignedUserInstances.Where(x => x.IsMobile == false).Select(x => x.PlayerName));
+                if (string.IsNullOrEmpty(pcPlayersName)) pcPlayersName = TeamManager.DEFAULT_PC_SLOT_TEXT;
+                
+                string mobilePlayersName = string.Join(" / ", unassignedUserInstances.Where(x => x.IsMobile).Select(x => x.PlayerName));
+                if (string.IsNullOrEmpty(mobilePlayersName)) mobilePlayersName = TeamManager.DEFAULT_MOBILE_SLOT_TEXT;
+                
+                UpdatePcButtonTextClientRpc(pcPlayersName);
+                UpdateMobileButtonTextClientRpc(mobilePlayersName);
+                
+                return;
+            }
+            
+            TeamData teamData = TeamManager.instance.GetTeamData(_teamIndex);
+            if (teamData.TryGetUserInstance(PlayerPlatform.Pc, out userInstance))
+            {
+                UpdatePcButtonTextClientRpc(userInstance.PlayerName, sendParams);
+                if (userInstance.IsReady) UpdatePcButtonTextColorClientRpc(_teamIndex, true, sendParams);
+            }
+            else UpdatePcButtonTextClientRpc(TeamManager.DEFAULT_PC_SLOT_TEXT, sendParams);
+
+            if (teamData.TryGetUserInstance(PlayerPlatform.Mobile, out userInstance))
+            {
+                UpdateMobileButtonTextClientRpc(userInstance.PlayerName, sendParams);
+                if (userInstance.IsReady) UpdateMobileButtonTextColorClientRpc(_teamIndex, true, sendParams);
+            }
+            else UpdateMobileButtonTextClientRpc(TeamManager.DEFAULT_MOBILE_SLOT_TEXT, sendParams);
         }
     }
 }

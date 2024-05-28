@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Project.Extensions;
+using Project.Scripts.UIFramework;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,41 +18,38 @@ namespace Project._Project.Scripts.UI.Settings
     {
 
 #if UNITY_EDITOR
-        [ShowInInspector, HideIf("@gameplaySettings == null")] private bool value
-        {
-            get => gameplaySettings is { value: true };
-            // ReSharper disable once ValueParameterNotUsed
-            set => ToggleState();
-        }
+        [ShowInInspector, HideIf("@gameplaySettings == null")] private bool value => gameplaySettings is { value: true };
 #endif
 
-        [SerializeField, HideInInspector] private string key;
+        [SerializeField, HideInInspector] private string _key;
         [HideInInspector] public GameplaySettings gameplaySettings;
         [ClearOnReload] private static IEnumerable<GameplaySettings> _gameplaySettingsFields;
 
-        [SerializeField, Required] private Button _button;
+        [SerializeField, Required] private ToggleButton _toggleButton;
 
 
-        private void Start()
+        private IEnumerator Start()
         {
             LinkReference();
+            // Be sure to execute after the ToggleButton Start method
+            yield return null;
+            _toggleButton.SetToggle(gameplaySettings.value);
         }
 
         private void OnEnable()
         {
-            _button.onClick.AddListenerExtended(ToggleState);
+            _toggleButton._onToggle.AddListenerExtended(SetValue);
         }
         
         private void OnDisable()
         {
-            _button.onClick.RemoveListenerExtended(ToggleState);
+            _toggleButton._onToggle.RemoveListenerExtended(SetValue);
         }
 
 
-        private void ToggleState()
+        private void SetValue(bool state)
         {
-            gameplaySettings.value = !gameplaySettings.value;
-            Debug.Log(gameplaySettings.value);
+            gameplaySettings.value = state;
         }
 
         private void LinkReference()
@@ -65,7 +64,7 @@ namespace Project._Project.Scripts.UI.Settings
                     .Cast<GameplaySettings>();
             }
 
-            gameplaySettings = _gameplaySettingsFields.First(x => x.key == key);
+            gameplaySettings = _gameplaySettingsFields.First(x => x.key == _key);
         }
     }
 
@@ -120,7 +119,7 @@ namespace Project._Project.Scripts.UI.Settings
             
             t.gameplaySettings = _gameplaySettingsContainers[index];
 
-            var keySerialized = serializedObject.FindProperty("key");
+            var keySerialized = serializedObject.FindProperty("_key");
             keySerialized.stringValue = _key;
             serializedObject.ApplyModifiedProperties(); 
         }
