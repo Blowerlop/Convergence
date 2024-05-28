@@ -1,3 +1,4 @@
+using System;
 using Project.Spells;
 using Unity.Netcode;
 using Unity.Netcode.Components;
@@ -30,6 +31,8 @@ namespace Project
         public ChannelingController Channeling => channeling;
         
         public Animator Animator => _networkAnimator.Animator;
+
+        public event Action<int> OnTeamChangedCallback;
         
         /// <returns>
         /// PCPlayerRefs linked to this PlayerRefs.
@@ -72,7 +75,7 @@ namespace Project
             _assignedTeam.Value = team;
         }
 
-        protected virtual void OnTeamChanged(int oldValue, int newValue) { }
+        protected virtual void OnTeamChanged(int oldValue, int newValue) { OnTeamChangedCallback?.Invoke(newValue); }
         
         protected virtual void OnOwnerChanged(int oldId, int newId)
         {

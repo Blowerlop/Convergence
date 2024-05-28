@@ -9,6 +9,14 @@ namespace Project
     {
         [SerializeField] private bool getFromUserInstance = true;
         [SerializeField, HideIf(nameof(getFromUserInstance))] private PlayerRefs refs;
+
+        [SerializeField] private bool useColors;
+        
+        [SerializeField, FoldoutGroup("Ally"), ShowIf(nameof(useColors))] 
+        private Color allyMainColor, allySecondColor;
+        
+        [SerializeField, FoldoutGroup("Enemy"), ShowIf(nameof(useColors))] 
+        private Color enemyMainColor, enemySecondColor;
         
         private PlayerStats _stats;
         
@@ -17,7 +25,16 @@ namespace Project
             if (NetworkManager.Singleton is { IsClient: false }) return;
             
             if (getFromUserInstance) UserInstance.Me.OnPlayerLinked += Setup;
-            else Setup(refs);
+            else
+            {
+                Setup(refs);
+
+                if (useColors)
+                {
+                    HandleColors(refs.TeamIndex);
+                    refs.OnTeamChangedCallback += HandleColors;
+                }
+            }
             
             SetFillAmount(1);
         }
@@ -28,6 +45,9 @@ namespace Project
             
             if (getFromUserInstance && UserInstance.Me != null) 
                 UserInstance.Me.OnPlayerLinked -= Setup;
+            
+            if (useColors)
+                refs.OnTeamChangedCallback -= HandleColors;
             
             if (!_stats) return;
             
@@ -57,6 +77,22 @@ namespace Project
         {
             Debug.Log($"Current Value: {currentValue}, Max Value: {maxValue}");
             SetFillAmount(currentValue, maxValue);
+        }
+
+        private void HandleColors(int teamIndex)
+        {
+            if (!useColors) return;
+            
+            var isAlly = refs.TeamIndex == UserInstance.Me.Team;
+            
+            if (isAlly) SetColors(allyMainColor, allySecondColor);
+            else SetColors(enemyMainColor, enemySecondColor);
+        }
+
+        private void SetColors(Color c0, Color c1)
+        {
+            _fillImage.color = c0;
+            secondFillImage.color = c1;
         }
     }
 }

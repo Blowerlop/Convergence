@@ -146,8 +146,8 @@ GameObject:
   - component: {fileID: 771994606278554353}
   - component: {fileID: 6668862004940039620}
   - component: {fileID: 3705793926388020439}
-  m_Layer: 6
-  m_Name: Canvas
+  m_Layer: 8
+  m_Name: World_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,8 +312,8 @@ GameObject:
   - component: {fileID: 2037699060962005493}
   - component: {fileID: 3414953063987298225}
   - component: {fileID: 3948040592546437085}
-  m_Layer: 6
-  m_Name: Image
+  m_Layer: 8
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,6 +399,11 @@ MonoBehaviour:
   _fillEase: 7
   getFromUserInstance: 0
   refs: {fileID: 6215435937847373130}
+  useColors: 1
+  allyMainColor: {r: 0.227451, g: 0.73333335, b: 0.08627451, a: 1}
+  allySecondColor: {r: 0.8313726, g: 0.19215688, b: 0.21568629, a: 1}
+  enemyMainColor: {r: 0.73333335, g: 0.12810192, b: 0.086274505, a: 1}
+  enemySecondColor: {r: 0.83137256, g: 0.6694268, b: 0.19215682, a: 1}
 --- !u!1 &2007026922932564193
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,8 +497,8 @@ GameObject:
   - component: {fileID: 7447548054985564050}
   - component: {fileID: 5838409783275294817}
   - component: {fileID: 9125878129049865671}
-  m_Layer: 6
-  m_Name: Image (1)
+  m_Layer: 8
+  m_Name: SecondFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -601,8 +606,8 @@ GameObject:
   - component: {fileID: 1429356678960105435}
   - component: {fileID: 8549515186378816124}
   - component: {fileID: 7376111215819400221}
-  m_Layer: 6
-  m_Name: Image
+  m_Layer: 8
+  m_Name: MainFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -801,7 +806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2134523557
+  GlobalObjectIdHash: 3084006248
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
