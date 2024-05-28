@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 namespace Project
 {
@@ -136,5 +134,20 @@ namespace Project
                 OnAllPlayersReady?.Invoke();
             }
         }
+
+        #if UNITY_EDITOR
+        
+        [ConsoleCommand("spawn_dummy", "Spawns a dummy at position 5, 0, 5.")]
+        public static void DebugSpawnDummy()
+        {
+            var dummy = Resources.FindObjectsOfTypeAll<Dummy>();
+            
+            if (dummy.Length > 0)
+            {
+                Instantiate(dummy[0], new Vector3(5, 0, 5), Quaternion.identity).GetComponent<NetworkObject>().Spawn();
+            }
+        }
+        
+        #endif
     }
 }
