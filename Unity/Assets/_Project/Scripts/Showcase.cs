@@ -1,4 +1,5 @@
-using System;
+using System.Globalization;
+using System.Linq;
 using Project.Extensions;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -17,6 +18,10 @@ namespace Project
         [SerializeField] private Image _spell2;
         [SerializeField] private Image _spell3;
         [SerializeField] private Image _spell4;
+        [SerializeField] private TMP_Text _damage;
+        [SerializeField] private TMP_Text _speed;
+        [SerializeField] private TMP_Text _range;
+        [SerializeField] private TMP_Text _health;
         [SerializeField] private GameObject _previewSpawnPoint;
 
 
@@ -32,6 +37,10 @@ namespace Project
             _spell3.sprite = spells[2].spellIcon;
             _spell4.sprite = spells[3].spellIcon;
             
+            _damage.text = ((AttackDamageStat)_characterData.stats.First(x => x is AttackDamageStat)).value.ToString();
+            _speed.text = ((MoveSpeedStat)_characterData.stats.First(x => x is MoveSpeedStat)).value.ToString();
+            _range.text = ((AttackRangeStat)_characterData.stats.First(x => x is AttackRangeStat)).value.ToString(CultureInfo.InvariantCulture);
+            _health.text = ((HealthStat)_characterData.stats.First(x => x is HealthStat)).maxValue.ToString();
             
             UnityEditor.EditorApplication.delayCall+=()=>
             {
@@ -39,6 +48,12 @@ namespace Project
                 var modelInstance = Instantiate(_characterData.model, Vector3.zero, Quaternion.identity, _previewSpawnPoint.transform);
                 modelInstance.GetComponentsInChildren<Transform>().ForEach(x => x.gameObject.layer = Constants.Layers.EntityIndex); 
             };
+        }
+
+        public void UpdateData(SOCharacter characterData)
+        {
+            _characterData = characterData;
+            OnValidate();
         }
     }
 }
