@@ -30,7 +30,8 @@ namespace Project
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
         public PlayerMouse PlayerMouse => _playerMouse;
         public MovementController MovementCOntroller => _movementController;
-        
+
+        public SpellCastController SpellCastController => spellCastController; 
         public InCastController InCastController => inCastController;
         
         public EmoteController EmoteController => emoteController;

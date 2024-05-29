@@ -54,22 +54,22 @@ MonoBehaviour:
     - rid: 8967663378920636439
       type: {class: HealthStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 100
-        _value: 100
+        _defaultValue: 2300
+        _value: 2300
         _minValue: 0
-        _maxValue: 100
+        _maxValue: 2300
     - rid: 8967663378920636440
       type: {class: AttackDamageStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 20
-        _value: 20
+        _defaultValue: 50
+        _value: 70
         _minValue: 0
-        _maxValue: 50
+        _maxValue: 150
     - rid: 8967663378920636441
       type: {class: AttackRangeStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 13
-        _value: 13
+        _defaultValue: 11
+        _value: 11
         _minValue: 0
         _maxValue: 30
     - rid: 8967663378920636442
