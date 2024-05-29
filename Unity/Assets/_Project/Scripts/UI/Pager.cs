@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Project.Extensions;
 using Sirenix.OdinInspector;
@@ -70,11 +71,9 @@ namespace Project
 
             if (crossFadePages)
             {
-                CrossFadePages();   
+                CrossFadePages();
             }
-
-            // GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-            GoToPage(_currentPageIndex);
+            else ChangePageVisualBehaviour(); 
         }
 
         [Button]
@@ -102,9 +101,7 @@ namespace Project
             {
                 CrossFadePages();
             }
-            
-            // GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-            GoToPage(_currentPageIndex);
+            else ChangePageVisualBehaviour();
         }
 
         [Button]
@@ -132,11 +129,6 @@ namespace Project
                     _pages.Add(new Page(childrenCanvasGroup.name, childrenCanvasGroup, i));
                 }
             }
-
-            if (crossFadePages)
-            {
-                CrossFadePages();
-            }
             
             Debug.Log("Pager refreshed !");
         }
@@ -150,14 +142,6 @@ namespace Project
                 if (GetPage(i).canvasGroup == canvasGroup)
                 {
                     GoToPage(i);
-                    // _previousPageIndex = _currentPageIndex;
-                    // _currentPageIndex = i;
-                    //
-                    // GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
-                    // if (crossFadePages)
-                    // {
-                    //     CrossFadePages();
-                    // }
                     break;
                 }
             }
@@ -178,10 +162,12 @@ namespace Project
 
                     GetPage(_previousPageIndex).onPageUnSelectedEvent.Invoke();
                     GetPage(_currentPageIndex).onPageSelectedEvent.Invoke();
+                    
                     if (crossFadePages)
                     {
                         CrossFadePages();
                     }
+                    else ChangePageVisualBehaviour();
                     break;
                 }
             }
