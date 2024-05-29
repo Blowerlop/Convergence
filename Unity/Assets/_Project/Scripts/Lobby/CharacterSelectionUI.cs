@@ -13,6 +13,7 @@ namespace Project
 
         [SerializeField, Required] private Image _image;
         [SerializeField, Required] private TMP_Text _name;
+        [SerializeField, Required] private Showcase _showcase;
 
         [ClearOnReload, ShowInInspector] private static int _characterSelectedId;
 
@@ -29,7 +30,10 @@ namespace Project
 
         public void SelectCharacter()
         {
+            if (_characterSelectedId == _characterData.id) return;
+            
             _characterSelectedId = _characterData.id;
+            _showcase.UpdateData(SOCharacter.GetCharacter(_characterSelectedId));
             SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
         }
 

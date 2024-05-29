@@ -52,6 +52,8 @@ namespace Project
 
         public void UpdateData(SOCharacter characterData)
         {
+            if (characterData == _characterData) return;
+            
             _characterData = characterData;
             OnValidate();
         }
