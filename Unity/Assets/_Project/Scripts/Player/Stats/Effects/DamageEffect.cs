@@ -42,10 +42,18 @@ namespace Project.Effects
                 default:
                     return false;
             }
-                
+
+            if (HealthTextPool.instance)
+            {
+                var dir = entity.transform.position - applier.transform.position;
+                dir.y = 0;
+                dir.Normalize();
+            
+                HealthTextPool.instance.RequestText(-amount, effectable.AffectedEntity.transform, dir);
+            }
+
             entity.Damage(amount);
             return true;
-
         }
 
         public override void KillEffect() { }
