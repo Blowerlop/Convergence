@@ -1,22 +1,17 @@
 using Cysharp.Threading.Tasks;
-using FMODUnity;
 using Project._Project.Scripts;
 using Project.Spells;
 using Project.Spells.Casters;
-using Sirenix.OdinInspector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.TextCore.Text;
 
 namespace Project
 {
-    public class TutorialSequencer : MonoBehaviour
+    public class TutorialSequencer : MonoSingleton<MonoBehaviour>
     {
 
         #region Public
@@ -35,26 +30,34 @@ namespace Project
         PCPlayerRefs PcRefs;
         Canvas SpellCanvas; 
         [SerializeField] Dummy tutorialDummy;
+        [SerializeField] TextMeshProUGUI subtitleTmp;
 
         const int timeOutDelay = 5000; 
         #endregion
 
         private void Start()
         {
-            AudioHelper.OnTimestampReached += ReactToMessage; 
+            AudioHelper.OnTimestampReached += ReactToMessage;
+            Subtitle.OnWrite += UpdateSubtitleText;
             _ = PlayTutorial();
         }
 
         private void OnDestroy()
         {
-            AudioHelper.OnTimestampReached -= ReactToMessage; 
+            AudioHelper.OnTimestampReached -= ReactToMessage;
+            Subtitle.OnWrite += UpdateSubtitleText;
         }
         async UniTask PlayTutorial()
         {
             await LoadTutorialScene();
 
             //Intro
+            Subtitle.StartWriting(null, "Welcome to Convergence ! I'm going to guide you through the game mechanics." +
+                "This game is played in pairs, a PC player represented by the Ranger, and a Mobile Player represented by the Fairy." +
+                "As a PC Player, you have the major role of controlling movements and attacks. The Mobile Player will act as a support," +
+                " but you'll be in charge of all the moves.");
             await audioHelper.PlayAsync("Introduction", gameObject.GetCancellationTokenOnDestroy());
+            
 
             await CheckMovementSequence();
 
@@ -62,13 +65,19 @@ namespace Project
 
             await CheckSpellSequence();
 
+            Subtitle.StartWriting(null, "Currently the camera is locked on your character by default. To lock or unlock your camera, double tap on your spacebar.");
             await audioHelper.PlayAsync("Camera", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.Delay(1500);
 
+            Subtitle.StartWriting(null, "A round is won when you manage to reduce your opponent's health point to 0. A game ends when a team has won two rounds.");
+
             await audioHelper.PlayAsync("WinCond", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.Delay(1500);
+
+            Subtitle.StartWriting(null, "You now have all the information you need to fight. This tutorial has only introduced you to one character, " +
+                "don't hesitate to try the others and train your synergy with your mobile ally.");
 
             await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
         }
@@ -78,6 +87,8 @@ namespace Project
 
         async UniTask CheckSpellSequence()
         {
+            Subtitle.StartWriting(null, "Each character has 4 unique spells. Try them out on the dummy as much as you like. Hover over the spells to" +
+                " read informations on them.");
             await audioHelper.PlayAsync("Spell", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.Delay(1500);
@@ -91,6 +102,7 @@ namespace Project
 
         async UniTask CheckAttackSequence()
         {
+            Subtitle.StartWriting(null, "Great ! To attack, use your right mouse button while aiming at an opponent. Try to attack the dummy. ");
             await audioHelper.PlayAsync("Attack", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => userInstance.LinkedPlayer.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
@@ -118,6 +130,7 @@ namespace Project
 
         async UniTask CheckMovementSequence()
         {
+            Subtitle.StartWriting(null, "To move, use the right click button. Try to move to the highlighted points. ");
             await audioHelper.PlayAsync("Movement", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => (userInstance.LinkedPlayer.transform.position - tutorialMvtCheck.position).sqrMagnitude < 5f);
@@ -197,25 +210,13 @@ namespace Project
             userInstance.SetCharacter(characterId);
         }
 
-        
+
         #endregion
 
-        #region Utility
-
-        async UniTask PlaySoundAsync(StudioEventEmitter eventEmitter)
+        void UpdateSubtitleText(string currentPhrase)
         {
-
-            eventEmitter.Play();
-
-            while (eventEmitter.IsPlaying())
-            {
-                await UniTask.Yield();
-            }
-
-            eventEmitter.gameObject.SetActive(false);
+            subtitleTmp.text = currentPhrase;
         }
-
-        #endregion
 
         void ReactToMessage(string message)
         {
