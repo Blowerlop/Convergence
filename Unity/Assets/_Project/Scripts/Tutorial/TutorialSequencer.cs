@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using FMODUnity;
 using Project._Project.Scripts;
+using Project.Spells;
 using Project.Spells.Casters;
 using Sirenix.OdinInspector;
 using System;
@@ -19,9 +20,10 @@ namespace Project
     {
 
         #region Public
-        public GameObject MobilePlayer; 
+        public AudioHelper audioHelper; 
+        public GameObject MobilePlayer;
+        public GameObject coneGO; 
         public Transform tutorialMvtCheck;
-        public StudioEventEmitter[] fmodEmitterList; 
         #endregion
 
 
@@ -31,33 +33,28 @@ namespace Project
         CancellationTokenSource cts;
         UserInstance userInstance;
         PCPlayerRefs PcRefs;
+        Canvas SpellCanvas; 
         [SerializeField] Dummy tutorialDummy;
 
         const int timeOutDelay = 5000; 
         #endregion
 
-       
-
-
         private void Start()
         {
+            AudioHelper.OnTimestampReached += ReactToMessage; 
             _ = PlayTutorial();
         }
-        bool testc;
 
-        private void Update()
+        private void OnDestroy()
         {
-            if(testc)
-            {
-                
-            }
+            AudioHelper.OnTimestampReached -= ReactToMessage; 
         }
         async UniTask PlayTutorial()
         {
             await LoadTutorialScene();
 
             //Intro
-            await PlaySoundAsync(fmodEmitterList[0]);
+            await audioHelper.PlayAsync("Introduction", gameObject.GetCancellationTokenOnDestroy());
 
             await CheckMovementSequence();
 
@@ -65,9 +62,15 @@ namespace Project
 
             await CheckSpellSequence();
 
-            await PlaySoundAsync(fmodEmitterList[5]);
+            await audioHelper.PlayAsync("Camera", gameObject.GetCancellationTokenOnDestroy());
 
-            await PlaySoundAsync(fmodEmitterList[6]);
+            await UniTask.Delay(1500);
+
+            await audioHelper.PlayAsync("WinCond", gameObject.GetCancellationTokenOnDestroy());
+
+            await UniTask.Delay(1500);
+
+            await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
         }
 
 
@@ -75,10 +78,10 @@ namespace Project
 
         async UniTask CheckSpellSequence()
         {
-            await PlaySoundAsync(fmodEmitterList[3]);
+            await audioHelper.PlayAsync("Spell", gameObject.GetCancellationTokenOnDestroy());
 
-            SpellCastController temp = PcRefs.gameObject.AddComponent<SpellCastController>();
-            temp.Init(PcRefs);
+            await UniTask.Delay(1500);
+
             Debug.Log("<color=Yellow> Spell OK </color>");
         }
 
@@ -88,25 +91,34 @@ namespace Project
 
         async UniTask CheckAttackSequence()
         {
-            await PlaySoundAsync(fmodEmitterList[2]);
-
-            SpawnDummy();
+            await audioHelper.PlayAsync("Attack", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => userInstance.LinkedPlayer.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
 
+            coneGO.SetActive(false);
+
+            await UniTask.Delay(1500);
 
             Debug.Log("<color=Yellow> Attack OK </color>");
         }
 
+        void SpawnDummy()
+        {
+            tutorialDummy = Instantiate(tutorialDummy, new Vector3(5, 0, 5), Quaternion.identity);
+            tutorialDummy.GetComponent<NetworkObject>().Spawn();
+
+            coneGO.SetActive(true);
+            coneGO.transform.SetParent(tutorialDummy.transform);
+            coneGO.transform.localScale = 0.2f * Vector3.one;
+            coneGO.transform.localPosition = new Vector3(0, 2f, 0);
+        }
         #endregion
 
         #region Tuto Movement
 
         async UniTask CheckMovementSequence()
         {
-            await PlaySoundAsync(fmodEmitterList[1]);
-
-            tutorialMvtCheck.gameObject.SetActive(true);
+            await audioHelper.PlayAsync("Movement", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => (userInstance.LinkedPlayer.transform.position - tutorialMvtCheck.position).sqrMagnitude < 5f);
             
@@ -153,6 +165,8 @@ namespace Project
                 //Disable Spells
                 PcRefs = (PCPlayerRefs)userInstance.LinkedPlayer;
                 Destroy(PcRefs.SpellCastController);
+                SpellCanvas = FindObjectOfType<SpellUI>().transform.root.GetComponent<Canvas>() ;
+                SpellCanvas.enabled = false;
 
 
                 Debug.Log("<color=Yellow> Loading Tutorial OK </color>");
@@ -183,18 +197,16 @@ namespace Project
             userInstance.SetCharacter(characterId);
         }
 
-        void SpawnDummy()
-        {
-            tutorialDummy = Instantiate(tutorialDummy, new Vector3(5, 0, 5), Quaternion.identity);
-            tutorialDummy.GetComponent<NetworkObject>().Spawn();
-        }
+        
         #endregion
 
         #region Utility
 
         async UniTask PlaySoundAsync(StudioEventEmitter eventEmitter)
         {
-            eventEmitter.gameObject.SetActive(true);
+
+            eventEmitter.Play();
+
             while (eventEmitter.IsPlaying())
             {
                 await UniTask.Yield();
@@ -205,6 +217,42 @@ namespace Project
 
         #endregion
 
+        void ReactToMessage(string message)
+        {
 
+            switch (message)
+            {
+                case "PCPlayerIndication":
+                    coneGO.SetActive(true);
+                    coneGO.transform.SetParent(PcRefs.transform);
+                    coneGO.transform.localScale = 0.4f * Vector3.one;
+                    coneGO.transform.localPosition = new Vector3(0, 5.49f, 0);
+                    break;
+                case "MobilePlayerIndication":
+                    coneGO.transform.SetParent(MobilePlayer.transform);
+                    coneGO.transform.localScale = 0.2f * Vector3.one;
+                    coneGO.transform.localPosition = new Vector3(0, 2f, 0);
+                    break;
+                case "HideCone":
+                    coneGO.SetActive(false);
+                    break;
+                case "HighlightMovement":
+                    tutorialMvtCheck.gameObject.SetActive(true);
+                    break;
+                case "SpawnDummy":
+                    SpawnDummy();
+                    break;
+                case "EnableSpells":
+                    SpellCanvas.enabled = true;
+                    PcRefs.gameObject.AddComponent<SpellCastController>().Init(PcRefs);
+                    break;
+                case "ZeroHealth":
+                    break;
+                case "RoundWin":
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
