@@ -17,9 +17,11 @@ namespace Project
         private Camera _camera;
         public NetworkObject targetNetworkObject;
         private bool _isAttacking;
-        private IDamageable _damageable;
+        private IEffectable _effectable;
         private bool _isRanged;
         private SOProjectile _projectileData;
+        
+        private DamageEffect _cachedDamageEffect;
         
         private void Awake()
         {
@@ -135,16 +137,16 @@ namespace Project
 
             if (IsInRange(targetNetworkObject.transform.position) == false) return;
 
-            IDamageable damageable = targetNetworkObject.GetComponentInChildren<IDamageable>();
+            IEffectable effectable = targetNetworkObject.GetComponentInChildren<IEffectable>();
 
             if (_playerRefs.StateMachine.CanChangeStateTo<AttackState>())
             {
-                StartAttack(targetNetworkObject.transform.position, damageable);
+                StartAttack(targetNetworkObject.transform.position, effectable);
             }
         }
 
         [Server]
-        private void StartAttack(Vector3 targetPosition, IDamageable damageable)
+        private void StartAttack(Vector3 targetPosition, IEffectable effectable)
         {
             _isAttacking = true;
             _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
@@ -152,7 +154,7 @@ namespace Project
             _playerRefs.PlayerTransform.rotation =
                 Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
                     .normalized);
-            _damageable = damageable;
+            _effectable = effectable;
         }
 
         // Ca ne se passe pas bien dans l'animator si on ne skip pas une frame :)
@@ -175,23 +177,23 @@ namespace Project
         }
 
         [Server]
-        public void Hit(IDamageable damageable)
+        public void Hit(IEffectable effectable)
         {
-            damageable.Damage(_playerRefs.Entity.Stats.Get<AttackDamageStat>().value);
-            
-            if(damageable is IEffectable hitEffectable)
-            {
-                IEffectable ownEffectable = _playerRefs.Entity;
+            IEffectable ownEffectable = _playerRefs.Entity;
                 
-                for (int i = ownEffectable.AppliedEffects.Count - 1; i >= 0; i--)
-                {
-                    var effect = ownEffectable.AppliedEffects[i];
-                    if (effect is not NextAutoEffect nextAutoEffect) continue;
+            for (int i = ownEffectable.AppliedEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = ownEffectable.AppliedEffects[i];
+                if (effect is not NextAutoEffect nextAutoEffect) continue;
                     
-                    nextAutoEffect.TryApplyChildEffects(hitEffectable, _playerRefs);
-                    nextAutoEffect.KillEffect();
-                }
+                nextAutoEffect.TryApplyChildEffects(effectable, _playerRefs);
+                nextAutoEffect.KillEffect();
             }
+
+            _cachedDamageEffect ??= new DamageEffect();
+            _cachedDamageEffect.DamageAmount = _playerRefs.Entity.Stats.Get<AttackDamageStat>().value;
+            
+            _cachedDamageEffect.TryApply(effectable, _playerRefs, _playerRefs.PlayerTransform.position);    
             
             if (_isRanged == false) StartCoroutine(EndAttack());
         }
@@ -214,7 +216,7 @@ namespace Project
             }
             else
             {
-                Hit(_damageable);
+                Hit(_effectable);
             }
 
         }

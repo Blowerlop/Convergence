@@ -46,6 +46,9 @@ namespace Project._Project.Scripts
             
             SilenceChanged(false, _isSilenced.Value);
             _isSilenced.OnValueChanged += SilenceChanged;
+            
+            if (!_stats.isInitialized) _stats.OnStatsInitialized += OnStatsInitialized;
+            else OnStatsInitialized();
         }
 
         public override void OnNetworkDespawn()
@@ -54,6 +57,9 @@ namespace Project._Project.Scripts
             
             _isSilenced.OnValueChanged -= SilenceChanged;
             _isSilenced.Reset();
+            
+            if(_stats is { nHealthStat: not null })
+                _stats.nHealthStat._nValue.OnValueChanged -= OnHealthChanged;
         }
 
         [Server]
@@ -67,6 +73,13 @@ namespace Project._Project.Scripts
             _isInit = true;
         }
         
+        private void OnStatsInitialized()
+        {
+            _stats.OnStatsInitialized -= OnStatsInitialized;
+            
+            _stats.nHealthStat._nValue.OnValueChanged += OnHealthChanged;
+        }
+        
         public void Heal(int modifier)
         {
             _stats.nHealthStat.Value += modifier;
@@ -76,12 +89,38 @@ namespace Project._Project.Scripts
         {
             _stats.nHealthStat.SetToMaxValue();
         }
+        
+        // Can do this with health because we don't need attacker info for the animation
+        public void OnHealthChanged(int oldValue, int newValue)
+        {
+            if (!HealthTextPool.Instance) return;
+            
+            var diff = newValue - oldValue;
+            
+            if(diff >= 0)
+                HealthTextPool.Instance.RequestText(diff, transform, default);
+        }
 
         public void Damage(int modifier)
         {
             CheckForShieldDamage(ref modifier);
             
             _stats.nHealthStat.Value -= modifier;
+        }
+
+        [ClientRpc(Delivery = RpcDelivery.Unreliable)]
+        public void OnDamagedByClientRpc(ushort attackerId, int amount)
+        {
+            if (!HealthTextPool.Instance) return;
+
+            if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attacker))
+                return;
+            
+            var dir = transform.position - attacker.transform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            HealthTextPool.Instance.RequestText(-amount, transform, dir);
         }
 
         private void CheckForShieldDamage(ref int modifier)

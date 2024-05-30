@@ -1,4 +1,5 @@
 using Project._Project.Scripts;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project.Effects
@@ -42,10 +43,12 @@ namespace Project.Effects
                 default:
                     return false;
             }
-                
+
+            if (NetworkManager.Singleton.IsServer)
+                entity.OnDamagedByClientRpc((ushort)applier.NetworkObjectId, amount);
+            
             entity.Damage(amount);
             return true;
-
         }
 
         public override void KillEffect() { }
