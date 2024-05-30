@@ -39,7 +39,7 @@ MonoBehaviour:
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         SlowAmount: -2
-        Duration: 1.5
+        Duration: 3.5
     - rid: 1951814749556572167
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:

@@ -29,8 +29,8 @@ MonoBehaviour:
   effects:
   - rid: 6173595388760555523
   onCasterEffects: []
-  limitRadius: 5
-  zoneRadius: 3
+  limitRadius: 10
+  zoneRadius: 4
   lookAtCenter: 0
   references:
     version: 2
@@ -38,5 +38,5 @@ MonoBehaviour:
     - rid: 6173595388760555523
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        SlowAmount: 10
-        Duration: 2
+        SlowAmount: 15
+        Duration: 3

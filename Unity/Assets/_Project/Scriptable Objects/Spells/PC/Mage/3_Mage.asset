@@ -27,10 +27,16 @@ MonoBehaviour:
   spellIcon: {fileID: 21300000, guid: 6d1ce23f8ee525f4e8c1be74278b7a28, type: 3}
   effects:
   - rid: 1951814709268185091
-  onCasterEffects: []
+  onCasterEffects:
+  - rid: 714726138163757056
   references:
     version: 2
     RefIds:
+    - rid: 714726138163757056
+      type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        SlowAmount: -2
+        Duration: 2
     - rid: 1951814709268185091
       type: {class: ShieldEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
