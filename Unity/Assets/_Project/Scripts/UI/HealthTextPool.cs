@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Project
 {
-    public class HealthTextPool : MonoSingleton<HealthTextPool>
+    public class HealthTextPool : MonoBehaviour
     {
+        public static HealthTextPool Instance { get; private set; }
+        
         [SerializeField] private HealthText healthTextPrefab;
         [SerializeField] private float timeBetweenRequests = 0.1f;
         
@@ -15,6 +17,12 @@ namespace Project
         
         private Coroutine _handleRequestsCoroutine;
 
+        private void Awake()
+        {
+            if (!Instance) Instance = this;
+            else Destroy(gameObject);
+        }
+        
         public void RequestText(int value, Transform parent, Vector3 direction)
         {
             _requests.Enqueue(new Request

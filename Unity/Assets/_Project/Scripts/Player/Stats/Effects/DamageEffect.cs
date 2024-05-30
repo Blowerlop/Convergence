@@ -1,4 +1,5 @@
 using Project._Project.Scripts;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project.Effects
@@ -43,15 +44,9 @@ namespace Project.Effects
                     return false;
             }
 
-            if (HealthTextPool.instance)
-            {
-                var dir = entity.transform.position - applier.transform.position;
-                dir.y = 0;
-                dir.Normalize();
+            if (NetworkManager.Singleton.IsServer)
+                entity.OnDamagedByClientRpc((ushort)applier.NetworkObjectId, amount);
             
-                HealthTextPool.instance.RequestText(-amount, effectable.AffectedEntity.transform, dir);
-            }
-
             entity.Damage(amount);
             return true;
         }
