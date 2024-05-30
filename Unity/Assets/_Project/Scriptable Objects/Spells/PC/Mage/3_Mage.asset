@@ -20,7 +20,7 @@ MonoBehaviour:
   instantiationType: 2
   spellPrefab: {fileID: 0}
   isInstant: 1
-  cooldown: 15
+  cooldown: 18
   channelingTime: 0.75
   castingFlags: 0
   castAnimationDuration: 0
@@ -34,6 +34,6 @@ MonoBehaviour:
     - rid: 1951814709268185091
       type: {class: ShieldEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        ShieldAmount: 350
+        ShieldAmount: 400
         HasDuration: 1
-        Duration: 2.75
+        Duration: 3

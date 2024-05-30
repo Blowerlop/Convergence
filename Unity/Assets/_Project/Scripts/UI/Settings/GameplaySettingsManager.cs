@@ -28,7 +28,7 @@ namespace Project._Project.Scripts.UI.Settings
     
     public static class GameplaySettingsManager
     {
-        // Camera
         public static GameplaySettings useMouse = new GameplaySettings("UseMouse", true);
+        public static GameplaySettings cameraLock = new GameplaySettings("CameraLock", true);
     }   
 }
