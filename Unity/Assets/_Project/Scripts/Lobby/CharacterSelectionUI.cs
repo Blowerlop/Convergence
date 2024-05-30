@@ -15,7 +15,7 @@ namespace Project
         [SerializeField, Required] private TMP_Text _name;
         [SerializeField, Required] private Showcase _showcase;
 
-        [ClearOnReload, ShowInInspector] private static int _characterSelectedId;
+        [ClearOnReload, ShowInInspector, ReadOnly] private static int _characterSelectedId;
 
         [ClearOnReload] public static Action<int, int> onCharacterSelectedEvent;
 
