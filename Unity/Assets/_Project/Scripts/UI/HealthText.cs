@@ -79,6 +79,7 @@ namespace Project
         private void Update()
         {
             if (!_isActive) return;
+            if (_parent == null) return;
             
             var diff = _parent.position - _lastParentPosition;
             
