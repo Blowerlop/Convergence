@@ -8,17 +8,18 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Project
 {
     public class TutorialSequencer : MonoSingleton<MonoBehaviour>
     {
-
         #region Public
         public AudioHelper audioHelper; 
         public GameObject MobilePlayer;
         public GameObject coneGO; 
         public Transform tutorialMvtCheck;
+        public Button SkipTutoButton; 
         #endregion
 
 
@@ -32,11 +33,17 @@ namespace Project
         [SerializeField] Dummy tutorialDummy;
         [SerializeField] TextMeshProUGUI subtitleTmp;
 
-        const int timeOutDelay = 5000; 
-        #endregion
+        const int timeOutDelay = 5000;
 
+        protected override void Awake()
+        {
+            dontDestroyOnLoad = false;
+            base.Awake();
+        }
+        #endregion
         private void Start()
         {
+            SkipTutoButton.onClick.AddListener(QuitTutorial);
             AudioHelper.OnTimestampReached += ReactToMessage;
             Subtitle.OnWrite += UpdateSubtitleText;
             _ = PlayTutorial();
@@ -44,6 +51,7 @@ namespace Project
 
         private void OnDestroy()
         {
+            SkipTutoButton.onClick.RemoveAllListeners();
             AudioHelper.OnTimestampReached -= ReactToMessage;
             Subtitle.OnWrite += UpdateSubtitleText;
         }
@@ -65,7 +73,7 @@ namespace Project
 
             await CheckSpellSequence();
 
-            Subtitle.StartWriting(null, "Currently the camera is locked on your character by default. To lock or unlock your camera, double tap on your spacebar.");
+            Subtitle.StartWriting(null, "Currently the camera is locked on your character by default. To lock or unlock your camera, <color=#e3d044> double tap on your spacebar </color>.");
             await audioHelper.PlayAsync("Camera", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.Delay(1500);
@@ -80,6 +88,18 @@ namespace Project
                 "don't hesitate to try the others and train your synergy with your mobile ally.");
 
             await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
+
+            await UniTask.Delay(1000);
+
+            QuitTutorial();
+
+        }
+
+        
+        public void QuitTutorial()
+        {
+            Netcode_ConnectionManager.Disconnect();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
         }
 
 
@@ -87,8 +107,7 @@ namespace Project
 
         async UniTask CheckSpellSequence()
         {
-            Subtitle.StartWriting(null, "Each character has 4 unique spells. Try them out on the dummy as much as you like. Hover over the spells to" +
-                " read informations on them.");
+            Subtitle.StartWriting(null, "Each character has 4 unique spells. You can use them respectively by pressing the <color=#e3d044>Q, W, E and R </color> key. Try them out on the dummy as much as you like. Hover over the spells to read informations on them.");
             await audioHelper.PlayAsync("Spell", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.Delay(1500);
@@ -102,7 +121,7 @@ namespace Project
 
         async UniTask CheckAttackSequence()
         {
-            Subtitle.StartWriting(null, "Great ! To attack, use your right mouse button while aiming at an opponent. Try to attack the dummy. ");
+            Subtitle.StartWriting(null, "Great ! To attack, use your <color=#e3d044> right mouse button </color> while aiming at an opponent. Try to attack the dummy. ");
             await audioHelper.PlayAsync("Attack", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => userInstance.LinkedPlayer.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
@@ -130,7 +149,7 @@ namespace Project
 
         async UniTask CheckMovementSequence()
         {
-            Subtitle.StartWriting(null, "To move, use the right click button. Try to move to the highlighted points. ");
+            Subtitle.StartWriting(null, "To move, use the <color=#e3d044> right click button </color>. Try to move to the highlighted points. ");
             await audioHelper.PlayAsync("Movement", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => (userInstance.LinkedPlayer.transform.position - tutorialMvtCheck.position).sqrMagnitude < 5f);

@@ -74,6 +74,7 @@ namespace Project
             }
             catch (Exception ex)
             {
+                CurrentlyPlaying?.eventEmitter.Stop();
                 Debug.LogError("Je déteste FMOD " + ex.Message);
             }
                 
