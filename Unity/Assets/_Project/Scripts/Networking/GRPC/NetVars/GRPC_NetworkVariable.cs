@@ -154,11 +154,6 @@ namespace Project
             }
         }
 
-        public void Sync(bool value)
-        {
-            if (value) Sync();
-        }
-        
         public void Sync()
         {
             UpdateVariableOnGrpc(Value);
