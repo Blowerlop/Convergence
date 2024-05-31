@@ -51,12 +51,18 @@ namespace Project
             
             _background.sprite = _characterData.avatar2;
             
+            #if UNITY_EDITOR
             UnityEditor.EditorApplication.delayCall+=()=>
             {
                 _previewSpawnPoint.DestroyChildren();
                 var modelInstance = Instantiate(_characterData.model, Vector3.zero, Quaternion.identity, _previewSpawnPoint.transform);
                 modelInstance.GetComponentsInChildren<Transform>().ForEach(x => x.gameObject.layer = Constants.Layers.EntityIndex); 
             };
+            #else
+            _previewSpawnPoint.DestroyChildren();
+                var modelInstance = Instantiate(_characterData.model, Vector3.zero, Quaternion.identity, _previewSpawnPoint.transform);
+                modelInstance.GetComponentsInChildren<Transform>().ForEach(x => x.gameObject.layer = Constants.Layers.EntityIndex); 
+            #endif
         }
 
         public void UpdateData(SOCharacter characterData)
