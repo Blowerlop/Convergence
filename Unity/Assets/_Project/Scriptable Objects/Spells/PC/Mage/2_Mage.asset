@@ -47,9 +47,9 @@ MonoBehaviour:
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         SlowAmount: 2
-        Duration: 1.5
+        Duration: 0.25
     - rid: 1951814749556572165
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 250
+        DamageAmount: 15
