@@ -12,12 +12,27 @@ namespace Project._Project.Scripts
     {
         [field: ShowInInspector, ReadOnly, ServerField] public SOEntity data { get; private set; }
         [SerializeField] protected PlayerStats _stats;
+        
+        [Header("Outline")]
+        
+        [SerializeField] private MeshOutline outline;
+        
+        [SerializeField] private float outlineShowWidth;
+    
+        [SerializeField] private float outlineShowDuration;
+        [SerializeField] private float outlineHideDuration;
+    
+        [SerializeField] private Color allyOutlineColor = Color.green;
+        [SerializeField] private Color enemyOutlineColor = Color.red;
+        
         public PlayerStats Stats => _stats;
 
         public virtual int TeamIndex => -1;
 
         public Entity AffectedEntity => this;
         public IList<Effect> AppliedEffects { get; } = new List<Effect>();
+        
+        public bool IsHovered { get; private set; }
         
         public bool IsSilenced => _isSilenced.Value;
         private GRPC_NetworkVariable<bool> _isSilenced = new GRPC_NetworkVariable<bool>("IsSilenced");
@@ -219,5 +234,27 @@ namespace Project._Project.Scripts
             
             _stats.SrvResetStats();
         }
+        
+        #region Hover
+        
+        public void OnHover()
+        {
+            outline.Show(outlineShowWidth, outlineShowDuration);
+            IsHovered = true;
+        }
+
+        public void OnUnhover()
+        {
+            outline.Hide(outlineHideDuration);
+            IsHovered = false;
+        }
+        
+        public void SetOutlineColor(bool isAlly)
+        {
+            outline.SetColor(isAlly ? allyOutlineColor : enemyOutlineColor);
+        }
+        
+        #endregion
+
     }
 }

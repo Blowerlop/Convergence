@@ -75,7 +75,8 @@ namespace Project
         {
             base.OnTeamChanged(oldValue, newValue);
             
-            // Maybe change color or something idk
+            bool isAlly = UserInstance.Me.Team == newValue;
+            Entity.SetOutlineColor(isAlly);
         }
     }
 }

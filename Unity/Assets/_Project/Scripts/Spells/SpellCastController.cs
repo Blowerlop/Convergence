@@ -19,6 +19,8 @@ namespace Project.Spells.Casters
 
         private bool _needInit = true;
         
+        public bool IsCasting => _currentCastingIndex.HasValue;
+        
         public void Init(PlayerRefs p)
         {
             if (!NetworkManager.Singleton.IsClient) return;

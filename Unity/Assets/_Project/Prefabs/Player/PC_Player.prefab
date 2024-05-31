@@ -646,6 +646,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 42682067660215488}
+  outline: {fileID: 0}
+  outlineShowWidth: 2.5
+  outlineShowDuration: 0.1
+  outlineHideDuration: 0.2
+  allyOutlineColor: {r: 0.14796188, g: 0.6787386, b: 0.8962264, a: 1}
+  enemyOutlineColor: {r: 0.8962264, g: 0.17332679, b: 0.17332679, a: 1}
   _refs: {fileID: 6215435937847373130}
 --- !u!1 &8778132152995368324
 GameObject:
@@ -696,7 +702,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 40
-  _cameraLock: 0
   _border: {fileID: 0}
 --- !u!114 &3582799549502680765
 MonoBehaviour:
@@ -736,9 +741,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e3e733c60044f68a5f92cd98a47251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localPlayer: {fileID: 6215435937847373130}
   _layerMask:
     serializedVersion: 2
     m_Bits: 192
+  cursorWrappers:
+  - type: 0
+    data:
+      texture: {fileID: 2800000, guid: 45d2e620468b8254daf7b9498bd9f73c, type: 3}
+      hotspot: {x: 0, y: 0}
+  - type: 1
+    data:
+      texture: {fileID: 2800000, guid: 255d60fe80b70334684081105f613e08, type: 3}
+      hotspot: {x: 0, y: 0}
+  - type: 2
+    data:
+      texture: {fileID: 2800000, guid: d82c339caf35225439cb384ce6034551, type: 3}
+      hotspot: {x: 0, y: 0}
+  - type: 3
+    data:
+      texture: {fileID: 2800000, guid: 64c037a81aaeb9549a00ebb55be9cb10, type: 3}
+      hotspot: {x: 0, y: 0}
 --- !u!114 &9206370382974102298
 MonoBehaviour:
   m_ObjectHideFlags: 0
