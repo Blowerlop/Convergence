@@ -1,4 +1,3 @@
-using System.Drawing;
 using Grpc.Core;
 using Networking;
 
@@ -115,6 +114,11 @@ namespace GRPCServer.Services
                 OnUnrealClientDisconnected?.Invoke(unrealClient);
             
             DisplayClients();
+
+            if (client as NetcodeServer is { } netcodeServer)
+            {
+                Reset();
+            }
         }
 
         #endregion
@@ -678,5 +682,20 @@ namespace GRPCServer.Services
         }
         
         #endregion
+
+
+        private void Reset()
+        {
+            Debug.Log("Resetting MainServiceImpl...", ConsoleColor.Magenta);
+            
+            netcodeServer = null;
+            unrealClients.Clear();
+            clients.Clear();
+            
+            OnUnrealClientConnected = null;
+            OnUnrealClientDisconnected = null;
+
+            UnrealClient.teamSelectionResponseStream = null;
+        }
     }
 }
