@@ -25,7 +25,14 @@ MonoBehaviour:
   channelingTime: 0.33
   castingFlags: 0
   castAnimationDuration: 0.15
+  spellName: Volley
   spellIcon: {fileID: 21300000, guid: 1393ce02e84711947a79034fc684c7ed, type: 3}
+  spellDescription:
+    descriptionText: SilverLeaf shoots a volley of arrows in the zone targetted, 
+      dealing physical {2}  damage to enemy hit,  and applying a {1} seconds slow.
+    effects:
+    - rid: 1951814749556572164
+    - rid: 1951814749556572165
   effects:
   - rid: 1951814749556572164
   - rid: 1951814749556572165

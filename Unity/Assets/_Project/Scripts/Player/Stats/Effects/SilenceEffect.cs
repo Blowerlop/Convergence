@@ -39,5 +39,9 @@ namespace Project.Effects
         {
             AffectedEffectable.AffectedEntity.Unsilence();
         }
+        public override float GetEffectDuration()
+        {
+            return Duration; 
+        }
     }
 }

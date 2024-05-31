@@ -25,7 +25,14 @@ MonoBehaviour:
   channelingTime: 0.33
   castingFlags: 0
   castAnimationDuration: 0.15
+  spellName: Speed Stealer
   spellIcon: {fileID: 21300000, guid: 75624064284da4c4a976b813248044d6, type: 3}
+  spellDescription:
+    descriptionText: SilverLeaf fires a magical arrow that slow the ennemy for {1}
+      seconds and grants her more movement speed for {3} seconds.
+    effects:
+    - rid: 1951814749556572167
+    - rid: 611475172293607424
   effects:
   - rid: 1951814749556572167
   onCasterEffects:

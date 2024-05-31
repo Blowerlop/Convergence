@@ -57,5 +57,10 @@ namespace Project.Effects
         {
             return this;
         }
+
+        public override float GetEffectValue()
+        {
+            return DamageAmount ; 
+        }
     }
 }

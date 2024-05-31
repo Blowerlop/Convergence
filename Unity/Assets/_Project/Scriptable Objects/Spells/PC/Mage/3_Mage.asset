@@ -24,7 +24,14 @@ MonoBehaviour:
   channelingTime: 0.75
   castingFlags: 0
   castAnimationDuration: 0
+  spellName: Molten Shield
   spellIcon: {fileID: 21300000, guid: 6d1ce23f8ee525f4e8c1be74278b7a28, type: 3}
+  spellDescription:
+    descriptionText: Ashenblaze grants himself a shield blocking {0} damages for
+      {1} seconds and gains movement speed for {3} seconds.
+    effects:
+    - rid: 1951814709268185091
+    - rid: 714726138163757056
   effects:
   - rid: 1951814709268185091
   onCasterEffects:

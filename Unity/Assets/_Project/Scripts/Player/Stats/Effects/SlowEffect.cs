@@ -58,5 +58,15 @@ namespace Project.Effects
                 Duration = Duration
             };
         }
+
+        public override float GetEffectValue()
+        {
+            return SlowAmount;
+        }
+
+        public override float GetEffectDuration()
+        {
+            return Duration;
+        }
     }
 }

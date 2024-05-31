@@ -25,7 +25,13 @@ MonoBehaviour:
   channelingTime: 0.1666
   castingFlags: 0
   castAnimationDuration: 0.3
+  spellName: Disintegrate
   spellIcon: {fileID: 21300000, guid: 742ed50e2f1864d43b4cc52e69e33ad0, type: 3}
+  spellDescription:
+    descriptionText: Ashenblaze hurls a fireball in the target direction that deals
+      {0} damages.
+    effects:
+    - rid: 2921934589571366912
   effects:
   - rid: 2921934589571366912
   onCasterEffects: []

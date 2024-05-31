@@ -15,7 +15,8 @@ namespace Project.Spells
         [SerializeField] private CanvasGroup group;
         [SerializeField] private TextMeshProUGUI tmp;
         [SerializeField] private Image cooldownFilter;
-        [SerializeField] private Image spellIcon; 
+        [SerializeField] private Image spellIcon;
+        [SerializeField] private SpellTooltip spellTooltip; 
 
         private float _maxTime;
         
@@ -65,7 +66,11 @@ namespace Project.Spells
 
             if (SOCharacter.TryGetCharacter(UserInstanceManager.instance.GetUserInstance((int) NetworkManager.Singleton.LocalClientId).CharacterId, out var character))
             {
-                if (character.TryGetSpell(id, out var spellData)) spellIcon.sprite = spellData.spellIcon;
+                if (character.TryGetSpell(id, out var spellData))
+                {
+                    spellIcon.sprite = spellData.spellIcon;
+                    spellTooltip?.UpdateToolTipText(spellData);
+                }
             }
             
         }

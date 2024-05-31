@@ -40,5 +40,9 @@ namespace Project
         }
 
         public abstract Effect GetInstance();
+
+        public virtual float GetEffectValue() {  return 0; }
+
+        public virtual float GetEffectDuration() { return 0; }
     }
 }

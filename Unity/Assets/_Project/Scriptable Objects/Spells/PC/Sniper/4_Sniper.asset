@@ -25,7 +25,14 @@ MonoBehaviour:
   channelingTime: 1.29
   castingFlags: 0
   castAnimationDuration: 0.2083
+  spellName: Headshot
   spellIcon: {fileID: 21300000, guid: a3f78131207186b4791ac3df71e0553c, type: 3}
+  spellDescription:
+    descriptionText: SilverLeaf locks onto the target enemy champion and start channeling.
+      Once  SilverLeaf completes the channel, she fires a homing arrow toward the
+      target that deals {0} damages.
+    effects:
+    - rid: 1951814749556572169
   effects:
   - rid: 1951814749556572169
   onCasterEffects: []

@@ -57,5 +57,15 @@ namespace Project.Effects
                 Duration = Duration
             };
         }
+
+        public override float GetEffectValue()
+        {
+            return ShieldAmount;
+        }
+
+        public override float GetEffectDuration()
+        {
+            return Duration; 
+        }
     }
 }

@@ -16,6 +16,8 @@ namespace Project
             GameButton.onClick.AddListener(GoToLobby);
             TutorialButton.onClick.AddListener(PlayTutorial);
             QuitButton.onClick.AddListener(QuitGame);
+            gameDesc.gameObject.SetActive(false);
+            TutorialDesc.gameObject.SetActive(false);
 
         }
 

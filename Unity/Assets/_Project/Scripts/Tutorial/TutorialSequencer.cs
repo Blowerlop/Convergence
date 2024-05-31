@@ -149,7 +149,7 @@ namespace Project
 
         async UniTask CheckMovementSequence()
         {
-            Subtitle.StartWriting(null, "To move, use the <color=#e3d044> right click button </color>. Try to move to the highlighted points. ");
+            Subtitle.StartWriting(null, "To move, use the <color=#e3d044> right click button</color>. Try to move to the highlighted point. ");
             await audioHelper.PlayAsync("Movement", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.WaitUntil(() => (userInstance.LinkedPlayer.transform.position - tutorialMvtCheck.position).sqrMagnitude < 5f);

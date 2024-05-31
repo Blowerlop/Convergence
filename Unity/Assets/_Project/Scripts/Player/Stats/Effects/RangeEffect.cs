@@ -51,5 +51,15 @@ namespace Project.Effects
             
             stat.value -= _value;
         }
+
+        public override float GetEffectValue()
+        {
+            return _rangeAmount;
+        }
+
+        public override float GetEffectDuration()
+        {
+            return _duration; 
+        }
     }
 }

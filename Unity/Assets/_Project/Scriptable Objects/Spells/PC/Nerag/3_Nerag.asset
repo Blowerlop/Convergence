@@ -25,7 +25,14 @@ MonoBehaviour:
   channelingTime: 0
   castingFlags: 1
   castAnimationDuration: 3
+  spellName: Judgment
   spellIcon: {fileID: 21300000, guid: b4609848cc84505429ec4c67382ec292, type: 3}
+  spellDescription:
+    descriptionText: 'Valiant rapidly spins his sword around himself over 3 seconds,
+      becoming unable to basic attack, and dealing physical damage to nearby enemies
+      periodically. Damage per spin : {0}'
+    effects:
+    - rid: 1951814709268185092
   effects:
   - rid: 1951814709268185092
   onCasterEffects: []

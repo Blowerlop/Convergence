@@ -46,7 +46,9 @@ namespace Project.Spells
         [BoxGroup("Spell"), EnumToggleButtons] public CastingFlags castingFlags;
         [BoxGroup("Spell")] public float castAnimationDuration;
 
-        [BoxGroup("Spell")] public Sprite spellIcon;
+        [BoxGroup("Description")] public string spellName;
+        [BoxGroup("Description")] public Sprite spellIcon;
+        [BoxGroup("Description")] public SpellDescription spellDescription;
 
         [Space(40)]
         
