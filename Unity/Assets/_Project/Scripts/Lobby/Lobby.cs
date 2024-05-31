@@ -26,12 +26,12 @@ namespace Project
             set
             {
                 _lobbyState = value;
-                onStateChange?.Invoke(value);
+                OnStateChange?.Invoke(value);
                 Debug.Log("Lobby state changed to: " + value);
             }
         }
         public readonly Action onAllPlayersReadyEvent;
-        public Action<ELobbyState> onStateChange;
+        public event Action<ELobbyState> OnStateChange;
 
         private void Start()
         {

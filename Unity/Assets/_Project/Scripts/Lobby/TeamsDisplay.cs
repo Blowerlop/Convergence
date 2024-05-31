@@ -18,24 +18,16 @@ namespace Project
 
         private void Awake()
         {
-            Lobby.instance.onStateChange += OnLobbyStateChange_UpdateUI;
+            Lobby.instance.OnStateChange += OnLobbyStateChange_UpdateUI;
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
             
-            if (Lobby.IsInstanceAlive()) Lobby.instance.onStateChange -= OnLobbyStateChange_UpdateUI;
+            if (Lobby.IsInstanceAlive()) Lobby.instance.OnStateChange -= OnLobbyStateChange_UpdateUI;
         }
 
-        public override void OnNetworkSpawn()
-        {
-            base.OnNetworkSpawn();
-            
-            Init();
-        }
-        
-        
         private void Init()
         {
             SpawnUi();
@@ -47,11 +39,11 @@ namespace Project
             for (int i = 0; i < TeamManager.MAX_TEAM; i++)
             {
                 Image instance = Instantiate(_template, transform).GetComponentInChildren<Image>();
-                instance.transform.parent.GetComponentInChildren<TMP_Text>().text = "PLAYER " + (i + 1);
+                instance.transform.parent.GetComponentInChildren<TMP_Text>().text = TeamManager.instance.GetTeamData(i).TryGetUserInstance(PlayerPlatform.Pc, out UserInstance userInstance) ? userInstance.name : "Unknow Name";
                 _playersAvatar.Add(i, instance);
             }
             
-            
+            if (_ignoreLocalPlayer) _playersAvatar[UserInstance.Me.Team].transform.parent.gameObject.SetActive(false);
         }
 
         private void SetPlayersAvatar()
@@ -108,9 +100,9 @@ namespace Project
         {
             if (lobbyState == ELobbyState.CharacterSelection)
             {
-                if (_ignoreLocalPlayer) _playersAvatar[UserInstance.Me.Team].transform.parent.gameObject.SetActive(false);
+                Init();
 
-                Lobby.instance.onStateChange -= OnLobbyStateChange_UpdateUI;
+                Lobby.instance.OnStateChange -= OnLobbyStateChange_UpdateUI;
             }
             
         }
