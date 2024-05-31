@@ -9,10 +9,10 @@ namespace Project
 {
     public static class ScreenBorder
     {
-        public static int left => 0;
-        public static int right => Screen.width;
-        public static int top => Screen.height;
-        public static int bottom => 0;
+        public static int left => 5;
+        public static int right => Screen.width - 5;
+        public static int top => Screen.height - 5;
+        public static int bottom => 5;
     }
     
     public class CameraController : NetworkBehaviour
