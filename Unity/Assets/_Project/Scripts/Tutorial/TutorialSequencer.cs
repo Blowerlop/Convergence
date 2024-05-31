@@ -3,6 +3,7 @@ using Project._Project.Scripts;
 using Project.Spells;
 using Project.Spells.Casters;
 using System;
+using System.Security.Policy;
 using System.Threading;
 using TMPro;
 using Unity.Netcode;
@@ -12,9 +13,10 @@ using UnityEngine.UI;
 
 namespace Project
 {
-    public class TutorialSequencer : MonoSingleton<MonoBehaviour>
+    public class TutorialSequencer : MonoBehaviour
     {
         #region Public
+        public static TutorialSequencer instance;
         public AudioHelper audioHelper; 
         public GameObject MobilePlayer;
         public GameObject coneGO; 
@@ -35,24 +37,19 @@ namespace Project
 
         const int timeOutDelay = 5000;
 
-        protected override void Awake()
-        {
-            dontDestroyOnLoad = false;
-            base.Awake();
-        }
         #endregion
         private void Start()
         {
+            instance = this; 
             SkipTutoButton.onClick.AddListener(QuitTutorial);
             AudioHelper.OnTimestampReached += ReactToMessage;
             Subtitle.OnWrite += UpdateSubtitleText;
             _ = PlayTutorial();
         }
 
-        protected override void OnDestroy()
+        void OnDestroy()
         {
-            base.OnDestroy();
-            
+            instance = null; 
             SkipTutoButton.onClick.RemoveAllListeners();
             AudioHelper.OnTimestampReached -= ReactToMessage;
             Subtitle.OnWrite += UpdateSubtitleText;
@@ -68,7 +65,6 @@ namespace Project
                 " but you'll be in charge of all the moves.");
             await audioHelper.PlayAsync("Introduction", gameObject.GetCancellationTokenOnDestroy());
             
-
             await CheckMovementSequence();
 
             await CheckAttackSequence();
