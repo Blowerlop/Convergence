@@ -25,7 +25,7 @@ namespace Project
 
             if (!IsServer && !IsHost) return;
             
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
         }
 
         public override void OnNetworkDespawn()
@@ -35,31 +35,34 @@ namespace Project
             if (!IsServer && !IsHost) return;
             if (NetworkManager.Singleton is not { SceneManager: not null }) return;
             
-            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
         }
         
-        private void OnSceneLoaded(ulong clientId, string scene, LoadSceneMode mode)
+        private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
         {
-            if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
-            if (!TeamManager.instance.TryGetTeam(user.Team, out var team))
+            foreach(var clientId in clientsCompleted)
             {
-                Debug.LogError($"Team {user.Team} is invalid for user {user.ClientId}");
-                return;
-            }
+                if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
+                if (!TeamManager.instance.TryGetTeam(user.Team, out var team))
+                {
+                    Debug.LogError($"Team {user.Team} is invalid for user {user.ClientId}");
+                    return;
+                }
 
-            if (!team.HasPC)
-            {
-                // This should never happen
-                Debug.LogError($"Team {user.Team} has no PC player!");
-                return;
-            }
+                if (!team.HasPC)
+                {
+                    // This should never happen
+                    Debug.LogError($"Team {user.Team} has no PC player!");
+                    return;
+                }
             
-            // user is a netcode client, team is valid, team has pc
-            // -> we don't need to check if he is team's pc player
-            SpawnPlayerForUser(user, clientId);
+                // user is a netcode client, team is valid, team has pc
+                // -> we don't need to check if he is team's pc player
+                SpawnPlayerForUser(user, clientId);
 
-            if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
-                SpawnPlayerForUser(mobileUser, clientId);
+                if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
+                    SpawnPlayerForUser(mobileUser, clientId);
+            }
         }
         public void SpawnPlayerForUser(UserInstance user, ulong clientId)
         { 
