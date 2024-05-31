@@ -12,17 +12,24 @@ namespace Project
     {
         [SerializeField] private SOCharacter _characterData;
 
-        [Title("References")] 
+        [Title("Name")]
         [SerializeField] private TMP_Text _name;
+        
+        [Title("Spells")] 
         [SerializeField] private Image _spell1;
         [SerializeField] private Image _spell2;
         [SerializeField] private Image _spell3;
         [SerializeField] private Image _spell4;
+        
+        [Title("Stats")] 
         [SerializeField] private TMP_Text _damage;
         [SerializeField] private TMP_Text _speed;
         [SerializeField] private TMP_Text _range;
         [SerializeField] private TMP_Text _health;
+        
+        [Title("Other")]
         [SerializeField] private GameObject _previewSpawnPoint;
+        [SerializeField] private Image _background;
 
 
         private void OnValidate()
@@ -41,6 +48,8 @@ namespace Project
             _speed.text = ((MoveSpeedStat)_characterData.stats.First(x => x is MoveSpeedStat)).value.ToString();
             _range.text = ((AttackRangeStat)_characterData.stats.First(x => x is AttackRangeStat)).value.ToString(CultureInfo.InvariantCulture);
             _health.text = ((HealthStat)_characterData.stats.First(x => x is HealthStat)).maxValue.ToString();
+            
+            _background.sprite = _characterData.avatar2;
             
             UnityEditor.EditorApplication.delayCall+=()=>
             {

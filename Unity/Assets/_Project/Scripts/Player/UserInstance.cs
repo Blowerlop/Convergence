@@ -17,7 +17,9 @@ namespace Project
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
         public static event Action<UserInstance> OnSpawned;
+        public static event Action<UserInstance> OnLocalSpawned;
         public static event Action<UserInstance> OnDespawned;
+        public static event Action<UserInstance> OnLocalDespawned;
 
         public PlayerRefs LinkedPlayer { get; private set; }
         public event Action<PlayerRefs> OnPlayerLinked;
@@ -72,13 +74,14 @@ namespace Project
                 SetScene(currentSceneName);
             }
             
+            if (IsOwner && !GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient)
+            {
+                Me = this;
+                OnLocalSpawned?.Invoke(this);
+            }
+
             OnSpawned?.Invoke(this);
             Debug.Log("[UserInstance] End spawn", gameObject);
-            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
-
-            Me = this;
-            
-            
         }
         
         public override void OnNetworkDespawn()
@@ -93,11 +96,14 @@ namespace Project
                 _networkTeam.OnValueChanged -= OnTeamChanged;
             }
             
+            if (IsOwner && !GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient)
+            {
+                Me = null;
+                OnLocalDespawned?.Invoke(this);
+            }
+            
             OnDespawned?.Invoke(this);
             Debug.Log("[UserInstance] End despawn", gameObject);
-            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
-
-            Me = null;
         }
 
         private void CreateNetVarInstance()

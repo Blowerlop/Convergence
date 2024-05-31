@@ -14,12 +14,12 @@ namespace Project
 
         private void Start()
         {
-            CharacterSelectionUI.onCharacterSelectedEvent += OnCharacterSelected_SetPlayerAvatar;
+            CharacterSelectionUI.CliOnCharacterSelectedEvent += OnCharacterSelected_SetPlayerAvatar;
         }
 
         private void OnDestroy()
         {
-            CharacterSelectionUI.onCharacterSelectedEvent -= OnCharacterSelected_SetPlayerAvatar;
+            CharacterSelectionUI.CliOnCharacterSelectedEvent -= OnCharacterSelected_SetPlayerAvatar;
         }
 
         private void OnCharacterSelected_SetPlayerAvatar(int playerId, int characterId)
