@@ -9,7 +9,7 @@ namespace Project.Spells
 {
     public class SkillShotSpell : Spell
     {
-        private GRPC_NetworkVariable<bool> _impact = new GRPC_NetworkVariable<bool>("Impact");
+        private NetworkVariable<bool> _impact = new();
         
         [Title("Moving Phase")]
         
@@ -42,8 +42,14 @@ namespace Project.Spells
             _movingObject.SetActive(true);
             if (hasImpactPhase) _impactObject.SetActive(false);
             
-            _impact.Initialize();
             _impact.OnValueChanged += OnImpactChanged;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            
+            _impact.OnValueChanged -= OnImpactChanged;
         }
 
         protected override void Init(ICastResult castResult)
