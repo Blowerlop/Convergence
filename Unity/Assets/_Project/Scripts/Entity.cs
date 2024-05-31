@@ -108,12 +108,12 @@ namespace Project._Project.Scripts
         // Can do this with health because we don't need attacker info for the animation
         public void OnHealthChanged(int oldValue, int newValue)
         {
-            if (!HealthTextPool.Instance) return;
+            if (!HealthTextPool.instance) return;
             
             var diff = newValue - oldValue;
             
             if(diff >= 0)
-                HealthTextPool.Instance.RequestText(diff, transform, default);
+                HealthTextPool.instance.RequestText(diff, transform, default);
         }
 
         public void Damage(int modifier)
@@ -126,7 +126,7 @@ namespace Project._Project.Scripts
         [ClientRpc]
         public void OnDamagedByClientRpc(ushort attackerId, int amount)
         {
-            if (!HealthTextPool.Instance) return;
+            if (!HealthTextPool.instance) return;
 
             if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attacker))
                 return;
@@ -135,7 +135,7 @@ namespace Project._Project.Scripts
             dir.y = 0;
             dir.Normalize();
             
-            HealthTextPool.Instance.RequestText(-amount, transform, dir);
+            HealthTextPool.instance.RequestText(-amount, transform, dir);
         }
 
         private void CheckForShieldDamage(ref int modifier)
