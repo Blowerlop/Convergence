@@ -34,12 +34,11 @@ namespace Project
             {
                 _playerRefs.PlayerMouse.OnMouseClick += OnMouseButton1_AttackRequest;
                 InputManager.instance.onCancellation.performed += OnCancellation_StopAttack;
-
-                _playerRefs.Entity.onEntityInit += OnEntityInit;
             }
 
             if (IsServer)
             {
+                _playerRefs.Entity.onEntityInit += OnEntityInit;
                 _playerRefs.StateMachine.OnStateExit += OnStateExit_EndAttack;
             }
         }
@@ -57,6 +56,7 @@ namespace Project
 
             if (IsServer)
             {
+                _playerRefs.Entity.onEntityInit -= OnEntityInit;
                 _playerRefs.StateMachine.OnStateExit -= OnStateExit_EndAttack;
             }
         }
