@@ -49,8 +49,10 @@ namespace Project
             _ = PlayTutorial();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             SkipTutoButton.onClick.RemoveAllListeners();
             AudioHelper.OnTimestampReached -= ReactToMessage;
             Subtitle.OnWrite += UpdateSubtitleText;

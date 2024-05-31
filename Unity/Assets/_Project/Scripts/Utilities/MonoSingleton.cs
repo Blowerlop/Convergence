@@ -1,3 +1,5 @@
+using System;
+
 namespace Project
 {
     using UnityEngine;
@@ -39,6 +41,11 @@ namespace Project
             {
                 DontDestroyOnLoad(gameObject);
             }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (_instance == this) _instance = null;
         }
 
         public static bool IsInstanceAlive() => _instance != null;

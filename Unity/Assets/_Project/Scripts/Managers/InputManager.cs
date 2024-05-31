@@ -83,8 +83,10 @@ namespace Project
             previousActionMap = currentActionMap;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             foreach (var spellAction in _spellInputs)
             {
                 spellAction.started -= SpellInputStarted;
