@@ -108,7 +108,7 @@ namespace Project._Project.Scripts
             _stats.nHealthStat.Value -= modifier;
         }
 
-        [ClientRpc(Delivery = RpcDelivery.Unreliable)]
+        [ClientRpc]
         public void OnDamagedByClientRpc(ushort attackerId, int amount)
         {
             if (!HealthTextPool.Instance) return;
