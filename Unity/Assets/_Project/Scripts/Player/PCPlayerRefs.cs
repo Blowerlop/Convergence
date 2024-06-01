@@ -1,6 +1,7 @@
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
+using Project.Extensions;
 using Project.Spells;
 using Project.Spells.Casters;
 using UnityEngine;
@@ -74,9 +75,12 @@ namespace Project
         protected override void OnTeamChanged(int oldValue, int newValue)
         {
             base.OnTeamChanged(oldValue, newValue);
-            
-            bool isAlly = UserInstance.Me.Team == newValue;
-            Entity.SetOutlineColor(isAlly);
+
+            if (this.IsClientOnly())
+            {
+                bool isAlly = UserInstance.Me.Team == newValue;
+                Entity.SetOutlineColor(isAlly);
+            }
         }
     }
 }

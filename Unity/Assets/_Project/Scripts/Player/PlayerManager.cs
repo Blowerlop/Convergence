@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Project._Project.Scripts;
+using Project.Extensions;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -23,9 +24,9 @@ namespace Project
         {
             base.OnNetworkSpawn();
 
-            if (!IsServer && !IsHost) return;
+            if (this.IsClientOnly()) return;
             
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SrvOnSceneLoaded;
         }
 
         public override void OnNetworkDespawn()
@@ -35,11 +36,14 @@ namespace Project
             if (!IsServer && !IsHost) return;
             if (NetworkManager.Singleton is not { SceneManager: not null }) return;
             
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SrvOnSceneLoaded;
         }
         
-        private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+        [Server]
+        private void SrvOnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
         {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SrvOnSceneLoaded;
+            
             foreach(var clientId in clientsCompleted)
             {
                 if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
