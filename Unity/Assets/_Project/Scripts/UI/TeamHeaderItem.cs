@@ -17,8 +17,9 @@ namespace Project
                 Debug.LogError($"Team {teamIndex} has no PC player!");
                 return;
             }
-            
-            teamNameText.text = $"Team {teamIndex + 1} " + (pcUser.IsOwner ? "(You)" : "");
+            teamNameText.text = $"Team {teamIndex + 1} " +
+                "\n" + pcUser.PlayerName + (pcUser.IsOwner ? " (You)" : "") +
+                "\n<i>" + (teamData.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser) ? mobileUser.PlayerName : "No mobile") + "</i>";
             OnWinCountChanged(0, pcUser.WinCount.Value);
             
             pcUser.WinCount.OnValueChanged += OnWinCountChanged;

@@ -36,5 +36,15 @@ namespace Project
             if (active) InputManager.instance.SwitchActionMap("UI");
             else InputManager.instance.SwitchActionMap(InputManager.instance.previousActionMap);
         }
+
+        public void Toggle()
+        {
+            if (UiNavigator.IsNavigating()) return;
+            bool active = !_menu.activeSelf;
+            _menu.SetActive(active);
+
+            if (active) InputManager.instance.SwitchActionMap("UI");
+            else InputManager.instance.SwitchActionMap(InputManager.instance.previousActionMap);
+        }
     }
 }
