@@ -56,41 +56,48 @@ namespace Project
         }
         async UniTask PlayTutorial()
         {
-            await LoadTutorialScene();
+            try
+            {
+                await LoadTutorialScene();
 
-            //Intro
-            Subtitle.StartWriting(null, "Welcome to Convergence ! I'm going to guide you through the game mechanics." +
-                "This game is played in pairs, a PC player represented by the Ranger, and a Mobile Player represented by the Fairy." +
-                "As a PC Player, you have the major role of controlling movements and attacks. The Mobile Player will act as a support," +
-                " but you'll be in charge of all the moves.");
-            await audioHelper.PlayAsync("Introduction", gameObject.GetCancellationTokenOnDestroy());
-            
-            await CheckMovementSequence();
+                //Intro
+                Subtitle.StartWriting(null, "Welcome to Convergence ! I'm going to guide you through the game mechanics." +
+                    "This game is played in pairs, a PC player represented by the Ranger, and a Mobile Player represented by the Fairy." +
+                    "As a PC Player, you have the major role of controlling movements and attacks. The Mobile Player will act as a support," +
+                    " but you'll be in charge of all the moves.");
+                await audioHelper.PlayAsync("Introduction", gameObject.GetCancellationTokenOnDestroy());
 
-            await CheckAttackSequence();
+                await CheckMovementSequence();
 
-            await CheckSpellSequence();
+                await CheckAttackSequence();
 
-            Subtitle.StartWriting(null, "Currently the camera is locked on your character by default. To lock or unlock your camera, <color=#e3d044> double tap on your spacebar </color>.");
-            await audioHelper.PlayAsync("Camera", gameObject.GetCancellationTokenOnDestroy());
+                await CheckSpellSequence();
 
-            await UniTask.Delay(1500);
+                Subtitle.StartWriting(null, "Currently the camera is locked on your character by default. To lock or unlock your camera, <color=#e3d044> double tap on your spacebar </color>.");
+                await audioHelper.PlayAsync("Camera", gameObject.GetCancellationTokenOnDestroy());
 
-            Subtitle.StartWriting(null, "A round is won when you manage to reduce your opponent's health point to 0. A game ends when a team has won two rounds.");
+                await UniTask.Delay(1500);
 
-            await audioHelper.PlayAsync("WinCond", gameObject.GetCancellationTokenOnDestroy());
+                Subtitle.StartWriting(null, "A round is won when you manage to reduce your opponent's health point to 0. A game ends when a team has won two rounds.");
 
-            await UniTask.Delay(1500);
+                await audioHelper.PlayAsync("WinCond", gameObject.GetCancellationTokenOnDestroy());
 
-            Subtitle.StartWriting(null, "You now have all the information you need to fight. This tutorial has only introduced you to one character, " +
-                "don't hesitate to try the others and train your synergy with your mobile ally.");
+                await UniTask.Delay(1500);
 
-            await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
+                Subtitle.StartWriting(null, "You now have all the information you need to fight. This tutorial has only introduced you to one character, " +
+                    "don't hesitate to try the others and train your synergy with your mobile ally.");
 
-            await UniTask.Delay(1000);
+                await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
 
-            QuitTutorial();
+                await UniTask.Delay(1000);
 
+                QuitTutorial();
+            }
+
+            catch (Exception ex)
+            {
+                Debug.LogWarning(ex.Message);
+            }
         }
 
         
