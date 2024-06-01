@@ -8,13 +8,20 @@ namespace Project.Scripts.UIFramework
 {
     public static class UIManager
     {
-        public static SOUIManager instance;
-        
-
-        static UIManager()
+        private static SOUIManager _instance;
+        public static SOUIManager instance
         {
-            instance = SOScriptableObjectReferencesCache.GetScriptableObjects<SOUIManager>()[0];
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = SOScriptableObjectReferencesCache.GetScriptableObjects<SOUIManager>()[0];
+                }
+
+                return _instance;
+            }
         }
+        
 
         #if UNITY_EDITOR
         public static void UpdateUI()

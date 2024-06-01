@@ -15,21 +15,19 @@ namespace Project.Scripts.UIFramework
     
     public sealed class SkinUI : MonoBehaviour
     {
-        #if UNITY_EDITOR
         private enum EComponentTypeUI
         {
             Image,
             Text,
-            Null
         }
+        
         [NonSerialized] private EComponentTypeUI _componentType;
-        #endif
         [SerializeField] private EColorType _colorType;
         [SerializeField, ShowIf("@_componentType == EComponentTypeUI.Text")] private ETextType _textType;
         [SerializeField, ShowIf("@_componentType == EComponentTypeUI.Image")] private bool _useCustomAlpha;
 
 
-#if UNITY_EDITOR
+
         private void Start()
         {
             OnValidate();
@@ -58,7 +56,6 @@ namespace Project.Scripts.UIFramework
             }
             else throw new MissingComponentException("Missing component Image or TMP_Text");
         }
-#endif
         
         private Color GetColor()
         {
