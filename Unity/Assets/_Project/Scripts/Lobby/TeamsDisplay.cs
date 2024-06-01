@@ -27,8 +27,8 @@ namespace Project
             
             if (Lobby.IsInstanceAlive()) Lobby.instance.OnStateChange -= OnLobbyStateChange_UpdateUI;
         }
-
-        private void Init()
+        
+        private void CliInit()
         {
             SpawnUi();
             SetPlayersAvatar();
@@ -100,7 +100,7 @@ namespace Project
         {
             if (lobbyState == ELobbyState.CharacterSelection)
             {
-                Init();
+                if (IsClient) CliInit();
 
                 Lobby.instance.OnStateChange -= OnLobbyStateChange_UpdateUI;
             }
