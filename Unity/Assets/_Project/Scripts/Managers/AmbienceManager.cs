@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project._Project.Scripts.Managers
@@ -20,6 +21,8 @@ namespace Project._Project.Scripts.Managers
         
         void Awake()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             UserInstance.Me.OnPlayerLinked += LinkPlayer;
         }
 
@@ -105,6 +108,8 @@ namespace Project._Project.Scripts.Managers
         
         private void OnDestroy()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             if(UserInstance.Me != null)
                 UserInstance.Me.OnPlayerLinked -= LinkPlayer;
             if(_stats != null)

@@ -17,17 +17,28 @@ MonoBehaviour:
     type: 3}
   spellId: sniper_1
   spellIdHash: -459927180
+  instantiationType: 0
   spellPrefab: {fileID: 7579399146284048163, guid: 60e0088a4cb5c40469dd21afe8556a87,
     type: 3}
   isInstant: 0
-  cooldown: 5
-  channelingTime: 0.25
+  cooldown: 8
+  channelingTime: 0.33
+  castingFlags: 0
+  castAnimationDuration: 0.15
+  spellName: Volley
+  spellIcon: {fileID: 21300000, guid: 1393ce02e84711947a79034fc684c7ed, type: 3}
+  spellDescription:
+    descriptionText: SilverLeaf shoots a volley of arrows in the zone targetted, 
+      dealing physical {2}  damage to enemy hit,  and applying a {1} seconds slow.
+    effects:
+    - rid: 1951814749556572164
+    - rid: 1951814749556572165
   effects:
   - rid: 1951814749556572164
   - rid: 1951814749556572165
-  animatorOverrideController: {fileID: 0}
-  limitRadius: 5
-  zoneRadius: 2
+  onCasterEffects: []
+  limitRadius: 15
+  zoneRadius: 4
   lookAtCenter: 0
   references:
     version: 2
@@ -41,4 +52,4 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 10
+        DamageAmount: 250

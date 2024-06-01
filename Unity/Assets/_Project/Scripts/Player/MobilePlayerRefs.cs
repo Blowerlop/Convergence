@@ -4,6 +4,9 @@ namespace Project
 {
     public class MobilePlayerRefs : PlayerRefs
     {
+        private PCPlayerRefs _pc;
+        public override PCPlayerRefs GetPC() => _pc;
+
         protected override void OnTeamChanged(int _, int newValue)
         {
             base.OnTeamChanged(_, newValue);
@@ -27,6 +30,11 @@ namespace Project
             }
             
             playerTransform = pcUser.LinkedPlayer.PlayerTransform;
+            shootTransform = pcUser.LinkedPlayer.ShootTransform;
+            _pc = pcUser.LinkedPlayer as PCPlayerRefs;
+            
+            transform.parent = playerTransform;
+            transform.position = playerTransform.position;
         }
     }
 }

@@ -1,3 +1,5 @@
+using Project._Project.Scripts;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Project.Effects
@@ -17,10 +19,10 @@ namespace Project.Effects
         public int DamageAmount;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
-            if (!entity.CanDamage(applierTeamIndex)) return false;
+            if (!entity.CanDamage(applier.TeamIndex)) return false;
             
             int amount;
 
@@ -41,10 +43,12 @@ namespace Project.Effects
                 default:
                     return false;
             }
-                
+
+            if (NetworkManager.Singleton.IsServer)
+                entity.OnDamagedByClientRpc((ushort)applier.NetworkObjectId, amount);
+            
             entity.Damage(amount);
             return true;
-
         }
 
         public override void KillEffect() { }
@@ -52,6 +56,11 @@ namespace Project.Effects
         public override Effect GetInstance()
         {
             return this;
+        }
+
+        public override float GetEffectValue()
+        {
+            return DamageAmount ; 
         }
     }
 }

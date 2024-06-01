@@ -3,7 +3,42 @@ guid: 19ee20d61da09ed42bce703e4abc6ae9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_frost_sword2.001
+    second: {fileID: 2100000, guid: f493b9c4090b50344aac23c4f40539f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_king.001
+    second: {fileID: 2100000, guid: ac032cb1dd31cf346a08e68d48107ec4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_king_arms.001
+    second: {fileID: 2100000, guid: e5125d4189f798949b9c0cd374ec75a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_king_cape.001
+    second: {fileID: 2100000, guid: d647d0224109f324cbcb4bc6b3877457, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_king_chest.001
+    second: {fileID: 2100000, guid: 2783aac63b38be146b89989ac385ccf5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_king_helmet.001
+    second: {fileID: 2100000, guid: 5e923d68b151a3a43a43e0330b839325, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wraith_king_shoulder.001
+    second: {fileID: 2100000, guid: 9ffbbab57f2861c4ea4af1c2a1766731, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -32,7 +67,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1

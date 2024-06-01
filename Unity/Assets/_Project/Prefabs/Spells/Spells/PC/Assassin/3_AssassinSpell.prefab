@@ -41,9 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1547165325317951460}
   - component: {fileID: 188618609405034333}
-  - component: {fileID: 2724967599326280920}
-  - component: {fileID: 2541366772262591164}
-  - component: {fileID: 4474108745008664244}
+  - component: {fileID: -5568349316116306161}
   m_Layer: 0
   m_Name: 3_AssassinSpell
   m_TagString: Untagged
@@ -65,7 +63,7 @@ Transform:
   m_Children:
   - {fileID: 6697798403813875451}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &188618609405034333
 MonoBehaviour:
@@ -87,7 +85,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &2724967599326280920
+--- !u!114 &-5568349316116306161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,55 +94,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2390629528148955670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab4ddda9eec1cd1459bdef75c32aa1b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1450cfb12863409685a425374204f574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 8263e7152f73a0a4ea3c69f44ff3fa6c,
     type: 2}
-  followPlayer: 0
+  CanHitSelf: 0
+  applyType: 1
+  applyTime: 0
+  tickRate: 0
+  killType: 1
   duration: 2
---- !u!114 &2541366772262591164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2390629528148955670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 382aab94e054b2642a2673764936e297, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabId: 3_AssassinSpell
-  UnrealOwnerAddress: 
-  hasBeenSpawnedOnGrpc: 0
---- !u!114 &4474108745008664244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2390629528148955670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821f53892ebc3024eb36e56360795854, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 0
-  SlerpPosition: 0
+  hitZoneShape: 0
+  boxCollider: {fileID: 0}

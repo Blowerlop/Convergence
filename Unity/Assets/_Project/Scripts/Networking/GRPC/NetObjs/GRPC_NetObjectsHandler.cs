@@ -57,7 +57,7 @@ namespace Project
                 networkObjectSyncer.hasBeenSpawnedOnGrpc = false;
                 
                 GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetObjUpdate>(_netObjsStream.RequestStream, update, new CancellationTokenSource()));
-                _processNetObjs.Add(update.NetId, networkObjectSyncer);
+                if (update.Type == GRPC_NetObjUpdateType.New) _processNetObjs.Add(update.NetId, networkObjectSyncer);
             }
             catch (IOException e)
             {
@@ -72,14 +72,14 @@ namespace Project
                 while (await _netObjsCallbackStream.ResponseStream.MoveNext(_netObjsStreamCallbackCancelSrc.Token))
                 {
                     GRPC_NetObjUpdate response = _netObjsCallbackStream.ResponseStream.Current;
-                    GRPC_NetworkObjectSyncer networkObjectSyncer = _processNetObjs[response.NetId];
-                    networkObjectSyncer.hasBeenSpawnedOnGrpc = true;
                     if (response.Type == GRPC_NetObjUpdateType.New)
                     {
-                        networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke(true);
+                        GRPC_NetworkObjectSyncer networkObjectSyncer = _processNetObjs[response.NetId];
+                        networkObjectSyncer.hasBeenSpawnedOnGrpc = true;
+                        networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke();
+                        _processNetObjs.Remove(response.NetId);
                     }
-                    else networkObjectSyncer.onNetworkObjectHasSpawnedOnGrpc?.Invoke(false);
-                    _processNetObjs.Remove(response.NetId);
+                    
                 }
             }
             catch (IOException e)

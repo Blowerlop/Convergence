@@ -1,10 +1,12 @@
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
+using Project.Extensions;
+using Project.Spells;
 using Project.Spells.Casters;
-using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Project
 {
@@ -13,23 +15,32 @@ namespace Project
         [SerializeField] private Entity _entity;
         
         [SerializeField] private StateMachineController _stateMachine;
-        [SerializeField] private NetworkAnimator _networkAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
         [SerializeField] private PlayerMouse _playerMouse;
         [SerializeField] private MovementController _movementController;
         [SerializeField] private SpellCastController spellCastController;
-
+        
+        [SerializeField] private InCastController inCastController;
+        
         [SerializeField] private EmoteController emoteController;
+        
+        [SerializeField] private AttackController attackController;
         
         public Entity Entity => _entity;
         public StateMachineController StateMachine => _stateMachine;
-        public Animator Animator => _networkAnimator.Animator;
         public NavMeshAgent NavMeshAgent => _navMeshAgent;
         public PlayerMouse PlayerMouse => _playerMouse;
         public MovementController MovementCOntroller => _movementController;
 
+        public SpellCastController SpellCastController => spellCastController; 
+        public InCastController InCastController => inCastController;
+        
         public EmoteController EmoteController => emoteController;
         
+        public AttackController AttackController => attackController;
+        
+        public override PCPlayerRefs GetPC() => this;
+
         [Server]
         public override void ServerInit(int team, int ownerId, SOEntity entity)
         {
@@ -42,14 +53,34 @@ namespace Project
         {
             base.OnOwnerChanged(oldId, newId);
             
+            if (!IsClient) return;
+            
             spellCastController.Init(this);
+            
+            if(UserInstance.Me.ClientId == newId)
+                GetComponentInChildren<CameraController>().CenterCameraOnPlayer();
+        }
+
+        [Server]
+        public override void SrvResetPlayer()
+        {
+            base.SrvResetPlayer();
+            
+            _entity.SrvResetEntity();
+            _stateMachine.ChangeStateTo<IdleState>();
+            attackController.SrvForceReset();
+            inCastController.SrvResetInCast();
         }
 
         protected override void OnTeamChanged(int oldValue, int newValue)
         {
             base.OnTeamChanged(oldValue, newValue);
-            
-            // Maybe change color or something idk
+
+            if (this.IsClientOnly())
+            {
+                bool isAlly = UserInstance.Me.Team == newValue;
+                Entity.SetOutlineColor(isAlly);
+            }
         }
     }
 }

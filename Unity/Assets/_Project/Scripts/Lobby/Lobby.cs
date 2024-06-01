@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Project
 {
-    enum ELobbyState
+    public enum ELobbyState
     {
         None,
         TeamSelection,
@@ -20,7 +20,18 @@ namespace Project
     {
         [SerializeField] private Pager _pager;
         private ELobbyState _lobbyState = ELobbyState.TeamSelection;
+        public ELobbyState lobbyState
+        {
+            get => _lobbyState;
+            set
+            {
+                _lobbyState = value;
+                OnStateChange?.Invoke(value);
+                Debug.Log("Lobby state changed to: " + value);
+            }
+        }
         public readonly Action onAllPlayersReadyEvent;
+        public event Action<ELobbyState> OnStateChange;
 
         private void Start()
         {
@@ -68,7 +79,7 @@ namespace Project
         
         private void OnAllPlayersReady()
         {
-            switch (_lobbyState)
+            switch (lobbyState)
             {
                 case ELobbyState.TeamSelection:
                     GoToCharacterSelectionPage();
@@ -94,7 +105,7 @@ namespace Project
         private void GoToTeamSelectionPage()
         {
             _pager.GoToPage(0);
-            _lobbyState = ELobbyState.TeamSelection;
+            lobbyState = ELobbyState.TeamSelection;
         }
 
         private async void GoToCharacterSelectionPage()
@@ -122,7 +133,7 @@ namespace Project
         private void GoToCharacterSelectionPageLocal()
         {
             _pager.GoToPage(1);
-            _lobbyState = ELobbyState.CharacterSelection;
+            lobbyState = ELobbyState.CharacterSelection;
         }
 
         private void GoToGameScene()

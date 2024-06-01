@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using FMOD;
 using Project._Project.Scripts.Utilities;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
@@ -26,6 +27,7 @@ namespace Project
             if (_gitCommitHash != clientGitCommitHash)
             {
                 NetworkManager.Singleton.DisconnectClient(clientId, $"Last git commit hash different from server : [Server] {_gitCommitHash} / [Client] {clientGitCommitHash}");
+                UnityEngine.Debug.Log($"Client {clientId} disconnected because of different git commit hash");
             }
         }
 

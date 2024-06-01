@@ -12,16 +12,12 @@ namespace Project.Spells
         [SerializeField] private float duration = 2f;
 
         [SerializeField] private float zoneRadius;
-
-        [SerializeField] private bool includeCaster;
         
         [SerializeField] private ApplyType applyType;
         [SerializeField, ShowIf(nameof(IsTimedApplyType))] private float timeBetweenApplies;
         
         private readonly Collider[] _hits = new Collider[10];
         private float _applyTimer;
-        
-        private Entity _casterEntity;
         
         protected override void Init(ICastResult castResult)
         {
@@ -31,9 +27,6 @@ namespace Project.Spells
                     $"Given channeling result {nameof(castResult)} is not the required type for {nameof(SelfTargetSpell)}!");
                 return;
             }
-            
-            if (Caster is PCPlayerRefs playerRefs)
-                _casterEntity = playerRefs.Entity;
             
             if (applyType == ApplyType.OnStart)
                 CheckForEffects();
@@ -54,15 +47,12 @@ namespace Project.Spells
         private void CheckForEffects()
         {
             var size = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, _hits, Constants.Layers.EntityMask);
-            if(size == 0) return;
+            if (size == 0) return;
             
             for (int i = 0; i < size; i++)
             {
                 if (_hits[i].TryGetComponent(out Entity entity))
                 {
-                    if(!includeCaster && _casterEntity && entity == _casterEntity) 
-                        continue;
-                    
                     TryApplyEffects(entity);
                 }
             }
@@ -74,7 +64,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             if (!IsTimedApplyType()) return;
             
             _applyTimer -= Time.deltaTime;
@@ -88,7 +78,7 @@ namespace Project.Spells
 
         private void LateUpdate()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             if (!followPlayer) return;
             
             transform.position = Caster.PlayerTransform.position;

@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Project
@@ -13,10 +14,16 @@ namespace Project
 
         [SerializeField, Required] private Image _image;
         [SerializeField, Required] private TMP_Text _name;
+        [SerializeField, Required] private Showcase _showcase;
 
-        [ClearOnReload, ShowInInspector] private static int _characterSelectedId;
+        [SerializeField] private Image _outline;
+        [SerializeField] private Sprite _outlineUnSelected;
+        [SerializeField] private Sprite _outlineSelected;
 
-        [ClearOnReload] public static Action<int, int> onCharacterSelectedEvent;
+        [ClearOnReload, ShowInInspector, ReadOnly] private static int _characterSelectedId;
+
+        [ClearOnReload] public static Action<int, int> CliOnCharacterSelectedEvent;
+
 
         [Button]
         private void OnValidate()
@@ -29,14 +36,20 @@ namespace Project
 
         public void SelectCharacter()
         {
+            if (_characterSelectedId == _characterData.id) return;
+            
             _characterSelectedId = _characterData.id;
+            _outline.sprite = _outlineSelected;
+            
+            _showcase.UpdateData(SOCharacter.GetCharacter(_characterSelectedId));
+            
             SelectCharacterServerRpc((int)NetworkManager.Singleton.LocalClientId, _characterSelectedId);
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void SelectCharacterServerRpc(int clientId, int characterId)
         {
-            onCharacterSelectedEvent?.Invoke(clientId, characterId);
+            CliOnCharacterSelectedEvent?.Invoke(clientId, characterId);
         }
 
         public void ValidateCharacterServerRpcc()

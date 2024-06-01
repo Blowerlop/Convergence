@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRefs: {fileID: 6738473160392363157}
-  channelingNetVarName: IsChanneling
 --- !u!1 &1620765535107710638
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 231610194
+  GlobalObjectIdHash: 899053064
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -225,8 +224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
+  shootTransform: {fileID: 0}
   cooldowns: {fileID: 9017225376331183656}
   channeling: {fileID: 2923043460446806746}
+  _networkAnimator: {fileID: 2599821034016253233}
+  playerSpellsAnimFxHandler: {fileID: 0}
 --- !u!114 &1849431562472469695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,14 +312,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: DarkWillow
       objectReference: {fileID: 0}
-    - target: {fileID: 8647636484079570528, guid: 25336943ba1acf149bc298115dd5627c,
-        type: 3}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 8647636484079570528, guid: 25336943ba1acf149bc298115dd5627c,
-        type: 3}
-    m_RemovedComponents:
-    - {fileID: 8647636484079570528, guid: 25336943ba1acf149bc298115dd5627c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -328,3 +323,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5623962604329578876}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2599821034016253233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7644929936016643149, guid: 25336943ba1acf149bc298115dd5627c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5623962604329578876}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
-using Project.Extensions;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Project
 {
@@ -44,8 +40,10 @@ namespace Project
             Application.logMessageReceived += OnLogMessageReceived_UpdateGUI; 
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             Application.logMessageReceived -= OnLogMessageReceived_UpdateGUI; 
         }
 

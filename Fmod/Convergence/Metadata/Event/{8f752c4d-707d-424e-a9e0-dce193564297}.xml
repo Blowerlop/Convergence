@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{8f752c4d-707d-424e-a9e0-dce193564297}">
 		<property name="name">
-			<value>Stun</value>
+			<value>hit_stun</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>
 		</property>
 		<relationship name="folder">
-			<destination>{72727f19-f0a6-4108-905b-48e17965faba}</destination>
+			<destination>{fd07751d-8d3e-4499-919f-737a6995e3d6}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{4575b3b3-fec6-4daf-8df4-2be19e6101fd}</destination>
@@ -53,7 +53,7 @@
 			<destination>{7d93510d-c1ef-49de-9463-61a4da07815f}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{c582d1a0-de7c-434d-a25f-79ed43f7f77b}</destination>
+			<destination>{5bead37d-461a-4fab-9422-e9c4e96cbd1b}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{74f14c4e-9099-4362-bd9b-9aba299094be}" />

@@ -17,20 +17,39 @@ MonoBehaviour:
     type: 3}
   spellId: assassin_2
   spellIdHash: -773798087
+  instantiationType: 0
   spellPrefab: {fileID: 6644908066795306404, guid: 7fd9923724057f14589028b353d887af,
     type: 3}
   isInstant: 0
-  cooldown: 5
-  channelingTime: 0.25
+  cooldown: 13
+  channelingTime: 0.29
+  castingFlags: 0
+  castAnimationDuration: 0.4
+  spellName: Rake
+  spellIcon: {fileID: 21300000, guid: 5a1cd75884447b04894af2c94cce6dcf, type: 3}
+  spellDescription:
+    descriptionText: NightShade throws daggers in a circular shape in the target
+      direction that deals {0} damage to enemies hit.  At maximum range, the daggers
+      homes back to NightShade, dealing damage to enemies hit and Slow them for {3}
+      second.
+    effects:
+    - rid: 1951814749556572177
+    - rid: 714726027457462272
   effects:
   - rid: 1951814749556572177
-  animatorOverrideController: {fileID: 0}
-  length: 6
+  - rid: 714726027457462272
+  onCasterEffects: []
+  length: 11
   references:
     version: 2
     RefIds:
+    - rid: 714726027457462272
+      type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        SlowAmount: 2
+        Duration: 1.5
     - rid: 1951814749556572177
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 10
+        DamageAmount: 175

@@ -1,3 +1,4 @@
+using Project.Scripts.UIFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,17 +17,19 @@ namespace Project
 
         private void OnEnable()
         {
-            InputManager.instance.onMenuKey.performed += Toggle;
+            InputManager.instance.onEscapeKey.performed += Toggle;
         }
         
         private void OnDisable()
         {
-            InputManager.instance.onMenuKey.performed -= Toggle;
+            InputManager.instance.onEscapeKey.performed -= Toggle;
         }
 
 
         private void Toggle(InputAction.CallbackContext _)
         {
+            if (UiNavigator.IsNavigating()) return;
+            
             bool active = !_menu.activeSelf;
             _menu.SetActive(active);
             

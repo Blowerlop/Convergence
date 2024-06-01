@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Project.Spells;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,12 +12,27 @@ namespace Project._Project.Scripts
     {
         [field: ShowInInspector, ReadOnly, ServerField] public SOEntity data { get; private set; }
         [SerializeField] protected PlayerStats _stats;
+        
+        [Header("Outline")]
+        
+        [SerializeField] private MeshOutline outline;
+        
+        [SerializeField] private float outlineShowWidth;
+    
+        [SerializeField] private float outlineShowDuration;
+        [SerializeField] private float outlineHideDuration;
+    
+        [SerializeField] private Color allyOutlineColor = Color.green;
+        [SerializeField] private Color enemyOutlineColor = Color.red;
+        
         public PlayerStats Stats => _stats;
 
         public virtual int TeamIndex => -1;
 
         public Entity AffectedEntity => this;
         public IList<Effect> AppliedEffects { get; } = new List<Effect>();
+        
+        public bool IsHovered { get; private set; }
         
         public bool IsSilenced => _isSilenced.Value;
         private GRPC_NetworkVariable<bool> _isSilenced = new GRPC_NetworkVariable<bool>("IsSilenced");
@@ -45,14 +61,20 @@ namespace Project._Project.Scripts
             
             SilenceChanged(false, _isSilenced.Value);
             _isSilenced.OnValueChanged += SilenceChanged;
+            
+            if (!_stats.isInitialized) _stats.OnStatsInitialized += OnStatsInitialized;
+            else OnStatsInitialized();
         }
-        
+
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
             
             _isSilenced.OnValueChanged -= SilenceChanged;
             _isSilenced.Reset();
+            
+            if(_stats is { nHealthStat: not null })
+                _stats.nHealthStat._nValue.OnValueChanged -= OnHealthChanged;
         }
 
         [Server]
@@ -66,6 +88,13 @@ namespace Project._Project.Scripts
             _isInit = true;
         }
         
+        private void OnStatsInitialized()
+        {
+            _stats.OnStatsInitialized -= OnStatsInitialized;
+            
+            _stats.nHealthStat._nValue.OnValueChanged += OnHealthChanged;
+        }
+        
         public void Heal(int modifier)
         {
             _stats.nHealthStat.Value += modifier;
@@ -75,12 +104,38 @@ namespace Project._Project.Scripts
         {
             _stats.nHealthStat.SetToMaxValue();
         }
+        
+        // Can do this with health because we don't need attacker info for the animation
+        public void OnHealthChanged(int oldValue, int newValue)
+        {
+            if (!HealthTextPool.instance) return;
+            
+            var diff = newValue - oldValue;
+            
+            if(diff >= 0)
+                HealthTextPool.instance.RequestText(diff, transform, default);
+        }
 
         public void Damage(int modifier)
         {
             CheckForShieldDamage(ref modifier);
             
             _stats.nHealthStat.Value -= modifier;
+        }
+
+        [ClientRpc]
+        public void OnDamagedByClientRpc(ushort attackerId, int amount)
+        {
+            if (!HealthTextPool.instance) return;
+
+            if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attacker))
+                return;
+            
+            var dir = transform.position - attacker.transform.position;
+            dir.y = 0;
+            dir.Normalize();
+            
+            HealthTextPool.instance.RequestText(-amount, transform, dir);
         }
 
         private void CheckForShieldDamage(ref int modifier)
@@ -149,7 +204,8 @@ namespace Project._Project.Scripts
         
         #endregion
 
-
+        #region Silence
+        
         public void Silence()
         {
             _isSilenced.Value = true;
@@ -164,5 +220,41 @@ namespace Project._Project.Scripts
         {
             OnSilenceChanged?.Invoke(newValue);
         }
+        
+        #endregion
+
+        public void SrvResetEntity()
+        {
+            _isSilenced.Value = false;
+
+            foreach (var effect in AppliedEffects.ToList())
+            {
+                effect.KillEffect();
+            }
+            
+            _stats.SrvResetStats();
+        }
+        
+        #region Hover
+        
+        public void OnHover()
+        {
+            outline.Show(outlineShowWidth, outlineShowDuration);
+            IsHovered = true;
+        }
+
+        public void OnUnhover()
+        {
+            outline.Hide(outlineHideDuration);
+            IsHovered = false;
+        }
+        
+        public void SetOutlineColor(bool isAlly)
+        {
+            outline.SetColor(isAlly ? allyOutlineColor : enemyOutlineColor);
+        }
+        
+        #endregion
+
     }
 }

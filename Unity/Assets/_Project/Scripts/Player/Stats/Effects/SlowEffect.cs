@@ -16,9 +16,11 @@ namespace Project.Effects
         private int _slowedValue;
         
         [Server]
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
+         
+            AddToEffectable();
             
             if (!entity.Stats.TryGet(out _stat))
             {
@@ -37,6 +39,8 @@ namespace Project.Effects
 
         public override void KillEffect()
         {
+            RemoveFromEffectable();
+            
             RemoveSlow();
             AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
@@ -53,6 +57,16 @@ namespace Project.Effects
                 SlowAmount = SlowAmount, 
                 Duration = Duration
             };
+        }
+
+        public override float GetEffectValue()
+        {
+            return SlowAmount;
+        }
+
+        public override float GetEffectDuration()
+        {
+            return Duration;
         }
     }
 }

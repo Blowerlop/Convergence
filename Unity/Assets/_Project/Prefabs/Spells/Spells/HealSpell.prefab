@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 6ec28a5f5a72a5e48907798daba5f913,
     type: 2}
+  CanHitSelf: 1
   followPlayer: 1
   duration: 2
 --- !u!114 &-225165724764850813

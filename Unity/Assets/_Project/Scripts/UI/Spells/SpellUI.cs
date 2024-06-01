@@ -4,7 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System; 
 namespace Project.Spells
 {
     public class SpellUI : MonoBehaviour
@@ -14,17 +14,22 @@ namespace Project.Spells
 
         [SerializeField] private CanvasGroup group;
         [SerializeField] private TextMeshProUGUI tmp;
-        [SerializeField] private Image img;
+        [SerializeField] private Image cooldownFilter;
+        [SerializeField] private Image spellIcon;
+        [SerializeField] private SpellTooltip spellTooltip; 
 
         private float _maxTime;
         
         private void Awake()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             UserInstance.Me.OnPlayerLinked += Setup;
         }
 
         private void OnDestroy()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
             if (UserInstance.Me != null) UserInstance.Me.OnPlayerLinked -= Setup;
             
             if (!_cooldowns) return;
@@ -58,6 +63,16 @@ namespace Project.Spells
             _cooldowns.OnServerCooldownEnded += OnCooldownEnded;
 
             group.alpha = 0;
+
+            if (SOCharacter.TryGetCharacter(UserInstanceManager.instance.GetUserInstance((int) NetworkManager.Singleton.LocalClientId).CharacterId, out var character))
+            {
+                if (character.TryGetSpell(id, out var spellData))
+                {
+                    spellIcon.sprite = spellData.spellIcon;
+                    spellTooltip?.UpdateToolTipText(spellData);
+                }
+            }
+            
         }
         
         private void OnCooldownStarted(int index, float time)
@@ -65,7 +80,7 @@ namespace Project.Spells
             if (index != id) return;
             
             group.DOFade(1, 0);
-            img.fillAmount = 1;
+            cooldownFilter.fillAmount = 1;
             tmp.text = Mathf.RoundToInt(time).ToString();
 
             _maxTime = time;
@@ -76,7 +91,7 @@ namespace Project.Spells
             if (index != id) return;
             
             tmp.text = value.ToString(CultureInfo.InvariantCulture);
-            img.fillAmount = value / _maxTime;
+            cooldownFilter.fillAmount = value / _maxTime;
         }
         
         private void OnCooldownEnded(int index)

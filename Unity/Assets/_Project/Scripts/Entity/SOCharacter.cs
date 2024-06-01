@@ -28,10 +28,12 @@ namespace Project
         [field: OnValueChanged("SetId", InvokeOnInitialize = false,  InvokeOnUndoRedo = true)]
         public string characterName { get;  set; }
         [field: SerializeField, AssetsOnly, Required, PreviewField(75)] public Sprite avatar { get; private set; }
+        [field: SerializeField, AssetsOnly, Required, PreviewField(75)] public Sprite avatar2 { get; private set; }
+        [field: SerializeField, AssetsOnly, Required, PreviewField(75)] public GameObject model { get; private set; }
         [field: SerializeField, AssetsOnly, Required] public GameObject prefab { get; private set; }
         // [field: SerializeField, AssetsOnly, Required] public GameObject model { get; private set; }
 
-        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField]
+        [RequiredListLength(SpellData.CharacterSpellsCount), SerializeField, InlineEditor]
         private SpellData[] spells = new SpellData[SpellData.CharacterSpellsCount];
         
         [field: SerializeReference, ListDrawerSettings(ShowIndexLabels = false, DraggableItems = false)] public StatBase[] stats;

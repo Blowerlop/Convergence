@@ -1,3 +1,5 @@
+using System;
+
 namespace Project
 {
     using UnityEngine;
@@ -12,21 +14,14 @@ namespace Project
             {
                 if (Application.isPlaying == false) return null;
                 
-                if(_instance == null){
-                    _instance = FindObjectOfType<T>();
-                    if(_instance == null){
-                        GameObject singletonObj = new GameObject();
-                        singletonObj.name = typeof(T).ToString();
-                        _instance = singletonObj.AddComponent<T>();
-                    } 
-                }
+                if(_instance == null) _instance = FindObjectOfType<T>();
                 
                 return _instance;
             }
         }
         
         protected virtual void Awake(){
-            if (_instance != null)
+            if (_instance != null && _instance != this)
             {
                 Debug.LogError($"There is more than one instance of {this}");
                 Destroy(this);
@@ -39,6 +34,11 @@ namespace Project
             {
                 DontDestroyOnLoad(gameObject);
             }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (_instance == this) _instance = null;
         }
 
         public static bool IsInstanceAlive() => _instance != null;

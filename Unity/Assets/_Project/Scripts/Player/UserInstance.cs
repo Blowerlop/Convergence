@@ -16,6 +16,10 @@ namespace Project
         /// Reference to the local client's UserInstance.
         /// </summary>
         [ClearOnReload] public static UserInstance Me;
+        public static event Action<UserInstance> OnSpawned;
+        public static event Action<UserInstance> OnLocalSpawned;
+        public static event Action<UserInstance> OnDespawned;
+        public static event Action<UserInstance> OnLocalDespawned;
 
         public PlayerRefs LinkedPlayer { get; private set; }
         public event Action<PlayerRefs> OnPlayerLinked;
@@ -28,6 +32,8 @@ namespace Project
         [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
         [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
+        
+        [ShowInInspector] public GRPC_NetworkVariable<int> WinCount { get; private set; } = new("WinCount");
         
         private GRPC_NetworkVariable<int>[] _mobileSpells = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
         private GRPC_NetworkVariable<int> _ms1 = new("MobileSpell_0"), _ms2 = new("MobileSpell_1"), _ms3 = new("MobileSpell_2"), _ms4 = new("MobileSpell_3");
@@ -47,6 +53,8 @@ namespace Project
         
         public override void OnNetworkSpawn()
         {
+            Debug.Log("[UserInstance] Start spawn", gameObject);
+
             InitializeNetworkVariables();
 
             if (IsClient && !IsHost)
@@ -66,15 +74,19 @@ namespace Project
                 SetScene(currentSceneName);
             }
             
-            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
+            if (IsOwner && !GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient)
+            {
+                Me = this;
+                OnLocalSpawned?.Invoke(this);
+            }
 
-            Me = this;
-            
-            
+            OnSpawned?.Invoke(this);
+            Debug.Log("[UserInstance] End spawn", gameObject);
         }
         
         public override void OnNetworkDespawn()
         {
+            Debug.Log("[UserInstance] Start despawn", gameObject);
             ResetNetworkVariables();
 
             if (IsClient)
@@ -84,16 +96,14 @@ namespace Project
                 _networkTeam.OnValueChanged -= OnTeamChanged;
             }
             
-            if (!IsOwner || GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient) return;
-
-            Me = null;
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
+            if (IsOwner && !GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient)
+            {
+                Me = null;
+                OnLocalDespawned?.Invoke(this);
+            }
             
-            ResetNetworkVariables();
+            OnDespawned?.Invoke(this);
+            Debug.Log("[UserInstance] End despawn", gameObject);
         }
 
         private void CreateNetVarInstance()
@@ -115,6 +125,7 @@ namespace Project
             _networkIsMobile.Initialize();
             _networkIsReady.Initialize();
             _networkCharacterId.Initialize();
+            WinCount.Initialize();
 
             _mobileSpells[0] = _ms1;
             _mobileSpells[1] = _ms2;
@@ -136,6 +147,7 @@ namespace Project
             _networkIsMobile.Reset();
             _networkIsReady.Reset();
             _networkCharacterId.Reset();
+            WinCount.Reset();
             
             for (var i = 0; i < _mobileSpells.Length; i++)
             {
@@ -261,5 +273,13 @@ namespace Project
             
             _mobileSpells[index].Value = spellId;
         }
+        
+        #if UNITY_EDITOR
+        [ExecuteOnReload]
+        private static void StaticClear()
+        {
+            OnSpawned = null;
+        }
+        #endif
     }
 }

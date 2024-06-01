@@ -175,6 +175,7 @@ namespace Project._Project.Scripts.Managers
         
         public void PlaySingleSound(string eventName, GameObject target, EventType type)
         {
+            if (eventName == "") return;
             GetPath(ref eventName, type);
 
             if (CheckErrorMessage(RuntimeManager.StudioSystem.getEvent(eventName, out var eventInfo), eventName)) 

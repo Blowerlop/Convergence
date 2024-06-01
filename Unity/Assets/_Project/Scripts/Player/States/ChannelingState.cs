@@ -6,6 +6,11 @@ namespace Project._Project.Scripts.Player.States
     {
         private readonly byte _index;
         
+        // Used to create an instance with reflection
+        public ChannelingState()
+        {
+            _index = 0;
+        }
         
         public ChannelingState(byte index)
         {
@@ -28,9 +33,14 @@ namespace Project._Project.Scripts.Player.States
             return typeof(T) == typeof(IdleState);
         }
 
+        public override bool CanEnterState(PCPlayerRefs refs)
+        {
+            return true;
+        }
+
         public override string ToString()
         {
-            return "Casting";
+            return "Channeling";
         }
 
         public override bool Equals<T>(T obj)

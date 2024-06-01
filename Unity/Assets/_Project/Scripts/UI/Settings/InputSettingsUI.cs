@@ -1,22 +1,21 @@
+using Project._Project.TESTT_REBIND;
 using Sirenix.OdinInspector;
-#if UNITY_EDITOR
-using Sirenix.OdinInspector.Editor;
-#endif
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+#endif
 
-namespace Project._Project.TESTT_REBIND
+namespace Project._Project.Scripts.UI.Settings
 {
     public class InputSettingsUI : MonoBehaviour
     {
         [field: Title("Binds")]
-        [field: SerializeField, LabelText("Input Action Reference")] public InputActionReference inputActionReference { get; private set; }
+        [field: SerializeField, LabelText("Input Action Reference"), OnValueChanged(nameof(UpdateInputBinding))] public InputActionReference inputActionReference { get; private set; }
+        [SerializeField, ValueDropdown("@inputActionReference.action.bindings")] private InputBinding _inputBinding;
         [SerializeField, HideInInspector] private int _bindingIndex;
-        [ShowInInspector, ReadOnly] private InputBinding _inputBinding;
         private string _actionName;
     
         [Title("Visual")]
@@ -24,8 +23,10 @@ namespace Project._Project.TESTT_REBIND
         
         [Title("Settings")]
         [SerializeField] private bool _excludeMouse = true;
+        [SerializeField] private bool _overrideActionText;
+        [SerializeField, ShowIf(nameof(_overrideActionText))] private string _customActionText;
         
-        [Header("UI Fields")]
+        [Title("UI Fields")]
         [SerializeField] private TMP_Text _actionText;
         [SerializeField] private Button _rebindButton;
         [SerializeField] private TMP_Text _rebindText;
@@ -37,7 +38,6 @@ namespace Project._Project.TESTT_REBIND
         {
             if(inputActionReference != null)
             {
-                // InputSettingsManager.LoadBindingOverride(_actionName);
                 GetBindingInfo();
                 UpdateUI();
             }
@@ -49,16 +49,16 @@ namespace Project._Project.TESTT_REBIND
             InputSettingsManager.onRebindComplete += UpdateUI;
             InputSettingsManager.onRebindCanceled += UpdateUI;
         
-#if UNITY_EDITOR
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Settings")
-            {
-                Utilities.StartWaitForFramesAndDoActionCoroutine(this, 1, () =>
-                {
-                    GetBindingInfo();
-                    UpdateUI();
-                });
-            }
-#endif
+// #if UNITY_EDITOR
+//             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Settings")
+//             {
+//                 Utilities.StartWaitForFramesAndDoActionCoroutine(this, 1, () =>
+//                 {
+//                     GetBindingInfo();
+//                     UpdateUI();
+//                 });
+//             }
+// #endif
         }
 
         private void OnDisable()
@@ -82,7 +82,12 @@ namespace Project._Project.TESTT_REBIND
             GetBindingInfo();
             UpdateUI();
         }
+        
 
+        private void UpdateInputBinding()
+        {
+            _inputBinding = inputActionReference.action.bindings[0];
+        }
         
         private void GetBindingInfo()
         {
@@ -90,18 +95,18 @@ namespace Project._Project.TESTT_REBIND
             
             _actionName = inputActionReference.action.name;
 
-            if(inputActionReference.action.bindings.Count > _bindingIndex)
-            {
-                _inputBinding = inputActionReference.action.bindings[_bindingIndex];
-            }
+            _bindingIndex = inputActionReference.action.bindings.IndexOf(x => x.path == _inputBinding.path);
+            if (_bindingIndex == -1) _bindingIndex = 0;
         }
 
         private void UpdateUI()
         {
             if (_actionText != null)
-                _actionText.text = _actionName;
+            {
+                _actionText.text = _overrideActionText ? _customActionText : _actionName;
+            }
 
-            if(_rebindText != null)
+            if (_rebindText != null)
             {
                 if (Application.isPlaying)
                 {
@@ -129,40 +134,4 @@ namespace Project._Project.TESTT_REBIND
             UpdateUI();
         }
     }
-    
-    
-#if UNITY_EDITOR
-    [CustomEditor(typeof(InputSettingsUI))]
-    public class InputSettingsUIEditor : OdinEditor
-    {
-        private int _index;
-        
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-
-            InputSettingsUI t = target as InputSettingsUI;
-            if (t == null) return;
-
-            if (t.inputActionReference == null) return;
-            
-            SerializedProperty bindingIndexProperty = serializedObject.FindProperty("_bindingIndex");
-
-            ReadOnlyArray<InputBinding> bindings = t.inputActionReference.action.bindings;
-            string[] array = new string[bindings.Count];
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = bindings[i].path;
-                if (i == bindingIndexProperty.intValue) _index = i;
-            }
-
-            _index = EditorGUILayout.Popup("Binding", _index, array);
-            bindingIndexProperty.intValue = _index;
-            
-            serializedObject.ApplyModifiedProperties();
-            
-            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
-        }
-    }
-    #endif  
 }

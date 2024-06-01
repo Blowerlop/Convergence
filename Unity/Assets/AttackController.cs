@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
@@ -16,11 +17,12 @@ namespace Project
         private Camera _camera;
         public NetworkObject targetNetworkObject;
         private bool _isAttacking;
-        private IDamageable _damageable;
+        private IEffectable _effectable;
         private bool _isRanged;
-        [SerializeField] private Projectile _projectile;
-        [SerializeField] private SOProjectile _projectileData;
-
+        private SOProjectile _projectileData;
+        
+        private DamageEffect _cachedDamageEffect;
+        
         private void Awake()
         {
             _playerRefs = GetComponentInParent<PCPlayerRefs>();
@@ -32,12 +34,11 @@ namespace Project
             {
                 _playerRefs.PlayerMouse.OnMouseClick += OnMouseButton1_AttackRequest;
                 InputManager.instance.onCancellation.performed += OnCancellation_StopAttack;
-
-                _playerRefs.Entity.onEntityInit += OnEntityInit;
             }
 
             if (IsServer)
             {
+                _playerRefs.Entity.onEntityInit += OnEntityInit;
                 _playerRefs.StateMachine.OnStateExit += OnStateExit_EndAttack;
             }
         }
@@ -55,6 +56,7 @@ namespace Project
 
             if (IsServer)
             {
+                _playerRefs.Entity.onEntityInit -= OnEntityInit;
                 _playerRefs.StateMachine.OnStateExit -= OnStateExit_EndAttack;
             }
         }
@@ -81,6 +83,8 @@ namespace Project
         // [Owner]
         private void OnMouseButton1_AttackRequest(RaycastHit hitInfo, int layer)
         {
+            if (!Gameloop.IsGameRunning) return;
+            
             if (layer != Constants.Layers.EntityIndex)
             {
                 if (targetNetworkObject != null)
@@ -113,6 +117,8 @@ namespace Project
         [Server]
         private void SrvTryToAttack(NetworkObjectReference networkObjectReference)
         {
+            if (!Gameloop.IsGameRunning) return;
+            
             networkObjectReference.TryGet(out targetNetworkObject);
             if (targetNetworkObject == null)
             {
@@ -131,16 +137,16 @@ namespace Project
 
             if (IsInRange(targetNetworkObject.transform.position) == false) return;
 
-            IDamageable damageable = targetNetworkObject.GetComponentInChildren<IDamageable>();
+            IEffectable effectable = targetNetworkObject.GetComponentInChildren<IEffectable>();
 
             if (_playerRefs.StateMachine.CanChangeStateTo<AttackState>())
             {
-                StartAttack(targetNetworkObject.transform.position, damageable);
+                StartAttack(targetNetworkObject.transform.position, effectable);
             }
         }
 
         [Server]
-        private void StartAttack(Vector3 targetPosition, IDamageable damageable)
+        private void StartAttack(Vector3 targetPosition, IEffectable effectable)
         {
             _isAttacking = true;
             _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
@@ -148,7 +154,7 @@ namespace Project
             _playerRefs.PlayerTransform.rotation =
                 Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
                     .normalized);
-            _damageable = damageable;
+            _effectable = effectable;
         }
 
         // Ca ne se passe pas bien dans l'animator si on ne skip pas une frame :)
@@ -161,28 +167,33 @@ namespace Project
             {
                 _playerRefs.StateMachine.ChangeStateTo<IdleState>();
             }
-            
+
+            ResetAttack();
+        }
+
+        private void ResetAttack()
+        {
             _isAttacking = false;
         }
 
         [Server]
-        public void Hit(IDamageable damageable)
+        public void Hit(IEffectable effectable)
         {
-            damageable.Damage(_playerRefs.Entity.Stats.Get<AttackDamageStat>().value);
-            
-            if(damageable is IEffectable hitEffectable)
-            {
-                IEffectable ownEffectable = _playerRefs.Entity;
+            IEffectable ownEffectable = _playerRefs.Entity;
                 
-                for (int i = ownEffectable.AppliedEffects.Count - 1; i >= 0; i--)
-                {
-                    var effect = ownEffectable.AppliedEffects[i];
-                    if (effect is not NextAutoEffect nextAutoEffect) continue;
+            for (int i = ownEffectable.AppliedEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = ownEffectable.AppliedEffects[i];
+                if (effect is not NextAutoEffect nextAutoEffect) continue;
                     
-                    nextAutoEffect.TryApplyChildEffects(hitEffectable, _playerRefs.TeamIndex);
-                    nextAutoEffect.KillEffect();
-                }
+                nextAutoEffect.TryApplyChildEffects(effectable, _playerRefs);
+                nextAutoEffect.KillEffect();
             }
+
+            _cachedDamageEffect ??= new DamageEffect();
+            _cachedDamageEffect.DamageAmount = _playerRefs.Entity.Stats.Get<AttackDamageStat>().value;
+            
+            _cachedDamageEffect.TryApply(effectable, _playerRefs, _playerRefs.PlayerTransform.position);    
             
             if (_isRanged == false) StartCoroutine(EndAttack());
         }
@@ -197,7 +208,7 @@ namespace Project
 
             if (_isRanged)
             {
-                Projectile projectileInstance = Instantiate(_projectile, transform.position, transform.rotation);
+                Projectile projectileInstance = Instantiate(_projectileData.prefab, _playerRefs.ShootTransform.position, _playerRefs.ShootTransform.rotation);
                 projectileInstance.Init(this, _projectileData);
                 projectileInstance.GetComponent<NetworkObject>().Spawn(true);
 
@@ -205,7 +216,7 @@ namespace Project
             }
             else
             {
-                Hit(_damageable);
+                Hit(_effectable);
             }
 
         }
@@ -242,8 +253,9 @@ namespace Project
         [Server]
         private bool IsInRange(Vector3 targetPosition)
         {
+            float attackRange = _playerRefs.Entity.Stats.Get<AttackRangeStat>().value;
             return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude <
-                   _playerRefs.Entity.Stats.Get<AttackRangeStat>().value * _playerRefs.Entity.Stats.Get<AttackRangeStat>().value;
+                   attackRange * attackRange;
         }
 
         [Server]
@@ -260,9 +272,16 @@ namespace Project
             {
                 if (IsAttacking())
                 {
-                    StartCoroutine(EndAttack());
+                    ResetAttack();
                 }
             }
+        }
+
+        [Server]
+        public void SrvForceReset()
+        {
+            targetNetworkObject = null;
+            ResetAttack();
         }
     }
 }

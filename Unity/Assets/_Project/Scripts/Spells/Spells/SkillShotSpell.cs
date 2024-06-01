@@ -9,14 +9,13 @@ namespace Project.Spells
 {
     public class SkillShotSpell : Spell
     {
-        private GRPC_NetworkVariable<bool> _impact = new GRPC_NetworkVariable<bool>("Impact");
+        private NetworkVariable<bool> _impact = new();
         
         [Title("Moving Phase")]
         
         [SerializeField] private GameObject _movingObject;
         
-        [SerializeField] private Vector3 _castOffset;
-        [SerializeField] private float _castRadius;
+        [SerializeField] private BoxCollider boxCollider;
         
         [SerializeField] private float speed = 3f;
         [SerializeField] private float moveDuration = 2f;
@@ -43,8 +42,14 @@ namespace Project.Spells
             _movingObject.SetActive(true);
             if (hasImpactPhase) _impactObject.SetActive(false);
             
-            _impact.Initialize();
             _impact.OnValueChanged += OnImpactChanged;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            
+            _impact.OnValueChanged -= OnImpactChanged;
         }
 
         protected override void Init(ICastResult castResult)
@@ -63,7 +68,11 @@ namespace Project.Spells
             var dir = GetDirection(castResult, Caster);
             
             _moveSeq.Join(transform.DOMove(transform.position + dir * speed, moveDuration).SetEase(Ease.Linear));
-            _moveSeq.OnComplete(KillSpell);
+            _moveSeq.OnComplete(() =>
+            {
+                PlayDestroySoundClientRpc();
+                KillSpell();
+            });
         }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
@@ -75,7 +84,7 @@ namespace Project.Spells
                 return default;
             }
             
-            return (player.PlayerTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
+            return (player.ShootTransform.position, Quaternion.LookRotation(GetDirection(castResult, player)));
         }
 
         public override Vector3 GetDirection(ICastResult castResult, PlayerRefs player)
@@ -96,7 +105,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer && !IsHost) return;
+            if (!IsOnServer) return;
 
             if (_isOnImpactPhase)
             {
@@ -110,11 +119,10 @@ namespace Project.Spells
         
         private bool IsColliding(out RaycastHit hit)
         {
-            var forward = transform.forward;
-            Vector3 realCastOffset = new Vector3(forward.x * _castOffset.x, 0, forward.z * _castOffset.z);
+            var pos = boxCollider.transform.rotation * boxCollider.center + boxCollider.transform.position;
             
-            return Physics.SphereCast(transform.position + realCastOffset, _castRadius, _results.VectorProp, 
-                    out hit, 0.5f, Constants.Layers.EntityMask);
+            return Physics.BoxCast(pos, boxCollider.size / 2, GetDirection(_results, Caster), 
+                    out hit, boxCollider.transform.rotation, 0.5f, Constants.Layers.EntityMask);
         }
 
         [Server]

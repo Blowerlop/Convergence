@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Project._Project.Scripts;
 using Sirenix.OdinInspector;
@@ -10,15 +11,24 @@ namespace Project.Spells
     {
         protected PlayerRefs Caster { get; private set; }
         protected int CasterTeamIndex => Caster.TeamIndex;
+        
+        protected bool IsServerOnly { get; private set; }
+        
+        // Must use this instead of NetworkBehaviour.IsServer to account for server only spells
+        protected bool IsOnServer => IsServerOnly || IsServer;
             
         [field: SerializeField, ReadOnly] public SpellData Data { get; set; }
         
+        [SerializeField] protected bool CanHitSelf;
+        
         // Called by Server
         // Used to set field that are common for every spell before calling overriden Init
-        [Server]
-        public void Init(ICastResult castResult, PlayerRefs player)
+        public void Init(ICastResult castResult, PlayerRefs player, bool serverOnly)
         {
             Caster = player;
+            IsServerOnly = serverOnly;
+            
+            ApplyOnCasterEffects();
             
             Init(castResult);
         }
@@ -31,13 +41,27 @@ namespace Project.Spells
 
         protected virtual bool TryApplyEffects(Entity entity)
         {
-            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, Caster.TeamIndex));
+            if (!CanHitSelf && Caster.GetPC().Entity == entity)
+                return false;
+            
+            int appliedEffects = Data.effects.Count(effect => effect.GetInstance().TryApply(entity, applier: Caster, applyPosition: transform.position));
             return appliedEffects > 0;
+        }
+
+        private void ApplyOnCasterEffects()
+        {
+            var entity = Caster.GetPC().Entity;
+            
+            foreach (var onCasterEffect in Data.onCasterEffects)
+            {
+                onCasterEffect.GetInstance().TryApply(entity, applier: Caster, applyPosition: transform.position);
+            }
         }
 
         protected virtual void KillSpell()
         {
-            NetworkObject.Despawn();
+            if (IsServerOnly) Destroy(gameObject);
+            else NetworkObject.Despawn();
         }
     }
 }

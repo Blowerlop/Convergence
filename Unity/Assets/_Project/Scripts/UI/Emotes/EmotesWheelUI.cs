@@ -21,11 +21,15 @@ namespace Project
 
         private void Awake()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             UserInstance.Me.OnPlayerLinked += Setup;
         }
 
         private void Start()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
+            
             content.SetActive(false);
             
             InputManager.instance.onEmotesWheel.started += OpenEmotesWheel;
@@ -49,6 +53,7 @@ namespace Project
 
         private void OnDestroy()
         {
+            if (NetworkManager.Singleton is { IsClient: false }) return;
             if (!InputManager.IsInstanceAlive()) return;
             
             InputManager.instance.onEmotesWheel.started -= OpenEmotesWheel;

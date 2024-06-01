@@ -102,7 +102,10 @@ namespace Project._Project.Scripts.StateMachine
 
         public bool CanChangeStateTo<T>() where T : BaseStateMachineBehaviour
         {
-            return currentState.CanChangeStateTo<T>();
+            // Can only go to idle if game is not running
+            if (!Gameloop.IsGameRunning && typeof(T) != typeof(IdleState)) return false;
+            
+            return currentState.CanChangeStateTo<T>() && GetState<T>().CanEnterState(_playerRefs);
         }
         
         [Server]

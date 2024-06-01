@@ -13,7 +13,7 @@ namespace Project.Effects
 
         private float _value;
         
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             if (!effectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat))
             {
@@ -50,6 +50,16 @@ namespace Project.Effects
             if (!AffectedEffectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat)) return;
             
             stat.value -= _value;
+        }
+
+        public override float GetEffectValue()
+        {
+            return _rangeAmount;
+        }
+
+        public override float GetEffectDuration()
+        {
+            return _duration; 
         }
     }
 }

@@ -11,9 +11,9 @@ namespace Project.Spells
     {
         [SerializeField] private string cooldownNetVarPrefix = "Cooldown_";
         
-        private GRPC_NetworkVariable<int>[] _cooldowns = new GRPC_NetworkVariable<int>[SpellData.CharacterSpellsCount];
+        private NetworkVariable<int>[] _cooldowns = new NetworkVariable<int>[SpellData.CharacterSpellsCount];
 
-        private GRPC_NetworkVariable<int> _cd1, _cd2, _cd3, _cd4;
+        private NetworkVariable<int> _cd1 = new(), _cd2 = new(), _cd3 = new(), _cd4 = new();
         
         private readonly Timer[] _timers = new Timer[SpellData.CharacterSpellsCount];
         
@@ -26,20 +26,10 @@ namespace Project.Spells
 
         private void Awake()
         {
-            CreateNetVarInstance();
-            
             for(int i = 0; i < _timers.Length; i++)
             {
                 _timers[i] = new Timer();
             }
-        }
-
-        private void CreateNetVarInstance()
-        {
-            _cd1 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 0);
-            _cd2 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 1);
-            _cd3 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 2);
-            _cd4 = new GRPC_NetworkVariable<int>(cooldownNetVarPrefix + 3);
         }
         
         public override void OnNetworkSpawn()
@@ -68,13 +58,6 @@ namespace Project.Spells
                 };
             }
         }
-
-        public override void OnNetworkDespawn()
-        {
-            base.OnNetworkDespawn();
-            
-            ResetNetworkVariables();
-        }
         
         private void InitNetVars()
         {
@@ -82,19 +65,6 @@ namespace Project.Spells
             _cooldowns[1] = _cd2;
             _cooldowns[2] = _cd3;
             _cooldowns[3] = _cd4;
-            
-            for (var i = 0; i < _cooldowns.Length; i++)
-            {
-                _cooldowns[i].Initialize();
-            }
-        }
-
-        private void ResetNetworkVariables()
-        {
-            for (var i = 0; i < _cooldowns.Length; i++)
-            {
-                _cooldowns[i].Reset();
-            }
         }
         
         public bool IsInCooldown(int index)
@@ -164,6 +134,22 @@ namespace Project.Spells
             _timers[index].StartTimerWithUpdateCallback(this, time, TimerUpdate, timerType: TimeType.Unscaled, ceiled: true);
             
             OnLocalCooldownStarted?.Invoke(index, time);
+        }
+
+        [Server]
+        public void SrvResetCooldowns()
+        {
+            for (var i = 0; i < _timers.Length; i++)
+            {
+                var temp = i;
+                
+                if(_timers[temp].isTimerRunning)
+                    _timers[temp].StopTimer();
+                
+                _cooldowns[temp].Value = 0;
+
+                OnServerCooldownEnded?.Invoke(temp);
+            }
         }
     }
 }

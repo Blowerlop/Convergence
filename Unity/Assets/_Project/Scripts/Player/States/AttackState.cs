@@ -13,6 +13,7 @@ namespace Project._Project.Scripts.Player.States
 
         protected override void OnExit()
         {
+            playerRefs.Animator.ResetTrigger(Constants.AnimatorsParam.Attack);
             playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.EndAttackInstant);
         }
 
@@ -20,6 +21,13 @@ namespace Project._Project.Scripts.Player.States
         {
             Type type = typeof(T);
             return type == typeof(IdleState) || type == typeof(MoveState) || type == typeof(ChannelingState);
+        }
+
+        public override bool CanEnterState(PCPlayerRefs refs)
+        {
+            // Can't attack if is casting a spell
+            var inCastController = refs.InCastController;
+            return !inCastController.IsCasting;
         }
 
         public override string ToString()

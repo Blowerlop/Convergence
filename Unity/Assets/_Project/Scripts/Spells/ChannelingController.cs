@@ -10,9 +10,7 @@ namespace Project.Spells
     { 
         [SerializeField] private PlayerRefs playerRefs;
         
-        [SerializeField] private string channelingNetVarName = "Channeling";
-        
-        private GRPC_NetworkVariable<bool> _isChanneling;
+        private NetworkVariable<bool> _isChanneling = new();
         
         private readonly Timer _channelingTimer = new Timer();
         
@@ -20,18 +18,11 @@ namespace Project.Spells
         public event Action OnServerChannelingEnded;
 
         public bool IsChanneling => _isChanneling.Value;
-        
-        private void Awake()
-        {
-            _isChanneling = new GRPC_NetworkVariable<bool>(channelingNetVarName);
-        }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            
-            InitNetVars();
-            
+
             if (!IsClient) return;
 
             _isChanneling.OnValueChanged += (_, newValue) =>
@@ -39,18 +30,6 @@ namespace Project.Spells
                  if (newValue) OnServerChannelingStarted?.Invoke();
                  else OnServerChannelingEnded?.Invoke();
             };
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            
-            _isChanneling.Reset();
-        }
-        
-        private void InitNetVars()
-        {
-            _isChanneling.Initialize();
         }
         
         [Server]
@@ -68,13 +47,7 @@ namespace Project.Spells
             _isChanneling.Value = true;
             _channelingTimer.StartTimerWithCallback(this, channelingTime, () =>
             {
-                if (playerRefs is PCPlayerRefs pcRefs)
-                {
-                    if (pcRefs.StateMachine.CanChangeStateTo<IdleState>())
-                    {
-                        pcRefs.StateMachine.ChangeStateTo<IdleState>();
-                    }
-                }
+                GoToIdle();
                 
                 channelingDoneAction?.Invoke();
                 _isChanneling.Value = false;
@@ -89,6 +62,23 @@ namespace Project.Spells
                     pcRefs.StateMachine.ChangeStateTo(channelingState);
                 }
             }
+
+            void GoToIdle()
+            {
+                if (playerRefs is not PCPlayerRefs pcRefs) return;
+                
+                if (pcRefs.StateMachine.CanChangeStateTo<IdleState>())
+                {
+                    pcRefs.StateMachine.ChangeStateTo<IdleState>();
+                }
+            }
+        }
+
+        [Server]
+        public void SrvResetChanneling()
+        {
+            _channelingTimer.StopTimer();
+            _isChanneling.Value = false;
         }
     }
 }

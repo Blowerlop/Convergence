@@ -9,17 +9,17 @@ namespace Project
 {
     public static class ScreenBorder
     {
-        public static int left => 0;
-        public static int right => Screen.width;
-        public static int top => Screen.height;
-        public static int bottom => 0;
+        public static int left => 5;
+        public static int right => Screen.width - 5;
+        public static int top => Screen.height - 5;
+        public static int bottom => 5;
     }
     
     public class CameraController : NetworkBehaviour
     {
         [Title("Settings")]
         [SerializeField] private float _speed = 40.0f;
-        [SerializeField, ReadOnly] private bool _cameraLock;
+        private bool _cameraLock;
         private const int _GROUND_LAYER_MASK = Constants.Layers.GroundMask;
 
         [Title("References")]
@@ -38,12 +38,11 @@ namespace Project
 
         private void Awake()
         {
+            _cameraLock = GameplaySettingsManager.cameraLock.value;
+            
             _playerCamera = Camera.main;
             _player = transform;
-        }
-
-        private void Start()
-        {
+            
             CalculateDirectionalsVectors();
             CalculateCameraOffset();
             CalculateMinMaxAuthorizedCameraPosition();
@@ -190,7 +189,7 @@ namespace Project
         }
 
         [Button]
-        private void CenterCameraOnPlayer()
+        public void CenterCameraOnPlayer()
         {
             _playerCamera.transform.position = new Vector3(_player.transform.position.x, _playerCamera.transform.position.y, _player.transform.position.z) + _offset;
         }

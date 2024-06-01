@@ -32,6 +32,58 @@ namespace Project
             /// Bootstrap
             /// </summary>
             public const int Bootstrap = 6;
+            /// <summary>
+            /// ARPGDemo03
+            /// </summary>
+            public const int ARPGDemo03 = 7;
+            /// <summary>
+            /// ARPGDemo01
+            /// </summary>
+            public const int ARPGDemo01 = 8;
+            /// <summary>
+            /// ARPGDemo02
+            /// </summary>
+            public const int ARPGDemo02 = 9;
+            /// <summary>
+            /// ARPGDemo04
+            /// </summary>
+            public const int ARPGDemo04 = 10;
+            /// <summary>
+            /// ARPGDemo05
+            /// </summary>
+            public const int ARPGDemo05 = 11;
+            /// <summary>
+            /// ARPGDemo06
+            /// </summary>
+            public const int ARPGDemo06 = 12;
+            /// <summary>
+            /// ARPGDemo08
+            /// </summary>
+            public const int ARPGDemo08 = 13;
+            /// <summary>
+            /// ARPGDemo09
+            /// </summary>
+            public const int ARPGDemo09 = 14;
+            /// <summary>
+            /// ARPGDemo10
+            /// </summary>
+            public const int ARPGDemo10 = 15;
+            /// <summary>
+            /// ARPGDemo11
+            /// </summary>
+            public const int ARPGDemo11 = 16;
+            /// <summary>
+            /// ARPGDemo12
+            /// </summary>
+            public const int ARPGDemo12 = 17;
+            /// <summary>
+            /// ARPGDemo13
+            /// </summary>
+            public const int ARPGDemo13 = 18;
+            /// <summary>
+            /// ARPGDemo07
+            /// </summary>
+            public const int ARPGDemo07 = 19;
         }
         
         public static class AudioMixerParams
@@ -194,6 +246,12 @@ namespace Project
             public const int GroundMask = 128;
             public const int GroundIndex = 7;
             public const string GroundName = "Ground";
+            /// <summary>
+            /// WorldUI
+            /// </summary>
+            public const int WorldUIMask = 256;
+            public const int WorldUIIndex = 8;
+            public const string WorldUIName = "WorldUI";
         }
         
         public static class Resources
@@ -226,6 +284,10 @@ namespace Project
             /// DOTweenSettings
             /// </summary>
             public const string DOTweenSettings = "DOTweenSettings";
+            /// <summary>
+            /// dummy
+            /// </summary>
+            public const string dummy = "dummy";
             /// <summary>
             /// SO References Cache
             /// </summary>

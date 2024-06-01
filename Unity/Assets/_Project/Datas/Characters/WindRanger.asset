@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a933036e9ac32488c84340715fd6e3, type: 3}
   m_Name: WindRanger
   m_EditorClassIdentifier: 
-  id: 520184093
-  <characterName>k__BackingField: Archer
-  <avatar>k__BackingField: {fileID: 21300000, guid: c08c612b5abb6e04f8fefc87c7cd672d,
+  id: 356288998
+  <characterName>k__BackingField: Silverleaf
+  <avatar>k__BackingField: {fileID: 21300000, guid: ef49746a07e9418499730f5823a14f6a,
+    type: 3}
+  <avatar2>k__BackingField: {fileID: 21300000, guid: 33aebc693b6dbc644a6b7104d20baa74,
+    type: 3}
+  <model>k__BackingField: {fileID: 4677094094203674276, guid: a01f88cf051024a4d95b495b81226566,
     type: 3}
   <prefab>k__BackingField: {fileID: 8863939365101282980, guid: 5dc2c30715e95bb49b528967857327dc,
     type: 3}
   spells:
-  - {fileID: 11400000, guid: 6b153ab47b17b2a49a6cd0940e320d6b, type: 2}
-  - {fileID: 11400000, guid: dda8fb13794b62a4392a24c579e15124, type: 2}
-  - {fileID: 11400000, guid: 1f033f4f62b63e9459a07a9d2e357ba8, type: 2}
-  - {fileID: 11400000, guid: 83d8c652c61a3a040af16cf4816dba96, type: 2}
+  - {fileID: 11400000, guid: 9829ef442e9f5c14380e6fb98799e04a, type: 2}
+  - {fileID: 11400000, guid: 27456540fa9ac824b86674b6dc5f8885, type: 2}
+  - {fileID: 11400000, guid: 8c6e1dd8e37c41b498e9c4ab78e898cd, type: 2}
+  - {fileID: 11400000, guid: 7b4b586f84c0c9643b9403bf7c833e53, type: 2}
   stats:
   - rid: 8967663378920636439
   - rid: 8967663378920636440
@@ -38,8 +42,8 @@ MonoBehaviour:
     - rid: 2778045172259749888
       type: {class: MoveSpeedStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 8
-        _value: 8
+        _defaultValue: 9
+        _value: 9
         _minValue: 1
         _maxValue: 15
     - rid: 2778045199733227520
@@ -52,28 +56,28 @@ MonoBehaviour:
     - rid: 8967663378920636439
       type: {class: HealthStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 100
-        _value: 100
+        _defaultValue: 2300
+        _value: 2300
         _minValue: 0
-        _maxValue: 100
+        _maxValue: 2300
     - rid: 8967663378920636440
       type: {class: AttackDamageStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 20
-        _value: 20
+        _defaultValue: 100
+        _value: 100
         _minValue: 0
-        _maxValue: 50
+        _maxValue: 200
     - rid: 8967663378920636441
       type: {class: AttackRangeStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 5
-        _value: 5
+        _defaultValue: 15
+        _value: 15
         _minValue: 0
-        _maxValue: 8
+        _maxValue: 50
     - rid: 8967663378920636442
       type: {class: AttackSpeedStat, ns: Project, asm: Assembly-CSharp}
       data:
-        _defaultValue: 1
-        _value: 1
+        _defaultValue: 2
+        _value: 2
         _minValue: 0
-        _maxValue: 2
+        _maxValue: 4

@@ -17,14 +17,25 @@ MonoBehaviour:
     type: 3}
   spellId: sniper_4
   spellIdHash: -922085594
+  instantiationType: 0
   spellPrefab: {fileID: 4381795126638224029, guid: a686116b68b681b4790818f52ae41651,
     type: 3}
   isInstant: 0
-  cooldown: 25
-  channelingTime: 1
+  cooldown: 40
+  channelingTime: 1.29
+  castingFlags: 0
+  castAnimationDuration: 0.2083
+  spellName: Headshot
+  spellIcon: {fileID: 21300000, guid: a3f78131207186b4791ac3df71e0553c, type: 3}
+  spellDescription:
+    descriptionText: SilverLeaf locks onto the target enemy champion and start channeling.
+      Once  SilverLeaf completes the channel, she fires a homing arrow toward the
+      target that deals {0} damages.
+    effects:
+    - rid: 1951814749556572169
   effects:
   - rid: 1951814749556572169
-  animatorOverrideController: {fileID: 0}
+  onCasterEffects: []
   targetType: 0
   limitRadius: 30
   references:
@@ -34,4 +45,4 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 40
+        DamageAmount: 650

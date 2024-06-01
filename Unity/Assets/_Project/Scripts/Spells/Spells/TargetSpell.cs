@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Project._Project.Scripts;
+using Project._Project.Scripts.Managers;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace Project.Spells
 
         [SerializeField] private float moveSpeed;
 
+        [SerializeField] private RotationType rotationType;
+        
         [SerializeField] private DieType dieType;
 
         [SerializeField, ShowIf(nameof(IsTimed))] private float aliveTime;
@@ -39,7 +42,7 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             
             HandleMovement(_target.transform);
             HandleDeath();
@@ -68,6 +71,21 @@ namespace Project.Spells
             direction.Normalize();
             
             transform.position += direction * (moveSpeed * Time.deltaTime);
+            HandleRotation(target, direction);
+        }
+
+        private void HandleRotation(Transform target, Vector3 direction)
+        {
+            switch (rotationType)
+            {
+                case RotationType.None:
+                    break;
+                case RotationType.Movement:
+                    transform.rotation = Quaternion.LookRotation(direction);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void HandleDeath()
@@ -110,7 +128,7 @@ namespace Project.Spells
                 var impactPosition = impactTarget.position;
                 impactPosition.y = 0;
                 
-                if (Vector3.Distance(spellPosition, impactPosition) < 0.1f)
+                if (Vector3.Distance(spellPosition, impactPosition) < moveSpeed * Time.deltaTime + 0.1f)
                     KillSpell();
             }
 
@@ -137,6 +155,11 @@ namespace Project.Spells
             
             base.KillSpell();
         }
+        
+        public override void OnNetworkSpawn()
+        {
+            SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
+        }
 
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
         {
@@ -146,7 +169,7 @@ namespace Project.Spells
             return spawnType switch
             {
                 SpawnType.OnTarget => new(target.transform.position, Quaternion.identity),
-                SpawnType.OnCaster => new(player.PlayerTransform.position, Quaternion.identity),
+                SpawnType.OnCaster => new(player.ShootTransform.position, Quaternion.identity),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -192,6 +215,12 @@ namespace Project.Spells
             None,
             ToTarget,
             ToCaster
+        }
+        
+        private enum RotationType
+        {
+            None,
+            Movement
         }
 
         private enum DieType

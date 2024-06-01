@@ -7,6 +7,8 @@ namespace Project._Project.Scripts.Player.States
     {
         private int emoteIndex;
 
+        public EmoteState() { }
+        
         public EmoteState(int emoteIndex)
         {
             this.emoteIndex = emoteIndex;
@@ -23,6 +25,11 @@ namespace Project._Project.Scripts.Player.States
         }
 
         public override bool CanChangeStateTo<T>()
+        {
+            return true;
+        }
+
+        public override bool CanEnterState(PCPlayerRefs refs)
         {
             return true;
         }

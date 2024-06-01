@@ -812,7 +812,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Menu",
+                    "name": "Escape",
                     "type": "Button",
                     "id": "f6a67dcf-d820-468e-b59d-3eb7de2a8622",
                     "expectedControlType": "Button",
@@ -840,7 +840,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Menu",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

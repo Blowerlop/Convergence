@@ -63,10 +63,16 @@ namespace Project.Spells.Casters
         public override void EvaluateResults()
         {
             if (!Utilities.GetMouseWorldHit(_camera, Constants.Layers.EntityMask, out RaycastHit hitInfo))
+            {
+                InvalidTarget();
                 return;
+            }
 
             if (!hitInfo.transform.TryGetComponent<Entity>(out var entity))
+            {
+                InvalidTarget();
                 return;
+            }
 
             switch (_targetSpellData.targetType)
             {

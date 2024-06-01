@@ -10,7 +10,7 @@ namespace Project.Effects
         
         private Coroutine _appliedCoroutine;
         
-        protected override bool TryApply_Internal(IEffectable effectable, int applierTeamIndex)
+        protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             effectable.AffectedEntity.Silence();
             
@@ -38,6 +38,10 @@ namespace Project.Effects
         private void RemoveSilence()
         {
             AffectedEffectable.AffectedEntity.Unsilence();
+        }
+        public override float GetEffectDuration()
+        {
+            return Duration; 
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Drawing;
 using Grpc.Core;
 using Networking;
 
@@ -115,6 +114,11 @@ namespace GRPCServer.Services
                 OnUnrealClientDisconnected?.Invoke(unrealClient);
             
             DisplayClients();
+
+            if (client as NetcodeServer is { } netcodeServer)
+            {
+                Reset();
+            }
         }
 
         #endregion
@@ -399,7 +403,7 @@ namespace GRPCServer.Services
             
             try
             {
-                while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
+                while (!context.CancellationToken.IsCancellationRequested && await requestStream.MoveNext())
                 {
                     if (netcodeServer.NetObjs.ContainsKey(requestStream.Current.NetId) == false)
                     {
@@ -425,33 +429,35 @@ namespace GRPCServer.Services
                     //Console.WriteLine($"GRPC_SrvNetVarUpdate > VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
                 }
             }
-            catch (IOException)
+            catch (Exception e)
             {
                 //Debug.Log("GRPC_SrvNetVarUpdate > Connection lost with client.");
                 Debug.Log($"GRPC_SrvNetVarUpdate > Connection lost with client - NetVar Writing stream closed");
-                if (netcodeServer != null)
-                {
-                    foreach (var netObjs in netcodeServer.NetObjs.Values)
-                    {
-                        netObjs.NetVars.Clear();
-                    }
-
-                    netcodeServer.NetObjs.Clear();
-                }
+                Debug.LogError(e);
                 
+                // if (netcodeServer != null)
+                // {
+                //     foreach (var netObjs in netcodeServer.NetObjs.Values)
+                //     {
+                //         netObjs.NetVars.Clear();
+                //     }
+                //
+                //     netcodeServer.NetObjs.Clear();
+                // }
+                //
                 return new GRPC_EmptyMsg();
             }
 
 
-            if (netcodeServer != null)
-            {
-                foreach (var netObjs in netcodeServer.NetObjs.Values)
-                {
-                    netObjs.NetVars.Clear();
-                }
-
-                netcodeServer.NetObjs.Clear();
-            }
+            // if (netcodeServer != null)
+            // {
+            //     foreach (var netObjs in netcodeServer.NetObjs.Values)
+            //     {
+            //         netObjs.NetVars.Clear();
+            //     }
+            //
+            //     netcodeServer.NetObjs.Clear();
+            // }
 
             Debug.Log($"GRPC_SrvNetVarUpdate > Witring stream closed manually");
             return new GRPC_EmptyMsg();
@@ -481,7 +487,7 @@ namespace GRPCServer.Services
             {
                 await Task.Delay(-1, context.CancellationToken);
             }
-            catch (TaskCanceledException)
+            catch (Exception)
             {
                 if(unrealClients.TryGetValue(context.Peer, out var client))
                     client.netVarStream.Remove(request.Type);
@@ -676,5 +682,20 @@ namespace GRPCServer.Services
         }
         
         #endregion
+
+
+        private void Reset()
+        {
+            Debug.Log("Resetting MainServiceImpl...", ConsoleColor.Magenta);
+            
+            netcodeServer = null;
+            unrealClients.Clear();
+            clients.Clear();
+            
+            OnUnrealClientConnected = null;
+            OnUnrealClientDisconnected = null;
+
+            UnrealClient.teamSelectionResponseStream = null;
+        }
     }
 }

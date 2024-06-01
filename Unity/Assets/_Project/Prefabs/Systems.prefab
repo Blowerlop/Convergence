@@ -44,6 +44,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e714103eb60d48849908413862f33013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1168477788697571574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2158482365510995699}
+  - component: {fileID: 5766235298298332549}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2158482365510995699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168477788697571574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8476428298509615853}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5766235298298332549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168477788697571574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f846261276f4d14d998626c70fd0431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1369607842130511039
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +457,7 @@ Transform:
   - {fileID: 5378293804812449252}
   - {fileID: 4926502564895954676}
   - {fileID: 1222656665928547224}
+  - {fileID: 2158482365510995699}
   m_Father: {fileID: 2582224688165028797}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -901,12 +946,12 @@ PrefabInstance:
     - target: {fileID: 7118490474089459990, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7118490474089459990, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7118490474089459990, guid: f0abc886f3387854f9452bfaa43db7b5,
         type: 3}

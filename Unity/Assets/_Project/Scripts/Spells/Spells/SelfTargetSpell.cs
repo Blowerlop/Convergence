@@ -1,3 +1,4 @@
+using System;
 using Project._Project.Scripts.Managers;
 using UnityEngine;
 
@@ -17,13 +18,7 @@ namespace Project.Spells
                 return;
             }
 
-            if (Caster is not PCPlayerRefs pcPlayerRefs)
-            {
-                Debug.LogError($"Can't cast {nameof(SelfTargetSpell)} on a player that is not a PC!");
-                return;
-            }
-            
-            TryApplyEffects(pcPlayerRefs.Entity);
+            TryApplyEffects(Caster.GetPC().Entity);
 
             StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }
@@ -54,7 +49,7 @@ namespace Project.Spells
 
         private void LateUpdate()
         {
-            if (!IsServer) return;
+            if (!IsOnServer) return;
             if (!followPlayer) return;
             
             transform.position = Caster.PlayerTransform.position;

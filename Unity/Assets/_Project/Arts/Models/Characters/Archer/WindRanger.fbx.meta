@@ -5,6 +5,36 @@ ModelImporter:
   internalIDToNameTable: []
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windrunner_base
+    second: {fileID: 2100000, guid: 770f438b30ebdef4a90d7e5d1f7b6925, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windrunner_bow
+    second: {fileID: 2100000, guid: e1d954e799b9b8249a52ae6d91cd2ab3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windrunner_cape
+    second: {fileID: 2100000, guid: 0dd0116fabfef0a43909c7e3dec7e024, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windrunner_hair
+    second: {fileID: 2100000, guid: a542805e94eba2346bb677a617242730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windrunner_quiver
+    second: {fileID: 2100000, guid: 3966e4be639e900408199af91905566b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windrunner_shoulderpads
+    second: {fileID: 2100000, guid: f55dfb6d17386dc4891d584ed711c1bd, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: windrunner_bow_color_psd_252ad508
@@ -353,7 +383,7 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
