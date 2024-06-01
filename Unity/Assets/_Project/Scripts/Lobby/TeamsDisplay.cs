@@ -73,8 +73,8 @@ namespace Project
             return GetAvatarByTeamId(teams.FindIndex(x => x.pcPlayerOwnerClientId == playerId));
         }
 
-        [ServerRpc]
-        public void SetAvatarServerRpc(int playerId, int characterId)
+        [Server]
+        public void SrvAvatar(int playerId, int characterId)
         {
             SetAvatarClientRpc(playerId, characterId);
         }

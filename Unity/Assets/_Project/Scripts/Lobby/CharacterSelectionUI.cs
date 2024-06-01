@@ -22,7 +22,7 @@ namespace Project
 
         [ClearOnReload, ShowInInspector, ReadOnly] private static int _characterSelectedId;
 
-        [ClearOnReload] public static Action<int, int> CliOnCharacterSelectedEvent;
+        [ClearOnReload] public static Action<int, int> SrvOnCharacterSelectedEvent;
 
 
         [Button]
@@ -49,7 +49,7 @@ namespace Project
         [ServerRpc(RequireOwnership = false)]
         private void SelectCharacterServerRpc(int clientId, int characterId)
         {
-            CliOnCharacterSelectedEvent?.Invoke(clientId, characterId);
+            SrvOnCharacterSelectedEvent?.Invoke(clientId, characterId);
         }
 
         public void ValidateCharacterServerRpcc()
