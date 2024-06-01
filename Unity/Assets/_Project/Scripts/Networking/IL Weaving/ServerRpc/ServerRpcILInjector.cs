@@ -1,24 +1,24 @@
-#if UNITY_EDITOR
-using System;
-using System.Linq;
-using System.Reflection;
-using Mewlist.Weaver;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using Unity.Netcode;
-using UnityEngine;
+// #if UNITY_EDITOR
+// using System;
+// using System.Linq;
+// using System.Reflection;
+// using Mewlist.Weaver;
+// using Mono.Cecil;
+// using Mono.Cecil.Cil;
+// using Unity.Netcode;
+// using UnityEngine;
 
-namespace Project
-{
-    public class ServerRpcILInjector : IILInjector
-    {
-        public void Validate(ICustomAttribute customAttribute)
-        {
-        } 
+// namespace Project
+// {
+    // public class ServerRpcILInjector : IILInjector
+    // {
+    //     public void Validate(ICustomAttribute customAttribute)
+    //     {
+    //     } 
 
         // Not working because the method can be called by the client safely but the moment it is called on the server trough the RPC it will throw the error. I can't tell if the method is called by the RPC or the server directly
-        public void Inject(CustomAttribute customAttribute, ModuleDefinition moduleDefinition, MethodDefinition methodDefinition)
-        {
+        // public void Inject(CustomAttribute customAttribute, ModuleDefinition moduleDefinition, MethodDefinition methodDefinition)
+        // {
             // Type networkManagerType = typeof(NetworkManager);
             // var singletonRef = moduleDefinition.ImportReference(networkManagerType.GetProperty("Singleton", BindingFlags.Static | BindingFlags.Public).GetGetMethod());
             // MethodReference isListeningRef = moduleDefinition.ImportReference(networkManagerType.GetMethod("get_IsListening"));
@@ -53,7 +53,7 @@ namespace Project
             // processor.InsertBefore(first, Instruction.Create(OpCodes.Call, logErrorRef));
             //
             // processor.InsertBefore(first, _return);
-        }  
-    } 
-}
-#endif
+        // }  
+    // } 
+// }
+// #endif
