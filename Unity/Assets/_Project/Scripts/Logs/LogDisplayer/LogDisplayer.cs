@@ -38,6 +38,10 @@ namespace Project
             base.Awake();
             
             Application.logMessageReceived += OnLogMessageReceived_UpdateGUI; 
+            
+            #if UNITY_STANDALONE
+            Enable(false);
+            #endif
         }
 
         protected override void OnDestroy()
