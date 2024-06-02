@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1718067672919448901, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.26
+      objectReference: {fileID: 0}
     - target: {fileID: 1849431562472469695, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: prefabId
@@ -31,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 4031822796035881096, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 317498993
+      value: 2163889180
       objectReference: {fileID: 0}
     - target: {fileID: 4124437638980882131, guid: 3aaf77d849b3bf14788af804b91dc6b9,
         type: 3}
@@ -139,6 +144,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5248182462191329742}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1368141768625492707 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6496960969021158189, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5248182462191329742}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2203632585745075332 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6215435937847373130, guid: 3aaf77d849b3bf14788af804b91dc6b9,
@@ -151,6 +162,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953de718c4614e5fa122fd497a99328a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &4300333356385057111 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8320558932833687705, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5248182462191329742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5332209095689954654 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 84026669176554640, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5248182462191329742}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6010737492991401425 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1999360482284583967, guid: 3aaf77d849b3bf14788af804b91dc6b9,
@@ -163,6 +186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &7855247871960798564 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2726428706989192362, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5248182462191329742}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6165862278367673857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -656,6 +685,24 @@ MonoBehaviour:
       <DisableType>k__BackingField: 1
       <DisableTime>k__BackingField: 3
       <Sfx>k__BackingField: inst_mage_3
+  - <StateName>k__BackingField: Stun
+    <FXs>k__BackingField:
+    - <FX>k__BackingField: {fileID: 5332209095689954654}
+      <DisableType>k__BackingField: 0
+      <DisableTime>k__BackingField: 0
+      <Sfx>k__BackingField: 
+    - <FX>k__BackingField: {fileID: 4300333356385057111}
+      <DisableType>k__BackingField: 0
+      <DisableTime>k__BackingField: 0
+      <Sfx>k__BackingField: 
+    - <FX>k__BackingField: {fileID: 7855247871960798564}
+      <DisableType>k__BackingField: 0
+      <DisableTime>k__BackingField: 0
+      <Sfx>k__BackingField: 
+    - <FX>k__BackingField: {fileID: 1368141768625492707}
+      <DisableType>k__BackingField: 0
+      <DisableTime>k__BackingField: 0
+      <Sfx>k__BackingField: 
 --- !u!114 &5871569596065690416
 MonoBehaviour:
   m_ObjectHideFlags: 0
