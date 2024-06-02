@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 using Sirenix.Serialization;
-using Sirenix.Utilities;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using OpCodes = System.Reflection.Emit.OpCodes;
 
 namespace Project
@@ -155,24 +149,6 @@ namespace Project
 
             if (_memberInfo is EventInfo eventInfo) 
             {
-                // Type tDelegate = eventInfo.EventHandlerType;
-                //
-                // DynamicMethod handler = new DynamicMethod("", null, GetDelegateParameterTypes(tDelegate));
-                // ILGenerator ilgen = handler.GetILGenerator();
-                //
-                // MethodInfo simpleShow = typeof(EventSubscriber).GetMethod("InvokeUNity");
-                //
-                Type debugType = typeof(Debug);
-                var logErrorRef = debugType.GetMethod("LogError", new []{ typeof(object) });
-                //
-                // MethodInfo invokeCallbackMethod = typeof(EventSubscriber).GetMethod("InvokeCallback");
-                //
-                // ilgen.Emit(OpCodes.Ldarg_0);
-                // ilgen.Emit(OpCodes.Call, invokeCallbackMethod);
-                // ilgen.Emit(OpCodes.Ret); 
-                //
-                // _delegate = handler.CreateDelegate(tDelegate, this);
-                
                 Type tDelegate = eventInfo.EventHandlerType;
 
                 // Add the EventSubscriber type as the first parameter type
@@ -184,7 +160,7 @@ namespace Project
                 DynamicMethod handler = new DynamicMethod("", null, parameterTypesWithThis);
                 ILGenerator ilgen = handler.GetILGenerator();
 
-                MethodInfo invokeCallbackMethod = typeof(EventSubscriber).GetMethod("InvokeCallback");
+                MethodInfo invokeCallbackMethod = typeof(EventSubscriber).GetMethod(nameof(InvokeCallback));
 
                 // Load the EventSubscriber instance onto the stack
                 ilgen.Emit(OpCodes.Ldarg_0);
@@ -239,47 +215,6 @@ namespace Project
         {
             _callback.Invoke();
             if (_unsubscribeExecutionTiming == EDecommissioning.Fire) Unsubscribe();
-        }
-    }
-
-    [CustomEditor(typeof(EventSubscriber))]
-    public class EventSubscriberEditor : OdinEditor
-    {
-        private EventSubscriber _target;
-        private Type _targetType;
-        
-        private bool _isInitialized;
-
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            
-            if (_isInitialized) return;
-
-            _target = (EventSubscriber)target;
-            _targetType = _target.GetType();
-            
-            _isInitialized = true;
-        }
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            
-            if (_targetType.GetField("_target") == null) return;
-            
-            // var eventFields = _target.target.GetType().GetEvents(EventSubscriber.BINDING_FLAGS);
-            // var unityEventFields = _target.target.GetType().GetFields(EventSubscriber.BINDING_FLAGS).Where(x => x.FieldType.IsSubclassOf(typeof(UnityEventBase)));
-            //
-            //
-            //
-            //
-            // var index = EditorGUILayout.Popup("Events", 0, eventFields.Select(x => x.Name).ToArray());
-            // EditorGUILayout.Popup("Events", 0, unityEventFields.Select(x => x.Name).ToArray());
-            //
-            // serializedObject.FindProperty("_eventFieldName").stringValue = eventFields[index].Name;
-            // serializedObject.ApplyModifiedProperties();
         }
     }
 }
