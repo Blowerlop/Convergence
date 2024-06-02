@@ -1401,7 +1401,7 @@ PrefabInstance:
     - target: {fileID: 9145273795671908172, guid: 5c263072b22580b4c90ffaf16f36cfc0,
         type: 3}
       propertyPath: m_Name
-      value: Find Game - Button
+      value: Join Game - Button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
