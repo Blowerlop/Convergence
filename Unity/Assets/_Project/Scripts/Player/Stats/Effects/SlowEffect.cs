@@ -39,14 +39,14 @@ namespace Project.Effects
 
         public override void KillEffect()
         {
-            RemoveFromEffectable();
-            
             RemoveSlow();
             AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         private void RemoveSlow()
         {
+            RemoveFromEffectable();
+            
             _stat.value += _slowedValue;
         }
         
