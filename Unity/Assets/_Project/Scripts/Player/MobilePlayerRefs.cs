@@ -34,7 +34,9 @@ namespace Project
             _pc = pcUser.LinkedPlayer as PCPlayerRefs;
             
             transform.parent = playerTransform;
-            transform.position = playerTransform.position;
+            
+            transform.localPosition = new Vector3(2.02f, 3.67f);
+            transform.localRotation = Quaternion.identity;
         }
     }
 }
