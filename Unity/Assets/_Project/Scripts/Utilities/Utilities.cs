@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GRPCClient;
+using Project.Extensions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -184,5 +185,25 @@ namespace Project
             return new[] { typeof(Utilities) };
         }
         #endif
+        
+        [ConsoleCommand("ui_disable", "Disable all UI elements in the scene.")]
+        private static void DisableAllUi()
+        {
+            foreach (var canvas in FindObjectsOfType<Canvas>(true))
+            {
+                canvas.enabled = false;
+            }
+            
+            Console.instance.GetComponentsInChildren<Canvas>().ForEach(x => x.enabled = true);
+        }
+        
+        [ConsoleCommand("ui_enable", "Enable all UI elements in the scene.")]
+        private static void EnableAllUi()
+        {
+            foreach (var canvas in FindObjectsOfType<Canvas>(true))
+            {
+                canvas.enabled = true;
+            }
+        }
     }
 }
