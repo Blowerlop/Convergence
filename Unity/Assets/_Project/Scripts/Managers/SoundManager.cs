@@ -164,8 +164,8 @@ namespace Project._Project.Scripts.Managers
             }
             
             eventInfo.createInstance(out var eventInstance);
-            
-            RuntimeManager.AttachInstanceToGameObject(eventInstance, target.transform);
+
+            RuntimeManager.AttachInstanceToGameObject(eventInstance, target == null ? transform : target.transform);
             
             if(CheckErrorMessage(eventInstance.start()))
                 return;
