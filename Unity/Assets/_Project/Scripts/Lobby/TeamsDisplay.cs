@@ -40,7 +40,7 @@ namespace Project
             for (int i = 0; i < TeamManager.MAX_TEAM; i++)
             {
                 Image instance = Instantiate(_template, transform).GetComponentInChildren<Image>();
-                instance.transform.parent.GetComponentInChildren<TMP_Text>().text = TeamManager.instance.GetTeamData(i).TryGetUserInstance(PlayerPlatform.Pc, out UserInstance userInstance) ? userInstance.name : "Unknow Name";
+                instance.transform.parent.GetComponentInChildren<TMP_Text>().text = TeamManager.instance.GetTeamData(i).TryGetUserInstance(PlayerPlatform.Pc, out UserInstance userInstance) ? userInstance.PlayerName : "UnknowName";
                 _playersAvatar.Add(i, instance);
             }
             
