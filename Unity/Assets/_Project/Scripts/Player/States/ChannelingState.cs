@@ -20,12 +20,12 @@ namespace Project._Project.Scripts.Player.States
         
         protected override void OnEnter()
         {
-            playerRefs.Animator.SetBool("Channeling " + _index, true);
+            playerRefs.NetworkAnimator.Animator.SetBool("Channeling " + _index, true);
         }
         
         protected override void OnExit()
         {
-            playerRefs.Animator.SetBool("Channeling " + _index, false);
+            playerRefs.NetworkAnimator.Animator.SetBool("Channeling " + _index, false);
         }
         
         public override bool CanChangeStateTo<T>()

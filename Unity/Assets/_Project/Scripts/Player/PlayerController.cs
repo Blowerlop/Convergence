@@ -66,7 +66,7 @@ namespace Project
             if (IsServer == false) return;
             
             // Shit
-            int animationHash = _refs.Animator.GetNextAnimatorStateInfo(0).shortNameHash;
+            int animationHash = _refs.NetworkAnimator.Animator.GetNextAnimatorStateInfo(0).shortNameHash;
             if (animationHash == _currentAnimationHash) return;
             if (animationHash == 0) return;
             

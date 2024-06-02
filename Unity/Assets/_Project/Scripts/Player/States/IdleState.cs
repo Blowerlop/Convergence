@@ -6,7 +6,7 @@ namespace Project._Project.Scripts.Player.States
     {
         protected override void OnEnter()
         {
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, false);
+            playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Movement, false);
         }
 
         public override bool CanChangeStateTo<T>()

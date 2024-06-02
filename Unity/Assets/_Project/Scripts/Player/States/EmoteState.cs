@@ -16,12 +16,12 @@ namespace Project._Project.Scripts.Player.States
 
         protected override void OnEnter()
         {
-            playerRefs.Animator.SetInteger(Constants.AnimatorsParam.EmoteIndex, emoteIndex);
+            playerRefs.NetworkAnimator.Animator.SetInteger(Constants.AnimatorsParam.EmoteIndex, emoteIndex);
         }
 
         protected override void OnExit()
         {
-            playerRefs.Animator.SetInteger(Constants.AnimatorsParam.EmoteIndex, -1);
+            playerRefs.NetworkAnimator.Animator.SetInteger(Constants.AnimatorsParam.EmoteIndex, -1);
         }
 
         public override bool CanChangeStateTo<T>()

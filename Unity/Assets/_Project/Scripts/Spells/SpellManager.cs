@@ -119,7 +119,7 @@ namespace Project.Spells
             
             var boolName = "Cast " + (spellIndex + 1);
             
-            playerRefs.Animator.SetBool(boolName, true);
+            playerRefs.NetworkAnimator.Animator.SetBool(boolName, true);
             
             var pcPlayer = playerRefs as PCPlayerRefs;
             if (pcPlayer)
@@ -146,7 +146,7 @@ namespace Project.Spells
 
             void OnCastEnd()
             {
-                playerRefs.Animator.SetBool(boolName, false);
+                playerRefs.NetworkAnimator.Animator.SetBool(boolName, false);
                 
                 if (pcPlayer) pcPlayer.InCastController.SrvResetInCast();
             }

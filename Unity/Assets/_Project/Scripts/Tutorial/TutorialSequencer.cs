@@ -129,7 +129,7 @@ namespace Project
             Subtitle.StartWriting(null, "Great ! To attack, use your <color=#e3d044> right mouse button </color> while aiming at an opponent. Try to attack the dummy. ");
             await audioHelper.PlayAsync("Attack", gameObject.GetCancellationTokenOnDestroy());
 
-            await UniTask.WaitUntil(() => userInstance.LinkedPlayer.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
+            await UniTask.WaitUntil(() => userInstance.LinkedPlayer.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
 
             coneGO.SetActive(false);
 

@@ -7,14 +7,14 @@ namespace Project._Project.Scripts.Player.States
     {
         protected override void OnEnter()
         {
-            playerRefs.Animator.ResetTrigger(Constants.AnimatorsParam.EndAttackInstant);
-            playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.Attack);
+            playerRefs.NetworkAnimator.ResetTrigger(Constants.AnimatorsParam.EndAttackInstant);
+            playerRefs.NetworkAnimator.SetTrigger(Constants.AnimatorsParam.Attack);
         }
 
         protected override void OnExit()
         {
-            playerRefs.Animator.ResetTrigger(Constants.AnimatorsParam.Attack);
-            playerRefs.Animator.SetTrigger(Constants.AnimatorsParam.EndAttackInstant);
+            playerRefs.NetworkAnimator.ResetTrigger(Constants.AnimatorsParam.Attack);
+            playerRefs.NetworkAnimator.SetTrigger(Constants.AnimatorsParam.EndAttackInstant);
         }
 
         public override bool CanChangeStateTo<T>()

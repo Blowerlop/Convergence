@@ -149,7 +149,7 @@ namespace Project
         private void StartAttack(Vector3 targetPosition, IEffectable effectable)
         {
             _isAttacking = true;
-            _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
+            _playerRefs.NetworkAnimator.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
             _playerRefs.StateMachine.ChangeStateTo<AttackState>();
             _playerRefs.PlayerTransform.rotation =
                 Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)

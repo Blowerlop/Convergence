@@ -1,3 +1,4 @@
+using System.Collections;
 using Project._Project.Scripts.StateMachine;
 using Sirenix.OdinInspector;
 using Unity.Netcode.Components;
@@ -7,34 +8,33 @@ namespace Project._Project.Scripts.Player.States
 {
     public class DeadState : BaseStateMachineBehaviour
     {
-        [ShowInInspector] private Timer _deathTimer;
-        private Vector3 _position;
+        // [ShowInInspector] private Timer _deathTimer;
+        // private Vector3 _position;
+        
+        private Coroutine _deathCoroutine;
 
         protected override void OnEnter()
         {
-            /*_deathTimer = new Timer();
-            _deathTimer.StartTimerWithCallback(playerRefs.StateMachine, GameSettings.instance.deathTime, () =>
-            {
-                playerRefs.StateMachine.ChangeStateTo<IdleState>();
-            });*/
-
-            _position = playerRefs.PlayerTransform.position;
-            playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Dead, true);
-            
-            PlayerManager.instance.OnDeath(playerRefs);
+            // _position = playerRefs.PlayerTransform.position;
+            _deathCoroutine = playerRefs.StartCoroutine(DeathCoroutine());
         }
 
         protected override void OnExit()
         {
-            playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
+            if (_deathCoroutine != null)
+            {
+                playerRefs.StopCoroutine(_deathCoroutine);
+                _deathCoroutine = null;
+            }
+            
+            // playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
             playerRefs.Entity.Stats.nHealthStat.SetToMaxValue();
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Dead, false);
+            playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Dead, false);
         }
 
         public override void OnDispose()
         {
-            _deathTimer = null;
+            // _deathTimer = null;
         }
         
         public override bool CanChangeStateTo<T>()
@@ -50,6 +50,19 @@ namespace Project._Project.Scripts.Player.States
         public override string ToString()
         {
             return "Dead";
+        }
+
+
+        private IEnumerator DeathCoroutine()
+        {
+            playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Dead, true);
+            PlayerManager.instance.OnDeath(playerRefs);
+
+            yield return new WaitUntil(() => playerRefs.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).IsName("Death"));
+            yield return new WaitUntil(() => playerRefs.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
+            
+            playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
+            _deathCoroutine = null;
         }
     }
 }
