@@ -25,6 +25,21 @@ namespace Project
         [ClearOnReload] public static Action<int, int> SrvOnCharacterSelectedEvent;
 
 
+        // public UnityEvent OnLocalPlayerReady;
+        // public UnityEvent OnLocalPlayerNotReady;
+        //
+        //
+        // public override void OnNetworkSpawn()
+        // {
+        //     UserInstance.Me._networkIsReady.OnValueChanged += OnLocalPlayerReadyCallback_Notify;
+        // }
+        //
+        // public override void OnNetworkDespawn()
+        // {
+        //     UserInstance.Me._networkIsReady.OnValueChanged -= OnLocalPlayerReadyCallback_Notify;
+        // }
+
+
         [Button]
         private void OnValidate()
         {
@@ -66,6 +81,17 @@ namespace Project
             userInstance.SetCharacter(characterId);
             
             SelectCharacterServerRpc(clientId, characterId);
+        }
+
+        // private void OnLocalPlayerReadyCallback_Notify(bool previousValue, bool currentValue)
+        // {
+        //     if (currentValue) OnLocalPlayerReady.Invoke();
+        //     else OnLocalPlayerNotReady.Invoke();
+        // }
+
+        public void ResetOutline()
+        {
+            _outline.sprite = _outlineUnSelected;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GRPCClient;
@@ -175,6 +176,12 @@ namespace Project
             return guids.Select(AssetDatabase.GUIDToAssetPath)
                         .Select(AssetDatabase.LoadAssetAtPath<T>)
                         .ToArray();
+        }
+
+        public static IEnumerable<Type> GetDomainTypes()
+        {
+            // return AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()) ;
+            return new[] { typeof(Utilities) };
         }
         #endif
     }

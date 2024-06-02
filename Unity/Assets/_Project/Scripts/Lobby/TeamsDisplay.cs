@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Extensions;
 using TMPro;
 using Unity.Netcode;
@@ -87,6 +88,8 @@ namespace Project
 
         private void SetAvatarLocal(int playerId, int characterId)
         {
+            if (_playersAvatar == null || _playersAvatar.Any() == false) return;
+            
             Image player = GetByPlayerId(playerId);
 
             if (SOCharacter.TryGetCharacter(characterId, out SOCharacter characterData))

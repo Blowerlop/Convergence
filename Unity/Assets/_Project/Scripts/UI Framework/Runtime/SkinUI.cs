@@ -66,5 +66,15 @@ namespace Project.Scripts.UIFramework
         {
             return UIManager.GetFontByType(_textType);
         }
+        
+        public void UpdateColorType(string colorTypeName)
+        {
+            if (Enum.TryParse(colorTypeName, out EColorType colorType))
+            {
+                _colorType = colorType;
+                OnValidate();
+            }
+            else Debug.LogError($"Color type {colorTypeName} not found");
+        }
     }
 }
