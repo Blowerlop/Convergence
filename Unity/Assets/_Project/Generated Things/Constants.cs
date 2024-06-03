@@ -153,17 +153,9 @@ namespace Project
             /// </summary>
             public const int Movement = 229373857;
             /// <summary>
-            /// Attack : Trigger
-            /// </summary>
-            public const int Attack = 1080829965;
-            /// <summary>
             /// AttackSpeed : Float
             /// </summary>
             public const int AttackSpeed = -498733101;
-            /// <summary>
-            /// EndAttackInstant : Trigger
-            /// </summary>
-            public const int EndAttackInstant = 17244484;
             /// <summary>
             /// Stunned : Bool
             /// </summary>
@@ -208,6 +200,14 @@ namespace Project
             /// EmoteIndex : Int
             /// </summary>
             public const int EmoteIndex = -126835265;
+            /// <summary>
+            /// Attack : Trigger
+            /// </summary>
+            public const int Attack = 1080829965;
+            /// <summary>
+            /// EndAttackInstant : Trigger
+            /// </summary>
+            public const int EndAttackInstant = 17244484;
         }
         
         public static class Layers

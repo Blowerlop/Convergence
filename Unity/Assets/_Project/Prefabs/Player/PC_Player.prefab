@@ -656,6 +656,7 @@ MonoBehaviour:
   allyOutlineColor: {r: 0.14796188, g: 0.6787386, b: 0.8962264, a: 1}
   enemyOutlineColor: {r: 0.8962264, g: 0.17332679, b: 0.17332679, a: 1}
   _refs: {fileID: 6215435937847373130}
+  _deathCamera: {fileID: 0}
 --- !u!114 &4128926304055400010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -748,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6704623c4017143ba07d37b93d73e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackingRangeOffset: 1
   targetNetworkObject: {fileID: 0}
 --- !u!114 &9136715108103689386
 MonoBehaviour:
@@ -1222,16 +1224,16 @@ MonoBehaviour:
     Layer: 0
     OriginatingState: -1936938822
     DestinationState: 229373857
-    TransitionDuration: 0.2
+    TransitionDuration: 0.15
     TriggerNameHash: 17244484
     TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: -1936938822
     DestinationState: 2081823275
-    TransitionDuration: 0.25
+    TransitionDuration: 0.15
     TriggerNameHash: 17244484
-    TransitionIndex: 2
+    TransitionIndex: 1
   m_Animator: {fileID: 7670799931884736559}
 --- !u!114 &8583798711595545617
 MonoBehaviour:
