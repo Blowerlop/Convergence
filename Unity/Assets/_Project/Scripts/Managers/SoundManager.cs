@@ -202,6 +202,17 @@ namespace Project._Project.Scripts.Managers
                 _staticSoundList.Remove(eventAlias);
             }
         }
+        
+        public void TriggerSustain(string eventAlias)
+        {
+            if (_staticSoundList.TryGetValue(eventAlias, out var value))
+            {
+                value.EventInstance.getPlaybackState(out var state);
+                if(state is PLAYBACK_STATE.PLAYING or PLAYBACK_STATE.SUSTAINING)
+                    value.EventInstance.keyOff();
+                _staticSoundList.Remove(eventAlias);
+            }
+        }
 
         public void AddPlayerActionSound(string actionName, UserInstance player)
         {

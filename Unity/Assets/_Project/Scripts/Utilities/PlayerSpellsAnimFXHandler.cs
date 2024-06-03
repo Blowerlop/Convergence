@@ -25,7 +25,7 @@ namespace Project
                 {
                     wrapper.FX.Play();
 
-                    SoundManager.instance.PlaySingleSound(wrapper.Sfx, wrapper.FX.gameObject,
+                    SoundManager.instance.PlayStaticSound(wrapper.Sfx, wrapper.KeyOffID, wrapper.FX.gameObject,
                         SoundManager.EventType.Spell);
 
                     switch (wrapper.DisableType)
@@ -46,6 +46,8 @@ namespace Project
                 {
                     if(wrapper.DisableType == FXDisableType.OnStateExit)
                     {
+                        if(wrapper.KeyOffID != "")
+                            SoundManager.instance.TriggerSustain(wrapper.KeyOffID);
                         wrapper.FX.Stop();
                     }
                 }
@@ -82,6 +84,8 @@ namespace Project
             [field: SerializeField, ShowIf(nameof(IsTimed))] public float DisableTime { get; private set; }
             
             [field: SerializeField] public string Sfx { get; private set; }
+            
+            [field: SerializeField] public string KeyOffID { get; private set; }
             
             private bool IsTimed => DisableType == FXDisableType.Timed;
         }
