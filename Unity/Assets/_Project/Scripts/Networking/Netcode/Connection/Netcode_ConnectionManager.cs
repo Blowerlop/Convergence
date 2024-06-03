@@ -116,7 +116,7 @@ namespace Project
             string disconnectReason = NetworkManager.Singleton.DisconnectReason;
             if (string.IsNullOrEmpty(disconnectReason) == false)
             {
-                Debug.Log($"Reason : {disconnectReason}");
+                Debug.LogError($"Reason : {disconnectReason}");
             }
         }
 

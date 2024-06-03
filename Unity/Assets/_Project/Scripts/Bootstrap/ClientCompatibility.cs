@@ -27,7 +27,7 @@ namespace Project
             if (_gitCommitHash != clientGitCommitHash)
             {
                 NetworkManager.Singleton.DisconnectClient(clientId, $"Last git commit hash different from server : [Server] {_gitCommitHash} / [Client] {clientGitCommitHash}");
-                UnityEngine.Debug.Log($"Client {clientId} disconnected because of different git commit hash");
+                UnityEngine.Debug.LogError($"Client {clientId} disconnected because of different git commit hash");
             }
         }
 
