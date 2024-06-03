@@ -147,7 +147,9 @@ namespace Project
 
         private void UpdatePcButtonTextLocal(string clientName)
         {
-            _pcButtonText.text = clientName;
+            string color = _teamIndex != TeamManager.UNASSIGNED_TEAM_INDEX && TeamManager.instance.GetTeamData(_teamIndex).pcPlayerOwnerClientId == (int)NetworkManager.Singleton.LocalClientId ? "f6ff00" : "C89B3C";
+            
+            _pcButtonText.text = clientName == TeamManager.DEFAULT_PC_SLOT_TEXT ? clientName : $"<color=#{color}>{clientName}</color>"; 
         }
 
         [ClientRpc]
@@ -164,7 +166,7 @@ namespace Project
         
         private void UpdateMobileButtonTextLocal(string clientName)
         {
-            _mobileButtonText.text = clientName;
+            _mobileButtonText.text = clientName == TeamManager.DEFAULT_MOBILE_SLOT_TEXT ? clientName : $"<color=#C89B3C>{clientName}</color>";
         }
 
         private void OnPlayerReady_UpdateButtonTextColor(bool _, bool readyState)
