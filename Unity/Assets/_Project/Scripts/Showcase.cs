@@ -60,9 +60,9 @@ namespace Project
             UnityEditor.EditorApplication.delayCall += () =>
             #endif
             {
-                // _previewSpawnPoint.DestroyChildren();
-                // var modelInstance = Instantiate(_characterData.model, Vector3.zero, Quaternion.identity, _previewSpawnPoint.transform);
-                // modelInstance.GetComponentsInChildren<Transform>().ForEach(x => x.gameObject.layer = Constants.Layers.EntityIndex); 
+                _previewSpawnPoint.DestroyChildren();
+                var modelInstance = Instantiate(_characterData.model, Vector3.zero, Quaternion.identity, _previewSpawnPoint.transform);
+                modelInstance.GetComponentsInChildren<Transform>().ForEach(x => x.gameObject.layer = Constants.Layers.EntityIndex); 
             };
         }
 
