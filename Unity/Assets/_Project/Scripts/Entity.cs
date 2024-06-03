@@ -30,7 +30,7 @@ namespace Project._Project.Scripts
         public virtual int TeamIndex => -1;
 
         public Entity AffectedEntity => this;
-        public IList<Effect> AppliedEffects { get; } = new List<Effect>();
+        [ShowInInspector, ReadOnly] public IList<Effect> AppliedEffects { get; } = new List<Effect>();
         
         public bool IsHovered { get; private set; }
         

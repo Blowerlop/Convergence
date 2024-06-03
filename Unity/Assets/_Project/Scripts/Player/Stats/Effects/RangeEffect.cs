@@ -5,6 +5,7 @@ namespace Project.Effects
     public class RangeEffect : Effect
     {
         public override EffectType Type => EffectType.Neutral;
+        protected override bool AddToEffectableList => true;
         
         [SerializeField] private float _rangeAmount;
         [SerializeField] private float _duration;
@@ -12,7 +13,8 @@ namespace Project.Effects
         private Coroutine _appliedCoroutine;
 
         private float _value;
-        
+
+
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             if (!effectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat))
@@ -24,32 +26,23 @@ namespace Project.Effects
             
             _value = stat.AddRange(_rangeAmount);
             
-            AddToEffectable();
-            
             _appliedCoroutine = AffectedEffectable.AffectedEntity.StartCoroutine(
-                Utilities.WaitForSecondsAndDoActionCoroutine(_duration, RemoveRange));
+                Utilities.WaitForSecondsAndDoActionCoroutine(_duration, KillEffect));
 
             return true;
         }
 
-        public override void KillEffect()
+        protected override void KillEffect_Internal()
         {
-            RemoveFromEffectable();
-            
-            RemoveRange();
             AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+            
+            if (!AffectedEffectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat)) return;
+            stat.value -= _value;
         }
 
         public override Effect GetInstance()
         {
             return new RangeEffect() { _rangeAmount = _rangeAmount, _duration = _duration };
-        }
-
-        private void RemoveRange()
-        {
-            if (!AffectedEffectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat)) return;
-            
-            stat.value -= _value;
         }
 
         public override float GetEffectValue()

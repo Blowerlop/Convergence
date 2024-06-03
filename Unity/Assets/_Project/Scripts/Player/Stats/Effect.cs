@@ -18,23 +18,33 @@ namespace Project
         
         protected IEffectable AffectedEffectable { get; private set; }
         
+        protected abstract bool AddToEffectableList { get; }
+        
         public bool TryApply(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             AffectedEffectable = effectable;
+            if (AddToEffectableList) AddToEffectable();
             
             return TryApply_Internal(effectable, applier, applyPosition);
         }
 
         protected abstract bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition);
         
-        public abstract void KillEffect();
-        
-        protected void AddToEffectable()
+        public void KillEffect()
+        {
+            if (AddToEffectableList) RemoveFromEffectable();
+            
+            KillEffect_Internal();
+        }
+
+        protected abstract void KillEffect_Internal();
+
+        private void AddToEffectable()
         {
             AffectedEffectable.SrvAddEffect(this);
         }
-        
-        protected void RemoveFromEffectable()
+
+        private void RemoveFromEffectable()
         {
             AffectedEffectable.SrvRemoveEffect(this);
         }

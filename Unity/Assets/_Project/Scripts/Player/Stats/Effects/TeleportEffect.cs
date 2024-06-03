@@ -7,6 +7,7 @@ namespace Project.Effects
     public class TeleportEffect : Effect
     {
         public override EffectType Type => EffectType.Neutral;
+        protected override bool AddToEffectableList => false;
 
         [SerializeField] private float _distanceToTarget;
         
@@ -54,7 +55,7 @@ namespace Project.Effects
             return true;
         }
 
-        public override void KillEffect() { }
+        protected override void KillEffect_Internal() { }
 
         public override Effect GetInstance()
         {

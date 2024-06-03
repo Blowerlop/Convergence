@@ -9,6 +9,7 @@ namespace Project.Effects
         public float Duration;
 
         public override EffectType Type => EffectType.Bad;
+        protected override bool AddToEffectableList => true;
 
         private PCPlayerRefs _affectedPlayer;
         private Coroutine _appliedCoroutine;
@@ -33,20 +34,15 @@ namespace Project.Effects
             _affectedPlayer.StateMachine.ChangeStateTo<StunState>();
             
             AffectedEffectable.AffectedEntity.StartCoroutine(
-                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, RemoveStun));
+                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, KillEffect));
             
             return true;
         }
 
-        public override void KillEffect()
-        {
-            RemoveStun();
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
-        }
-
-        private void RemoveStun()
+        protected override void KillEffect_Internal()
         {
             _affectedPlayer.StateMachine.ChangeStateTo<IdleState>();
+            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         public override Effect GetInstance()
