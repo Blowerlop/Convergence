@@ -73,8 +73,8 @@ namespace Project
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
                 mobileUser.WinCount.Value++;
             
-            ShowWinText(refs.TeamIndex);
-            
+            ShowWinText(refs.TeamIndex, endGame);
+
             EndCurrentRound(endGame);
             OnRoundEndedClientRpc(refs.TeamIndex);
         }
@@ -87,15 +87,15 @@ namespace Project
             ShowWinText(teamIndex);
         }
 
-        private void ShowWinText(int teamIndex)
+        private void ShowWinText(int teamIndex, bool gameFinished = false)
         {
-            PlaceholderLabel.instance.SetText($"Team {teamIndex} wins this round!", 1.9f);
+            PlaceholderLabel.instance.SetText($"Team {teamIndex + 1} wins " + (gameFinished ? "this game ! " : "this round !"), 1.9f);
         }
 
         private void EndCurrentRound(bool endGame)
         {
             _isGameRunning.Value = false;
-            
+
             DOVirtual.DelayedCall(roundEndTime, () =>
             {
                 if (endGame)

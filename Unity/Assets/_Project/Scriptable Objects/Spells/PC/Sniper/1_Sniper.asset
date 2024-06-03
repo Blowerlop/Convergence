@@ -52,4 +52,4 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 250
+        DamageAmount: 285
