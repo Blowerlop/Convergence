@@ -49,6 +49,7 @@ namespace Project
                         if(wrapper.KeyOffID != "")
                             SoundManager.instance.TriggerSustain(wrapper.KeyOffID);
                         wrapper.FX.Stop();
+                        wrapper.FX.Clear();
                     }
                 }
             }
@@ -68,6 +69,7 @@ namespace Project
                 foreach (var wrapper in FXs)
                 {
                     wrapper.FX.Stop();
+                    wrapper.FX.Clear();
                 }
                 
                 _nextAutoFxs.Clear();

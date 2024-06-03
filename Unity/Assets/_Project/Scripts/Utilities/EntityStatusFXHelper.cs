@@ -60,7 +60,7 @@ namespace Project
             {
                 for (int i = 0; i < FXdict[PlayerStatusEffect.Silence].Count; i++)
                 {
-                    FXdict[PlayerStatusEffect.Silence][i].Stop();
+                    FXdict[PlayerStatusEffect.Silence][i].Stop(); FXdict[PlayerStatusEffect.Silence][i].Clear();
                 }
             }
         }

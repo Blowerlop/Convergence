@@ -656,6 +656,7 @@ MonoBehaviour:
   allyOutlineColor: {r: 0.14796188, g: 0.6787386, b: 0.8962264, a: 1}
   enemyOutlineColor: {r: 0.8962264, g: 0.17332679, b: 0.17332679, a: 1}
   _refs: {fileID: 6215435937847373130}
+  _deathCamera: {fileID: 0}
 --- !u!114 &4128926304055400010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,7 +819,7 @@ PrefabInstance:
     - target: {fileID: 490974652904064224, guid: 3e8d3bcae7a3ce54c84d3e9d3db2c10d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.75
+      value: 6.72
       objectReference: {fileID: 0}
     - target: {fileID: 490974652904064224, guid: 3e8d3bcae7a3ce54c84d3e9d3db2c10d,
         type: 3}
@@ -1036,7 +1037,7 @@ PrefabInstance:
     - target: {fileID: 1707095870140969315, guid: 7f33e7733675ec24db8d2b93fb47defd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.21
+      value: 7.18
       objectReference: {fileID: 0}
     - target: {fileID: 1707095870140969315, guid: 7f33e7733675ec24db8d2b93fb47defd,
         type: 3}
@@ -1082,6 +1083,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FX_Silence
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707095870141160183, guid: 7f33e7733675ec24db8d2b93fb47defd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
