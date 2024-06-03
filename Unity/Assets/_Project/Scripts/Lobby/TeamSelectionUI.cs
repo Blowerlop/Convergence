@@ -147,9 +147,7 @@ namespace Project
 
         private void UpdatePcButtonTextLocal(string clientName)
         {
-            string color = _teamIndex != TeamManager.UNASSIGNED_TEAM_INDEX && UserInstance.Me.Team == _teamIndex ? "f6ff00" : "C89B3C";
-            
-            _pcButtonText.text = clientName == TeamManager.DEFAULT_PC_SLOT_TEXT ? clientName : $"<color=#{color}>{clientName}</color>"; 
+            _pcButtonText.text = clientName == TeamManager.DEFAULT_PC_SLOT_TEXT ? clientName : $"<color=#C89B3C>{clientName}</color>";
         }
 
         [ClientRpc]
