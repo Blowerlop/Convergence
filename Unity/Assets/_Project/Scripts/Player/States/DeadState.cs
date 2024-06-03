@@ -12,14 +12,11 @@ namespace Project._Project.Scripts.Player.States
         
         private Coroutine _deathCoroutine;
         
-        [SerializeField] private Camera _deathCamera;
 
         protected override void OnEnter()
         {
             // _position = playerRefs.PlayerTransform.position;
             _deathCoroutine = playerRefs.StartCoroutine(DeathCoroutine());
-
-            _deathCamera ??= GameObject.FindGameObjectWithTag(Constants.Tags.Death_Camera)?.GetComponent<Camera>();
         }
 
         protected override void OnExit()
@@ -33,7 +30,6 @@ namespace Project._Project.Scripts.Player.States
             // playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(_position, Quaternion.identity, Vector3.one);
             playerRefs.Entity.Stats.nHealthStat.SetToMaxValue();
             playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Dead, false);
-            _deathCamera.enabled = false;
             
             
         }
@@ -67,7 +63,6 @@ namespace Project._Project.Scripts.Player.States
             yield return new WaitUntil(() => playerRefs.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).IsName("Death"));
             yield return new WaitUntil(() => playerRefs.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
             
-            _deathCamera.enabled = true;
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
             _deathCoroutine = null;
         }

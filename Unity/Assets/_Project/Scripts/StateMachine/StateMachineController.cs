@@ -18,8 +18,10 @@ namespace Project._Project.Scripts.StateMachine
         
         private PCPlayerRefs _playerRefs;
 
-        public event Action<BaseStateMachineBehaviour> OnStateEnter;
-        public event Action<BaseStateMachineBehaviour> OnStateExit;
+        public event Action<BaseStateMachineBehaviour> SrvOnStateEnter;
+        public event Action<BaseStateMachineBehaviour> CliOnStateEnter;
+        public event Action<BaseStateMachineBehaviour> SrvOnStateExit;
+        public event Action<BaseStateMachineBehaviour> CliOnStateExit;
 
         private readonly GRPC_NetworkVariable<FixedString32Bytes> _currentStateType = new("currentStateType");
 
@@ -89,17 +91,17 @@ namespace Project._Project.Scripts.StateMachine
             BaseStateMachineBehaviour previousState = currentState;
             currentState = state;
             
-            OnStateExit?.Invoke(previousState);
+            SrvOnStateExit?.Invoke(previousState);
             previousState.Exit();
             
             Debug.Log($"<color=#00D8FF>[{_playerRefs.PlayerTransform.name}]</color> <color=orange>{previousState}</color> => <color=#00D8FF>{currentState}</color>");
             
             currentState.Enter(_playerRefs);
-            OnStateEnter?.Invoke(currentState);
+            SrvOnStateEnter?.Invoke(currentState);
             
             _currentStateType.Value = currentState.GetType().Name;
         }
-
+        
         public bool CanChangeStateTo<T>() where T : BaseStateMachineBehaviour
         {
             // Can only go to idle if game is not running
@@ -165,7 +167,10 @@ namespace Project._Project.Scripts.StateMachine
                 return;
             }
             
+            if (currentState != null) CliOnStateExit?.Invoke(currentState);
+            
             currentState = Activator.CreateInstance(type) as BaseStateMachineBehaviour;
+            CliOnStateEnter?.Invoke(currentState);
             
             if(currentState == null)
             {

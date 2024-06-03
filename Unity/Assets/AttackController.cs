@@ -39,7 +39,7 @@ namespace Project
             if (IsServer)
             {
                 _playerRefs.Entity.onEntityInit += OnEntityInit;
-                _playerRefs.StateMachine.OnStateExit += OnStateExit_EndAttack;
+                _playerRefs.StateMachine.SrvOnStateExit += SrvOnStateExitEndAttack;
             }
         }
 
@@ -57,7 +57,7 @@ namespace Project
             if (IsServer)
             {
                 _playerRefs.Entity.onEntityInit -= OnEntityInit;
-                _playerRefs.StateMachine.OnStateExit -= OnStateExit_EndAttack;
+                _playerRefs.StateMachine.SrvOnStateExit -= SrvOnStateExitEndAttack;
             }
         }
 
@@ -265,7 +265,7 @@ namespace Project
         }
 
         [Server]
-        private void OnStateExit_EndAttack(BaseStateMachineBehaviour exitState)
+        private void SrvOnStateExitEndAttack(BaseStateMachineBehaviour exitState)
         {
             // In case we want to move the moment we're attacking. Cancel the attack and move
             if (exitState is AttackState)

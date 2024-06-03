@@ -1,7 +1,6 @@
-using System;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
-using Project.Extensions;
+using Project._Project.Scripts.StateMachine;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,6 +13,9 @@ namespace Project
 
         private int _currentAnimationHash;
         [ShowInInspector] private GRPC_NetworkVariable<int> _currentAnimation  = new GRPC_NetworkVariable<int>("CurrentAnimation");
+        
+        [SerializeField] private Camera _deathCamera;
+        
 
         public override int TeamIndex => _refs.TeamIndex;
 
@@ -21,6 +23,7 @@ namespace Project
         {
             SpellManager.OnChannelingStarted += OnChannelingStarted;
         }
+        
 
         public override void OnDestroy()
         {
@@ -50,6 +53,12 @@ namespace Project
                 }
                 else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
             }
+            else if (IsOwner)
+            {
+                _deathCamera = GameObject.FindGameObjectWithTag(Constants.Tags.Death_Camera)?.GetComponent<Camera>();
+                _refs.StateMachine.CliOnStateEnter += OwnerOnDeadStateEnter_EnableDeathCamera;
+                _refs.StateMachine.CliOnStateExit += OwnerOnDeadStateExit_DisableDeathCamera;
+            }
         }
 
         public override void OnNetworkDespawn()
@@ -59,6 +68,11 @@ namespace Project
             _currentAnimation.Reset();
             
             if (IsServer) _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged_CheckIfDead;
+            else if (IsOwner)
+            {
+                _refs.StateMachine.CliOnStateEnter -= OwnerOnDeadStateEnter_EnableDeathCamera;
+                _refs.StateMachine.CliOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
+            }
         }
         
         private void Update()
@@ -88,6 +102,22 @@ namespace Project
         {
             _stats.Get<HealthStat>().OnValueChanged += OnHealthChanged_CheckIfDead;
             _stats.OnStatsInitialized -= OnStatsInitialized_HookHealth;
+        }
+        
+        private void OwnerOnDeadStateEnter_EnableDeathCamera(BaseStateMachineBehaviour currentState)
+        {
+            if (currentState is DeadState)
+            {
+                _deathCamera.enabled = true;
+            }
+        }
+        
+        private void OwnerOnDeadStateExit_DisableDeathCamera(BaseStateMachineBehaviour currentState)
+        {
+            if (currentState is DeadState)
+            {
+                _deathCamera.enabled = false;
+            }
         }
     }
 }
