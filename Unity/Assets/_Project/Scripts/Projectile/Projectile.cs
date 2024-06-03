@@ -10,6 +10,7 @@ namespace Project._Project.Scripts
         private Transform _target;
         private float _speed;
 
+        private static Vector3 offset = new Vector3(0, 3f, 0); //Hit the torso not the feet
 
         public override void OnNetworkSpawn()
         {
@@ -19,9 +20,9 @@ namespace Project._Project.Scripts
         private void FixedUpdate()
         {
             if (IsSpawned == false) return;
-            
-            transform.LookAt(_target);
-            Vector3 direction = _target.position - transform.position;
+            Vector3 adjustedTargetPos = _target.position + offset;
+            transform.LookAt(adjustedTargetPos);
+            Vector3 direction = adjustedTargetPos - transform.position;
             Vector3 directionNormalized = direction.normalized;
             
             transform.position += directionNormalized * (Time.fixedDeltaTime * _speed); 

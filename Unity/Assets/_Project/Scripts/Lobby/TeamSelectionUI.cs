@@ -147,7 +147,7 @@ namespace Project
 
         private void UpdatePcButtonTextLocal(string clientName)
         {
-            _pcButtonText.text = clientName;
+            _pcButtonText.text = clientName == TeamManager.DEFAULT_PC_SLOT_TEXT ? clientName : $"<color=#C89B3C>{clientName}</color>";
         }
 
         [ClientRpc]
@@ -164,7 +164,7 @@ namespace Project
         
         private void UpdateMobileButtonTextLocal(string clientName)
         {
-            _mobileButtonText.text = clientName;
+            _mobileButtonText.text = clientName == TeamManager.DEFAULT_MOBILE_SLOT_TEXT ? clientName : $"<color=#C89B3C>{clientName}</color>";
         }
 
         private void OnPlayerReady_UpdateButtonTextColor(bool _, bool readyState)

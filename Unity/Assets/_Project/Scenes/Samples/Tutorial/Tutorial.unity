@@ -572,6 +572,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &642404643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3785213208366962032, guid: 5c263072b22580b4c90ffaf16f36cfc0,
+    type: 3}
+  m_PrefabInstance: {fileID: 642404640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &643734775
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,6 +727,7 @@ MonoBehaviour:
   coneGO: {fileID: 756892969}
   tutorialMvtCheck: {fileID: 538829820134407118}
   SkipTutoButton: {fileID: 642404642}
+  SkipButtonText: {fileID: 642404643}
   tutorialCharacter: {fileID: 11400000, guid: fff3276d5bd290a48b1f8cfc38e15555, type: 2}
   tutorialDummy: {fileID: 4948049838929803603, guid: e85edf8eb351ad34d8fe8852ffab3009,
     type: 3}

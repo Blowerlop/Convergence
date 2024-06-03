@@ -72,30 +72,31 @@ namespace Project
             
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
                 mobileUser.WinCount.Value++;
-            
-            ShowWinText(refs.TeamIndex);
-            
+
+            string winnerPlayers = (pcUser == null ? "" : pcUser.PlayerName) + (mobileUser == null ? "" : " & " + mobileUser.PlayerName);
+            ShowWinText(winnerPlayers, endGame);
+
             EndCurrentRound(endGame);
-            OnRoundEndedClientRpc(refs.TeamIndex);
+            OnRoundEndedClientRpc(winnerPlayers, endGame);
         }
 
         [ClientRpc]
-        private void OnRoundEndedClientRpc(int teamIndex)
+        private void OnRoundEndedClientRpc(string winnerNames, bool gameFinished = false)
         {
             if (IsHost) return;
             
-            ShowWinText(teamIndex);
+            ShowWinText(winnerNames, gameFinished);
         }
 
-        private void ShowWinText(int teamIndex)
+        private void ShowWinText(string winnerNames, bool gameFinished = false)
         {
-            PlaceholderLabel.instance.SetText($"Team {teamIndex} wins this round!", 1.9f);
+            PlaceholderLabel.instance.SetText($"Team {winnerNames} win " + (gameFinished ? "this game ! " : "this round !"), 1.9f);
         }
 
         private void EndCurrentRound(bool endGame)
         {
             _isGameRunning.Value = false;
-            
+
             DOVirtual.DelayedCall(roundEndTime, () =>
             {
                 if (endGame)
@@ -129,13 +130,13 @@ namespace Project
             
             OnRoundStartClientRpc();
             
-            timer.StartTimerWithUpdateCallback(this, roundStartTime, (value) =>
+            timer.StartTimerWithUpdateCallback(this, roundStartTime + 1f, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
             {
                 _isGameRunning.Value = true;
-                PlaceholderLabel.instance.SetText("");
+                PlaceholderLabel.instance.SetText("Fight !", 1.5f);
             }, ceiled: true);
         }
         
@@ -147,12 +148,12 @@ namespace Project
             
             Timer timer = new Timer();
             
-            timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
+            timer.StartTimerWithUpdateCallback(this, 4f, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
             {
-                PlaceholderLabel.instance.SetText("");
+                PlaceholderLabel.instance.SetText("Fight !", 1.5f);
             }, ceiled: true);
         }
     }

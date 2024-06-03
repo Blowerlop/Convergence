@@ -38,17 +38,17 @@ MonoBehaviour:
   onCasterEffects:
   - rid: 611475172293607424
   targetType: 0
-  limitRadius: 10
+  limitRadius: 20
   references:
     version: 2
     RefIds:
     - rid: 611475172293607424
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        SlowAmount: -2
-        Duration: 3.5
+        SlowAmount: -3
+        Duration: 4
     - rid: 1951814749556572167
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         SlowAmount: 2
-        Duration: 1.5
+        Duration: 2

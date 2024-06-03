@@ -53,11 +53,20 @@ namespace Project
                 }
                 else _stats.OnStatsInitialized += OnStatsInitialized_HookHealth;
             }
-            else if (IsOwner)
+            if (IsOwner)
             {
                 _deathCamera = GameObject.FindGameObjectWithTag(Constants.Tags.Death_Camera)?.GetComponent<Camera>();
-                _refs.StateMachine.CliOnStateEnter += OwnerOnDeadStateEnter_EnableDeathCamera;
-                _refs.StateMachine.CliOnStateExit += OwnerOnDeadStateExit_DisableDeathCamera;
+
+                if (IsServer)
+                {
+                    _refs.StateMachine.SrvOnStateEnter += OwnerOnDeadStateEnter_EnableDeathCamera;
+                    _refs.StateMachine.SrvOnStateExit += OwnerOnDeadStateExit_DisableDeathCamera;
+                }
+                else if (IsClient)
+                {
+                    _refs.StateMachine.CliOnStateEnter += OwnerOnDeadStateEnter_EnableDeathCamera;
+                    _refs.StateMachine.CliOnStateExit += OwnerOnDeadStateExit_DisableDeathCamera;
+                }
             }
         }
 
@@ -68,10 +77,18 @@ namespace Project
             _currentAnimation.Reset();
             
             if (IsServer) _stats.Get<HealthStat>().OnValueChanged -= OnHealthChanged_CheckIfDead;
-            else if (IsOwner)
+            if (IsOwner)
             {
-                _refs.StateMachine.CliOnStateEnter -= OwnerOnDeadStateEnter_EnableDeathCamera;
-                _refs.StateMachine.CliOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
+                if (IsServer)
+                {
+                    _refs.StateMachine.SrvOnStateEnter -= OwnerOnDeadStateEnter_EnableDeathCamera;
+                    _refs.StateMachine.SrvOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
+                }
+                else if (IsClient)
+                {
+                    _refs.StateMachine.CliOnStateEnter -=  OwnerOnDeadStateEnter_EnableDeathCamera;
+                    _refs.StateMachine.CliOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
+                }
             }
         }
 
@@ -120,8 +137,11 @@ namespace Project
         
         private void OwnerOnDeadStateEnter_EnableDeathCamera(BaseStateMachineBehaviour currentState)
         {
+            Debug.Log("Should enable death camera");
+            
             if (currentState is DeadState)
             {
+                Debug.Log("Enable death camera");
                 _deathCamera.enabled = true;
             }
         }

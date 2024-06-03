@@ -30,17 +30,23 @@ MonoBehaviour:
   spellDescription:
     descriptionText: SilverLeaf locks onto the target enemy champion and start channeling.
       Once  SilverLeaf completes the channel, she fires a homing arrow toward the
-      target that deals {0} damages.
+      target that deals {0} damages and silence them for {3} seconds.
     effects:
     - rid: 1951814749556572169
+    - rid: 49919011783180290
   effects:
   - rid: 1951814749556572169
+  - rid: 49919011783180290
   onCasterEffects: []
   targetType: 0
-  limitRadius: 30
+  limitRadius: 35
   references:
     version: 2
     RefIds:
+    - rid: 49919011783180290
+      type: {class: SilenceEffect, ns: Project.Effects, asm: Assembly-CSharp}
+      data:
+        Duration: 3
     - rid: 1951814749556572169
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
