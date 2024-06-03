@@ -130,13 +130,13 @@ namespace Project
             
             OnRoundStartClientRpc();
             
-            timer.StartTimerWithUpdateCallback(this, roundStartTime, (value) =>
+            timer.StartTimerWithUpdateCallback(this, roundStartTime + 1f, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
             {
                 _isGameRunning.Value = true;
-                PlaceholderLabel.instance.SetText("");
+                PlaceholderLabel.instance.SetText("Fight !", 1.5f);
             }, ceiled: true);
         }
         
@@ -148,12 +148,12 @@ namespace Project
             
             Timer timer = new Timer();
             
-            timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
+            timer.StartTimerWithUpdateCallback(this, 4f, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
             {
-                PlaceholderLabel.instance.SetText("");
+                PlaceholderLabel.instance.SetText("Fight !", 1.5f);
             }, ceiled: true);
         }
     }

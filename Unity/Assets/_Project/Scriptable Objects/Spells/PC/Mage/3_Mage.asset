@@ -47,6 +47,6 @@ MonoBehaviour:
     - rid: 1951814709268185091
       type: {class: ShieldEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        ShieldAmount: 500
+        ShieldAmount: 400
         HasDuration: 1
         Duration: 4

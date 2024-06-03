@@ -108,8 +108,8 @@ MonoBehaviour:
   CanHitSelf: 0
   _movingObject: {fileID: 1226572752951974000}
   boxCollider: {fileID: 6444498480560955018}
-  speed: 25
-  moveDuration: 0.9
+  speed: 20
+  moveDuration: 0.5
   hasImpactPhase: 0
   _impactObject: {fileID: 0}
   _impactDuration: 1

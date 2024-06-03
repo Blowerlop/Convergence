@@ -32,10 +32,10 @@ MonoBehaviour:
       dealing {0} damages to enemies and stun them for {3} seconds.
     effects:
     - rid: 1951814749556572165
-    - rid: 49919011783180289
+    - rid: 49919016300445697
   effects:
-  - rid: 1951814749556572164
   - rid: 1951814749556572165
+  - rid: 49919016300445697
   onCasterEffects: []
   limitRadius: 15
   zoneRadius: 8.75
@@ -43,15 +43,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 49919011783180289
+    - rid: 49919016300445697
       type: {class: StunEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         Duration: 3
-    - rid: 1951814749556572164
-      type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
-      data:
-        SlowAmount: 3
-        Duration: 1.5
     - rid: 1951814749556572165
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:

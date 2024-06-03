@@ -22,7 +22,7 @@ namespace Project
         }
         public void UpdateToolTipText(SpellData spellData)
         {
-            spellName.text = "[" + InputSettingsManager.GetBindingName(inputActionReference.action.name, 0) + "] " + spellData.spellName;
+            if(inputActionReference!= null ) spellName.text = "[" + InputSettingsManager.GetBindingName(inputActionReference.action.name, 0) + "] " + spellData.spellName;
             spellCooldown.text = spellData.cooldown.ToString() + "s" ;
             spellDescription.text = spellData.spellDescription.GenerateText();
             spellImage.sprite = spellData.spellIcon; 
