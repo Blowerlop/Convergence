@@ -5075,6 +5075,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1000314825779772960}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &6325308547965750541 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6496960969021158189, guid: 3aaf77d849b3bf14788af804b91dc6b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1000314825779772960}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6602416714279687018 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6215435937847373130, guid: 3aaf77d849b3bf14788af804b91dc6b9,
@@ -6432,22 +6438,22 @@ MonoBehaviour:
       <KeyOffID>k__BackingField: 
   - <StateName>k__BackingField: Stun
     <FXs>k__BackingField:
-    - <FX>k__BackingField: {fileID: 0}
+    - <FX>k__BackingField: {fileID: 1085352435805015414}
       <DisableType>k__BackingField: 0
       <DisableTime>k__BackingField: 0
       <Sfx>k__BackingField: 
       <KeyOffID>k__BackingField: 
-    - <FX>k__BackingField: {fileID: 0}
+    - <FX>k__BackingField: {fileID: 6325308547965750541}
       <DisableType>k__BackingField: 0
       <DisableTime>k__BackingField: 0
       <Sfx>k__BackingField: 
       <KeyOffID>k__BackingField: 
-    - <FX>k__BackingField: {fileID: 0}
+    - <FX>k__BackingField: {fileID: 921919367741274800}
       <DisableType>k__BackingField: 0
       <DisableTime>k__BackingField: 0
       <Sfx>k__BackingField: 
       <KeyOffID>k__BackingField: 
-    - <FX>k__BackingField: {fileID: 0}
+    - <FX>k__BackingField: {fileID: 2898046010786597514}
       <DisableType>k__BackingField: 0
       <DisableTime>k__BackingField: 0
       <Sfx>k__BackingField: 
