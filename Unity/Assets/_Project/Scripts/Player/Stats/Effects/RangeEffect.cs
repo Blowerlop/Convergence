@@ -34,7 +34,7 @@ namespace Project.Effects
 
         protected override void KillEffect_Internal()
         {
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
             
             if (!AffectedEffectable.AffectedEntity.Stats.TryGet(out AttackRangeStat stat)) return;
             stat.value -= _value;

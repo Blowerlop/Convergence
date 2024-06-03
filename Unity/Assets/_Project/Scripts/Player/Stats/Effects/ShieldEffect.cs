@@ -37,7 +37,7 @@ namespace Project.Effects
             if (!HasDuration) return;
             
             AffectedEffectable.AffectedEntity.UnShield(_shieldId);
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         public override Effect GetInstance()

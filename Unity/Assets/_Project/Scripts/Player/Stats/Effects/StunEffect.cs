@@ -42,7 +42,7 @@ namespace Project.Effects
         protected override void KillEffect_Internal()
         {
             _affectedPlayer.StateMachine.ChangeStateTo<IdleState>();
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         public override Effect GetInstance()

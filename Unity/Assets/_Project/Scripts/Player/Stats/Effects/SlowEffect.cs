@@ -39,7 +39,7 @@ namespace Project.Effects
         protected override void KillEffect_Internal()
         {
             _stat.value += _slowedValue;
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         public override Effect GetInstance()
