@@ -732,6 +732,10 @@ MonoBehaviour:
   tutorialDummy: {fileID: 4948049838929803603, guid: e85edf8eb351ad34d8fe8852ffab3009,
     type: 3}
   subtitleTmp: {fileID: 519120184}
+  spell1: {fileID: 330768050175430966, guid: f8bb85f7cc2fbc74c9384c08d6f33705, type: 3}
+  spell2: {fileID: -3384423805108080462, guid: f8bb85f7cc2fbc74c9384c08d6f33705, type: 3}
+  spell3: {fileID: 538696315221479918, guid: f8bb85f7cc2fbc74c9384c08d6f33705, type: 3}
+  spell4: {fileID: 6035520442070066111, guid: f8bb85f7cc2fbc74c9384c08d6f33705, type: 3}
 --- !u!4 &764217872
 Transform:
   m_ObjectHideFlags: 0

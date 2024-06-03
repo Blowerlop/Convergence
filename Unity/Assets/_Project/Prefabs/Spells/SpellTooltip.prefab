@@ -513,9 +513,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellImage: {fileID: 4000184740854293771}
-  spellName: {fileID: 454764368659082924}
-  spellCooldown: {fileID: 8391672453795326917}
-  spellDescription: {fileID: 1503162699687269176}
+  spellNameText: {fileID: 454764368659082924}
+  spellCooldownText: {fileID: 8391672453795326917}
+  spellDescriptionText: {fileID: 1503162699687269176}
   inputActionReference: {fileID: 0}
 --- !u!222 &3220460780854370437
 CanvasRenderer:
