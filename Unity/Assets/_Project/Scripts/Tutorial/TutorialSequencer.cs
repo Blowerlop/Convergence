@@ -21,7 +21,8 @@ namespace Project
         public GameObject MobilePlayer;
         public GameObject coneGO; 
         public Transform tutorialMvtCheck;
-        public Button SkipTutoButton; 
+        public Button SkipTutoButton;
+        public TextMeshProUGUI SkipButtonText; 
         #endregion
 
 
@@ -89,9 +90,10 @@ namespace Project
 
                 await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
 
-                await UniTask.Delay(1000);
 
-                QuitTutorial();
+                SkipButtonText.text = "LEAVE"; 
+                //await UniTask.Delay(1000);
+                //QuitTutorial();
             }
 
             catch (Exception ex)
