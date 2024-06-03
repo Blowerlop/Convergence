@@ -68,8 +68,8 @@ namespace Project
             {
                 foreach (var wrapper in FXs)
                 {
-                    wrapper.FX.Stop();
-                    wrapper.FX.Clear();
+                    wrapper.FX?.Stop();
+                    wrapper.FX?.Clear();
                 }
                 
                 _nextAutoFxs.Clear();
