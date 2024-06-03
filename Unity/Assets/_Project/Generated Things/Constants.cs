@@ -5,85 +5,93 @@ namespace Project
         public static class Scenes
         {
             /// <summary>
-            /// Lobby
-            /// </summary>
-            public const int Lobby = 0;
-            /// <summary>
             /// Menu
             /// </summary>
-            public const int Menu = 1;
+            public const int Menu = 0;
             /// <summary>
-            /// gRPC_HelloWorld_Sample
+            /// Lobby
             /// </summary>
-            public const int gRPC_HelloWorld_Sample = 2;
-            /// <summary>
-            /// NetworkingSample
-            /// </summary>
-            public const int NetworkingSample = 3;
-            /// <summary>
-            /// Game
-            /// </summary>
-            public const int Game = 4;
+            public const int Lobby = 1;
             /// <summary>
             /// Spell
             /// </summary>
-            public const int Spell = 5;
+            public const int Spell = 2;
+            /// <summary>
+            /// Tutorial
+            /// </summary>
+            public const int Tutorial = 3;
+            /// <summary>
+            /// SpellAdditive
+            /// </summary>
+            public const int SpellAdditive = 4;
+            /// <summary>
+            /// gRPC_HelloWorld_Sample
+            /// </summary>
+            public const int gRPC_HelloWorld_Sample = 5;
+            /// <summary>
+            /// NetworkingSample
+            /// </summary>
+            public const int NetworkingSample = 6;
+            /// <summary>
+            /// Game
+            /// </summary>
+            public const int Game = 7;
             /// <summary>
             /// Bootstrap
             /// </summary>
-            public const int Bootstrap = 6;
+            public const int Bootstrap = 8;
             /// <summary>
             /// ARPGDemo03
             /// </summary>
-            public const int ARPGDemo03 = 7;
+            public const int ARPGDemo03 = 9;
             /// <summary>
             /// ARPGDemo01
             /// </summary>
-            public const int ARPGDemo01 = 8;
+            public const int ARPGDemo01 = 10;
             /// <summary>
             /// ARPGDemo02
             /// </summary>
-            public const int ARPGDemo02 = 9;
+            public const int ARPGDemo02 = 11;
             /// <summary>
             /// ARPGDemo04
             /// </summary>
-            public const int ARPGDemo04 = 10;
+            public const int ARPGDemo04 = 12;
             /// <summary>
             /// ARPGDemo05
             /// </summary>
-            public const int ARPGDemo05 = 11;
+            public const int ARPGDemo05 = 13;
             /// <summary>
             /// ARPGDemo06
             /// </summary>
-            public const int ARPGDemo06 = 12;
+            public const int ARPGDemo06 = 14;
             /// <summary>
             /// ARPGDemo08
             /// </summary>
-            public const int ARPGDemo08 = 13;
+            public const int ARPGDemo08 = 15;
             /// <summary>
             /// ARPGDemo09
             /// </summary>
-            public const int ARPGDemo09 = 14;
+            public const int ARPGDemo09 = 16;
             /// <summary>
             /// ARPGDemo10
             /// </summary>
-            public const int ARPGDemo10 = 15;
+            public const int ARPGDemo10 = 17;
             /// <summary>
             /// ARPGDemo11
             /// </summary>
-            public const int ARPGDemo11 = 16;
+            public const int ARPGDemo11 = 18;
             /// <summary>
             /// ARPGDemo12
             /// </summary>
-            public const int ARPGDemo12 = 17;
+            public const int ARPGDemo12 = 19;
             /// <summary>
             /// ARPGDemo13
             /// </summary>
-            public const int ARPGDemo13 = 18;
+            public const int ARPGDemo13 = 20;
             /// <summary>
             /// ARPGDemo07
             /// </summary>
-            public const int ARPGDemo07 = 19;
+            public const int ARPGDemo07 = 21;
         }
         
         public static class AudioMixerParams
@@ -328,6 +336,10 @@ namespace Project
             /// Border
             /// </summary>
             public const string Border = "Border";
+            /// <summary>
+            /// Death Camera
+            /// </summary>
+            public const string Death_Camera = "Death Camera";
         }
         
     }
