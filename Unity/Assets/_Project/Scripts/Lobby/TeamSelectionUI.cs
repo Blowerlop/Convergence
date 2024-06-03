@@ -24,6 +24,7 @@ namespace Project
         {
             UserInstance.OnSpawned += OnClientStarted_UpdateUi;
             UserInstance.OnDespawned += OnClientStarted_UpdateUi;
+            UserInstance.OnNameChanged += OnClientStarted_UpdateUi;
         }
 
         private void Start()
@@ -37,6 +38,7 @@ namespace Project
             
             UserInstance.OnSpawned -= OnClientStarted_UpdateUi;
             UserInstance.OnDespawned -= OnClientStarted_UpdateUi;
+            UserInstance.OnNameChanged -= OnClientStarted_UpdateUi;
         }
 
         public override void OnNetworkSpawn()

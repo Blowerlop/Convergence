@@ -78,7 +78,7 @@ namespace Project
             UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
             if (userInstance.CharacterId == characterId) return;
             
-            userInstance.SetCharacter(characterId);
+            userInstance.SrvSetCharacter(characterId);
             
             SelectCharacterServerRpc(clientId, characterId);
         }

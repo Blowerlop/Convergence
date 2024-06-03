@@ -10,18 +10,25 @@ namespace Project
 {
     public class MenuButtonManager : MonoBehaviour
     {
-        public Button GameButton, TutorialButton, QuitButton, SettingsButton;
+        public Button GameButton, TutorialButton, QuitButton, SettingsButton, ValidateButton;
+        public GameObject playerNameSetter;
         
         
         private void Start()
         {
-            GameButton.onClick.AddListener(JoinGame);
+            GameButton.onClick.AddListener(ShowPlayerNameInputField);
             TutorialButton.onClick.AddListener(PlayTutorial);
             QuitButton.onClick.AddListener(QuitGame);
             SettingsButton.onClick.AddListener(OpenSettings);
+            ValidateButton.onClick.AddListener(JoinGame);
         }
         
 
+        void ShowPlayerNameInputField()
+        {
+            playerNameSetter.SetActive(true);
+        }
+        
         void JoinGame()
         {
             NetworkManager.Singleton.StartClient();

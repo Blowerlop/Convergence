@@ -51,7 +51,7 @@ namespace Project
             Debug.Log("[UserInstanceManager] Create Unity UserInstance");
             
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
-            userInstance.SetClientId((int)clientId);
+            userInstance.SrvSetClientId((int)clientId);
             
             _userInstances.Add((int)clientId, userInstance);
             
@@ -72,10 +72,10 @@ namespace Project
 
             // Spawn UserInstance 
             UserInstance userInstance = Instantiate(_userInstancePrefab); 
-            userInstance.SetClientId(clientId);
-            userInstance.SetName(unrealClient.name);
-            userInstance.SetIsMobile(true);
-            userInstance.SetCharacter(SOCharacter.GetMobileCharacterData().id);
+            userInstance.SrvSetClientId(clientId);
+            userInstance.SrvSetName(unrealClient.name);
+            userInstance.SrvSetIsMobile(true);
+            userInstance.SrvSetCharacter(SOCharacter.GetMobileCharacterData().id);
             
             _userInstances.Add(clientId, userInstance);
             

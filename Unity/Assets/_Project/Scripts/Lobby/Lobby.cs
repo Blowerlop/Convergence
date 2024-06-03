@@ -60,7 +60,7 @@ namespace Project
             }
             
 
-            userInstance.SetIsReady(state);
+            userInstance.SrvSetIsReady(state);
 
             if (userInstance.IsReady)
             {
@@ -113,7 +113,7 @@ namespace Project
             foreach (UserInstance x in UserInstanceManager.instance.GetUsersInstance())
             {
                 await Task.Delay(100);
-                x.SetIsReady(false);
+                x.SrvSetIsReady(false);
             }
 
             if (IsServer)

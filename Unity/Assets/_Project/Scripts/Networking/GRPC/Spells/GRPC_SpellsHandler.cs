@@ -179,7 +179,7 @@ namespace Project
             
             Debug.Log($"HandleSpellSlotUpdate {slot.SpellHash} for client {slot.ClientId} in slot {slot.Index}");
             
-            user.SetMobileSpell(slot.Index, slot.SpellHash);
+            user.SrvSetMobileSpell(slot.Index, slot.SpellHash);
         }
         
         #endregion

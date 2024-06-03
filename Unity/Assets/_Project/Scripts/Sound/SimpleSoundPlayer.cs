@@ -26,7 +26,7 @@ namespace Project
         {
             if (clearOnChange)
             {
-                SoundManager.instance.StopStaticSound(alias);
+                if (SoundManager.IsInstanceAlive()) SoundManager.instance.StopStaticSound(alias);
             }
         }
     }

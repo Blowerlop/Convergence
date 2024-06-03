@@ -8,13 +8,13 @@ namespace Project._Project.Scripts
         [Button("Set Character Data")]
         public void SetCharacter(int clientId, SOCharacter data)
         {
-            UserInstanceManager.instance.GetUserInstance(clientId).SetCharacter(data.id);
+            UserInstanceManager.instance.GetUserInstance(clientId).SrvSetCharacter(data.id);
         }
         
         [Button("Set Mobile Spell")]
         public void SetCharacter(int clientId, int spellHash, int slot)
         {
-            UserInstanceManager.instance.GetUserInstance(clientId).SetMobileSpell(slot, spellHash);
+            UserInstanceManager.instance.GetUserInstance(clientId).SrvSetMobileSpell(slot, spellHash);
         }
         
         [Button("Set Team")]

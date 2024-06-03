@@ -170,7 +170,7 @@ namespace Project
             }
             
             if (teamIndex != UNASSIGNED_TEAM_INDEX) RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
-            userInstance.SetTeam(teamIndex);
+            userInstance.SrvSetTeam(teamIndex);
 
             if (teamIndex == UNASSIGNED_TEAM_INDEX)
             {

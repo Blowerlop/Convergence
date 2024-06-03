@@ -64,7 +64,7 @@ namespace Project
         {
             if (UserInstanceManager.instance.TryGetUserInstance((int)clientId, out UserInstance userInstance))
             {
-                userInstance.SetScene(sceneName);
+                userInstance.SrvSetScene(sceneName);
             }
             else
             {
