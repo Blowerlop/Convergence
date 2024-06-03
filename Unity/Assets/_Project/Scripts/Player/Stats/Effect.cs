@@ -1,5 +1,4 @@
-using System;
-using Project._Project.Scripts;
+using System.Linq;
 using UnityEngine;
 
 namespace Project
@@ -20,8 +19,16 @@ namespace Project
         
         protected abstract bool AddToEffectableList { get; }
         
+        protected virtual bool OnlyApplyOnce => false;
+        
         public bool TryApply(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
+            if (OnlyApplyOnce)
+            {
+                if (effectable.AppliedEffects.Any(effect => effect.GetType() == GetType()))
+                    return false;
+            }
+            
             AffectedEffectable = effectable;
             if (AddToEffectableList) AddToEffectable();
             

@@ -7,6 +7,7 @@ namespace Project.Effects
     {
         public override EffectType Type => EffectType.Neutral;
         protected override bool AddToEffectableList => true;
+        protected override bool OnlyApplyOnce => true;
 
         [SerializeReference, SerializeField] private List<Effect> _effectsOnAuto = new();
 
