@@ -36,7 +36,10 @@ namespace Project._Project.Scripts
         
         public bool IsSilenced => _isSilenced.Value;
         private GRPC_NetworkVariable<bool> _isSilenced = new GRPC_NetworkVariable<bool>("IsSilenced");
+        private int _silenceAmount;
         public event Action<bool> OnSilenceChanged;
+        
+        private int _stunAmount;
         
         private bool _isInit;
         private event Action _onEntityInit;
@@ -208,17 +211,58 @@ namespace Project._Project.Scripts
         
         public void Silence()
         {
+            _silenceAmount++;
             _isSilenced.Value = true;
         }
 
         public void Unsilence()
         {
-            _isSilenced.Value = false;
+            _silenceAmount--;
+
+            if (_silenceAmount <= 0)
+            {
+                _silenceAmount = 0;
+                _isSilenced.Value = false;
+            }
         }
 
         private void SilenceChanged(bool oldValue, bool newValue)
         {
             OnSilenceChanged?.Invoke(newValue);
+        }
+        
+        #endregion
+        
+        #region Stun
+        
+        public void Stun()
+        {
+            _stunAmount++;
+            
+            // If it's the first stun
+            if (_stunAmount == 1)
+                OnStunned();
+        }
+
+        protected virtual void OnStunned()
+        {
+            // Override
+        }
+        
+        public void UnStun()
+        {
+            _stunAmount--;
+            
+            if (_stunAmount <= 0)
+            {
+                _stunAmount = 0;
+                OnUnStunned();
+            }
+        }
+        
+        protected virtual void OnUnStunned()
+        {
+            // Override
         }
         
         #endregion

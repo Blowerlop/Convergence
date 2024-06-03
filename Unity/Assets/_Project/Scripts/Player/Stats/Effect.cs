@@ -31,8 +31,11 @@ namespace Project
             
             AffectedEffectable = effectable;
             if (AddToEffectableList) AddToEffectable();
+
+            bool applied = TryApply_Internal(effectable, applier, applyPosition);
+            if (!applied && AddToEffectableList) RemoveFromEffectable();
             
-            return TryApply_Internal(effectable, applier, applyPosition);
+            return applied;
         }
 
         protected abstract bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition);

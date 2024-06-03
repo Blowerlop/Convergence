@@ -42,5 +42,19 @@ namespace Project._Project.Scripts
             _shakeSeq = DOTween.Sequence();
             _shakeSeq.Join(transform.DOShakeRotation(0.35f, Vector3.one * 5f, 15, 90f, true));
         }
+
+        protected override void OnStunned()
+        {
+            base.OnStunned();
+            
+            Debug.Log("Dummy Stunned");
+        }
+
+        protected override void OnUnStunned()
+        {
+            base.OnUnStunned();
+            
+            Debug.Log("Dummy UnStunned");
+        }
     }
 }

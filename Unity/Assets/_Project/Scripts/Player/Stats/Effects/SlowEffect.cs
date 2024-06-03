@@ -33,7 +33,7 @@ namespace Project.Effects
             _appliedCoroutine = AffectedEffectable.AffectedEntity.StartCoroutine(
                 Utilities.WaitForSecondsAndDoActionCoroutine(Duration, KillEffect));
             
-            return false;
+            return true;
         }
 
         protected override void KillEffect_Internal()

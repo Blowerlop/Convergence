@@ -1,5 +1,4 @@
 using Project._Project.Scripts;
-using Project._Project.Scripts.Player.States;
 using UnityEngine;
 
 namespace Project.Effects
@@ -11,27 +10,15 @@ namespace Project.Effects
         public override EffectType Type => EffectType.Bad;
         protected override bool AddToEffectableList => true;
 
-        private PCPlayerRefs _affectedPlayer;
+        private Entity _affectedEntity;
         private Coroutine _appliedCoroutine;
         
         [Server]
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
-            var entity = effectable.AffectedEntity;
+            _affectedEntity = effectable.AffectedEntity;
             
-            if(!entity.TryGetComponent(out _affectedPlayer))
-            {
-                Debug.LogWarning(
-                    $"Can't apply StunEffect on Entity {entity.data.name} because it doesn't have a PCPlayerRefs");
-                return false;
-            }
-
-            if (!_affectedPlayer.StateMachine.CanChangeStateTo<StunState>())
-            {
-                return false;
-            }
-            
-            _affectedPlayer.StateMachine.ChangeStateTo<StunState>();
+            _affectedEntity.Stun();
             
             AffectedEffectable.AffectedEntity.StartCoroutine(
                 Utilities.WaitForSecondsAndDoActionCoroutine(Duration, KillEffect));
@@ -41,7 +28,7 @@ namespace Project.Effects
 
         protected override void KillEffect_Internal()
         {
-            _affectedPlayer.StateMachine.ChangeStateTo<IdleState>();
+            _affectedEntity.UnStun();
             if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         

@@ -74,7 +74,21 @@ namespace Project
                 _refs.StateMachine.CliOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
             }
         }
-        
+
+        protected override void OnStunned()
+        {
+            base.OnStunned();
+            
+            _refs.StateMachine.ChangeStateTo<StunState>();
+        }
+
+        protected override void OnUnStunned()
+        {
+            base.OnUnStunned();
+            
+            _refs.StateMachine.ChangeStateTo<IdleState>();
+        }
+
         private void Update()
         {
             if (IsServer == false) return;
