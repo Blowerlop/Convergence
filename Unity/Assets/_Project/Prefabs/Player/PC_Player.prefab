@@ -885,11 +885,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4816673588955750593}
     m_Modifications:
+    - target: {fileID: 202506447796825406, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 202506447796825406, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 504899630193040033, guid: bae846c3cceaf8c44ae9e1ec220005a3,
         type: 3}
       propertyPath: m_Name
       value: Player_World_UI
       objectReference: {fileID: 0}
+    - target: {fileID: 1191734087847666759, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: playerRefs
+      value: 
+      objectReference: {fileID: 6215435937847373130}
     - target: {fileID: 2061728981038901260, guid: bae846c3cceaf8c44ae9e1ec220005a3,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1000,6 +1015,36 @@ PrefabInstance:
       propertyPath: refs
       value: 
       objectReference: {fileID: 6215435937847373130}
+    - target: {fileID: 2553106773158070413, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553106773158070413, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553106773158070413, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553106773158070413, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553106773158070413, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 73
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553106773158070413, guid: bae846c3cceaf8c44ae9e1ec220005a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 2686266771834138154, guid: bae846c3cceaf8c44ae9e1ec220005a3,
         type: 3}
       propertyPath: m_PresetInfoIsWorld

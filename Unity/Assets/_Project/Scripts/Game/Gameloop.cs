@@ -72,24 +72,25 @@ namespace Project
             
             if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
                 mobileUser.WinCount.Value++;
-            
-            ShowWinText(refs.TeamIndex, endGame);
+
+            string winnerPlayers = (pcUser == null ? "" : pcUser.PlayerName) + (mobileUser == null ? "" : " & " + mobileUser.PlayerName);
+            ShowWinText(winnerPlayers, endGame);
 
             EndCurrentRound(endGame);
-            OnRoundEndedClientRpc(refs.TeamIndex);
+            OnRoundEndedClientRpc(winnerPlayers, endGame);
         }
 
         [ClientRpc]
-        private void OnRoundEndedClientRpc(int teamIndex)
+        private void OnRoundEndedClientRpc(string winnerNames, bool gameFinished = false)
         {
             if (IsHost) return;
             
-            ShowWinText(teamIndex);
+            ShowWinText(winnerNames, gameFinished);
         }
 
-        private void ShowWinText(int teamIndex, bool gameFinished = false)
+        private void ShowWinText(string winnerNames, bool gameFinished = false)
         {
-            PlaceholderLabel.instance.SetText($"Team {teamIndex + 1} wins " + (gameFinished ? "this game ! " : "this round !"), 1.9f);
+            PlaceholderLabel.instance.SetText($"Team {winnerNames} win " + (gameFinished ? "this game ! " : "this round !"), 1.9f);
         }
 
         private void EndCurrentRound(bool endGame)
