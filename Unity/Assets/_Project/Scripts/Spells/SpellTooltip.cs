@@ -15,7 +15,7 @@ namespace Project
         [SerializeField] Image spellImage; 
         [SerializeField] TextMeshProUGUI spellNameText, spellCooldownText, spellDescriptionText;
         public InputActionReference inputActionReference; 
-        private string spellName  ; 
+        private string spellName = "" ; 
         private void Start()
         {
             gameObject.SetActive(false);
