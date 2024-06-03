@@ -22,9 +22,9 @@ namespace Project
 
         private void Awake()
         {
-            UserInstance.OnSpawned += UpdateUI;
-            UserInstance.OnDespawned += UpdateUI;
-            UserInstance.OnNameChanged += UpdateUI;
+            UserInstance.OnSpawned += OnClientStarted_UpdateUi;
+            UserInstance.OnDespawned += OnClientStarted_UpdateUi;
+            UserInstance.OnNameChanged += OnClientStarted_UpdateUi;
         }
 
         private void Start()
@@ -36,13 +36,14 @@ namespace Project
         {
             base.OnDestroy();
             
-            UserInstance.OnSpawned -= UpdateUI;
-            UserInstance.OnDespawned -= UpdateUI;
-            UserInstance.OnNameChanged -= UpdateUI;
+            UserInstance.OnSpawned -= OnClientStarted_UpdateUi;
+            UserInstance.OnDespawned -= OnClientStarted_UpdateUi;
+            UserInstance.OnNameChanged -= OnClientStarted_UpdateUi;
         }
 
         public override void OnNetworkSpawn()
         {
+            
             TeamManager.instance.onTeamSet += OnTeamSet_UpdateButtonText;
 
             // Because right now in testing this network spawn might fired first, we have a null ref on our UserInstance.
@@ -58,7 +59,6 @@ namespace Project
                     }
                     
                     UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
-                    UserInstance.Me._networkTeam.OnValueChanged += OnMyTeamChanged_UpdateUi;
                 });
             
              // UserInstance.Me._networkIsReady.OnValueChanged += OnPlayerReady_UpdateButtonTextColor;
@@ -74,7 +74,6 @@ namespace Project
             if (UserInstance.Me != null)
             {
                 UserInstance.Me._networkIsReady.OnValueChanged -= OnPlayerReady_UpdateButtonTextColor;
-                UserInstance.Me._networkTeam.OnValueChanged -= OnMyTeamChanged_UpdateUi;
             }   
         }
         
@@ -230,7 +229,7 @@ namespace Project
             _mobileButtonText.color = state ? Color.green : Color.black;
         }
         
-        private void UpdateUI(UserInstance userInstance)
+        private void OnClientStarted_UpdateUi(UserInstance userInstance)
         {
             ulong clientId = userInstance.OwnerClientId;
             
@@ -276,11 +275,6 @@ namespace Project
                 if (userInstance.IsReady) UpdateMobileButtonTextColorClientRpc(_teamIndex, true, sendParams);
             }
             else UpdateMobileButtonTextClientRpc(TeamManager.DEFAULT_MOBILE_SLOT_TEXT, sendParams);
-        }
-        
-        private void OnMyTeamChanged_UpdateUi(int previousvalue, int newvalue)
-        {
-            UpdateUI(UserInstance.Me);
         }
     }
 }
