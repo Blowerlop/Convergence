@@ -64,6 +64,8 @@ namespace Project
             if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
             {
                 pcUser.WinCount.Value++;
+                DOVirtual.DelayedCall(2.0f, () => pcUser.WinCount.Sync());
+                
                 
                 endGame = pcUser.WinCount.Value >= 2;
             }
