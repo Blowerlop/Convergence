@@ -8,7 +8,7 @@ namespace Project.Effects
         public int SlowAmount;
         public float Duration;
 
-        public override EffectType Type => EffectType.Bad;
+        public override EffectType Type => SlowAmount < 0 ? EffectType.Good : EffectType.Bad;
         protected override bool AddToEffectableList => true;
         
         private MoveSpeedStat _stat;
