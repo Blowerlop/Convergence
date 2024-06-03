@@ -136,9 +136,12 @@ namespace Project._Project.Scripts.StateMachine
         private void PopulateCache()
         {
             _states.Add(defaultState);
-            _states = _states.DistinctBy(state => state.GetType()).ToList();
+            _states = _states.DistinctBy(state => state?.GetType()).ToList();
 
-            _states.ForEach(state => _statesCache.Add(state.GetType(), state));
+            _states.ForEach(state =>
+            {
+                if (state != null) _statesCache.Add(state.GetType(), state);
+            });
             // _states = null;
         }
         
