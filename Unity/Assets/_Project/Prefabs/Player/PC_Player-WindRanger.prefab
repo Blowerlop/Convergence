@@ -6543,49 +6543,6 @@ MonoBehaviour:
       <DisableTime>k__BackingField: 0
       <Sfx>k__BackingField: 
       <KeyOffID>k__BackingField: 
-  - <StateName>k__BackingField: Channeling4
-    <FXs>k__BackingField:
-    - <FX>k__BackingField: {fileID: 5357768897507675652}
-      <DisableType>k__BackingField: 0
-      <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
-      <KeyOffID>k__BackingField: 
-  - <StateName>k__BackingField: Channeling2
-    <FXs>k__BackingField:
-    - <FX>k__BackingField: {fileID: 8592085798710434076}
-      <DisableType>k__BackingField: 1
-      <DisableTime>k__BackingField: 5
-      <Sfx>k__BackingField: inst_sniper_2
-      <KeyOffID>k__BackingField: 
-  - <StateName>k__BackingField: Cast3
-    <FXs>k__BackingField:
-    - <FX>k__BackingField: {fileID: 8225217171365001288}
-      <DisableType>k__BackingField: 1
-      <DisableTime>k__BackingField: 1.5
-      <Sfx>k__BackingField: 
-      <KeyOffID>k__BackingField: 
-  - <StateName>k__BackingField: Stun
-    <FXs>k__BackingField:
-    - <FX>k__BackingField: {fileID: 921919367741274800}
-      <DisableType>k__BackingField: 0
-      <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
-      <KeyOffID>k__BackingField: 
-    - <FX>k__BackingField: {fileID: 9122398710157387449}
-      <DisableType>k__BackingField: 0
-      <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
-      <KeyOffID>k__BackingField: 
-    - <FX>k__BackingField: {fileID: 2898046010786597514}
-      <DisableType>k__BackingField: 0
-      <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
-      <KeyOffID>k__BackingField: 
-    - <FX>k__BackingField: {fileID: 6325308547965750541}
-      <DisableType>k__BackingField: 0
-      <DisableTime>k__BackingField: 0
-      <Sfx>k__BackingField: 
-      <KeyOffID>k__BackingField: 
 --- !u!114 &7347113588034963636
 MonoBehaviour:
   m_ObjectHideFlags: 0
