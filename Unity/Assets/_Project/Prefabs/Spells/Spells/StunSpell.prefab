@@ -173,7 +173,7 @@ MonoBehaviour:
     type: 2}
   CanHitSelf: 0
   _movingObject: {fileID: 1421474087430420040}
-  boxCollider: {fileID: 9172578392931657472}
+  spehreRadius: 0.75
   speed: 14
   moveDuration: 1
   hasImpactPhase: 1
