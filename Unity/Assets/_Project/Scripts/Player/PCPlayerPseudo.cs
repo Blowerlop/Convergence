@@ -15,19 +15,24 @@ namespace Project
         CancellationTokenSource cts; 
         void Start()
         {
-            _ = Initialize(); 
+           Initialize(); 
         }
 
-        async UniTask Initialize()
+        void Initialize()
         {
-            TeamData team = new TeamData();
-            cts = new CancellationTokenSource(5000);
-            await UniTask.WaitUntil(() => TeamManager.instance.TryGetTeam(playerRefs.TeamIndex, out team), PlayerLoopTiming.FixedUpdate, cts.Token);
+            var users = UserInstanceManager.instance.GetUsersInstance();
 
-            if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
-                playerPseudoText.text = pcUser.PlayerName;
-            else
-                playerPseudoText.text = string.Empty;
+            for(int i = 0; i < users.Length; i++)
+            {
+                if (users[i].Team == playerRefs.TeamIndex && !users[i].IsMobile)
+                {
+                    playerPseudoText.text = users[i].PlayerName;
+                    return;
+                }
+            }
+
+                
+            playerPseudoText.text = string.Empty;
         }
 
     }
