@@ -24,7 +24,7 @@ namespace Project.Scripts.UIFramework
         [NonSerialized] private EComponentTypeUI _componentType;
         [SerializeField] private EColorType _colorType;
         [SerializeField, ShowIf("@_componentType == EComponentTypeUI.Text")] private ETextType _textType;
-        [SerializeField, ShowIf("@_componentType == EComponentTypeUI.Image")] private bool _useCustomAlpha;
+        [SerializeField] private bool _useCustomAlpha;
 
 
 
@@ -39,19 +39,20 @@ namespace Project.Scripts.UIFramework
             {
                 _componentType = EComponentTypeUI.Image;
                 
-                if (_useCustomAlpha)
-                {
-                    Color color = GetColor();
-                    color.a = image.color.a;
-                    image.color = color;
-                }
-                else image.color = GetColor();
+                Color color = GetColor();
+                if (_useCustomAlpha) color.a = image.color.a;
+                
+                image.color = color;
             }
             else if (TryGetComponent(out TMP_Text text))
             {
                 _componentType = EComponentTypeUI.Text;
                 
-                text.color = GetColor();
+                Color color = GetColor();
+                
+                if (_useCustomAlpha) color.a = text.color.a;
+                
+                text.color = color;
                 text.font = GetFont();
             }
             else throw new MissingComponentException("Missing component Image or TMP_Text");
