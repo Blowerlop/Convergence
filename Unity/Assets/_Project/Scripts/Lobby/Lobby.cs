@@ -33,6 +33,8 @@ namespace Project
         public readonly Action onAllPlayersReadyEvent;
         public event Action<ELobbyState> OnStateChange;
 
+        [ClearOnReload] private static bool CanStartSolo;
+        
         private void Start()
         {
             GoToTeamSelectionPage();
@@ -70,8 +72,9 @@ namespace Project
 
         private void CheckIfAllPlayersReady()
         {
-            if (UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady || x.IsMobile) ==
-                UserInstanceManager.instance.count)
+            var readyCount = UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady || x.IsMobile);
+            
+            if (readyCount == UserInstanceManager.instance.count && (CanStartSolo || readyCount > 1))
             {
                 OnAllPlayersReady();
             }
@@ -139,6 +142,12 @@ namespace Project
         private void GoToGameScene()
         {
             Project.SceneManager.Network_LoadSceneAsync("Spell", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
+        }
+        
+        [ConsoleCommand("start_solo", "Can launch a game solo if this is true")]
+        public static void SetCanStartSolo(bool value)
+        {
+            CanStartSolo = value;
         }
     }
 }
