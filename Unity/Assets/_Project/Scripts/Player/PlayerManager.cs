@@ -48,7 +48,7 @@ namespace Project
             {
                 if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
 
-                if (!user.IsMobile)
+                if (user.IsMobile)
                 {
                     // This should never happen
                     Debug.LogError("Scene loaded callback for a mobile user ???");
