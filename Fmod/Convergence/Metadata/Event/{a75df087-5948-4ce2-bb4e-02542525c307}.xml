@@ -93,7 +93,7 @@
 	<object class="MixerBusPanner" id="{82211a67-f6c7-4cf3-bb7a-358500f93c25}" />
 	<object class="SoundScatterer" id="{7e749a90-05be-4886-9253-5e7714e211fe}">
 		<property name="length">
-			<value>2.625</value>
+			<value>2.875</value>
 		</property>
 		<property name="minimumTimeBetweenSounds">
 			<value>300</value>
