@@ -41,5 +41,16 @@ namespace Project._Project.Scripts
             _target = attackController.targetNetworkObject.transform;
             _speed = projectileData._speed;
         }
+
+        [Server]
+        public static void SrvResetProjectiles()
+        {
+            var projectiles = FindObjectsByType<Projectile>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            
+            foreach(var projectile in projectiles)
+            {
+                projectile.NetworkObject.Despawn();
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DG.Tweening;
+using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
 using Project._Project.Scripts.Player.States;
 using Project.Spells;
@@ -119,6 +120,8 @@ namespace Project
             
             spellManager.SrvResetSpells();
             spellManager.SrvResetCasts();
+            
+            Projectile.SrvResetProjectiles();
             
             var playerManager = PlayerManager.instance;
             
