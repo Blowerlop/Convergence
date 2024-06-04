@@ -29,7 +29,7 @@ namespace Project
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkClientId = new("ClientId", value: int.MaxValue);
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkScene = new GRPC_NetworkVariable<FixedString64Bytes>("Scene");
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
-        [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
+        [ShowInInspector] public GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
         [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
         [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");

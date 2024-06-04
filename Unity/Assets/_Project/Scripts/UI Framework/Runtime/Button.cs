@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Project.Extensions;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -92,6 +93,11 @@ namespace Project.Scripts.UIFramework
                     _hoverButtonText.fontSize = _size;
                 }
             }
+        }
+
+        public void SetVisibility(bool visible)
+        {
+            GetComponentsInChildren<Graphic>().ForEach(x => x.enabled = visible);
         }
     }
 }
