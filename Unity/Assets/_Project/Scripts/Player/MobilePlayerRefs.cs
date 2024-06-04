@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Project
@@ -11,15 +12,10 @@ namespace Project
         {
             base.OnTeamChanged(_, newValue);
             
-            if(!TeamManager.instance.TryGetTeam(newValue, out var newTeam))
+            var pcUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(x => x.IsMobile == false && x.Team == newValue);
+            if (pcUser == null)
             {
-                Debug.LogError($"New team with ID {newValue} is invalid");
-                return;
-            }
-
-            if (!newTeam.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
-            {
-                Debug.LogError($"New team with ID {newValue} has no PC player!");
+                Debug.LogError($"PC user for team {newValue} is null");
                 return;
             }
 
