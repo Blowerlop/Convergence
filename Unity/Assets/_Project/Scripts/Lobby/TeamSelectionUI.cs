@@ -206,6 +206,7 @@ namespace Project
             if (teamIndex != _teamIndex) return;
          
             _pcButtonText.color = state ? Color.green : Color.black;
+            if (state) _pcButtonText.text = _pcButtonText.GetParsedText();
         }
         
         [ClientRpc]
