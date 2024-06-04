@@ -45,25 +45,23 @@ namespace Project
 
         private void OnLastPlayerAlive(PlayerRefs refs)
         {
-            if (!TeamManager.instance.TryGetTeam(refs.TeamIndex, out var team))
-            {
-                // ???
+            bool endGame = false;
+
+            var pcUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(u => !u.IsMobile && u.Team == refs.TeamIndex);
+            
+            if (!pcUser)
+            {   
+                Debug.LogError("No PC user found for team " + refs.TeamIndex);
                 return;
             }
             
-            bool endGame = false;
+            pcUser.WinCount.Value++;
+            DOVirtual.DelayedCall(2.0f, () => pcUser.WinCount.Sync());
             
-            if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
-            {
-                pcUser.WinCount.Value++;
-                DOVirtual.DelayedCall(2.0f, () => pcUser.WinCount.Sync());
-                
-                
-                endGame = pcUser.WinCount.Value >= 2;
-            }
+            endGame = pcUser.WinCount.Value >= 2;
             
-            if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
-                mobileUser.WinCount.Value++;
+            var mobileUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(u => u.IsMobile && u.Team == refs.TeamIndex);
+            if (mobileUser) mobileUser.WinCount.Value++;
 
             string winnerPlayers = (pcUser == null ? "" : pcUser.PlayerName) + (mobileUser == null ? "" : " & " + mobileUser.PlayerName);
             ShowWinText(winnerPlayers, endGame);
