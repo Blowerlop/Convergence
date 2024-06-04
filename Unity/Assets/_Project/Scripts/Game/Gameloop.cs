@@ -32,14 +32,6 @@ namespace Project
             PlayerManager.OnAllPlayersReady -= StartNewRound;
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                EndCurrentRound(false);
-            }
-        }
-
         private void OnPlayerDied(PlayerRefs refs)
         {
             var players = PlayerManager.instance.players;
