@@ -12,16 +12,11 @@ namespace Project
         [SerializeField] private Image delimiterBar1, delimiterBar2;
         private int _teamIndex;
         
-        public void Init(TeamData teamData, int teamIndex)
+        public void Init(UserInstance pcUser, UserInstance mobileUser, int teamIndex)
         {
-            if (!teamData.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
-            {
-                Debug.LogError($"Team {teamIndex} has no PC player!");
-                return;
-            }
             teamIndexText.text = $"Team {teamIndex + 1} ";
             teamNameText.text = pcUser.PlayerName + (pcUser.IsOwner ? " (You)" : "") +
-                "\n<i>" + (teamData.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser) ? mobileUser.PlayerName : "No mobile") + "</i>";
+                "\n<i>" + (mobileUser ? mobileUser.PlayerName : "No mobile") + "</i>";
             OnWinCountChanged(0, pcUser.WinCount.Value);
             
             switch(teamIndex)
