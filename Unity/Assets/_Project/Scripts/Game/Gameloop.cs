@@ -86,6 +86,15 @@ namespace Project
             if (IsHost) return;
             
             ShowWinText(winnerNames, gameFinished);
+
+            if(gameFinished)
+            {
+                DOVirtual.DelayedCall(roundEndTime, () =>
+                {
+                    Netcode_ConnectionManager.Disconnect();
+                    UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(0);
+                });
+            }
         }
 
         private void ShowWinText(string winnerNames, bool gameFinished = false)
