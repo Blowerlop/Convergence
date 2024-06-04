@@ -5,6 +5,7 @@ using Project._Project.Scripts;
 using Project._Project.Scripts.Managers;
 using Project._Project.Scripts.Player.States;
 using Project.Spells;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,11 +20,11 @@ namespace Project
 
         [SerializeField] private float roundEndTime = 2f;
         [SerializeField] private float roundStartTime = 3f;
-        
+
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
-            
+
             PlayerManager.OnPlayerDied += OnPlayerDied;
             PlayerManager.OnAllPlayersReady += StartNewRound;
         }
@@ -37,11 +38,11 @@ namespace Project
         private void OnPlayerDied(PlayerRefs refs)
         {
             var players = PlayerManager.instance.players;
-            
+
             var alivePlayers = players.FindAll(p => p is PCPlayerRefs pcPlayerRefs && pcPlayerRefs.StateMachine.currentState is not DeadState);
-            
+
             if (alivePlayers.Count != 1) return;
-            
+
             OnLastPlayerAlive(alivePlayers[0]);
         }
 
@@ -50,16 +51,16 @@ namespace Project
             bool endGame = false;
 
             var pcUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(u => !u.IsMobile && u.Team == refs.TeamIndex);
-            
+
             if (!pcUser)
-            {   
+            {
                 Debug.LogError("No PC user found for team " + refs.TeamIndex);
                 return;
             }
-            
+
             pcUser.WinCount.Value++;
             DOVirtual.DelayedCall(2.0f, () => pcUser.WinCount.Sync());
-            
+
             endGame = pcUser.WinCount.Value >= 2;
             
             var mobileUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(u => u.IsMobile && u.Team == refs.TeamIndex);
@@ -69,18 +70,19 @@ namespace Project
             ShowWinText(winnerPlayers, endGame);
 
             EndCurrentRound(endGame);
-            OnRoundEndedClientRpc(winnerPlayers, endGame);
+            OnRoundEndedClientRpc(winnerPlayers, endGame, pcUser.Team);
         }
 
         [ClientRpc]
-        private void OnRoundEndedClientRpc(string winnerNames, bool gameFinished = false)
+        private void OnRoundEndedClientRpc(string winnerNames, bool gameFinished = false, int TeamIndex = -1)
         {
             if (IsHost) return;
-            
+
             ShowWinText(winnerNames, gameFinished);
 
-            if(gameFinished)
+            if (gameFinished)
             {
+                DataLogger.LogTeamInfo(TeamIndex);
                 DOVirtual.DelayedCall(roundEndTime, () =>
                 {
                     Netcode_ConnectionManager.Disconnect();

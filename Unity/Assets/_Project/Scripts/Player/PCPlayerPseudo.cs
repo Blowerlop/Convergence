@@ -12,7 +12,6 @@ namespace Project
         [SerializeField] PCPlayerRefs playerRefs;
         public TextMeshProUGUI playerPseudoText;
 
-        CancellationTokenSource cts; 
         void Start()
         {
            Initialize(); 

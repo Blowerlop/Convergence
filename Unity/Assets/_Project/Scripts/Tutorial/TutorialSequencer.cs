@@ -190,10 +190,6 @@ namespace Project
 
                 cts.Dispose();
                 cts = new CancellationTokenSource(timeOutDelay);
-                await UniTask.WaitUntil(() => TeamManager.instance.TrySetTeam((int)NetworkManager.Singleton.LocalClientId, 0, PlayerPlatform.Pc), PlayerLoopTiming.Update, cts.Token);
-
-                cts.Dispose();
-                cts = new CancellationTokenSource(timeOutDelay);
                 ValidateCharacterServerRpcc();
 
 
