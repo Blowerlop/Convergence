@@ -4,13 +4,9 @@ using System.Linq;
 using System.Reflection;
 using Project.Extensions;
 using Project.Scripts.UIFramework;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
-#if UNITY_EDITOR
-using Sirenix.OdinInspector.Editor;
-using UnityEditor;
-#endif
+using Sirenix.OdinInspector;
+
 
 namespace Project._Project.Scripts.UI.Settings
 {
@@ -66,13 +62,9 @@ namespace Project._Project.Scripts.UI.Settings
             return _gameplaySettingsFields;
         }
         
-        #if UNITY_EDITOR
-        
         private IEnumerable<string> GetGameplaySettingsKey()
         {
             return GetGameplaySettings().Select(x => x.key);
         }
-        
-        #endif
     }
 }
