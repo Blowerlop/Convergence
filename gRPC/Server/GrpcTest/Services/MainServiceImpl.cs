@@ -513,8 +513,8 @@ namespace GRPCServer.Services
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
                     GRPC_Team messageReceived = requestStream.Current;
-                    await UnrealClient.teamSelectionResponseStream.WriteAsync(messageReceived);
-
+                    if (UnrealClient.teamSelectionResponseStream != null)
+                        await UnrealClient.teamSelectionResponseStream.WriteAsync(messageReceived);
                 }
             }
             catch (IOException)
@@ -522,6 +522,8 @@ namespace GRPCServer.Services
                 Debug.Log("GRPC_TeamSelectionUnrealToGrpc > Connection lost with client - TeamSelection stream closed");
                 //DisconnectClient(context.Peer);
             }
+            
+            netcodeServer?.teamSelectionResponseStream?.Remove(responseStream);
         }
 
         public override async Task GRPC_TeamSelectionGrpcToNetcode(IAsyncStreamReader<GRPC_TeamResponse> requestStream, IServerStreamWriter<GRPC_Team> responseStream, ServerCallContext context)
@@ -534,11 +536,12 @@ namespace GRPCServer.Services
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
                     // Callback the response to all the Unreal clients
-                    foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer.teamSelectionResponseStream)
-                    {
-                        await item.WriteAsync(requestStream.Current);
-                    }
-                    
+                    if (netcodeServer != null)
+                        foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer
+                                     .teamSelectionResponseStream)
+                        {
+                            await item.WriteAsync(requestStream.Current);
+                        }
                 }
             }
             catch (IOException)
@@ -546,6 +549,8 @@ namespace GRPCServer.Services
                 Debug.Log("GRPC_TeamSelectionGrpcToNetcode > Connection lost with client - TeamSelection stream closed");
                 //DisconnectClient(context.Peer);
             }
+
+            UnrealClient.teamSelectionResponseStream = null;
         }
         #endregion
         
