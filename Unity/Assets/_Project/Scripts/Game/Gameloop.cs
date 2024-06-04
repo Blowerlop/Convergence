@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DG.Tweening;
+using Project._Project.Scripts.Managers;
 using Project._Project.Scripts.Player.States;
 using Project.Spells;
 using Unity.Netcode;
@@ -143,6 +144,8 @@ namespace Project
         [ClientRpc]
         private void OnRoundStartClientRpc()
         {
+            SoundManager.instance.PlayGlobalSound("CountDown", "timer", SoundManager.EventType.UI);
+            
             if (IsHost) return;
             
             Timer timer = new Timer();
