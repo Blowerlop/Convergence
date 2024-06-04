@@ -8,6 +8,7 @@ namespace Project._Project.Scripts
         [SerializeField] private SOEntity entityData;
         
         private Sequence _shakeSeq;
+        public override int TeamIndex => -2;
 
         public override void OnNetworkSpawn()
         {

@@ -164,6 +164,7 @@ namespace Project
             if (UserInstanceManager.instance == null) return; 
             var user = UserInstanceManager.instance.GetUsersInstance();
             DataLogMatch logMatch = new DataLogMatch(teamIndex);
+            logMatch.time = Time.timeSinceLevelLoad;
             for (int i = 0; i < 3; i++)
             {
                 UserInstance PCUser = user.Where(x => x.Team == i && !x.IsMobile).FirstOrDefault();

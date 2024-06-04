@@ -14,6 +14,7 @@ namespace Project
     public class DataLogMatch
     {
         public int winnerTeam;
+        public float time; 
         public List<DataLogTeamInfo> TeamInfoList = new List<DataLogTeamInfo>();
 
         public DataLogMatch(int teamIndex)
