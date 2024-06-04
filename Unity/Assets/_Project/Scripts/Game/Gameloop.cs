@@ -96,6 +96,8 @@ namespace Project
         private void EndCurrentRound(bool endGame)
         {
             _isGameRunning.Value = false;
+            
+            SoundManager.instance.PlayGlobalSound("EndRound", "end", SoundManager.EventType.UI);
 
             DOVirtual.DelayedCall(roundEndTime, () =>
             {
