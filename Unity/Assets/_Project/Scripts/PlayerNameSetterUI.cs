@@ -17,6 +17,11 @@ namespace Project
         private void OnEnable()
         {
             _inputField.onEndEdit.AddListener(SetPlayerName);
+            Utilities.StartWaitForFramesAndDoActionCoroutine(this, 1, () =>
+            {
+                _inputField.ActivateInputField();
+                _inputField.MoveTextEnd(false);
+            });
         }
         
         private void OnDisable()
