@@ -95,6 +95,8 @@ namespace Project
         protected override void OnStunned()
         {
             base.OnStunned();
+
+            if (_refs.StateMachine.currentState is DeadState) return;
             
             _refs.StateMachine.ChangeStateTo<StunState>();
         }
@@ -102,6 +104,8 @@ namespace Project
         protected override void OnUnStunned()
         {
             base.OnUnStunned();
+            
+            if (_refs.StateMachine.currentState is DeadState) return;
             
             _refs.StateMachine.ChangeStateTo<IdleState>();
         }
