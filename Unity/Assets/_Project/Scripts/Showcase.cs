@@ -61,7 +61,7 @@ namespace Project
             #endif
             {
                 _previewSpawnPoint.DestroyChildren();
-                var modelInstance = Instantiate(_characterData.model, Vector3.zero, Quaternion.identity, _previewSpawnPoint.transform);
+                var modelInstance = Instantiate(_characterData.model, _previewSpawnPoint.transform);
                 modelInstance.GetComponentsInChildren<Transform>().ForEach(x => x.gameObject.layer = Constants.Layers.EntityIndex); 
             };
         }
