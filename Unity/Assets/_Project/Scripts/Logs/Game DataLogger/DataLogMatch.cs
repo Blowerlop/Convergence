@@ -18,8 +18,7 @@ namespace Project
 
         public DataLogMatch(int teamIndex)
         {
-            this.winnerTeam = teamIndex; 
-
+            this.winnerTeam = teamIndex + 1 ; 
         }
     }
 }

@@ -169,16 +169,16 @@ namespace Project
                 UserInstance PCUser = user.Where(x => x.Team == i && !x.IsMobile).FirstOrDefault();
                 UserInstance MobileUser = user.Where(x => x.Team == i && x.IsMobile).FirstOrDefault();
                 DataLogTeamInfo teamInfo = new DataLogTeamInfo();
+                if (MobileUser != null)
+                {
+                    teamInfo.MobilePlayerName = MobileUser.PlayerName;
+                }
                 if (PCUser != null)
                 {
                     teamInfo.PCPlayerCharacter = SOCharacter.GetCharacter(PCUser.CharacterId).characterName;
                     teamInfo.PCPlayerName = PCUser.PlayerName;
+                    logMatch.TeamInfoList.Add(teamInfo);
                 }
-                if(MobileUser != null)
-                {
-                    teamInfo.MobilePlayerName = MobileUser.PlayerName; 
-                }
-                logMatch.TeamInfoList.Add(teamInfo);
             }
             AddLogEntry(logMatch);
             WriteToFile();
