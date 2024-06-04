@@ -206,6 +206,7 @@ namespace Project
             if (teamIndex != _teamIndex) return;
          
             _pcButtonText.color = state ? Color.green : Color.black;
+            // Player name use rich text, so we need to remove it in order to see the normal text color
             if (state) _pcButtonText.text = _pcButtonText.GetParsedText();
         }
         
