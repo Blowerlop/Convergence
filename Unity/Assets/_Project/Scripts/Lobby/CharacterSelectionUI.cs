@@ -52,7 +52,6 @@ namespace Project
         public void SelectCharacter()
         {
             if (_characterSelectedId == _characterData.id) return;
-            if (UserInstance.Me.CharacterId != 0) return;
             
             _characterSelectedId = _characterData.id;
             _outline.sprite = _outlineSelected;
