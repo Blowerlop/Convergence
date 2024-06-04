@@ -54,6 +54,7 @@ namespace Project
             {
                 yield return null;
                 StartServer();
+                yield return new WaitForSeconds(5.0f);
                 GRPC_NetworkManager.instance.StartClient();
             }
 #else
