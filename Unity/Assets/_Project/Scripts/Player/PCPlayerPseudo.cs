@@ -11,17 +11,21 @@ namespace Project
     {
         [SerializeField] PCPlayerRefs playerRefs;
         public TextMeshProUGUI playerPseudoText;
-
+        CancellationTokenSource cts; 
         void Start()
         {
-           Initialize(); 
+           _ = Initialize(); 
         }
 
-        void Initialize()
+        async UniTask Initialize()
         {
+            cts = new CancellationTokenSource(5000);
             var users = UserInstanceManager.instance.GetUsersInstance();
 
-            for(int i = 0; i < users.Length; i++)
+            await UniTask.WaitUntil(() => playerRefs.TeamIndex != -1, PlayerLoopTiming.FixedUpdate, cts.Token);
+
+            cts.Dispose();
+            for (int i = 0; i < users.Length; i++)
             {
                 if (users[i].Team == playerRefs.TeamIndex && !users[i].IsMobile)
                 {
@@ -30,8 +34,8 @@ namespace Project
                 }
             }
 
-                
             playerPseudoText.text = string.Empty;
+            
         }
 
     }
