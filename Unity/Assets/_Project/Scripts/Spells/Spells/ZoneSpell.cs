@@ -63,12 +63,10 @@ namespace Project.Spells
             base.OnDestroy();
             
             if (!IsOnServer) return;
+            if (IsApplyTimed()) return;
             
-            Debug.LogError("Try kill tween");
-
             if (_timedTween.IsActive())
             {
-                Debug.LogError("JKill tween");
                 _timedTween.Kill();
             }
         }
