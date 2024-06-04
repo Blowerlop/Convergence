@@ -49,10 +49,11 @@ namespace Project._Project.Scripts.Player.States
         {
             playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Dead, true);
             
+            PlayerManager.instance.OnDeath(playerRefs);
+            
             yield return new WaitUntil(() => playerRefs.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).IsName("Death"));
             yield return new WaitUntil(() => playerRefs.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
             
-            PlayerManager.instance.OnDeath(playerRefs);
             playerRefs.PlayerTransform.GetComponent<NetworkTransform>().Teleport(new Vector3(999, 999, 999), Quaternion.identity, Vector3.one);
             
             _deathCoroutine = null;
