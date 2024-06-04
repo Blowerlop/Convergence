@@ -81,9 +81,15 @@ namespace Project
         public override void OnNetworkSpawn()
         {
             InitializeTeamsData();
+            if (IsServer) UserInstance.OnDespawned += OnUserInstanceDespawned_CleanTeam;
         }
-        
-        
+
+        public override void OnNetworkDespawn()
+        {
+            if (IsServer) UserInstance.OnDespawned -= OnUserInstanceDespawned_CleanTeam;
+        }
+
+
         private void InitializeTeamsData()
         {
             Debug.Log("InitializeTeamsData");
@@ -278,6 +284,18 @@ namespace Project
         public TeamData GetTeamData(int teamIndex)
         {
             return _teams[teamIndex];
+        }
+        
+        private void OnUserInstanceDespawned_CleanTeam(UserInstance userInstance)
+        {
+            if (userInstance.Team != UNASSIGNED_TEAM_INDEX)
+            {
+                TeamData teamData = _teams[userInstance.Team];
+                if (userInstance.IsMobile) teamData.mobilePlayerOwnerClientId = UNASSIGNED_TEAM_INDEX;
+                else teamData.pcPlayerOwnerClientId = UNASSIGNED_TEAM_INDEX;
+                
+                _teams[userInstance.Team] = teamData;
+            }
         }
     }
 }
