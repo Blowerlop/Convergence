@@ -29,13 +29,15 @@ namespace Project
     
     public class EventSubscriber : SerializedMonoBehaviour
     {
-        public const BindingFlags BINDING_FLAGS = BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        public const BindingFlags BINDING_FLAGS_MONOBEHAVIOUR = BindingFlags.Instance | BindingFlags.Public;
+        public const BindingFlags BINDING_FLAGS_TYPE = BindingFlags.Static | BindingFlags.Public;
 
         [Title("Target")] 
         [SerializeField] private bool _searchByInstance = true;
         [SerializeField, ShowIf(nameof(_searchByInstance))] private MonoBehaviour _targetMonoBehaviour;
         [OdinSerialize, HideIf(nameof(_searchByInstance))] private Type _targetType;
-        [OdinSerialize, ValueDropdown(nameof(GetEventsName)), ShowIf(nameof(GetTargetObject))] private string _memberInfoName;
+        [SerializeField, HideIf(nameof(_searchByInstance))] private bool _isSingleton = false;
+        [OdinSerialize, ValueDropdown(nameof(GetEventsName))] private string _memberInfoName;
         [NonSerialized] private MemberInfo _memberInfo;
         
         [Title("Execution Timing")]
@@ -44,7 +46,7 @@ namespace Project
         
         [Title("Callback")]
         [SerializeField] public UnityEvent _callback;
-        [OdinSerialize, ReadOnly] private Delegate _delegate;
+        [OdinSerialize, HideInInspector] private Delegate _delegate;
 
 
         private void Awake()
@@ -76,33 +78,26 @@ namespace Project
         private void Subscribe()
         {
             if (string.IsNullOrEmpty(_memberInfoName)) return;
+            if (GetTargetObject() == null) return;
             
             _memberInfo = GetTargetType().GetEvent(_memberInfoName, GetBindingFlags());
-            _memberInfo ??= GetTargetType().GetField(_memberInfoName, GetBindingFlags());
             
             if (_memberInfo == null) throw new Exception($"Event or Field {_memberInfoName} not found in {GetTargetType()}");
 
-            UpdateDelegate();
+            CreateDelegate();
 
             if (_memberInfo is EventInfo eventInfo)
             {
                 eventInfo.AddEventHandler(GetTargetObject(), _delegate);
-            }
-            else if (_memberInfo is FieldInfo fieldInfo)
-            {
-                fieldInfo.FieldType.GetMethod("AddListener").Invoke(_targetMonoBehaviour.GetComponent(GetTargetObject().GetType()), new object[] { _delegate });
             }
         }
         
         private void Unsubscribe()
         {
             if (_memberInfo == null) throw new Exception($"Event or Field {_memberInfoName} not found in {GetTargetType()}");
+            if (GetTargetObject() == null) return;
             
-            if (_memberInfo is EventInfo eventInfo) eventInfo.RemoveEventHandler(_targetMonoBehaviour, _delegate);
-            else if (_memberInfo is FieldInfo fieldInfo)
-            {
-                fieldInfo.FieldType.GetMethod("RemoveListener").Invoke(_targetMonoBehaviour.GetComponent(GetTargetObject().GetType()), new object[] { _delegate });
-            }
+            if (_memberInfo is EventInfo eventInfo) eventInfo.RemoveEventHandler(GetTargetObject(), _delegate);
         }
 
 
@@ -110,15 +105,10 @@ namespace Project
 
         private IEnumerable<string> GetEventsName()
         {
-            if (GetTargetObject() == null) return Enumerable.Empty<string>();
-
             Type targetType = GetTargetType();
-            
+
             var eventFields = targetType.GetEvents(GetBindingFlags()).Cast<MemberInfo>();
-            // var unityEventFields = targetType.GetFields(GetBindingFlags()).Where(x => x.FieldType.IsSubclassOf(typeof(UnityEventBase))).Cast<MemberInfo>();
             
-            // Get name of the event
-            // return eventFields.Concat(unityEventFields).Select(x => x.Name);
             return eventFields.Select(x => x.Name);
         }
 
@@ -131,16 +121,17 @@ namespace Project
         private object GetTargetObject()
         {
             if (_searchByInstance) return _targetMonoBehaviour;
+            if (_isSingleton) return _targetType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static).First(x => x.PropertyType == GetTargetType()).GetValue(null);
             return _targetType;
         }
         
         private BindingFlags GetBindingFlags()
         {
-            if (_searchByInstance) return BINDING_FLAGS;
-            return BINDING_FLAGS;
+            if (_searchByInstance || _isSingleton) return BINDING_FLAGS_MONOBEHAVIOUR;
+            return BINDING_FLAGS_TYPE;
         }
         
-        private void UpdateDelegate()
+        private void CreateDelegate()
         {
             if (string.IsNullOrEmpty(_memberInfoName)) return;
             
@@ -173,10 +164,6 @@ namespace Project
                 // Create a delegate that takes the EventSubscriber instance as the first argument
                 _delegate = handler.CreateDelegate(tDelegate, this);
             }
-            // else if (_memberInfo is FieldInfo fieldInfo)
-            // {
-            //     _delegate = Delegate.CreateDelegate(fieldInfo.FieldType, this, nameof(_callback.Invoke));
-            // }
         }
 
         #endregion
