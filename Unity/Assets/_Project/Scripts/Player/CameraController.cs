@@ -1,3 +1,6 @@
+using Cinemachine;
+using Project._Project.Scripts.Player.States;
+using Project._Project.Scripts.StateMachine;
 using Project._Project.Scripts.UI.Settings;
 using Project.Extensions;
 using Sirenix.OdinInspector;
@@ -25,7 +28,8 @@ namespace Project
         [Title("References")]
         [SerializeField] private Collider _border;
         private Transform _player;
-        private Camera _playerCamera;
+        private CinemachineVirtualCamera _playerCamera;
+        private StateMachineController _stateMachineController;
 
         private Vector3 _forward;
         private Vector3 _right;
@@ -40,7 +44,7 @@ namespace Project
         {
             _cameraLock = GameplaySettingsManager.cameraLock.value;
             
-            _playerCamera = Camera.main;
+            _playerCamera = GameObject.FindGameObjectWithTag(Constants.Tags.Player_Camera)?.GetComponent<CinemachineVirtualCamera>();;
             _player = transform;
             
             CalculateDirectionalsVectors();
@@ -68,8 +72,41 @@ namespace Project
             base.OnNetworkSpawn();
 
             enabled = IsOwner;
+
+            if (IsOwner)
+            {
+                _stateMachineController = GetComponentInParent<PCPlayerRefs>().StateMachine;
+                
+                if (IsServer)
+                {
+                    _stateMachineController.SrvOnStateEnter += OnEnterDeadState;
+                    _stateMachineController.SrvOnStateExit += OnExitDeadState;
+                }
+                else if (this.IsClientOnly())
+                {
+                    _stateMachineController.CliOnStateEnter += OnEnterDeadState;
+                    _stateMachineController.CliOnStateExit += OnExitDeadState;
+                }
+            }
         }
-        
+
+        public override void OnNetworkDespawn()
+        {
+            if (IsOwner)
+            {
+                if (IsServer)
+                {
+                    _stateMachineController.SrvOnStateEnter -= OnEnterDeadState;
+                    _stateMachineController.SrvOnStateExit -= OnExitDeadState;
+                }
+                else if (this.IsClientOnly())
+                {
+                    _stateMachineController.CliOnStateEnter -= OnEnterDeadState;
+                    _stateMachineController.CliOnStateExit -= OnExitDeadState;
+                }
+            }
+        }
+
         private void Update()
         {
 #if UNITY_EDITOR
@@ -206,6 +243,19 @@ namespace Project
             
             _playerCamera.transform.position = clampedPosition;
         }
-
+        
+        private void OnEnterDeadState(BaseStateMachineBehaviour state)
+        {
+            if (state is DeadState) enabled = false;
+        }
+        
+        private void OnExitDeadState(BaseStateMachineBehaviour state)
+        {
+            if (state is DeadState)
+            {
+                CenterCameraOnPlayer();
+                enabled = true;
+            }
+        }
     }
 }

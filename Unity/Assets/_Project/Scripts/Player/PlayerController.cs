@@ -1,6 +1,8 @@
+using Cinemachine;
 using Project._Project.Scripts;
 using Project._Project.Scripts.Player.States;
 using Project._Project.Scripts.StateMachine;
+using Project.Extensions;
 using Project.Spells;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,7 +16,7 @@ namespace Project
         private int _currentAnimationHash;
         [ShowInInspector] private GRPC_NetworkVariable<int> _currentAnimation  = new GRPC_NetworkVariable<int>("CurrentAnimation");
         
-        [SerializeField] private Camera _deathCamera;
+        [SerializeField] private CinemachineVirtualCamera _deathCamera;
         
 
         public override int TeamIndex => _refs.TeamIndex;
@@ -55,7 +57,7 @@ namespace Project
             }
             if (IsOwner)
             {
-                _deathCamera = GameObject.FindGameObjectWithTag(Constants.Tags.Death_Camera)?.GetComponent<Camera>();
+                _deathCamera = GameObject.FindGameObjectWithTag(Constants.Tags.Death_Camera)?.GetComponent<CinemachineVirtualCamera>();
 
                 if (IsServer)
                 {
@@ -84,7 +86,7 @@ namespace Project
                     _refs.StateMachine.SrvOnStateEnter -= OwnerOnDeadStateEnter_EnableDeathCamera;
                     _refs.StateMachine.SrvOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
                 }
-                else if (IsClient)
+                else if (this.IsClientOnly())
                 {
                     _refs.StateMachine.CliOnStateEnter -=  OwnerOnDeadStateEnter_EnableDeathCamera;
                     _refs.StateMachine.CliOnStateExit -= OwnerOnDeadStateExit_DisableDeathCamera;
@@ -141,8 +143,6 @@ namespace Project
         
         private void OwnerOnDeadStateEnter_EnableDeathCamera(BaseStateMachineBehaviour currentState)
         {
-            Debug.Log("Should enable death camera");
-            
             if (currentState is DeadState)
             {
                 Debug.Log("Enable death camera");
@@ -154,6 +154,7 @@ namespace Project
         {
             if (currentState is DeadState)
             {
+                Debug.LogError(_refs.PlayerTransform.position);
                 _deathCamera.enabled = false;
             }
         }
