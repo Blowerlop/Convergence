@@ -24,74 +24,6 @@ namespace Project
             /// SpellAdditive
             /// </summary>
             public const int SpellAdditive = 4;
-            /// <summary>
-            /// gRPC_HelloWorld_Sample
-            /// </summary>
-            public const int gRPC_HelloWorld_Sample = 5;
-            /// <summary>
-            /// NetworkingSample
-            /// </summary>
-            public const int NetworkingSample = 6;
-            /// <summary>
-            /// Game
-            /// </summary>
-            public const int Game = 7;
-            /// <summary>
-            /// Bootstrap
-            /// </summary>
-            public const int Bootstrap = 8;
-            /// <summary>
-            /// ARPGDemo03
-            /// </summary>
-            public const int ARPGDemo03 = 9;
-            /// <summary>
-            /// ARPGDemo01
-            /// </summary>
-            public const int ARPGDemo01 = 10;
-            /// <summary>
-            /// ARPGDemo02
-            /// </summary>
-            public const int ARPGDemo02 = 11;
-            /// <summary>
-            /// ARPGDemo04
-            /// </summary>
-            public const int ARPGDemo04 = 12;
-            /// <summary>
-            /// ARPGDemo05
-            /// </summary>
-            public const int ARPGDemo05 = 13;
-            /// <summary>
-            /// ARPGDemo06
-            /// </summary>
-            public const int ARPGDemo06 = 14;
-            /// <summary>
-            /// ARPGDemo08
-            /// </summary>
-            public const int ARPGDemo08 = 15;
-            /// <summary>
-            /// ARPGDemo09
-            /// </summary>
-            public const int ARPGDemo09 = 16;
-            /// <summary>
-            /// ARPGDemo10
-            /// </summary>
-            public const int ARPGDemo10 = 17;
-            /// <summary>
-            /// ARPGDemo11
-            /// </summary>
-            public const int ARPGDemo11 = 18;
-            /// <summary>
-            /// ARPGDemo12
-            /// </summary>
-            public const int ARPGDemo12 = 19;
-            /// <summary>
-            /// ARPGDemo13
-            /// </summary>
-            public const int ARPGDemo13 = 20;
-            /// <summary>
-            /// ARPGDemo07
-            /// </summary>
-            public const int ARPGDemo07 = 21;
         }
         
         public static class AudioMixerParams
@@ -208,6 +140,14 @@ namespace Project
             /// EndAttackInstant : Trigger
             /// </summary>
             public const int EndAttackInstant = 17244484;
+            /// <summary>
+            /// DoTransitionToState1 : Trigger
+            /// </summary>
+            public const int DoTransitionToState1 = 1604672507;
+            /// <summary>
+            /// DoTransitionToState2 : Trigger
+            /// </summary>
+            public const int DoTransitionToState2 = -961803711;
         }
         
         public static class Layers
@@ -340,6 +280,10 @@ namespace Project
             /// Death Camera
             /// </summary>
             public const string Death_Camera = "Death Camera";
+            /// <summary>
+            /// Player Camera
+            /// </summary>
+            public const string Player_Camera = "Player Camera";
         }
         
     }
