@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,8 +12,9 @@ namespace Project
     public class MenuButtonManager : MonoBehaviour
     {
         public Button GameButton, TutorialButton, QuitButton, SettingsButton, ValidateButton;
-        public GameObject playerNameSetter;
+        public GameObject playerNameSetter, connectionPopup;
         
+        private Tween _delayTween;
         
         private void Start()
         {
@@ -31,7 +33,9 @@ namespace Project
         
         void JoinGame()
         {
-            NetworkManager.Singleton.StartClient();
+            playerNameSetter.SetActive(false);
+            connectionPopup.SetActive(true);
+            if (_delayTween == null) _delayTween = DOVirtual.DelayedCall(2.0f, () => NetworkManager.Singleton.StartClient()).OnComplete(() => _delayTween = null); 
         }
 
         void GoToLobby()

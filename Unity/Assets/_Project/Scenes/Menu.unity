@@ -1248,6 +1248,7 @@ MonoBehaviour:
   SettingsButton: {fileID: 1984962175}
   ValidateButton: {fileID: 277476741}
   playerNameSetter: {fileID: 1672092436}
+  connectionPopup: {fileID: 2076568334}
 --- !u!1 &832638408
 GameObject:
   m_ObjectHideFlags: 0
@@ -2734,6 +2735,10 @@ PrefabInstance:
     - target: {fileID: 11486278, guid: b06f0e6c1dfa4356ac918da1bb32c603, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11487728, guid: b06f0e6c1dfa4356ac918da1bb32c603, type: 3}
+      propertyPath: m_text
+      value: Connecting...
       objectReference: {fileID: 0}
     - target: {fileID: 11487728, guid: b06f0e6c1dfa4356ac918da1bb32c603, type: 3}
       propertyPath: m_fontSize
