@@ -30,6 +30,9 @@ namespace Project.Spells
         
         [BoxGroup("Caster"), OnValueChanged(nameof(CheckCasterValidity))] 
         public SpellCaster requiredCaster;
+
+        [BoxGroup("Caster")] public bool overrideCasterPreview;
+        [BoxGroup("Caster"), ShowIf(nameof(overrideCasterPreview))] public GameObject overridePreviewPrefab;
         
         [BoxGroup("Spell"), OnValueChanged("UpdateHash")] public string spellId;
         [BoxGroup("Spell"), DisableIf("@true")] public int spellIdHash;

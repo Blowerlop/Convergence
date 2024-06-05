@@ -118,5 +118,21 @@ namespace Project.Spells.Casters
             SpellManager.instance.TryCastSpellServerRpc(casterIndex, _currentResults);
             return true;
         }
+
+        public override bool Preview()
+        {
+            if (base.Preview()) return true;
+            
+            zoneVisual.gameObject.SetActive(true);
+            return true;
+        }
+
+        public override bool StopPreview()
+        {
+            if (base.StopPreview()) return true;
+            
+            zoneVisual.gameObject.SetActive(false);
+            return true;
+        }
     }
 }

@@ -92,5 +92,28 @@ namespace Project.Spells.Casters
             SpellManager.instance.TryCastSpellServerRpc(casterIndex, _currentResults);
             return true;
         }
+
+        public override bool Preview()
+        {
+            if (base.Preview()) return true;
+            
+            zoneVisual.gameObject.SetActive(true);
+            aimVisual.gameObject.SetActive(true);
+            
+            var pos = zoneVisual.position;
+            pos.y = aimVisual.position.y;
+            
+            aimVisual.position = pos;
+            return true;
+        }
+
+        public override bool StopPreview()
+        {
+            if (base.StopPreview()) return true;
+            
+            zoneVisual.gameObject.SetActive(false);
+            aimVisual.gameObject.SetActive(false);
+            return true;
+        }
     }
 }
