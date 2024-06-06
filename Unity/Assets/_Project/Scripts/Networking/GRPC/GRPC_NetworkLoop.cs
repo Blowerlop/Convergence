@@ -32,13 +32,8 @@ namespace Project
         public override Task WriteAsync()
         {
             if (_cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested ||
-                _streamWriter == null)
-            {
-                Debug.Log($"Can't write message of type {typeof(T).Name}, CancellationTokenSource is null or cancelled or streamWriter is null");
-                return Task.CompletedTask;
-            }
+                _streamWriter == null) return Task.CompletedTask;
             
-            Debug.Log($"Writing message of type {typeof(T).Name}");
             return _streamWriter.WriteAsync(_message, _cancellationTokenSource.Token);
         }
 

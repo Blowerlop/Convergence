@@ -25,11 +25,7 @@ namespace Project
         {
             base.OnNetworkSpawn();
 
-            Debug.Log($"OnNetworkSpawn for NetworkObjectSyncer {prefabId} {gameObject.name}");
-            
             if (!IsServer) return;
-            
-            Debug.Log($"OnNetworkSpawn for NetworkObjectSyncer IsServer true {prefabId} {gameObject.name}, IsConnected: {GRPC_NetworkManager.instance.isConnected}");
             
             if (GRPC_NetworkManager.instance.isConnected)
             {
@@ -42,11 +38,7 @@ namespace Project
         {
             base.OnNetworkDespawn();
 
-            Debug.Log($"OnNetworkDespawn for NetworkObjectSyncer {prefabId} {gameObject.name}");
-            
             if (!IsServer) return;
-            
-            Debug.Log($"OnNetworkDespawn for NetworkObjectSyncer IsServer true {prefabId} {gameObject.name}, IsConnected: {GRPC_NetworkManager.instance.isConnected}");
             
             if (GRPC_NetworkManager.instance.isConnected)
             {
@@ -61,10 +53,7 @@ namespace Project
         
         private void OnGrpcConnection_NetworkObjectSync()
         {
-            Debug.Log($"OnGrpcConnection_NetworkObjectSync {prefabId} {gameObject.name}");
             if (!EnsureInit()) return;
-            
-            Debug.Log($"OnGrpcConnection_NetworkObjectSync InitEnsured {prefabId} {gameObject.name}");
             
             GRPC_NetObjUpdate update = new()
             {
@@ -80,10 +69,7 @@ namespace Project
 
         private void OnGrpDisconnection_NetworkObjectUnSync()
         {
-            Debug.Log($"OnGrpDisconnection_NetworkObjectUnSync {prefabId} {gameObject.name}");
             if (!EnsureInit()) return;
-            
-            Debug.Log($"OnGrpDisconnection_NetworkObjectUnSync InitEnsured {prefabId} {gameObject.name}");
             
             GRPC_NetObjUpdate update = new()
             {

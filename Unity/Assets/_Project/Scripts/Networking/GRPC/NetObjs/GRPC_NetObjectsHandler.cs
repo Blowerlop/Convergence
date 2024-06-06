@@ -54,7 +54,6 @@ namespace Project
         {
             try
             {
-                Debug.Log($"Sending NetObjUpdate {update.Type} {update.NetId} {update.PrefabId}");
                 networkObjectSyncer.hasBeenSpawnedOnGrpc = false;
                 
                 GRPC_NetworkLoop.instance.AddMessage(new GRPC_Message<GRPC_NetObjUpdate>(_netObjsStream.RequestStream, update, new CancellationTokenSource()));
@@ -91,16 +90,12 @@ namespace Project
         
         private void TokenCancel()
         {
-            Debug.LogError("Cancel NetObjsHandler tokens");
-            
             _netObjsStreamCancelSrc?.Cancel();
             _netObjsStreamCallbackCancelSrc?.Cancel();
         }
         
         public void Dispose()
         {            
-            Debug.LogError("Dispose NetObjsHandler stream");
-            
             _netObjsStreamCancelSrc?.Dispose();
             _netObjsStream?.Dispose();
 
