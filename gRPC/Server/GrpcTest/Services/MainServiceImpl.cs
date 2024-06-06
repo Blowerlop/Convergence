@@ -362,6 +362,7 @@ namespace GRPCServer.Services
                 //DisconnectClient(context.Peer);
             }
 
+            Debug.Log("GRPC_SrvNetObjUpdate > NetObj Stream closed???");
             return new GRPC_EmptyMsg();
         }
 
