@@ -132,6 +132,12 @@ namespace Project
                 Debug.Log("Trying to join a team slot that are already occupied");
                 return false;
             }
+            
+            if(playerPlatform == PlayerPlatform.Mobile && GetTeamData(teamIndex).HasPC == false)
+            {
+                Debug.Log("Trying to join a mobile team without a pc player");
+                return false;
+            }
 
             if (UserInstanceManager.instance.GetUserInstance(ownerClientId).IsReady)
             {

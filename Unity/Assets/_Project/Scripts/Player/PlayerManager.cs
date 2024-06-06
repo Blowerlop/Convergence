@@ -46,13 +46,13 @@ namespace Project
             
             foreach(var clientId in clientsCompleted)
             {
-                if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
+                if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) continue;
 
                 if (user.IsMobile)
                 {
                     // This should never happen
                     Debug.LogError("Scene loaded callback for a mobile user ???");
-                    return;
+                    continue;
                 }
                 
                 var mobileUser = UserInstanceManager.instance.GetUsersInstance()
