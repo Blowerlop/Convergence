@@ -1858,9 +1858,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventId: Menu
-  alias: manu
+  alias: menu
   type: 0
-  clearOnChange: 1
+  clearOnChange: 0
 --- !u!1001 &1476294158
 PrefabInstance:
   m_ObjectHideFlags: 0
