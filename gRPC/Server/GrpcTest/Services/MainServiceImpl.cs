@@ -434,6 +434,12 @@ namespace GRPCServer.Services
                         await unrealClient.Value.netVarStream[requestStream.Current.NewValue.Type].WriteAsync(requestStream.Current);
                     }
 
+                    // My god, this is so shit
+                    if (requestStream.Current.HashName == 292496802 && int.Parse(requestStream.Current.NewValue.Value) >= 2)
+                    {
+                        netcodeServer.NetObjs.Clear();
+                    }
+
                     //Console.WriteLine($"GRPC_SrvNetVarUpdate > VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
                 }
             }
