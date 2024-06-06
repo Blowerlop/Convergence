@@ -72,9 +72,11 @@ namespace Project
 
         private void CheckIfAllPlayersReady()
         {
-            var readyCount = UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady || x.IsMobile);
+            var pcUsers = UserInstanceManager.instance.GetUsersInstance().Where(x => !x.IsMobile).ToList();
             
-            if (readyCount == UserInstanceManager.instance.count && (CanStartSolo || readyCount > 1))
+            var readyCount = pcUsers.Count(x => x.IsReady);
+            
+            if (readyCount == pcUsers.Count && (CanStartSolo || readyCount > 1))
             {
                 OnAllPlayersReady();
             }
