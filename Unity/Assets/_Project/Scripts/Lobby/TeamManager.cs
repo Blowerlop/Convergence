@@ -133,7 +133,7 @@ namespace Project
                 return false;
             }
             
-            if(playerPlatform == PlayerPlatform.Mobile && GetTeamData(teamIndex).HasPC == false)
+            if(teamIndex != UNASSIGNED_TEAM_INDEX && playerPlatform == PlayerPlatform.Mobile && GetTeamData(teamIndex).HasPC == false)
             {
                 Debug.Log("Trying to join a mobile team without a pc player");
                 return false;
