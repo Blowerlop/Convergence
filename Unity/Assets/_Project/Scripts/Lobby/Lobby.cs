@@ -38,12 +38,24 @@ namespace Project
         private void Start()
         {
             GoToTeamSelectionPage();
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            if (!IsServer) return;
+            
             UserInstance.OnDespawned += OnUserInstanceDespawned;
             UserInstance.OnTeamChangedEvent += OnTeamChanged;
         }
         
-        public override void OnDestroy()
+        public override void OnNetworkDespawn()
         {
+            base.OnNetworkDespawn();
+            
+            if (!IsServer) return;
+            
             UserInstance.OnDespawned -= OnUserInstanceDespawned;
             UserInstance.OnTeamChangedEvent -= OnTeamChanged;
         }
