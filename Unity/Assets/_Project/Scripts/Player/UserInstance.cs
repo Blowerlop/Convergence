@@ -186,13 +186,19 @@ namespace Project
         private void OnClientIdChanged(int oldValue, int newValue)
         {
             // Should only happen once when user instance is spawned
-
-            UserInstanceManager.instance.ClientRegisterUserInstance(this);
+            
+            Utilities.StartWaitUntilAndDoAction(this, UserInstanceManager.IsInstanceAlive, () =>
+            {
+                UserInstanceManager.instance.ClientRegisterUserInstance(this);
+            });
         }
         
         private void OnTeamChanged(int oldValue, int newValue)
         {            
-            TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
+            Utilities.StartWaitUntilAndDoAction(this, TeamManager.IsInstanceAlive, () =>
+            {
+                TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
+            });
         }
         
         #region Getters
