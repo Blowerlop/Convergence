@@ -212,15 +212,20 @@ namespace Project._Project.Scripts
         public void Silence()
         {
             _silenceAmount++;
+            Debug.Log($"Silenced! {gameObject.name} {_silenceAmount}");
+            
             _isSilenced.Value = true;
         }
 
         public void Unsilence()
         {
             _silenceAmount--;
-
+            Debug.Log($"Unsilence! {gameObject.name} {_silenceAmount}");
+            
             if (_silenceAmount <= 0)
             {
+                Debug.Log($"Remove silence! {gameObject.name} {_silenceAmount}");
+                
                 _silenceAmount = 0;
                 _isSilenced.Value = false;
             }
