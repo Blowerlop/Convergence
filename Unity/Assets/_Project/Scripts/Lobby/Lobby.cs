@@ -38,6 +38,14 @@ namespace Project
         private void Start()
         {
             GoToTeamSelectionPage();
+            UserInstance.OnDespawned += OnUserInstanceDespawned;
+            UserInstance.OnTeamChangedEvent += OnTeamChanged;
+        }
+        
+        public override void OnDestroy()
+        {
+            UserInstance.OnDespawned -= OnUserInstanceDespawned;
+            UserInstance.OnTeamChangedEvent -= OnTeamChanged;
         }
         
         public void SetPlayerReadyState(bool state)
@@ -70,10 +78,24 @@ namespace Project
             }
         }
 
+        private void OnUserInstanceDespawned(UserInstance user)
+        {
+            CheckIfAllPlayersReady();
+        }
+        
+        private void OnTeamChanged()
+        {
+            CheckIfAllPlayersReady();
+        }
+        
         private void CheckIfAllPlayersReady()
         {
-            var pcUsers = UserInstanceManager.instance.GetUsersInstance().Where(x => !x.IsMobile).ToList();
+            var users = UserInstanceManager.instance.GetUsersInstance();
             
+            var haveSpectator = users.Any(x => x.Team == TeamManager.UNASSIGNED_TEAM_INDEX);
+            if (haveSpectator) return;
+            
+            var pcUsers = users.Where(x => !x.IsMobile).ToList();
             var readyCount = pcUsers.Count(x => x.IsReady);
             
             if (readyCount == pcUsers.Count && (CanStartSolo || readyCount > 1))

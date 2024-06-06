@@ -22,6 +22,8 @@ namespace Project
         public static event Action<UserInstance> OnLocalDespawned;
         public static event Action<UserInstance> OnNameChanged;
 
+        public static event Action OnTeamChangedEvent;
+
         public PlayerRefs LinkedPlayer { get; private set; }
         public event Action<PlayerRefs> OnPlayerLinked;
         
@@ -198,6 +200,7 @@ namespace Project
             Utilities.StartWaitUntilAndDoAction(this, TeamManager.IsInstanceAlive, () =>
             {
                 TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
+                OnTeamChangedEvent?.Invoke();
             });
         }
         
@@ -259,6 +262,7 @@ namespace Project
         public void SrvSetTeam(int playerTeam)
         {
             _networkTeam.Value = playerTeam;
+            OnTeamChangedEvent?.Invoke();
         }
 
         [Server]
