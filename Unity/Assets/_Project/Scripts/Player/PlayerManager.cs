@@ -140,8 +140,6 @@ namespace Project
             }
         }
 
-        #if UNITY_EDITOR
-        
         [ConsoleCommand("spawn_dummy", "Spawns a dummy at position 5, 0, 5.")]
         public static void DebugSpawnDummy()
         {
@@ -155,7 +153,5 @@ namespace Project
                 Debug.Log("Dummy spawned!");
             }
         }
-        
-        #endif
     }
 }
