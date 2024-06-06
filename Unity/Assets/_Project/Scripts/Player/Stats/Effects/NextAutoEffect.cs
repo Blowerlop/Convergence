@@ -24,7 +24,7 @@ namespace Project.Effects
             
             foreach (var effect in _effectsOnAuto)
             {
-                if (effect.TryApply(effectable, applier, default))
+                if (effect.GetInstance().TryApply(effectable, applier, default))
                     appliedEffects++;
             }
 
