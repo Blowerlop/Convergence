@@ -63,10 +63,13 @@ namespace Project
                 while (await _teamManagerStream.ResponseStream.MoveNext(_cancellationTokenSource.Token))
                 {
                     Debug.Log("Team message received");
-                    GRPC_Team messageReceived = _teamManagerStream.ResponseStream.Current;
-                    bool response = TeamManager.instance.TrySetTeam(messageReceived.ClientId, messageReceived.TeamIndex,
-                        PlayerPlatform.Mobile);
-                    Write(new GRPC_TeamResponse { Team = messageReceived, Response = response });
+                    if (TeamManager.IsInstanceAlive())
+                    {
+                        GRPC_Team messageReceived = _teamManagerStream.ResponseStream.Current;
+                        bool response = TeamManager.instance.TrySetTeam(messageReceived.ClientId, messageReceived.TeamIndex,
+                            PlayerPlatform.Mobile);
+                        Write(new GRPC_TeamResponse { Team = messageReceived, Response = response });
+                    }
                 }
             }
             catch (RpcException e)
