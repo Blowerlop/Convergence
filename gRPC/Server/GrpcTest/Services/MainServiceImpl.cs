@@ -321,39 +321,46 @@ namespace GRPCServer.Services
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    
-                    Debug.Log("GRPC_SrvNetObjUpdate > Got new NetworkObject update: type " + requestStream.Current.Type + ", netId " +
-                                      requestStream.Current.NetId + ", prefabId " + requestStream.Current.PrefabId +
-                                      "\n");
-
-                    lock (NetworkObject.Locker)
+                    try
                     {
-                        netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                        Debug.Log("GRPC_SrvNetObjUpdate > Got new NetworkObject update: type " +
+                                  requestStream.Current.Type + ", netId " +
+                                  requestStream.Current.NetId + ", prefabId " + requestStream.Current.PrefabId +
+                                  "\n");
+
+                        lock (NetworkObject.Locker)
+                        {
+                            netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                        }
+
+                        await responseStream.WriteAsync(new GRPC_EmptyMsg());
+
+                        await netcodeServer.NetObjectsStream.WriteAsync(requestStream.Current);
+
+                        foreach (var client in unrealClients)
+                        {
+                            //If client has just connected and doesn't have a stream yet,
+                            //queue the update for when it will have a stream
+                            var stream = client.Value.NetObjectsStream;
+
+                            if (stream != null!)
+                            {
+                                await stream.WriteAsync(requestStream.Current);
+                            }
+                            else
+                            {
+                                client.Value.QueueNetObjUpdate(requestStream.Current);
+                            }
+                        }
+
+
+
+                        Debug.Log("GRPC_SrvNetObjUpdate > Update sent to all unreal clients.\n");
                     }
-                    
-                    await responseStream.WriteAsync(new GRPC_EmptyMsg());
-                    
-                    await netcodeServer.NetObjectsStream.WriteAsync(requestStream.Current);
-                    
-                    foreach (var client in unrealClients)
+                    catch
                     {
-                        //If client has just connected and doesn't have a stream yet,
-                        //queue the update for when it will have a stream
-                        var stream = client.Value.NetObjectsStream;
-                        
-                        if (stream != null!)
-                        {
-                            await stream.WriteAsync(requestStream.Current);
-                        }
-                        else
-                        {
-                            client.Value.QueueNetObjUpdate(requestStream.Current);
-                        }
+                        Debug.LogWarning("Pimpompom NetObj update failed");
                     }
-
-                    
-
-                    Debug.Log("GRPC_SrvNetObjUpdate > Update sent to all unreal clients.\n");
                 }
             }
             catch (IOException)
