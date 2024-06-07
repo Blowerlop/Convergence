@@ -58,6 +58,7 @@ namespace Project._Project.Scripts.StateMachine
             if (!this.IsClientOnly()) return;
                 
             _currentStateType.OnValueChanged -= OnCurrentStateTypeChanged;
+            _currentStateType.Reset();
         }
 
         private void Update()

@@ -66,6 +66,9 @@ namespace Project
             
             _assignedTeam.OnValueChanged -= OnTeamChanged;
             _ownerId.OnValueChanged -= OnOwnerChanged;
+            
+            _assignedTeam.Reset();
+            _ownerId.Reset();
         }
 
         [Server]

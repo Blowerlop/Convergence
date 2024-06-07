@@ -18,9 +18,9 @@ namespace Project
             InitializeNetworkVariables();
         }
 
-        public override void OnDestroy()
+        public override void OnNetworkDespawn()
         {
-            base.OnDestroy();
+            base.OnNetworkDespawn();
             ResetNetworkVariables();
         }
 
@@ -30,6 +30,7 @@ namespace Project
             _health.Initialize();
             _team.Initialize();
             _mesh.Initialize();
+            _currentAnimation.Initialize();
         }
         
         private void ResetNetworkVariables()
@@ -38,6 +39,7 @@ namespace Project
             _health.Reset();
             _team.Reset();
             _mesh.Reset();
+            _currentAnimation.Reset();
         }
 
         [Button]
