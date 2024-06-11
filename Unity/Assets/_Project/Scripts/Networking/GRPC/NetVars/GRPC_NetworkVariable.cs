@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -186,8 +187,8 @@ namespace Project
             else if (newValue is NetworkVector3Simplified)
             {
                 autoJsonSerialization = false;
-                NetworkVector3Simplified networkString = (NetworkVector3Simplified)Convert.ChangeType(newValue, typeof(NetworkVector3Simplified));
-                valueToEncodeInJson = $"X={networkString.x},Y={networkString.y},Z={networkString.z}";
+                NetworkVector3Simplified networkString = (NetworkVector3Simplified)Convert.ChangeType(newValue, typeof(NetworkVector3Simplified), CultureInfo.InvariantCulture);
+                valueToEncodeInJson = $"X={networkString.x.ToString(CultureInfo.InvariantCulture)},Y={networkString.y.ToString(CultureInfo.InvariantCulture)},Z={networkString.z.ToString(CultureInfo.InvariantCulture)}";
             }
             else
             {
@@ -199,7 +200,8 @@ namespace Project
             {
                 jsonEncode = JsonConvert.SerializeObject(valueToEncodeInJson, Formatting.Indented, new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    Culture = CultureInfo.InvariantCulture
                 });
             }
             else
