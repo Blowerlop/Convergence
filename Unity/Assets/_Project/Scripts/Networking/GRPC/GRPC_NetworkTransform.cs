@@ -23,9 +23,9 @@ namespace Project
             InitializeNetworkVariables();
         }
 
-        public override void OnDestroy()
+        public override void OnNetworkDespawn()
         {
-            base.OnDestroy();
+            base.OnNetworkDespawn();
             ResetNetworkVariables();
         }
 

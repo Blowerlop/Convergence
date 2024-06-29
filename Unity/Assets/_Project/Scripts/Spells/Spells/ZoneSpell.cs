@@ -30,6 +30,8 @@ namespace Project.Spells
         private float _lastTickTime;
 
         private Collider[] _resultsBuffer = new Collider[5];
+
+        private Tween _timedTween;
         
         protected override void Init(ICastResult castResult)
         {
@@ -48,7 +50,7 @@ namespace Project.Spells
                     CheckForEffects();
                     break;
                 case ApplyType.Timed:
-                    DOVirtual.DelayedCall(applyTime, CheckForEffects);
+                    _timedTween = DOVirtual.DelayedCall(applyTime, CheckForEffects);
                     break;
             }
             
@@ -56,6 +58,19 @@ namespace Project.Spells
                 StartCoroutine(Utilities.WaitForSecondsAndDoActionCoroutine(duration, KillSpell));
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            if (!IsOnServer) return;
+            if (IsApplyTimed()) return;
+            
+            if (_timedTween.IsActive())
+            {
+                _timedTween.Kill();
+            }
+        }
+        
         public override (Vector3, Quaternion) GetDefaultTransform(ICastResult castResult, PlayerRefs player)
         {
             if (castResult is not SingleVectorResults results)

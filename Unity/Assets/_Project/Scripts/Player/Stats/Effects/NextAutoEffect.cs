@@ -6,19 +6,17 @@ namespace Project.Effects
     public class NextAutoEffect : Effect
     {
         public override EffectType Type => EffectType.Neutral;
+        protected override bool AddToEffectableList => true;
+        protected override bool OnlyApplyOnce => true;
 
         [SerializeReference, SerializeField] private List<Effect> _effectsOnAuto = new();
 
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
-            AddToEffectable();
             return true;
         }
 
-        public override void KillEffect()
-        {
-            RemoveFromEffectable();
-        }
+        protected override void KillEffect_Internal() { }
 
         public bool TryApplyChildEffects(IEffectable effectable, PlayerRefs applier)
         {
@@ -26,7 +24,7 @@ namespace Project.Effects
             
             foreach (var effect in _effectsOnAuto)
             {
-                if (effect.TryApply(effectable, applier, default))
+                if (effect.GetInstance().TryApply(effectable, applier, default))
                     appliedEffects++;
             }
 

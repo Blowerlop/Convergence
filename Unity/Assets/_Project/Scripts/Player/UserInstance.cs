@@ -20,6 +20,9 @@ namespace Project
         public static event Action<UserInstance> OnLocalSpawned;
         public static event Action<UserInstance> OnDespawned;
         public static event Action<UserInstance> OnLocalDespawned;
+        public static event Action<UserInstance> OnNameChanged;
+
+        public static event Action OnTeamChangedEvent;
 
         public PlayerRefs LinkedPlayer { get; private set; }
         public event Action<PlayerRefs> OnPlayerLinked;
@@ -28,7 +31,7 @@ namespace Project
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkClientId = new("ClientId", value: int.MaxValue);
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkScene = new GRPC_NetworkVariable<FixedString64Bytes>("Scene");
         [ShowInInspector] private GRPC_NetworkVariable<FixedString64Bytes> _networkPlayerName = new("Name", value: "UnknowName");
-        [ShowInInspector] private GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
+        [ShowInInspector] public GRPC_NetworkVariable<int> _networkTeam = new("Team", value: -1);
         [ShowInInspector] private GRPC_NetworkVariable<bool> _networkIsMobile = new("IsMobile");
         [ShowInInspector] public GRPC_NetworkVariable<bool> _networkIsReady { get; private set; } = new("IsReady");
         [ShowInInspector] private GRPC_NetworkVariable<int> _networkCharacterId = new("CharacterId");
@@ -46,11 +49,20 @@ namespace Project
         public bool IsReady => _networkIsReady.Value;
         public int CharacterId => _networkCharacterId.Value;
 
-        private void Awake()
+        private void Start()
         {
-         //   CreateNetVarInstance();
+            _networkPlayerName.OnValueChanged += OnPlayerNameChanged_NotifyAll;
         }
+
         
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            _networkPlayerName.OnValueChanged -= OnPlayerNameChanged_NotifyAll;
+        }
+
         public override void OnNetworkSpawn()
         {
             Debug.Log("[UserInstance] Start spawn", gameObject);
@@ -71,12 +83,13 @@ namespace Project
             if (IsServer)
             {
                 string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-                SetScene(currentSceneName);
+                SrvSetScene(currentSceneName);
             }
             
             if (IsOwner && !GetComponent<GRPC_NetworkObjectSyncer>().IsOwnedByUnrealClient)
             {
                 Me = this;
+                SetNameServerRpc(PlayerData.playerName);  
                 OnLocalSpawned?.Invoke(this);
             }
 
@@ -175,13 +188,20 @@ namespace Project
         private void OnClientIdChanged(int oldValue, int newValue)
         {
             // Should only happen once when user instance is spawned
-
-            UserInstanceManager.instance.ClientRegisterUserInstance(this);
+            
+            Utilities.StartWaitUntilAndDoAction(this, UserInstanceManager.IsInstanceAlive, () =>
+            {
+                UserInstanceManager.instance.ClientRegisterUserInstance(this);
+            });
         }
         
         private void OnTeamChanged(int oldValue, int newValue)
         {            
-            TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
+            Utilities.StartWaitUntilAndDoAction(this, TeamManager.IsInstanceAlive, () =>
+            {
+                TeamManager.instance.ClientOnTeamChanged(this, oldValue, newValue);
+                OnTeamChangedEvent?.Invoke();
+            });
         }
         
         #region Getters
@@ -212,56 +232,63 @@ namespace Project
         //Setters
         [Server]
         [Button]
-        public void SetClientId(int clientId)
+        public void SrvSetClientId(int clientId)
         {
             _networkClientId.Value = clientId;
         }
         
         [Server]
         [Button]
-        public void SetScene(string sceneName)
+        public void SrvSetScene(string sceneName)
         {
             _networkScene.Value = sceneName;
         }
         
         [Server]
         [Button]
-        public void SetName(string playerName)
+        public void SrvSetName(string playerName)
         {
             _networkPlayerName.Value = playerName;
         }
         
+        [ServerRpc]
+        public void SetNameServerRpc(string playerName)
+        {
+            SrvSetName(playerName);
+        }
+        
         [Server]
         [Button]
-        public void SetTeam(int playerTeam)
+        public void SrvSetTeam(int playerTeam)
         {
             _networkTeam.Value = playerTeam;
+            OnTeamChangedEvent?.Invoke();
         }
 
         [Server]
         [Button]
-        public void SetIsMobile(bool isMobile)
+        public void SrvSetIsMobile(bool isMobile)
         {
             _networkIsMobile.Value = isMobile;
         }
         
         [Server]
         [Button]
-        public void SetIsReady(bool isReady)
+        public void SrvSetIsReady(bool isReady)
         {
             _networkIsReady.Value = isReady;
         }
 
         [Server]
         [Button]
-        public void SetCharacter(int characterId)
+        public void SrvSetCharacter(int characterId)
         {
             _networkCharacterId.Value = characterId;
         }
 
         [Server]
         [Button]
-        public void SetMobileSpell(int index, int spellId)
+        public void SrvSetMobileSpell(int index, int spellId)
         {
             if (index < 0 || index >= _mobileSpells.Length)
             {
@@ -272,6 +299,11 @@ namespace Project
             Debug.Log("SetMobileSpell " + index + " : " + spellId + " for " + _networkClientId.Value + " : " + _networkPlayerName.Value);
             
             _mobileSpells[index].Value = spellId;
+        }
+        
+        private void OnPlayerNameChanged_NotifyAll(FixedString64Bytes previousvalue, FixedString64Bytes newvalue)
+        {
+            OnNameChanged?.Invoke(this);
         }
         
         #if UNITY_EDITOR

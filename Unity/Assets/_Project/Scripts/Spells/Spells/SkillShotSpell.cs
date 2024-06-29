@@ -14,8 +14,8 @@ namespace Project.Spells
         [Title("Moving Phase")]
         
         [SerializeField] private GameObject _movingObject;
-        
-        [SerializeField] private BoxCollider boxCollider;
+
+        [SerializeField] private float spehreRadius;
         
         [SerializeField] private float speed = 3f;
         [SerializeField] private float moveDuration = 2f;
@@ -117,16 +117,17 @@ namespace Project.Spells
             if (IsColliding(out var hit)) SrvOnCollision(hit);
         }
         
-        private bool IsColliding(out RaycastHit hit)
+        private bool IsColliding(out Collider hit)
         {
-            var pos = boxCollider.transform.rotation * boxCollider.center + boxCollider.transform.position;
+            var hits = Physics.OverlapSphere(transform.position, spehreRadius, Constants.Layers.EntityMask);
             
-            return Physics.BoxCast(pos, boxCollider.size / 2, GetDirection(_results, Caster), 
-                    out hit, boxCollider.transform.rotation, 0.5f, Constants.Layers.EntityMask);
+            hit = hits.Length > 0 ? hits[0] : null;
+            
+            return hits.Length > 0;
         }
 
         [Server]
-        private void SrvOnCollision(RaycastHit hit)
+        private void SrvOnCollision(Collider hit)
         {
             if (!hit.transform.TryGetComponent(out Entity entity)) return;
 

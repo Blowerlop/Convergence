@@ -18,6 +18,8 @@ namespace Project.Spells
         [SerializeField] private Image spellIcon;
         [SerializeField] private SpellTooltip spellTooltip; 
 
+        private PCPlayerRefs _localPlayer;
+        
         private float _maxTime;
         
         private void Awake()
@@ -99,6 +101,33 @@ namespace Project.Spells
             if (index != id) return;
             
             group.DOFade(0, 0);
+        }
+
+        public void OnHover()
+        {
+            if (!TryGetLocalPlayer(out var player)) return;
+            
+            player.SpellCastController.PreviewSpell(id);
+        }
+
+        public void OnUnHover()
+        {
+            if (!TryGetLocalPlayer(out var player)) return;
+            
+            player.SpellCastController.StopSpellPreview(id);
+        }
+
+        private bool TryGetLocalPlayer(out PCPlayerRefs refs)
+        {
+            refs = _localPlayer;
+            if (_localPlayer) return true;
+            
+            var player = UserInstance.Me.LinkedPlayer;
+            if (!player) return false;
+            
+            _localPlayer = player.GetPC();
+            refs = _localPlayer;
+            return true;
         }
     }
 }

@@ -21,14 +21,7 @@ namespace Project
                     return null;
                 }
                 
-                if(_instance == null){
-                    _instance = FindObjectOfType<T>();
-                    if(_instance == null){
-                        GameObject singletonObj = new GameObject();
-                        singletonObj.name = typeof(T).ToString();
-                        _instance = singletonObj.AddComponent<T>();
-                    } 
-                }
+                if(_instance == null) { _instance = FindObjectOfType<T>(); }
                 
                 return _instance;
             }

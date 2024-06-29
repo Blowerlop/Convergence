@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Project
@@ -9,17 +10,16 @@ namespace Project
         
         private void Start()
         {
-            var teams = TeamManager.instance.GetTeamsData();
-
-            for (var i = 0; i < teams.Length; i++)
+            foreach(var user in UserInstanceManager.instance.GetUsersInstance())
             {
-                var team = teams[i];
-                if (!team.HasPC) continue;
-                
-                var temp = i;
+                if (user.IsMobile) continue;
+                var teamIndex = user.Team;
+
+                var mobileUser = UserInstanceManager.instance.GetUsersInstance()
+                    .FirstOrDefault(u => u.IsMobile && u.Team == teamIndex);
                 
                 var teamHeader = Instantiate(prefab, prefabParent);
-                teamHeader.Init(team, temp);
+                teamHeader.Init(user, mobileUser, teamIndex);
             }
         }
     }

@@ -21,7 +21,7 @@ MonoBehaviour:
   spellPrefab: {fileID: 7716055719088318621, guid: dabe384258945a34ca584de69e720051,
     type: 3}
   isInstant: 0
-  cooldown: 3
+  cooldown: 1
   channelingTime: 0.1666
   castingFlags: 0
   castAnimationDuration: 0.3
@@ -35,7 +35,7 @@ MonoBehaviour:
   effects:
   - rid: 2921934589571366912
   onCasterEffects: []
-  length: 17.5
+  length: 20
   references:
     version: 2
     RefIds:
@@ -43,4 +43,4 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 200
+        DamageAmount: 250

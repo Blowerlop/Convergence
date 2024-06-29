@@ -24,6 +24,7 @@ namespace Project
         {
             UserInstance.OnSpawned += OnClientStarted_UpdateUi;
             UserInstance.OnDespawned += OnClientStarted_UpdateUi;
+            UserInstance.OnNameChanged += OnClientStarted_UpdateUi;
         }
 
         private void Start()
@@ -37,6 +38,7 @@ namespace Project
             
             UserInstance.OnSpawned -= OnClientStarted_UpdateUi;
             UserInstance.OnDespawned -= OnClientStarted_UpdateUi;
+            UserInstance.OnNameChanged -= OnClientStarted_UpdateUi;
         }
 
         public override void OnNetworkSpawn()
@@ -145,7 +147,7 @@ namespace Project
 
         private void UpdatePcButtonTextLocal(string clientName)
         {
-            _pcButtonText.text = clientName;
+            _pcButtonText.text = clientName == TeamManager.DEFAULT_PC_SLOT_TEXT ? clientName : $"<color=#C89B3C>{clientName}</color>";
         }
 
         [ClientRpc]
@@ -162,7 +164,7 @@ namespace Project
         
         private void UpdateMobileButtonTextLocal(string clientName)
         {
-            _mobileButtonText.text = clientName;
+            _mobileButtonText.text = clientName == TeamManager.DEFAULT_MOBILE_SLOT_TEXT ? clientName : $"<color=#C89B3C>{clientName}</color>";
         }
 
         private void OnPlayerReady_UpdateButtonTextColor(bool _, bool readyState)
@@ -204,6 +206,8 @@ namespace Project
             if (teamIndex != _teamIndex) return;
          
             _pcButtonText.color = state ? Color.green : Color.black;
+            // Player name use rich text, so we need to remove it in order to see the normal text color
+            if (state) _pcButtonText.text = _pcButtonText.GetParsedText();
         }
         
         [ClientRpc]

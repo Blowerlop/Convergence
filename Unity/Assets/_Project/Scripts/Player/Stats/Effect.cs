@@ -1,5 +1,4 @@
-using System;
-using Project._Project.Scripts;
+using System.Linq;
 using UnityEngine;
 
 namespace Project
@@ -18,23 +17,44 @@ namespace Project
         
         protected IEffectable AffectedEffectable { get; private set; }
         
+        protected abstract bool AddToEffectableList { get; }
+        
+        protected virtual bool OnlyApplyOnce => false;
+        
         public bool TryApply(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
-            AffectedEffectable = effectable;
+            if (OnlyApplyOnce)
+            {
+                if (effectable.AppliedEffects.Any(effect => effect.GetType() == GetType()))
+                    return false;
+            }
             
-            return TryApply_Internal(effectable, applier, applyPosition);
+            AffectedEffectable = effectable;
+            if (AddToEffectableList) AddToEffectable();
+
+            bool applied = TryApply_Internal(effectable, applier, applyPosition);
+            if (!applied && AddToEffectableList) RemoveFromEffectable();
+            
+            return applied;
         }
 
         protected abstract bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition);
         
-        public abstract void KillEffect();
-        
-        protected void AddToEffectable()
+        public void KillEffect()
+        {
+            if (AddToEffectableList) RemoveFromEffectable();
+            
+            KillEffect_Internal();
+        }
+
+        protected abstract void KillEffect_Internal();
+
+        private void AddToEffectable()
         {
             AffectedEffectable.SrvAddEffect(this);
         }
-        
-        protected void RemoveFromEffectable()
+
+        private void RemoveFromEffectable()
         {
             AffectedEffectable.SrvRemoveEffect(this);
         }

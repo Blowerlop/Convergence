@@ -5,8 +5,10 @@ namespace Project.Effects
     public class HealEffect : Effect
     {
         public override EffectType Type => EffectType.Good;
+        protected override bool AddToEffectableList => false;
        
         public int HealAmount;
+
 
         [Server]
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
@@ -17,7 +19,7 @@ namespace Project.Effects
             return true;
         }
 
-        public override void KillEffect() { }
+        protected override void KillEffect_Internal() { }
         
         public override Effect GetInstance()
         {

@@ -7,6 +7,7 @@ namespace Project.Effects
     public class ShieldEffect : Effect 
     {
         public override EffectType Type => EffectType.Good;
+        protected override bool AddToEffectableList => true;
         
         public int ShieldAmount;
         public bool HasDuration;
@@ -24,28 +25,19 @@ namespace Project.Effects
             _shieldId = entity.Shield(ShieldAmount);
 
             if (!HasDuration) return true;
-
-            AddToEffectable();
             
             _appliedCoroutine = AffectedEffectable.AffectedEntity.StartCoroutine(
-                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, RemoveShield));
+                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, KillEffect));
             
             return true;
         }
 
-        public override void KillEffect()
+        protected override void KillEffect_Internal()
         {
             if (!HasDuration) return;
             
-            RemoveFromEffectable();
-            
-            RemoveShield();
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
-        }
-
-        private void RemoveShield()
-        {
             AffectedEffectable.AffectedEntity.UnShield(_shieldId);
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         public override Effect GetInstance()

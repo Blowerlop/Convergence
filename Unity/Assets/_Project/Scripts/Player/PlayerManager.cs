@@ -46,25 +46,23 @@ namespace Project
             
             foreach(var clientId in clientsCompleted)
             {
-                if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) return;
-                if (!TeamManager.instance.TryGetTeam(user.Team, out var team))
-                {
-                    Debug.LogError($"Team {user.Team} is invalid for user {user.ClientId}");
-                    return;
-                }
+                if (!UserInstanceManager.instance.TryGetUserInstance((int)clientId, out var user)) continue;
 
-                if (!team.HasPC)
+                if (user.IsMobile)
                 {
                     // This should never happen
-                    Debug.LogError($"Team {user.Team} has no PC player!");
-                    return;
+                    Debug.LogError("Scene loaded callback for a mobile user ???");
+                    continue;
                 }
+                
+                var mobileUser = UserInstanceManager.instance.GetUsersInstance()
+                    .FirstOrDefault(u => u.IsMobile && u.Team == user.Team);
             
                 // user is a netcode client, team is valid, team has pc
                 // -> we don't need to check if he is team's pc player
                 SpawnPlayerForUser(user, clientId);
 
-                if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
+                if (mobileUser != null)
                     SpawnPlayerForUser(mobileUser, clientId);
             }
         }
@@ -142,8 +140,6 @@ namespace Project
             }
         }
 
-        #if UNITY_EDITOR
-        
         [ConsoleCommand("spawn_dummy", "Spawns a dummy at position 5, 0, 5.")]
         public static void DebugSpawnDummy()
         {
@@ -157,7 +153,5 @@ namespace Project
                 Debug.Log("Dummy spawned!");
             }
         }
-        
-        #endif
     }
 }

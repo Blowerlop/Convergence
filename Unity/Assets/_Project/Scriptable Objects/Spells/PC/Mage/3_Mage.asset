@@ -31,22 +31,22 @@ MonoBehaviour:
       {1} seconds and gains movement speed for {3} seconds.
     effects:
     - rid: 1951814709268185091
-    - rid: 714726138163757056
+    - rid: 49919011783180288
   effects:
   - rid: 1951814709268185091
-  onCasterEffects:
-  - rid: 714726138163757056
+  - rid: 49919011783180288
+  onCasterEffects: []
   references:
     version: 2
     RefIds:
-    - rid: 714726138163757056
+    - rid: 49919011783180288
       type: {class: SlowEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
-        SlowAmount: -2
-        Duration: 2
+        SlowAmount: -4
+        Duration: 3
     - rid: 1951814709268185091
       type: {class: ShieldEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         ShieldAmount: 400
         HasDuration: 1
-        Duration: 3
+        Duration: 4

@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2985653007
+  GlobalObjectIdHash: 3975077528
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -243,8 +243,8 @@ MonoBehaviour:
   outlineShowWidth: 2.5
   outlineShowDuration: 0.1
   outlineHideDuration: 0.2
-  allyOutlineColor: {r: 0.7214763, g: 0.16135636, b: 0.9245283, a: 1}
-  enemyOutlineColor: {r: 0.72156864, g: 0.16078432, b: 0.92549026, a: 1}
+  allyOutlineColor: {r: 0.016251087, g: 1, b: 0, a: 1}
+  enemyOutlineColor: {r: 1, g: 0, b: 0.21842146, a: 1}
   entityData: {fileID: 11400000, guid: 50730f13322551c45847420a0503358a, type: 2}
 --- !u!1 &1715637640694449247
 GameObject:
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
   outlineWidth: 0
   precomputeOutline: 1
   bakeKeys:

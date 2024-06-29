@@ -164,8 +164,8 @@ namespace Project._Project.Scripts.Managers
             }
             
             eventInfo.createInstance(out var eventInstance);
-            
-            RuntimeManager.AttachInstanceToGameObject(eventInstance, target.transform);
+
+            RuntimeManager.AttachInstanceToGameObject(eventInstance, target == null ? transform : target.transform);
             
             if(CheckErrorMessage(eventInstance.start()))
                 return;
@@ -199,6 +199,17 @@ namespace Project._Project.Scripts.Managers
                 value.EventInstance.getPlaybackState(out var state);
                 if(state == PLAYBACK_STATE.PLAYING)
                     value.EventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                _staticSoundList.Remove(eventAlias);
+            }
+        }
+        
+        public void TriggerSustain(string eventAlias)
+        {
+            if (_staticSoundList.TryGetValue(eventAlias, out var value))
+            {
+                value.EventInstance.getPlaybackState(out var state);
+                if(state is PLAYBACK_STATE.PLAYING or PLAYBACK_STATE.SUSTAINING)
+                    value.EventInstance.keyOff();
                 _staticSoundList.Remove(eventAlias);
             }
         }

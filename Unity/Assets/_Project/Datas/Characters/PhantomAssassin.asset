@@ -59,7 +59,7 @@ MonoBehaviour:
         _defaultValue: 2750
         _value: 2750
         _minValue: 0
-        _maxValue: 2750
+        _maxValue: 2800
     - rid: 8967663378920636440
       type: {class: AttackDamageStat, ns: Project, asm: Assembly-CSharp}
       data:

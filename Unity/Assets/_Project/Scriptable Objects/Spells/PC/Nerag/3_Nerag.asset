@@ -15,6 +15,9 @@ MonoBehaviour:
   resultTypeSelection: Project.Spells.EmptyResults
   requiredCaster: {fileID: -3331929095968915761, guid: 1785605496ef8ea4d9a6818397486ff5,
     type: 3}
+  overrideCasterPreview: 1
+  overridePreviewPrefab: {fileID: 6298642733815016104, guid: f72816703920def4fbcaf6d279d07bf3,
+    type: 3}
   spellId: nerag_3
   spellIdHash: -959782540
   instantiationType: 1

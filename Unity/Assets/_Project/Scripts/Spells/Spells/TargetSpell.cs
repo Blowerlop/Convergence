@@ -25,6 +25,8 @@ namespace Project.Spells
         
         private NetworkObject _target;
         
+        private Vector3 _lastPosition;
+        
         protected override void Init(ICastResult castResult)
         {
             _target = GetTarget(castResult);
@@ -42,12 +44,26 @@ namespace Project.Spells
 
         private void Update()
         {
-            if (!IsOnServer) return;
+            if (!IsOnServer)
+            {
+                ClientUpdate();
+                return;
+            }
             
             HandleMovement(_target.transform);
             HandleDeath();
         }
 
+        private void ClientUpdate()
+        {
+            var diff = transform.position - _lastPosition;
+            if (diff == Vector3.zero) return;
+            
+            HandleRotation(diff);
+                
+            _lastPosition = transform.position;
+        }
+        
         private void HandleMovement(Transform target)
         {
             Vector3 direction;
@@ -71,10 +87,10 @@ namespace Project.Spells
             direction.Normalize();
             
             transform.position += direction * (moveSpeed * Time.deltaTime);
-            HandleRotation(target, direction);
+            HandleRotation(direction);
         }
 
-        private void HandleRotation(Transform target, Vector3 direction)
+        private void HandleRotation(Vector3 direction)
         {
             switch (rotationType)
             {
@@ -158,6 +174,7 @@ namespace Project.Spells
         
         public override void OnNetworkSpawn()
         {
+            _lastPosition = transform.position;
             SoundManager.instance.PlaySingleSound("inst_" + Data.spellId, gameObject, SoundManager.EventType.Spell);
         }
 
@@ -165,11 +182,13 @@ namespace Project.Spells
         {
             var target = GetTarget(castResult);
             if (!target) return default;
+
+            var rotation = Quaternion.LookRotation(GetDirection(target.transform, player));
             
             return spawnType switch
             {
-                SpawnType.OnTarget => new(target.transform.position, Quaternion.identity),
-                SpawnType.OnCaster => new(player.ShootTransform.position, Quaternion.identity),
+                SpawnType.OnTarget => new(target.transform.position, rotation),
+                SpawnType.OnCaster => new(player.ShootTransform.position, rotation),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -179,7 +198,12 @@ namespace Project.Spells
             var target = GetTarget(castResult);
             if (!target) return default;
             
-            var directionToTarget = target.transform.position - player.PlayerTransform.position;
+            return GetDirection(target.transform, player);
+        }
+
+        private Vector3 GetDirection(Transform target, PlayerRefs player)
+        {
+            var directionToTarget = target.position - player.PlayerTransform.position;
             directionToTarget.y = 0;
             directionToTarget.Normalize();
             

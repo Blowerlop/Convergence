@@ -33,9 +33,31 @@ namespace Project
         public readonly Action onAllPlayersReadyEvent;
         public event Action<ELobbyState> OnStateChange;
 
+        [ClearOnReload] private static bool CanStartSolo;
+        
         private void Start()
         {
             GoToTeamSelectionPage();
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            if (!IsServer) return;
+            
+            UserInstance.OnDespawned += OnUserInstanceDespawned;
+            UserInstance.OnTeamChangedEvent += OnTeamChanged;
+        }
+        
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            
+            if (!IsServer) return;
+            
+            UserInstance.OnDespawned -= OnUserInstanceDespawned;
+            UserInstance.OnTeamChangedEvent -= OnTeamChanged;
         }
         
         public void SetPlayerReadyState(bool state)
@@ -60,7 +82,7 @@ namespace Project
             }
             
 
-            userInstance.SetIsReady(state);
+            userInstance.SrvSetIsReady(state);
 
             if (userInstance.IsReady)
             {
@@ -68,10 +90,27 @@ namespace Project
             }
         }
 
+        private void OnUserInstanceDespawned(UserInstance user)
+        {
+            CheckIfAllPlayersReady();
+        }
+        
+        private void OnTeamChanged()
+        {
+            CheckIfAllPlayersReady();
+        }
+        
         private void CheckIfAllPlayersReady()
         {
-            if (UserInstanceManager.instance.GetUsersInstance().Count(x => x.IsReady || x.IsMobile) ==
-                UserInstanceManager.instance.count)
+            var users = UserInstanceManager.instance.GetUsersInstance();
+            
+            var haveSpectator = users.Any(x => x.Team == TeamManager.UNASSIGNED_TEAM_INDEX);
+            if (haveSpectator) return;
+            
+            var pcUsers = users.Where(x => !x.IsMobile).ToList();
+            var readyCount = pcUsers.Count(x => x.IsReady);
+            
+            if (readyCount == pcUsers.Count && (CanStartSolo || readyCount > 1))
             {
                 OnAllPlayersReady();
             }
@@ -113,7 +152,7 @@ namespace Project
             foreach (UserInstance x in UserInstanceManager.instance.GetUsersInstance())
             {
                 await Task.Delay(100);
-                x.SetIsReady(false);
+                x.SrvSetIsReady(false);
             }
 
             if (IsServer)
@@ -139,6 +178,12 @@ namespace Project
         private void GoToGameScene()
         {
             Project.SceneManager.Network_LoadSceneAsync("Spell", LoadSceneMode.Single, new LoadingScreenParameters(null, Color.black));
+        }
+        
+        [ConsoleCommand("start_solo", "Can launch a game solo if this is true")]
+        public static void SetCanStartSolo(bool value)
+        {
+            CanStartSolo = value;
         }
     }
 }

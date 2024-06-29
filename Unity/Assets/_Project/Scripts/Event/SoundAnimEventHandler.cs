@@ -5,9 +5,16 @@ namespace Project
 {
     public class SoundAnimEventHandler : MonoBehaviour
     {
-        public void PlayStaticSound(string eventId)
+        public void PlayStaticSound(AnimationEvent eventId)
         {
-            SoundManager.instance.PlaySingleSound(eventId, gameObject, SoundManager.EventType.Spell);
+            SoundManager.instance.PlayStaticSound(eventId.stringParameter,
+                gameObject.name + eventId.intParameter, gameObject,
+                SoundManager.EventType.Spell);
+        }
+
+        public void TriggerSustain(int eventID)
+        {
+            SoundManager.instance.TriggerSustain(gameObject.name + eventID);
         }
     }
 }

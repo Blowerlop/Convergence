@@ -1,8 +1,11 @@
 using System;
 using System.Linq;
 using DG.Tweening;
+using Project._Project.Scripts;
+using Project._Project.Scripts.Managers;
 using Project._Project.Scripts.Player.States;
 using Project.Spells;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,11 +20,11 @@ namespace Project
 
         [SerializeField] private float roundEndTime = 2f;
         [SerializeField] private float roundStartTime = 3f;
-        
+
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
-            
+
             PlayerManager.OnPlayerDied += OnPlayerDied;
             PlayerManager.OnAllPlayersReady += StartNewRound;
         }
@@ -32,68 +35,73 @@ namespace Project
             PlayerManager.OnAllPlayersReady -= StartNewRound;
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                EndCurrentRound(false);
-            }
-        }
-
         private void OnPlayerDied(PlayerRefs refs)
         {
             var players = PlayerManager.instance.players;
-            
+
             var alivePlayers = players.FindAll(p => p is PCPlayerRefs pcPlayerRefs && pcPlayerRefs.StateMachine.currentState is not DeadState);
-            
+
             if (alivePlayers.Count != 1) return;
-            
+
             OnLastPlayerAlive(alivePlayers[0]);
         }
 
         private void OnLastPlayerAlive(PlayerRefs refs)
         {
-            if (!TeamManager.instance.TryGetTeam(refs.TeamIndex, out var team))
+            bool endGame = false;
+
+            var pcUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(u => !u.IsMobile && u.Team == refs.TeamIndex);
+
+            if (!pcUser)
             {
-                // ???
+                Debug.LogError("No PC user found for team " + refs.TeamIndex);
                 return;
             }
+
+            pcUser.WinCount.Value++;
+            DOVirtual.DelayedCall(2.0f, () => pcUser.WinCount.Sync());
+
+            endGame = pcUser.WinCount.Value >= 2;
             
-            bool endGame = false;
-            
-            if (team.TryGetUserInstance(PlayerPlatform.Pc, out var pcUser))
-            {
-                pcUser.WinCount.Value++;
-                
-                endGame = pcUser.WinCount.Value >= 2;
-            }
-            
-            if (team.TryGetUserInstance(PlayerPlatform.Mobile, out var mobileUser))
-                mobileUser.WinCount.Value++;
-            
-            ShowWinText(refs.TeamIndex);
-            
+            var mobileUser = UserInstanceManager.instance.GetUsersInstance().FirstOrDefault(u => u.IsMobile && u.Team == refs.TeamIndex);
+            if (mobileUser) mobileUser.WinCount.Value++;
+
+            string winnerPlayers = (pcUser == null ? "" : pcUser.PlayerName) + (mobileUser == null ? "" : " & " + mobileUser.PlayerName);
+            ShowWinText(winnerPlayers, endGame);
+
             EndCurrentRound(endGame);
-            OnRoundEndedClientRpc(refs.TeamIndex);
+            OnRoundEndedClientRpc(winnerPlayers, endGame, pcUser.Team);
         }
 
         [ClientRpc]
-        private void OnRoundEndedClientRpc(int teamIndex)
+        private void OnRoundEndedClientRpc(string winnerNames, bool gameFinished = false, int TeamIndex = -1)
         {
             if (IsHost) return;
-            
-            ShowWinText(teamIndex);
+
+            ShowWinText(winnerNames, gameFinished);
+
+            if (gameFinished)
+            {
+                DataLogger.LogTeamInfo(TeamIndex);
+                DOVirtual.DelayedCall(roundEndTime, () =>
+                {
+                    Netcode_ConnectionManager.Disconnect();
+                    UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(0);
+                });
+            }
         }
 
-        private void ShowWinText(int teamIndex)
+        private void ShowWinText(string winnerNames, bool gameFinished = false)
         {
-            PlaceholderLabel.instance.SetText($"Team {teamIndex} wins this round!", 1.9f);
+            PlaceholderLabel.instance.SetText($"Team {winnerNames} win " + (gameFinished ? "this game ! " : "this round !"), 1.9f);
         }
 
         private void EndCurrentRound(bool endGame)
         {
             _isGameRunning.Value = false;
             
+            SoundManager.instance.PlayGlobalSound("EndRound", "end", SoundManager.EventType.UI);
+
             DOVirtual.DelayedCall(roundEndTime, () =>
             {
                 if (endGame)
@@ -115,6 +123,8 @@ namespace Project
             spellManager.SrvResetSpells();
             spellManager.SrvResetCasts();
             
+            Projectile.SrvResetProjectiles();
+            
             var playerManager = PlayerManager.instance;
             
             playerManager.ResetPlayers();
@@ -127,13 +137,13 @@ namespace Project
             
             OnRoundStartClientRpc();
             
-            timer.StartTimerWithUpdateCallback(this, roundStartTime, (value) =>
+            timer.StartTimerWithUpdateCallback(this, roundStartTime + 1f, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
             {
                 _isGameRunning.Value = true;
-                PlaceholderLabel.instance.SetText("");
+                PlaceholderLabel.instance.SetText("Fight !", 1.5f);
             }, ceiled: true);
         }
         
@@ -141,16 +151,18 @@ namespace Project
         [ClientRpc]
         private void OnRoundStartClientRpc()
         {
+            SoundManager.instance.PlayGlobalSound("CountDown", "timer", SoundManager.EventType.UI);
+            
             if (IsHost) return;
             
             Timer timer = new Timer();
             
-            timer.StartTimerWithUpdateCallback(this, 3f, (value) =>
+            timer.StartTimerWithUpdateCallback(this, 4f, (value) =>
             {
                 PlaceholderLabel.instance.SetText($"Round starting in {value}");
             }, () =>
             {
-                PlaceholderLabel.instance.SetText("");
+                PlaceholderLabel.instance.SetText("Fight !", 1.5f);
             }, ceiled: true);
         }
     }

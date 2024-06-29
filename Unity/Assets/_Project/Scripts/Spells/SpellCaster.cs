@@ -19,11 +19,16 @@ namespace Project.Spells.Casters
 
         protected PlayerRefs Caster { get; private set; }
         protected Transform CasterTransform { get; private set; }
+
+        private SpellData _data;
+        private GameObject _previewOverride;
         
         public virtual void Init(PlayerRefs caster, SpellData spell)
         {
             Caster = caster;
             CasterTransform = caster.PlayerTransform;
+            
+            _data = spell;
         }
         
         public virtual void StartCasting()
@@ -31,6 +36,8 @@ namespace Project.Spells.Casters
             if (IsCasting) return;
             
             IsCasting = true;
+            
+            StopPreview();
         }
         
         public virtual void StopCasting()
@@ -65,5 +72,25 @@ namespace Project.Spells.Casters
         /// </summary>
         /// <param name="casterIndex"></param>
         public abstract bool TryCast(int casterIndex);
+
+        public virtual bool Preview()
+        {
+            if (!_data.overrideCasterPreview) return false;
+            
+            _previewOverride ??= Instantiate(_data.overridePreviewPrefab, transform);
+            _previewOverride.SetActive(true);
+
+            return true;
+        }
+
+        public virtual bool StopPreview()
+        {                        
+            if (!_data.overrideCasterPreview) return false;
+            if (!_previewOverride) return false;
+            
+            _previewOverride.SetActive(false);
+
+            return true;
+        }
     }
 }

@@ -13,15 +13,19 @@ namespace Project
 {
     public class AttackController : NetworkBehaviour
     {
+        [SerializeField] private float attackingRangeOffset = 2f;
+        
         private PCPlayerRefs _playerRefs;
         private Camera _camera;
         public NetworkObject targetNetworkObject;
-        private bool _isAttacking;
         private IEffectable _effectable;
         private bool _isRanged;
         private SOProjectile _projectileData;
         
         private DamageEffect _cachedDamageEffect;
+
+        private bool _attackEngaged;
+        private bool _isAttacking;
         
         private void Awake()
         {
@@ -39,7 +43,7 @@ namespace Project
             if (IsServer)
             {
                 _playerRefs.Entity.onEntityInit += OnEntityInit;
-                _playerRefs.StateMachine.OnStateExit += OnStateExit_EndAttack;
+                _playerRefs.StateMachine.SrvOnStateExit += SrvOnStateExitEndAttack;
             }
         }
 
@@ -57,7 +61,7 @@ namespace Project
             if (IsServer)
             {
                 _playerRefs.Entity.onEntityInit -= OnEntityInit;
-                _playerRefs.StateMachine.OnStateExit -= OnStateExit_EndAttack;
+                _playerRefs.StateMachine.SrvOnStateExit -= SrvOnStateExitEndAttack;
             }
         }
 
@@ -65,8 +69,14 @@ namespace Project
         {
             if (IsServer && targetNetworkObject != null)
             {
-                if (IsInRange(targetNetworkObject.transform.position))
+                if (_attackEngaged) return;
+                
+                var pos = targetNetworkObject.transform.position;
+                if (IsInRange(pos))
                 {
+                    _playerRefs.PlayerTransform.rotation =
+                        Quaternion.LookRotation((pos - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
+                            .normalized);
                     SrvTryToAttack(targetNetworkObject);
                 }
                 else GoToContact(targetNetworkObject.transform);
@@ -96,6 +106,7 @@ namespace Project
                 return;
             }
 
+            // Now using effectable to apply effects. But still checks with Damageable to get IsDamageable
             if (!IsDamageable(hitInfo.transform, out IDamageable _)) return;
 
             targetNetworkObject = hitInfo.transform.GetComponentInParent<NetworkObject>();
@@ -129,31 +140,29 @@ namespace Project
 
             if (IsAttacking())
             {
-                if (targetNetworkObject.NetworkObjectId == networkObjectReference.NetworkObjectId) return;
-
-                // We switch of target
-                StartCoroutine(EndAttack());
+                // Use effectable to make it work even on host.
+                // targetNetworkObject is set before RPC in OnMouseButton1_AttackRequest, so host have already the new one before this.
+                if(_effectable.AffectedEntity.NetworkObjectId == targetNetworkObject.NetworkObjectId) return;
             }
 
             if (IsInRange(targetNetworkObject.transform.position) == false) return;
-
-            IEffectable effectable = targetNetworkObject.GetComponentInChildren<IEffectable>();
-
-            if (_playerRefs.StateMachine.CanChangeStateTo<AttackState>())
+            
+            // If we are here while attacking that means we have changed target
+            if (_playerRefs.StateMachine.CanChangeStateTo<AttackState>() || IsAttacking())
             {
-                StartAttack(targetNetworkObject.transform.position, effectable);
+                StartAttack(targetNetworkObject.GetComponentInChildren<IEffectable>());
             }
         }
 
         [Server]
-        private void StartAttack(Vector3 targetPosition, IEffectable effectable)
+        private void StartAttack(IEffectable effectable)
         {
             _isAttacking = true;
-            _playerRefs.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
-            _playerRefs.StateMachine.ChangeStateTo<AttackState>();
-            _playerRefs.PlayerTransform.rotation =
-                Quaternion.LookRotation((targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y)
-                    .normalized);
+            _playerRefs.NetworkAnimator.Animator.SetFloat(Constants.AnimatorsParam.AttackSpeed, _playerRefs.Entity.Stats.Get<AttackSpeedStat>().value);
+            
+            if (_playerRefs.StateMachine.currentState is not AttackState)
+                _playerRefs.StateMachine.ChangeStateTo<AttackState>();
+
             _effectable = effectable;
         }
 
@@ -174,6 +183,7 @@ namespace Project
         private void ResetAttack()
         {
             _isAttacking = false;
+            _attackEngaged = false;
         }
 
         [Server]
@@ -195,7 +205,7 @@ namespace Project
             
             _cachedDamageEffect.TryApply(effectable, _playerRefs, _playerRefs.PlayerTransform.position);    
             
-            if (_isRanged == false) StartCoroutine(EndAttack());
+            /*if (_isRanged == false) StartCoroutine(EndAttack());*/
         }
 
         // Called by animation event
@@ -212,7 +222,7 @@ namespace Project
                 projectileInstance.Init(this, _projectileData);
                 projectileInstance.GetComponent<NetworkObject>().Spawn(true);
 
-                StartCoroutine(EndAttack());
+                /*StartCoroutine(EndAttack());*/
             }
             else
             {
@@ -254,6 +264,9 @@ namespace Project
         private bool IsInRange(Vector3 targetPosition)
         {
             float attackRange = _playerRefs.Entity.Stats.Get<AttackRangeStat>().value;
+
+            if (IsAttacking()) attackRange += attackingRangeOffset;
+            
             return (targetPosition - _playerRefs.PlayerTransform.position).ResetAxis(EAxis.Y).sqrMagnitude <
                    attackRange * attackRange;
         }
@@ -265,7 +278,7 @@ namespace Project
         }
 
         [Server]
-        private void OnStateExit_EndAttack(BaseStateMachineBehaviour exitState)
+        private void SrvOnStateExitEndAttack(BaseStateMachineBehaviour exitState)
         {
             // In case we want to move the moment we're attacking. Cancel the attack and move
             if (exitState is AttackState)
@@ -282,6 +295,15 @@ namespace Project
         {
             targetNetworkObject = null;
             ResetAttack();
+        }
+
+        public void SetAttackEngaged(bool value)
+        {
+            // Called by an anim event, we don't want to use [Server] because we would get errors on client
+            if (!IsServer) return;
+            if (!IsAttacking() && value) return;
+            
+            _attackEngaged = value;
         }
     }
 }

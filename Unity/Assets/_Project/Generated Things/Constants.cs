@@ -5,85 +5,25 @@ namespace Project
         public static class Scenes
         {
             /// <summary>
-            /// Lobby
-            /// </summary>
-            public const int Lobby = 0;
-            /// <summary>
             /// Menu
             /// </summary>
-            public const int Menu = 1;
+            public const int Menu = 0;
             /// <summary>
-            /// gRPC_HelloWorld_Sample
+            /// Lobby
             /// </summary>
-            public const int gRPC_HelloWorld_Sample = 2;
-            /// <summary>
-            /// NetworkingSample
-            /// </summary>
-            public const int NetworkingSample = 3;
-            /// <summary>
-            /// Game
-            /// </summary>
-            public const int Game = 4;
+            public const int Lobby = 1;
             /// <summary>
             /// Spell
             /// </summary>
-            public const int Spell = 5;
+            public const int Spell = 2;
             /// <summary>
-            /// Bootstrap
+            /// Tutorial
             /// </summary>
-            public const int Bootstrap = 6;
+            public const int Tutorial = 3;
             /// <summary>
-            /// ARPGDemo03
+            /// SpellAdditive
             /// </summary>
-            public const int ARPGDemo03 = 7;
-            /// <summary>
-            /// ARPGDemo01
-            /// </summary>
-            public const int ARPGDemo01 = 8;
-            /// <summary>
-            /// ARPGDemo02
-            /// </summary>
-            public const int ARPGDemo02 = 9;
-            /// <summary>
-            /// ARPGDemo04
-            /// </summary>
-            public const int ARPGDemo04 = 10;
-            /// <summary>
-            /// ARPGDemo05
-            /// </summary>
-            public const int ARPGDemo05 = 11;
-            /// <summary>
-            /// ARPGDemo06
-            /// </summary>
-            public const int ARPGDemo06 = 12;
-            /// <summary>
-            /// ARPGDemo08
-            /// </summary>
-            public const int ARPGDemo08 = 13;
-            /// <summary>
-            /// ARPGDemo09
-            /// </summary>
-            public const int ARPGDemo09 = 14;
-            /// <summary>
-            /// ARPGDemo10
-            /// </summary>
-            public const int ARPGDemo10 = 15;
-            /// <summary>
-            /// ARPGDemo11
-            /// </summary>
-            public const int ARPGDemo11 = 16;
-            /// <summary>
-            /// ARPGDemo12
-            /// </summary>
-            public const int ARPGDemo12 = 17;
-            /// <summary>
-            /// ARPGDemo13
-            /// </summary>
-            public const int ARPGDemo13 = 18;
-            /// <summary>
-            /// ARPGDemo07
-            /// </summary>
-            public const int ARPGDemo07 = 19;
+            public const int SpellAdditive = 4;
         }
         
         public static class AudioMixerParams
@@ -145,17 +85,9 @@ namespace Project
             /// </summary>
             public const int Movement = 229373857;
             /// <summary>
-            /// Attack : Trigger
-            /// </summary>
-            public const int Attack = 1080829965;
-            /// <summary>
             /// AttackSpeed : Float
             /// </summary>
             public const int AttackSpeed = -498733101;
-            /// <summary>
-            /// EndAttackInstant : Trigger
-            /// </summary>
-            public const int EndAttackInstant = 17244484;
             /// <summary>
             /// Stunned : Bool
             /// </summary>
@@ -200,6 +132,22 @@ namespace Project
             /// EmoteIndex : Int
             /// </summary>
             public const int EmoteIndex = -126835265;
+            /// <summary>
+            /// Attack : Trigger
+            /// </summary>
+            public const int Attack = 1080829965;
+            /// <summary>
+            /// EndAttackInstant : Trigger
+            /// </summary>
+            public const int EndAttackInstant = 17244484;
+            /// <summary>
+            /// DoTransitionToState1 : Trigger
+            /// </summary>
+            public const int DoTransitionToState1 = 1604672507;
+            /// <summary>
+            /// DoTransitionToState2 : Trigger
+            /// </summary>
+            public const int DoTransitionToState2 = -961803711;
         }
         
         public static class Layers
@@ -328,6 +276,14 @@ namespace Project
             /// Border
             /// </summary>
             public const string Border = "Border";
+            /// <summary>
+            /// Death Camera
+            /// </summary>
+            public const string Death_Camera = "Death Camera";
+            /// <summary>
+            /// Player Camera
+            /// </summary>
+            public const string Player_Camera = "Player Camera";
         }
         
     }

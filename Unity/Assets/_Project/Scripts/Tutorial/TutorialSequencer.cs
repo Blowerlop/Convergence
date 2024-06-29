@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Project._Project.Scripts;
+using Project._Project.TESTT_REBIND;
 using Project.Spells;
 using Project.Spells.Casters;
 using System;
@@ -8,6 +9,7 @@ using System.Threading;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,7 +23,8 @@ namespace Project
         public GameObject MobilePlayer;
         public GameObject coneGO; 
         public Transform tutorialMvtCheck;
-        public Button SkipTutoButton; 
+        public Button SkipTutoButton;
+        public TextMeshProUGUI SkipButtonText; 
         #endregion
 
 
@@ -34,6 +37,12 @@ namespace Project
         Canvas SpellCanvas; 
         [SerializeField] Dummy tutorialDummy;
         [SerializeField] TextMeshProUGUI subtitleTmp;
+
+        [Header("Input")]
+        [SerializeField] InputActionReference spell1;
+        [SerializeField] InputActionReference spell2;
+        [SerializeField] InputActionReference spell3;
+        [SerializeField] InputActionReference spell4;
 
         const int timeOutDelay = 5000;
 
@@ -89,9 +98,10 @@ namespace Project
 
                 await audioHelper.PlayAsync("Conclusion", gameObject.GetCancellationTokenOnDestroy());
 
-                await UniTask.Delay(1000);
 
-                QuitTutorial();
+                SkipButtonText.text = "LEAVE"; 
+                //await UniTask.Delay(1000);
+                //QuitTutorial();
             }
 
             catch (Exception ex)
@@ -112,7 +122,9 @@ namespace Project
 
         async UniTask CheckSpellSequence()
         {
-            Subtitle.StartWriting(null, "Each character has 4 unique spells. You can use them respectively by pressing the <color=#e3d044>Q, W, E and R </color> key. Try them out on the dummy as much as you like. Hover over the spells to read informations on them.");
+            Subtitle.StartWriting(null, "Each character has 4 unique spells. You can use them respectively by pressing the <color=#e3d044>" + InputSettingsManager.GetBindingName(spell1.action.name, 0) +
+                ", " + InputSettingsManager.GetBindingName(spell2.action.name, 0) + ", " + InputSettingsManager.GetBindingName(spell3.action.name, 0) + " and " + InputSettingsManager.GetBindingName(spell4.action.name, 0) 
+                +"</color> keys. Try them out on the dummy as much as you like. Hover over the spells to read informations on them.");
             await audioHelper.PlayAsync("Spell", gameObject.GetCancellationTokenOnDestroy());
 
             await UniTask.Delay(1500);
@@ -129,7 +141,7 @@ namespace Project
             Subtitle.StartWriting(null, "Great ! To attack, use your <color=#e3d044> right mouse button </color> while aiming at an opponent. Try to attack the dummy. ");
             await audioHelper.PlayAsync("Attack", gameObject.GetCancellationTokenOnDestroy());
 
-            await UniTask.WaitUntil(() => userInstance.LinkedPlayer.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
+            await UniTask.WaitUntil(() => userInstance.LinkedPlayer.NetworkAnimator.Animator.GetCurrentAnimatorStateInfo(0).fullPathHash == -1146545271);
 
             coneGO.SetActive(false);
 
@@ -175,10 +187,6 @@ namespace Project
 
                 cts = new CancellationTokenSource(timeOutDelay);
                 await UniTask.WaitUntil(() => NetworkManager.Singleton.IsServer, PlayerLoopTiming.Update, cts.Token);
-
-                cts.Dispose();
-                cts = new CancellationTokenSource(timeOutDelay);
-                await UniTask.WaitUntil(() => TeamManager.instance.TrySetTeam((int)NetworkManager.Singleton.LocalClientId, 0, PlayerPlatform.Pc), PlayerLoopTiming.Update, cts.Token);
 
                 cts.Dispose();
                 cts = new CancellationTokenSource(timeOutDelay);
@@ -231,7 +239,7 @@ namespace Project
             UserInstance userInstance = UserInstanceManager.instance.GetUserInstance(clientId);
             if (userInstance.CharacterId == characterId) return;
 
-            userInstance.SetCharacter(characterId);
+            userInstance.SrvSetCharacter(characterId);
         }
 
 

@@ -54,6 +54,7 @@ namespace Project
             {
                 yield return null;
                 StartServer();
+                yield return new WaitForSeconds(5.0f);
                 GRPC_NetworkManager.instance.StartClient();
             }
 #else
@@ -116,7 +117,7 @@ namespace Project
             string disconnectReason = NetworkManager.Singleton.DisconnectReason;
             if (string.IsNullOrEmpty(disconnectReason) == false)
             {
-                Debug.Log($"Reason : {disconnectReason}");
+                Debug.LogError($"Reason : {disconnectReason}");
             }
         }
 

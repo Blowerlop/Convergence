@@ -8,8 +8,9 @@ namespace Project.Effects
         public int SlowAmount;
         public float Duration;
 
-        public override EffectType Type => EffectType.Bad;
-
+        public override EffectType Type => SlowAmount < 0 ? EffectType.Good : EffectType.Bad;
+        protected override bool AddToEffectableList => true;
+        
         private MoveSpeedStat _stat;
         private Coroutine _appliedCoroutine;
         
@@ -19,8 +20,6 @@ namespace Project.Effects
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             var entity = effectable.AffectedEntity;
-         
-            AddToEffectable();
             
             if (!entity.Stats.TryGet(out _stat))
             {
@@ -32,22 +31,15 @@ namespace Project.Effects
             _slowedValue = _stat.Slow(SlowAmount);
 
             _appliedCoroutine = AffectedEffectable.AffectedEntity.StartCoroutine(
-                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, RemoveSlow));
+                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, KillEffect));
             
-            return false;
+            return true;
         }
 
-        public override void KillEffect()
-        {
-            RemoveFromEffectable();
-            
-            RemoveSlow();
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
-        }
-        
-        private void RemoveSlow()
+        protected override void KillEffect_Internal()
         {
             _stat.value += _slowedValue;
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
         
         public override Effect GetInstance()

@@ -30,7 +30,7 @@ namespace Project
         public CooldownController Cooldowns => cooldowns;
         public ChannelingController Channeling => channeling;
         
-        public Animator Animator => _networkAnimator.Animator;
+        public NetworkAnimator NetworkAnimator => _networkAnimator;
 
         public event Action<int> OnTeamChangedCallback;
         
@@ -66,6 +66,9 @@ namespace Project
             
             _assignedTeam.OnValueChanged -= OnTeamChanged;
             _ownerId.OnValueChanged -= OnOwnerChanged;
+            
+            _assignedTeam.Reset();
+            _ownerId.Reset();
         }
 
         [Server]
@@ -98,7 +101,7 @@ namespace Project
         public virtual void SrvResetPlayer()
         {
             // Force reset all animator
-            Animator.Rebind();
+            NetworkAnimator.Animator.Rebind();
 
             if (playerSpellsAnimFxHandler)
             {

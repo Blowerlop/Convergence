@@ -9,7 +9,7 @@ namespace Project
     [System.Serializable]
     public class SpellDescription
     {
-        public string descriptionText;
+        [TextArea(1, 5)] public string descriptionText;
         [SerializeReference] public Effect[] effects;
         public string GenerateText()
         {

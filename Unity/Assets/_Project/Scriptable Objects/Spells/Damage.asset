@@ -25,7 +25,11 @@ MonoBehaviour:
   channelingTime: 0
   castingFlags: 0
   castAnimationDuration: 0
+  spellName: 
   spellIcon: {fileID: 21300000, guid: 4d64d1e7333675846989603c1318a70c, type: 3}
+  spellDescription:
+    descriptionText: 
+    effects: []
   effects:
   - rid: 2921934589571366912
   onCasterEffects: []
@@ -37,4 +41,4 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: Project.Effects, asm: Assembly-CSharp}
       data:
         DamageType: 0
-        DamageAmount: 110
+        DamageAmount: 150

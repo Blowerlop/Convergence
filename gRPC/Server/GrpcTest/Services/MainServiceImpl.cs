@@ -321,39 +321,46 @@ namespace GRPCServer.Services
             {
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
-                    
-                    Debug.Log("GRPC_SrvNetObjUpdate > Got new NetworkObject update: type " + requestStream.Current.Type + ", netId " +
-                                      requestStream.Current.NetId + ", prefabId " + requestStream.Current.PrefabId +
-                                      "\n");
-
-                    lock (NetworkObject.Locker)
+                    try
                     {
-                        netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                        Debug.Log("GRPC_SrvNetObjUpdate > Got new NetworkObject update: type " +
+                                  requestStream.Current.Type + ", netId " +
+                                  requestStream.Current.NetId + ", prefabId " + requestStream.Current.PrefabId +
+                                  "\n");
+
+                        lock (NetworkObject.Locker)
+                        {
+                            netcodeServer.HandleNetObjUpdate(requestStream.Current);
+                        }
+
+                        await responseStream.WriteAsync(new GRPC_EmptyMsg());
+
+                        await netcodeServer.NetObjectsStream.WriteAsync(requestStream.Current);
+
+                        foreach (var client in unrealClients)
+                        {
+                            //If client has just connected and doesn't have a stream yet,
+                            //queue the update for when it will have a stream
+                            var stream = client.Value.NetObjectsStream;
+
+                            if (stream != null!)
+                            {
+                                await stream.WriteAsync(requestStream.Current);
+                            }
+                            else
+                            {
+                                client.Value.QueueNetObjUpdate(requestStream.Current);
+                            }
+                        }
+
+
+
+                        Debug.Log("GRPC_SrvNetObjUpdate > Update sent to all unreal clients.\n");
                     }
-                    
-                    await responseStream.WriteAsync(new GRPC_EmptyMsg());
-                    
-                    await netcodeServer.NetObjectsStream.WriteAsync(requestStream.Current);
-                    
-                    foreach (var client in unrealClients)
+                    catch
                     {
-                        //If client has just connected and doesn't have a stream yet,
-                        //queue the update for when it will have a stream
-                        var stream = client.Value.NetObjectsStream;
-                        
-                        if (stream != null!)
-                        {
-                            await stream.WriteAsync(requestStream.Current);
-                        }
-                        else
-                        {
-                            client.Value.QueueNetObjUpdate(requestStream.Current);
-                        }
+                        Debug.LogWarning("Pimpompom NetObj update failed");
                     }
-
-                    
-
-                    Debug.Log("GRPC_SrvNetObjUpdate > Update sent to all unreal clients.\n");
                 }
             }
             catch (IOException)
@@ -362,6 +369,7 @@ namespace GRPCServer.Services
                 //DisconnectClient(context.Peer);
             }
 
+            Debug.Log("GRPC_SrvNetObjUpdate > NetObj Stream closed???");
             return new GRPC_EmptyMsg();
         }
 
@@ -424,6 +432,12 @@ namespace GRPCServer.Services
                         Debug.Log($"GRPC_SrvNetVarUpdate > Unreal client receiving NetVar : HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
 
                         await unrealClient.Value.netVarStream[requestStream.Current.NewValue.Type].WriteAsync(requestStream.Current);
+                    }
+
+                    // My god, this is so shit
+                    if (requestStream.Current.HashName == 292496802 && int.Parse(requestStream.Current.NewValue.Value) >= 2)
+                    {
+                        netcodeServer.NetObjs.Clear();
                     }
 
                     //Console.WriteLine($"GRPC_SrvNetVarUpdate > VRAIMENT TU AS RECU :  NetVar received for HashName : {requestStream.Current.HashName} / New Value : {requestStream.Current.NewValue.Value}");
@@ -513,8 +527,8 @@ namespace GRPCServer.Services
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
                     GRPC_Team messageReceived = requestStream.Current;
-                    await UnrealClient.teamSelectionResponseStream.WriteAsync(messageReceived);
-
+                    if (UnrealClient.teamSelectionResponseStream != null)
+                        await UnrealClient.teamSelectionResponseStream.WriteAsync(messageReceived);
                 }
             }
             catch (IOException)
@@ -522,6 +536,8 @@ namespace GRPCServer.Services
                 Debug.Log("GRPC_TeamSelectionUnrealToGrpc > Connection lost with client - TeamSelection stream closed");
                 //DisconnectClient(context.Peer);
             }
+            
+            netcodeServer?.teamSelectionResponseStream?.Remove(responseStream);
         }
 
         public override async Task GRPC_TeamSelectionGrpcToNetcode(IAsyncStreamReader<GRPC_TeamResponse> requestStream, IServerStreamWriter<GRPC_Team> responseStream, ServerCallContext context)
@@ -534,11 +550,12 @@ namespace GRPCServer.Services
                 while (await requestStream.MoveNext() && !context.CancellationToken.IsCancellationRequested)
                 {
                     // Callback the response to all the Unreal clients
-                    foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer.teamSelectionResponseStream)
-                    {
-                        await item.WriteAsync(requestStream.Current);
-                    }
-                    
+                    if (netcodeServer != null)
+                        foreach (IServerStreamWriter<GRPC_TeamResponse> item in netcodeServer
+                                     .teamSelectionResponseStream)
+                        {
+                            await item.WriteAsync(requestStream.Current);
+                        }
                 }
             }
             catch (IOException)
@@ -546,6 +563,8 @@ namespace GRPCServer.Services
                 Debug.Log("GRPC_TeamSelectionGrpcToNetcode > Connection lost with client - TeamSelection stream closed");
                 //DisconnectClient(context.Peer);
             }
+
+            UnrealClient.teamSelectionResponseStream = null;
         }
         #endregion
         

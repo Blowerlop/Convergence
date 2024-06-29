@@ -5,40 +5,34 @@ namespace Project.Effects
     public class SilenceEffect : Effect
     {
         public override EffectType Type => EffectType.Bad;
+
+        protected override bool AddToEffectableList => true;
         
         public float Duration;
         
         private Coroutine _appliedCoroutine;
-        
+
         protected override bool TryApply_Internal(IEffectable effectable, PlayerRefs applier, Vector3 applyPosition)
         {
             effectable.AffectedEntity.Silence();
             
-            AddToEffectable();
-            
             _appliedCoroutine = AffectedEffectable.AffectedEntity.StartCoroutine(
-                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, RemoveSilence));
+                Utilities.WaitForSecondsAndDoActionCoroutine(Duration, KillEffect));
 
             return true;
         }
 
-        public override void KillEffect()
+        protected override void KillEffect_Internal()
         {
-            RemoveFromEffectable();
-            
-            RemoveSilence();
-            AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
+            AffectedEffectable.AffectedEntity.Unsilence();
+            if (_appliedCoroutine != null) AffectedEffectable.AffectedEntity.StopCoroutine(_appliedCoroutine);
         }
 
         public override Effect GetInstance()
         {
             return new SilenceEffect() { Duration = Duration };
         }
-
-        private void RemoveSilence()
-        {
-            AffectedEffectable.AffectedEntity.Unsilence();
-        }
+        
         public override float GetEffectDuration()
         {
             return Duration; 

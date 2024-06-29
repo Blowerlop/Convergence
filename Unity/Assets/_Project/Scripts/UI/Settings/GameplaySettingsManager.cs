@@ -15,6 +15,7 @@ namespace Project._Project.Scripts.UI.Settings
             {
                 _value = value;
                 PlayerPrefs.SetInt(key, _value.ToInt());
+                Debug.Log($"GameplaySettings {key} set to {_value}");
             }
         }
 
@@ -23,6 +24,11 @@ namespace Project._Project.Scripts.UI.Settings
         {
             this.key = key;
             value = PlayerPrefs.GetInt(key, defaultValue.ToInt()).ToBool();
+        }
+
+        public override string ToString()
+        {
+            return key;
         }
     }
     

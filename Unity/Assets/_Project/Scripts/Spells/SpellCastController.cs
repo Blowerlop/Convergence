@@ -124,6 +124,8 @@ namespace Project.Spells.Casters
             
             if (_cooldowns.IsInCooldown(spellIndex)) return;
             
+            StopAllPreviews();
+            
             _currentCastingIndex = spellIndex;
             _spellCasters[spellIndex].StartCasting();
 
@@ -174,6 +176,40 @@ namespace Project.Spells.Casters
             _currentCastingIndex = null;
             
             caster.StopCasting();
+        }
+        
+        public void PreviewSpell(int spellIndex)
+        {
+            if (spellIndex < 0 || spellIndex >= _spells.Length)
+            {
+                Debug.LogError($"Spell index {spellIndex} is out of range.");
+                return;
+            }
+            
+            if (IsCasting) return;
+            
+            _spellCasters[spellIndex].Preview();
+        }
+        
+        public void StopSpellPreview(int spellIndex)
+        {
+            if (spellIndex < 0 || spellIndex >= _spells.Length)
+            {
+                Debug.LogError($"Spell index {spellIndex} is out of range.");
+                return;
+            }
+            
+            if (IsCasting) return;
+            
+            _spellCasters[spellIndex].StopPreview();
+        }
+
+        private void StopAllPreviews()
+        {
+            foreach (var caster in _spellCasters)
+            {
+                caster.StopPreview();
+            }
         }
     }
 }

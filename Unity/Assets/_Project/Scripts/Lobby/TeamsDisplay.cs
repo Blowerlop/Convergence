@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Extensions;
 using TMPro;
 using Unity.Netcode;
@@ -39,7 +40,7 @@ namespace Project
             for (int i = 0; i < TeamManager.MAX_TEAM; i++)
             {
                 Image instance = Instantiate(_template, transform).GetComponentInChildren<Image>();
-                instance.transform.parent.GetComponentInChildren<TMP_Text>().text = TeamManager.instance.GetTeamData(i).TryGetUserInstance(PlayerPlatform.Pc, out UserInstance userInstance) ? userInstance.name : "Unknow Name";
+                instance.transform.parent.GetComponentInChildren<TMP_Text>().text = TeamManager.instance.GetTeamData(i).TryGetUserInstance(PlayerPlatform.Pc, out UserInstance userInstance) ? userInstance.PlayerName : "UnknowName";
                 _playersAvatar.Add(i, instance);
             }
             
@@ -73,8 +74,8 @@ namespace Project
             return GetAvatarByTeamId(teams.FindIndex(x => x.pcPlayerOwnerClientId == playerId));
         }
 
-        [ServerRpc]
-        public void SetAvatarServerRpc(int playerId, int characterId)
+        [Server]
+        public void SrvAvatar(int playerId, int characterId)
         {
             SetAvatarClientRpc(playerId, characterId);
         }
@@ -87,6 +88,8 @@ namespace Project
 
         private void SetAvatarLocal(int playerId, int characterId)
         {
+            if (_playersAvatar == null || _playersAvatar.Any() == false) return;
+            
             Image player = GetByPlayerId(playerId);
 
             if (SOCharacter.TryGetCharacter(characterId, out SOCharacter characterData))

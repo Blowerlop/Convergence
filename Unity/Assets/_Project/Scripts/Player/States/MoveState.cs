@@ -19,12 +19,12 @@ namespace Project._Project.Scripts.Player.States
             navMeshAgent.isStopped = true;
             navMeshAgent.ResetPath();
             
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, false); 
+            playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Movement, false); 
         }
 
         public override void Update()
         {
-            playerRefs.Animator.SetBool(Constants.AnimatorsParam.Movement, true);
+            playerRefs.NetworkAnimator.Animator.SetBool(Constants.AnimatorsParam.Movement, true);
         }
 
         public override bool CanChangeStateTo<T>()

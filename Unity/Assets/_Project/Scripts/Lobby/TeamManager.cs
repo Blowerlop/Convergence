@@ -81,9 +81,15 @@ namespace Project
         public override void OnNetworkSpawn()
         {
             InitializeTeamsData();
+            if (IsServer) UserInstance.OnDespawned += OnUserInstanceDespawned_CleanTeam;
         }
-        
-        
+
+        public override void OnNetworkDespawn()
+        {
+            if (IsServer) UserInstance.OnDespawned -= OnUserInstanceDespawned_CleanTeam;
+        }
+
+
         private void InitializeTeamsData()
         {
             Debug.Log("InitializeTeamsData");
@@ -124,6 +130,12 @@ namespace Project
             if (IsTeamPlayerSlotAvailable(teamIndex, playerPlatform) == false)
             {
                 Debug.Log("Trying to join a team slot that are already occupied");
+                return false;
+            }
+            
+            if(teamIndex != UNASSIGNED_TEAM_INDEX && playerPlatform == PlayerPlatform.Mobile && GetTeamData(teamIndex).HasPC == false)
+            {
+                Debug.Log("Trying to join a mobile team without a pc player");
                 return false;
             }
 
@@ -170,7 +182,7 @@ namespace Project
             }
             
             if (teamIndex != UNASSIGNED_TEAM_INDEX) RegisterToTeamSlotLocal(ownerClientId, teamIndex, playerPlatform);
-            userInstance.SetTeam(teamIndex);
+            userInstance.SrvSetTeam(teamIndex);
 
             if (teamIndex == UNASSIGNED_TEAM_INDEX)
             {
@@ -278,6 +290,18 @@ namespace Project
         public TeamData GetTeamData(int teamIndex)
         {
             return _teams[teamIndex];
+        }
+        
+        private void OnUserInstanceDespawned_CleanTeam(UserInstance userInstance)
+        {
+            if (userInstance.Team != UNASSIGNED_TEAM_INDEX)
+            {
+                TeamData teamData = _teams[userInstance.Team];
+                if (userInstance.IsMobile) teamData.mobilePlayerOwnerClientId = UNASSIGNED_TEAM_INDEX;
+                else teamData.pcPlayerOwnerClientId = UNASSIGNED_TEAM_INDEX;
+                
+                _teams[userInstance.Team] = teamData;
+            }
         }
     }
 }
