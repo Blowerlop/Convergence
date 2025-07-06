@@ -32,3 +32,8 @@ Networking :
 [![Trailer](https://img.youtube.com/vi/gr9l6X_NAaU/hqdefault.jpg)](https://www.youtube.com/watch?v=gr9l6X_NAaU)
 
 ## SCREENSHOTS
+![Team selection](./Assets/Readme/Screenshots/TeamSelection.jpg)
+![Character selection](./Assets/Readme/Screenshots/CharacterSelection.jpg)
+![Gameplay 1](./Assets/Readme/Screenshots/Gameplay1.jpg)
+![Gameplay 2](./Assets/Readme/Screenshots/Gameplay2.jpg)
+![Gameplay 3](./Assets/Readme/Screenshots/Gameplay3.jpg)
