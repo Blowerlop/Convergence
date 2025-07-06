@@ -21,6 +21,6 @@ Networking :
 - [Nathan GIROD](https://github.com/Blowerlop)
 - [Guillaume WIART](https://github.com/Drainor-GameDev)
 - [Helias GAMONET](https://github.com/LeBliblib)
-- [Elessar THOMANN]([https://github.com/26LeoJ](https://github.com/Esp4donbreton))
+- [Elessar THOMANN](https://github.com/Esp4donbreton)
 
 # FOOTAGES
