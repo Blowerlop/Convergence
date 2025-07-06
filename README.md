@@ -2,7 +2,7 @@ A game made for the second year of Cnam-Enjmin bachelor degree in video games.
 
 # DESCRIPTION
 Convergence is multiplayer online battle arena (MOBA) played from 2 to 8.  
-It's cross-engine (Unreal Engine / Unity) and cross-platform (PC / Mobile). It's using Netcode For GameObjects for the networking between Unity clients and gRPC as a relay between Unity and Unreal Engine clients
+It's cross-engine (Unreal Engine / Unity) and cross-platform (PC / Mobile).  
 For the networking, we used Netcode For GameObject for the Unity Clients and used gRPC for the bridge between Unity and Unreal Engine clients.
 
 # ARCHITECTURE
