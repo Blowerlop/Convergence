@@ -24,3 +24,11 @@ Networking :
 - [Elessar THOMANN](https://github.com/Esp4donbreton)
 
 # FOOTAGES
+
+## GAMEPLAY
+[![Trailer](https://img.youtube.com/vi/B-Pr4Q9twxA/hqdefault.jpg)](https://www.youtube.com/watch?v=B-Pr4Q9twxA)
+
+## STORY
+[![Trailer](https://img.youtube.com/vi/gr9l6X_NAaU/hqdefault.jpg)](https://www.youtube.com/watch?v=gr9l6X_NAaU)
+
+## SCREENSHOTS
