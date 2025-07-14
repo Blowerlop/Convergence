@@ -6,7 +6,7 @@ It's cross-engine (Unreal Engine / Unity) and cross-platform (PC / Mobile).
 For the networking, we used Netcode For GameObject for the Unity Clients and used gRPC for the bridge between Unity and Unreal Engine clients.
 
 # ARCHITECTURE
-![Architecture](./Assets/Readme/Screenshots/Architecture.png)
+![Architecture](./Assets/Readme/Screenshots/Architecture.png )
 
 # SOFTWARES
 PC: [Unity](https://unity.com/fr)  
